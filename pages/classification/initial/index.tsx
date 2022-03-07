@@ -1,5 +1,5 @@
 import SimpleLayout from '../../../components/layout/SimpleLayout';
-import UploadContainer from './UploadContainer';
+import InitialContainer from './InitialContainer';
 import withLayout from '../../../components/hocs/withLayout';
 
-export default withLayout(UploadContainer, SimpleLayout);
+export default withLayout(InitialContainer, SimpleLayout);
