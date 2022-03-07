@@ -1,6 +1,7 @@
 import Image from 'next/image';
+import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
 
-function InitialView() {
+function ValidateView() {
     return (
         <>
             <div className="min-h-full bg-slate-50">
@@ -12,7 +13,7 @@ function InitialView() {
                 <main>
                     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                         <div className="px-4 py-6 sm:px-0">
-                            <p className="mb-2 text-lg">初步標記(1/10)</p>
+                            <p className="mb-2 text-lg">Document AI的建議</p>
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
@@ -32,10 +33,10 @@ function InitialView() {
                                         <div className="mx-auto w-full max-w-sm lg:w-96">
                                             <div>
                                                 <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-                                                    文檔的類型
+                                                    AI建議的類型
                                                 </h2>
                                                 <p className="mt-2 text-sm text-gray-600">
-                                                    預先輸入文檔的類型讓機械更容易學習
+                                                    基於機器學習得出的結果
                                                 </p>
                                             </div>
                                             <div className="mt-8">
@@ -46,50 +47,39 @@ function InitialView() {
                                                         className="space-y-6">
                                                         <div>
                                                             <label
-                                                                htmlFor="email"
+                                                                htmlFor="type"
                                                                 className="block text-sm font-medium text-gray-700">
-                                                                選擇現有的類型
+                                                                AI預測的結果
                                                             </label>
                                                             <div className="mt-1">
                                                                 <input
-                                                                    id="email"
-                                                                    name="email"
-                                                                    type="email"
-                                                                    autoComplete="email"
-                                                                    required
+                                                                    id="type"
+                                                                    name="type"
+                                                                    type="string"
+                                                                    readOnly
+                                                                    placeholder="更表"
                                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                                 />
                                                             </div>
                                                         </div>
-
-                                                        <div className="space-y-1">
-                                                            <label
-                                                                htmlFor="new-type"
-                                                                className="block text-sm font-medium text-gray-700">
-                                                                選擇現有的類型
-                                                            </label>
-                                                            <div className="flex mt-1">
-                                                                <select
-                                                                    id="new-type"
-                                                                    name="new-type"
-                                                                    className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                                                    defaultValue="更表">
-                                                                    <option>更表</option>
-                                                                    <option>請假紙</option>
-                                                                    <option>CV</option>
-                                                                </select>
-                                                                <button
-                                                                    type="submit"
-                                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                                    新增類型
-                                                                </button>
-                                                            </div>
-                                                        </div>
                                                         <div>
                                                             <button
-                                                                type="submit"
-                                                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                                確認
+                                                                type="button"
+                                                                className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                <CheckIcon
+                                                                    className="-ml-0.5 mr-2 h-4 w-4"
+                                                                    aria-hidden="true"
+                                                                />
+                                                                正確
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                                <XIcon
+                                                                    className="-ml-0.5 mr-2 h-4 w-4"
+                                                                    aria-hidden="true"
+                                                                />
+                                                                更正
                                                             </button>
                                                         </div>
                                                     </form>
@@ -107,4 +97,4 @@ function InitialView() {
     );
 }
 
-export default InitialView;
+export default ValidateView;
