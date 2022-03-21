@@ -1,9 +1,31 @@
-import Image from 'next/image';
+import { useState, useEffect } from 'react';
 import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
+import { Document, Page } from 'react-pdf';
+import _get from 'lodash/get';
+import AmendLabel from '../../../components/feature/classification/AmendLabel';
 
-function ValidateView() {
+interface LastestPredictionDataProps {
+    document: Array<any>;
+    prediction: Array<any>;
+}
+
+interface ValidateViewProps {
+    lastestPredictionData: LastestPredictionDataProps;
+    confirmDocumentFormik: any;
+    allLabelsData: object;
+}
+
+function ValidateView(props: ValidateViewProps) {
+    const { lastestPredictionData, confirmDocumentFormik, allLabelsData } = props;
+    const [open, setOpen] = useState(false);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const onDocumentLoadSuccess = ({ numPages }) => {
+        setNumPages(numPages);
+    };
     return (
         <>
+            <AmendLabel {...{ open, setOpen, allLabelsData, confirmDocumentFormik }} />
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -17,15 +39,16 @@ function ValidateView() {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        <Image
-                                            width={100}
-                                            height={100}
-                                            layout="responsive"
-                                            objectFit="contain"
-                                            objectPosition="center"
-                                            src="https://www.myperfectresume.com/wp-content/uploads/2021/07/human-resources-manager-cv-sample.svg"
-                                            alt="Workflow"
-                                        />
+                                        {
+                                            // (_get(document, '[3]')) ? (<Document
+                                            //     file={_get(document, '[3]')}
+                                            //     onLoadSuccess={onDocumentLoadSuccess}>
+                                            //     <Page pageNumber={pageNumber} />
+                                            // </Document>) : (null)
+                                            _get(lastestPredictionData, 'document[4]') ? (
+                                                <p>{_get(lastestPredictionData, 'document[4]')}</p>
+                                            ) : null
+                                        }
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">
@@ -57,7 +80,10 @@ function ValidateView() {
                                                                     name="type"
                                                                     type="string"
                                                                     readOnly
-                                                                    placeholder="更表"
+                                                                    placeholder={_get(
+                                                                        lastestPredictionData,
+                                                                        'prediction[1]'
+                                                                    )}
                                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                                 />
                                                             </div>
@@ -65,7 +91,10 @@ function ValidateView() {
                                                         <div>
                                                             <button
                                                                 type="button"
-                                                                className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                                onClick={() => {
+                                                                    confirmDocumentFormik.handleSubmit();
+                                                                }}>
                                                                 <CheckIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"
@@ -74,7 +103,10 @@ function ValidateView() {
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                                                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                                onClick={() => {
+                                                                    setOpen(true);
+                                                                }}>
                                                                 <XIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"

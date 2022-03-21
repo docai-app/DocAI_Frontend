@@ -1,45 +1,13 @@
-import { Fragment } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import {
-    BellIcon,
-    MenuIcon,
-    XIcon,
-    MailIcon,
-    PhoneIcon,
-    FolderIcon
-} from '@heroicons/react/outline';
+import _get from 'lodash/get';
+import _map from 'lodash/map';
+import { FolderIcon } from '@heroicons/react/outline';
 
-const people = [
-    {
-        name: '更表',
-        title: `點擊以查看有關更表的文件`,
-        role: 'Document',
-        email: 'janecooper@example.com',
-        telephone: '+1-202-555-0170',
-        imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60'
-    },
-    {
-        name: '放假表格',
-        title: `點擊以查看有關放假表格的文件`,
-        role: 'Document',
-        email: 'janecooper@example.com',
-        telephone: '+1-202-555-0170',
-        imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60'
-    },
-    {
-        name: '收據',
-        title: `點擊以查看有關收據的文件`,
-        role: 'Document',
-        email: 'janecooper@example.com',
-        telephone: '+1-202-555-0170',
-        imageUrl:
-            'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60'
-    }
-];
+interface ClassificationViewProps {
+    allLabelsData: object;
+}
 
-function ClassificationView() {
+function ClassificationView(props: ClassificationViewProps) {
+    const { allLabelsData } = props;
     return (
         <>
             <div className="min-h-full bg-slate-50">
@@ -55,59 +23,35 @@ function ClassificationView() {
                                 <ul
                                     role="list"
                                     className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                                    {people.map((person) => (
-                                        <li
-                                            key={person.email}
-                                            className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
-                                            <div className="flex-1 flex flex-col p-8">
-                                                <FolderIcon
-                                                    className="w-24 h-24 flex-shrink-0 mx-auto text-gray-500"
-                                                    aria-hidden="true"
-                                                />
-                                                <h3 className="mt-6 text-xl text-gray-900 font-medium">
-                                                    {person.name}
-                                                </h3>
-                                                <dl className="mt-1 flex-grow flex flex-col justify-between">
-                                                    <dt className="sr-only">Title</dt>
-                                                    <dd className="text-gray-500 text-sm">
-                                                        {person.title}
-                                                    </dd>
-                                                    <dt className="sr-only">Role</dt>
-                                                    <dd className="mt-3">
-                                                        <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                                                            {person.role}
-                                                        </span>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                            <div>
-                                                <div className="-mt-px flex divide-x divide-gray-200">
-                                                    <div className="w-0 flex-1 flex">
-                                                        <a
-                                                            href={`mailto:${person.email}`}
-                                                            className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                                                            <MailIcon
-                                                                className="w-5 h-5 text-gray-400"
-                                                                aria-hidden="true"
-                                                            />
-                                                            <span className="ml-3">Email</span>
-                                                        </a>
-                                                    </div>
-                                                    <div className="-ml-px w-0 flex-1 flex">
-                                                        <a
-                                                            href={`tel:${person.telephone}`}
-                                                            className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                                                            <PhoneIcon
-                                                                className="w-5 h-5 text-gray-400"
-                                                                aria-hidden="true"
-                                                            />
-                                                            <span className="ml-3">Call</span>
-                                                        </a>
-                                                    </div>
+                                    {_map(_get(allLabelsData, 'prediction'), (label) => {
+                                        return (
+                                            <li
+                                                key={label[0]}
+                                                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+                                                <div className="flex-1 flex flex-col p-8">
+                                                    <FolderIcon
+                                                        className="w-24 h-24 flex-shrink-0 mx-auto text-gray-500"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <h3 className="mt-6 text-xl text-gray-900 font-medium">
+                                                        {label[1]}
+                                                    </h3>
+                                                    <dl className="mt-1 flex-grow flex flex-col justify-between">
+                                                        <dt className="sr-only">Title</dt>
+                                                        <dd className="text-gray-500 text-sm">
+                                                            {label[1]}
+                                                        </dd>
+                                                        <dt className="sr-only">Role</dt>
+                                                        <dd className="mt-3">
+                                                            <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+                                                                {label[1]}
+                                                            </span>
+                                                        </dd>
+                                                    </dl>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    ))}
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         </div>

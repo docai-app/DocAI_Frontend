@@ -11,15 +11,22 @@
     "dependencies": {
         "@headlessui/react": "^1.5.0",
         "@heroicons/react": "^1.0.6",
+        "@react-pdf/renderer": "^2.1.1",
+        "axios": "^0.26.1",
+        "axios-hooks": "^3.0.1",
+        "formik": "^2.2.9",
         "headlessui": "^0.0.0",
         "heroicons": "^1.0.6",
         "next": "12.1.0",
         "react": "17.0.2",
-        "react-dom": "17.0.2"
+        "react-dom": "17.0.2",
+        "react-pdf": "^5.7.1",
+        "yup": "^0.32.11"
     },
     "devDependencies": {
         "@types/node": "17.0.21",
         "@types/react": "17.0.39",
+        "@types/react-pdf": "^5.0.9",
         "autoprefixer": "^10.4.2",
         "eslint": "8.10.0",
         "eslint-config-next": "12.1.0",
