@@ -46,7 +46,7 @@ function UploadView(props: UploadViewProps) {
                                     <label
                                         htmlFor="file-upload"
                                         className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                        <p className="px-4">Select the files</p>
+                                        <p className="px-4">選擇文檔</p>
                                         <input
                                             id="file-upload"
                                             name="file-upload"
@@ -64,11 +64,11 @@ function UploadView(props: UploadViewProps) {
                                 </span>
                                 <button
                                     type="button"
-                                    className="mt-4 inline-flex items-center px-4 py-1 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={() => {
                                         formik.handleSubmit();
                                     }}>
-                                    Upload Files
+                                    上傳文檔
                                 </button>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Document, Page } from 'react-pdf';
+import { Image } from 'next/image';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 
@@ -39,8 +40,12 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {_get(lastestPredictionData, 'document[4]') ? (
-                                            <p>{_get(lastestPredictionData, 'document[4]')}</p>
+                                        {_get(lastestPredictionData, 'document[3]') ? (
+                                            <img
+                                                className="object-cover shadow-lg rounded-lg"
+                                                alt={_get(lastestPredictionData, 'document[1]')}
+                                                src={_get(lastestPredictionData, 'document[3]')}
+                                            />
                                         ) : null}
                                     </div>
                                 </div>
