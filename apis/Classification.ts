@@ -26,15 +26,6 @@ interface ConfirmDocumentProps {
 }
 
 export default class Classification {
-    async confirmData({ document }: Paramter): Promise<any> {
-        const response = await axios.post('/upload', {
-            document: document
-        });
-        console.log(response);
-        const result = response.data;
-        return result;
-    }
-
     getAndPredictLastestUploadedDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,

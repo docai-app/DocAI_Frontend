@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
-import { FolderIcon } from '@heroicons/react/outline';
+import { FolderIcon, PlusIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 
 interface ClassificationViewProps {
     allLabelsData: object;
@@ -8,12 +9,26 @@ interface ClassificationViewProps {
 
 function ClassificationView(props: ClassificationViewProps) {
     const { allLabelsData } = props;
+    const router = useRouter();
     return (
         <>
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">文檔類型</h1>
+                    <div className="flex w-full py-6 px-4 sm:px-6 lg:px-8">
+                        <div className="w-full">
+                            <h1 className="text-3xl font-bold text-gray-900">文檔類型</h1>
+                        </div>
+                        <div className="w-full">
+                            <button
+                                type="button"
+                                className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={() => {
+                                    router.push('/classification/upload');
+                                }}>
+                                <PlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+                                新增更多
+                            </button>
+                        </div>
                     </div>
                 </header>
                 <main>

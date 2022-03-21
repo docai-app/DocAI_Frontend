@@ -39,16 +39,9 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {
-                                            // (_get(document, '[3]')) ? (<Document
-                                            //     file={_get(document, '[3]')}
-                                            //     onLoadSuccess={onDocumentLoadSuccess}>
-                                            //     <Page pageNumber={pageNumber} />
-                                            // </Document>) : (null)
-                                            _get(lastestPredictionData, 'document[4]') ? (
-                                                <p>{_get(lastestPredictionData, 'document[4]')}</p>
-                                            ) : null
-                                        }
+                                        {_get(lastestPredictionData, 'document[4]') ? (
+                                            <p>{_get(lastestPredictionData, 'document[4]')}</p>
+                                        ) : null}
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">

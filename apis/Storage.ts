@@ -4,17 +4,22 @@ import useAxios from 'axios-hooks';
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface Paramter {
-    document: Array<any>;
+interface RequestHeaderProps {
+    baseURL: string | undefined;
+    url: string;
+    method: string;
 }
 
 export default class Storage {
-    async upload({ document }: Paramter): Promise<any> {
-        const response = await axios.post('/upload', {
-            document: document
-        });
-        console.log(response);
-        const result = response.data;
-        return result;
+    upload() {
+        const requestHeader: any = {
+            baseURL: baseURL,
+            url: '/upload',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return requestHeader;
     }
 }

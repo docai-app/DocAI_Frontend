@@ -18,7 +18,7 @@ function ValidateContainer() {
         },
         getAndPredictLastestUploadedDocument
     ] = useAxios(apiSetting.Classification.getAndPredictLastestUploadedDocument(), {
-        manual: false
+        manual: true
     });
 
     const [
@@ -78,6 +78,8 @@ function ValidateContainer() {
             console.log(lastestPredictionData);
             confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document[0]);
             confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction[0]);
+        } else if (lastestPredictionData && lastestPredictionData.status === 'null') {
+            router.push('/classification');
         }
     }, [lastestPredictionData]);
     return (
