@@ -27,4 +27,13 @@ export default class Label {
         };
         return requestHeader;
     }
+
+    addNewLabel() {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: '/labels',
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }

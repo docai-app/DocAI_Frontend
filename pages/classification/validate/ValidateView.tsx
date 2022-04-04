@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
 import { Document, Page } from 'react-pdf';
-import { Image } from 'next/image';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 

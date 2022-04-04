@@ -1,7 +1,7 @@
 // components/feature/classification/AmendLabel.tsx
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { ExclamationIcon, InformationCircleIcon } from '@heroicons/react/outline';
+import { InformationCircleIcon } from '@heroicons/react/outline';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 
@@ -20,6 +20,7 @@ export default function AmendLabel(props: AmendLabelProps) {
         console.log(confirmDocumentFormik);
         confirmDocumentFormik.handleSubmit();
     };
+    const addNewLabel = () => {};
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog
@@ -117,7 +118,8 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                 />
                                                 <button
                                                     type="submit"
-                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                    onClick={() => addNewLabel()}>
                                                     新增類型
                                                 </button>
                                             </div>

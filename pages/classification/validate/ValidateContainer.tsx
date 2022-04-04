@@ -43,6 +43,18 @@ function ValidateContainer() {
         manual: false
     });
 
+    const [
+        {
+            data: newLabelData,
+            loading: newLabelLoading,
+            error: newLabelError,
+            response: newLabelResponse
+        },
+        addNewLabels
+    ] = useAxios(apiSetting.Label.addNewLabels(), {
+        manual: false
+    });
+
     const confirmDocumentFormik = useFormik({
         initialValues: {
             id: null,
@@ -63,6 +75,27 @@ function ValidateContainer() {
             }
         }
     });
+
+    const addNewLabelFormik = useFormik({
+        initialValues: {
+            label: null
+        },
+        onSubmit: async (values) => {
+            console.log(values);
+            let res = await confirmDocument({
+                data: {
+                    ...values
+                }
+            });
+            console.log(res);
+            console.log(confirmDocumentLoading);
+            if (res.data.status === 'Confirmed') {
+                alert('Document Confirmed!');
+                await getAndPredictLastestUploadedDocument();
+            }
+        }
+    });
+
     useEffect(() => {
         const fetch = async () => {
             let res = await getAndPredictLastestUploadedDocument();
