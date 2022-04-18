@@ -22,4 +22,13 @@ export default class Search {
         };
         return requestHeader;
     }
+
+    countEachLabelDocumentByDate(date: string) {
+        const requestHeader: getRequestHeaderProps = {
+            baseURL: baseURL,
+            url: `/count/document/${date}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }
