@@ -50,8 +50,8 @@ function ValidateContainer() {
             error: newLabelError,
             response: newLabelResponse
         },
-        addNewLabels
-    ] = useAxios(apiSetting.Label.addNewLabels(), {
+        addNewLabel
+    ] = useAxios(apiSetting.Label.addNewLabel(), {
         manual: false
     });
 

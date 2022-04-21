@@ -3,7 +3,12 @@ import Head from 'next/head';
 import useAxios from 'axios-hooks';
 import SimpleLayout from '../components/layout/SimpleLayout';
 import withLayout from '../components/hocs/withLayout';
-import { FolderIcon, DocumentSearchIcon, UploadIcon } from '@heroicons/react/outline';
+import {
+    FolderIcon,
+    DocumentSearchIcon,
+    UploadIcon,
+    ClipboardCheckIcon
+} from '@heroicons/react/outline';
 import Api from '../apis/index';
 import { useEffect, useState } from 'react';
 
@@ -23,6 +28,13 @@ const actions = [
         icon: UploadIcon,
         iconForeground: 'text-sky-700',
         iconBackground: 'bg-sky-50'
+    },
+    {
+        title: '文件驗證',
+        href: '/classification/validate',
+        icon: ClipboardCheckIcon,
+        iconForeground: 'text-red-700',
+        iconBackground: 'bg-red-50'
     },
     {
         title: '文件搜尋',
