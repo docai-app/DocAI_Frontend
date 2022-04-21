@@ -12,11 +12,17 @@ interface LastestPredictionDataProps {
 interface ValidateViewProps {
     lastestPredictionData: LastestPredictionDataProps;
     confirmDocumentFormik: any;
+    addNewLabelFormik: any;
     allLabelsData: object;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { lastestPredictionData, confirmDocumentFormik, allLabelsData } = props;
+    const {
+        lastestPredictionData,
+        confirmDocumentFormik,
+        addNewLabelFormik,
+        allLabelsData
+    } = props;
     const [open, setOpen] = useState(false);
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
@@ -25,7 +31,9 @@ function ValidateView(props: ValidateViewProps) {
     };
     return (
         <>
-            <AmendLabel {...{ open, setOpen, allLabelsData, confirmDocumentFormik }} />
+            <AmendLabel
+                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewLabelFormik }}
+            />
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

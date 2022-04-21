@@ -10,17 +10,20 @@ interface AmendLabelProps {
     setOpen: any;
     allLabelsData: object;
     confirmDocumentFormik: any;
+    addNewLabelFormik: any;
 }
 
 export default function AmendLabel(props: AmendLabelProps) {
-    const { open, setOpen, allLabelsData, confirmDocumentFormik } = props;
+    const { open, setOpen, allLabelsData, confirmDocumentFormik, addNewLabelFormik } = props;
     const cancelButtonRef = useRef(null);
     const confirmDocument = () => {
         setOpen(false);
         console.log(confirmDocumentFormik);
         confirmDocumentFormik.handleSubmit();
     };
-    const addNewLabel = () => {};
+    const addNewLabel = () => {
+        addNewLabelFormik.handleSubmit();
+    };
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog
@@ -115,6 +118,12 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                     name="type"
                                                     type="string"
                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                    onChange={async (e) => {
+                                                        addNewLabelFormik.setFieldValue(
+                                                            'name',
+                                                            e.target.value
+                                                        );
+                                                    }}
                                                 />
                                                 <button
                                                     type="submit"

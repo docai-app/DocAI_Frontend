@@ -52,7 +52,7 @@ function ValidateContainer() {
         },
         addNewLabel
     ] = useAxios(apiSetting.Label.addNewLabel(), {
-        manual: false
+        manual: true
     });
 
     const confirmDocumentFormik = useFormik({
@@ -78,19 +78,20 @@ function ValidateContainer() {
 
     const addNewLabelFormik = useFormik({
         initialValues: {
-            label: null
+            name: null
         },
         onSubmit: async (values) => {
             console.log(values);
-            let res = await confirmDocument({
+            let res = await addNewLabel({
                 data: {
                     ...values
                 }
             });
             console.log(res);
             console.log(confirmDocumentLoading);
-            if (res.data.status === 'Confirmed') {
-                alert('Document Confirmed!');
+            await getAllLabels();
+            if (res.data.status == 'Added') {
+                alert('新類型已新增！');
                 await getAndPredictLastestUploadedDocument();
             }
         }
@@ -117,7 +118,14 @@ function ValidateContainer() {
     }, [lastestPredictionData]);
     return (
         <>
-            <ValidateView {...{ lastestPredictionData, confirmDocumentFormik, allLabelsData }} />
+            <ValidateView
+                {...{
+                    lastestPredictionData,
+                    confirmDocumentFormik,
+                    addNewLabelFormik,
+                    allLabelsData
+                }}
+            />
         </>
     );
 }
