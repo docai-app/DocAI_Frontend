@@ -7,7 +7,7 @@ interface SearchViewProps {
 }
 
 export default function SearchView(props: SearchViewProps) {
-    const { searchDocumentFormik, documents } = props;
+    const { searchDocumentFormik = { handleChange: () => {} }, documents = [] } = props;
     return (
         <>
             <div className="bg-indigo-700">

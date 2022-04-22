@@ -9,7 +9,7 @@ interface UploadingProps {
 }
 
 export default function Uploading(props: UploadingProps) {
-    const { open, setOpen } = props;
+    const { open = false, setOpen } = props;
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={setOpen}>
