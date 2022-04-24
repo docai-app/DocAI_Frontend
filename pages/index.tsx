@@ -64,7 +64,7 @@ const Home: NextPage = () => {
     });
     useEffect(() => {
         countEachLabelDocumentByDate({
-            url: `/count/document/2022-03-21`
+            url: `/count/document/${new Date().toISOString().split('T')[0]}`
         });
     }, []);
     useEffect(() => {
