@@ -99,7 +99,7 @@ const Home: NextPage = () => {
                             <div className="max-w-4xl mx-auto">
                                 {statistics.length > 0 ? (
                                     <dl
-                                        className={`rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-${statistics.length}`}>
+                                        className={`rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3`}>
                                         {statistics.map((statistic, index) => {
                                             return (
                                                 <div
