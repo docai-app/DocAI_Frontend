@@ -42,6 +42,13 @@ const actions = [
         icon: DocumentSearchIcon,
         iconForeground: 'text-purple-700',
         iconBackground: 'bg-purple-50'
+    },
+    {
+        title: '請假表識別',
+        href: '/absence/upload',
+        icon: UploadIcon,
+        iconForeground: 'text-sky-700',
+        iconBackground: 'bg-sky-50'
     }
 ];
 
