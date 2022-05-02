@@ -23,8 +23,7 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {formUrl.split(/[#?]/)[0].split('.').pop().trim() ===
-                                        'pdf' ? (
+                                        {formUrl.split('.').pop() === 'pdf' ? (
                                             <object
                                                 className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                 type="application/pdf"
