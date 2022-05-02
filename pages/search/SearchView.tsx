@@ -52,8 +52,8 @@ export default function SearchView(props: SearchViewProps) {
                                 {document[3].split(/[#?]/)[0].split('.').pop().trim() === 'pdf' ? (
                                     <object
                                         className="w-full h-full object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
-                                        type="application/png"
-                                        data={document[3]}
+                                        type="application/pdf"
+                                        data={document[3] + '#toolbar=0'}
                                         width="250"
                                         height="200">
                                         <img

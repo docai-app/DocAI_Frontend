@@ -45,14 +45,37 @@ function ValidateView(props: ValidateViewProps) {
                         <div className="px-4 py-6 sm:px-0">
                             <p className="mb-2 text-lg">Document AI的建議</p>
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
-                                <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
+                                    <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                         {_get(lastestPredictionData, 'document[3]') ? (
-                                            <img
-                                                className="object-cover shadow-lg rounded-lg"
-                                                alt={_get(lastestPredictionData, 'document[1]')}
-                                                src={_get(lastestPredictionData, 'document[3]')}
-                                            />
+                                            lastestPredictionData.document[3]
+                                                .split(/[#?]/)[0]
+                                                .split('.')
+                                                .pop()
+                                                .trim() === 'pdf' ? (
+                                                <object
+                                                    className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                                    type="application/pdf"
+                                                    data={
+                                                        lastestPredictionData.document[3] +
+                                                        '#toolbar=0'
+                                                    }
+                                                    width="250">
+                                                    <img
+                                                        src={
+                                                            'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
+                                                        }
+                                                        alt="PDF file icon"
+                                                        className="w-1/2 h-1/2 object-contain object-center"
+                                                    />
+                                                </object>
+                                            ) : (
+                                                <img
+                                                    className="object-cover shadow-lg rounded-lg"
+                                                    alt={lastestPredictionData.document[3]}
+                                                    src={lastestPredictionData.document[3]}
+                                                />
+                                            )
                                         ) : null}
                                     </div>
                                 </div>

@@ -1,13 +1,5 @@
-import { useState, useEffect } from 'react';
-import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
-import { Document, Page } from 'react-pdf';
+import Image from 'next/image';
 import _get from 'lodash/get';
-import AmendLabel from '../../../components/feature/classification/AmendLabel';
-
-interface LastestPredictionDataProps {
-    document: Array<any>;
-    prediction: Array<any>;
-}
 
 interface ValidateViewProps {
     formUrl: string;
@@ -15,7 +7,7 @@ interface ValidateViewProps {
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl, result } = props;
+    const { formUrl = '', result = {} } = props;
     return (
         <>
             <div className="min-h-full bg-slate-50">
@@ -29,15 +21,30 @@ function ValidateView(props: ValidateViewProps) {
                         <div className="px-4 py-6 sm:px-0">
                             <p className="mb-2 text-lg">DocAI的分析結果</p>
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
-                                <div className="left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {formUrl ? (
+                                <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
+                                    <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                        {formUrl.split(/[#?]/)[0].split('.').pop().trim() ===
+                                        'pdf' ? (
+                                            <object
+                                                className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                                type="application/pdf"
+                                                data={formUrl + '#toolbar=0'}
+                                                width="250">
+                                                <img
+                                                    src={
+                                                        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
+                                                    }
+                                                    alt="PDF file icon"
+                                                    className="w-1/2 h-1/2 object-contain object-center"
+                                                />
+                                            </object>
+                                        ) : (
                                             <img
-                                                className="object-cover shadow-lg rounded-lg"
-                                                alt={formUrl}
+                                                className="w-full h-full object-contain object-center lg:w-full lg:h-full"
                                                 src={formUrl}
+                                                alt={formUrl}
                                             />
-                                        ) : null}
+                                        )}
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">
