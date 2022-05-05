@@ -47,14 +47,31 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">
-                                    {Object.keys(result).map(function (key) {
+                                    <form className="flex flex-col w-5/6">
+                                        <div className="grid grid-cols-3">
+                                            <div className="flex flex-row justify-center items-center">
+                                                <input type="radio" id="checkbox_urgent" name="method" />
+                                                <label className="ml-2"  htmlFor="checkbox_urgent">緊急</label>
+                                            </div>
+                                            <div className="flex flex-row justify-center items-center">
+                                                <input type="radio" id="checkbox_phone" name="method" />
+                                                <label className="ml-2" htmlFor="checkbox_phone">電話通知</label>
+                                            </div>
+                                            <div className="flex flex-row justify-center items-center">
+                                                <input type="radio" id="checkbox_pre" name="method" />
+                                                <label className="ml-2" htmlFor="checkbox_pre">預先批准</label>
+                                            </div>
+                                        </div>
+                                        <div></div>
+                                    </form>
+                                    {/* {Object.keys(result).map(function (key) {
                                         return (
                                             <p key={key} className="mb-4">
                                                 <span className="font-bold">{key}: </span>
                                                 {result[key]}
                                             </p>
                                         );
-                                    })}
+                                    })} */}
                                 </div>
                             </div>
                         </div>
