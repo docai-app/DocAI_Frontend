@@ -12,6 +12,7 @@
         "@headlessui/react": "^1.5.0",
         "@heroicons/react": "^1.0.6",
         "@react-pdf/renderer": "^2.1.1",
+        "@tailwindcss/forms": "^0.5.1",
         "axios": "^0.26.1",
         "axios-hooks": "^3.0.1",
         "formik": "^2.2.9",
