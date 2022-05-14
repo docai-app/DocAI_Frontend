@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import _get from 'lodash/get';
-import MultipleChoice from '../../../components/absence/validate/MultipleChoice';
-import TextInput from '../../../components/absence/validate/TextInput';
-import DateInput from '../../../components/absence/validate/DateInput';
-import NumberInput from '../../../components/absence/validate/NumberInput';
+import MultipleChoice from '../../../components/feature/absence/validate/MultipleChoice';
+import TextInput from '../../../components/feature/absence/validate/TextInput';
+import DateInput from '../../../components/feature/absence/validate/DateInput';
+import NumberInput from '../../../components/feature/absence/validate/NumberInput';
 
 interface ValidateViewProps {
     formUrl: string;
