@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface NumberInputData {
     title: string;
@@ -11,8 +11,7 @@ interface NumberInputProps {
     componentId: string | number;
 }
 
-function NumberInput (props: NumberInputProps) {
-
+function NumberInput(props: NumberInputProps) {
     const { updateResult = () => {}, componentId = '' } = props;
     const [data, setData] = useState<NumberInputData>(props.data);
 
@@ -22,17 +21,20 @@ function NumberInput (props: NumberInputProps) {
 
     return (
         <div className="col-span-4 lg:col-span-3">
-            <h3 className="font-bold">
-                { data.title }
-            </h3>
-            <input type="number" value={ data.value } onChange={(e) => {
-                let update = {...data};
-                if (/^-?\d+$/.test(e.target.value)) update.value = parseInt(e.target.value);
-                else if (e.target.value === '') update.value = 0;
-                updateResult(componentId,update);
-            }} className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full"/>
+            <h3 className="font-bold">{data.title}</h3>
+            <input
+                type="number"
+                value={data.value}
+                onChange={(e) => {
+                    let update = { ...data };
+                    if (/^-?\d+$/.test(e.target.value)) update.value = parseInt(e.target.value);
+                    else if (e.target.value === '') update.value = 0;
+                    updateResult(componentId, update);
+                }}
+                className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full"
+            />
         </div>
-    )
+    );
 }
 
 export default NumberInput;

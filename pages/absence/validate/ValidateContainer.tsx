@@ -16,16 +16,16 @@ function ValidateContainer() {
                 options: [
                     {
                         name: '緊急',
-                        selected: true,
+                        selected: true
                     },
                     {
                         name: '電話通知',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '預先批准',
-                        selected: false,
-                    },
+                        selected: false
+                    }
                 ]
             }
         },
@@ -36,40 +36,40 @@ function ValidateContainer() {
                 options: [
                     {
                         name: '放假',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '病假',
-                        selected: true,
+                        selected: true
                     },
                     {
                         name: '無薪*',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '個人需要',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '事假',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '補休',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '員工補償**',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '喪假',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '其他',
-                        selected: false,
-                    },
+                        selected: false
+                    }
                 ]
             }
         },
@@ -101,15 +101,15 @@ function ValidateContainer() {
                 options: [
                     {
                         name: '行政人員',
-                        selected: true,
+                        selected: true
                     },
                     {
                         name: '',
-                        selected: false,
+                        selected: false
                     },
                     {
                         name: '',
-                        selected: false,
+                        selected: false
                     }
                 ]
             }
@@ -143,10 +143,36 @@ function ValidateContainer() {
             }
         }
     ]);
+    const [formSchema, setFormSchema] = useState({
+        title: 'A registration form',
+        description: 'A simple form example.',
+        type: 'object',
+        required: ['firstName', 'lastName'],
+        properties: {
+            firstName: {
+                type: 'string',
+                title: 'First name',
+                default: 'Chuck'
+            },
+            lastName: {
+                type: 'string',
+                title: 'Last name'
+            },
+            telephone: {
+                type: 'string',
+                title: 'Telephone',
+                minLength: 10
+            }
+        }
+    });
+    const [uiSchema, setUiSchema] = useState({
+        classNames: 'custom-css-class'
+    });
+
     useEffect(() => {
         if (router.query.form_url && router.query.result) {
             setFormUrl(`${router.query.form_url}`);
-            setResult(JSON.parse(`${router.query.result}`));
+            // setResult(JSON.parse(`${router.query.result}`));
         }
     }, [router]);
 
@@ -156,7 +182,9 @@ function ValidateContainer() {
                 {...{
                     formUrl,
                     result,
-                    setResult
+                    setResult,
+                    formSchema,
+                    uiSchema
                 }}
             />
         </>

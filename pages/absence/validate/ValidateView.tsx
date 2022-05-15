@@ -1,14 +1,19 @@
-import Image from 'next/image';
 import _get from 'lodash/get';
 import MultipleChoice from '../../../components/absence/validate/MultipleChoice';
 import TextInput from '../../../components/absence/validate/TextInput';
 import DateInput from '../../../components/absence/validate/DateInput';
 import NumberInput from '../../../components/absence/validate/NumberInput';
+import { withTheme } from '@rjsf/core';
+import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+
+const Form = withTheme(Bootstrap4Theme);
 
 interface ValidateViewProps {
     formUrl: string;
     result: ResultItem[];
     setResult: Function;
+    formSchema: any;
+    uiSchema: any;
 }
 
 interface ResultItem {
@@ -17,13 +22,13 @@ interface ResultItem {
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl = '', result = [], setResult } = props;
+    const { formUrl = '', result = [], setResult, formSchema = {}, uiSchema = {} } = props;
 
     const updateResult = (id: number, update: object) => {
         let newResult = [...result];
         newResult[id].data = update;
         setResult(newResult);
-    }
+    };
 
     return (
         <>
@@ -64,51 +69,67 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                                 <div className="right-side flex-1 justify-center flex overflow-auto h-5/6 py-2">
-                                    <form className="flex flex-col w-5/6">
+                                    <Form
+                                        className="w-5/6"
+                                        schema={formSchema}
+                                        uiSchema={uiSchema}
+                                        onSubmit={(data) => {
+                                            console.log(data);
+                                        }}
+                                    />
+                                    {/* <form className="flex flex-col w-5/6">
                                         <div className="flex flex-col gap-2 py-3 border-b">
-                                            {
-                                                Array.from(result.entries()).map(([id, item]) => {
-                                                    if (item.type === 'MultipleChoice') {
-                                                        return (
-                                                            <MultipleChoice {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'TextInput') {
-                                                        return (
-                                                            <TextInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'DateInput') {
-                                                        return (
-                                                            <DateInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'NumberInput') {
-                                                        return (
-                                                            <NumberInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                })
-                                            }
+                                            {Array.from(result.entries()).map(([id, item]) => {
+                                                if (item.type === 'MultipleChoice') {
+                                                    return (
+                                                        <MultipleChoice
+                                                            {...item}
+                                                            updateResult={updateResult}
+                                                            componentId={id}
+                                                            key={id}
+                                                        />
+                                                    );
+                                                }
+                                                if (item.type === 'TextInput') {
+                                                    return (
+                                                        <TextInput
+                                                            {...item}
+                                                            updateResult={updateResult}
+                                                            componentId={id}
+                                                            key={id}
+                                                        />
+                                                    );
+                                                }
+                                                if (item.type === 'DateInput') {
+                                                    return (
+                                                        <DateInput
+                                                            {...item}
+                                                            updateResult={updateResult}
+                                                            componentId={id}
+                                                            key={id}
+                                                        />
+                                                    );
+                                                }
+                                                if (item.type === 'NumberInput') {
+                                                    return (
+                                                        <NumberInput
+                                                            {...item}
+                                                            updateResult={updateResult}
+                                                            componentId={id}
+                                                            key={id}
+                                                        />
+                                                    );
+                                                }
+                                            })}
                                         </div>
                                         <div onClick={() => console.log(result)}>log result</div>
                                         <div className="grid grid-cols-12 gap-4 max-w-full pt-3">
                                             <div className="col-span-full">
-                                                <h3 className="font-bold">
-                                                    說明（如有需要）
-                                                </h3>
+                                                <h3 className="font-bold">說明（如有需要）</h3>
                                                 <textarea className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full" />
                                             </div>
                                         </div>
-                                    </form>
-                                    {/* {Object.keys(result).map(function (key) {
-                                        return (
-                                            <p key={key} className="mb-4">
-                                                <span className="font-bold">{key}: </span>
-                                                {result[key]}
-                                            </p>
-                                        );
-                                    })} */}
+                                    </form> */}
                                 </div>
                             </div>
                         </div>
