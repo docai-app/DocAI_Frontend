@@ -5,30 +5,20 @@ import DateInput from '../../../components/absence/validate/DateInput';
 import NumberInput from '../../../components/absence/validate/NumberInput';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Form = withTheme(Bootstrap4Theme);
 
 interface ValidateViewProps {
     formUrl: string;
-    result: ResultItem[];
+    result: any;
     setResult: Function;
     formSchema: any;
     uiSchema: any;
 }
 
-interface ResultItem {
-    type: string;
-    data: any;
-}
-
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl = '', result = [], setResult, formSchema = {}, uiSchema = {} } = props;
-
-    const updateResult = (id: number, update: object) => {
-        let newResult = [...result];
-        newResult[id].data = update;
-        setResult(newResult);
-    };
+    const { formUrl = '', result = {}, setResult, formSchema = {}, uiSchema = {} } = props;
 
     return (
         <>
@@ -73,6 +63,7 @@ function ValidateView(props: ValidateViewProps) {
                                         className="w-5/6"
                                         schema={formSchema}
                                         uiSchema={uiSchema}
+                                        formData={result}
                                         onSubmit={(data) => {
                                             console.log(data);
                                         }}
