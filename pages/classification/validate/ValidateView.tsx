@@ -5,7 +5,7 @@ import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 
 interface LastestPredictionDataProps {
-    document: Array<any>;
+    document: any;
     prediction: Array<any>;
 }
 
@@ -26,9 +26,6 @@ function ValidateView(props: ValidateViewProps) {
     const [open, setOpen] = useState(false);
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    // const onDocumentLoadSuccess = ({ numPages }) => {
-    //     setNumPages(numPages);
-    // };
     return (
         <>
             <AmendLabel
@@ -47,8 +44,8 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {_get(lastestPredictionData, 'document[3]') ? (
-                                            lastestPredictionData.document[3]
+                                        {_get(lastestPredictionData, 'document.storage') ? (
+                                            lastestPredictionData.document.storage
                                                 .split(/[#?]/)[0]
                                                 .split('.')
                                                 .pop()
@@ -57,7 +54,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                     type="application/pdf"
                                                     data={
-                                                        lastestPredictionData.document[3] +
+                                                        lastestPredictionData.document.storage +
                                                         '#toolbar=0'
                                                     }
                                                     width="250">
@@ -72,8 +69,8 @@ function ValidateView(props: ValidateViewProps) {
                                             ) : (
                                                 <img
                                                     className="object-cover shadow-lg rounded-lg"
-                                                    alt={lastestPredictionData.document[3]}
-                                                    src={lastestPredictionData.document[3]}
+                                                    alt={lastestPredictionData.document.storage}
+                                                    src={lastestPredictionData.document.storage}
                                                 />
                                             )
                                         ) : null}
@@ -110,7 +107,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                     readOnly
                                                                     placeholder={_get(
                                                                         lastestPredictionData,
-                                                                        'prediction[1]'
+                                                                        'prediction.name'
                                                                     )}
                                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                                 />
