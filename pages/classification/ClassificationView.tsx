@@ -49,17 +49,13 @@ function ClassificationView(props: ClassificationViewProps) {
                                                         aria-hidden="true"
                                                     />
                                                     <h3 className="mt-6 text-xl text-gray-900 font-medium">
-                                                        {label[1]}
+                                                        {label.name}
                                                     </h3>
                                                     <dl className="mt-1 flex-grow flex flex-col justify-between">
-                                                        <dt className="sr-only">Title</dt>
-                                                        <dd className="text-gray-500 text-sm">
-                                                            {label[1]}
-                                                        </dd>
                                                         <dt className="sr-only">Role</dt>
                                                         <dd className="mt-3">
                                                             <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                                                                {label[1]}
+                                                                {label.name}
                                                             </span>
                                                         </dd>
                                                     </dl>
