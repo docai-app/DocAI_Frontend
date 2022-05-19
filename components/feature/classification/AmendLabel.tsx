@@ -94,9 +94,9 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                         (item) => {
                                                             return (
                                                                 <option
-                                                                    key={item[0]}
-                                                                    value={item[0]}>
-                                                                    {item[1]}
+                                                                    key={item.id}
+                                                                    value={item.id}>
+                                                                    {item.name}
                                                                 </option>
                                                             );
                                                         }
