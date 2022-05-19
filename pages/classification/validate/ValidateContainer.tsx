@@ -110,8 +110,8 @@ function ValidateContainer() {
     useEffect(() => {
         if (lastestPredictionData && !lastestPredictionData.hasOwnProperty('status')) {
             console.log(lastestPredictionData);
-            confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document[0]);
-            confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction[0]);
+            confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document.id);
+            confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction.id);
         } else if (lastestPredictionData && lastestPredictionData.status === 'null') {
             router.push('/classification');
         }
