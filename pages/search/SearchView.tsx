@@ -47,13 +47,14 @@ export default function SearchView(props: SearchViewProps) {
             <div className="px-16">
                 <div className="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {documents.map((document) => (
-                        <div key={document[0]} className="group relative">
+                        <div key={document.id} className="group relative">
                             <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                                {document[3].split(/[#?]/)[0].split('.').pop().trim() === 'pdf' ? (
+                                {document.storage.split(/[#?]/)[0].split('.').pop().trim() ===
+                                'pdf' ? (
                                     <object
                                         className="w-full h-full object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                         type="application/pdf"
-                                        data={document[3] + '#toolbar=0'}
+                                        data={document.storage + '#toolbar=0'}
                                         width="250"
                                         height="200">
                                         <img
@@ -66,8 +67,8 @@ export default function SearchView(props: SearchViewProps) {
                                     </object>
                                 ) : (
                                     <img
-                                        src={document[3]}
-                                        alt={document[1]}
+                                        src={document.storage}
+                                        alt={document.name}
                                         className="w-full h-full object-contain object-center lg:w-full lg:h-full"
                                     />
                                 )}
@@ -75,9 +76,9 @@ export default function SearchView(props: SearchViewProps) {
                             <div className="mt-4 flex justify-between overflow-hidden">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
-                                        <a href={document[3]}>
+                                        <a href={document.storage}>
                                             <span aria-hidden="true" className="absolute inset-0" />
-                                            {document[1]}
+                                            {document.name}
                                         </a>
                                     </h3>
                                 </div>
