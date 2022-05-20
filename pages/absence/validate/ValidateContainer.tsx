@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import ValidateView from './ValidateView';
+import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
+import _get from 'lodash/get';
 
 const apiSetting = new Api();
 
@@ -12,7 +15,7 @@ function ValidateContainer() {
     const [formSchema, setFormSchema] = useState({
         title: '請假表',
         type: 'object',
-        required: ['員工名稱', '員工編號', '填表日期'],
+        required: ['employee_name', 'department', 'employee_id'],
         properties: {
             type_of_absence: {
                 type: 'object',
@@ -99,15 +102,15 @@ function ValidateContainer() {
                         title: '申請放假日期'
                     },
                     hours_per_day: {
-                        type: 'number',
+                        type: 'string',
                         title: '每天時數'
                     },
                     total_days: {
-                        type: 'number',
+                        type: 'string',
                         title: '請假天數'
                     },
                     total_hours: {
-                        type: 'number',
+                        type: 'string',
                         title: '請假時數'
                     },
                     reason_of_absence: {
@@ -123,8 +126,38 @@ function ValidateContainer() {
         }
     });
     const [uiSchema, setUiSchema] = useState({});
+    const absenceFormFormik = useFormik({
+        initialValues: {
+            form: result
+        },
+        onSubmit: async (values) => {
+            console.log(values.form);
+            let res = await updateFormData({
+                data: {
+                    form: values.form
+                }
+            });
+            console.log(res);
+            if (res.data.status === 'success') {
+                alert('請假表提交成功！');
+                router.push('/');
+            }
+        }
+    });
+    const [
+        {
+            data: lastestPredictionData,
+            loading: lastestPredictionLoading,
+            error: lastestPredictionError,
+            response: lastestPredictionResponse
+        },
+        updateFormData
+    ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {
+        manual: true
+    });
 
     useEffect(() => {
+        console.log(router.query);
         if (router.query.form_url && router.query.result) {
             setFormUrl(`${router.query.form_url}`);
             setResult(JSON.parse(`${router.query.result}`));
@@ -140,7 +173,8 @@ function ValidateContainer() {
                     result,
                     setResult,
                     formSchema,
-                    uiSchema
+                    uiSchema,
+                    absenceFormFormik
                 }}
             />
         </>

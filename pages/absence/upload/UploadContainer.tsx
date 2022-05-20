@@ -37,6 +37,7 @@ function UploadContainer() {
                 pathname: '/absence/validate',
                 query: {
                     form_url: `${uploadData.form_url}`,
+                    form_id: `${uploadData.form_id}`,
                     result: JSON.stringify(uploadData.result)
                 }
             });
