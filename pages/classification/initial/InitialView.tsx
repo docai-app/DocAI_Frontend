@@ -43,11 +43,13 @@ function InitialView() {
                                                     <form
                                                         action="#"
                                                         method="POST"
-                                                        className="space-y-6">
+                                                        className="space-y-6"
+                                                    >
                                                         <div>
                                                             <label
                                                                 htmlFor="email"
-                                                                className="block text-sm font-medium text-gray-700">
+                                                                className="block text-sm font-medium text-gray-700"
+                                                            >
                                                                 選擇現有的類型
                                                             </label>
                                                             <div className="mt-1">
@@ -61,7 +63,8 @@ function InitialView() {
                                                                 />
                                                                 <button
                                                                     type="submit"
-                                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                                >
                                                                     新增類型
                                                                 </button>
                                                             </div>
@@ -70,7 +73,8 @@ function InitialView() {
                                                         <div className="space-y-1">
                                                             <label
                                                                 htmlFor="new-type"
-                                                                className="block text-sm font-medium text-gray-700">
+                                                                className="block text-sm font-medium text-gray-700"
+                                                            >
                                                                 選擇現有的類型
                                                             </label>
                                                             <div className="flex mt-1">
@@ -78,7 +82,8 @@ function InitialView() {
                                                                     id="new-type"
                                                                     name="new-type"
                                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                                                    defaultValue="更表">
+                                                                    defaultValue="更表"
+                                                                >
                                                                     <option>更表</option>
                                                                     <option>請假紙</option>
                                                                     <option>CV</option>
@@ -88,7 +93,8 @@ function InitialView() {
                                                         <div>
                                                             <button
                                                                 type="submit"
-                                                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                            >
                                                                 確認
                                                             </button>
                                                         </div>

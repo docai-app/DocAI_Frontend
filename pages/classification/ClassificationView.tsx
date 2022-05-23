@@ -24,7 +24,8 @@ function ClassificationView(props: ClassificationViewProps) {
                                 className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 onClick={() => {
                                     router.push('/classification/upload');
-                                }}>
+                                }}
+                            >
                                 <PlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
                                 新增更多
                             </button>
@@ -37,12 +38,14 @@ function ClassificationView(props: ClassificationViewProps) {
                             <div className="flex p-4 rounded-lg">
                                 <ul
                                     role="list"
-                                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                                    className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                                >
                                     {_map(_get(allLabelsData, 'prediction'), (label) => {
                                         return (
                                             <li
                                                 key={label[0]}
-                                                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200">
+                                                className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+                                            >
                                                 <div className="flex-1 flex flex-col p-8">
                                                     <FolderIcon
                                                         className="w-24 h-24 flex-shrink-0 mx-auto text-gray-500"

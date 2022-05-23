@@ -38,7 +38,8 @@ export default function SearchView(props: SearchViewProps) {
                             className="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => {
                                 searchDocumentFormik.handleSubmit();
-                            }}>
+                            }}
+                        >
                             搜尋 🔍
                         </button>
                     </section>
@@ -56,7 +57,8 @@ export default function SearchView(props: SearchViewProps) {
                                         type="application/pdf"
                                         data={document.storage + '#toolbar=0'}
                                         width="250"
-                                        height="200">
+                                        height="200"
+                                    >
                                         <img
                                             src={
                                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'

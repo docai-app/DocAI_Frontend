@@ -17,12 +17,8 @@ interface ValidateViewProps {
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const {
-        lastestPredictionData,
-        confirmDocumentFormik,
-        addNewLabelFormik,
-        allLabelsData
-    } = props;
+    const { lastestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } =
+        props;
     const [open, setOpen] = useState(false);
     return (
         <>
@@ -55,7 +51,8 @@ function ValidateView(props: ValidateViewProps) {
                                                         lastestPredictionData.document.storage +
                                                         '#toolbar=0'
                                                     }
-                                                    width="250">
+                                                    width="250"
+                                                >
                                                     <img
                                                         src={
                                                             'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
@@ -90,11 +87,13 @@ function ValidateView(props: ValidateViewProps) {
                                                     <form
                                                         action="#"
                                                         method="POST"
-                                                        className="space-y-6">
+                                                        className="space-y-6"
+                                                    >
                                                         <div>
                                                             <label
                                                                 htmlFor="type"
-                                                                className="block text-sm font-medium text-gray-700">
+                                                                className="block text-sm font-medium text-gray-700"
+                                                            >
                                                                 AI預測的結果
                                                             </label>
                                                             <div className="mt-1">
@@ -117,7 +116,8 @@ function ValidateView(props: ValidateViewProps) {
                                                                 className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                                 onClick={() => {
                                                                     confirmDocumentFormik.handleSubmit();
-                                                                }}>
+                                                                }}
+                                                            >
                                                                 <CheckIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"
@@ -129,7 +129,8 @@ function ValidateView(props: ValidateViewProps) {
                                                                 className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                                 onClick={() => {
                                                                     setOpen(true);
-                                                                }}>
+                                                                }}
+                                                            >
                                                                 <XIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"

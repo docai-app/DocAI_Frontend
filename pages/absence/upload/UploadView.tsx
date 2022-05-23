@@ -35,7 +35,8 @@ function UploadView(props: UploadViewProps) {
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    strokeWidth={2}>
+                                    strokeWidth={2}
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -45,7 +46,8 @@ function UploadView(props: UploadViewProps) {
                                 <div className="flex justify-center items-center">
                                     <label
                                         htmlFor="file-upload"
-                                        className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                        className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                    >
                                         <p className="px-4">選擇請假表</p>
                                         <input
                                             id="file-upload"
@@ -66,7 +68,8 @@ function UploadView(props: UploadViewProps) {
                                     className="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={() => {
                                         formik.handleSubmit();
-                                    }}>
+                                    }}
+                                >
                                     上傳請假表
                                 </button>
                             </div>

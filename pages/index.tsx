@@ -112,12 +112,14 @@ const Home: NextPage = () => {
                             <div className="max-w-4xl mx-auto">
                                 {statistics.length > 0 ? (
                                     <dl
-                                        className={`rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3`}>
+                                        className={`rounded-lg bg-white shadow-lg sm:grid sm:grid-cols-3`}
+                                    >
                                         {statistics.map((statistic: StatisticProps, index) => {
                                             return (
                                                 <div
                                                     key={index}
-                                                    className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r">
+                                                    className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r"
+                                                >
                                                     <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
                                                         {statistic.name ? statistic.name : '未分類'}
                                                     </dt>
@@ -157,14 +159,16 @@ const Home: NextPage = () => {
                                         ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
                                         : '',
                                     'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
-                                )}>
+                                )}
+                            >
                                 <div>
                                     <span
                                         className={classNames(
                                             action.iconBackground,
                                             action.iconForeground,
                                             'rounded-lg inline-flex p-3 ring-4 ring-white'
-                                        )}>
+                                        )}
+                                    >
                                         <action.icon className="h-6 w-6" aria-hidden="true" />
                                     </span>
                                 </div>
@@ -184,12 +188,14 @@ const Home: NextPage = () => {
                                 </div>
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
-                                    aria-hidden="true">
+                                    aria-hidden="true"
+                                >
                                     <svg
                                         className="h-6 w-6"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="currentColor"
-                                        viewBox="0 0 24 24">
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
                                     </svg>
                                 </span>

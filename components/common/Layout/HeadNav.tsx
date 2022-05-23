@@ -51,9 +51,8 @@ function HeadNav() {
                                                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
-                                                    aria-current={
-                                                        item.current ? 'page' : undefined
-                                                    }>
+                                                    aria-current={item.current ? 'page' : undefined}
+                                                >
                                                     {item.name}
                                                 </a>
                                             ))}
@@ -64,7 +63,8 @@ function HeadNav() {
                                     <div className="ml-4 flex items-center md:ml-6">
                                         <button
                                             type="button"
-                                            className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                            className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                        >
                                             <span className="sr-only">View notifications</span>
                                             <BellIcon className="h-6 w-6" aria-hidden="true" />
                                         </button>
@@ -88,7 +88,8 @@ function HeadNav() {
                                                 enterTo="transform opacity-100 scale-100"
                                                 leave="transition ease-in duration-75"
                                                 leaveFrom="transform opacity-100 scale-100"
-                                                leaveTo="transform opacity-0 scale-95">
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     {userNavigation.map((item) => (
                                                         <Menu.Item key={item.name}>
@@ -98,7 +99,8 @@ function HeadNav() {
                                                                     className={classNames(
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm text-gray-700'
-                                                                    )}>
+                                                                    )}
+                                                                >
                                                                     {item.name}
                                                                 </a>
                                                             )}
@@ -139,7 +141,8 @@ function HeadNav() {
                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                             'block px-3 py-2 rounded-md text-base font-medium'
                                         )}
-                                        aria-current={item.current ? 'page' : undefined}>
+                                        aria-current={item.current ? 'page' : undefined}
+                                    >
                                         {item.name}
                                     </Disclosure.Button>
                                 ))}
@@ -163,7 +166,8 @@ function HeadNav() {
                                     </div>
                                     <button
                                         type="button"
-                                        className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                        className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                    >
                                         <span className="sr-only">View notifications</span>
                                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
@@ -174,7 +178,8 @@ function HeadNav() {
                                             key={item.name}
                                             as="a"
                                             href={item.href}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                                        >
                                             {item.name}
                                         </Disclosure.Button>
                                     ))}
