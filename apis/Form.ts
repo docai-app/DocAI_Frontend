@@ -34,4 +34,13 @@ export default class Form {
         };
         return requestHeader;
     }
+
+    updateFormData(id: string) {
+        const requestHeader: postRequestHeaderProps = {
+            baseURL: baseURL,
+            url: `/form/${id}`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

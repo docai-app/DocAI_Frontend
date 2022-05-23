@@ -1,8 +1,4 @@
 import _get from 'lodash/get';
-import MultipleChoice from '../../../components/feature/absence/validate/MultipleChoice';
-import TextInput from '../../../components/feature/absence/validate/TextInput';
-import DateInput from '../../../components/feature/absence/validate/DateInput';
-import NumberInput from '../../../components/feature/absence/validate/NumberInput';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,10 +11,18 @@ interface ValidateViewProps {
     setResult: Function;
     formSchema: any;
     uiSchema: any;
+    absenceFormFormik: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl = '', result = {}, setResult, formSchema = {}, uiSchema = {} } = props;
+    const {
+        formUrl = '',
+        result = {},
+        setResult,
+        formSchema = {},
+        uiSchema = {},
+        absenceFormFormik
+    } = props;
 
     return (
         <>
@@ -66,7 +70,10 @@ function ValidateView(props: ValidateViewProps) {
                                         uiSchema={uiSchema}
                                         formData={result}
                                         onSubmit={(data) => {
-                                            console.log(data);
+                                            setResult(data.formData);
+                                            console.log(data.formData);
+                                            absenceFormFormik.setFieldValue('form', data.formData);
+                                            absenceFormFormik.handleSubmit();
                                         }}
                                     />
                                 </div>
