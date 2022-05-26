@@ -32,7 +32,7 @@ function SearchContainer() {
         },
         onSubmit: async (values) => {
             let res = await searchFormByLabelAndDate({
-                url: `/search/form/${label}/${values.date}`
+                url: `/search/form/${encodeURI(label)}/${values.date}`
             });
             console.log(res);
             if (res.data) {

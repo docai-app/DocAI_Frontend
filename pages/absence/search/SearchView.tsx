@@ -36,12 +36,13 @@ export default function SearchView(props: SearchViewProps) {
                                 name="content"
                                 id="content"
                                 className="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                defaultValue={searchAbsenceFormik.values.date}
+                                defaultValue={_get(searchAbsenceFormik, 'values.date')}
                                 onChange={searchAbsenceFormik.handleChange('date')}
                             />
                         </div>
                         <button
                             type="submit"
+
                             className="mt-3 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => {
                                 searchAbsenceFormik.handleSubmit();
@@ -53,7 +54,7 @@ export default function SearchView(props: SearchViewProps) {
                 </div>
             </div>
             <div className="px-16 mt-8">
-                {absenceForms.form_data.length > 0 ? (
+                {_get(absenceForms, 'form_data.length') > 0 ? (
                     <AbsenceFormTable {...{ absenceForms }} />
                 ) : (
                     <div className="bg-white min-h-full px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
@@ -71,8 +72,7 @@ export default function SearchView(props: SearchViewProps) {
                                             暫未找到資料
                                         </h1>
                                         <p className="mt-1 text-base text-gray-500">
-                                            尚未找到{searchAbsenceFormik.values.date}
-                                            的請假表或嘗試更改搜尋日期
+                                            尚未找到所選日期的請假表，請重新輸入日期。
                                         </p>
                                     </div>
                                 </div>

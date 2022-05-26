@@ -112,6 +112,7 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                                     href={absenceForm.storage}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     target="_blank"
+                                                    rel="noreferrer"
                                                 >
                                                     下載
                                                 </a>

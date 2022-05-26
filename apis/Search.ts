@@ -35,9 +35,10 @@ export default class Search {
     searchFormByLabelAndDate(label: string, date: string) {
         const requestHeader: getRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/search/form/${label}/${date}`,
+            url: `/search/form/${encodeURI(label)}/${date}`,
             method: 'GET'
         };
         return requestHeader;
+        
     }
 }
