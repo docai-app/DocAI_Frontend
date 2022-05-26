@@ -6,7 +6,9 @@ import withLayout from '../components/hocs/withLayout';
 import {
     FolderIcon,
     DocumentSearchIcon,
+    SearchCircleIcon,
     UploadIcon,
+    CloudUploadIcon,
     ClipboardCheckIcon
 } from '@heroicons/react/outline';
 import Api from '../apis/index';
@@ -25,7 +27,7 @@ const actions = [
     {
         title: '新增文件',
         href: '/classification/upload',
-        icon: UploadIcon,
+        icon: CloudUploadIcon,
         iconForeground: 'text-sky-700',
         iconBackground: 'bg-sky-50'
     },
@@ -49,6 +51,13 @@ const actions = [
         icon: UploadIcon,
         iconForeground: 'text-sky-700',
         iconBackground: 'bg-sky-50'
+    },
+    {
+        title: '請假表搜尋',
+        href: '/absence/search',
+        icon: SearchCircleIcon,
+        iconForeground: 'text-orange-700',
+        iconBackground: 'bg-orange-50'
     }
 ];
 
@@ -72,9 +81,12 @@ const Home: NextPage = () => {
             response: countEachLabelDocumentByDateResponse
         },
         countEachLabelDocumentByDate
-    ] = useAxios(apiSetting.Search.countEachLabelDocumentByDate('2022-03-15'), {
-        manual: true
-    });
+    ] = useAxios(
+        apiSetting.Search.countEachLabelDocumentByDate(new Date().toISOString().split('T')[0]),
+        {
+            manual: true
+        }
+    );
     useEffect(() => {
         countEachLabelDocumentByDate({
             url: `/count/document/${new Date().toISOString().split('T')[0]}`
