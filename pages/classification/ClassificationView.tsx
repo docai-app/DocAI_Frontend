@@ -4,11 +4,11 @@ import { FolderIcon, PlusIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 
 interface ClassificationViewProps {
-    allLabelsData: object;
+    getDocumentsLabelData: object;
 }
 
 function ClassificationView(props: ClassificationViewProps) {
-    const { allLabelsData } = props;
+    const { getDocumentsLabelData } = props;
     const router = useRouter();
     return (
         <>
@@ -40,10 +40,16 @@ function ClassificationView(props: ClassificationViewProps) {
                                     role="list"
                                     className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                                 >
-                                    {_map(_get(allLabelsData, 'prediction'), (label) => {
+                                    {_map(_get(getDocumentsLabelData, 'labels'), (label) => {
                                         return (
-                                            <li
-                                                key={label[0]}
+                                            <a
+                                                href={
+                                                    '/classification/' +
+                                                    label.id +
+                                                    '?name=' +
+                                                    label.name
+                                                }
+                                                key={label.id}
                                                 className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
                                             >
                                                 <div className="flex-1 flex flex-col p-8">
@@ -52,18 +58,18 @@ function ClassificationView(props: ClassificationViewProps) {
                                                         aria-hidden="true"
                                                     />
                                                     <h3 className="mt-6 text-xl text-gray-900 font-medium">
-                                                        {label.name}
+                                                        {label.name ? label.name : '未分類'}
                                                     </h3>
                                                     <dl className="mt-1 flex-grow flex flex-col justify-between">
                                                         <dt className="sr-only">Role</dt>
                                                         <dd className="mt-3">
                                                             <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
-                                                                {label.name}
+                                                                {label.name ? label.name : '未分類'}
                                                             </span>
                                                         </dd>
                                                     </dl>
                                                 </div>
-                                            </li>
+                                            </a>
                                         );
                                     })}
                                 </ul>

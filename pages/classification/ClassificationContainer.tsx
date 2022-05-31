@@ -7,18 +7,18 @@ const apiSetting = new Api();
 function ClassificationContainer() {
     const [
         {
-            data: allLabelsData,
-            loading: allLabelsLoading,
-            error: allLabelsError,
-            response: allLabelsResponse
+            data: getDocumentsLabelData,
+            loading: getDocumentsLabelLoading,
+            error: getDocumentsLabelError,
+            response: getDocumentsLabelResponse
         },
-        getAllLabels
-    ] = useAxios(apiSetting.Label.getAllLabels(), {
+        getDocumentsLabel
+    ] = useAxios(apiSetting.Classification.getDocumentsLabel(), {
         manual: false
     });
     return (
         <>
-            <ClassificationView {...{ allLabelsData }} />
+            <ClassificationView {...{ getDocumentsLabelData }} />
         </>
     );
 }
