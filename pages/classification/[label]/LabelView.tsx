@@ -79,8 +79,15 @@ export default function LabelView(props: LabelViewProps) {
                                 <div>
                                     <h3 className="text-sm text-gray-700">
                                         <a href={document.storage}>
-                                            <span aria-hidden="true" className="absolute inset-0" />
-                                            {document.name}
+                                            <p>文件名稱：{document.name}</p>
+                                            <p>
+                                                上傳日期：
+                                                {
+                                                    new Date(document.created_at)
+                                                        .toISOString()
+                                                        .split('T')[0]
+                                                }
+                                            </p>
                                         </a>
                                     </h3>
                                 </div>

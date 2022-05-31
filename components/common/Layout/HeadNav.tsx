@@ -59,7 +59,7 @@ function HeadNav() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="hidden md:block">
+                                {/* <div className="hidden md:block">
                                     <div className="ml-4 flex items-center md:ml-6">
                                         <button
                                             type="button"
@@ -69,7 +69,6 @@ function HeadNav() {
                                             <BellIcon className="h-6 w-6" aria-hidden="true" />
                                         </button>
 
-                                        {/* Profile dropdown */}
                                         <Menu as="div" className="ml-3 relative">
                                             <div>
                                                 <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -110,7 +109,7 @@ function HeadNav() {
                                             </Transition>
                                         </Menu>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="-mr-2 flex md:hidden">
                                     {/* Mobile menu button */}
                                     <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
