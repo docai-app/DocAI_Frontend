@@ -35,25 +35,22 @@ export default function UploadFile(props: UploadFileProps) {
                         <div className="absolute top-4 left-4 flex flex-row flex-wrap gap-4">
                             {
                                 fileInput.current?.files != null && Array.from(fileInput.current.files).map((doc) => {
-                                    if (doc.type.includes("image/")) {
-                                        return (
-                                            <div key={`file_${doc.name}`} className="w-40 h-60 p-2 rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm flex flex-col justify-between">
-                                                <div className="h-40 flex items-center"><img src={URL.createObjectURL(doc)} className="rounded-lg shadow-sm object-cover h-full w-full" /></div>
-                                                <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">{doc.name}</div>
-                                                <div className="text-sm">Size: {readableSize(doc.size)}</div>
-                                            </div>
-                                        )
-                                    } else if (doc.type === "application/pdf") {
-                                        return (
-                                            <div key={`file_${doc.name}`} className="w-40 h-60 p-2 rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm flex flex-col justify-between">
-                                                <object className="h-40 flex items-center" type="application/pdf" data={URL.createObjectURL(doc)}>
-                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png" className="rounded-lg shadow-sm object-contain h-full w-full" />
-                                                </object>
-                                                <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">{doc.name}</div>
-                                                <div className="text-sm">Size: {readableSize(doc.size)}</div>
-                                            </div>
-                                        )
-                                    }
+                                    return (
+                                        <div key={`file_${doc.name}`} className="w-48 h-60 p-2 rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm flex flex-col justify-between">
+                                            {
+                                                doc.type.includes("image/") ? 
+                                                    <div className="h-40 flex items-center">
+                                                        <img src={URL.createObjectURL(doc)} className="rounded-lg shadow-sm object-cover h-full w-full" />
+                                                    </div>
+                                                : 
+                                                    <object className="h-40 flex justify-center items-center" type="application/pdf" data={URL.createObjectURL(doc)}>
+                                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png" className="rounded-lg shadow-sm object-contain object-center h-20" />
+                                                    </object>
+                                            }
+                                            <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">{doc.name}</div>
+                                            <div className="text-sm">大小：{readableSize(doc.size)}</div>
+                                        </div>
+                                    )
                                 })
                             }
                         </div>
