@@ -1,6 +1,6 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
-import { ChangeEvent, ReactElement, useRef, useState } from 'react';
+import { ChangeEvent, useRef } from 'react';
 
 interface UploadFileProps {
     title: string;
@@ -8,10 +8,11 @@ interface UploadFileProps {
     selectName: string;
     formik: any;
     setDocuments: any;
-};
+    multiple?: boolean;
+}
 
 export default function UploadFile(props: UploadFileProps) {
-    const { title, btnName, selectName, formik, setDocuments } = props;
+    const { title, btnName, selectName, multiple = false, formik, setDocuments } = props;
     const fileInput = useRef<HTMLInputElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -21,10 +22,10 @@ export default function UploadFile(props: UploadFileProps) {
     };
 
     const readableSize = (size: number) => {
-        if (size > 1000000) return `${Math.round(size / 1000000)}MB`
-        if (size > 1000) return `${Math.round(size / 1000)}kB`
-        return `${size}B`
-    }
+        if (size > 1000000) return `${Math.round(size / 1000000)}MB`;
+        if (size > 1000) return `${Math.round(size / 1000)}kB`;
+        return `${size}B`;
+    };
 
     return (
         <main>
@@ -33,26 +34,41 @@ export default function UploadFile(props: UploadFileProps) {
                     <p className="text-lg mb-2">{title}</p>
                     <div className="h-70vh flex flex-col justify-center items-center text-gray-500 bg-white border-4 border-dashed border-gray-200 rounded-lg relative">
                         <div className="absolute top-4 left-4 flex flex-row flex-wrap gap-4">
-                            {
-                                fileInput.current?.files != null && Array.from(fileInput.current.files).map((doc) => {
+                            {fileInput.current?.files != null &&
+                                Array.from(fileInput.current.files).map((doc) => {
                                     return (
-                                        <div key={`file_${doc.name}`} className="w-48 h-60 p-2 rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm flex flex-col justify-between">
-                                            {
-                                                doc.type.includes("image/") ? 
-                                                    <div className="h-40 flex items-center">
-                                                        <img src={URL.createObjectURL(doc)} className="rounded-lg shadow-sm object-cover h-full w-full" />
-                                                    </div>
-                                                : 
-                                                    <object className="h-40 flex justify-center items-center" type="application/pdf" data={URL.createObjectURL(doc)}>
-                                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png" className="rounded-lg shadow-sm object-contain object-center h-20" />
-                                                    </object>
-                                            }
-                                            <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">{doc.name}</div>
-                                            <div className="text-sm">大小：{readableSize(doc.size)}</div>
+                                        <div
+                                            key={`file_${doc.name}`}
+                                            className="w-48 h-60 p-2 rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm flex flex-col justify-between"
+                                        >
+                                            {doc.type.includes('image/') ? (
+                                                <div className="h-40 flex items-center">
+                                                    <img
+                                                        src={URL.createObjectURL(doc)}
+                                                        className="rounded-lg shadow-sm object-cover h-full w-full"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <object
+                                                    className="h-40 flex justify-center items-center"
+                                                    type="application/pdf"
+                                                    data={URL.createObjectURL(doc)}
+                                                >
+                                                    <img
+                                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png"
+                                                        className="rounded-lg shadow-sm object-contain object-center h-20"
+                                                    />
+                                                </object>
+                                            )}
+                                            <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">
+                                                {doc.name}
+                                            </div>
+                                            <div className="text-sm">
+                                                大小：{readableSize(doc.size)}
+                                            </div>
                                         </div>
-                                    )
-                                })
-                            }
+                                    );
+                                })}
                         </div>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +95,7 @@ export default function UploadFile(props: UploadFileProps) {
                                     name="file-upload"
                                     type="file"
                                     className="sr-only"
-                                    multiple
+                                    multiple={multiple}
                                     accept="image/*,.pdf"
                                     onChange={(e) => {
                                         handleChange(e);
@@ -104,5 +120,5 @@ export default function UploadFile(props: UploadFileProps) {
                 </div>
             </div>
         </main>
-    )
-};
+    );
+}
