@@ -33,7 +33,7 @@ export default function UploadFile(props: UploadFileProps) {
                 <div className="px-4 py-6 sm:px-0">
                     <p className="text-lg mb-2">{title}</p>
                     <div className="p-8 flex flex-col justify-center items-center text-gray-500 bg-white border-4 border-dashed border-gray-200 rounded-lg relative">
-                        <div className="flex flex-row flex-wrap items-center mb-8">
+                        <div className="flex flex-row flex-wrap items-center mb-8 w-full">
                             {fileInput.current?.files != null &&
                                 Array.from(fileInput.current.files).map((doc) => {
                                     return (
