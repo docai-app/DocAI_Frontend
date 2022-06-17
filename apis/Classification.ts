@@ -14,17 +14,6 @@ interface requestHeaderProps {
     method: string;
 }
 
-interface postRequestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: string;
-}
-
-interface ConfirmDocumentProps {
-    id: string;
-    label_id: number;
-}
-
 export default class Classification {
     getAndPredictLastestUploadedDocument() {
         const requestHeader: requestHeaderProps = {
@@ -36,10 +25,28 @@ export default class Classification {
     }
 
     confirmDocument() {
-        const requestHeader: postRequestHeaderProps = {
+        const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
             url: '/classification/confirm',
             method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    getDocumentsLabel() {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: '/documents/labels',
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    getDocumentByLabelID(id: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/documents/labels/${id}`,
+            method: 'GET'
         };
         return requestHeader;
     }

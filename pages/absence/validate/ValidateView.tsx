@@ -1,29 +1,28 @@
-import Image from 'next/image';
 import _get from 'lodash/get';
-import MultipleChoice from '../../../components/feature/absence/validate/MultipleChoice';
-import TextInput from '../../../components/feature/absence/validate/TextInput';
-import DateInput from '../../../components/feature/absence/validate/DateInput';
-import NumberInput from '../../../components/feature/absence/validate/NumberInput';
+import { withTheme } from '@rjsf/core';
+import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const Form = withTheme(Bootstrap4Theme);
 
 interface ValidateViewProps {
     formUrl: string;
-    result: ResultItem[];
+    result: any;
     setResult: Function;
-}
-
-interface ResultItem {
-    type: string;
-    data: any;
+    formSchema: any;
+    uiSchema: any;
+    absenceFormFormik: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl = '', result = [], setResult } = props;
-
-    const updateResult = (id: number, update: object) => {
-        let newResult = [...result];
-        newResult[id].data = update;
-        setResult(newResult);
-    }
+    const {
+        formUrl = '',
+        result = {},
+        setResult,
+        formSchema = {},
+        uiSchema = {},
+        absenceFormFormik
+    } = props;
 
     return (
         <>
@@ -45,7 +44,8 @@ function ValidateView(props: ValidateViewProps) {
                                                 className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                 type="application/pdf"
                                                 data={formUrl + '#toolbar=0'}
-                                                width="250">
+                                                width="250"
+                                            >
                                                 <img
                                                     src={
                                                         'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
@@ -64,51 +64,18 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                                 <div className="right-side flex-1 justify-center flex overflow-auto h-5/6 py-2">
-                                    <form className="flex flex-col w-5/6">
-                                        <div className="flex flex-col gap-2 py-3 border-b">
-                                            {
-                                                Array.from(result.entries()).map(([id, item]) => {
-                                                    if (item.type === 'MultipleChoice') {
-                                                        return (
-                                                            <MultipleChoice {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'TextInput') {
-                                                        return (
-                                                            <TextInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'DateInput') {
-                                                        return (
-                                                            <DateInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                    if (item.type === 'NumberInput') {
-                                                        return (
-                                                            <NumberInput {...item} updateResult={updateResult} componentId={id} key={id} />
-                                                        )
-                                                    }
-                                                })
-                                            }
-                                        </div>
-                                        <div onClick={() => console.log(result)}>log result</div>
-                                        <div className="grid grid-cols-12 gap-4 max-w-full pt-3">
-                                            <div className="col-span-full">
-                                                <h3 className="font-bold">
-                                                    說明（如有需要）
-                                                </h3>
-                                                <textarea className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                    {/* {Object.keys(result).map(function (key) {
-                                        return (
-                                            <p key={key} className="mb-4">
-                                                <span className="font-bold">{key}: </span>
-                                                {result[key]}
-                                            </p>
-                                        );
-                                    })} */}
+                                    <Form
+                                        className="w-5/6"
+                                        schema={formSchema}
+                                        uiSchema={uiSchema}
+                                        formData={result}
+                                        onSubmit={(data) => {
+                                            setResult(data.formData);
+                                            console.log(data.formData);
+                                            absenceFormFormik.setFieldValue('form', data.formData);
+                                            absenceFormFormik.handleSubmit();
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -5,7 +5,7 @@ import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 
 interface LastestPredictionDataProps {
-    document: Array<any>;
+    document: any;
     prediction: Array<any>;
 }
 
@@ -17,18 +17,9 @@ interface ValidateViewProps {
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const {
-        lastestPredictionData,
-        confirmDocumentFormik,
-        addNewLabelFormik,
-        allLabelsData
-    } = props;
+    const { lastestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } =
+        props;
     const [open, setOpen] = useState(false);
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-    // const onDocumentLoadSuccess = ({ numPages }) => {
-    //     setNumPages(numPages);
-    // };
     return (
         <>
             <AmendLabel
@@ -47,8 +38,8 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {_get(lastestPredictionData, 'document[3]') ? (
-                                            lastestPredictionData.document[3]
+                                        {_get(lastestPredictionData, 'document.storage') ? (
+                                            lastestPredictionData.document.storage
                                                 .split(/[#?]/)[0]
                                                 .split('.')
                                                 .pop()
@@ -57,10 +48,11 @@ function ValidateView(props: ValidateViewProps) {
                                                     className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                     type="application/pdf"
                                                     data={
-                                                        lastestPredictionData.document[3] +
+                                                        lastestPredictionData.document.storage +
                                                         '#toolbar=0'
                                                     }
-                                                    width="250">
+                                                    width="250"
+                                                >
                                                     <img
                                                         src={
                                                             'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
@@ -72,8 +64,8 @@ function ValidateView(props: ValidateViewProps) {
                                             ) : (
                                                 <img
                                                     className="object-cover shadow-lg rounded-lg"
-                                                    alt={lastestPredictionData.document[3]}
-                                                    src={lastestPredictionData.document[3]}
+                                                    alt={lastestPredictionData.document.storage}
+                                                    src={lastestPredictionData.document.storage}
                                                 />
                                             )
                                         ) : null}
@@ -95,11 +87,13 @@ function ValidateView(props: ValidateViewProps) {
                                                     <form
                                                         action="#"
                                                         method="POST"
-                                                        className="space-y-6">
+                                                        className="space-y-6"
+                                                    >
                                                         <div>
                                                             <label
                                                                 htmlFor="type"
-                                                                className="block text-sm font-medium text-gray-700">
+                                                                className="block text-sm font-medium text-gray-700"
+                                                            >
                                                                 AI預測的結果
                                                             </label>
                                                             <div className="mt-1">
@@ -110,7 +104,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                     readOnly
                                                                     placeholder={_get(
                                                                         lastestPredictionData,
-                                                                        'prediction[1]'
+                                                                        'prediction.name'
                                                                     )}
                                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                                 />
@@ -122,7 +116,8 @@ function ValidateView(props: ValidateViewProps) {
                                                                 className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                                 onClick={() => {
                                                                     confirmDocumentFormik.handleSubmit();
-                                                                }}>
+                                                                }}
+                                                            >
                                                                 <CheckIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"
@@ -134,7 +129,8 @@ function ValidateView(props: ValidateViewProps) {
                                                                 className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                                 onClick={() => {
                                                                     setOpen(true);
-                                                                }}>
+                                                                }}
+                                                            >
                                                                 <XIcon
                                                                     className="-ml-0.5 mr-2 h-4 w-4"
                                                                     aria-hidden="true"

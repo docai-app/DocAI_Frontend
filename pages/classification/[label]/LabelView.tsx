@@ -1,25 +1,25 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 
-interface SearchViewProps {
-    searchDocumentFormik: any;
+interface LabelViewProps {
     documents: Array<any>;
+    label: string;
 }
 
-export default function SearchView(props: SearchViewProps) {
-    const { searchDocumentFormik = { handleChange: () => {} }, documents = [] } = props;
+export default function LabelView(props: LabelViewProps) {
+    const { documents = [], label = '' } = props;
     return (
         <>
             <div className="bg-indigo-700">
                 <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
                         <span className="block">DocAI</span>
-                        <span className="block">搜尋你的文檔</span>
+                        <span className="block">查找屬於"{label}"的文件</span>
                     </h2>
                     <p className="mt-4 text-lg leading-6 text-indigo-200">
                         輸入文件的關鍵字或文件的相關內容，我們就會幫你找到你想要的文件。
                     </p>
-                    <section className="mt-4 w-full sm:flex sm:items-center justify-center items-center">
+                    {/* <section className="mt-4 w-full sm:flex sm:items-center justify-center items-center">
                         <div className="w-full sm:max-w-xs">
                             <label htmlFor="content" className="sr-only">
                                 內容
@@ -42,7 +42,7 @@ export default function SearchView(props: SearchViewProps) {
                         >
                             搜尋 🔍
                         </button>
-                    </section>
+                    </section> */}
                 </div>
             </div>
             <div className="px-16">
@@ -79,8 +79,15 @@ export default function SearchView(props: SearchViewProps) {
                                 <div>
                                     <h3 className="text-sm text-gray-700">
                                         <a href={document.storage}>
-                                            <span aria-hidden="true" className="absolute inset-0" />
-                                            {document.name}
+                                            <p>文件名稱：{document.name}</p>
+                                            <p>
+                                                上傳日期：
+                                                {
+                                                    new Date(document.created_at)
+                                                        .toISOString()
+                                                        .split('T')[0]
+                                                }
+                                            </p>
                                         </a>
                                     </h3>
                                 </div>

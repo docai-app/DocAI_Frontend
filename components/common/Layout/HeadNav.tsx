@@ -51,25 +51,24 @@ function HeadNav() {
                                                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                         'px-3 py-2 rounded-md text-sm font-medium'
                                                     )}
-                                                    aria-current={
-                                                        item.current ? 'page' : undefined
-                                                    }>
+                                                    aria-current={item.current ? 'page' : undefined}
+                                                >
                                                     {item.name}
                                                 </a>
                                             ))}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="hidden md:block">
+                                {/* <div className="hidden md:block">
                                     <div className="ml-4 flex items-center md:ml-6">
                                         <button
                                             type="button"
-                                            className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                            className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                        >
                                             <span className="sr-only">View notifications</span>
                                             <BellIcon className="h-6 w-6" aria-hidden="true" />
                                         </button>
 
-                                        {/* Profile dropdown */}
                                         <Menu as="div" className="ml-3 relative">
                                             <div>
                                                 <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -88,7 +87,8 @@ function HeadNav() {
                                                 enterTo="transform opacity-100 scale-100"
                                                 leave="transition ease-in duration-75"
                                                 leaveFrom="transform opacity-100 scale-100"
-                                                leaveTo="transform opacity-0 scale-95">
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     {userNavigation.map((item) => (
                                                         <Menu.Item key={item.name}>
@@ -98,7 +98,8 @@ function HeadNav() {
                                                                     className={classNames(
                                                                         active ? 'bg-gray-100' : '',
                                                                         'block px-4 py-2 text-sm text-gray-700'
-                                                                    )}>
+                                                                    )}
+                                                                >
                                                                     {item.name}
                                                                 </a>
                                                             )}
@@ -108,7 +109,7 @@ function HeadNav() {
                                             </Transition>
                                         </Menu>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="-mr-2 flex md:hidden">
                                     {/* Mobile menu button */}
                                     <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
@@ -139,7 +140,8 @@ function HeadNav() {
                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                             'block px-3 py-2 rounded-md text-base font-medium'
                                         )}
-                                        aria-current={item.current ? 'page' : undefined}>
+                                        aria-current={item.current ? 'page' : undefined}
+                                    >
                                         {item.name}
                                     </Disclosure.Button>
                                 ))}
@@ -163,7 +165,8 @@ function HeadNav() {
                                     </div>
                                     <button
                                         type="button"
-                                        className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                                        className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                    >
                                         <span className="sr-only">View notifications</span>
                                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                                     </button>
@@ -174,7 +177,8 @@ function HeadNav() {
                                             key={item.name}
                                             as="a"
                                             href={item.href}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                                        >
                                             {item.name}
                                         </Disclosure.Button>
                                     ))}
