@@ -20,7 +20,12 @@ function UploadView(props: UploadViewProps) {
                         <h1 className="text-3xl font-bold text-gray-900">請假表識別</h1>
                     </div>
                 </header>
-                <UploadFile title="上傳請假表" btnName="上傳請假表" selectName="選擇請假表" {...{ formik, setDocuments }} />
+                <UploadFile
+                    title="上傳請假表"
+                    btnName="上傳請假表"
+                    selectName="選擇請假表"
+                    {...{ formik, setDocuments }}
+                />
             </div>
         </>
     );

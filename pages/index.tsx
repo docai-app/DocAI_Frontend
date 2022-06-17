@@ -7,6 +7,7 @@ import {
     FolderIcon,
     DocumentSearchIcon,
     SearchCircleIcon,
+    ShieldCheckIcon,
     UploadIcon,
     CloudUploadIcon,
     ClipboardCheckIcon
@@ -30,6 +31,13 @@ const absenceFormAction = [
         icon: SearchCircleIcon,
         iconForeground: 'text-orange-700',
         iconBackground: 'bg-orange-50'
+    },
+    {
+        title: '請假表審批',
+        href: '/absence/approval',
+        icon: ShieldCheckIcon,
+        iconForeground: 'text-blue-700',
+        iconBackground: 'bg-blue-50'
     }
 ];
 

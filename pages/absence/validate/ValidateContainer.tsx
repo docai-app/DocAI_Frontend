@@ -126,8 +126,8 @@ function ValidateContainer() {
         }
     });
     const [uiSchema, setUiSchema] = useState({
-        "ui:submitButtonOptions": {
-            "submitText": "提交"
+        'ui:submitButtonOptions': {
+            submitText: '提交'
         }
     });
     const absenceFormFormik = useFormik({
