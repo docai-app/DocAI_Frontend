@@ -75,7 +75,12 @@ function ValidateView(props: ValidateViewProps) {
                                             absenceFormFormik.setFieldValue('form', data.formData);
                                             absenceFormFormik.handleSubmit();
                                         }}
-                                    />
+                                    >
+                                        <div className="flex gap-2">
+                                            <button className="btn btn-success" name="action" type="submit" value="accept">批准</button>
+                                            <button className="btn btn-danger" name="action" type="submit" value="decline">拒絕</button>
+                                        </div>
+                                    </Form>
                                 </div>
                             </div>
                         </div>
