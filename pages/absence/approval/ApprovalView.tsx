@@ -63,7 +63,9 @@ function ApprovalView (props: ApprovalViewProps) {
                                                 <Link href={item.storage}>
                                                     {
                                                         currentTab === 0 ?
-                                                        <a className="text-indigo-600 hover:text-indigo-900 font-bold">審批</a>
+                                                        <Link href={`approval/${item.id.toString()}`}>
+                                                            <a className="text-indigo-600 hover:text-indigo-900 font-bold">審批</a>
+                                                        </Link>
                                                         : (
                                                             currentTab === 1 ?
                                                             <div className="text-green-600 font-bold">已審批</div>
