@@ -97,8 +97,8 @@ const Home: NextPage = () => {
     }, []);
     useEffect(() => {
         if (countEachLabelDocumentByDateData) {
-            if (countEachLabelDocumentByDateData.documents.length > 4) {
-                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 4));
+            if (countEachLabelDocumentByDateData.documents.length > 3) {
+                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 3));
             } else {
                 setStatistics(countEachLabelDocumentByDateData.documents);
             }
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">DocAI</h2>
                         <p className="mt-3 text-xl text-gray-500 sm:mt-4">
-                            本日新增的文件數量（排名前3的分類）
+                            本日新增的文件數量
                         </p>
                     </div>
                 </div>
