@@ -171,7 +171,7 @@ function AbsenceApprovalContainer() {
 
     return (
         <>
-            <AbsenceApprovalView 
+            <AbsenceApprovalView
                 {...{
                     formUrl,
                     result,

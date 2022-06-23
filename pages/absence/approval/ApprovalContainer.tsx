@@ -1,5 +1,5 @@
-import ApprovalView from "./ApprovalView";
-import { useState } from "react"
+import ApprovalView from './ApprovalView';
+import { useState } from 'react';
 
 interface ApprovalViewProps {
     data: {
@@ -14,7 +14,6 @@ interface ApprovalViewProps {
 }
 
 function ApprovalContainer() {
-
     const [props, setProps] = useState<ApprovalViewProps>({
         data: [
             {
@@ -24,7 +23,7 @@ function ApprovalContainer() {
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
                 storage: '',
-                status: 0,
+                status: 0
             },
             {
                 id: 2,
@@ -33,7 +32,7 @@ function ApprovalContainer() {
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
                 storage: '',
-                status: 1,
+                status: 1
             },
             {
                 id: 3,
@@ -42,12 +41,12 @@ function ApprovalContainer() {
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
                 storage: '',
-                status: 2,
-            },
+                status: 2
+            }
         ]
-    })
+    });
 
-    return <ApprovalView {...props} />
+    return <ApprovalView {...props} />;
 }
 
 export default ApprovalContainer;
