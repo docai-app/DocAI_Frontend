@@ -105,8 +105,8 @@ const Home: NextPage = () => {
     }, []);
     useEffect(() => {
         if (countEachLabelDocumentByDateData) {
-            if (countEachLabelDocumentByDateData.documents.length > 4) {
-                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 4));
+            if (countEachLabelDocumentByDateData.documents.length > 3) {
+                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 3));
             } else {
                 setStatistics(countEachLabelDocumentByDateData.documents);
             }

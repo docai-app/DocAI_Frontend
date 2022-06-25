@@ -50,12 +50,12 @@ export default function SearchView(props: SearchViewProps) {
                     {documents.map((document) => (
                         <div key={document.id} className="group relative">
                             <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                                {document.storage.split(/[#?]/)[0].split('.').pop().trim() ===
+                                {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() ===
                                 'pdf' ? (
                                     <object
                                         className="w-full h-full object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                         type="application/pdf"
-                                        data={document.storage + '#toolbar=0'}
+                                        data={document.storage_url + '#toolbar=0'}
                                         width="250"
                                         height="200"
                                     >
@@ -69,7 +69,7 @@ export default function SearchView(props: SearchViewProps) {
                                     </object>
                                 ) : (
                                     <img
-                                        src={document.storage}
+                                        src={document.storage_url}
                                         alt={document.name}
                                         className="w-full h-full object-contain object-center lg:w-full lg:h-full"
                                     />
@@ -78,7 +78,7 @@ export default function SearchView(props: SearchViewProps) {
                             <div className="mt-4 flex justify-between overflow-hidden">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
-                                        <a href={document.storage}>
+                                        <a href={document.storage_url}>
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {document.name}
                                         </a>
