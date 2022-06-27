@@ -37,7 +37,10 @@ function SearchContainer() {
             console.log(res);
             if (res.data) {
                 alert('Absence Form Found!');
-                setAbsenceForms(res.data.forms);
+                setAbsenceForms({
+                    form_data: res.data.form_data,
+                    form_schema: res.data.form_schema
+                });
             }
         }
     });

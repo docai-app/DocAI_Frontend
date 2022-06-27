@@ -90,7 +90,7 @@ function ValidateContainer() {
             console.log(res);
             console.log(confirmDocumentLoading);
             await getAllLabels();
-            if (res.data.status == 'Added') {
+            if (res.data.status) {
                 alert('新類型已新增！');
                 await getAndPredictLastestUploadedDocument();
             }
@@ -101,7 +101,8 @@ function ValidateContainer() {
         const fetch = async () => {
             let res = await getAndPredictLastestUploadedDocument();
             console.log(res.data);
-            if (res.data.status === 'null') {
+            if (res.data.document === null) {
+                alert('沒有文件需要驗證');
                 router.push('/classification');
             }
         };

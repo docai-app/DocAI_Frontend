@@ -89,7 +89,10 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                     {absenceForms.form_data.map((absenceForm: any) => (
                                         <tr key={absenceForm.id}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {JSON.parse(absenceForm.data).employee_name}
+                                                {
+                                                    JSON.parse(absenceForm.data.replace(/'/g, '"'))
+                                                        .employee_name
+                                                }
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {
@@ -109,7 +112,7 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <a
-                                                    href={absenceForm.storage}
+                                                    href={absenceForm.document_details.storage_url}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     target="_blank"
                                                     rel="noreferrer"
