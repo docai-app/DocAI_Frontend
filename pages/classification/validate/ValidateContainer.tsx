@@ -100,7 +100,6 @@ function ValidateContainer() {
     useEffect(() => {
         const fetch = async () => {
             let res = await getAndPredictLastestUploadedDocument();
-            console.log(res.data);
             if (res.data.document === null) {
                 alert('沒有文件需要驗證');
                 router.push('/classification');
@@ -109,8 +108,7 @@ function ValidateContainer() {
         fetch();
     }, []);
     useEffect(() => {
-        if (lastestPredictionData && !lastestPredictionData.hasOwnProperty('status')) {
-            console.log(lastestPredictionData);
+        if (lastestPredictionData && lastestPredictionData.status == true) {
             confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document.id);
             confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction.id);
         } else if (lastestPredictionData && lastestPredictionData.status === 'null') {
