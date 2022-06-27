@@ -69,7 +69,7 @@ function ValidateContainer() {
             });
             console.log(res);
             console.log(confirmDocumentLoading);
-            if (res.data.status === 'Confirmed') {
+            if (res.data.status === true) {
                 alert('Document Confirmed!');
                 await getAndPredictLastestUploadedDocument();
             }
@@ -108,10 +108,18 @@ function ValidateContainer() {
         fetch();
     }, []);
     useEffect(() => {
-        if (lastestPredictionData && lastestPredictionData.status == true) {
+        if (
+            lastestPredictionData.document &&
+            lastestPredictionData.prediction &&
+            lastestPredictionData.status == true
+        ) {
             confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document.id);
             confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction.id);
-        } else if (lastestPredictionData && lastestPredictionData.status === 'null') {
+        } else if (
+            lastestPredictionData &&
+            lastestPredictionData.document === null &&
+            lastestPredictionData.prediction === null
+        ) {
             router.push('/classification');
         }
     }, [lastestPredictionData]);

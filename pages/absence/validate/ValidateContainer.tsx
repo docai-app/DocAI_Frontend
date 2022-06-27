@@ -132,17 +132,17 @@ function ValidateContainer() {
     });
     const absenceFormFormik = useFormik({
         initialValues: {
-            form: result
+            data: result
         },
         onSubmit: async (values) => {
-            console.log(values.form);
+            console.log(values.data);
             let res = await updateFormData({
                 data: {
-                    form: values.form
+                    data: values.data
                 }
             });
             console.log(res);
-            if (res.data.status === 'success') {
+            if (res.data.status === true) {
                 alert('請假表提交成功！');
                 router.push('/');
             }

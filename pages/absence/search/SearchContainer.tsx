@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import SearchView from './SearchView';
@@ -44,6 +44,14 @@ function SearchContainer() {
             }
         }
     });
+    useEffect(() => {
+        if (searchFormByLabelAndDateData) {
+            setAbsenceForms({
+                form_data: searchFormByLabelAndDateData.form_data,
+                form_schema: searchFormByLabelAndDateData.form_schema
+            });
+        }
+    }, [searchFormByLabelAndDateData]);
     return (
         <>
             <SearchView {...{ searchAbsenceFormik, absenceForms }} />

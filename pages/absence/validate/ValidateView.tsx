@@ -72,7 +72,7 @@ function ValidateView(props: ValidateViewProps) {
                                         onSubmit={(data) => {
                                             setResult(data.formData);
                                             console.log(data.formData);
-                                            absenceFormFormik.setFieldValue('form', data.formData);
+                                            absenceFormFormik.setFieldValue('data', data.formData);
                                             absenceFormFormik.handleSubmit();
                                         }}
                                     />

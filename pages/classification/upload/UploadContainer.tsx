@@ -31,9 +31,12 @@ function UploadContainer() {
         upload
     ] = useAxios(apiSetting.Storage.upload(), { manual: true });
     useEffect(() => {
-        if (uploadData && uploadData.status === 'uploaded') {
+        if (uploadData && uploadData.status === true) {
             setOpen(false);
             router.push('/classification/validate');
+        } else if (uploadData && uploadData.status === false) {
+            setOpen(false);
+            alert('Upload failed! Please try again!');
         }
     }, [uploadData]);
     return (
