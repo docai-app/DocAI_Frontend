@@ -4,6 +4,7 @@ import Classification from './Classification';
 import Label from './Label';
 import Search from './Search';
 import Form from './Form';
+import Absence from './Absence';
 
 export default class Api {
     Storage: any;
@@ -11,6 +12,7 @@ export default class Api {
     Label: any;
     Search: any;
     Form: any;
+    Absence: any;
 
     constructor() {
         this.Storage = new Storage();
@@ -18,5 +20,6 @@ export default class Api {
         this.Label = new Label();
         this.Search = new Search();
         this.Form = new Form();
+        this.Absence = new Absence();
     }
 }

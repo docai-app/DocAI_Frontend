@@ -7,17 +7,6 @@ interface requestHeaderProps {
     method: string;
 }
 
-interface postRequestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: string;
-}
-
-interface ConfirmDocumentProps {
-    id: string;
-    label_id: number;
-}
-
 export default class Label {
     getAllLabels() {
         const requestHeader: requestHeaderProps = {
