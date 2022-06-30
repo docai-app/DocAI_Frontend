@@ -131,7 +131,7 @@ function ApprovalContainer() {
             }
         }
     });
-    const [props, setProps] = useState<any>({
+    const [demoProps, setDemoProps] = useState<any>({
         data: [
             {
                 approval_details: [
@@ -202,23 +202,33 @@ function ApprovalContainer() {
         setCurrentTabStatus: setCurrentTabStatus,
         formSchema: formSchema
     });
+    const [props, setProps] = useState<any>(demoProps);
 
-    const changeTab = async () => {
-        await getAbsenceFormByApprovalStatus({
-            url: `/form/absense/approval?status=${currentTabStatus}`
-        });
+    useEffect(() => {
         setProps({
-            data: getAbsenceFormByApprovalStatusData.absencesForm,
+            ...props,
+            data: getAbsenceFormByApprovalStatusData?.absencesForm || demoProps.data
+        });
+    }, [getAbsenceFormByApprovalStatusData]);
+
+    useEffect(() => {
+        setProps({
+            ...props,
             currentTabStatus: currentTabStatus,
             setCurrentTabStatus: setCurrentTabStatus
         });
-    };
-
-    useEffect(() => {
-        changeTab();
+        getAbsenceFormByApprovalStatus({
+            url: `/form/absense/approval?status=${currentTabStatus}`
+        });
     }, [currentTabStatus]);
 
-    return <ApprovalView {...props} />;
+    return (
+        <ApprovalView
+            loading={getAbsenceFormByApprovalStatusLoading}
+            error={getAbsenceFormByApprovalStatusError}
+            {...props}
+        />
+    );
 }
 
 export default ApprovalContainer;
