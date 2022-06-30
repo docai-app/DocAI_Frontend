@@ -1,5 +1,7 @@
+import useAxios from 'axios-hooks';
+import Api from '../../../apis';
 import ApprovalView from './ApprovalView';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ApprovalViewProps {
     data: {
@@ -8,12 +10,27 @@ interface ApprovalViewProps {
         reason_of_absence: string;
         type_of_absence: string;
         type_of_leave: string;
-        storage: string;
-        status: 0 | 1 | 2;
+        status: 'approved' | 'awaiting' | 'rejected';
     }[];
+    currentTabStatus: 'approved' | 'awaiting' | 'rejected';
+    setCurrentTabStatus: any;
 }
 
+const apiSetting = new Api();
+
 function ApprovalContainer() {
+    const [currentTabStatus, setCurrentTabStatus] = useState<'approved' | 'awaiting' | 'rejected'>(
+        'approved'
+    );
+    const [
+        {
+            data: getAbsenceFormByApprovalStatusData,
+            loading: getAbsenceFormByApprovalStatusLoading,
+            error: getAbsenceFormByApprovalStatusError,
+            response: getAbsenceFormByApprovalStatusResponse
+        },
+        getAbsenceFormByApprovalStatus
+    ] = useAxios(apiSetting.Absence.getAbsenceFormByApprovalStatus(currentTabStatus));
     const [props, setProps] = useState<ApprovalViewProps>({
         data: [
             {
@@ -22,8 +39,7 @@ function ApprovalContainer() {
                 reason_of_absence: '中咗 COVID',
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
-                storage: '',
-                status: 0
+                status: 'approved'
             },
             {
                 id: 2,
@@ -31,8 +47,7 @@ function ApprovalContainer() {
                 reason_of_absence: '中咗 COVID',
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
-                storage: '',
-                status: 1
+                status: 'awaiting'
             },
             {
                 id: 3,
@@ -40,11 +55,23 @@ function ApprovalContainer() {
                 reason_of_absence: '中咗 COVID',
                 type_of_absence: '緊急',
                 type_of_leave: '病假',
-                storage: '',
-                status: 2
+                status: 'rejected'
             }
-        ]
+        ],
+        currentTabStatus: currentTabStatus,
+        setCurrentTabStatus: setCurrentTabStatus
     });
+    useEffect(() => {
+        getAbsenceFormByApprovalStatus({
+            url: `/form/absense/approval?status=${currentTabStatus}`
+        }).then((res) => {
+            setProps({
+                data: res.data,
+                currentTabStatus: currentTabStatus,
+                setCurrentTabStatus: setCurrentTabStatus
+            });
+        });
+    }, [currentTabStatus]);
 
     return <ApprovalView {...props} />;
 }

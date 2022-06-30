@@ -8,8 +8,13 @@ interface requestHeaderProps {
 }
 
 export default class Absence {
-    getAbsenceFormByApprovalStatus() {
-        // Coding on here...
+    getAbsenceFormByApprovalStatus(status: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/form/absence/approval?status=${status}`,
+            method: 'GET'
+        };
+        return requestHeader;
     }
 
     updateAbsenceFormApprovalStatus() {

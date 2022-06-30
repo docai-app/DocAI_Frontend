@@ -8,14 +8,14 @@ interface ApprovalViewProps {
         reason_of_absence: string;
         type_of_absence: string;
         type_of_leave: string;
-        storage: string;
-        status: 0 | 1 | 2;
+        status: 'approved' | 'awaiting' | 'rejected';
     }[];
+    currentTabStatus: 'approved' | 'awaiting' | 'rejected';
+    setCurrentTabStatus: any;
 }
 
 function ApprovalView(props: ApprovalViewProps) {
-    const { data } = props;
-    const [currentTab, setCurrentTab] = useState<0 | 1 | 2>(0);
+    const { data, currentTabStatus, setCurrentTabStatus } = props;
 
     return (
         <>
@@ -28,33 +28,30 @@ function ApprovalView(props: ApprovalViewProps) {
                 <div className="mb-4 border-gray-300 border-b">
                     <ul className="flex flex-row -my-px">
                         <li
-                            onClick={() => setCurrentTab(0)}
+                            onClick={() => setCurrentTabStatus('awaiting')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 0
+                                currentTabStatus === 'awaiting'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             尚未審批
                         </li>
                         <li
-                            onClick={() => setCurrentTab(1)}
+                            onClick={() => setCurrentTabStatus('approved')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 1
+                                currentTabStatus === 'approved'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             已審批
                         </li>
                         <li
-                            onClick={() => setCurrentTab(2)}
+                            onClick={() => setCurrentTabStatus('rejected')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 2
+                                currentTabStatus === 'rejected'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             已拒絕
                         </li>
                     </ul>
@@ -81,47 +78,40 @@ function ApprovalView(props: ApprovalViewProps) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {data
-                                .filter((item) => item.status === currentTab)
-                                .map((item) => {
-                                    return (
-                                        <tr key={item.id}>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.employee_name}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.reason_of_absence}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.type_of_absence}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.type_of_leave}
-                                            </td>
-                                            <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
-                                                <Link href={item.storage}>
-                                                    {currentTab === 0 ? (
-                                                        <Link
-                                                            href={`approval/${item.id.toString()}`}
-                                                        >
-                                                            <a className="text-indigo-600 hover:text-indigo-900 font-bold">
-                                                                待審批
-                                                            </a>
-                                                        </Link>
-                                                    ) : currentTab === 1 ? (
-                                                        <div className="text-green-600 font-bold">
-                                                            已審批
-                                                        </div>
-                                                    ) : (
-                                                        <div className="text-red-600 font-bold">
-                                                            已拒絕
-                                                        </div>
-                                                    )}
+                            {data.map((item) => {
+                                return (
+                                    <tr key={item.id}>
+                                        <td className="px-6 py-4 text-left">
+                                            {item.employee_name}
+                                        </td>
+                                        <td className="px-6 py-4 text-left">
+                                            {item.reason_of_absence}
+                                        </td>
+                                        <td className="px-6 py-4 text-left">
+                                            {item.type_of_absence}
+                                        </td>
+                                        <td className="px-6 py-4 text-left">
+                                            {item.type_of_leave}
+                                        </td>
+                                        <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
+                                            {item.status === 'awaiting' ? (
+                                                <Link
+                                                    href={`/absence/approval/${item.id.toString()}`}>
+                                                    <a className="text-indigo-600 hover:text-indigo-900 font-bold">
+                                                        待審批
+                                                    </a>
                                                 </Link>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                            ) : item.status === 'approved' ? (
+                                                <div className="text-green-600 font-bold">
+                                                    已審批
+                                                </div>
+                                            ) : (
+                                                <div className="text-red-600 font-bold">已拒絕</div>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
