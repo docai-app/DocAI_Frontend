@@ -1,22 +1,8 @@
+import _findKey from 'lodash/findKey';
 import Link from 'next/link';
-import { useState } from 'react';
 
-interface ApprovalViewProps {
-    data: {
-        id: number;
-        employee_name: string;
-        reason_of_absence: string;
-        type_of_absence: string;
-        type_of_leave: string;
-        status: 'approved' | 'awaiting' | 'rejected';
-    }[];
-    currentTabStatus: 'approved' | 'awaiting' | 'rejected';
-    setCurrentTabStatus: any;
-}
-
-function ApprovalView(props: ApprovalViewProps) {
-    const { data, currentTabStatus, setCurrentTabStatus } = props;
-
+function ApprovalView(props: any) {
+    const { data, currentTabStatus, setCurrentTabStatus, formSchema } = props;
     return (
         <>
             <div className="bg-indigo-700 py-6">
@@ -78,30 +64,44 @@ function ApprovalView(props: ApprovalViewProps) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200">
-                            {data.map((item) => {
+                            {data.map((item: any) => {
+                                const { id, status } = item.approval_details[0];
+                                const {
+                                    employee_name,
+                                    duration_of_absence,
+                                    type_of_absence: type_of_absence_obj,
+                                    type_of_leave: type_of_leave_obj
+                                } = JSON.parse(item.form_details[0].data);
+                                const { reason_of_absence } = duration_of_absence;
+                                const type_of_absence = _findKey(
+                                    type_of_absence_obj,
+                                    (value) => value
+                                );
+                                const type_of_leave = _findKey(type_of_leave_obj, (value) => value);
                                 return (
-                                    <tr key={item.id}>
+                                    <tr key={id}>
+                                        <td className="px-6 py-4 text-left">{employee_name}</td>
+                                        <td className="px-6 py-4 text-left">{reason_of_absence}</td>
                                         <td className="px-6 py-4 text-left">
-                                            {item.employee_name}
+                                            {type_of_absence &&
+                                                formSchema.properties.type_of_absence.properties[
+                                                    type_of_absence
+                                                ].title}
                                         </td>
                                         <td className="px-6 py-4 text-left">
-                                            {item.reason_of_absence}
-                                        </td>
-                                        <td className="px-6 py-4 text-left">
-                                            {item.type_of_absence}
-                                        </td>
-                                        <td className="px-6 py-4 text-left">
-                                            {item.type_of_leave}
+                                            {type_of_leave &&
+                                                formSchema.properties.type_of_leave.properties[
+                                                    type_of_leave
+                                                ].title}
                                         </td>
                                         <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
-                                            {item.status === 'awaiting' ? (
-                                                <Link
-                                                    href={`/absence/approval/${item.id.toString()}`}>
+                                            {status === 'awaiting' ? (
+                                                <Link href={`/absence/approval/${id.toString()}`}>
                                                     <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                         待審批
                                                     </a>
                                                 </Link>
-                                            ) : item.status === 'approved' ? (
+                                            ) : status === 'approved' ? (
                                                 <div className="text-green-600 font-bold">
                                                     已審批
                                                 </div>
