@@ -1,10 +1,12 @@
+import { Method } from 'axios';
+
 // apis/Absence.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface requestHeaderProps {
     baseURL: string | undefined;
     url: string;
-    method: string;
+    method: Method;
 }
 
 export default class Absence {

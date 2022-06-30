@@ -1,5 +1,5 @@
 // apis/Classification.ts
-import axios from 'axios';
+import axios, { Method } from 'axios';
 import useAxios from 'axios-hooks';
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -11,7 +11,7 @@ interface Paramter {
 interface requestHeaderProps {
     baseURL: string | undefined;
     url: string;
-    method: string;
+    method: Method;
 }
 
 export default class Classification {
