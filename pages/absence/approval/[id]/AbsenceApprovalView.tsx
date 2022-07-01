@@ -8,22 +8,13 @@ const Form = withTheme(Bootstrap4Theme);
 interface ValidateViewProps {
     formUrl: string;
     result: any;
-    setResult: Function;
     formSchema: any;
     uiSchema: any;
-    absenceFormFormik: any;
+    onSubmit: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const {
-        formUrl = '',
-        result = {},
-        setResult,
-        formSchema = {},
-        uiSchema = {},
-        absenceFormFormik
-    } = props;
-
+    const { formUrl = '', result = {}, formSchema = {}, uiSchema = {}, onSubmit } = props;
     return (
         <>
             <div className="min-h-full bg-slate-50">
@@ -44,8 +35,7 @@ function ValidateView(props: ValidateViewProps) {
                                                 className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                 type="application/pdf"
                                                 data={formUrl + '#toolbar=0'}
-                                                width="250"
-                                            >
+                                                width="250">
                                                 <img
                                                     src={
                                                         'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
@@ -63,38 +53,14 @@ function ValidateView(props: ValidateViewProps) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="right-side flex-1 justify-center flex overflow-auto h-5/6 py-2">
+                                <div className="right-side flex-1 justify-center flex flex-col overflow-auto h-5/6 py-2 pl-2">
                                     <Form
                                         className="w-5/6"
                                         schema={formSchema}
                                         uiSchema={uiSchema}
                                         formData={result}
-                                        onSubmit={(data) => {
-                                            setResult(data.formData);
-                                            console.log(data.formData);
-                                            absenceFormFormik.setFieldValue('form', data.formData);
-                                            absenceFormFormik.handleSubmit();
-                                        }}
-                                    >
-                                        <div className="flex gap-2">
-                                            <button
-                                                className="btn btn-success"
-                                                name="action"
-                                                type="submit"
-                                                value="accept"
-                                            >
-                                                批准
-                                            </button>
-                                            <button
-                                                className="btn btn-danger"
-                                                name="action"
-                                                type="submit"
-                                                value="decline"
-                                            >
-                                                拒絕
-                                            </button>
-                                        </div>
-                                    </Form>
+                                        onSubmit={onSubmit}
+                                    />
                                 </div>
                             </div>
                         </div>

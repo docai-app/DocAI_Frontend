@@ -1,22 +1,8 @@
+import _findKey from 'lodash/findKey';
 import Link from 'next/link';
-import { useState } from 'react';
 
-interface ApprovalViewProps {
-    data: {
-        id: number;
-        employee_name: string;
-        reason_of_absence: string;
-        type_of_absence: string;
-        type_of_leave: string;
-        storage: string;
-        status: 0 | 1 | 2;
-    }[];
-}
-
-function ApprovalView(props: ApprovalViewProps) {
-    const { data } = props;
-    const [currentTab, setCurrentTab] = useState<0 | 1 | 2>(0);
-
+function ApprovalView(props: any) {
+    const { data, currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
     return (
         <>
             <div className="bg-indigo-700 py-6">
@@ -28,87 +14,108 @@ function ApprovalView(props: ApprovalViewProps) {
                 <div className="mb-4 border-gray-300 border-b">
                     <ul className="flex flex-row -my-px">
                         <li
-                            onClick={() => setCurrentTab(0)}
+                            onClick={() => setCurrentTabStatus('awaiting')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 0
+                                currentTabStatus === 'awaiting'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             尚未審批
                         </li>
                         <li
-                            onClick={() => setCurrentTab(1)}
+                            onClick={() => setCurrentTabStatus('approved')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 1
+                                currentTabStatus === 'approved'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             已審批
                         </li>
                         <li
-                            onClick={() => setCurrentTab(2)}
+                            onClick={() => setCurrentTabStatus('rejected')}
                             className={`p-4 cursor-pointer ${
-                                currentTab === 2
+                                currentTabStatus === 'rejected'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
+                            } font-bold text-sm`}>
                             已拒絕
                         </li>
                     </ul>
                 </div>
-                <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
-                    <table className="w-full divide-y divide-gray-300">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-3 text-left">
-                                    員工姓名
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left">
-                                    請假理由
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left">
-                                    請假類型
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left">
-                                    假期類型
-                                </th>
-                                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                    <span className="sr-only">審批狀況</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                            {data
-                                .filter((item) => item.status === currentTab)
-                                .map((item) => {
-                                    return (
-                                        <tr key={item.id}>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.employee_name}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.reason_of_absence}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.type_of_absence}
-                                            </td>
-                                            <td className="px-6 py-4 text-left">
-                                                {item.type_of_leave}
-                                            </td>
-                                            <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
-                                                <Link href={item.storage}>
-                                                    {currentTab === 0 ? (
+                {loading ? (
+                    <div>載入中...</div>
+                ) : (
+                    <>
+                        {error && <div>加載資料時發生錯誤！正在顯示範例資料</div>}
+                        <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
+                            <table className="w-full divide-y divide-gray-300">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            員工姓名
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            請假理由
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            請假類型
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            假期類型
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                            <span className="sr-only">審批狀況</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200">
+                                    {data.map((item: any) => {
+                                        const { id, document_id, status } =
+                                            item.approval_details[0];
+                                        const {
+                                            employee_name,
+                                            duration_of_absence,
+                                            type_of_absence: type_of_absence_obj,
+                                            type_of_leave: type_of_leave_obj
+                                        } = JSON.parse(item.form_details[0].data);
+                                        const { reason_of_absence } = duration_of_absence;
+                                        const type_of_absence = _findKey(
+                                            type_of_absence_obj,
+                                            (value) => value
+                                        );
+                                        const type_of_leave = _findKey(
+                                            type_of_leave_obj,
+                                            (value) => value
+                                        );
+                                        return (
+                                            <tr key={id}>
+                                                <td className="px-6 py-4 text-left">
+                                                    {employee_name}
+                                                </td>
+                                                <td className="px-6 py-4 text-left">
+                                                    {reason_of_absence}
+                                                </td>
+                                                <td className="px-6 py-4 text-left">
+                                                    {type_of_absence &&
+                                                        formSchema.properties.type_of_absence
+                                                            .properties[type_of_absence].title}
+                                                </td>
+                                                <td className="px-6 py-4 text-left">
+                                                    {type_of_leave &&
+                                                        formSchema.properties.type_of_leave
+                                                            .properties[type_of_leave].title}
+                                                </td>
+                                                <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
+                                                    {status === 'awaiting' ? (
                                                         <Link
-                                                            href={`approval/${item.id.toString()}`}
-                                                        >
+                                                            href={`/absence/approval/${id.toString()}?document_id=${document_id}`}>
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                                 待審批
                                                             </a>
                                                         </Link>
-                                                    ) : currentTab === 1 ? (
+                                                    ) : status === 'approved' ? (
                                                         <div className="text-green-600 font-bold">
                                                             已審批
                                                         </div>
@@ -117,14 +124,15 @@ function ApprovalView(props: ApprovalViewProps) {
                                                             已拒絕
                                                         </div>
                                                     )}
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
-                </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                )}
             </div>
         </>
     );
