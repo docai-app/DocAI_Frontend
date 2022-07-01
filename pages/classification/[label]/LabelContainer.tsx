@@ -15,7 +15,9 @@ function LabelContainer() {
         if (router.query.name) {
             setLabel(router.query.name.toString());
             const getDocuments = async () => {
-                let res = await getDocumentByLabelID();
+                let res = await getDocumentByLabelID({
+                    url: `/documents/labels/${router.query.label}`
+                });
                 setDocuments(res.data.documents);
             };
             getDocuments();
@@ -29,7 +31,7 @@ function LabelContainer() {
             response: searchDocumentByContentResponse
         },
         getDocumentByLabelID
-    ] = useAxios(apiSetting.Classification.getDocumentByLabelID(router.query.label), {
+    ] = useAxios(apiSetting.Classification.getDocumentByLabelID(''), {
         manual: true
     });
     // const searchDocumentFormik = useFormik({
