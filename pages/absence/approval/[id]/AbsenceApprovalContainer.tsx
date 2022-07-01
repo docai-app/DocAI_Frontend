@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AbsenceApprovalView from './AbsenceApprovalView';
 import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
 import _get from 'lodash/get';
 
 const apiSetting = new Api();
@@ -122,50 +121,123 @@ function AbsenceApprovalContainer() {
             date_of_filling: {
                 type: 'string',
                 title: '填表日期'
+            },
+            approval: {
+                title: '',
+                type: 'string'
             }
         }
     });
+
+    const [demoFormData, setDemoFormData] = useState({
+        department: 'FO',
+        employee_id: '229',
+        administrator: true,
+        employee_name: '蘇 中 央',
+        type_of_leave: {
+            sick: true,
+            other: false,
+            non_paid: false,
+            vacation: false,
+            bereavement: false,
+            workers_comp: false,
+            comp_time_used: false,
+            personal_business: false,
+            personal_necessity: false
+        },
+        date_of_filling: '2022/04/23',
+        type_of_absence: { call_in: false, emergency: true, pre_approved: false },
+        duration_of_absence: {
+            total_days: '2',
+            total_hours: '16',
+            hours_per_day: '00',
+            date_of_absence: '2022/04/29',
+            reason_of_absence: '看 醫 生'
+        }
+    });
+
+    const approvalButtonContainer = useCallback(
+        (props) => (
+            <div className="flex gap-2">
+                <button
+                    className="p-[0.75rem] rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                    type="submit"
+                    onClick={() => {
+                        props.onChange('approved');
+                    }}>
+                    批准
+                </button>
+                <button
+                    className="p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
+                    type="submit"
+                    onClick={() => {
+                        props.onChange('rejected');
+                    }}>
+                    拒絕
+                </button>
+            </div>
+        ),
+        []
+    );
     const [uiSchema, setUiSchema] = useState({
         'ui:submitButtonOptions': {
-            submitText: '批准'
-        }
-    });
-    const absenceFormFormik = useFormik({
-        initialValues: {
-            form: result
+            norender: true
         },
-        onSubmit: async (values) => {
-            console.log(values.form);
-            let res = await updateFormData({
-                data: {
-                    form: values.form
-                }
-            });
-            console.log(res);
-            if (res.data.status === 'success') {
-                alert('審批成功！');
-                router.push('/');
-            }
+        approval: {
+            'ui:widget': approvalButtonContainer
         }
     });
+
     const [
         {
-            data: lastestPredictionData,
-            loading: lastestPredictionLoading,
-            error: lastestPredictionError,
-            response: lastestPredictionResponse
+            data: getDocumentByIdData,
+            loading: getDocumentByIdLoading,
+            error: getDocumentByIdError,
+            response: getDocumentByIdResponse
         },
-        updateFormData
-    ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {
-        manual: true
-    });
+        getDocumentById
+    ] = useAxios('', { manual: true });
+
+    const [
+        {
+            data: updateAbsenceFormApprovalStatusData,
+            loading: updateAbsenceFormApprovalStatusLoading,
+            error: updateAbsenceFormApprovalStatusError,
+            response: updateAbsenceFormApprovalStatusResponse
+        },
+        updateAbsenceFormApprovalStatus
+    ] = useAxios('', { manual: true });
+
+    const onSubmit = useCallback(
+        (formData: any) => {
+            console.log(formData);
+            const { approval } = formData.formData;
+            if (router.query.id)
+                updateAbsenceFormApprovalStatus(
+                    apiSetting.Absence.updateAbsenceFormApprovalStatus(
+                        router.query.id.toString(),
+                        approval
+                    )
+                );
+        },
+        [router]
+    );
+
+    useEffect(() => {
+        if (getDocumentByIdData) {
+            setResult(JSON.parse(getDocumentByIdData.form_details[0].data));
+            setFormUrl(getDocumentByIdData.storage_url);
+        } else if (getDocumentByIdError) {
+            setResult(demoFormData);
+        }
+    }, [getDocumentByIdData, getDocumentByIdError]);
 
     useEffect(() => {
         console.log(router.query);
-        if (router.query.form_url && router.query.result) {
-            setFormUrl(`${router.query.form_url}`);
-            setResult(JSON.parse(`${router.query.result}`));
-            console.log(result);
+        if (router.query.document_id) {
+            getDocumentById(
+                apiSetting.Document.getDocumentById(router.query.document_id.toString())
+            );
         }
     }, [router]);
 
@@ -175,10 +247,9 @@ function AbsenceApprovalContainer() {
                 {...{
                     formUrl,
                     result,
-                    setResult,
                     formSchema,
                     uiSchema,
-                    absenceFormFormik
+                    onSubmit
                 }}
             />
         </>

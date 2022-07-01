@@ -19,7 +19,12 @@ export default class Absence {
         return requestHeader;
     }
 
-    updateAbsenceFormApprovalStatus() {
-        // Coding on here...
+    updateAbsenceFormApprovalStatus(id: string, status: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/form/absence/${id}/approval?status=${status}`,
+            method: 'PUT'
+        };
+        return requestHeader;
     }
 }
