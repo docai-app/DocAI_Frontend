@@ -1,7 +1,6 @@
 import _get from 'lodash/get';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Form = withTheme(Bootstrap4Theme);
 
@@ -10,11 +9,21 @@ interface ValidateViewProps {
     result: any;
     formSchema: any;
     uiSchema: any;
+    widgets: any;
+    fields: any;
     onSubmit: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { formUrl = '', result = {}, formSchema = {}, uiSchema = {}, onSubmit } = props;
+    const {
+        formUrl = '',
+        result = {},
+        formSchema = {},
+        uiSchema = {},
+        widgets = {},
+        fields = {},
+        onSubmit
+    } = props;
     return (
         <>
             <div className="min-h-full bg-slate-50">
@@ -54,13 +63,15 @@ function ValidateView(props: ValidateViewProps) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="right-side flex-1 justify-center flex flex-col overflow-auto h-5/6 py-2 pl-2">
+                                <div className="right-side flex-1 flex flex-col overflow-auto h-5/6 py-2 pl-2">
                                     <Form
                                         className="w-5/6"
-                                        schema={formSchema}
-                                        uiSchema={uiSchema}
+                                        schema={formSchema.current}
+                                        uiSchema={uiSchema.current}
                                         formData={result}
                                         onSubmit={onSubmit}
+                                        widgets={widgets.current}
+                                        fields={fields.current}
                                     />
                                 </div>
                             </div>
