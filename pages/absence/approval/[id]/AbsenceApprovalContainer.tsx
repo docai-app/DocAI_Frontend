@@ -211,28 +211,24 @@ function AbsenceApprovalContainer() {
     ] = useAxios('', { manual: true });
 
     const onSubmit = useCallback(
-        (formData: any) => {
+        async (formData: any) => {
             console.log(formData);
             const { approval } = formData.formData;
-            if (router.query.id)
-                updateAbsenceFormApprovalStatus(
+            if (router.query.id) {
+                const res = await updateAbsenceFormApprovalStatus(
                     apiSetting.Absence.updateAbsenceFormApprovalStatus(
                         router.query.id.toString(),
                         approval
                     )
                 );
+                if (res.data.status) {
+                    alert('審批成功！');
+                    router.push(`/absence/approval?status=${approval}`);
+                }
+            }
         },
-        [router]
+        [router, updateAbsenceFormApprovalStatus]
     );
-
-    useEffect(() => {
-        if (getDocumentByIdData) {
-            setResult(JSON.parse(getDocumentByIdData.form_details[0].data));
-            setFormUrl(getDocumentByIdData.storage_url);
-        } else if (getDocumentByIdError) {
-            setResult(demoFormData);
-        }
-    }, [getDocumentByIdData, getDocumentByIdError]);
 
     useEffect(() => {
         console.log(router.query);
@@ -240,6 +236,9 @@ function AbsenceApprovalContainer() {
             getDocumentById(
                 apiSetting.Document.getDocumentById(router.query.document_id.toString())
             );
+        }
+        if (router.query.result) {
+            setResult(JSON.parse(router.query.result.toString()));
         }
     }, [router]);
 
