@@ -16,7 +16,7 @@ function SearchContainer() {
             response: searchDocumentByContentResponse
         },
         searchDocumentByContent
-    ] = useAxios(apiSetting.Search.searchDocumentByContent({}), {
+    ] = useAxios(apiSetting.Search.searchDocumentByContent(), {
         manual: true
     });
     const searchDocumentFormik = useFormik({
