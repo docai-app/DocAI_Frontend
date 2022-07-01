@@ -2,7 +2,7 @@ import _findKey from 'lodash/findKey';
 import Link from 'next/link';
 
 function ApprovalView(props: any) {
-    const { data, currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
+    const { data = [], currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
     return (
         <>
             <div className="bg-indigo-700 py-6">
@@ -10,6 +10,7 @@ function ApprovalView(props: any) {
                     <h1 className="text-white text-3xl font-bold">請假審批</h1>
                 </div>
             </div>
+
             <div className="my-8 container mx-auto md:px-4 lg:px-6">
                 <div className="mb-4 border-gray-300 border-b">
                     <ul className="flex flex-row -my-px">
