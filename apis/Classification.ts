@@ -15,10 +15,10 @@ interface requestHeaderProps {
 }
 
 export default class Classification {
-    getAndPredictLastestUploadedDocument() {
+    getAndPredictLatestUploadedDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/documents/lastest',
+            url: '/documents/latest',
             method: 'GET'
         };
         return requestHeader;

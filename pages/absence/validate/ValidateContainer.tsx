@@ -150,10 +150,10 @@ function ValidateContainer() {
     });
     const [
         {
-            data: lastestPredictionData,
-            loading: lastestPredictionLoading,
-            error: lastestPredictionError,
-            response: lastestPredictionResponse
+            data: latestPredictionData,
+            loading: latestPredictionLoading,
+            error: latestPredictionError,
+            response: latestPredictionResponse
         },
         updateFormData
     ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {

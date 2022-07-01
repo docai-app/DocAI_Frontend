@@ -4,20 +4,20 @@ import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 
-interface LastestPredictionDataProps {
+interface LatestPredictionDataProps {
     document: any;
     prediction: Array<any>;
 }
 
 interface ValidateViewProps {
-    lastestPredictionData: LastestPredictionDataProps;
+    latestPredictionData: LatestPredictionDataProps;
     confirmDocumentFormik: any;
     addNewLabelFormik: any;
     allLabelsData: object;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { lastestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } =
+    const { latestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } =
         props;
     const [open, setOpen] = useState(false);
     return (
@@ -38,8 +38,8 @@ function ValidateView(props: ValidateViewProps) {
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {_get(lastestPredictionData, 'document.storage_url') ? (
-                                            lastestPredictionData.document.storage_url
+                                        {_get(latestPredictionData, 'document.storage_url') ? (
+                                            latestPredictionData.document.storage_url
                                                 .split(/[#?]/)[0]
                                                 .split('.')
                                                 .pop()
@@ -48,7 +48,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                     type="application/pdf"
                                                     data={
-                                                        lastestPredictionData.document.storage_url +
+                                                        latestPredictionData.document.storage_url +
                                                         '#toolbar=0'
                                                     }
                                                     width="250"
@@ -64,8 +64,8 @@ function ValidateView(props: ValidateViewProps) {
                                             ) : (
                                                 <img
                                                     className="object-cover shadow-lg rounded-lg"
-                                                    alt={lastestPredictionData.document.storage_url}
-                                                    src={lastestPredictionData.document.storage_url}
+                                                    alt={latestPredictionData.document.storage_url}
+                                                    src={latestPredictionData.document.storage_url}
                                                 />
                                             )
                                         ) : null}
@@ -103,7 +103,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                     type="string"
                                                                     readOnly
                                                                     placeholder={_get(
-                                                                        lastestPredictionData,
+                                                                        latestPredictionData,
                                                                         'prediction.name'
                                                                     )}
                                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

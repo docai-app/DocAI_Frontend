@@ -11,13 +11,13 @@ function ValidateContainer() {
     const router = useRouter();
     const [
         {
-            data: lastestPredictionData,
-            loading: lastestPredictionLoading,
-            error: lastestPredictionError,
-            response: lastestPredictionResponse
+            data: latestPredictionData,
+            loading: latestPredictionLoading,
+            error: latestPredictionError,
+            response: latestPredictionResponse
         },
-        getAndPredictLastestUploadedDocument
-    ] = useAxios(apiSetting.Classification.getAndPredictLastestUploadedDocument(), {
+        getAndPredictLatestUploadedDocument
+    ] = useAxios(apiSetting.Document.getAndPredictLatestUploadedDocument(), {
         manual: true
     });
 
@@ -71,7 +71,7 @@ function ValidateContainer() {
             console.log(confirmDocumentLoading);
             if (res.data.status === true) {
                 alert('Document Confirmed!');
-                await getAndPredictLastestUploadedDocument();
+                await getAndPredictLatestUploadedDocument();
             }
         }
     });
@@ -92,14 +92,15 @@ function ValidateContainer() {
             await getAllLabels();
             if (res.data.status) {
                 alert('新類型已新增！');
-                await getAndPredictLastestUploadedDocument();
+                await getAndPredictLatestUploadedDocument();
             }
         }
     });
 
     useEffect(() => {
         const fetch = async () => {
-            let res = await getAndPredictLastestUploadedDocument();
+            let res = await getAndPredictLatestUploadedDocument();
+            console.log(res);
             if (res.data.document === null) {
                 alert('沒有文件需要驗證');
                 router.push('/classification');
@@ -108,26 +109,28 @@ function ValidateContainer() {
         fetch();
     }, []);
     useEffect(() => {
+        console.log(latestPredictionData);
         if (
-            lastestPredictionData.document &&
-            lastestPredictionData.prediction &&
-            lastestPredictionData.status == true
+            latestPredictionData &&
+            latestPredictionData.document &&
+            latestPredictionData.prediction &&
+            latestPredictionData.status == true
         ) {
-            confirmDocumentFormik.setFieldValue('id', lastestPredictionData.document.id);
-            confirmDocumentFormik.setFieldValue('label', lastestPredictionData.prediction.id);
+            confirmDocumentFormik.setFieldValue('id', latestPredictionData.document.id);
+            confirmDocumentFormik.setFieldValue('label', latestPredictionData.prediction.id);
         } else if (
-            lastestPredictionData &&
-            lastestPredictionData.document === null &&
-            lastestPredictionData.prediction === null
+            latestPredictionData &&
+            latestPredictionData.document === null &&
+            latestPredictionData.prediction === null
         ) {
             router.push('/classification');
         }
-    }, [lastestPredictionData]);
+    }, [latestPredictionData]);
     return (
         <>
             <ValidateView
                 {...{
-                    lastestPredictionData,
+                    latestPredictionData,
                     confirmDocumentFormik,
                     addNewLabelFormik,
                     allLabelsData
