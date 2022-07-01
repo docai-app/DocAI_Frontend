@@ -164,7 +164,8 @@ function AbsenceApprovalContainer() {
                     type="submit"
                     onClick={() => {
                         props.onChange('approved');
-                    }}>
+                    }}
+                >
                     批准
                 </button>
                 <button
@@ -172,7 +173,8 @@ function AbsenceApprovalContainer() {
                     type="submit"
                     onClick={() => {
                         props.onChange('rejected');
-                    }}>
+                    }}
+                >
                     拒絕
                 </button>
             </div>

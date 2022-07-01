@@ -19,7 +19,8 @@ function ApprovalView(props: any) {
                                 currentTabStatus === 'awaiting'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}>
+                            } font-bold text-sm`}
+                        >
                             尚未審批
                         </li>
                         <li
@@ -28,7 +29,8 @@ function ApprovalView(props: any) {
                                 currentTabStatus === 'approved'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}>
+                            } font-bold text-sm`}
+                        >
                             已審批
                         </li>
                         <li
@@ -37,7 +39,8 @@ function ApprovalView(props: any) {
                                 currentTabStatus === 'rejected'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}>
+                            } font-bold text-sm`}
+                        >
                             已拒絕
                         </li>
                     </ul>
@@ -65,7 +68,8 @@ function ApprovalView(props: any) {
                                         </th>
                                         <th
                                             scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                                        >
                                             <span className="sr-only">審批狀況</span>
                                         </th>
                                     </tr>
@@ -110,7 +114,8 @@ function ApprovalView(props: any) {
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
                                                     {status === 'awaiting' ? (
                                                         <Link
-                                                            href={`/absence/approval/${id.toString()}?document_id=${document_id}`}>
+                                                            href={`/absence/approval/${id.toString()}?document_id=${document_id}`}
+                                                        >
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                                 待審批
                                                             </a>

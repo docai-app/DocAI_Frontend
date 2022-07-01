@@ -35,7 +35,8 @@ function ValidateView(props: ValidateViewProps) {
                                                 className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
                                                 type="application/pdf"
                                                 data={formUrl + '#toolbar=0'}
-                                                width="250">
+                                                width="250"
+                                            >
                                                 <img
                                                     src={
                                                         'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
