@@ -113,23 +113,25 @@ function ApprovalView(props: any) {
                                                             .properties[type_of_leave].title}
                                                 </td>
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
-                                                    {status === 'awaiting' ? (
-                                                        <Link
-                                                            href={`/absence/approval/${id.toString()}?document_id=${document_id}`}
-                                                        >
+                                                    <Link
+                                                        href={`/absence/approval/${id.toString()}?result=${
+                                                            item.form_details[0].data
+                                                        }`}
+                                                    >
+                                                        {status === 'awaiting' ? (
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                                 待審批
                                                             </a>
-                                                        </Link>
-                                                    ) : status === 'approved' ? (
-                                                        <div className="text-green-600 font-bold">
-                                                            已審批
-                                                        </div>
-                                                    ) : (
-                                                        <div className="text-red-600 font-bold">
-                                                            已拒絕
-                                                        </div>
-                                                    )}
+                                                        ) : status === 'approved' ? (
+                                                            <a className="text-green-600 hover:text-green-900 font-bold">
+                                                                已審批
+                                                            </a>
+                                                        ) : (
+                                                            <a className="text-red-600 hover:text-red-900 font-bold">
+                                                                已拒絕
+                                                            </a>
+                                                        )}
+                                                    </Link>
                                                 </td>
                                             </tr>
                                         );

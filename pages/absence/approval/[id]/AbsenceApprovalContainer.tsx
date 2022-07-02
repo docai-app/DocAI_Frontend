@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import AbsenceApprovalView from './AbsenceApprovalView';
 import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
 import _get from 'lodash/get';
+import { FieldProps, WidgetProps } from '@rjsf/core';
 
 const apiSetting = new Api();
 
@@ -11,8 +12,7 @@ function AbsenceApprovalContainer() {
     const router = useRouter();
     const [formUrl, setFormUrl] = useState('');
     const [result, setResult] = useState({});
-    const [formSchema, setFormSchema] = useState({
-        title: '請假表',
+    const formSchema = useRef({
         type: 'object',
         required: ['employee_name', 'department', 'employee_id'],
         properties: {
@@ -129,7 +129,7 @@ function AbsenceApprovalContainer() {
         }
     });
 
-    const [demoFormData, setDemoFormData] = useState({
+    const demoFormData = useRef({
         department: 'FO',
         employee_id: '229',
         administrator: true,
@@ -181,7 +181,42 @@ function AbsenceApprovalContainer() {
         ),
         []
     );
-    const [uiSchema, setUiSchema] = useState({
+    const widgets = useRef({
+        TextWidget: (props: WidgetProps) => (
+            <label>
+                <h3 className="font-bold">{`${props.label}${props.required ? '*' : ''}`}</h3>
+                <input
+                    type="text"
+                    value={props.value || ''}
+                    className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full"
+                    onChange={(e) => {
+                        props.onChange(e.target.value);
+                    }}
+                />
+            </label>
+        ),
+        CheckboxWidget: (props: WidgetProps) => (
+            <label className="flex flex-row items-center">
+                <input
+                    className="rounded-md p-2 checked:text-slate-500 focus:ring-3 focus:ring-offset-0 focus:ring-slate-300 shadow"
+                    type="checkbox"
+                    checked={props.value || false}
+                    onChange={(e) => {
+                        props.onChange(e.target.checked);
+                    }}
+                />
+                <div className="ml-1">{props.label}</div>
+            </label>
+        )
+    });
+    const fields = useRef({
+        TitleField: (props: FieldProps) => (
+            <div>
+                <h3 className="text-xl font-bold mb-2">{props.title}</h3>
+            </div>
+        )
+    });
+    const uiSchema = useRef({
         'ui:submitButtonOptions': {
             norender: true
         },
@@ -211,35 +246,32 @@ function AbsenceApprovalContainer() {
     ] = useAxios('', { manual: true });
 
     const onSubmit = useCallback(
-        (formData: any) => {
-            console.log(formData);
+        async (formData: any) => {
             const { approval } = formData.formData;
-            if (router.query.id)
-                updateAbsenceFormApprovalStatus(
+            if (router.query.id) {
+                const res = await updateAbsenceFormApprovalStatus(
                     apiSetting.Absence.updateAbsenceFormApprovalStatus(
                         router.query.id.toString(),
                         approval
                     )
                 );
+                if (res.data.status) {
+                    alert('審批成功！');
+                    router.push(`/absence/approval?status=${approval}`);
+                }
+            }
         },
-        [router]
+        [router, updateAbsenceFormApprovalStatus]
     );
 
     useEffect(() => {
-        if (getDocumentByIdData) {
-            setResult(JSON.parse(getDocumentByIdData.form_details[0].data));
-            setFormUrl(getDocumentByIdData.storage_url);
-        } else if (getDocumentByIdError) {
-            setResult(demoFormData);
-        }
-    }, [getDocumentByIdData, getDocumentByIdError]);
-
-    useEffect(() => {
-        console.log(router.query);
         if (router.query.document_id) {
             getDocumentById(
                 apiSetting.Document.getDocumentById(router.query.document_id.toString())
             );
+        }
+        if (router.query.result) {
+            setResult(JSON.parse(router.query.result.toString()));
         }
     }, [router]);
 
@@ -251,6 +283,8 @@ function AbsenceApprovalContainer() {
                     result,
                     formSchema,
                     uiSchema,
+                    widgets,
+                    fields,
                     onSubmit
                 }}
             />
