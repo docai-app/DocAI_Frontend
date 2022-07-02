@@ -17,8 +17,7 @@ interface ValidateViewProps {
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { latestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } =
-        props;
+    const { latestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } = props;
     const [open, setOpen] = useState(false);
     return (
         <>

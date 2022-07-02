@@ -129,33 +129,6 @@ function AbsenceApprovalContainer() {
         }
     });
 
-    const demoFormData = useRef({
-        department: 'FO',
-        employee_id: '229',
-        administrator: true,
-        employee_name: '蘇 中 央',
-        type_of_leave: {
-            sick: true,
-            other: false,
-            non_paid: false,
-            vacation: false,
-            bereavement: false,
-            workers_comp: false,
-            comp_time_used: false,
-            personal_business: false,
-            personal_necessity: false
-        },
-        date_of_filling: '2022/04/23',
-        type_of_absence: { call_in: false, emergency: true, pre_approved: false },
-        duration_of_absence: {
-            total_days: '2',
-            total_hours: '16',
-            hours_per_day: '00',
-            date_of_absence: '2022/04/29',
-            reason_of_absence: '看 醫 生'
-        }
-    });
-
     const approvalButtonContainer = useCallback(
         (props) => (
             <div className="flex gap-2">
@@ -227,12 +200,12 @@ function AbsenceApprovalContainer() {
 
     const [
         {
-            data: getDocumentByIdData,
-            loading: getDocumentByIdLoading,
-            error: getDocumentByIdError,
-            response: getDocumentByIdResponse
+            data: getAbsenceFormByApprovalIdData,
+            loading: getAbsenceFormByApprovalIdLoading,
+            error: getAbsenceFormByApprovalIdError,
+            response: getAbsenceFormByApprovalIdResponse
         },
-        getDocumentById
+        getAbsenceFormByApprovalId
     ] = useAxios('', { manual: true });
 
     const [
@@ -265,15 +238,22 @@ function AbsenceApprovalContainer() {
     );
 
     useEffect(() => {
-        if (router.query.document_id) {
-            getDocumentById(
-                apiSetting.Document.getDocumentById(router.query.document_id.toString())
+        if (router.query.id) {
+            getAbsenceFormByApprovalId(
+                apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
             );
         }
-        if (router.query.result) {
-            setResult(JSON.parse(router.query.result.toString()));
-        }
     }, [router]);
+
+    useEffect(() => {
+        if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.status === true) {
+            console.log(getAbsenceFormByApprovalIdData);
+            setFormUrl(getAbsenceFormByApprovalIdData.absences_form.storage_url);
+            setResult(
+                JSON.parse(getAbsenceFormByApprovalIdData.absences_form.form_details[0].data)
+            );
+        }
+    }, [getAbsenceFormByApprovalIdData]);
 
     return (
         <>

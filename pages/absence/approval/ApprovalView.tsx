@@ -114,9 +114,7 @@ function ApprovalView(props: any) {
                                                 </td>
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
                                                     <Link
-                                                        href={`/absence/approval/${id.toString()}?result=${
-                                                            item.form_details[0].data
-                                                        }`}
+                                                        href={`/absence/approval/${id.toString()}`}
                                                     >
                                                         {status === 'awaiting' ? (
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">

@@ -19,6 +19,15 @@ export default class Absence {
         return requestHeader;
     }
 
+    getAbsenceFormByApprovalApprovalID(id: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/form/absence/approval/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     updateAbsenceFormApprovalStatus(id: string, status: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
