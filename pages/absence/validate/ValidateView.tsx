@@ -20,7 +20,9 @@ function ValidateView(props: ValidateViewProps) {
         formUrl = '',
         result = {},
         setResult,
-        formSchema = {},
+        formSchema = {
+            current: {}
+        },
         uiSchema = {},
         widgets = {},
         fields = {},

@@ -18,7 +18,9 @@ function ValidateView(props: ValidateViewProps) {
     const {
         formUrl = '',
         result = {},
-        formSchema = {},
+        formSchema = {
+            current: {}
+        },
         uiSchema = {},
         widgets = {},
         fields = {},
