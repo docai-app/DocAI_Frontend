@@ -71,7 +71,7 @@ function ValidateView(props: ValidateViewProps) {
                                 <div className="right-side flex-1 justify-center flex overflow-auto h-5/6 py-2">
                                     <Form
                                         className="w-5/6"
-                                        schema={formSchema.current}
+                                        schema={formSchema}
                                         uiSchema={uiSchema.current}
                                         formData={result}
                                         widgets={widgets.current}
