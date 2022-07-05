@@ -186,7 +186,7 @@ const Home: NextPage = () => {
                                     'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
                                 )}
                             >
-                                <div>
+                                <div className="flex flex-row items-center">
                                     <span
                                         className={classNames(
                                             action.iconBackground,
@@ -196,21 +196,21 @@ const Home: NextPage = () => {
                                     >
                                         <action.icon className="h-6 w-6" aria-hidden="true" />
                                     </span>
+                                    <p className="ml-4 text-center text-lg font-medium">
+                                        <a href={action.href} className="focus:outline-none">
+                                            <span className="absolute inset-0" aria-hidden="true" />
+                                            {action.title}
+                                        </a>
+                                    </p>
                                 </div>
-                                <div className="mt-8">
+                                {/* <div className="mt-4">
                                     <h3 className="text-lg font-medium">
                                         <a href={action.href} className="focus:outline-none">
-                                            {/* Extend touch target to entire panel */}
                                             <span className="absolute inset-0" aria-hidden="true" />
                                             {action.title}
                                         </a>
                                     </h3>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        Doloribus dolores nostrum quia qui natus officia quod et
-                                        dolorem. Sit repellendus qui ut at blanditiis et quo et
-                                        molestiae.
-                                    </p>
-                                </div>
+                                </div> */}
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"
@@ -248,7 +248,7 @@ const Home: NextPage = () => {
                                     'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
                                 )}
                             >
-                                <div>
+                                <div className="flex flex-row items-center">
                                     <span
                                         className={classNames(
                                             action.iconBackground,
@@ -258,8 +258,14 @@ const Home: NextPage = () => {
                                     >
                                         <action.icon className="h-6 w-6" aria-hidden="true" />
                                     </span>
+                                    <p className="ml-4 text-center text-lg font-medium">
+                                        <a href={action.href} className="focus:outline-none">
+                                            <span className="absolute inset-0" aria-hidden="true" />
+                                            {action.title}
+                                        </a>
+                                    </p>
                                 </div>
-                                <div className="mt-8">
+                                {/* <div className="mt-4">
                                     <h3 className="text-lg font-medium">
                                         <a href={action.href} className="focus:outline-none">
                                             <span className="absolute inset-0" aria-hidden="true" />
@@ -271,7 +277,7 @@ const Home: NextPage = () => {
                                         dolorem. Sit repellendus qui ut at blanditiis et quo et
                                         molestiae.
                                     </p>
-                                </div>
+                                </div> */}
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"
