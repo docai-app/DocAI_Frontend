@@ -1,8 +1,76 @@
 import _findKey from 'lodash/findKey';
 import Link from 'next/link';
+import { DownloadIcon } from '@heroicons/react/solid';
+import { Parser } from 'json2csv';
 
 function ApprovalView(props: any) {
     const { data = [], currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
+    const fields = [
+        {
+            label: '員工編號',
+            value: 'employee_id'
+        },
+        {
+            label: '員工姓名',
+            value: 'employee_name'
+        },
+        {
+            label: '工作部門',
+            value: 'working_department'
+        },
+        {
+            label: '申請假期類別',
+            value: 'type_of_leave'
+        },
+        {
+            label: '職稱',
+            value: 'employee_position'
+        },
+        {
+            label: '申請理由',
+            value: 'reason_of_absence'
+        },
+        {
+            label: '填表日期',
+            value: 'date_of_filling'
+        }
+        // {
+        //     label: '申請放假日期',
+        //     value: 'duration_of_absence'
+        // },
+        // {
+        //     label: '店長/部門主管簽名及意見',
+        //     value: 'administrative_approval'
+        // }
+    ];
+    const downloadCSV = () => {
+        let absencesFormData: Array<any> = [];
+        data.map((item: any) => {
+            const itemJSON = JSON.parse(item.form_details[0].data);
+            let tempData = itemJSON;
+            const working_department = _findKey(itemJSON.working_department, function (value) {
+                return value === true;
+            });
+            const type_of_leave = _findKey(itemJSON.type_of_leave, function (value: boolean) {
+                return value === true;
+            });
+            tempData.working_department = working_department;
+            tempData.type_of_leave =
+                formSchema.properties.type_of_leave.properties[`${type_of_leave}`].title;
+            absencesFormData.push(tempData);
+            console.log(tempData);
+        });
+        console.log(absencesFormData);
+        console.log(formSchema.properties);
+        const json2csvParser = new Parser({ fields });
+        const csv = json2csvParser.parse(absencesFormData);
+        const link = document.createElement('a');
+        link.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+        link.download = '請假表.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
     return (
         <>
             <div className="bg-indigo-700 py-6">
@@ -56,22 +124,30 @@ function ApprovalView(props: any) {
                                 <thead className="bg-gray-50">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-left">
+                                            員工編號
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
                                             員工姓名
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left">
                                             請假理由
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left">
-                                            請假類型
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left">
                                             假期類型
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                                        >
-                                            <span className="sr-only">審批狀況</span>
+                                        <th scope="col" className="px-6 py-3 text-right">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                onClick={downloadCSV}
+                                            >
+                                                <DownloadIcon
+                                                    className="-ml-0.5 mr-2 h-4 w-4"
+                                                    aria-hidden="true"
+                                                />
+                                                下載請假表
+                                            </button>
+                                            {/* <span className="sr-only">審批狀況</span> */}
                                         </th>
                                     </tr>
                                 </thead>
@@ -79,13 +155,14 @@ function ApprovalView(props: any) {
                                     {data.map((item: any) => {
                                         const { id, document_id, status } =
                                             item.approval_details[0];
+                                        console.log(JSON.parse(item.form_details[0].data));
                                         const {
+                                            employee_id,
                                             employee_name,
-                                            duration_of_absence,
+                                            reason_of_absence,
                                             type_of_absence: type_of_absence_obj,
                                             type_of_leave: type_of_leave_obj
                                         } = JSON.parse(item.form_details[0].data);
-                                        const { reason_of_absence } = duration_of_absence;
                                         const type_of_absence = _findKey(
                                             type_of_absence_obj,
                                             (value) => value
@@ -97,15 +174,13 @@ function ApprovalView(props: any) {
                                         return (
                                             <tr key={id}>
                                                 <td className="px-6 py-4 text-left">
+                                                    {employee_id}
+                                                </td>
+                                                <td className="px-6 py-4 text-left">
                                                     {employee_name}
                                                 </td>
                                                 <td className="px-6 py-4 text-left">
                                                     {reason_of_absence}
-                                                </td>
-                                                <td className="px-6 py-4 text-left">
-                                                    {type_of_absence &&
-                                                        formSchema.properties.type_of_absence
-                                                            .properties[type_of_absence].title}
                                                 </td>
                                                 <td className="px-6 py-4 text-left">
                                                     {type_of_leave &&
