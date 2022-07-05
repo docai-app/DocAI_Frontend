@@ -10,7 +10,8 @@ import {
     ShieldCheckIcon,
     UploadIcon,
     CloudUploadIcon,
-    ClipboardCheckIcon
+    ClipboardCheckIcon,
+    SortAscendingIcon
 } from '@heroicons/react/outline';
 import Api from '../apis/index';
 import { useEffect, useState } from 'react';
@@ -57,6 +58,13 @@ const classificationActions = [
         iconBackground: 'bg-sky-50'
     },
     {
+        title: '同一類型批量上傳文件',
+        href: '/classification/upload/bulk',
+        icon: SortAscendingIcon,
+        iconForeground: 'text-cyan-700',
+        iconBackground: 'bg-cyan-50'
+    },
+    {
         title: '文件驗證',
         href: '/classification/validate',
         icon: ClipboardCheckIcon,
@@ -84,23 +92,19 @@ interface StatisticProps {
 
 const Home: NextPage = () => {
     const [statistics, setStatistics] = useState([]);
-    const [
-        {
-            data: countEachLabelDocumentByDateData,
-            loading: countEachLabelDocumentByDateLoading,
-            error: countEachLabelDocumentByDateError,
-            response: countEachLabelDocumentByDateResponse
-        },
-        countEachLabelDocumentByDate
-    ] = useAxios(
-        apiSetting.Search.countEachLabelDocumentByDate(new Date().toISOString().split('T')[0]),
+    const [{ data: countEachLabelDocumentByDateData }, countEachLabelDocumentByDate] = useAxios(
+        apiSetting.Search.countEachLabelDocumentByDate(
+            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(',')[0]
+        ),
         {
             manual: true
         }
     );
     useEffect(() => {
         countEachLabelDocumentByDate({
-            url: `/count/document/${new Date().toISOString().split('T')[0]}`
+            url: `/count/document/${
+                new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(',')[0]
+            }`
         });
     }, []);
     useEffect(() => {
@@ -203,14 +207,6 @@ const Home: NextPage = () => {
                                         </a>
                                     </p>
                                 </div>
-                                {/* <div className="mt-4">
-                                    <h3 className="text-lg font-medium">
-                                        <a href={action.href} className="focus:outline-none">
-                                            <span className="absolute inset-0" aria-hidden="true" />
-                                            {action.title}
-                                        </a>
-                                    </h3>
-                                </div> */}
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"
