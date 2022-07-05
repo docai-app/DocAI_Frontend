@@ -34,6 +34,10 @@ function ApprovalContainer() {
     );
 
     useEffect(() => {
+        getFormsSchemaByName();
+    }, []);
+
+    useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
             setFormSchema(JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema));
             setProps({

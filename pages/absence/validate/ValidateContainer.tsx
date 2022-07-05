@@ -93,6 +93,10 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
+        getFormsSchemaByName();
+    }, []);
+
+    useEffect(() => {
         if (router.query.form_url && router.query.result) {
             setFormUrl(`${router.query.form_url}`);
             setResult(JSON.parse(`${router.query.result}`));

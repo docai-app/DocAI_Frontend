@@ -94,7 +94,6 @@ function ValidateContainer() {
     useEffect(() => {
         const fetch = async () => {
             let res = await getAndPredictLatestUploadedDocument();
-            console.log(res);
             if (res.data.document === null) {
                 alert('沒有文件需要驗證');
                 router.push('/classification');
@@ -103,7 +102,6 @@ function ValidateContainer() {
         fetch();
     }, []);
     useEffect(() => {
-        console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.document &&

@@ -118,6 +118,10 @@ function AbsenceApprovalContainer() {
     );
 
     useEffect(() => {
+        getFormsSchemaByName();
+    }, []);
+
+    useEffect(() => {
         if (router.query.id) {
             getAbsenceFormByApprovalId(
                 apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())

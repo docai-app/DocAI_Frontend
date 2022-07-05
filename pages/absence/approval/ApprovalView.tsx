@@ -155,13 +155,8 @@ function ApprovalView(props: any) {
                                             employee_id,
                                             employee_name,
                                             reason_of_absence,
-                                            type_of_absence: type_of_absence_obj,
                                             type_of_leave: type_of_leave_obj
                                         } = JSON.parse(item.form_details[0].data);
-                                        const type_of_absence = _findKey(
-                                            type_of_absence_obj,
-                                            (value) => value
-                                        );
                                         const type_of_leave = _findKey(
                                             type_of_leave_obj,
                                             (value) => value
