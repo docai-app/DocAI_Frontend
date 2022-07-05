@@ -23,8 +23,7 @@ function AbsenceApprovalContainer() {
                     type="submit"
                     onClick={() => {
                         props.onChange('approved');
-                    }}
-                >
+                    }}>
                     批准
                 </button>
                 <button
@@ -32,8 +31,7 @@ function AbsenceApprovalContainer() {
                     type="submit"
                     onClick={() => {
                         props.onChange('rejected');
-                    }}
-                >
+                    }}>
                     拒絕
                 </button>
             </div>
@@ -84,16 +82,19 @@ function AbsenceApprovalContainer() {
         }
     });
 
-    const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaByName('請假表'),
-        { manual: false }
+    const [
+        { data: getFormsSchemaByNameData },
+        getFormsSchemaByName
+    ] = useAxios(apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')), { manual: false });
+
+    const [{ data: getAbsenceFormByApprovalIdData }, getAbsenceFormByApprovalId] = useAxios(
+        '',
+        {
+            manual: true
+        }
     );
 
-    const [{ data: getAbsenceFormByApprovalIdData }, getAbsenceFormByApprovalId] = useAxios('', {
-        manual: true
-    });
-
-    const [{}, updateAbsenceFormApprovalStatus] = useAxios('', { manual: true });
+    const [{}, updateAbsenceFormApprovalStatus] = useAxios(apiSetting.Absence.updateAbsenceFormApprovalStatus('', ''), { manual: true });
 
     const onSubmit = useCallback(
         async (formData: any) => {
@@ -134,10 +135,16 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
             formSchema.current = JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema);
-            _set(formSchema, 'current.properties.approval', {
-                title: '',
-                type: 'string'
-            });
+            console.log(formSchema.current);
+            // formSchema.current.properties.approval = {
+            //     title: '',
+            //     type: 'string'
+
+            // };
+            // _set(formSchema.current, 'properties.approval', {
+            //     title: '',
+            //     type: 'string'
+            // });
         }
     }, [getFormsSchemaByNameData]);
 

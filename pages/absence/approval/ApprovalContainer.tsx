@@ -29,7 +29,7 @@ function ApprovalContainer() {
     });
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaByName('請假表'),
+        apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
         { manual: false }
     );
 

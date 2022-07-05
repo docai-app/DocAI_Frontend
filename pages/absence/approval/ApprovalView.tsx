@@ -147,7 +147,6 @@ function ApprovalView(props: any) {
                                                 />
                                                 下載請假表
                                             </button>
-                                            {/* <span className="sr-only">審批狀況</span> */}
                                         </th>
                                     </tr>
                                 </thead>
