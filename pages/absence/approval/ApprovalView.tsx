@@ -58,10 +58,7 @@ function ApprovalView(props: any) {
             tempData.type_of_leave =
                 formSchema.properties.type_of_leave.properties[`${type_of_leave}`].title;
             absencesFormData.push(tempData);
-            console.log(tempData);
         });
-        console.log(absencesFormData);
-        console.log(formSchema.properties);
         const json2csvParser = new Parser({ fields });
         const csv = json2csvParser.parse(absencesFormData);
         const link = document.createElement('a');
@@ -154,7 +151,6 @@ function ApprovalView(props: any) {
                                     {data.map((item: any) => {
                                         const { id, document_id, status } =
                                             item.approval_details[0];
-                                        console.log(JSON.parse(item.form_details[0].data));
                                         const {
                                             employee_id,
                                             employee_name,

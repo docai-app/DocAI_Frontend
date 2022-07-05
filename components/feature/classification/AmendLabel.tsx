@@ -18,7 +18,6 @@ export default function AmendLabel(props: AmendLabelProps) {
     const cancelButtonRef = useRef(null);
     const confirmDocument = () => {
         setOpen(false);
-        console.log(confirmDocumentFormik);
         confirmDocumentFormik.handleSubmit();
     };
     const addNewLabel = () => {

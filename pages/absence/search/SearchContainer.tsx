@@ -34,7 +34,6 @@ function SearchContainer() {
             let res = await searchFormByLabelAndDate({
                 url: `/search/form/${encodeURI(label)}/${values.date}`
             });
-            console.log(res);
             if (res.data) {
                 alert('Absence Form Found!');
                 setAbsenceForms({

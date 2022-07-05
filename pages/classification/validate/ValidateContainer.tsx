@@ -61,14 +61,11 @@ function ValidateContainer() {
             label: null
         },
         onSubmit: async (values) => {
-            console.log(values);
             let res = await confirmDocument({
                 data: {
                     ...values
                 }
             });
-            console.log(res);
-            console.log(confirmDocumentLoading);
             if (res.data.status === true) {
                 alert('Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
@@ -81,14 +78,11 @@ function ValidateContainer() {
             name: null
         },
         onSubmit: async (values) => {
-            console.log(values);
             let res = await addNewLabel({
                 data: {
                     ...values
                 }
             });
-            console.log(res);
-            console.log(confirmDocumentLoading);
             await getAllLabels();
             if (res.data.status) {
                 alert('新類型已新增！');

@@ -29,7 +29,6 @@ function SearchContainer() {
                     ...values
                 }
             });
-            console.log(res);
             if (res.data) {
                 alert('Document Found!');
                 setDocuments(res.data.documents);

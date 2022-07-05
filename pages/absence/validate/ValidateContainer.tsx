@@ -63,13 +63,11 @@ function ValidateContainer() {
             data: result
         },
         onSubmit: async (values) => {
-            console.log(values.data);
             let res = await updateFormData({
                 data: {
                     data: values.data
                 }
             });
-            console.log(res);
             if (res.data.status === true) {
                 alert('請假表提交成功！');
                 router.push('/');
@@ -81,8 +79,6 @@ function ValidateContainer() {
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
         { manual: false }
     );
-
-    
 
     const [
         {
@@ -97,11 +93,9 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
-        console.log(router.query);
         if (router.query.form_url && router.query.result) {
             setFormUrl(`${router.query.form_url}`);
             setResult(JSON.parse(`${router.query.result}`));
-            console.log(result);
         }
     }, [router]);
 

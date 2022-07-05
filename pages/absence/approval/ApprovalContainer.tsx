@@ -40,7 +40,6 @@ function ApprovalContainer() {
                 ...props,
                 formSchema: JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema)
             });
-            console.log(JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema));
         }
     }, [getFormsSchemaByNameData]);
 
