@@ -94,7 +94,7 @@ const Home: NextPage = () => {
     const [statistics, setStatistics] = useState([]);
     const [{ data: countEachLabelDocumentByDateData }, countEachLabelDocumentByDate] = useAxios(
         apiSetting.Search.countEachLabelDocumentByDate(
-            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(',')[0]
+            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
         ),
         {
             manual: true
@@ -103,12 +103,12 @@ const Home: NextPage = () => {
     useEffect(() => {
         countEachLabelDocumentByDate({
             url: `/count/document/${
-                new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(',')[0]
+                new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
             }`
         });
     }, []);
     useEffect(() => {
-        if (countEachLabelDocumentByDateData) {
+        if (countEachLabelDocumentByDateData && countEachLabelDocumentByDateData.status === true) {
             if (countEachLabelDocumentByDateData.documents.length > 3) {
                 setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 3));
             } else {
