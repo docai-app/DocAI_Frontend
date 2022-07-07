@@ -16,7 +16,11 @@ export default function UploadFile(props: UploadFileProps) {
     const fileInput = useRef<HTMLInputElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) {
+        // Set the selected maximum file limit to 5 files:
+        if (event.target.files && event.target.files.length > 5) {
+            alert('最多只能上傳5個文檔');
+            return;
+        } else if (event.target.files && event.target.files.length > 0) {
             setDocuments(event.target.files);
         }
     };
@@ -109,7 +113,7 @@ export default function UploadFile(props: UploadFileProps) {
                             </label>
                         </div>
                         <span className="mt-2 block text-sm font-medium">
-                            PNG, JPG, PDF up to 5MB
+                            PNG, JPG, PDF up to 5MB，一次最多上傳5個文檔。
                         </span>
                         <button
                             type="button"
