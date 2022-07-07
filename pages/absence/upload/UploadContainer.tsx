@@ -41,6 +41,9 @@ function UploadContainer() {
                     result: JSON.stringify(uploadData.result)
                 }
             });
+        } else if (uploadData && uploadData.status === false) {
+            setOpen(false);
+            alert('Upload failed! Please try again!');
         }
     }, [uploadData]);
     return (

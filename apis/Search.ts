@@ -1,16 +1,18 @@
+import { Method } from 'axios';
+
 // apis/Search.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface getRequestHeaderProps {
     baseURL: string | undefined;
     url: string;
-    method: string;
+    method: Method;
 }
 
 interface postRequestHeaderProps {
     baseURL: string | undefined;
     url: string;
-    method: string;
+    method: Method;
 }
 
 export default class Search {

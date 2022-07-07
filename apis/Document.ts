@@ -1,12 +1,7 @@
-// apis/Classification.ts
-import axios, { Method } from 'axios';
-import useAxios from 'axios-hooks';
+import { Method } from 'axios';
 
+// apis/Document.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-interface Paramter {
-    document: Array<any>;
-}
 
 interface requestHeaderProps {
     baseURL: string | undefined;
@@ -14,38 +9,47 @@ interface requestHeaderProps {
     method: Method;
 }
 
-export default class Classification {
-    getAndPredictLatestUploadedDocument() {
+export default class Absence {
+    getAllDocuments() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/documents/latest',
+            url: `/documents`,
             method: 'GET'
         };
         return requestHeader;
     }
 
-    confirmDocument() {
+    getDocumentById(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/classification/confirm',
-            method: 'POST'
-        };
-        return requestHeader;
-    }
-
-    getDocumentsLabel() {
-        const requestHeader: requestHeaderProps = {
-            baseURL: baseURL,
-            url: '/documents/labels',
+            url: `/documents/${id}`,
             method: 'GET'
         };
         return requestHeader;
     }
 
-    getDocumentByLabelID(id: string) {
+    getDocumentBtLabelId(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
             url: `/documents/labels/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    getAllUploadedDocuments() {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/documents/uploaded`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    getAndPredictLatestUploadedDocument() {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/documents/latest`,
             method: 'GET'
         };
         return requestHeader;

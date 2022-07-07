@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 
-// apis/Classification.ts
+// apis/FormSchema.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface requestHeaderProps {
@@ -9,21 +9,12 @@ interface requestHeaderProps {
     method: Method;
 }
 
-export default class Label {
-    getAllLabels() {
+export default class FormSchema {
+    getFormsSchemaByName(name: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/labels',
+            url: `/form/schema/${name}`,
             method: 'GET'
-        };
-        return requestHeader;
-    }
-
-    addNewLabel() {
-        const requestHeader: requestHeaderProps = {
-            baseURL: baseURL,
-            url: '/labels',
-            method: 'POST'
         };
         return requestHeader;
     }

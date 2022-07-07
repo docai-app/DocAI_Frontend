@@ -18,7 +18,6 @@ export default function AmendLabel(props: AmendLabelProps) {
     const cancelButtonRef = useRef(null);
     const confirmDocument = () => {
         setOpen(false);
-        console.log(confirmDocumentFormik);
         confirmDocumentFormik.handleSubmit();
     };
     const addNewLabel = () => {
@@ -96,19 +95,13 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                         );
                                                     }}
                                                 >
-                                                    {_map(
-                                                        _get(allLabelsData, 'prediction'),
-                                                        (item) => {
-                                                            return (
-                                                                <option
-                                                                    key={item.id}
-                                                                    value={item.id}
-                                                                >
-                                                                    {item.name}
-                                                                </option>
-                                                            );
-                                                        }
-                                                    )}
+                                                    {_map(_get(allLabelsData, 'labels'), (item) => {
+                                                        return (
+                                                            <option key={item.id} value={item.id}>
+                                                                {item.name}
+                                                            </option>
+                                                        );
+                                                    })}
                                                 </select>
                                             </div>
                                         </div>

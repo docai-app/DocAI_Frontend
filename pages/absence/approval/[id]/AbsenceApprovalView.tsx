@@ -7,34 +7,31 @@ const Form = withTheme(Bootstrap4Theme);
 interface ValidateViewProps {
     formUrl: string;
     result: any;
-    setResult: Function;
     formSchema: any;
     uiSchema: any;
     widgets: any;
     fields: any;
-    absenceFormFormik: any;
+    onSubmit: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
     const {
         formUrl = '',
         result = {},
-        setResult,
         formSchema = {
             current: {}
         },
         uiSchema = {},
         widgets = {},
         fields = {},
-        absenceFormFormik
+        onSubmit
     } = props;
-
     return (
         <>
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">請假表識別</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">請假表審批</h1>
                     </div>
                 </header>
                 <main>
@@ -68,19 +65,15 @@ function ValidateView(props: ValidateViewProps) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="right-side flex-1 justify-center flex overflow-auto h-5/6 py-2">
+                                <div className="right-side flex-1 flex flex-col overflow-auto h-5/6 py-2 pl-2">
                                     <Form
                                         className="w-5/6"
-                                        schema={formSchema}
+                                        schema={formSchema.current}
                                         uiSchema={uiSchema.current}
                                         formData={result}
+                                        onSubmit={onSubmit}
                                         widgets={widgets.current}
                                         fields={fields.current}
-                                        onSubmit={(data) => {
-                                            setResult(data.formData);
-                                            absenceFormFormik.setFieldValue('data', data.formData);
-                                            absenceFormFormik.handleSubmit();
-                                        }}
                                     />
                                 </div>
                             </div>
