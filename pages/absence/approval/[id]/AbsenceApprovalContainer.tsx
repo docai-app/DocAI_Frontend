@@ -100,12 +100,13 @@ function AbsenceApprovalContainer() {
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval } = formData.formData;
+            const { approval, remark } = formData.formData;
             if (router.query.id) {
                 const res = await updateAbsenceFormApprovalStatus(
                     apiSetting.Absence.updateAbsenceFormApprovalStatus(
                         router.query.id.toString(),
-                        approval
+                        approval,
+                        remark
                     )
                 );
                 if (res.data.status) {
@@ -141,6 +142,10 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
             formSchema.current = JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema);
+            _set(formSchema.current, 'properties.remark', {
+                title: '備註',
+                type: 'string'
+            });
             _set(formSchema.current, 'properties.approval', {
                 title: '',
                 type: 'string'

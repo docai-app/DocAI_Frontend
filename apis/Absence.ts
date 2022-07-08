@@ -7,6 +7,7 @@ interface requestHeaderProps {
     baseURL: string | undefined;
     url: string;
     method: Method;
+    data?: any;
 }
 
 export default class Absence {
@@ -28,11 +29,15 @@ export default class Absence {
         return requestHeader;
     }
 
-    updateAbsenceFormApprovalStatus(id: string, status: string) {
+    updateAbsenceFormApprovalStatus(id: string, status: string, remark: string = '') {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/absence/${id}/approval?status=${status}`,
-            method: 'PUT'
+            url: `/form/absence/${id}/approval`,
+            method: 'PUT',
+            data: {
+                status,
+                remark
+            }
         };
         return requestHeader;
     }
