@@ -45,7 +45,7 @@ export default function LabelView(props: LabelProps) {
                         onChange={(e) => setNewLabelName(e.target.value)}
                     />
                     <button
-                        className="p-3 bg-indigo-600 leading-none text-white rounded-md"
+                        className="p-3 bg-green-600 hover:bg-green-700 leading-none text-white rounded-md"
                         onClick={addNewLabelHandler}
                     >
                         新增
@@ -69,6 +69,7 @@ export default function LabelView(props: LabelProps) {
                                             const newName = formData.get('name');
                                             updateLabelNameByIdHandler(label.id, newName);
                                         }}
+                                        key={label.id}
                                     >
                                         {/* <input
                                             type="text"
@@ -87,10 +88,23 @@ export default function LabelView(props: LabelProps) {
                                             type="text"
                                             name="name"
                                             defaultValue={label.name}
-                                            className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
+                                            className="border p-2 rounded-md shadow-sm ${} border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
+                                            onChange={(e) => {
+                                                if (label.name !== e.target.value) {
+                                                    e.target.classList.toggle(
+                                                        'bg-yellow-100',
+                                                        true
+                                                    );
+                                                } else {
+                                                    e.target.classList.toggle(
+                                                        'bg-yellow-100',
+                                                        false
+                                                    );
+                                                }
+                                            }}
                                         />
                                         <button
-                                            className="p-3 bg-indigo-600 leading-none text-white rounded-md"
+                                            className="p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
                                             type="submit"
                                         >
                                             更新
