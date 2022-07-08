@@ -70,25 +70,13 @@ export default function LabelView(props: LabelProps) {
                                             updateLabelNameByIdHandler(label.id, newName);
                                         }}
                                         key={label.id}
+                                        className="flex flex-row flex-wrap gap-2 max-w-xl"
                                     >
-                                        {/* <input
-                                            type="text"
-                                            defaultValue={label.name}
-                                            className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
-                                            onBlur={(e) => {
-                                                if (e.target.value !== label.name) {
-                                                    updateLabelNameByIdHandler(
-                                                        label.id,
-                                                        e.target.value
-                                                    );
-                                                }
-                                            }}
-                                        /> */}
                                         <input
                                             type="text"
                                             name="name"
                                             defaultValue={label.name}
-                                            className="border p-2 rounded-md shadow-sm ${} border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
+                                            className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 flex-grow focus:ring-2 focus:ring-slate-300"
                                             onChange={(e) => {
                                                 if (label.name !== e.target.value) {
                                                     e.target.classList.toggle(
