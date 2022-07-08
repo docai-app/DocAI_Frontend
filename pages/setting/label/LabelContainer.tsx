@@ -14,6 +14,10 @@ export default function LabelContainer() {
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
         apiSetting.Label.getAllLabels()
     );
+    const [
+        { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
+        updateLabelNameById
+    ] = useAxios(apiSetting.Label.updateLabelNameById(''), { manual: true });
     const [newLabelName, setNewLabelName] = useState('');
     const addNewLabelHandler = useCallback(async () => {
         const res = await addNewLabel({ data: { name: newLabelName } });
@@ -23,6 +27,19 @@ export default function LabelContainer() {
             setNewLabelName('');
         }
     }, [addNewLabel, newLabelName]);
+    const updateLabelNameByIdHandler = useCallback(
+        async (id: string, newName: string) => {
+            const res = await updateLabelNameById({
+                ...apiSetting.Label.updateLabelNameById(id),
+                data: { name: newName }
+            });
+            if (res.data.status) {
+                alert('更新成功');
+                getAllLabels();
+            }
+        },
+        [updateLabelNameById]
+    );
     return (
         <LabelView
             {...{
@@ -30,7 +47,8 @@ export default function LabelContainer() {
                 addNewLabelHandler,
                 addNewLabelData,
                 newLabelName,
-                setNewLabelName
+                setNewLabelName,
+                updateLabelNameByIdHandler
             }}
         />
     );
