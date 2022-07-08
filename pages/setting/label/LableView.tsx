@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 interface LabelProps {
     addNewLabelHandler: any;
     addNewLabelData: any;
@@ -21,6 +23,13 @@ export default function LabelView(props: LabelProps) {
         setNewLabelName,
         updateLabelNameByIdHandler
     } = props;
+    const [sortedLabels, setSortedLabels] = useState<any[]>([]);
+    useEffect(() => {
+        if (getAllLabelsData)
+            setSortedLabels(
+                getAllLabelsData.labels.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
+            );
+    }, [getAllLabelsData]);
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-4 py-4 border-b">
@@ -44,14 +53,14 @@ export default function LabelView(props: LabelProps) {
                 </div>
             </div>
             <div className="py-4">
-                {getAllLabelsData && (
+                {sortedLabels && (
                     <>
                         <div>
                             <h2 className="text-2xl font-bold">修改標籤 (Label)</h2>
                             <div className="text-slate-500">修改現有的標籤的名稱</div>
                         </div>
                         <div className="flex flex-col gap-2 mt-4">
-                            {getAllLabelsData.labels.map((label) => {
+                            {sortedLabels.map((label) => {
                                 return (
                                     <div>
                                         <input
