@@ -62,8 +62,15 @@ export default function LabelView(props: LabelProps) {
                         <div className="flex flex-col gap-2 mt-4">
                             {sortedLabels.map((label) => {
                                 return (
-                                    <div>
-                                        <input
+                                    <form
+                                        onSubmit={(e) => {
+                                            e.preventDefault();
+                                            const formData = new FormData(e.currentTarget);
+                                            const newName = formData.get('name');
+                                            updateLabelNameByIdHandler(label.id, newName);
+                                        }}
+                                    >
+                                        {/* <input
                                             type="text"
                                             defaultValue={label.name}
                                             className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
@@ -75,8 +82,20 @@ export default function LabelView(props: LabelProps) {
                                                     );
                                                 }
                                             }}
+                                        /> */}
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            defaultValue={label.name}
+                                            className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 mr-2 w-96"
                                         />
-                                    </div>
+                                        <button
+                                            className="p-3 bg-indigo-600 leading-none text-white rounded-md"
+                                            type="submit"
+                                        >
+                                            更新
+                                        </button>
+                                    </form>
                                 );
                             })}
                         </div>
