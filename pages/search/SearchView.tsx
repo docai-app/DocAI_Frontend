@@ -1,15 +1,33 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import { SearchIcon } from '@heroicons/react/outline';
 
 interface SearchViewProps {
     searchDocumentFormik: any;
     documents: Array<any>;
+    open: boolean;
+    setOpen: any;
 }
 
 export default function SearchView(props: SearchViewProps) {
-    const { searchDocumentFormik = { handleChange: () => {} }, documents = [] } = props;
+    const {
+        searchDocumentFormik = { handleChange: () => {} },
+        documents = [],
+        open,
+        setOpen
+    } = props;
     return (
         <>
+            <SingleActionModel
+                {...{
+                    open,
+                    setOpen,
+                    title: '正在搜尋......',
+                    content: '文檔搜尋中，請稍候。',
+                    icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                }}
+            />
             <div className="bg-indigo-700">
                 <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
