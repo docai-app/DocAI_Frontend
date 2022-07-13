@@ -49,7 +49,7 @@ export default class Absence {
     getAndPredictLatestUploadedDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/documents/latest`,
+            url: `/api/v1/documents/latest/predict`,
             method: 'GET'
         };
         return requestHeader;

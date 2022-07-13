@@ -104,12 +104,11 @@ function ValidateContainer() {
     useEffect(() => {
         if (
             latestPredictionData &&
-            latestPredictionData.document &&
             latestPredictionData.prediction &&
-            latestPredictionData.status == true
+            latestPredictionData.success == true
         ) {
-            confirmDocumentFormik.setFieldValue('id', latestPredictionData.document.id);
-            confirmDocumentFormik.setFieldValue('label', latestPredictionData.prediction.id);
+            confirmDocumentFormik.setFieldValue('id', latestPredictionData.prediction.document.id);
+            confirmDocumentFormik.setFieldValue('label', latestPredictionData.prediction.tag.id);
         } else if (
             latestPredictionData &&
             latestPredictionData.document === null &&

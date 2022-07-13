@@ -13,7 +13,7 @@ export default class Tag {
     getAllTags() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/labels',
+            url: '/api/v1/tags',
             method: 'GET'
         };
         return requestHeader;
@@ -31,7 +31,7 @@ export default class Tag {
     addNewTag() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/labels',
+            url: '/api/v1/tags',
             method: 'POST'
         };
         return requestHeader;

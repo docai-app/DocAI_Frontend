@@ -15,15 +15,6 @@ interface requestHeaderProps {
 }
 
 export default class Classification {
-    getAndPredictLatestUploadedDocument() {
-        const requestHeader: requestHeaderProps = {
-            baseURL: baseURL,
-            url: '/documents/latest',
-            method: 'GET'
-        };
-        return requestHeader;
-    }
-
     confirmDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
