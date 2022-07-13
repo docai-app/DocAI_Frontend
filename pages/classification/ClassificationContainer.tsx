@@ -5,20 +5,12 @@ import ClassificationView from './ClassificationView';
 const apiSetting = new Api();
 
 function ClassificationContainer() {
-    const [
-        {
-            data: getDocumentsLabelData,
-            loading: getDocumentsLabelLoading,
-            error: getDocumentsLabelError,
-            response: getDocumentsLabelResponse
-        },
-        getDocumentsLabel
-    ] = useAxios(apiSetting.Classification.getDocumentsLabel(), {
+    const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getTagByTagging(), {
         manual: false
     });
     return (
         <>
-            <ClassificationView {...{ getDocumentsLabelData }} />
+            <ClassificationView {...{ getTagByTaggingData }} />
         </>
     );
 }

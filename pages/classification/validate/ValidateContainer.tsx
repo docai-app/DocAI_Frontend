@@ -38,8 +38,8 @@ function ValidateContainer() {
             error: allLabelsError,
             response: allLabelsResponse
         },
-        getAllLabels
-    ] = useAxios(apiSetting.Label.getAllLabels(), {
+        getAllTags
+    ] = useAxios(apiSetting.Tag.getAllTags(), {
         manual: false
     });
 
@@ -50,8 +50,8 @@ function ValidateContainer() {
             error: newLabelError,
             response: newLabelResponse
         },
-        addNewLabel
-    ] = useAxios(apiSetting.Label.addNewLabel(), {
+        addNewTag
+    ] = useAxios(apiSetting.Tag.addNewTag(), {
         manual: true
     });
 
@@ -73,17 +73,17 @@ function ValidateContainer() {
         }
     });
 
-    const addNewLabelFormik = useFormik({
+    const addNewTagFormik = useFormik({
         initialValues: {
             name: null
         },
         onSubmit: async (values) => {
-            let res = await addNewLabel({
+            let res = await addNewTag({
                 data: {
                     ...values
                 }
             });
-            await getAllLabels();
+            await getAllTags();
             if (res.data.status) {
                 alert('新類型已新增！');
                 await getAndPredictLatestUploadedDocument();
@@ -124,7 +124,7 @@ function ValidateContainer() {
                 {...{
                     latestPredictionData,
                     confirmDocumentFormik,
-                    addNewLabelFormik,
+                    addNewTagFormik,
                     allLabelsData
                 }}
             />

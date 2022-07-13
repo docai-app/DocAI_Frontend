@@ -9,8 +9,8 @@ interface requestHeaderProps {
     method: Method;
 }
 
-export default class Label {
-    getAllLabels() {
+export default class Tag {
+    getAllTags() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
             url: '/labels',
@@ -19,7 +19,16 @@ export default class Label {
         return requestHeader;
     }
 
-    addNewLabel() {
+    getTagByTagging() {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: '/api/v1/tags/tagging/document',
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    addNewTag() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
             url: '/labels',

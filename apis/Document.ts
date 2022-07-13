@@ -28,10 +28,10 @@ export default class Absence {
         return requestHeader;
     }
 
-    getDocumentBtLabelId(id: string) {
+    getDocumentsByTagID(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/documents/labels/${id}`,
+            url: `/api/v1/documents/tags/${id}`,
             method: 'GET'
         };
         return requestHeader;

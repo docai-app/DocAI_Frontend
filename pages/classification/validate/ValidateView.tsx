@@ -12,17 +12,17 @@ interface LatestPredictionDataProps {
 interface ValidateViewProps {
     latestPredictionData: LatestPredictionDataProps;
     confirmDocumentFormik: any;
-    addNewLabelFormik: any;
+    addNewTagFormik: any;
     allLabelsData: object;
 }
 
 function ValidateView(props: ValidateViewProps) {
-    const { latestPredictionData, confirmDocumentFormik, addNewLabelFormik, allLabelsData } = props;
+    const { latestPredictionData, confirmDocumentFormik, addNewTagFormik, allLabelsData } = props;
     const [open, setOpen] = useState(false);
     return (
         <>
             <AmendLabel
-                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewLabelFormik }}
+                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik }}
             />
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">

@@ -32,22 +32,4 @@ export default class Classification {
         };
         return requestHeader;
     }
-
-    getDocumentsLabel() {
-        const requestHeader: requestHeaderProps = {
-            baseURL: baseURL,
-            url: '/documents/labels',
-            method: 'GET'
-        };
-        return requestHeader;
-    }
-
-    getDocumentByLabelID(id: string) {
-        const requestHeader: requestHeaderProps = {
-            baseURL: baseURL,
-            url: `/documents/labels/${id}`,
-            method: 'GET'
-        };
-        return requestHeader;
-    }
 }

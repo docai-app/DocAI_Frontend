@@ -41,7 +41,7 @@ function UploadContainer() {
         apiSetting.Storage.uploadBulkWithSameLabel(),
         { manual: true }
     );
-    const [{ data: allLabelsData }, getAllLabels] = useAxios(apiSetting.Label.getAllLabels(), {
+    const [{ data: allLabelsData }, getAllTags] = useAxios(apiSetting.Tag.getAllTags(), {
         manual: false
     });
 
