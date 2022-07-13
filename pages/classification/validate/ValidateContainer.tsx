@@ -57,8 +57,8 @@ function ValidateContainer() {
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
-            id: null,
-            label: null
+            document_id: null,
+            tag_id: null
         },
         onSubmit: async (values) => {
             let res = await confirmDocument({
@@ -66,7 +66,7 @@ function ValidateContainer() {
                     ...values
                 }
             });
-            if (res.data.status === true) {
+            if (res.data.success === true) {
                 alert('Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
             }
@@ -107,8 +107,11 @@ function ValidateContainer() {
             latestPredictionData.prediction &&
             latestPredictionData.success == true
         ) {
-            confirmDocumentFormik.setFieldValue('id', latestPredictionData.prediction.document.id);
-            confirmDocumentFormik.setFieldValue('label', latestPredictionData.prediction.tag.id);
+            confirmDocumentFormik.setFieldValue(
+                'document_id',
+                latestPredictionData.prediction.document.id
+            );
+            confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
         } else if (
             latestPredictionData &&
             latestPredictionData.document === null &&

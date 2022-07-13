@@ -35,52 +35,77 @@ function ValidateView(props: ValidateViewProps) {
                             <p className="mb-2 text-lg">Document AI的建議</p>
                             <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                        {_get(
-                                            latestPredictionData,
-                                            'prediction.document.storage_url'
-                                        ) ? (
-                                            _get(
+                                    <div className="w-5/6 h-full flex flex-col justify-center">
+                                        <p>
+                                            文檔名稱:{' '}
+                                            <span className="font-bold">
+                                                {_get(
+                                                    latestPredictionData,
+                                                    'prediction.document.name'
+                                                )}
+                                            </span>
+                                        </p>
+                                        <p className="mb-1">
+                                            上傳日期:{' '}
+                                            <span className="font-bold">
+                                                {
+                                                    _get(
+                                                        latestPredictionData,
+                                                        'prediction.document.created_at'
+                                                    )?.split('T')[0]
+                                                }
+                                            </span>
+                                        </p>
+                                        <div className="w-full h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                            {_get(
                                                 latestPredictionData,
                                                 'prediction.document.storage_url'
-                                            )
-                                                .split(/[#?]/)[0]
-                                                .split('.')
-                                                .pop()
-                                                .trim() === 'pdf' ? (
-                                                <object
-                                                    className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
-                                                    type="application/pdf"
-                                                    data={
-                                                        _get(
+                                            ) ? (
+                                                _get(
+                                                    latestPredictionData,
+                                                    'prediction.document.name'
+                                                )
+                                                    .split(/[#?]/)[0]
+                                                    .split('.')
+                                                    .pop()
+                                                    .trim() === 'pdf' ? (
+                                                    <object
+                                                        className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                                        type="application/pdf"
+                                                        data={
+                                                            _get(
+                                                                latestPredictionData,
+                                                                'prediction.document.storage_url'
+                                                            ) + '#toolbar=0'
+                                                        }
+                                                        width="250"
+                                                    >
+                                                        <img
+                                                            src={
+                                                                'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
+                                                            }
+                                                            alt={_get(
+                                                                latestPredictionData,
+                                                                'prediction.document.name'
+                                                            )}
+                                                            className="w-1/2 h-1/2 object-contain object-center"
+                                                        />
+                                                    </object>
+                                                ) : (
+                                                    <img
+                                                        className="object-cover shadow-lg rounded-lg"
+                                                        alt={_get(
+                                                            latestPredictionData,
+                                                            'prediction.document.name'
+                                                        )}
+                                                        src={_get(
                                                             latestPredictionData,
                                                             'prediction.document.storage_url'
-                                                        ) + '#toolbar=0'
-                                                    }
-                                                    width="250"
-                                                >
-                                                    <img
-                                                        src={
-                                                            'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
-                                                        }
-                                                        alt="PDF file icon"
-                                                        className="w-1/2 h-1/2 object-contain object-center"
+                                                        )}
                                                     />
-                                                </object>
-                                            ) : (
-                                                <img
-                                                    className="object-cover shadow-lg rounded-lg"
-                                                    alt={_get(
-                                                        latestPredictionData,
-                                                        'prediction.document.name'
-                                                    )}
-                                                    src={_get(
-                                                        latestPredictionData,
-                                                        'prediction.document.storage_url'
-                                                    )}
-                                                />
-                                            )
-                                        ) : null}
+                                                )
+                                            ) : null}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">

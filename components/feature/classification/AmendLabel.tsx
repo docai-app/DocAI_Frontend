@@ -90,12 +90,12 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                     onChange={async (e) => {
                                                         confirmDocumentFormik.setFieldValue(
-                                                            'label',
+                                                            'tag_id',
                                                             e.target.value
                                                         );
                                                     }}
                                                 >
-                                                    {_map(_get(allLabelsData, 'labels'), (item) => {
+                                                    {_map(_get(allLabelsData, 'tags'), (item) => {
                                                         return (
                                                             <option key={item.id} value={item.id}>
                                                                 {item.name}

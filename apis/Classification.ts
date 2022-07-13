@@ -18,7 +18,7 @@ export default class Classification {
     confirmDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: '/classification/confirm',
+            url: '/api/v1/classification/confirm',
             method: 'POST'
         };
         return requestHeader;
