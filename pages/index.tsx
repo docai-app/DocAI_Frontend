@@ -86,36 +86,36 @@ function classNames(...classes: any) {
 
 interface StatisticProps {
     count: number;
-    label: number;
-    name: string;
+    tag: string;
 }
 
 const Home: NextPage = () => {
     const [statistics, setStatistics] = useState([]);
-    const [{ data: countEachLabelDocumentByDateData }, countEachLabelDocumentByDate] = useAxios(
-        apiSetting.Search.countEachLabelDocumentByDate(
+    const [{ data: countTagsByDateData }, countTagsByDate] = useAxios(
+        apiSetting.Statistics.countTagsByDate(
             new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
         ),
-        {
-            manual: true
-        }
+        { manual: true }
+    );
+    const [{ data: countDocumentsByDateData }, countDocumentsByDate] = useAxios(
+        apiSetting.Statistics.countDocumentsByDate(
+            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
+        ),
+        { manual: true }
     );
     useEffect(() => {
-        countEachLabelDocumentByDate({
-            url: `/count/document/${
-                new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
-            }`
-        });
+        countTagsByDate();
+        countDocumentsByDate();
     }, []);
     useEffect(() => {
-        if (countEachLabelDocumentByDateData && countEachLabelDocumentByDateData.status === true) {
-            if (countEachLabelDocumentByDateData.documents.length > 3) {
-                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 3));
+        if (countTagsByDateData && countTagsByDateData.success === true) {
+            if (countTagsByDateData.tags_count.length > 3) {
+                setStatistics(countTagsByDateData.tags_count.slice(0, 3));
             } else {
-                setStatistics(countEachLabelDocumentByDateData.documents);
+                setStatistics(countTagsByDateData.tags_count);
             }
         }
-    }, [countEachLabelDocumentByDateData]);
+    }, [countTagsByDateData]);
     return (
         <div>
             <Head>
@@ -128,7 +128,7 @@ const Home: NextPage = () => {
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">DocAI</h2>
                         <p className="mt-3 text-xl text-gray-500 sm:mt-4">
-                            本日新增的文件數量（排名前3的分類）
+                            本日新增的文件數量：{countDocumentsByDateData?.documents_count || 0}份
                         </p>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ const Home: NextPage = () => {
                                                     className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r"
                                                 >
                                                     <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                                                        {statistic.name ? statistic.name : '未分類'}
+                                                        {statistic.tag ? statistic.tag : '未分類'}
                                                     </dt>
                                                     <dd className="order-1 text-5xl font-extrabold text-indigo-600">
                                                         {statistic.count}
