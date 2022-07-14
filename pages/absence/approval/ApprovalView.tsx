@@ -116,7 +116,6 @@ function ApprovalView(props: any) {
                     <div>載入中...</div>
                 ) : (
                     <>
-                        {error && <div>加載資料時發生錯誤！正在顯示範例資料</div>}
                         <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
                             <table className="w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
