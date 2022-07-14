@@ -13,7 +13,7 @@ export default class Absence {
     getAbsenceFormByApprovalStatus(status: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/absence/approval?status=${status}`,
+            url: `/api/v1/form/absence/approval?status=${status}`,
             method: 'GET'
         };
         return requestHeader;
@@ -22,7 +22,7 @@ export default class Absence {
     getAbsenceFormByApprovalApprovalID(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/absence/approval/${id}`,
+            url: `/api/v1/form/absence/approval/${id}`,
             method: 'GET'
         };
         return requestHeader;
@@ -31,7 +31,7 @@ export default class Absence {
     updateAbsenceFormApprovalStatus(id: string, status: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/absence/${id}/approval?status=${status}`,
+            url: `/api/v1/form/absence/${id}/approval?status=${status}`,
             method: 'PUT'
         };
         return requestHeader;

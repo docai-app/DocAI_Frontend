@@ -22,7 +22,7 @@ export default class Search {
     searchFormByLabelAndDate(label: string, date: string) {
         const requestHeader: getRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/search/form/${encodeURI(label)}/${date}`,
+            url: `/api/v1/search/form/${encodeURI(label)}/${date}`,
             method: 'GET'
         };
         return requestHeader;

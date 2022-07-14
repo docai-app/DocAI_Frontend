@@ -20,7 +20,7 @@ export default class Form {
     uploadAndRecognizeAbsenceForm() {
         const requestHeader: postRequestHeaderProps = {
             baseURL: baseURL,
-            url: '/form/absence',
+            url: '/api/v1/form/absence',
             method: 'POST'
         };
         return requestHeader;

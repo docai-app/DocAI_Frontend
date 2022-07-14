@@ -77,7 +77,7 @@ function ValidateContainer() {
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: false }
+        { manual: true }
     );
 
     const [
@@ -104,8 +104,8 @@ function ValidateContainer() {
     }, [router]);
 
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
-            setFormSchema(JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema));
+        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
+            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
         }
     }, [getFormsSchemaByNameData]);
 
