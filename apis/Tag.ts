@@ -36,4 +36,13 @@ export default class Tag {
         };
         return requestHeader;
     }
+
+    updateLabelNameById(id: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/labels/${id}`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

@@ -102,11 +102,12 @@ function AbsenceApprovalContainer() {
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval } = formData.formData;
+            const { approval, remark } = formData.formData;
             if (router.query.id) {
                 updateFormApprovalStatus({
                     data: {
-                        approval_status: approval
+                        approval_status: approval,
+                        remark: remark
                     }
                 });
             }
@@ -136,6 +137,10 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
             formSchema.current = getFormsSchemaByNameData.form_schema.form_schema;
+            _set(formSchema.current, 'properties.remark', {
+                title: '備註',
+                type: 'string'
+            });
             _set(formSchema.current, 'properties.approval', {
                 title: '',
                 type: 'string'
