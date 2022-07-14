@@ -8,6 +8,7 @@ import Absence from './Absence';
 import Document from './Document';
 import FormSchema from './FormSchema';
 import Statistics from './Statistics';
+import DocumentApproval from './DocumentApproval';
 
 export default class Api {
     Storage: Storage;
@@ -19,6 +20,7 @@ export default class Api {
     Document: Document;
     FormSchema: FormSchema;
     Statistics: Statistics;
+    DocumentApproval: DocumentApproval;
 
     constructor() {
         this.Storage = new Storage();
@@ -30,5 +32,6 @@ export default class Api {
         this.Document = new Document();
         this.FormSchema = new FormSchema();
         this.Statistics = new Statistics();
+        this.DocumentApproval = new DocumentApproval();
     }
 }

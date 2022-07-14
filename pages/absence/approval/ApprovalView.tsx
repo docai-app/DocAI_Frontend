@@ -2,6 +2,7 @@ import _findKey from 'lodash/findKey';
 import Link from 'next/link';
 import { DownloadIcon } from '@heroicons/react/solid';
 import { Parser } from 'json2csv';
+import _get from 'lodash/get';
 
 function ApprovalView(props: any) {
     const { data = [], currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
@@ -174,8 +175,10 @@ function ApprovalView(props: any) {
                                                 </td>
                                                 <td className="px-6 py-4 text-left">
                                                     {type_of_leave &&
-                                                        formSchema.properties.type_of_leave
-                                                            .properties[type_of_leave].title}
+                                                        _get(
+                                                            formSchema,
+                                                            `properties.type_of_leave.properties[${type_of_leave}].title`
+                                                        )}
                                                 </td>
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
                                                     <Link
