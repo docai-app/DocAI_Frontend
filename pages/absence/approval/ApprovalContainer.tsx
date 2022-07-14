@@ -30,7 +30,7 @@ function ApprovalContainer() {
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: false }
+        { manual: true }
     );
 
     useEffect(() => {
@@ -38,11 +38,11 @@ function ApprovalContainer() {
     }, []);
 
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
-            setFormSchema(JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema));
+        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
+            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
             setProps({
                 ...props,
-                formSchema: JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema)
+                formSchema: getFormsSchemaByNameData.form_schema.form_schema
             });
         }
     }, [getFormsSchemaByNameData]);
@@ -50,7 +50,7 @@ function ApprovalContainer() {
     useEffect(() => {
         setProps({
             ...props,
-            data: getAbsenceFormByApprovalStatusData?.absences_form || props.data
+            data: getAbsenceFormByApprovalStatusData?.absence_forms || props.data
         });
     }, [getAbsenceFormByApprovalStatusData]);
 
@@ -61,7 +61,7 @@ function ApprovalContainer() {
             setCurrentTabStatus: setCurrentTabStatus
         });
         getAbsenceFormByApprovalStatus({
-            url: `/form/absence/approval?status=${currentTabStatus}`
+            url: `/api/v1/form/absence/approval?status=${currentTabStatus}`
         });
     }, [currentTabStatus]);
 

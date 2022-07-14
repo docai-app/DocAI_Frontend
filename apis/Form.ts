@@ -26,19 +26,10 @@ export default class Form {
         return requestHeader;
     }
 
-    confirmDocument() {
-        const requestHeader: postRequestHeaderProps = {
-            baseURL: baseURL,
-            url: '/classification/confirm',
-            method: 'POST'
-        };
-        return requestHeader;
-    }
-
     updateFormData(id: string) {
         const requestHeader: postRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/${id}`,
+            url: `/api/v1/form/datum/${id}`,
             method: 'PUT'
         };
         return requestHeader;

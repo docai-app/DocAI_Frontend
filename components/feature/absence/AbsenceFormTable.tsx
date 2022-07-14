@@ -1,4 +1,5 @@
 import React from 'react';
+import _get from 'lodash/get';
 
 const people = [
     {
@@ -23,16 +24,17 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     const getTypeOfAbsence = (typeOfAbsence: any) => {
         for (const key in typeOfAbsence) {
             if (typeOfAbsence[key] === true) {
-                return JSON.parse(absenceForms.form_schema.form_schema).properties.type_of_absence
-                    .properties[key].title;
+                return absenceForms.form_schema.form_schema.properties.type_of_absence.properties[
+                    key
+                ].title;
             }
         }
     };
     const getTypeOfLeave = (typeOfLeave: any) => {
         for (const key in typeOfLeave) {
             if (typeOfLeave[key] === true) {
-                return JSON.parse(absenceForms.form_schema.form_schema).properties.type_of_leave
-                    .properties[key].title;
+                return absenceForms.form_schema.form_schema.properties.type_of_leave.properties[key]
+                    .title;
             }
         }
     };
@@ -89,30 +91,24 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                     {absenceForms.form_data.map((absenceForm: any) => (
                                         <tr key={absenceForm.id}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                {
-                                                    JSON.parse(absenceForm.data.replace(/'/g, '"'))
-                                                        .employee_name
-                                                }
+                                                {_get(absenceForm, 'data.employee_name')}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {
-                                                    JSON.parse(absenceForm.data).duration_of_absence
-                                                        .reason_of_absence
-                                                }
+                                                {_get(absenceForm, 'data.reason_of_absence')}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {getTypeOfAbsence(
-                                                    JSON.parse(absenceForm.data).type_of_absence
+                                                    _get(absenceForm, 'data.type_of_absence')
                                                 )}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {getTypeOfLeave(
-                                                    JSON.parse(absenceForm.data).type_of_leave
-                                                )}
+                                                {/* {getTypeOfLeave(
+                                                    _get(absenceForm, 'data.type_of_leave')
+                                                )} */}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <a
-                                                    href={absenceForm.document_details.storage_url}
+                                                    href={_get(absenceForm, 'document.storage_url')}
                                                     className="text-indigo-600 hover:text-indigo-900"
                                                     target="_blank"
                                                     rel="noreferrer"

@@ -46,7 +46,7 @@ function ApprovalView(props: any) {
     const downloadCSV = () => {
         let absencesFormData: Array<any> = [];
         data.map((item: any) => {
-            const itemJSON = JSON.parse(item.form_details[0].data);
+            const itemJSON = item.form_data.data;
             let tempData = itemJSON;
             const working_department = _findKey(itemJSON.working_department, function (value) {
                 return value === true;
@@ -149,14 +149,14 @@ function ApprovalView(props: any) {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {data.map((item: any) => {
-                                        const { id, document_id, status } =
-                                            item.approval_details[0];
+                                        console.log(item);
+                                        const { id, document_id, approval_status } = item;
                                         const {
                                             employee_id,
                                             employee_name,
                                             reason_of_absence,
                                             type_of_leave: type_of_leave_obj
-                                        } = JSON.parse(item.form_details[0].data);
+                                        } = item.form_data.data;
                                         const type_of_leave = _findKey(
                                             type_of_leave_obj,
                                             (value) => value
@@ -181,11 +181,11 @@ function ApprovalView(props: any) {
                                                     <Link
                                                         href={`/absence/approval/${id.toString()}`}
                                                     >
-                                                        {status === 'awaiting' ? (
+                                                        {approval_status === 'awaiting' ? (
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                                 待審批
                                                             </a>
-                                                        ) : status === 'approved' ? (
+                                                        ) : approval_status === 'approved' ? (
                                                             <a className="text-green-600 hover:text-green-900 font-bold">
                                                                 已審批
                                                             </a>

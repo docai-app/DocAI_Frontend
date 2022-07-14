@@ -46,7 +46,7 @@ function SearchContainer() {
     useEffect(() => {
         if (searchFormByLabelAndDateData) {
             setAbsenceForms({
-                form_data: searchFormByLabelAndDateData.form_data,
+                form_data: searchFormByLabelAndDateData.form_datum,
                 form_schema: searchFormByLabelAndDateData.form_schema
             });
         }

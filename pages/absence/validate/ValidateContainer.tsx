@@ -63,15 +63,11 @@ function ValidateContainer() {
             data: result
         },
         onSubmit: async (values) => {
-            let res = await updateFormData({
+            updateFormData({
                 data: {
                     data: values.data
                 }
             });
-            if (res.data.status === true) {
-                alert('請假表提交成功！');
-                router.push('/');
-            }
         }
     });
 
@@ -82,10 +78,10 @@ function ValidateContainer() {
 
     const [
         {
-            data: latestPredictionData,
-            loading: latestPredictionLoading,
-            error: latestPredictionError,
-            response: latestPredictionResponse
+            data: updateFormDataData,
+            loading: updateFormDataLoading,
+            error: updateFormDataError,
+            response: updateFormDataResponse
         },
         updateFormData
     ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {
@@ -108,6 +104,13 @@ function ValidateContainer() {
             setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
         }
     }, [getFormsSchemaByNameData]);
+
+    useEffect(() => {
+        if (updateFormDataData && updateFormDataData.success === true) {
+            alert('請假表提交成功！');
+            router.push('/');
+        }
+    }, [updateFormDataData]);
 
     return (
         <>
