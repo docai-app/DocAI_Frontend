@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import LabelView from './LableView';
 import Api from '../../../apis';
 import useAxios from 'axios-hooks';
@@ -7,39 +7,53 @@ const apiSetting = new Api();
 
 export default function LabelContainer() {
     const [props, setProps] = useState<any>({});
+    const [newLabelName, setNewLabelName] = useState('');
     const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
-        apiSetting.Label.addNewLabel(),
+        apiSetting.Tag.addNewTag(),
         { manual: true }
     );
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
-        apiSetting.Label.getAllLabels()
+        apiSetting.Tag.getAllTags()
     );
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
         updateLabelNameById
-    ] = useAxios(apiSetting.Label.updateLabelNameById(''), { manual: true });
-    const [newLabelName, setNewLabelName] = useState('');
+    ] = useAxios(apiSetting.Tag.updateTagNameById(''), { manual: true });
+
     const addNewLabelHandler = useCallback(async () => {
-        const res = await addNewLabel({ data: { name: newLabelName } });
-        if (res.data.status) {
-            alert('新增成功');
-            getAllLabels();
-            setNewLabelName('');
-        }
+        addNewLabel({ data: { name: newLabelName } });
     }, [addNewLabel, newLabelName]);
+
     const updateLabelNameByIdHandler = useCallback(
         async (id: string, newName: string) => {
-            const res = await updateLabelNameById({
-                ...apiSetting.Label.updateLabelNameById(id),
+            updateLabelNameById({
+                ...apiSetting.Tag.updateTagNameById(id),
                 data: { name: newName }
             });
-            if (res.data.status) {
-                alert('更新成功');
-                getAllLabels();
-            }
         },
         [updateLabelNameById]
     );
+
+    useEffect(() => {
+        if (addNewLabelData && addNewLabelData.success) {
+            alert('新增成功');
+            getAllLabels();
+            setNewLabelName('');
+        } else if (addNewLabelData && !addNewLabelData.success) {
+            alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
+            console.log(addNewLabelError);
+        }
+    }, [addNewLabelData]);
+
+    useEffect(() => {
+        if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
+            alert('更新成功');
+            getAllLabels();
+        } else if (updateLabelNameByIdData && !updateLabelNameByIdData.success) {
+            alert(`更新失敗！原因：${updateLabelNameByIdData.errors.name[0]}`);
+            console.log(updateLabelNameByIdError);
+        }
+    }, [updateLabelNameByIdData]);
     return (
         <LabelView
             {...{

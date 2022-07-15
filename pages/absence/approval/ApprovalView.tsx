@@ -132,6 +132,9 @@ function ApprovalView(props: any) {
                                         <th scope="col" className="px-6 py-3 text-left">
                                             假期類型
                                         </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            審批備註
+                                        </th>
                                         <th scope="col" className="px-6 py-3 text-right">
                                             <button
                                                 type="button"
@@ -149,8 +152,7 @@ function ApprovalView(props: any) {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {data.map((item: any) => {
-                                        console.log(item);
-                                        const { id, document_id, approval_status } = item;
+                                        const { id, remark, approval_status } = item;
                                         const {
                                             employee_id,
                                             employee_name,
@@ -169,7 +171,7 @@ function ApprovalView(props: any) {
                                                 <td className="px-6 py-4 text-left">
                                                     {employee_name}
                                                 </td>
-                                                <td className="px-6 py-4 text-left">
+                                                <td className="px-6 py-4 text-left overflow-hidden">
                                                     {reason_of_absence}
                                                 </td>
                                                 <td className="px-6 py-4 text-left">
@@ -179,6 +181,7 @@ function ApprovalView(props: any) {
                                                             `properties.type_of_leave.properties[${type_of_leave}].title`
                                                         )}
                                                 </td>
+                                                <td className="px-6 py-4 text-left">{remark}</td>
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
                                                     <Link
                                                         href={`/absence/approval/${id.toString()}`}

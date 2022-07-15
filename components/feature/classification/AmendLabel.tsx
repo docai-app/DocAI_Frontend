@@ -95,6 +95,9 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                         );
                                                     }}
                                                 >
+                                                    <option value="" selected disabled hidden>
+                                                        請選擇批量文件的類型
+                                                    </option>
                                                     {_map(_get(allLabelsData, 'tags'), (item) => {
                                                         return (
                                                             <option key={item.id} value={item.id}>

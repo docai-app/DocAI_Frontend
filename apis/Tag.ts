@@ -37,10 +37,10 @@ export default class Tag {
         return requestHeader;
     }
 
-    updateLabelNameById(id: string) {
+    updateTagNameById(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/labels/${id}`,
+            url: `/api/v1/tags/${id}`,
             method: 'PUT'
         };
         return requestHeader;
