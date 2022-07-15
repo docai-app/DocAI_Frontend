@@ -1,14 +1,14 @@
 // components/common/Widget/SingleActionModel.tsx
-import { Fragment, useState } from 'react';
+import { Fragment, ReactElement, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/outline';
 
 interface SingleActionModelProps {
     open: boolean;
     setOpen: any;
-    // title: string | undefined | null;
-    // content: string | undefined | null;
-    // icon: Element | undefined | null;
+    title: string | undefined | null;
+    content: string | undefined | null;
+    icon: ReactElement | undefined | null;
 }
 
 export default function SingleActionModel(props: SingleActionModelProps) {
