@@ -7,13 +7,13 @@ import _map from 'lodash/map';
 interface UploadViewProps {
     formik: any;
     setDocuments: any;
-    labels: Array<any>;
+    tags: Array<any>;
     open: boolean;
     setOpen: any;
 }
 
 function UploadView(props: UploadViewProps) {
-    const { formik, setDocuments, labels, open, setOpen } = props;
+    const { formik, setDocuments, tags, open, setOpen } = props;
     return (
         <>
             <Uploading {...{ open, setOpen }} />
@@ -38,13 +38,13 @@ function UploadView(props: UploadViewProps) {
                                 className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 onChange={async (e) => {
                                     console.log(e.target.value);
-                                    formik.setFieldValue('label_id', e.target.value);
+                                    formik.setFieldValue('tag_id', e.target.value);
                                 }}
                             >
                                 <option value="" selected disabled hidden>
                                     請選擇批量文件的類型
                                 </option>
-                                {_map(_get(labels, 'labels'), (item) => {
+                                {_map(_get(tags, 'tags'), (item) => {
                                     return (
                                         <option key={item.id} value={item.id}>
                                             {item.name}

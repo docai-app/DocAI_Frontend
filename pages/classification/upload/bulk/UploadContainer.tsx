@@ -11,16 +11,16 @@ function UploadContainer() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
-    const [labels, setLabels] = useState([]);
+    const [tags, setTags] = useState([]);
     const formik = useFormik({
         initialValues: {
             document: [],
-            label_id: ''
+            tag_id: ''
         },
         validate: (values) => {
             const errors: any = {};
-            if (!values.label_id) {
-                errors.label_id = 'Required';
+            if (!values.tag_id) {
+                errors.tag_id = 'Required';
                 alert('請選擇批量文件的類型！');
             }
             return errors;
@@ -30,39 +30,40 @@ function UploadContainer() {
             for (const i of documents) {
                 formData.append('document[]', i);
             }
-            formData.append('label_id', values.label_id);
-            uploadBulkWithSameLabel({
+            formData.append('tag_id', values.tag_id);
+            uploadBulkWithSameTag({
                 data: formData
             });
             setOpen(true);
         }
     });
-    const [{ data: uploadData }, uploadBulkWithSameLabel] = useAxios(
-        apiSetting.Storage.uploadBulkWithSameLabel(),
+    const [{ data: uploadData }, uploadBulkWithSameTag] = useAxios(
+        apiSetting.Storage.uploadBulkWithSameTag(),
         { manual: true }
     );
-    const [{ data: allLabelsData }, getAllTags] = useAxios(apiSetting.Tag.getAllTags(), {
+    const [{ data: allTagsData }, getAllTags] = useAxios(apiSetting.Tag.getAllTags(), {
         manual: false
     });
 
     useEffect(() => {
-        setLabels(allLabelsData);
-        console.log(allLabelsData);
-        console.log(labels);
-    }, [allLabelsData]);
+        setTags(allTagsData);
+        console.log(allTagsData);
+        console.log(tags);
+    }, [allTagsData]);
 
     useEffect(() => {
-        if (uploadData && uploadData.status === true) {
+        if (uploadData && uploadData.success === true) {
             setOpen(false);
+            alert('上傳成功！');
             router.push('/classification');
-        } else if (uploadData && uploadData.status === false) {
+        } else if (uploadData && uploadData.success === false) {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
     }, [uploadData]);
     return (
         <>
-            <UploadView {...{ formik, setDocuments, labels, open, setOpen }} />
+            <UploadView {...{ formik, setDocuments, tags, open, setOpen }} />
         </>
     );
 }

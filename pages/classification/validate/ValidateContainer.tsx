@@ -92,14 +92,7 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
-        const fetch = async () => {
-            let res = await getAndPredictLatestUploadedDocument();
-            if (res.data.document === null) {
-                alert('沒有文件需要驗證');
-                router.push('/classification');
-            }
-        };
-        fetch();
+        getAndPredictLatestUploadedDocument();
     }, []);
     useEffect(() => {
         if (
@@ -112,11 +105,8 @@ function ValidateContainer() {
                 latestPredictionData.prediction.document.id
             );
             confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
-        } else if (
-            latestPredictionData &&
-            latestPredictionData.document === null &&
-            latestPredictionData.prediction === null
-        ) {
+        } else if (latestPredictionData && latestPredictionData.success === false) {
+            alert('沒有文件需要驗證');
             router.push('/classification');
         }
     }, [latestPredictionData]);
