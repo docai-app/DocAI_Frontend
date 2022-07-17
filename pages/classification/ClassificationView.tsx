@@ -4,11 +4,11 @@ import { FolderIcon, PlusIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 
 interface ClassificationViewProps {
-    getDocumentsLabelData: object;
+    getTagByTaggingData: object;
 }
 
 function ClassificationView(props: ClassificationViewProps) {
-    const { getDocumentsLabelData } = props;
+    const { getTagByTaggingData } = props;
     const router = useRouter();
     return (
         <>
@@ -40,7 +40,7 @@ function ClassificationView(props: ClassificationViewProps) {
                                     role="list"
                                     className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                                 >
-                                    {_map(_get(getDocumentsLabelData, 'labels'), (label) => {
+                                    {_map(_get(getTagByTaggingData, 'tags'), (label) => {
                                         return (
                                             <a
                                                 href={

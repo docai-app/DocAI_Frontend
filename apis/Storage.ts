@@ -14,7 +14,7 @@ export default class Storage {
     upload() {
         const requestHeader: RequestHeaderProps = {
             baseURL: baseURL,
-            url: '/upload',
+            url: '/api/v1/storage/upload',
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -23,10 +23,10 @@ export default class Storage {
         return requestHeader;
     }
 
-    uploadBulkWithSameLabel() {
+    uploadBulkWithSameTag() {
         const requestHeader: RequestHeaderProps = {
             baseURL: baseURL,
-            url: '/upload/bulk/label',
+            url: '/api/v1/storage/upload/bulk/tag',
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data'

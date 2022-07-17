@@ -1,15 +1,24 @@
-// components/feature/classification/Uploading.tsx
-import { Fragment, useState } from 'react';
+// components/common/Widget/SingleActionModel.tsx
+import { Fragment, ReactElement, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/outline';
 
-interface UploadingProps {
+interface SingleActionModelProps {
     open: boolean;
     setOpen: any;
+    title: string | undefined | null;
+    content: string | undefined | null;
+    icon: ReactElement | undefined | null;
 }
 
-export default function Uploading(props: UploadingProps) {
-    const { open = false, setOpen } = props;
+export default function SingleActionModel(props: SingleActionModelProps) {
+    const {
+        open = false,
+        setOpen,
+        title = '',
+        content = '',
+        icon = <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+    } = props;
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={setOpen}>
@@ -45,22 +54,17 @@ export default function Uploading(props: UploadingProps) {
                         <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                             <div>
                                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                                    <CheckIcon
-                                        className="h-6 w-6 text-green-600"
-                                        aria-hidden="true"
-                                    />
+                                    {icon}
                                 </div>
                                 <div className="mt-3 text-center sm:mt-5">
                                     <Dialog.Title
                                         as="h3"
                                         className="text-lg leading-6 font-medium text-gray-900"
                                     >
-                                        正在上傳......
+                                        {title}
                                     </Dialog.Title>
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
-                                            文檔上傳中，請稍候。
-                                        </p>
+                                        <p className="text-sm text-gray-500">{content}</p>
                                     </div>
                                 </div>
                             </div>

@@ -20,16 +20,7 @@ export default class Form {
     uploadAndRecognizeAbsenceForm() {
         const requestHeader: postRequestHeaderProps = {
             baseURL: baseURL,
-            url: '/form/absence',
-            method: 'POST'
-        };
-        return requestHeader;
-    }
-
-    confirmDocument() {
-        const requestHeader: postRequestHeaderProps = {
-            baseURL: baseURL,
-            url: '/classification/confirm',
+            url: '/api/v1/form/absence',
             method: 'POST'
         };
         return requestHeader;
@@ -38,7 +29,7 @@ export default class Form {
     updateFormData(id: string) {
         const requestHeader: postRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/${id}`,
+            url: `/api/v1/form/datum/${id}`,
             method: 'PUT'
         };
         return requestHeader;

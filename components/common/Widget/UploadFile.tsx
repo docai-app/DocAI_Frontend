@@ -113,7 +113,7 @@ export default function UploadFile(props: UploadFileProps) {
                             </label>
                         </div>
                         <span className="mt-2 block text-sm font-medium">
-                            PNG, JPG, PDF up to 5MB，一次最多上傳5個文檔。
+                            PNG, JPG, PDF up to 5MB
                         </span>
                         <button
                             type="button"

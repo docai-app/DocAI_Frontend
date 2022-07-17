@@ -1,43 +1,47 @@
 import { Method } from 'axios';
 
-// apis/Absence.ts
+// apis/Classification.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface requestHeaderProps {
     baseURL: string | undefined;
     url: string;
     method: Method;
-    data?: any;
 }
 
-export default class Absence {
-    getAbsenceFormByApprovalStatus(status: string) {
+export default class Tag {
+    getAllTags() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/api/v1/form/absence/approval?status=${status}`,
+            url: '/api/v1/tags',
             method: 'GET'
         };
         return requestHeader;
     }
 
-    getAbsenceFormByApprovalApprovalID(id: string) {
+    getTagByTagging() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/api/v1/form/absence/approval/${id}`,
+            url: '/api/v1/tags/tagging/document',
             method: 'GET'
         };
         return requestHeader;
     }
 
-    updateAbsenceFormApprovalStatus(id: string, status: string, remark: string = '') {
+    addNewTag() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/api/v1/form/absence/${id}/approval?status=${status}`,
-            method: 'PUT',
-            data: {
-                status,
-                remark
-            }
+            url: '/api/v1/tags',
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    updateTagNameById(id: string) {
+        const requestHeader: requestHeaderProps = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/${id}`,
+            method: 'PUT'
         };
         return requestHeader;
     }

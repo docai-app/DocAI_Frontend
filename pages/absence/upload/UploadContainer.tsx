@@ -11,6 +11,10 @@ function UploadContainer() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
+    const [
+        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
+        upload
+    ] = useAxios(apiSetting.Form.uploadAndRecognizeAbsenceForm(), { manual: true });
     const formik = useFormik({
         initialValues: {
             document: []
@@ -26,22 +30,18 @@ function UploadContainer() {
             setOpen(true);
         }
     });
-    const [
-        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
-        upload
-    ] = useAxios(apiSetting.Form.uploadAndRecognizeAbsenceForm(), { manual: true });
     useEffect(() => {
-        if (uploadData && uploadData.status === true) {
+        if (uploadData && uploadData.success === true) {
             setOpen(false);
             router.push({
                 pathname: '/absence/validate',
                 query: {
-                    form_url: `${uploadData.form_url}`,
-                    form_id: `${uploadData.form_id}`,
-                    result: JSON.stringify(uploadData.result)
+                    form_url: `${uploadData.document.storage_url}`,
+                    form_id: `${uploadData.form_data.id}`,
+                    result: JSON.stringify(uploadData.form_data.data)
                 }
             });
-        } else if (uploadData && uploadData.status === false) {
+        } else if (uploadData && uploadData.success === false) {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }

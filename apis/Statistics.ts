@@ -9,20 +9,20 @@ interface getRequestHeaderProps {
     method: Method;
 }
 
-export default class Search {
-    searchDocumentByContent() {
+export default class Statistics {
+    countTagsByDate(date: string) {
         const requestHeader: getRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/api/v1/search/documents/content`,
+            url: `/api/v1/statistics/count/tags/${date}`,
             method: 'GET'
         };
         return requestHeader;
     }
 
-    searchFormByLabelAndDate(label: string, date: string) {
+    countDocumentsByDate(date: string) {
         const requestHeader: getRequestHeaderProps = {
             baseURL: baseURL,
-            url: `/api/v1/search/form/${encodeURI(label)}/${date}`,
+            url: `/api/v1/statistics/count/documents/${date}`,
             method: 'GET'
         };
         return requestHeader;

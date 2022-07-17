@@ -23,7 +23,6 @@ function UploadContainer() {
             upload({
                 data: formData
             });
-            setOpen(true);
         }
     });
     const [
@@ -31,14 +30,17 @@ function UploadContainer() {
         upload
     ] = useAxios(apiSetting.Storage.upload(), { manual: true });
     useEffect(() => {
-        if (uploadData && uploadData.status === true) {
+        if (uploadData && uploadData.success === true) {
             setOpen(false);
             router.push('/classification/validate');
-        } else if (uploadData && uploadData.status === false) {
+        } else if (uploadData && uploadData.success === false) {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
     }, [uploadData]);
+    useEffect(() => {
+        setOpen(uploadLoading);
+    }, [uploadLoading]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, open, setOpen }} />

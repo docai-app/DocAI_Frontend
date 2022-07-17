@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
 import Api from '../../apis/index';
 import SearchView from './SearchView';
@@ -8,6 +8,7 @@ const apiSetting = new Api();
 
 function SearchContainer() {
     const [documents, setDocuments] = useState([]);
+    const [open, setOpen] = useState(false);
     const [
         {
             data: searchDocumentByContentData,
@@ -30,14 +31,22 @@ function SearchContainer() {
                 }
             });
             if (res.data) {
-                alert('Document Found!');
-                setDocuments(res.data.documents);
+                setOpen(false);
             }
         }
     });
+    useEffect(() => {
+        if (searchDocumentByContentData && searchDocumentByContentData.success === true) {
+            setDocuments(searchDocumentByContentData.documents);
+            setOpen(false);
+        }
+    }, [searchDocumentByContentData]);
+    useEffect(() => {
+        setOpen(searchDocumentByContentLoading);
+    }, [searchDocumentByContentLoading]);
     return (
         <>
-            <SearchView {...{ searchDocumentFormik, documents }} />
+            <SearchView {...{ searchDocumentFormik, documents, open, setOpen }} />
         </>
     );
 }

@@ -38,8 +38,8 @@ function ValidateContainer() {
             error: allLabelsError,
             response: allLabelsResponse
         },
-        getAllLabels
-    ] = useAxios(apiSetting.Label.getAllLabels(), {
+        getAllTags
+    ] = useAxios(apiSetting.Tag.getAllTags(), {
         manual: false
     });
 
@@ -50,15 +50,15 @@ function ValidateContainer() {
             error: newLabelError,
             response: newLabelResponse
         },
-        addNewLabel
-    ] = useAxios(apiSetting.Label.addNewLabel(), {
+        addNewTag
+    ] = useAxios(apiSetting.Tag.addNewTag(), {
         manual: true
     });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
-            id: null,
-            label: null
+            document_id: null,
+            tag_id: null
         },
         onSubmit: async (values) => {
             let res = await confirmDocument({
@@ -66,24 +66,24 @@ function ValidateContainer() {
                     ...values
                 }
             });
-            if (res.data.status === true) {
+            if (res.data.success === true) {
                 alert('Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
             }
         }
     });
 
-    const addNewLabelFormik = useFormik({
+    const addNewTagFormik = useFormik({
         initialValues: {
             name: null
         },
         onSubmit: async (values) => {
-            let res = await addNewLabel({
+            let res = await addNewTag({
                 data: {
                     ...values
                 }
             });
-            await getAllLabels();
+            await getAllTags();
             if (res.data.status) {
                 alert('新類型已新增！');
                 await getAndPredictLatestUploadedDocument();
@@ -92,29 +92,21 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
-        const fetch = async () => {
-            let res = await getAndPredictLatestUploadedDocument();
-            if (res.data.document === null) {
-                alert('沒有文件需要驗證');
-                router.push('/classification');
-            }
-        };
-        fetch();
+        getAndPredictLatestUploadedDocument();
     }, []);
     useEffect(() => {
         if (
             latestPredictionData &&
-            latestPredictionData.document &&
             latestPredictionData.prediction &&
-            latestPredictionData.status == true
+            latestPredictionData.success == true
         ) {
-            confirmDocumentFormik.setFieldValue('id', latestPredictionData.document.id);
-            confirmDocumentFormik.setFieldValue('label', latestPredictionData.prediction.id);
-        } else if (
-            latestPredictionData &&
-            latestPredictionData.document === null &&
-            latestPredictionData.prediction === null
-        ) {
+            confirmDocumentFormik.setFieldValue(
+                'document_id',
+                latestPredictionData.prediction.document.id
+            );
+            confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
+        } else if (latestPredictionData && latestPredictionData.success === false) {
+            alert('沒有文件需要驗證');
             router.push('/classification');
         }
     }, [latestPredictionData]);
@@ -124,7 +116,7 @@ function ValidateContainer() {
                 {...{
                     latestPredictionData,
                     confirmDocumentFormik,
-                    addNewLabelFormik,
+                    addNewTagFormik,
                     allLabelsData
                 }}
             />

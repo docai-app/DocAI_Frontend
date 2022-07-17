@@ -13,7 +13,7 @@ export default class FormSchema {
     getFormsSchemaByName(name: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/form/schema/${name}`,
+            url: `/api/v1/form/schemas/name/${name}`,
             method: 'GET'
         };
         return requestHeader;

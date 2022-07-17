@@ -86,35 +86,33 @@ function AbsenceApprovalContainer() {
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: false }
+        { manual: true }
     );
 
     const [{ data: getAbsenceFormByApprovalIdData }, getAbsenceFormByApprovalId] = useAxios('', {
         manual: true
     });
 
-    const [{}, updateAbsenceFormApprovalStatus] = useAxios(
-        apiSetting.Absence.updateAbsenceFormApprovalStatus('', ''),
-        { manual: true }
+    const [{ data: updateFormApprovalStatusData }, updateFormApprovalStatus] = useAxios(
+        apiSetting.DocumentApproval.updateFormApprovalStatus(_get(router, 'query.id')),
+        {
+            manual: true
+        }
     );
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval } = formData.formData;
+            const { approval, remark } = formData.formData;
             if (router.query.id) {
-                const res = await updateAbsenceFormApprovalStatus(
-                    apiSetting.Absence.updateAbsenceFormApprovalStatus(
-                        router.query.id.toString(),
-                        approval
-                    )
-                );
-                if (res.data.status) {
-                    alert('審批成功！');
-                    router.push(`/absence/approval?status=${approval}`);
-                }
+                updateFormApprovalStatus({
+                    data: {
+                        approval_status: approval,
+                        remark: remark
+                    }
+                });
             }
         },
-        [router, updateAbsenceFormApprovalStatus]
+        [router, updateFormApprovalStatus]
     );
 
     useEffect(() => {
@@ -130,23 +128,32 @@ function AbsenceApprovalContainer() {
     }, [router]);
 
     useEffect(() => {
-        if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.status === true) {
-            setFormUrl(getAbsenceFormByApprovalIdData.absences_form.storage_url);
-            setResult(
-                JSON.parse(getAbsenceFormByApprovalIdData.absences_form.form_details[0].data)
-            );
+        if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.success === true) {
+            setFormUrl(getAbsenceFormByApprovalIdData.absence_form.document.storage_url);
+            setResult(getAbsenceFormByApprovalIdData.absence_form.form_data.data);
         }
     }, [getAbsenceFormByApprovalIdData]);
 
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
-            formSchema.current = JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema);
+        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
+            formSchema.current = getFormsSchemaByNameData.form_schema.form_schema;
+            _set(formSchema.current, 'properties.remark', {
+                title: '備註',
+                type: 'string'
+            });
             _set(formSchema.current, 'properties.approval', {
                 title: '',
                 type: 'string'
             });
         }
     }, [getFormsSchemaByNameData]);
+
+    useEffect(() => {
+        if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
+            alert('審批成功！');
+            router.push(`/absence/approval`);
+        }
+    }, [updateFormApprovalStatusData]);
 
     return (
         <>

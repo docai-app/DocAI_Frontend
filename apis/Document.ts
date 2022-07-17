@@ -28,10 +28,10 @@ export default class Absence {
         return requestHeader;
     }
 
-    getDocumentBtLabelId(id: string) {
+    getDocumentsByTagID(id: string) {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/documents/labels/${id}`,
+            url: `/api/v1/documents/tags/${id}`,
             method: 'GET'
         };
         return requestHeader;
@@ -49,7 +49,7 @@ export default class Absence {
     getAndPredictLatestUploadedDocument() {
         const requestHeader: requestHeaderProps = {
             baseURL: baseURL,
-            url: `/documents/latest`,
+            url: `/api/v1/documents/latest/predict`,
             method: 'GET'
         };
         return requestHeader;

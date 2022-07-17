@@ -63,29 +63,25 @@ function ValidateContainer() {
             data: result
         },
         onSubmit: async (values) => {
-            let res = await updateFormData({
+            updateFormData({
                 data: {
                     data: values.data
                 }
             });
-            if (res.data.status === true) {
-                alert('請假表提交成功！');
-                router.push('/');
-            }
         }
     });
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: false }
+        { manual: true }
     );
 
     const [
         {
-            data: latestPredictionData,
-            loading: latestPredictionLoading,
-            error: latestPredictionError,
-            response: latestPredictionResponse
+            data: updateFormDataData,
+            loading: updateFormDataLoading,
+            error: updateFormDataError,
+            response: updateFormDataResponse
         },
         updateFormData
     ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {
@@ -104,10 +100,17 @@ function ValidateContainer() {
     }, [router]);
 
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.status === true) {
-            setFormSchema(JSON.parse(getFormsSchemaByNameData.forms_schema.form_schema));
+        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
+            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
         }
     }, [getFormsSchemaByNameData]);
+
+    useEffect(() => {
+        if (updateFormDataData && updateFormDataData.success === true) {
+            alert('請假表提交成功！');
+            router.push('/');
+        }
+    }, [updateFormDataData]);
 
     return (
         <>

@@ -2,6 +2,7 @@ import _findKey from 'lodash/findKey';
 import Link from 'next/link';
 import { DownloadIcon } from '@heroicons/react/solid';
 import { Parser } from 'json2csv';
+import _get from 'lodash/get';
 
 function ApprovalView(props: any) {
     const { data = [], currentTabStatus, setCurrentTabStatus, formSchema, loading, error } = props;
@@ -46,7 +47,7 @@ function ApprovalView(props: any) {
     const downloadCSV = () => {
         let absencesFormData: Array<any> = [];
         data.map((item: any) => {
-            const itemJSON = JSON.parse(item.form_details[0].data);
+            const itemJSON = item.form_data.data;
             let tempData = itemJSON;
             const working_department = _findKey(itemJSON.working_department, function (value) {
                 return value === true;
@@ -115,7 +116,6 @@ function ApprovalView(props: any) {
                     <div>載入中...</div>
                 ) : (
                     <>
-                        {error && <div>加載資料時發生錯誤！正在顯示範例資料</div>}
                         <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
                             <table className="w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
@@ -131,6 +131,9 @@ function ApprovalView(props: any) {
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left">
                                             假期類型
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left">
+                                            審批備註
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-right">
                                             <button
@@ -149,14 +152,13 @@ function ApprovalView(props: any) {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {data.map((item: any) => {
-                                        const { id, document_id, status } =
-                                            item.approval_details[0];
+                                        const { id, remark, approval_status } = item;
                                         const {
                                             employee_id,
                                             employee_name,
                                             reason_of_absence,
                                             type_of_leave: type_of_leave_obj
-                                        } = JSON.parse(item.form_details[0].data);
+                                        } = item.form_data.data;
                                         const type_of_leave = _findKey(
                                             type_of_leave_obj,
                                             (value) => value
@@ -169,23 +171,26 @@ function ApprovalView(props: any) {
                                                 <td className="px-6 py-4 text-left">
                                                     {employee_name}
                                                 </td>
-                                                <td className="px-6 py-4 text-left">
+                                                <td className="px-6 py-4 text-left overflow-hidden">
                                                     {reason_of_absence}
                                                 </td>
                                                 <td className="px-6 py-4 text-left">
                                                     {type_of_leave &&
-                                                        formSchema.properties.type_of_leave
-                                                            .properties[type_of_leave].title}
+                                                        _get(
+                                                            formSchema,
+                                                            `properties.type_of_leave.properties[${type_of_leave}].title`
+                                                        )}
                                                 </td>
+                                                <td className="px-6 py-4 text-left">{remark}</td>
                                                 <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
                                                     <Link
                                                         href={`/absence/approval/${id.toString()}`}
                                                     >
-                                                        {status === 'awaiting' ? (
+                                                        {approval_status === 'awaiting' ? (
                                                             <a className="text-indigo-600 hover:text-indigo-900 font-bold">
                                                                 待審批
                                                             </a>
-                                                        ) : status === 'approved' ? (
+                                                        ) : approval_status === 'approved' ? (
                                                             <a className="text-green-600 hover:text-green-900 font-bold">
                                                                 已審批
                                                             </a>

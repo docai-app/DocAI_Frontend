@@ -11,7 +11,8 @@ import {
     UploadIcon,
     CloudUploadIcon,
     ClipboardCheckIcon,
-    SortAscendingIcon
+    SortAscendingIcon,
+    TagIcon
 } from '@heroicons/react/outline';
 import Api from '../apis/index';
 import { useEffect, useState } from 'react';
@@ -80,42 +81,52 @@ const classificationActions = [
     }
 ];
 
+const settingAction = [
+    {
+        title: '標籤管理',
+        href: '/setting/label',
+        icon: TagIcon,
+        iconForeground: 'text-violet-700',
+        iconBackground: 'bg-violet-50'
+    }
+];
+
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
 }
 
 interface StatisticProps {
     count: number;
-    label: number;
-    name: string;
+    tag: string;
 }
 
 const Home: NextPage = () => {
     const [statistics, setStatistics] = useState([]);
-    const [{ data: countEachLabelDocumentByDateData }, countEachLabelDocumentByDate] = useAxios(
-        apiSetting.Search.countEachLabelDocumentByDate(
+    const [{ data: countTagsByDateData }, countTagsByDate] = useAxios(
+        apiSetting.Statistics.countTagsByDate(
             new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
         ),
-        {
-            manual: true
-        }
+        { manual: true }
+    );
+    const [{ data: countDocumentsByDateData }, countDocumentsByDate] = useAxios(
+        apiSetting.Statistics.countDocumentsByDate(
+            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
+        ),
+        { manual: true }
     );
     useEffect(() => {
-        countEachLabelDocumentByDate({
-            url: `/count/document/${
-                new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
-            }`
-        });
+        countTagsByDate();
+        countDocumentsByDate();
     }, []);
     useEffect(() => {
-        if (countEachLabelDocumentByDateData && countEachLabelDocumentByDateData.status === true) {
-            if (countEachLabelDocumentByDateData.documents.length > 3) {
-                setStatistics(countEachLabelDocumentByDateData.documents.slice(0, 3));
+        if (countTagsByDateData && countTagsByDateData.success === true) {
+            if (countTagsByDateData.tags_count.length > 3) {
+                setStatistics(countTagsByDateData.tags_count.slice(0, 3));
             } else {
-                setStatistics(countEachLabelDocumentByDateData.documents);
+                setStatistics(countTagsByDateData.tags_count);
             }
         }
-    }, [countEachLabelDocumentByDateData]);
+    }, [countTagsByDateData]);
     return (
         <div>
             <Head>
@@ -128,7 +139,7 @@ const Home: NextPage = () => {
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">DocAI</h2>
                         <p className="mt-3 text-xl text-gray-500 sm:mt-4">
-                            本日新增的文件數量
+                            本日新增的文件數量：{countDocumentsByDateData?.documents_count || 0}份
                         </p>
                     </div>
                 </div>
@@ -148,7 +159,7 @@ const Home: NextPage = () => {
                                                     className="flex flex-col border-b border-gray-100 p-6 text-center sm:border-0 sm:border-r"
                                                 >
                                                     <dt className="order-2 mt-2 text-lg leading-6 font-medium text-gray-500">
-                                                        {statistic.name ? statistic.name : '未分類'}
+                                                        {statistic.tag ? statistic.tag : '未分類'}
                                                     </dt>
                                                     <dd className="order-1 text-5xl font-extrabold text-indigo-600">
                                                         {statistic.count}
@@ -224,7 +235,7 @@ const Home: NextPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto mb-8">
                     <h2 className="my-4 text-2xl font-bold text-gray-900">文件分類功能</h2>
                     <div className="rounded-lg overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
                         {classificationActions.map((action, actionIdx) => (
@@ -274,6 +285,60 @@ const Home: NextPage = () => {
                                         molestiae.
                                     </p>
                                 </div> */}
+                                <span
+                                    className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                                    aria-hidden="true"
+                                >
+                                    <svg
+                                        className="h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="max-w-4xl mx-auto mb-8">
+                    <h2 className="my-4 text-2xl font-bold text-gray-900">系統管理</h2>
+                    <div className="rounded-lg overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+                        {settingAction.map((action, actionIdx) => (
+                            <div
+                                key={action.title}
+                                className={classNames(
+                                    actionIdx === 0
+                                        ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none'
+                                        : '',
+                                    actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
+                                    actionIdx === settingAction.length - 2
+                                        ? 'sm:rounded-bl-lg'
+                                        : '',
+                                    actionIdx === settingAction.length - 1
+                                        ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
+                                        : '',
+                                    'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+                                )}
+                            >
+                                <div className="flex flex-row items-center">
+                                    <span
+                                        className={classNames(
+                                            action.iconBackground,
+                                            action.iconForeground,
+                                            'rounded-lg inline-flex p-3 ring-4 ring-white'
+                                        )}
+                                    >
+                                        <action.icon className="h-6 w-6" aria-hidden="true" />
+                                    </span>
+                                    <p className="ml-4 text-center text-lg font-medium">
+                                        <a href={action.href} className="focus:outline-none">
+                                            <span className="absolute inset-0" aria-hidden="true" />
+                                            {action.title}
+                                        </a>
+                                    </p>
+                                </div>
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"

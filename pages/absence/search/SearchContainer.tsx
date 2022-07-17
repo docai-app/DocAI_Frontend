@@ -32,7 +32,7 @@ function SearchContainer() {
         },
         onSubmit: async (values) => {
             let res = await searchFormByLabelAndDate({
-                url: `/search/form/${encodeURI(label)}/${values.date}`
+                url: `/api/v1/search/form/${encodeURI(label)}/${values.date}`
             });
             if (res.data) {
                 alert('Absence Form Found!');
@@ -46,7 +46,7 @@ function SearchContainer() {
     useEffect(() => {
         if (searchFormByLabelAndDateData) {
             setAbsenceForms({
-                form_data: searchFormByLabelAndDateData.form_data,
+                form_data: searchFormByLabelAndDateData.form_datum,
                 form_schema: searchFormByLabelAndDateData.form_schema
             });
         }
