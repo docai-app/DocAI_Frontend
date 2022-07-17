@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import _get from 'lodash/get';
+import _findKey from 'lodash/findKey';
 
 const people = [
     {
@@ -21,23 +22,32 @@ interface AbsenceFormTableProps {
 
 export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     const { absenceForms } = props;
-    const getTypeOfAbsence = (typeOfAbsence: any) => {
-        for (const key in typeOfAbsence) {
-            if (typeOfAbsence[key] === true) {
-                return absenceForms.form_schema.form_schema.properties.type_of_absence.properties[
-                    key
-                ].title;
+    const getTypeOfAbsence = useCallback(
+        (typeOfAbsence: any, formSchema: any) => {
+            console.log(typeOfAbsence);
+            for (const key in typeOfAbsence) {
+                if (typeOfAbsence[key] === true) {
+                    return absenceForms.form_schema.form_schema.properties.type_of_absence
+                        .properties[key].title;
+                }
             }
-        }
-    };
-    const getTypeOfLeave = (typeOfLeave: any) => {
-        for (const key in typeOfLeave) {
-            if (typeOfLeave[key] === true) {
-                return absenceForms.form_schema.form_schema.properties.type_of_leave.properties[key]
-                    .title;
+        },
+        [absenceForms]
+    );
+    const getTypeOfLeave = useCallback(
+        (typeOfLeave: any, formSchema: any) => {
+            console.log(absenceForms);
+            for (const key in typeOfLeave) {
+                if (typeOfLeave[key] === true) {
+                    return formSchema.form_schema.properties.type_of_leave.properties[key].title;
+                }
             }
-        }
-    };
+        },
+        [absenceForms]
+    );
+    useEffect(() => {
+        console.log(absenceForms);
+    });
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
@@ -98,13 +108,15 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {getTypeOfAbsence(
-                                                    _get(absenceForm, 'data.type_of_absence')
+                                                    _get(absenceForm, 'data.type_of_absence'),
+                                                    absenceForm.form_schema
                                                 )}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {/* {getTypeOfLeave(
-                                                    _get(absenceForm, 'data.type_of_leave')
-                                                )} */}
+                                                {getTypeOfLeave(
+                                                    _get(absenceForm, 'data.type_of_leave'),
+                                                    absenceForm.form_schema
+                                                )}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <a
