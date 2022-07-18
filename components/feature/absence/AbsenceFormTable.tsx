@@ -21,28 +21,21 @@ interface AbsenceFormTableProps {
 
 export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     const { absenceForms } = props;
-    const getTypeOfAbsence = useCallback(
-        (typeOfAbsence: any, formSchema: any) => {
-            for (const key in typeOfAbsence) {
-                if (typeOfAbsence[key] === true) {
-                    return formSchema.form_schema.form_schema.properties.type_of_absence.properties[
-                        key
-                    ].title;
-                }
+    const getTypeOfAbsence = useCallback((typeOfAbsence: any, formSchema: any) => {
+        for (const key in typeOfAbsence) {
+            if (typeOfAbsence[key] === true) {
+                return formSchema.form_schema.form_schema.properties.type_of_absence.properties[key]
+                    .title;
             }
-        },
-        [absenceForms]
-    );
-    const getTypeOfLeave = useCallback(
-        (typeOfLeave: any, formSchema: any) => {
-            for (const key in typeOfLeave) {
-                if (typeOfLeave[key] === true) {
-                    return formSchema.form_schema.properties.type_of_leave.properties[key].title;
-                }
+        }
+    }, []);
+    const getTypeOfLeave = useCallback((typeOfLeave: any, formSchema: any) => {
+        for (const key in typeOfLeave) {
+            if (typeOfLeave[key] === true) {
+                return formSchema.form_schema.properties.type_of_leave.properties[key].title;
             }
-        },
-        [absenceForms]
-    );
+        }
+    }, []);
 
     return (
         <div className="px-4 sm:px-6 lg:px-8">
