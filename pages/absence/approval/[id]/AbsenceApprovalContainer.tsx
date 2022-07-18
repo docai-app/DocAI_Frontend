@@ -130,7 +130,10 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.success === true) {
             setFormUrl(getAbsenceFormByApprovalIdData.absence_form.document.storage_url);
-            setResult(getAbsenceFormByApprovalIdData.absence_form.form_data.data);
+            setResult({
+                ...getAbsenceFormByApprovalIdData.absence_form.form_data.data,
+                remark: getAbsenceFormByApprovalIdData.absence_form?.remark || ''
+            });
         }
     }, [getAbsenceFormByApprovalIdData]);
 

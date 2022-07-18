@@ -38,12 +38,12 @@ function ValidateView(props: ValidateViewProps) {
                     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                         <div className="px-4 py-6 sm:px-0">
                             <p className="mb-2 text-lg">DocAI的分析結果</p>
-                            <div className="flex justify-center items-center p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
+                            <div className="flex justify-center md:items-center flex-col md:flex-row p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                    <div className="w-full md:w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                         {formUrl.split('.').pop() === 'pdf' ? (
                                             <object
-                                                className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                                className="object-center object-cover w-full h-full flex justify-center items-center"
                                                 type="application/pdf"
                                                 data={formUrl + '#toolbar=0'}
                                                 width="250"
