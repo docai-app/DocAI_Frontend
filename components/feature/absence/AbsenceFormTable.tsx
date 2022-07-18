@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import _get from 'lodash/get';
+import _findKey from 'lodash/findKey';
 
 const people = [
     {
@@ -12,7 +13,6 @@ const people = [
 
 interface AbsenceFormsProps {
     form_data: any;
-    form_schema: any;
 }
 
 interface AbsenceFormTableProps {
@@ -21,23 +21,22 @@ interface AbsenceFormTableProps {
 
 export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     const { absenceForms } = props;
-    const getTypeOfAbsence = (typeOfAbsence: any) => {
+    const getTypeOfAbsence = useCallback((typeOfAbsence: any, formSchema: any) => {
         for (const key in typeOfAbsence) {
             if (typeOfAbsence[key] === true) {
-                return absenceForms.form_schema.form_schema.properties.type_of_absence.properties[
-                    key
-                ].title;
-            }
-        }
-    };
-    const getTypeOfLeave = (typeOfLeave: any) => {
-        for (const key in typeOfLeave) {
-            if (typeOfLeave[key] === true) {
-                return absenceForms.form_schema.form_schema.properties.type_of_leave.properties[key]
+                return formSchema.form_schema.form_schema.properties.type_of_absence.properties[key]
                     .title;
             }
         }
-    };
+    }, []);
+    const getTypeOfLeave = useCallback((typeOfLeave: any, formSchema: any) => {
+        for (const key in typeOfLeave) {
+            if (typeOfLeave[key] === true) {
+                return formSchema.form_schema.properties.type_of_leave.properties[key].title;
+            }
+        }
+    }, []);
+
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
@@ -98,13 +97,15 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {getTypeOfAbsence(
-                                                    _get(absenceForm, 'data.type_of_absence')
+                                                    _get(absenceForm, 'data.type_of_absence'),
+                                                    _get(absenceForm, 'form_schema')
                                                 )}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {/* {getTypeOfLeave(
-                                                    _get(absenceForm, 'data.type_of_leave')
-                                                )} */}
+                                                {getTypeOfLeave(
+                                                    _get(absenceForm, 'data.type_of_leave'),
+                                                    _get(absenceForm, 'form_schema')
+                                                )}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                 <a

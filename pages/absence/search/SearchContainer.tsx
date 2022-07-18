@@ -8,8 +8,7 @@ const apiSetting = new Api();
 
 function SearchContainer() {
     const [absenceForms, setAbsenceForms] = useState({
-        form_data: [],
-        form_schema: {}
+        form_data: []
     });
     const [label, setLabel] = useState('請假表');
     const [
@@ -37,8 +36,7 @@ function SearchContainer() {
             if (res.data) {
                 alert('Absence Form Found!');
                 setAbsenceForms({
-                    form_data: res.data.form_data,
-                    form_schema: res.data.form_schema
+                    form_data: res.data.form_data
                 });
             }
         }
@@ -46,8 +44,7 @@ function SearchContainer() {
     useEffect(() => {
         if (searchFormByLabelAndDateData) {
             setAbsenceForms({
-                form_data: searchFormByLabelAndDateData.form_datum,
-                form_schema: searchFormByLabelAndDateData.form_schema
+                form_data: searchFormByLabelAndDateData.form_datum
             });
         }
     }, [searchFormByLabelAndDateData]);
