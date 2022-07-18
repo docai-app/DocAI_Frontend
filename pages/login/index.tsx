@@ -1,5 +1,3 @@
-import SearchContainer from './LoginContainer';
-import SimpleLayout from '../../components/layout/SimpleLayout';
-import withLayout from '../../components/hocs/withLayout';
+import LoginContainer from './LoginContainer';
 
-export default withLayout(SearchContainer, SimpleLayout);
+export default LoginContainer;
