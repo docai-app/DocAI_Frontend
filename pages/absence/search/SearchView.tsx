@@ -4,7 +4,6 @@ import AbsenceFormTable from '../../../components/feature/absence/AbsenceFormTab
 
 interface AbsenceFormsProps {
     form_data: any;
-    form_schema: any;
 }
 
 interface SearchViewProps {

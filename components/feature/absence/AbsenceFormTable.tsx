@@ -13,7 +13,6 @@ const people = [
 
 interface AbsenceFormsProps {
     form_data: any;
-    form_schema: any;
 }
 
 interface AbsenceFormTableProps {
@@ -24,11 +23,11 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     const { absenceForms } = props;
     const getTypeOfAbsence = useCallback(
         (typeOfAbsence: any, formSchema: any) => {
-            console.log(typeOfAbsence);
             for (const key in typeOfAbsence) {
                 if (typeOfAbsence[key] === true) {
-                    return absenceForms.form_schema.form_schema.properties.type_of_absence
-                        .properties[key].title;
+                    return formSchema.form_schema.form_schema.properties.type_of_absence.properties[
+                        key
+                    ].title;
                 }
             }
         },
@@ -36,7 +35,6 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
     );
     const getTypeOfLeave = useCallback(
         (typeOfLeave: any, formSchema: any) => {
-            console.log(absenceForms);
             for (const key in typeOfLeave) {
                 if (typeOfLeave[key] === true) {
                     return formSchema.form_schema.properties.type_of_leave.properties[key].title;
@@ -45,9 +43,7 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
         },
         [absenceForms]
     );
-    useEffect(() => {
-        console.log(absenceForms);
-    });
+
     return (
         <div className="px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
