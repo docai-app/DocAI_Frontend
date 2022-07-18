@@ -105,13 +105,13 @@ export default function AbsenceFormTable(props: AbsenceFormTableProps) {
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {getTypeOfAbsence(
                                                     _get(absenceForm, 'data.type_of_absence'),
-                                                    absenceForm.form_schema
+                                                    _get(absenceForm, 'form_schema')
                                                 )}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {getTypeOfLeave(
                                                     _get(absenceForm, 'data.type_of_leave'),
-                                                    absenceForm.form_schema
+                                                    _get(absenceForm, 'form_schema')
                                                 )}
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
