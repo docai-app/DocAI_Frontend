@@ -13,7 +13,8 @@ function AbsenceApprovalContainer() {
     const router = useRouter();
     const [formUrl, setFormUrl] = useState('');
     const [result, setResult] = useState({});
-    const formSchema = useRef({});
+    const [approval, setApproval] = useState({});
+    const [formSchema, setFormSchema] = useState({});
 
     const approvalButtonContainer = useCallback(
         (props) => (
@@ -75,7 +76,25 @@ function AbsenceApprovalContainer() {
             </div>
         )
     });
+    const approvalSchema = useRef({
+        type: 'object',
+        properties: {
+            remark: {
+                title: '備註',
+                type: 'string'
+            },
+            approval: {
+                title: '',
+                type: 'string'
+            }
+        }
+    });
     const uiSchema = useRef({
+        'ui:submitButtonOptions': {
+            norender: true
+        }
+    });
+    const approvalUiSchema = useRef({
         'ui:submitButtonOptions': {
             norender: true
         },
@@ -130,24 +149,14 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.success === true) {
             setFormUrl(getAbsenceFormByApprovalIdData.absence_form.document.storage_url);
-            setResult({
-                ...getAbsenceFormByApprovalIdData.absence_form.form_data.data,
-                remark: getAbsenceFormByApprovalIdData.absence_form?.remark || ''
-            });
+            setResult(getAbsenceFormByApprovalIdData.absence_form.form_data.data);
+            setApproval({ remark: getAbsenceFormByApprovalIdData.absence_form?.remark || '' });
         }
     }, [getAbsenceFormByApprovalIdData]);
 
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-            formSchema.current = getFormsSchemaByNameData.form_schema.form_schema;
-            _set(formSchema.current, 'properties.remark', {
-                title: '備註',
-                type: 'string'
-            });
-            _set(formSchema.current, 'properties.approval', {
-                title: '',
-                type: 'string'
-            });
+            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
         }
     }, [getFormsSchemaByNameData]);
 
@@ -164,8 +173,11 @@ function AbsenceApprovalContainer() {
                 {...{
                     formUrl,
                     result,
+                    approval,
                     formSchema,
+                    approvalSchema,
                     uiSchema,
+                    approvalUiSchema,
                     widgets,
                     fields,
                     onSubmit
