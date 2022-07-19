@@ -1,5 +1,4 @@
 import { CheckIcon, XIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
 import { FormEventHandler } from 'react';
 
 interface LoginViewProps {
@@ -71,11 +70,6 @@ export default function LoginView(props: LoginViewProps) {
                             ))
                         )}
                     </div>
-                    <Link href="/">
-                        <a className="absolute top-0 left-0 p-4">
-                            <XIcon className="h-8 w-8 text-slate-500" aria-hidden="true" />
-                        </a>
-                    </Link>
                 </div>
             </div>
             <div className="absolute top-0 left-0 h-full w-full">

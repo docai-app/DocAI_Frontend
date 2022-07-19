@@ -21,8 +21,11 @@ export default function LoginContainer() {
         // if (res.data.success) {
         if (res.headers.authorization) {
             const token = res.headers.authorization;
-            localStorage.setItem('authorization', token);
-            router.push('/');
+            const expiryDate = 'Fri, 31 Dec 9999 23:59:59 GMT'; // to be updated so that this can be dynamic
+            document.cookie = `authorization=${escape(token)}; expires=${expiryDate}`;
+            router.reload();
+        } else {
+            document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
         }
     };
     return (
