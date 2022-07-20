@@ -74,6 +74,7 @@ export default function LoginView(props: LoginViewProps) {
             </div>
             <div className="absolute top-0 left-0 h-full w-full">
                 <img
+                    alt=""
                     src="https://source.unsplash.com/8fMj0tJcM2A/5464x3640"
                     className="object-cover h-full w-full object-left"
                 />

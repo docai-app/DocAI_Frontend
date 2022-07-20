@@ -136,7 +136,7 @@ function AbsenceApprovalContainer() {
 
     useEffect(() => {
         getFormsSchemaByName();
-    }, []);
+    }, [getFormsSchemaByName]);
 
     useEffect(() => {
         if (router.query.id) {
@@ -144,7 +144,7 @@ function AbsenceApprovalContainer() {
                 apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
             );
         }
-    }, [router]);
+    }, [router, getAbsenceFormByApprovalId]);
 
     useEffect(() => {
         if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.success === true) {
@@ -165,7 +165,7 @@ function AbsenceApprovalContainer() {
             alert('審批成功！');
             router.push(`/absence/approval`);
         }
-    }, [updateFormApprovalStatusData]);
+    }, [router, updateFormApprovalStatusData]);
 
     return (
         <>

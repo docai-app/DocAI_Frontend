@@ -49,6 +49,7 @@ export default function UploadFile(props: UploadFileProps) {
                                                 {doc.type.includes('image/') ? (
                                                     <div className="h-40 flex items-center">
                                                         <img
+                                                            alt="Image Preview"
                                                             src={URL.createObjectURL(doc)}
                                                             className="rounded-lg shadow-sm object-contain object-center h-full w-full"
                                                         />
@@ -60,6 +61,7 @@ export default function UploadFile(props: UploadFileProps) {
                                                         data={URL.createObjectURL(doc)}
                                                     >
                                                         <img
+                                                            alt="PDF Preview"
                                                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png"
                                                             className="rounded-lg shadow-sm object-contain object-center h-20"
                                                         />
