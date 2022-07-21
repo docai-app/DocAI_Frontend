@@ -35,35 +35,35 @@ function ApprovalContainer() {
 
     useEffect(() => {
         getFormsSchemaByName();
-    }, []);
+    }, [getFormsSchemaByName]);
 
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
             setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
-            setProps({
-                ...props,
+            setProps((p: any) => ({
+                ...p,
                 formSchema: getFormsSchemaByNameData.form_schema.form_schema
-            });
+            }));
         }
     }, [getFormsSchemaByNameData]);
 
     useEffect(() => {
-        setProps({
-            ...props,
-            data: getAbsenceFormByApprovalStatusData?.absence_forms || props.data
-        });
+        setProps((p: any) => ({
+            ...p,
+            data: getAbsenceFormByApprovalStatusData?.absence_forms || p.data
+        }));
     }, [getAbsenceFormByApprovalStatusData]);
 
     useEffect(() => {
-        setProps({
-            ...props,
+        setProps((p: any) => ({
+            ...p,
             currentTabStatus: currentTabStatus,
             setCurrentTabStatus: setCurrentTabStatus
-        });
+        }));
         getAbsenceFormByApprovalStatus({
             url: `/api/v1/form/absence/approval?status=${currentTabStatus}`
         });
-    }, [currentTabStatus]);
+    }, [currentTabStatus, getAbsenceFormByApprovalStatus]);
 
     return (
         <ApprovalView

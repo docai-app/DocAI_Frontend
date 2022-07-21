@@ -93,7 +93,7 @@ function ValidateContainer() {
 
     useEffect(() => {
         getAndPredictLatestUploadedDocument();
-    }, []);
+    }, [getAndPredictLatestUploadedDocument]);
     useEffect(() => {
         if (
             latestPredictionData &&
@@ -109,7 +109,7 @@ function ValidateContainer() {
             alert('沒有文件需要驗證');
             router.push('/classification');
         }
-    }, [latestPredictionData]);
+    }, [router, latestPredictionData, confirmDocumentFormik]);
     return (
         <>
             <ValidateView

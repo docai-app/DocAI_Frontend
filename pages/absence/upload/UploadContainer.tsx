@@ -45,7 +45,7 @@ function UploadContainer() {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
-    }, [uploadData]);
+    }, [router, uploadData]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, open, setOpen }} />

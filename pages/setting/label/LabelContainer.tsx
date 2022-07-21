@@ -41,9 +41,8 @@ export default function LabelContainer() {
             setNewLabelName('');
         } else if (addNewLabelData && !addNewLabelData.success) {
             alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
-            console.log(addNewLabelError);
         }
-    }, [addNewLabelData]);
+    }, [getAllLabels, addNewLabelData]);
 
     useEffect(() => {
         if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
@@ -51,9 +50,8 @@ export default function LabelContainer() {
             getAllLabels();
         } else if (updateLabelNameByIdData && !updateLabelNameByIdData.success) {
             alert(`更新失敗！原因：${updateLabelNameByIdData.errors.name[0]}`);
-            console.log(updateLabelNameByIdError);
         }
-    }, [updateLabelNameByIdData]);
+    }, [getAllLabels, updateLabelNameByIdData]);
     return (
         <LabelView
             {...{

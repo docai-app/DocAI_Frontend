@@ -24,7 +24,7 @@ function TagContainer() {
                 url: `/api/v1/documents/tags/${router.query.tag}`
             });
         }
-    }, [router]);
+    }, [router, getDocumentsByTagID]);
     useEffect(() => {
         if (getDocumentsByTagIDData && getDocumentsByTagIDData.success === true) {
             setDocuments(getDocumentsByTagIDData.documents);

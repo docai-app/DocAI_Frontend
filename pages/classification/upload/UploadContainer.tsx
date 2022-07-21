@@ -37,7 +37,7 @@ function UploadContainer() {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
-    }, [uploadData]);
+    }, [router, uploadData]);
     useEffect(() => {
         setOpen(uploadLoading);
     }, [uploadLoading]);

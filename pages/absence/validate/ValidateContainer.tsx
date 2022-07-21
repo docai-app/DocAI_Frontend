@@ -90,7 +90,7 @@ function ValidateContainer() {
 
     useEffect(() => {
         getFormsSchemaByName();
-    }, []);
+    }, [getFormsSchemaByName]);
 
     useEffect(() => {
         if (router.query.form_url && router.query.result) {
@@ -110,7 +110,7 @@ function ValidateContainer() {
             alert('請假表提交成功！');
             router.push('/');
         }
-    }, [updateFormDataData]);
+    }, [router, updateFormDataData]);
 
     return (
         <>

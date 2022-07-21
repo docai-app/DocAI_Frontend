@@ -7,8 +7,11 @@ const Form = withTheme(Bootstrap4Theme);
 interface ValidateViewProps {
     formUrl: string;
     result: any;
+    approval: any;
     formSchema: any;
-    uiSchema: any;
+    approvalSchema: { current: any };
+    uiSchema: { current: any };
+    approvalUiSchema: { current: any };
     widgets: any;
     fields: any;
     onSubmit: any;
@@ -18,10 +21,11 @@ function ValidateView(props: ValidateViewProps) {
     const {
         formUrl = '',
         result = {},
-        formSchema = {
-            current: {}
-        },
-        uiSchema = {},
+        approval = {},
+        formSchema = {},
+        approvalSchema = { current: {} },
+        uiSchema = { current: {} },
+        approvalUiSchema = { current: {} },
         widgets = {},
         fields = {},
         onSubmit
@@ -68,12 +72,20 @@ function ValidateView(props: ValidateViewProps) {
                                 <div className="right-side flex-1 flex flex-col overflow-auto h-5/6 py-2 pl-2">
                                     <Form
                                         className="w-5/6"
-                                        schema={formSchema.current}
+                                        schema={formSchema}
                                         uiSchema={uiSchema.current}
-                                        formData={result}
-                                        onSubmit={onSubmit}
                                         widgets={widgets.current}
                                         fields={fields.current}
+                                        formData={result}
+                                    />
+                                    <Form
+                                        className="w-5/6"
+                                        schema={approvalSchema.current}
+                                        uiSchema={approvalUiSchema.current}
+                                        widgets={widgets.current}
+                                        fields={fields.current}
+                                        formData={approval}
+                                        onSubmit={onSubmit}
                                     />
                                 </div>
                             </div>

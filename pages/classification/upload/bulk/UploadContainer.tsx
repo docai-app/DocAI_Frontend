@@ -47,8 +47,6 @@ function UploadContainer() {
 
     useEffect(() => {
         setTags(allTagsData);
-        console.log(allTagsData);
-        console.log(tags);
     }, [allTagsData]);
 
     useEffect(() => {
@@ -60,7 +58,7 @@ function UploadContainer() {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
-    }, [uploadData]);
+    }, [router, uploadData]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, tags, open, setOpen }} />

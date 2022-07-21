@@ -117,7 +117,7 @@ const Home: NextPage = () => {
     useEffect(() => {
         countTagsByDate();
         countDocumentsByDate();
-    }, []);
+    }, [countTagsByDate, countDocumentsByDate]);
     useEffect(() => {
         if (countTagsByDateData && countTagsByDateData.success === true) {
             if (countTagsByDateData.tags_count.length > 3) {
