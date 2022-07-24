@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import { ReactElement, useCallback } from 'react';
 
 interface DriveViewProps {
-    showAllRootItemsData: any;
-    showAllRootItemsLoading: boolean;
+    showAllFolderItemsData: any;
+    showAllFolderItemsLoading: boolean;
 }
 
 export default function DriveView(props: DriveViewProps) {
     const router = useRouter();
-    const { showAllRootItemsData, showAllRootItemsLoading } = props;
+    const { showAllFolderItemsData, showAllFolderItemsLoading } = props;
 
     const tableRow = useCallback((doc: any, type: string) => {
         const updated_at = new Date(doc.updated_at);
@@ -88,12 +88,12 @@ export default function DriveView(props: DriveViewProps) {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {showAllRootItemsData?.folders &&
-                                showAllRootItemsData.folders.map((doc: any) => {
+                            {showAllFolderItemsData?.folders &&
+                                showAllFolderItemsData.folders.map((doc: any) => {
                                     return tableRow(doc, 'folders');
                                 })}
-                            {showAllRootItemsData?.documents &&
-                                showAllRootItemsData.documents.map((doc: any) => {
+                            {showAllFolderItemsData?.documents &&
+                                showAllFolderItemsData.documents.map((doc: any) => {
                                     return tableRow(doc, 'documents');
                                 })}
                         </tbody>
