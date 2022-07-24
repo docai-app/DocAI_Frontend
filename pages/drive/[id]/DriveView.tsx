@@ -1,7 +1,7 @@
-import { DocumentIcon, FolderIcon, PhotographIcon, PlusIcon } from '@heroicons/react/outline';
+import { DocumentIcon, FolderIcon, PlusIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ReactElement, useCallback } from 'react';
+import { useCallback } from 'react';
 
 interface DriveViewProps {
     showAllFolderItemsData: any;
