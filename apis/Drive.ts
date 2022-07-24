@@ -7,7 +7,7 @@ export default class Drive {
     showAllRootItems() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/files`,
+            url: `/api/v1/drive/files`,
             method: 'GET'
         };
         return requestHeader;
@@ -15,7 +15,7 @@ export default class Drive {
     showAllFolderItems(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/files/${id}`,
+            url: `/api/v1/drive/files/${id}`,
             method: 'GET'
         };
         return requestHeader;
