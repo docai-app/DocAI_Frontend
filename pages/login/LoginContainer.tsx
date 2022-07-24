@@ -28,7 +28,5 @@ export default function LoginContainer() {
             document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
         }
     };
-    return (
-        <LoginView handleSignIn={handleSignIn} {...{ signInData, signInLoading, signInError }} />
-    );
+    return <LoginView {...{ handleSignIn, signInData, signInLoading, signInError }} />;
 }

@@ -1,18 +1,11 @@
-import { Method } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 // apis/Absence.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface requestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: Method;
-    data?: any;
-}
-
 export default class Absence {
     getAbsenceFormByApprovalStatus(status: string) {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/absence/approval?status=${status}`,
             method: 'GET'
@@ -21,7 +14,7 @@ export default class Absence {
     }
 
     getAbsenceFormByApprovalApprovalID(id: string) {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/absence/approval/${id}`,
             method: 'GET'
@@ -30,7 +23,7 @@ export default class Absence {
     }
 
     updateAbsenceFormApprovalStatus(id: string, status: string, remark: string = '') {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/absence/${id}/approval?status=${status}`,
             method: 'PUT',

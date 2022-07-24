@@ -1,17 +1,11 @@
-import { Method } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 // apis/Search.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface getRequestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: Method;
-}
-
 export default class Search {
     searchDocumentByContent() {
-        const requestHeader: getRequestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/search/documents/content`,
             method: 'GET'
@@ -20,7 +14,7 @@ export default class Search {
     }
 
     searchFormByLabelAndDate(label: string, date: string) {
-        const requestHeader: getRequestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/search/form/${encodeURI(label)}/${date}`,
             method: 'GET'
