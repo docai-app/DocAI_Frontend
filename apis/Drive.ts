@@ -1,22 +1,21 @@
 import { AxiosRequestConfig } from 'axios';
 
-// apis/Search.ts
+// apis/DocumentApproval.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export default class Statistics {
-    countTagsByDate(date: string) {
+export default class Drive {
+    showAllRootItems() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/statistics/count/tags/${date}`,
+            url: `/api/v1/drive/files`,
             method: 'GET'
         };
         return requestHeader;
     }
-
-    countDocumentsByDate(date: string) {
+    showAllFolderItems(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/statistics/count/documents/${date}`,
+            url: `/api/v1/drive/files/${id}`,
             method: 'GET'
         };
         return requestHeader;
