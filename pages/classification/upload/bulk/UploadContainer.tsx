@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -48,6 +49,11 @@ function UploadContainer() {
     useEffect(() => {
         setTags(allTagsData);
     }, [allTagsData]);
+
+    useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
+    }, [router]);
 
     useEffect(() => {
         if (uploadData && uploadData.success === true) {

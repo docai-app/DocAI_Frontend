@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis';
 import ApprovalView from './ApprovalView';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -32,8 +33,9 @@ function ApprovalContainer() {
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
         { manual: true }
     );
-
     useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         getFormsSchemaByName();
     }, [getFormsSchemaByName]);
 

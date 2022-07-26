@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import LabelView from './LableView';
 import Api from '../../../apis';
 import useAxios from 'axios-hooks';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -13,7 +14,8 @@ export default function LabelContainer() {
         { manual: true }
     );
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
-        apiSetting.Tag.getAllTags()
+        apiSetting.Tag.getAllTags(),
+        { manual: true }
     );
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
@@ -33,6 +35,12 @@ export default function LabelContainer() {
         },
         [updateLabelNameById]
     );
+
+    useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
+        getAllLabels();
+    }, [getAllLabels]);
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {

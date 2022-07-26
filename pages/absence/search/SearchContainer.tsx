@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import SearchView from './SearchView';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -41,6 +42,10 @@ function SearchContainer() {
             }
         }
     });
+    useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
+    }, []);
     useEffect(() => {
         if (searchFormByLabelAndDateData) {
             setAbsenceForms({

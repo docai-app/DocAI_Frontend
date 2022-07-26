@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { FieldProps, WidgetProps } from '@rjsf/core';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -135,6 +136,8 @@ function AbsenceApprovalContainer() {
     );
 
     useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         getFormsSchemaByName();
     }, [getFormsSchemaByName]);
 
