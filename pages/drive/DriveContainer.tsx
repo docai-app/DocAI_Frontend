@@ -2,23 +2,44 @@ import useAxios from 'axios-hooks';
 import DriveView from './DriveView';
 import Api from '../../apis';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const apiSetting = new Api();
 
 export default function DriveContainer() {
     const router = useRouter();
+    const { id = null } = router.query;
+    const [mode, setMode] = useState<'view' | 'move'>('view');
+    const [moving, setMoving] = useState<any[]>([]);
+    const [dest, setDest] = useState<any>(null);
     const [
-        {
-            data: showAllRootItemsData,
-            loading: showAllRootItemsLoading,
-            error: showAllRootItemsError
-        },
-        showAllRootItems
-    ] = useAxios(apiSetting.Drive.showAllRootItems(), { manual: true });
+        { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
+        showAllItems
+    ] = useAxios({}, { manual: true });
+    const toggleMove = useCallback((b: boolean) => {
+        if (b) {
+            setMode('move');
+        } else {
+            setMode('view');
+        }
+    }, []);
     useEffect(() => {
-        showAllRootItems();
-    }, [router, showAllRootItems]);
+        if (id) showAllItems(apiSetting.Drive.showAllFolderItems(id.toString()));
+        else showAllItems(apiSetting.Drive.showAllRootItems());
+    }, [router, id, showAllItems]);
 
-    return <DriveView {...{ showAllRootItemsData, showAllRootItemsLoading }} />;
+    return (
+        <DriveView
+            {...{
+                showAllItemsData,
+                showAllItemsLoading,
+                mode,
+                toggleMove,
+                moving,
+                setMoving,
+                dest,
+                setDest
+            }}
+        />
+    );
 }
