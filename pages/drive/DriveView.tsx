@@ -14,6 +14,7 @@ interface DriveViewProps {
     setMoving: Dispatch<SetStateAction<any[]>>;
     dest: string | null;
     setDest: Dispatch<SetStateAction<string | null>>;
+    handleMove: (document_id: string, folder_id: string) => void;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -26,7 +27,8 @@ export default function DriveView(props: DriveViewProps) {
         setMoving,
         toggleMove,
         dest,
-        setDest
+        setDest,
+        handleMove
     } = props;
 
     const tableRow = useCallback(
@@ -167,7 +169,10 @@ export default function DriveView(props: DriveViewProps) {
                             </div>
                             {dest && (
                                 <div className="py-5 px-5 flex">
-                                    <button className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md">
+                                    <button
+                                        className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
+                                        onClick={() => handleMove(moving[0].id, dest)}
+                                    >
                                         移動
                                     </button>
                                 </div>

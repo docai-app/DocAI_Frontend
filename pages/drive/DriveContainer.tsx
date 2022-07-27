@@ -17,6 +17,7 @@ export default function DriveContainer() {
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
     ] = useAxios({}, { manual: true });
+    const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
     const toggleMove = useCallback((b: boolean) => {
         if (b) {
             setMode('move');
@@ -24,6 +25,20 @@ export default function DriveContainer() {
             setMode('view');
         }
     }, []);
+
+    const handleMove = useCallback(
+        async (document_id: string, folder_id: string) => {
+            const res = await updateDocumentById(
+                apiSetting.Document.updateDocumentById(document_id, folder_id)
+            );
+            if (res.data?.success) {
+                alert('移動成功');
+                router.reload();
+            }
+        },
+        [router, updateDocumentById]
+    );
+
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -41,7 +56,8 @@ export default function DriveContainer() {
                 moving,
                 setMoving,
                 dest,
-                setDest
+                setDest,
+                handleMove
             }}
         />
     );
