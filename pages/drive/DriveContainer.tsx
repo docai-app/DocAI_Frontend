@@ -3,6 +3,7 @@ import DriveView from './DriveView';
 import Api from '../../apis';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -11,7 +12,7 @@ export default function DriveContainer() {
     const { id = null } = router.query;
     const [mode, setMode] = useState<'view' | 'move'>('view');
     const [moving, setMoving] = useState<any[]>([]);
-    const [dest, setDest] = useState<any>(null);
+    const [dest, setDest] = useState<string | null>(null);
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
@@ -24,6 +25,8 @@ export default function DriveContainer() {
         }
     }, []);
     useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         if (id) showAllItems(apiSetting.Drive.showAllFolderItems(id.toString()));
         else showAllItems(apiSetting.Drive.showAllRootItems());
     }, [router, id, showAllItems]);

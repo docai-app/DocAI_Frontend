@@ -12,8 +12,8 @@ interface DriveViewProps {
     toggleMove: (b: boolean) => void;
     moving: any[];
     setMoving: Dispatch<SetStateAction<any[]>>;
-    dest: any;
-    setDest: Dispatch<SetStateAction<any>>;
+    dest: string | null;
+    setDest: Dispatch<SetStateAction<string | null>>;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -160,9 +160,18 @@ export default function DriveView(props: DriveViewProps) {
                         }}
                     ></div>
                     <div className="absolute h-[calc(100vh-4rem)] shadow-lg right-0 top-16 bg-white w-[28rem]">
-                        <div className="w-full h-full">
+                        <div className="w-full h-full flex flex-col">
                             <h1 className="p-5 font-bold text-3xl">移動 {moving[0].name} 到</h1>
-                            <FolderTree folders={showAllItemsData.folders} />
+                            <div className="pr-5 overflow-auto">
+                                <FolderTree expanded={true} dest={dest} setDest={setDest} />
+                            </div>
+                            {dest && (
+                                <div className="py-5 px-5 flex">
+                                    <button className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md">
+                                        移動
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </>

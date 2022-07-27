@@ -1,38 +1,47 @@
-import { ChevronDownIcon, ChevronRightIcon, ChevronUpIcon } from '@heroicons/react/solid';
+import {
+    ChevronDownIcon,
+    ChevronRightIcon,
+    ChevronUpIcon,
+    FolderIcon,
+    FolderOpenIcon
+} from '@heroicons/react/solid';
 import useAxios from 'axios-hooks';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';
 
 interface Folder {
-    created_at: string;
     id: string;
     name: string;
-    parent_id: string | null;
-    updated_at: string;
-    user_id: string;
     folders?: Folder[];
+    dest: string | null;
+    setDest: Dispatch<SetStateAction<string | null>>;
+    expanded: boolean;
 }
 
 interface FolderTreeProps {
-    folders: Folder[];
-    [name: string]: any;
+    dest: string | null;
+    setDest: Dispatch<SetStateAction<string | null>>;
+    folders?: Folder[];
+    expanded: boolean;
 }
 
 const apiSetting = new Api();
 
 function Folder(props: Folder) {
     const [folder, setFolder] = useState(props);
-    const [expanded, setExpanded] = useState(false);
-    const [{ data: showAllFolderItemsData }, showAllFolderItems] = useAxios(
-        apiSetting.Drive.showAllFolderItems(folder.id),
-        { manual: true }
-    );
+    const [expanded, setExpanded] = useState(props.expanded);
+    const [
+        { data: showAllFolderItemsData, loading: showAllFolderItemsLoading },
+        showAllFolderItems
+    ] = useAxios({}, { manual: true });
 
     useEffect(() => {
         if (expanded) {
-            showAllFolderItems();
+            if (folder.id !== 'root')
+                showAllFolderItems(apiSetting.Drive.showAllFolderItems(folder.id));
+            else showAllFolderItems(apiSetting.Drive.showAllRootItems());
         }
-    }, [expanded, showAllFolderItems]);
+    }, [expanded, folder.id, showAllFolderItems]);
 
     useEffect(() => {
         if (showAllFolderItemsData) {
@@ -44,22 +53,41 @@ function Folder(props: Folder) {
     }, [showAllFolderItemsData]);
 
     return (
-        <div className="pl-6">
-            <div className="flex items-center">
+        <div className="pl-5">
+            <div
+                className={`flex items-center pl-5 relative text-gray-400 rounded-lg cursor-pointer${
+                    folder.id === props.dest ? ' bg-indigo-100' : ''
+                }`}
+            >
                 {expanded ? (
-                    <ChevronDownIcon
-                        onClick={() => setExpanded(!expanded)}
-                        className="h-5 cursor-pointer"
-                    />
+                    !(!showAllFolderItemsLoading && folder.folders?.length === 0) && (
+                        <ChevronDownIcon
+                            onClick={() => setExpanded(!expanded)}
+                            className="h-5 -left-0 cursor-pointer absolute"
+                        />
+                    )
                 ) : (
                     <ChevronRightIcon
                         onClick={() => setExpanded(!expanded)}
-                        className="h-5 cursor-pointer"
+                        className="h-5 -left-0 cursor-pointer absolute"
                     />
                 )}
-                <h3 className="cursor-pointer">{folder.name}</h3>
+                {expanded ? <FolderOpenIcon className="h-5" /> : <FolderIcon className="h-5" />}
+                <h3
+                    className="ml-2 py-2 flex-grow text-black"
+                    onClick={() => folder.setDest(folder.id)}
+                >
+                    {folder.name}
+                </h3>
             </div>
-            {expanded && folder.folders && <FolderTree folders={folder.folders}></FolderTree>}
+            {expanded && folder.folders && (
+                <FolderTree
+                    dest={props.dest}
+                    setDest={props.setDest}
+                    folders={folder.folders}
+                    expanded={false}
+                />
+            )}
         </div>
     );
 }
@@ -68,9 +96,30 @@ export default function FolderTree(props: FolderTreeProps) {
     const [folders, setFolders] = useState(props.folders);
     return (
         <div>
-            {folders.map((folder) => {
-                return <Folder key={folder.id} {...folder} />;
-            })}
+            {folders ? (
+                folders.map((folder) => {
+                    return (
+                        <Folder
+                            key={folder.id}
+                            {...{
+                                ...folder,
+                                dest: props.dest,
+                                setDest: props.setDest,
+                                expanded: props.expanded
+                            }}
+                        />
+                    );
+                })
+            ) : (
+                <Folder
+                    key="root"
+                    dest={props.dest}
+                    setDest={props.setDest}
+                    expanded={props.expanded}
+                    name="Root"
+                    id="root"
+                />
+            )}
         </div>
     );
 }
