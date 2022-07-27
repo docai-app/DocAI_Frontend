@@ -3,6 +3,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useCallback } from 'react';
+import FolderTree from '../../components/feature/drive/FolderTree';
 
 interface DriveViewProps {
     showAllItemsData: any;
@@ -161,6 +162,7 @@ export default function DriveView(props: DriveViewProps) {
                     <div className="absolute h-[calc(100vh-4rem)] shadow-lg right-0 top-16 bg-white w-[28rem]">
                         <div className="w-full h-full">
                             <h1 className="p-5 font-bold text-3xl">移動 {moving[0].name} 到</h1>
+                            <FolderTree folders={showAllItemsData.folders} />
                         </div>
                     </div>
                 </>
