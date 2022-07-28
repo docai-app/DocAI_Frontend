@@ -4,6 +4,7 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -92,6 +93,8 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         getAndPredictLatestUploadedDocument();
     }, [getAndPredictLatestUploadedDocument]);
     useEffect(() => {

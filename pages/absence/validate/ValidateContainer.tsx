@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import _get from 'lodash/get';
 import { WidgetProps, FieldProps } from '@rjsf/core';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -90,6 +91,8 @@ function ValidateContainer() {
 
     useEffect(() => {
         getFormsSchemaByName();
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
     }, [getFormsSchemaByName]);
 
     useEffect(() => {

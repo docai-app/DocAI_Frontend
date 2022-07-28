@@ -48,4 +48,16 @@ export default class Absence {
         };
         return requestHeader;
     }
+
+    updateDocumentById(document_id: string, folder_id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/${document_id}`,
+            method: 'PUT',
+            data: {
+                folder_id
+            }
+        };
+        return requestHeader;
+    }
 }

@@ -16,6 +16,7 @@ import {
 } from '@heroicons/react/outline';
 import Api from '../apis/index';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -114,6 +115,9 @@ const Home: NextPage = () => {
         ),
         { manual: true }
     );
+    useEffect(() => {
+      axios.defaults.headers.common['authorization'] = localStorage.getItem('authorization') || '';
+    }, []);
     useEffect(() => {
         countTagsByDate();
         countDocumentsByDate();

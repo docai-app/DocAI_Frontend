@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import TagView from './TagView';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -18,6 +19,8 @@ function TagContainer() {
         manual: true
     });
     useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         if (router.query.name) {
             setTagName(router.query.name.toString());
             getDocumentsByTagID({
