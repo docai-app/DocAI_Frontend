@@ -167,7 +167,7 @@ export default function DriveView(props: DriveViewProps) {
                             <div className="pr-5 overflow-auto">
                                 <FolderTree expanded={true} dest={dest} setDest={setDest} />
                             </div>
-                            {dest && (
+                            {dest != null && (
                                 <div className="py-5 px-5 flex">
                                     <button
                                         className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"

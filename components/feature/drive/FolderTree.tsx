@@ -37,7 +37,7 @@ function Folder(props: Folder) {
 
     useEffect(() => {
         if (expanded) {
-            if (folder.id !== 'root')
+            if (folder.id !== '')
                 showAllFolderItems(apiSetting.Drive.showAllFolderItems(folder.id));
             else showAllFolderItems(apiSetting.Drive.showAllRootItems());
         }
@@ -117,7 +117,7 @@ export default function FolderTree(props: FolderTreeProps) {
                     setDest={props.setDest}
                     expanded={props.expanded}
                     name="Root"
-                    id="root"
+                    id=""
                 />
             )}
         </div>
