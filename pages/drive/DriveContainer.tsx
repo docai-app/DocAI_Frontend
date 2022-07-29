@@ -10,14 +10,16 @@ const apiSetting = new Api();
 export default function DriveContainer() {
     const router = useRouter();
     const { id = null } = router.query;
-    const [mode, setMode] = useState<'view' | 'move'>('view');
+    const [mode, setMode] = useState<'view' | 'move' | 'share'>('view');
     const [moving, setMoving] = useState<any[]>([]);
-    const [dest, setDest] = useState<string | null>(null);
+    const [shareWith, setShareWith] = useState<any[]>([]);
+    const [movingDest, setMovingDest] = useState<string | null>(null);
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
     ] = useAxios({}, { manual: true });
     const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
+
     const toggleMove = useCallback((b: boolean) => {
         if (b) {
             setMode('move');
@@ -39,6 +41,16 @@ export default function DriveContainer() {
         [router, updateDocumentById]
     );
 
+    const toggleShare = useCallback((b: boolean) => {
+        if (b) {
+            setMode('share');
+        } else {
+            setMode('view');
+        }
+    }, []);
+
+    const handleShare = useCallback(() => {}, []);
+
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -52,12 +64,16 @@ export default function DriveContainer() {
                 showAllItemsData,
                 showAllItemsLoading,
                 mode,
-                toggleMove,
                 moving,
                 setMoving,
-                dest,
-                setDest,
-                handleMove
+                movingDest,
+                setMovingDest,
+                handleMove,
+                toggleMove,
+                shareWith,
+                setShareWith,
+                handleShare,
+                toggleShare
             }}
         />
     );
