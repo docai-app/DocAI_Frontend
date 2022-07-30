@@ -20,4 +20,16 @@ export default class Drive {
         };
         return requestHeader;
     }
+    shareFolderPermission(id: string, user_email: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/drive/folders/share`,
+            method: 'POST',
+            data: {
+                id,
+                user_email
+            }
+        };
+        return requestHeader;
+    }
 }

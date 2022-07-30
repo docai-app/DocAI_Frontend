@@ -11,14 +11,19 @@ export default function DriveContainer() {
     const router = useRouter();
     const { id = null } = router.query;
     const [mode, setMode] = useState<'view' | 'move' | 'share'>('view');
-    const [moving, setMoving] = useState<any[]>([]);
+    const [target, setTarget] = useState<any[]>([]);
     const [shareWith, setShareWith] = useState<any[]>([]);
     const [movingDest, setMovingDest] = useState<string | null>(null);
+
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
     ] = useAxios({}, { manual: true });
     const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
+    const [{ data: shareFolderPermissionData }, shareFolderPermission] = useAxios(
+        {},
+        { manual: true }
+    );
 
     const toggleMove = useCallback((b: boolean) => {
         if (b) {
@@ -49,7 +54,15 @@ export default function DriveContainer() {
         }
     }, []);
 
-    const handleShare = useCallback(() => {}, []);
+    const handleShare = useCallback(async (id: string, user_email: string) => {
+        const res = await shareFolderPermission(
+            apiSetting.Drive.shareFolderPermission(id, user_email)
+        );
+        if (res.data?.success) {
+            alert('共用成功');
+            router.reload();
+        }
+    }, [router, shareFolderPermission]);
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
@@ -64,8 +77,8 @@ export default function DriveContainer() {
                 showAllItemsData,
                 showAllItemsLoading,
                 mode,
-                moving,
-                setMoving,
+                target,
+                setTarget,
                 movingDest,
                 setMovingDest,
                 handleMove,
