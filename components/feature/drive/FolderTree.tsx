@@ -1,7 +1,6 @@
 import {
     ChevronDownIcon,
     ChevronRightIcon,
-    ChevronUpIcon,
     FolderIcon,
     FolderOpenIcon
 } from '@heroicons/react/solid';
@@ -13,14 +12,14 @@ interface Folder {
     id: string;
     name: string;
     folders?: Folder[];
-    dest: string | null;
-    setDest: Dispatch<SetStateAction<string | null>>;
+    movingDest: string | null;
+    setMovingDest: Dispatch<SetStateAction<string | null>>;
     expanded: boolean;
 }
 
 interface FolderTreeProps {
-    dest: string | null;
-    setDest: Dispatch<SetStateAction<string | null>>;
+    movingDest: string | null;
+    setMovingDest: Dispatch<SetStateAction<string | null>>;
     folders?: Folder[];
     expanded: boolean;
 }
@@ -37,7 +36,7 @@ function Folder(props: Folder) {
 
     useEffect(() => {
         if (expanded) {
-            if (folder.id !== 'root')
+            if (folder.id !== '')
                 showAllFolderItems(apiSetting.Drive.showAllFolderItems(folder.id));
             else showAllFolderItems(apiSetting.Drive.showAllRootItems());
         }
@@ -56,7 +55,7 @@ function Folder(props: Folder) {
         <div className="pl-5">
             <div
                 className={`flex items-center pl-5 relative text-gray-400 rounded-lg cursor-pointer${
-                    folder.id === props.dest ? ' bg-indigo-100' : ''
+                    folder.id === props.movingDest ? ' bg-indigo-100' : ''
                 }`}
             >
                 {expanded ? (
@@ -75,15 +74,15 @@ function Folder(props: Folder) {
                 {expanded ? <FolderOpenIcon className="h-5" /> : <FolderIcon className="h-5" />}
                 <h3
                     className="ml-2 py-2 flex-grow text-black"
-                    onClick={() => folder.setDest(folder.id)}
+                    onClick={() => folder.setMovingDest(folder.id)}
                 >
                     {folder.name}
                 </h3>
             </div>
             {expanded && folder.folders && (
                 <FolderTree
-                    dest={props.dest}
-                    setDest={props.setDest}
+                    movingDest={props.movingDest}
+                    setMovingDest={props.setMovingDest}
                     folders={folder.folders}
                     expanded={false}
                 />
@@ -103,8 +102,8 @@ export default function FolderTree(props: FolderTreeProps) {
                             key={folder.id}
                             {...{
                                 ...folder,
-                                dest: props.dest,
-                                setDest: props.setDest,
+                                movingDest: props.movingDest,
+                                setMovingDest: props.setMovingDest,
                                 expanded: props.expanded
                             }}
                         />
@@ -113,11 +112,11 @@ export default function FolderTree(props: FolderTreeProps) {
             ) : (
                 <Folder
                     key="root"
-                    dest={props.dest}
-                    setDest={props.setDest}
+                    movingDest={props.movingDest}
+                    setMovingDest={props.setMovingDest}
                     expanded={props.expanded}
                     name="Root"
-                    id="root"
+                    id=""
                 />
             )}
         </div>

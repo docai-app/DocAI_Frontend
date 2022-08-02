@@ -1,20 +1,32 @@
-import { DocumentIcon, FolderIcon, PlusIcon } from '@heroicons/react/outline';
+import {
+    ChevronDownIcon,
+    DocumentIcon,
+    FolderIcon,
+    PencilIcon,
+    PlusIcon,
+    ShareIcon
+} from '@heroicons/react/outline';
 import { DocumentDuplicateIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
 import FolderTree from '../../components/feature/drive/FolderTree';
+import { Dialog, Transition } from '@headlessui/react';
 
 interface DriveViewProps {
     showAllItemsData: any;
     showAllItemsLoading: boolean;
-    mode: 'view' | 'move';
-    toggleMove: (b: boolean) => void;
-    moving: any[];
-    setMoving: Dispatch<SetStateAction<any[]>>;
-    dest: string | null;
-    setDest: Dispatch<SetStateAction<string | null>>;
+    mode: 'view' | 'move' | 'share';
+    target: any[];
+    setTarget: Dispatch<SetStateAction<any[]>>;
+    movingDest: string | null;
+    setMovingDest: Dispatch<SetStateAction<string | null>>;
     handleMove: (document_id: string, folder_id: string) => void;
+    toggleMove: (b: boolean) => void;
+    shareWith: any[];
+    setShareWith: Dispatch<SetStateAction<any[]>>;
+    handleShare: (id: string, user_email: string) => void;
+    toggleShare: (b: boolean) => void;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -23,13 +35,19 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData,
         showAllItemsLoading,
         mode,
-        moving,
-        setMoving,
+        target,
+        setTarget,
+        movingDest,
+        setMovingDest,
+        handleMove,
         toggleMove,
-        dest,
-        setDest,
-        handleMove
+        shareWith,
+        setShareWith,
+        handleShare,
+        toggleShare
     } = props;
+
+    const shareWithInput = useRef<HTMLInputElement>(null);
 
     const tableRow = useCallback(
         (doc: any, type: string) => {
@@ -86,12 +104,21 @@ export default function DriveView(props: DriveViewProps) {
                             <a>{doc.name}</a>
                         </Link>
                     </td>
-                    <td className="px-2 py-4 text-right">
+                    <td className="px-2 py-4 flex justify-end gap-2">
+                        {type === 'folders' && (
+                            <ShareIcon
+                                className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
+                                onClick={() => {
+                                    toggleShare(true);
+                                    setTarget([doc]);
+                                }}
+                            />
+                        )}
                         <DocumentDuplicateIcon
-                            className="h-5 ml-auto text-gray-200 hover:text-gray-500 cursor-pointer"
+                            className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
                             onClick={() => {
                                 toggleMove(true);
-                                setMoving([doc]);
+                                setTarget([doc]);
                             }}
                         />
                     </td>
@@ -99,7 +126,7 @@ export default function DriveView(props: DriveViewProps) {
                 </tr>
             );
         },
-        [toggleMove, setMoving]
+        [toggleMove, setTarget, toggleShare]
     );
 
     return (
@@ -107,10 +134,16 @@ export default function DriveView(props: DriveViewProps) {
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="py-4 flex flex-col gap-4 h-full">
                     <div className="flex flex-row gap-2 pb-4 border-b">
-                        <button className="py-2 px-4 bg-indigo-600 text-white rounded shadow flex flex-row items-center gap-2">
+                        <button className="py-2 px-4 bg-indigo-600 hover:bg-indigo-900 text-white rounded shadow flex flex-row items-center gap-2">
                             <PlusIcon className="h-4" />
                             <div className="whitespace-nowrap">新增</div>
                         </button>
+                        {/*
+                        <button className="py-2 px-4 border-gray-100 hover:bg-gray-200/70 text-black rounded flex flex-row items-center gap-2">
+                            <ShareIcon className="h-4" />
+                            <div className="whitespace-nowrap">共用</div>
+                        </button>
+                        */}
                     </div>
                     <div className="py-3">
                         <a
@@ -140,13 +173,24 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                    showAllItemsData.folders.map((doc: any) => {
-                                        return tableRow(doc, 'folders');
-                                    })}
-                                {showAllItemsData?.documents &&
-                                    showAllItemsData.documents.map((doc: any) => {
-                                        return tableRow(doc, 'documents');
-                                    })}
+                                showAllItemsData?.documents &&
+                                (showAllItemsData.folders.length > 0 ||
+                                    showAllItemsData.documents.length > 0) ? (
+                                    <>
+                                        {showAllItemsData.folders.map((doc: any) => {
+                                            return tableRow(doc, 'folders');
+                                        })}
+                                        {showAllItemsData.documents.map((doc: any) => {
+                                            return tableRow(doc, 'documents');
+                                        })}
+                                    </>
+                                ) : (
+                                    <tr>
+                                        <td colSpan={4} className="px-2 py-4 text-center text-gray-500">
+                                            沒有檔案
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -158,20 +202,24 @@ export default function DriveView(props: DriveViewProps) {
                         className="absolute h-[calc(100vh-4rem)] bg-black/30 top-16 w-full"
                         onClick={() => {
                             toggleMove(false);
-                            setMoving([]);
+                            setTarget([]);
                         }}
                     ></div>
                     <div className="absolute h-[calc(100vh-4rem)] shadow-lg right-0 top-16 bg-white w-[28rem]">
                         <div className="w-full h-full flex flex-col">
-                            <h1 className="p-5 font-bold text-3xl">移動 {moving[0].name} 到</h1>
+                            <h1 className="p-5 font-bold text-3xl">移動 {target[0].name} 到</h1>
                             <div className="pr-5 overflow-auto">
-                                <FolderTree expanded={true} dest={dest} setDest={setDest} />
+                                <FolderTree
+                                    expanded={true}
+                                    movingDest={movingDest}
+                                    setMovingDest={setMovingDest}
+                                />
                             </div>
-                            {dest && (
+                            {movingDest != null && (
                                 <div className="py-5 px-5 flex">
                                     <button
                                         className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                        onClick={() => handleMove(moving[0].id, dest)}
+                                        onClick={() => handleMove(target[0].id, movingDest)}
                                     >
                                         移動
                                     </button>
@@ -181,6 +229,70 @@ export default function DriveView(props: DriveViewProps) {
                     </div>
                 </>
             )}
+            <Transition show={mode === 'share'} as={Fragment}>
+                <Dialog
+                    className="fixed z-10 inset-0 overflow-y-auto"
+                    onClose={() => {
+                        if (shareWithInput.current) setShareWith([shareWithInput.current?.value]);
+                        toggleShare(false);
+                    }}
+                >
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                    </Transition.Child>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="transition duration-100 ease-out"
+                        enterFrom="transform scale-95 opacity-0"
+                        enterTo="transform scale-100 opacity-100"
+                        leave="transition duration-75 ease-out"
+                        leaveFrom="transform scale-100 opacity-100"
+                        leaveTo="transform scale-95 opacity-0"
+                    >
+                        <div className="absolute m-auto w-[28rem] h-44 bg-white rounded-lg shadow-lg top-0 left-0 right-0 bottom-0">
+                            <Dialog.Panel className="flex flex-col gap-3 p-5 h-full">
+                                <h3 className="text-xl font-bold">共用 {target?.[0]?.name}</h3>
+                                <div className="flex flex-row-reverse">
+                                    <div className="rounded-r-md border bg-gray-200 text-gray-400 border-l-0 border-gray-200 p-2 gap-1 flex items-center">
+                                        <PencilIcon className="h-4" />
+                                        <ChevronDownIcon className="h-4" />
+                                    </div>
+                                    <input
+                                        ref={shareWithInput}
+                                        placeholder="新增使用者"
+                                        defaultValue={shareWith[0]}
+                                        type="text"
+                                        onFocus={(e) => e.currentTarget.select()}
+                                        className="border px-3 py-2 rounded-l-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full text-sm"
+                                    />
+                                </div>
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white rounded px-6 py-2 self-end mt-auto"
+                                    onClick={() => {
+                                        if (shareWithInput.current?.value) {
+                                            setShareWith([shareWithInput.current?.value]);
+                                            handleShare(
+                                                target[0].id,
+                                                shareWithInput.current?.value
+                                            );
+                                        }
+                                    }}
+                                >
+                                    共用
+                                </button>
+                            </Dialog.Panel>
+                        </div>
+                    </Transition.Child>
+                </Dialog>
+            </Transition>
         </>
     );
 }

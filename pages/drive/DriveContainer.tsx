@@ -10,14 +10,21 @@ const apiSetting = new Api();
 export default function DriveContainer() {
     const router = useRouter();
     const { id = null } = router.query;
-    const [mode, setMode] = useState<'view' | 'move'>('view');
-    const [moving, setMoving] = useState<any[]>([]);
-    const [dest, setDest] = useState<string | null>(null);
+    const [mode, setMode] = useState<'view' | 'move' | 'share'>('view');
+    const [target, setTarget] = useState<any[]>([]);
+    const [shareWith, setShareWith] = useState<any[]>([]);
+    const [movingDest, setMovingDest] = useState<string | null>(null);
+
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
     ] = useAxios({}, { manual: true });
     const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
+    const [{ data: shareFolderPermissionData }, shareFolderPermission] = useAxios(
+        {},
+        { manual: true }
+    );
+
     const toggleMove = useCallback((b: boolean) => {
         if (b) {
             setMode('move');
@@ -39,6 +46,24 @@ export default function DriveContainer() {
         [router, updateDocumentById]
     );
 
+    const toggleShare = useCallback((b: boolean) => {
+        if (b) {
+            setMode('share');
+        } else {
+            setMode('view');
+        }
+    }, []);
+
+    const handleShare = useCallback(async (id: string, user_email: string) => {
+        const res = await shareFolderPermission(
+            apiSetting.Drive.shareFolderPermission(id, user_email)
+        );
+        if (res.data?.success) {
+            alert('共用成功');
+            router.reload();
+        }
+    }, [router, shareFolderPermission]);
+
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -52,12 +77,16 @@ export default function DriveContainer() {
                 showAllItemsData,
                 showAllItemsLoading,
                 mode,
+                target,
+                setTarget,
+                movingDest,
+                setMovingDest,
+                handleMove,
                 toggleMove,
-                moving,
-                setMoving,
-                dest,
-                setDest,
-                handleMove
+                shareWith,
+                setShareWith,
+                handleShare,
+                toggleShare
             }}
         />
     );
