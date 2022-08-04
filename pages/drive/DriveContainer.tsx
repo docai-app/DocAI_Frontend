@@ -54,15 +54,18 @@ export default function DriveContainer() {
         }
     }, []);
 
-    const handleShare = useCallback(async (id: string, user_email: string) => {
-        const res = await shareFolderPermission(
-            apiSetting.Drive.shareFolderPermission(id, user_email)
-        );
-        if (res.data?.success) {
-            alert('共用成功');
-            router.reload();
-        }
-    }, [router, shareFolderPermission]);
+    const handleShare = useCallback(
+        async (id: string, user_email: string) => {
+            const res = await shareFolderPermission(
+                apiSetting.Drive.shareFolderPermission(id, user_email)
+            );
+            if (res.data?.success) {
+                alert('共用成功');
+                router.reload();
+            }
+        },
+        [router, shareFolderPermission]
+    );
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =

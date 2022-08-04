@@ -12,6 +12,7 @@ import {
     CloudUploadIcon,
     ClipboardCheckIcon,
     SortAscendingIcon,
+    CloudIcon,
     TagIcon
 } from '@heroicons/react/outline';
 import Api from '../apis/index';
@@ -72,13 +73,23 @@ const classificationActions = [
         icon: ClipboardCheckIcon,
         iconForeground: 'text-red-700',
         iconBackground: 'bg-red-50'
-    },
+    }
+];
+
+const documentAction = [
     {
         title: '文件搜尋',
         href: '/search',
         icon: DocumentSearchIcon,
         iconForeground: 'text-purple-700',
         iconBackground: 'bg-purple-50'
+    },
+    {
+        title: '多層資料夾',
+        href: '/drive',
+        icon: CloudIcon,
+        iconForeground: 'text-green-700',
+        iconBackground: 'bg-green-50'
     }
 ];
 
@@ -116,7 +127,8 @@ const Home: NextPage = () => {
         { manual: true }
     );
     useEffect(() => {
-      axios.defaults.headers.common['authorization'] = localStorage.getItem('authorization') || '';
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
     }, []);
     useEffect(() => {
         countTagsByDate();
@@ -289,6 +301,60 @@ const Home: NextPage = () => {
                                         molestiae.
                                     </p>
                                 </div> */}
+                                <span
+                                    className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
+                                    aria-hidden="true"
+                                >
+                                    <svg
+                                        className="h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="max-w-4xl mx-auto mb-8">
+                    <h2 className="my-4 text-2xl font-bold text-gray-900">文件管理</h2>
+                    <div className="rounded-lg overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+                        {documentAction.map((action, actionIdx) => (
+                            <div
+                                key={action.title}
+                                className={classNames(
+                                    actionIdx === 0
+                                        ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none'
+                                        : '',
+                                    actionIdx === 1 ? 'sm:rounded-tr-lg' : '',
+                                    actionIdx === documentAction.length - 2
+                                        ? 'sm:rounded-bl-lg'
+                                        : '',
+                                    actionIdx === documentAction.length - 1
+                                        ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
+                                        : '',
+                                    'relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500'
+                                )}
+                            >
+                                <div className="flex flex-row items-center">
+                                    <span
+                                        className={classNames(
+                                            action.iconBackground,
+                                            action.iconForeground,
+                                            'rounded-lg inline-flex p-3 ring-4 ring-white'
+                                        )}
+                                    >
+                                        <action.icon className="h-6 w-6" aria-hidden="true" />
+                                    </span>
+                                    <p className="ml-4 text-center text-lg font-medium">
+                                        <a href={action.href} className="focus:outline-none">
+                                            <span className="absolute inset-0" aria-hidden="true" />
+                                            {action.title}
+                                        </a>
+                                    </p>
+                                </div>
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"

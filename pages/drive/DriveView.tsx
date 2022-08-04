@@ -186,7 +186,10 @@ export default function DriveView(props: DriveViewProps) {
                                     </>
                                 ) : (
                                     <tr>
-                                        <td colSpan={4} className="px-2 py-4 text-center text-gray-500">
+                                        <td
+                                            colSpan={4}
+                                            className="px-2 py-4 text-center text-gray-500"
+                                        >
                                             沒有檔案
                                         </td>
                                     </tr>
