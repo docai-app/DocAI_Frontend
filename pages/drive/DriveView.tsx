@@ -32,19 +32,19 @@ interface DriveViewProps {
 export default function DriveView(props: DriveViewProps) {
     const router = useRouter();
     const {
-        showAllItemsData,
-        showAllItemsLoading,
-        mode,
-        target,
-        setTarget,
-        movingDest,
-        setMovingDest,
-        handleMove,
-        toggleMove,
-        shareWith,
-        setShareWith,
-        handleShare,
-        toggleShare
+        showAllItemsData = null,
+        showAllItemsLoading = null,
+        mode = 'view',
+        target = [],
+        setTarget = () => {},
+        movingDest = null,
+        setMovingDest = () => {},
+        handleMove = () => {},
+        toggleMove = () => {},
+        shareWith = [],
+        setShareWith = () => {},
+        handleShare = () => {},
+        toggleShare = () => {}
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
