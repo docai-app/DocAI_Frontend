@@ -190,7 +190,9 @@ export default function DriveView(props: DriveViewProps) {
                                             colSpan={4}
                                             className="px-2 py-4 text-center text-gray-500"
                                         >
-                                            沒有檔案
+                                            {showAllItemsData.success
+                                                ? '沒有檔案'
+                                                : showAllItemsData.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
