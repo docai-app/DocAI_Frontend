@@ -55,19 +55,18 @@ export default function LoginView(props: LoginViewProps) {
                         </form>
                         {signInLoading ? (
                             <div className="absolute -top-6 text-slate-500">登入中...</div>
+                        ) : signInData && signInData.success ? (
+                            <div className="flex flex-row gap-1 absolute -top-6 text-green-700">
+                                <CheckIcon className="h-6 w-6" />
+                                <div>登入成功！</div>
+                            </div>
                         ) : (
-                            signInData &&
-                            (signInData.success ? (
-                                <div className="flex flex-row gap-1 absolute -top-6 text-green-700">
-                                    <CheckIcon className="h-6 w-6" />
-                                    <div>登入成功！</div>
-                                </div>
-                            ) : (
+                            signInError && (
                                 <div className="flex flex-row gap-1 absolute -top-6 text-red-700">
                                     <XIcon className="h-6 w-6" />
                                     <div>帳戶或密碼錯誤</div>
                                 </div>
-                            ))
+                            )
                         )}
                     </div>
                 </div>
