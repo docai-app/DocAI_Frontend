@@ -174,6 +174,7 @@ export default function DriveView(props: DriveViewProps) {
                             <tbody className="divide-y divide-gray-100">
                                 {showAllItemsData?.folders &&
                                 showAllItemsData?.documents &&
+                                showAllItemsData?.success &&
                                 (showAllItemsData.folders.length > 0 ||
                                     showAllItemsData.documents.length > 0) ? (
                                     <>
@@ -190,9 +191,9 @@ export default function DriveView(props: DriveViewProps) {
                                             colSpan={4}
                                             className="px-2 py-4 text-center text-gray-500"
                                         >
-                                            {showAllItemsData.success
+                                            {showAllItemsData?.success
                                                 ? '沒有檔案'
-                                                : showAllItemsData.error || 'Error'}
+                                                : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
