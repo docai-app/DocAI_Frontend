@@ -85,9 +85,11 @@ function ValidateContainer() {
                 }
             });
             await getAllTags();
-            if (res.data.status) {
+            if (res.data.success) {
                 alert('新類型已新增！');
                 await getAndPredictLatestUploadedDocument();
+            } else if (res.data.success === false) {
+                alert('新類型已存在！');
             }
         }
     });
@@ -97,7 +99,9 @@ function ValidateContainer() {
             localStorage.getItem('authorization') || '';
         getAndPredictLatestUploadedDocument();
     }, [getAndPredictLatestUploadedDocument]);
+
     useEffect(() => {
+        console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.prediction &&
@@ -112,7 +116,7 @@ function ValidateContainer() {
             alert('沒有文件需要驗證');
             router.push('/classification');
         }
-    }, [router, latestPredictionData, confirmDocumentFormik]);
+    }, [router, latestPredictionData]);
     return (
         <>
             <ValidateView
