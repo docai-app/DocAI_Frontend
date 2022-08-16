@@ -101,7 +101,7 @@ export default function DriveView(props: DriveViewProps) {
                     </td>
                     <td className="px-2 py-4 text-left">
                         <Link href={url}>
-                            <a>{doc.name}</a>
+                            <a className="hover:underline">{doc.name}</a>
                         </Link>
                     </td>
                     <td className="px-2 py-4 flex justify-end gap-2">
@@ -193,6 +193,8 @@ export default function DriveView(props: DriveViewProps) {
                                         >
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
+                                                : showAllItemsLoading
+                                                ? '載入中...'
                                                 : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>

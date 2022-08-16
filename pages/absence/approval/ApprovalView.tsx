@@ -115,99 +115,109 @@ function ApprovalView(props: any) {
                 {loading ? (
                     <div>載入中...</div>
                 ) : (
-                    <>
-                        <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
-                            <table className="w-full divide-y divide-gray-300">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3 text-left">
-                                            員工編號
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left">
-                                            員工姓名
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left">
-                                            請假理由
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left">
-                                            假期類型
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-left">
-                                            審批備註
-                                        </th>
-                                        <th scope="col" className="px-6 py-3 text-right">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                onClick={downloadCSV}
-                                            >
-                                                <DownloadIcon
-                                                    className="-ml-0.5 mr-2 h-4 w-4"
-                                                    aria-hidden="true"
-                                                />
-                                                下載請假表
-                                            </button>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {data.map((item: any) => {
-                                        const { id, remark, approval_status } = item;
-                                        const {
-                                            employee_id,
-                                            employee_name,
-                                            reason_of_absence,
-                                            type_of_leave: type_of_leave_obj
-                                        } = item.form_data.data;
-                                        const type_of_leave = _findKey(
-                                            type_of_leave_obj,
-                                            (value) => value
-                                        );
-                                        return (
-                                            <tr key={id}>
-                                                <td className="px-6 py-4 text-left">
-                                                    {employee_id}
-                                                </td>
-                                                <td className="px-6 py-4 text-left">
-                                                    {employee_name}
-                                                </td>
-                                                <td className="px-6 py-4 text-left overflow-hidden">
-                                                    {reason_of_absence}
-                                                </td>
-                                                <td className="px-6 py-4 text-left">
-                                                    {type_of_leave &&
-                                                        _get(
-                                                            formSchema,
-                                                            `properties.type_of_leave.properties[${type_of_leave}].title`
-                                                        )}
-                                                </td>
-                                                <td className="px-6 py-4 text-left">{remark}</td>
-                                                <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
-                                                    <Link
-                                                        href={`/absence/approval/${id.toString()}`}
-                                                    >
-                                                        {approval_status === 'awaiting' ? (
-                                                            <a className="text-indigo-600 hover:text-indigo-900 font-bold">
-                                                                待審批
-                                                            </a>
-                                                        ) : approval_status === 'approved' ? (
-                                                            <a className="text-green-600 hover:text-green-900 font-bold">
-                                                                已審批
-                                                            </a>
-                                                        ) : (
-                                                            <a className="text-red-600 hover:text-red-900 font-bold">
-                                                                已拒絕
-                                                            </a>
-                                                        )}
-                                                    </Link>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </>
+                    data && (
+                        <>
+                            <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
+                                <table className="w-full divide-y divide-gray-300">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                員工編號
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                員工姓名
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                請假理由
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                假期類型
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-left">
+                                                審批備註
+                                            </th>
+                                            <th scope="col" className="px-6 py-3 text-right">
+                                                <button
+                                                    type="button"
+                                                    className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                    onClick={downloadCSV}
+                                                >
+                                                    <DownloadIcon
+                                                        className="-ml-0.5 mr-2 h-4 w-4"
+                                                        aria-hidden="true"
+                                                    />
+                                                    下載請假表
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200">
+                                        {data.map((item: any) => {
+                                            console.log(data);
+                                            const {
+                                                id = null,
+                                                remark = null,
+                                                approval_status = null
+                                            } = item;
+                                            if (item.form_data.data == null) return;
+                                            const {
+                                                employee_id = null,
+                                                employee_name = null,
+                                                reason_of_absence = null,
+                                                type_of_leave: type_of_leave_obj = null
+                                            } = item.form_data.data;
+                                            const type_of_leave = _findKey(
+                                                type_of_leave_obj,
+                                                (value) => value
+                                            );
+                                            return (
+                                                <tr key={id}>
+                                                    <td className="px-6 py-4 text-left">
+                                                        {employee_id}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-left">
+                                                        {employee_name}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-left overflow-hidden">
+                                                        {reason_of_absence}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-left">
+                                                        {type_of_leave &&
+                                                            _get(
+                                                                formSchema,
+                                                                `properties.type_of_leave.properties[${type_of_leave}].title`
+                                                            )}
+                                                    </td>
+                                                    <td className="px-6 py-4 text-left">
+                                                        {remark}
+                                                    </td>
+                                                    <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-right">
+                                                        <Link
+                                                            href={`/absence/approval/${id.toString()}`}
+                                                        >
+                                                            {approval_status === 'awaiting' ? (
+                                                                <a className="text-indigo-600 hover:text-indigo-900 font-bold">
+                                                                    待審批
+                                                                </a>
+                                                            ) : approval_status === 'approved' ? (
+                                                                <a className="text-green-600 hover:text-green-900 font-bold">
+                                                                    已審批
+                                                                </a>
+                                                            ) : (
+                                                                <a className="text-red-600 hover:text-red-900 font-bold">
+                                                                    已拒絕
+                                                                </a>
+                                                            )}
+                                                        </Link>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>
+                    )
                 )}
             </div>
         </>
