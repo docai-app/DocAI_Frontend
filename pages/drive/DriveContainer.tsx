@@ -2,14 +2,17 @@ import useAxios from 'axios-hooks';
 import DriveView from './DriveView';
 import Api from '../../apis';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
 const apiSetting = new Api();
 
 export default function DriveContainer() {
     const router = useRouter();
-    const { id = null } = router.query;
+    const queryId = useRef(router.query.id);
+    const queryName = useRef(router.query.name);
+    const [id, setId] = useState<string | null>(null);
+    const [name, setName] = useState<string | null>(null);
     const [mode, setMode] = useState<'view' | 'move' | 'share'>('view');
     const [target, setTarget] = useState<any[]>([]);
     const [shareWith, setShareWith] = useState<any[]>([]);
@@ -70,13 +73,25 @@ export default function DriveContainer() {
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
-        if (id) showAllItems(apiSetting.Drive.showAllFolderItems(id.toString()));
+        queryId.current = router.query.id;
+        queryName.current = router.query.name;
+        if (queryId.current)
+            showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
         else showAllItems(apiSetting.Drive.showAllRootItems());
-    }, [router, id, showAllItems]);
+    }, [router, showAllItems]);
+
+    useEffect(() => {
+        if (!showAllItemsLoading && showAllItemsData) {
+            setId(queryId.current?.toString() || null);
+            setName(queryName.current?.toString() || null);
+        }
+    }, [showAllItemsLoading, showAllItemsData]);
 
     return (
         <DriveView
             {...{
+                id,
+                name,
                 showAllItemsData,
                 showAllItemsLoading,
                 mode,
