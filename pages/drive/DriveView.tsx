@@ -12,8 +12,12 @@ import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
 import FolderTree from '../../components/feature/drive/FolderTree';
 import { Dialog, Transition } from '@headlessui/react';
+import TableRow from '../../components/feature/drive/TableRow';
+import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 
 interface DriveViewProps {
+    id: string | string[] | null | undefined;
+    name: string | string[] | null | undefined;
     showAllItemsData: any;
     showAllItemsLoading: boolean;
     mode: 'view' | 'move' | 'share';
@@ -30,8 +34,9 @@ interface DriveViewProps {
 }
 
 export default function DriveView(props: DriveViewProps) {
-    const router = useRouter();
     const {
+        id = null,
+        name = 'Root',
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
@@ -49,86 +54,6 @@ export default function DriveView(props: DriveViewProps) {
 
     const shareWithInput = useRef<HTMLInputElement>(null);
 
-    const tableRow = useCallback(
-        (doc: any, type: string) => {
-            const updated_at = new Date(doc.updated_at);
-            const now = new Date();
-            let date = '';
-            if (updated_at.getFullYear() === now.getFullYear()) {
-                if (
-                    updated_at.getMonth() === now.getMonth() &&
-                    updated_at.getDate() === now.getDate()
-                )
-                    date = `${
-                        updated_at.getHours() < 10
-                            ? '0' + updated_at.getHours().toString()
-                            : updated_at.getHours()
-                    }:${
-                        updated_at.getMinutes() < 10
-                            ? '0' + updated_at.getMinutes().toString()
-                            : updated_at.getMinutes()
-                    }`;
-                else
-                    date = `${
-                        updated_at.getMonth() < 9
-                            ? '0' + (updated_at.getMonth() + 1).toString()
-                            : updated_at.getMonth() + 1
-                    }/${
-                        updated_at.getDate() < 10
-                            ? '0' + updated_at.getDate().toString()
-                            : updated_at.getDate()
-                    }`;
-            } else {
-                date = `${updated_at.getFullYear()}/${
-                    updated_at.getMonth() < 9
-                        ? '0' + (updated_at.getMonth() + 1).toString()
-                        : updated_at.getMonth() + 1
-                }/${
-                    updated_at.getDate() < 10
-                        ? '0' + updated_at.getDate().toString()
-                        : updated_at.getDate()
-                }`;
-            }
-            const url = doc.storage_url || `/drive/${doc.id}`;
-            return (
-                <tr key={doc.id}>
-                    <td scope="col" className="px-2 py-3">
-                        {type === 'documents' ? (
-                            <DocumentIcon className="ml-auto h-6" />
-                        ) : (
-                            <FolderIcon className="ml-auto h-6" />
-                        )}
-                    </td>
-                    <td className="px-2 py-4 text-left">
-                        <Link href={url}>
-                            <a className="hover:underline">{doc.name}</a>
-                        </Link>
-                    </td>
-                    <td className="px-2 py-4 flex justify-end gap-2">
-                        {type === 'folders' && (
-                            <ShareIcon
-                                className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
-                                onClick={() => {
-                                    toggleShare(true);
-                                    setTarget([doc]);
-                                }}
-                            />
-                        )}
-                        <DocumentDuplicateIcon
-                            className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
-                            onClick={() => {
-                                toggleMove(true);
-                                setTarget([doc]);
-                            }}
-                        />
-                    </td>
-                    <td className="pr-6 py-4 text-right">{date}</td>
-                </tr>
-            );
-        },
-        [toggleMove, setTarget, toggleShare]
-    );
-
     return (
         <>
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
@@ -145,13 +70,20 @@ export default function DriveView(props: DriveViewProps) {
                         </button>
                         */}
                     </div>
-                    <div className="py-3">
-                        <a
+                    <div>
+                        {showAllItemsData && (
+                            <BreadCrumb
+                                ancestors={showAllItemsData?.ancestors}
+                                id={id?.toString()}
+                                name={name?.toString()}
+                            />
+                        )}
+                        {/*<a
                             className="hover:underline cursor-pointer text-lg"
                             onClick={() => {
                                 router.back();
                             }}
-                        >{`<< 返回`}</a>
+                        >{`<< 返回`}</a>*/}
                     </div>
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
                         <table className="w-full">
@@ -179,10 +111,28 @@ export default function DriveView(props: DriveViewProps) {
                                     showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
-                                            return tableRow(doc, 'folders');
+                                            return (
+                                                <TableRow
+                                                    key={doc.id}
+                                                    doc={doc}
+                                                    type="folders"
+                                                    setTarget={setTarget}
+                                                    toggleMove={toggleMove}
+                                                    toggleShare={toggleShare}
+                                                />
+                                            );
                                         })}
                                         {showAllItemsData.documents.map((doc: any) => {
-                                            return tableRow(doc, 'documents');
+                                            return (
+                                                <TableRow
+                                                    key={doc.id}
+                                                    doc={doc}
+                                                    type="documents"
+                                                    setTarget={setTarget}
+                                                    toggleMove={toggleMove}
+                                                    toggleShare={toggleShare}
+                                                />
+                                            );
                                         })}
                                     </>
                                 ) : (
