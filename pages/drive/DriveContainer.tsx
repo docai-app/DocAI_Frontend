@@ -13,9 +13,10 @@ export default function DriveContainer() {
     const queryName = useRef(router.query.name);
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string | null>(null);
-    const [mode, setMode] = useState<'view' | 'move' | 'share'>('view');
+    const [mode, setMode] = useState<'view' | 'move' | 'share' | 'newFolder'>('view');
     const [target, setTarget] = useState<any[]>([]);
     const [shareWith, setShareWith] = useState<any[]>([]);
+    const [newFolderName, setNewFolderName] = useState<string | null>(null);
     const [movingDest, setMovingDest] = useState<string | null>(null);
 
     const [
@@ -27,14 +28,7 @@ export default function DriveContainer() {
         {},
         { manual: true }
     );
-
-    const toggleMove = useCallback((b: boolean) => {
-        if (b) {
-            setMode('move');
-        } else {
-            setMode('view');
-        }
-    }, []);
+    const [{ data: createFolderData }, createFolder] = useAxios({}, { manual: true });
 
     const handleMove = useCallback(
         async (document_id: string, folder_id: string) => {
@@ -44,18 +38,12 @@ export default function DriveContainer() {
             if (res.data?.success) {
                 alert('移動成功');
                 router.reload();
+            } else {
+                alert('發生錯誤');
             }
         },
         [router, updateDocumentById]
     );
-
-    const toggleShare = useCallback((b: boolean) => {
-        if (b) {
-            setMode('share');
-        } else {
-            setMode('view');
-        }
-    }, []);
 
     const handleShare = useCallback(
         async (id: string, user_email: string) => {
@@ -65,9 +53,26 @@ export default function DriveContainer() {
             if (res.data?.success) {
                 alert('共用成功');
                 router.reload();
+            } else {
+                alert('發生錯誤');
             }
         },
         [router, shareFolderPermission]
+    );
+
+    const handleNewFolder = useCallback(
+        async (name: string) => {
+            const res = await createFolder(
+                apiSetting.Folders.createFolder(name, queryId.current?.toString() || '')
+            );
+            if (res.data?.success) {
+                alert('資料夾新增成功');
+                router.reload();
+            } else {
+                alert('發生錯誤');
+            }
+        },
+        [router, createFolder, queryId]
     );
 
     useEffect(() => {
@@ -95,16 +100,17 @@ export default function DriveContainer() {
                 showAllItemsData,
                 showAllItemsLoading,
                 mode,
+                setMode,
                 target,
                 setTarget,
                 movingDest,
                 setMovingDest,
                 handleMove,
-                toggleMove,
                 shareWith,
                 setShareWith,
                 handleShare,
-                toggleShare
+                newFolderName,
+                handleNewFolder
             }}
         />
     );

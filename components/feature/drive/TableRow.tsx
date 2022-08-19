@@ -1,15 +1,15 @@
 import { DocumentDuplicateIcon, DocumentIcon, FolderIcon, ShareIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import { Dispatch, SetStateAction } from 'react';
 
 interface TableRowProps {
     doc: any;
     type: string;
-    toggleMove: any;
-    toggleShare: any;
+    setMode: Dispatch<SetStateAction<'view' | 'move' | 'share' | 'newFolder'>>;
     setTarget: any;
 }
 export default function TableRow(props: TableRowProps) {
-    const { doc, type, toggleMove, toggleShare, setTarget } = props;
+    const { doc, type, setMode, setTarget } = props;
     const updated_at = new Date(doc.updated_at);
     const now = new Date();
     let date = '';
@@ -69,7 +69,7 @@ export default function TableRow(props: TableRowProps) {
                     <ShareIcon
                         className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
                         onClick={() => {
-                            toggleShare(true);
+                            setMode('share');
                             setTarget([doc]);
                         }}
                     />
@@ -77,7 +77,7 @@ export default function TableRow(props: TableRowProps) {
                 <DocumentDuplicateIcon
                     className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
                     onClick={() => {
-                        toggleMove(true);
+                        setMode('move');
                         setTarget([doc]);
                     }}
                 />
