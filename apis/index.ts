@@ -11,6 +11,7 @@ import Statistics from './Statistics';
 import DocumentApproval from './DocumentApproval';
 import Authorization from './Authorization';
 import Drive from './Drive';
+import Folders from './Folders';
 
 export default class Api {
     Storage: Storage;
@@ -25,6 +26,7 @@ export default class Api {
     DocumentApproval: DocumentApproval;
     Authorization: Authorization;
     Drive: Drive;
+    Folders: Folders;
 
     constructor() {
         this.Storage = new Storage();
@@ -39,5 +41,6 @@ export default class Api {
         this.DocumentApproval = new DocumentApproval();
         this.Authorization = new Authorization();
         this.Drive = new Drive();
+        this.Folders = new Folders();
     }
 }

@@ -1,17 +1,17 @@
 import {
     ChevronDownIcon,
     DocumentIcon,
-    FolderIcon,
     PencilIcon,
     PlusIcon,
     ShareIcon
 } from '@heroicons/react/outline';
+import { FolderIcon } from '@heroicons/react/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
 import FolderTree from '../../components/feature/drive/FolderTree';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import TableRow from '../../components/feature/drive/TableRow';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 
@@ -20,17 +20,17 @@ interface DriveViewProps {
     name: string | string[] | null | undefined;
     showAllItemsData: any;
     showAllItemsLoading: boolean;
-    mode: 'view' | 'move' | 'share';
+    mode: 'view' | 'move' | 'share' | 'newFolder';
+    setMode: Dispatch<SetStateAction<'view' | 'move' | 'share' | 'newFolder'>>;
     target: any[];
     setTarget: Dispatch<SetStateAction<any[]>>;
     movingDest: string | null;
     setMovingDest: Dispatch<SetStateAction<string | null>>;
     handleMove: (document_id: string, folder_id: string) => void;
-    toggleMove: (b: boolean) => void;
     shareWith: any[];
     setShareWith: Dispatch<SetStateAction<any[]>>;
     handleShare: (id: string, user_email: string) => void;
-    toggleShare: (b: boolean) => void;
+    handleNewFolder: (name: string) => Promise<void>;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -40,29 +40,65 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
+        setMode = () => {},
         target = [],
         setTarget = () => {},
         movingDest = null,
         setMovingDest = () => {},
-        handleMove = () => {},
-        toggleMove = () => {},
+        handleMove = async () => {},
         shareWith = [],
         setShareWith = () => {},
-        handleShare = () => {},
-        toggleShare = () => {}
+        handleShare = async () => {},
+        handleNewFolder = async () => {}
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
+    const newFolderNameInput = useRef<HTMLInputElement>(null);
 
     return (
         <>
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="py-4 flex flex-col gap-4 h-full">
                     <div className="flex flex-row gap-2 pb-4 border-b">
-                        <button className="py-2 px-4 bg-indigo-600 hover:bg-indigo-900 text-white rounded shadow flex flex-row items-center gap-2">
-                            <PlusIcon className="h-4" />
-                            <div className="whitespace-nowrap">新增</div>
-                        </button>
+                        <Menu as="div" className="relative">
+                            <Menu.Button
+                                as="button"
+                                className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow flex flex-row items-center gap-2"
+                            >
+                                <PlusIcon className="h-4" />
+                                <div className="whitespace-nowrap">新增</div>
+                                <ChevronDownIcon className="h-4" />
+                            </Menu.Button>
+                            <Transition
+                                as={Fragment}
+                                enter="transition duration-100 ease-out"
+                                enterFrom="transform scale-95 opacity-0"
+                                enterTo="transform scale-100 opacity-100"
+                                leave="transition duration-75 ease-out"
+                                leaveFrom="transform scale-100 opacity-100"
+                                leaveTo="transform scale-95 opacity-0"
+                            >
+                                <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="p-1">
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <button
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    onClick={() => {
+                                                        setMode('newFolder');
+                                                    }}
+                                                >
+                                                    <FolderIcon className="h-5 mr-2 text-blue-200" />
+                                                    資料夾
+                                                </button>
+                                            )}
+                                        </Menu.Item>
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
                         {/*
                         <button className="py-2 px-4 border-gray-100 hover:bg-gray-200/70 text-black rounded flex flex-row items-center gap-2">
                             <ShareIcon className="h-4" />
@@ -117,8 +153,7 @@ export default function DriveView(props: DriveViewProps) {
                                                     doc={doc}
                                                     type="folders"
                                                     setTarget={setTarget}
-                                                    toggleMove={toggleMove}
-                                                    toggleShare={toggleShare}
+                                                    setMode={setMode}
                                                 />
                                             );
                                         })}
@@ -129,8 +164,7 @@ export default function DriveView(props: DriveViewProps) {
                                                     doc={doc}
                                                     type="documents"
                                                     setTarget={setTarget}
-                                                    toggleMove={toggleMove}
-                                                    toggleShare={toggleShare}
+                                                    setMode={setMode}
                                                 />
                                             );
                                         })}
@@ -159,7 +193,7 @@ export default function DriveView(props: DriveViewProps) {
                     <div
                         className="absolute h-[calc(100vh-4rem)] bg-black/30 top-16 w-full"
                         onClick={() => {
-                            toggleMove(false);
+                            setMode('view');
                             setTarget([]);
                         }}
                     ></div>
@@ -192,7 +226,7 @@ export default function DriveView(props: DriveViewProps) {
                     className="fixed z-10 inset-0 overflow-y-auto"
                     onClose={() => {
                         if (shareWithInput.current) setShareWith([shareWithInput.current?.value]);
-                        toggleShare(false);
+                        setMode('view');
                     }}
                 >
                     <Transition.Child
@@ -245,6 +279,61 @@ export default function DriveView(props: DriveViewProps) {
                                     }}
                                 >
                                     共用
+                                </button>
+                            </Dialog.Panel>
+                        </div>
+                    </Transition.Child>
+                </Dialog>
+            </Transition>
+            <Transition show={mode === 'newFolder'} as={Fragment}>
+                <Dialog
+                    className="fixed z-10 inset-0 overflow-y-auto"
+                    onClose={() => {
+                        if (shareWithInput.current) setShareWith([shareWithInput.current?.value]);
+                        setMode('view');
+                    }}
+                >
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+                    </Transition.Child>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="transition duration-100 ease-out"
+                        enterFrom="transform scale-95 opacity-0"
+                        enterTo="transform scale-100 opacity-100"
+                        leave="transition duration-75 ease-out"
+                        leaveFrom="transform scale-100 opacity-100"
+                        leaveTo="transform scale-95 opacity-0"
+                    >
+                        <div className="absolute m-auto w-[28rem] h-44 bg-white rounded-lg shadow-lg top-0 left-0 right-0 bottom-0">
+                            <Dialog.Panel className="flex flex-col gap-3 p-5 h-full">
+                                <h3 className="text-xl font-bold">新增資料夾</h3>
+                                <div className="flex flex-row">
+                                    <input
+                                        ref={newFolderNameInput}
+                                        placeholder="輸入資料夾名稱"
+                                        type="text"
+                                        onFocus={(e) => e.currentTarget.select()}
+                                        className="border px-3 py-2 rounded-l-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full text-sm"
+                                    />
+                                </div>
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white rounded px-6 py-2 self-end mt-auto"
+                                    onClick={() => {
+                                        if (newFolderNameInput.current?.value) {
+                                            handleNewFolder(newFolderNameInput.current?.value);
+                                        }
+                                    }}
+                                >
+                                    新增
                                 </button>
                             </Dialog.Panel>
                         </div>
