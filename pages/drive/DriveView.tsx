@@ -10,7 +10,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
-import FolderTree from '../../components/feature/drive/FolderTree';
+import FolderTree from '../../components/common/Widget/FolderTree';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import TableRow from '../../components/feature/drive/TableRow';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';

@@ -70,7 +70,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     .pop()
                                                     .trim() === 'pdf' ? (
                                                     <object
-                                                        className="object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                                        className="object-center object-cover w-full h-full flex justify-center items-center"
                                                         type="application/pdf"
                                                         data={
                                                             _get(
