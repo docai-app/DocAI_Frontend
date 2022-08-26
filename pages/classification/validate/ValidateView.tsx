@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MailIcon, CheckIcon, XIcon } from '@heroicons/react/solid';
+import { MailIcon, CheckIcon, XIcon, FolderIcon } from '@heroicons/react/solid';
 import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
@@ -110,7 +110,7 @@ function ValidateView(props: ValidateViewProps) {
                                 </div>
                                 <div className="right-side flex-1">
                                     <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-                                        <div className="mx-auto w-full max-w-sm lg:w-96">
+                                        <div className="mx-auto py-4 border-b w-full max-w-sm lg:w-96">
                                             <div>
                                                 <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                                                     AI建議的類型
@@ -176,6 +176,27 @@ function ValidateView(props: ValidateViewProps) {
                                                             </button>
                                                         </div>
                                                     </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mx-auto py-4 w-full max-w-sm lg:w-96 flex flex-col gap-2">
+                                            <div>
+                                                <h2 className="text-2xl font-extrabold text-gray-900">
+                                                    移動文件
+                                                </h2>
+                                            </div>
+                                            <div className="flex flex-row items-end">
+                                                <div>
+                                                    <div>目前文件路徑</div>
+                                                    <div className="flex flex-row gap-2">
+                                                        <FolderIcon className="h-6 text-blue-200" />
+                                                        <div>Path to file...</div>
+                                                    </div>
+                                                </div>
+                                                <div className="ml-auto">
+                                                    <button className="bg-green-600 text-white text-sm px-3 py-2 rounded-md hover:bg-green-700">
+                                                        移動至...
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
