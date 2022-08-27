@@ -4,6 +4,7 @@ import Api from '../../apis';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { Folder } from '../../components/common/Widget/FolderTree';
 
 const apiSetting = new Api();
 
@@ -17,7 +18,7 @@ export default function DriveContainer() {
     const [target, setTarget] = useState<any[]>([]);
     const [shareWith, setShareWith] = useState<any[]>([]);
     const [newFolderName, setNewFolderName] = useState<string | null>(null);
-    const [movingDest, setMovingDest] = useState<string | null>(null);
+    const [movingDest, setMovingDest] = useState<Folder | null>(null);
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
