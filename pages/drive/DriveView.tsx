@@ -10,7 +10,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
-import FolderTree from '../../components/feature/drive/FolderTree';
+import FolderTree, { Folder } from '../../components/common/Widget/FolderTree';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import TableRow from '../../components/feature/drive/TableRow';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
@@ -24,8 +24,8 @@ interface DriveViewProps {
     setMode: Dispatch<SetStateAction<'view' | 'move' | 'share' | 'newFolder'>>;
     target: any[];
     setTarget: Dispatch<SetStateAction<any[]>>;
-    movingDest: string | null;
-    setMovingDest: Dispatch<SetStateAction<string | null>>;
+    movingDest: Folder | null;
+    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     handleMove: (document_id: string, folder_id: string) => void;
     shareWith: any[];
     setShareWith: Dispatch<SetStateAction<any[]>>;
@@ -211,7 +211,7 @@ export default function DriveView(props: DriveViewProps) {
                                 <div className="py-5 px-5 flex">
                                     <button
                                         className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                        onClick={() => handleMove(target[0].id, movingDest)}
+                                        onClick={() => handleMove(target[0].id, movingDest.id)}
                                     >
                                         移動
                                     </button>

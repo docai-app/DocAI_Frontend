@@ -8,18 +8,18 @@ import useAxios from 'axios-hooks';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';
 
-interface Folder {
+export interface Folder {
     id: string;
     name: string;
     folders?: Folder[];
-    movingDest: string | null;
-    setMovingDest: Dispatch<SetStateAction<string | null>>;
+    movingDest: Folder | null;
+    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     expanded: boolean;
 }
 
 interface FolderTreeProps {
-    movingDest: string | null;
-    setMovingDest: Dispatch<SetStateAction<string | null>>;
+    movingDest: Folder | null;
+    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     folders?: Folder[];
     expanded: boolean;
 }
@@ -55,7 +55,7 @@ function Folder(props: Folder) {
         <div className="pl-5">
             <div
                 className={`flex items-center pl-5 relative text-gray-400 rounded-lg cursor-pointer${
-                    folder.id === props.movingDest ? ' bg-indigo-100' : ''
+                    folder.id === props.movingDest?.id ? ' bg-indigo-100' : ''
                 }`}
             >
                 {expanded ? (
@@ -74,7 +74,7 @@ function Folder(props: Folder) {
                 {expanded ? <FolderOpenIcon className="h-5" /> : <FolderIcon className="h-5" />}
                 <h3
                     className="ml-2 py-2 flex-grow text-black"
-                    onClick={() => folder.setMovingDest(folder.id)}
+                    onClick={() => folder.setMovingDest(folder)}
                 >
                     {folder.name}
                 </h3>

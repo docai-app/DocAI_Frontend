@@ -1,15 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ValidateView from './ValidateView';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { Folder } from '../../../components/common/Widget/FolderTree';
 
 const apiSetting = new Api();
 
 function ValidateContainer() {
     const router = useRouter();
+    const [mode, setMode] = useState<'view' | 'move'>('view');
+    const [movingDest, setMovingDest] = useState<Folder | null>(null);
     const [
         {
             data: latestPredictionData,
@@ -124,7 +127,11 @@ function ValidateContainer() {
                     latestPredictionData,
                     confirmDocumentFormik,
                     addNewTagFormik,
-                    allLabelsData
+                    allLabelsData,
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest
                 }}
             />
         </>
