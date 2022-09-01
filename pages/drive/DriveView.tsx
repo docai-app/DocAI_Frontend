@@ -14,6 +14,7 @@ import FolderTree, { Folder } from '../../components/common/Widget/FolderTree';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import TableRow from '../../components/feature/drive/TableRow';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
+import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -188,39 +189,15 @@ export default function DriveView(props: DriveViewProps) {
                     </div>
                 </div>
             </div>
-            {mode === 'move' && (
-                <>
-                    <div
-                        className="absolute h-[calc(100vh-4rem)] bg-black/30 top-16 w-full"
-                        onClick={() => {
-                            setMode('view');
-                            setTarget([]);
-                        }}
-                    ></div>
-                    <div className="absolute h-[calc(100vh-4rem)] shadow-lg right-0 top-16 bg-white w-[28rem]">
-                        <div className="w-full h-full flex flex-col">
-                            <h1 className="p-5 font-bold text-3xl">移動 {target[0].name} 到</h1>
-                            <div className="pr-5 overflow-auto">
-                                <FolderTree
-                                    expanded={true}
-                                    movingDest={movingDest}
-                                    setMovingDest={setMovingDest}
-                                />
-                            </div>
-                            {movingDest != null && (
-                                <div className="py-5 px-5 flex">
-                                    <button
-                                        className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                        onClick={() => handleMove(target[0].id, movingDest.id)}
-                                    >
-                                        移動
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </>
-            )}
+            <FolderTreeForMoving
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: target?.[0]?.id
+                }}
+            />
             <Transition show={mode === 'share'} as={Fragment}>
                 <Dialog
                     className="fixed z-10 inset-0 overflow-y-auto"

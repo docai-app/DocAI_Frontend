@@ -63,7 +63,6 @@ function ValidateContainer() {
     });
 
     const [{ data: showFolderAncestorsData }, showFolderAncestors] = useAxios({}, { manual: true });
-    const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -103,21 +102,6 @@ function ValidateContainer() {
         }
     });
 
-    const handleMove = useCallback(
-        async (document_id: string, folder_id: string) => {
-            const res = await updateDocumentById(
-                apiSetting.Document.updateDocumentById(document_id, folder_id)
-            );
-            if (res.data?.success) {
-                alert('移動成功');
-                router.reload();
-            } else {
-                alert('發生錯誤');
-            }
-        },
-        [router, updateDocumentById]
-    );
-
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -125,7 +109,10 @@ function ValidateContainer() {
     }, [getAndPredictLatestUploadedDocument]);
 
     useEffect(() => {
-        if (latestPredictionData?.prediction?.document?.id)
+        if (
+            latestPredictionData?.prediction?.document?.id &&
+            latestPredictionData?.prediction?.document?.folder_id
+        )
             showFolderAncestors(
                 apiSetting.Folders.showFolderAncestors(
                     latestPredictionData.prediction.document.folder_id
@@ -170,7 +157,6 @@ function ValidateContainer() {
                     setMode,
                     movingDest,
                     setMovingDest,
-                    handleMove,
                     showFolderAncestorsData,
                     documentPath
                 }}

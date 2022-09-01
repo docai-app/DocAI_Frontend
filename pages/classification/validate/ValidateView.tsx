@@ -1,9 +1,11 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { MailIcon, CheckIcon, XIcon, FolderIcon } from '@heroicons/react/solid';
+import { useState, useEffect, Dispatch, SetStateAction, Fragment } from 'react';
+import { MailIcon, CheckIcon, XIcon, FolderIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree';
+import { Transition } from '@headlessui/react';
+import FolderTreeForMoving from '../../../components/common/Widget/FolderTreeForMoving';
 
 interface LatestPredictionDataProps {
     prediction: any;
@@ -18,7 +20,6 @@ interface ValidateViewProps {
     setMode: Dispatch<SetStateAction<'view' | 'move'>>;
     movingDest: Folder | null;
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
-    handleMove: (document_id: string, folder_id: string) => void;
     showFolderAncestorsData: any;
     documentPath: { id: string | null; name: string }[];
 }
@@ -33,7 +34,6 @@ function ValidateView(props: ValidateViewProps) {
         setMode,
         movingDest,
         setMovingDest,
-        handleMove,
         documentPath
     } = props;
     const [open, setOpen] = useState(false);
@@ -209,15 +209,25 @@ function ValidateView(props: ValidateViewProps) {
                                                     <div>目前文件路徑</div>
                                                     <div className="flex flex-row gap-2">
                                                         <FolderIcon className="h-6 text-blue-200" />
-                                                        <div className="flex flex-row gap-1">
-                                                            {documentPath.map((folder) => (
-                                                                <div key={folder.id}>
-                                                                    {folder.name}{' '}
-                                                                    <span className="text-gray-400">
-                                                                        /
-                                                                    </span>
-                                                                </div>
-                                                            ))}
+                                                        <div className="flex flex-row">
+                                                            {documentPath
+                                                                .slice(0, documentPath.length - 1)
+                                                                .map((folder) => (
+                                                                    <div
+                                                                        key={folder.id}
+                                                                        className="flex flex-row items-center"
+                                                                    >
+                                                                        {folder.name}{' '}
+                                                                        <ChevronRightIcon className="text-gray-400 text-sm h-5" />
+                                                                    </div>
+                                                                ))}
+                                                            <div className="flex flex-row items-center">
+                                                                {
+                                                                    documentPath[
+                                                                        documentPath.length - 1
+                                                                    ].name
+                                                                }
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -237,43 +247,15 @@ function ValidateView(props: ValidateViewProps) {
                         </div>
                     </div>
                 </main>
-                {mode === 'move' && (
-                    <>
-                        <div
-                            className="absolute h-[calc(100vh-4rem)] bg-black/30 top-16 w-full"
-                            onClick={() => {
-                                setMode('view');
-                            }}
-                        ></div>
-                        <div className="absolute h-[calc(100vh-4rem)] shadow-lg right-0 top-16 bg-white w-[28rem]">
-                            <div className="w-full h-full flex flex-col">
-                                <h1 className="p-5 font-bold text-3xl">選擇移動目的地</h1>
-                                <div className="pr-5 overflow-auto">
-                                    <FolderTree
-                                        expanded={true}
-                                        movingDest={movingDest}
-                                        setMovingDest={setMovingDest}
-                                    />
-                                </div>
-                                {movingDest != null && (
-                                    <div className="py-5 px-5 flex">
-                                        <button
-                                            className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                            onClick={() =>
-                                                handleMove(
-                                                    latestPredictionData.prediction.document.id,
-                                                    movingDest.id
-                                                )
-                                            }
-                                        >
-                                            移動
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </>
-                )}
+                <FolderTreeForMoving
+                    {...{
+                        mode,
+                        setMode,
+                        movingDest,
+                        setMovingDest,
+                        targetId: latestPredictionData?.prediction?.document?.id
+                    }}
+                />
             </div>
         </>
     );
