@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ValidateView from './ValidateView';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
@@ -13,6 +13,9 @@ function ValidateContainer() {
     const router = useRouter();
     const [mode, setMode] = useState<'view' | 'move'>('view');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
+        { id: null, name: 'Root' }
+    ]);
     const [
         {
             data: latestPredictionData,
@@ -59,6 +62,9 @@ function ValidateContainer() {
         manual: true
     });
 
+    const [{ data: showFolderAncestorsData }, showFolderAncestors] = useAxios({}, { manual: true });
+    const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
+
     const confirmDocumentFormik = useFormik({
         initialValues: {
             document_id: null,
@@ -97,11 +103,43 @@ function ValidateContainer() {
         }
     });
 
+    const handleMove = useCallback(
+        async (document_id: string, folder_id: string) => {
+            const res = await updateDocumentById(
+                apiSetting.Document.updateDocumentById(document_id, folder_id)
+            );
+            if (res.data?.success) {
+                alert('移動成功');
+                router.reload();
+            } else {
+                alert('發生錯誤');
+            }
+        },
+        [router, updateDocumentById]
+    );
+
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
         getAndPredictLatestUploadedDocument();
     }, [getAndPredictLatestUploadedDocument]);
+
+    useEffect(() => {
+        if (latestPredictionData?.prediction?.document?.id)
+            showFolderAncestors(
+                apiSetting.Folders.showFolderAncestors(
+                    latestPredictionData.prediction.document.folder_id
+                )
+            );
+    }, [latestPredictionData, showFolderAncestors]);
+
+    useEffect(() => {
+        if (showFolderAncestorsData?.success) {
+            setDocumentPath((prevState) => {
+                return [...prevState, ...showFolderAncestorsData.ancestors.slice().reverse()];
+            });
+        }
+    }, [showFolderAncestorsData]);
 
     useEffect(() => {
         console.log(latestPredictionData);
@@ -131,7 +169,10 @@ function ValidateContainer() {
                     mode,
                     setMode,
                     movingDest,
-                    setMovingDest
+                    setMovingDest,
+                    handleMove,
+                    showFolderAncestorsData,
+                    documentPath
                 }}
             />
         </>

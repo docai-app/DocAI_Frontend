@@ -6,7 +6,7 @@ import AmendLabel from '../../../components/feature/classification/AmendLabel';
 import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree';
 
 interface LatestPredictionDataProps {
-    prediction: Object;
+    prediction: any;
 }
 
 interface ValidateViewProps {
@@ -18,6 +18,9 @@ interface ValidateViewProps {
     setMode: Dispatch<SetStateAction<'view' | 'move'>>;
     movingDest: Folder | null;
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
+    handleMove: (document_id: string, folder_id: string) => void;
+    showFolderAncestorsData: any;
+    documentPath: { id: string | null; name: string }[];
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -29,7 +32,9 @@ function ValidateView(props: ValidateViewProps) {
         mode,
         setMode,
         movingDest,
-        setMovingDest
+        setMovingDest,
+        handleMove,
+        documentPath
     } = props;
     const [open, setOpen] = useState(false);
     return (
@@ -204,7 +209,16 @@ function ValidateView(props: ValidateViewProps) {
                                                     <div>目前文件路徑</div>
                                                     <div className="flex flex-row gap-2">
                                                         <FolderIcon className="h-6 text-blue-200" />
-                                                        <div>{movingDest?.name || 'Root'}</div>
+                                                        <div className="flex flex-row gap-1">
+                                                            {documentPath.map((folder) => (
+                                                                <div key={folder.id}>
+                                                                    {folder.name}{' '}
+                                                                    <span className="text-gray-400">
+                                                                        /
+                                                                    </span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="ml-auto">
@@ -245,9 +259,14 @@ function ValidateView(props: ValidateViewProps) {
                                     <div className="py-5 px-5 flex">
                                         <button
                                             className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                            onClick={() => setMode('view')}
+                                            onClick={() =>
+                                                handleMove(
+                                                    latestPredictionData.prediction.document.id,
+                                                    movingDest.id
+                                                )
+                                            }
                                         >
-                                            完成
+                                            移動
                                         </button>
                                     </div>
                                 )}
