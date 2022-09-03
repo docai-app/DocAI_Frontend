@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react';
+import axios from 'axios';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback } from 'react';
@@ -17,13 +18,10 @@ const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
     const { mode, setMode, movingDest, setMovingDest, targetId } = props;
     const router = useRouter();
-    const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
     const handleMove = useCallback(
         async (document_id: string | null, folder_id: string) => {
             if (document_id != null) {
-                const res = await updateDocumentById(
-                    apiSetting.Document.updateDocumentById(document_id, folder_id)
-                );
+                const res = await axios.request(apiSetting.Document.updateDocumentById(document_id, folder_id))
                 if (res.data?.success) {
                     alert('移動成功');
                     router.reload();
@@ -32,7 +30,7 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                 }
             }
         },
-        [router, updateDocumentById]
+        [router]
     );
     return (
         <Transition show={mode === 'move'}>
