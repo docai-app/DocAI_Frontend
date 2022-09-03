@@ -31,21 +31,6 @@ export default function DriveContainer() {
     );
     const [{ data: createFolderData }, createFolder] = useAxios({}, { manual: true });
 
-    const handleMove = useCallback(
-        async (document_id: string, folder_id: string) => {
-            const res = await updateDocumentById(
-                apiSetting.Document.updateDocumentById(document_id, folder_id)
-            );
-            if (res.data?.success) {
-                alert('移動成功');
-                router.reload();
-            } else {
-                alert('發生錯誤');
-            }
-        },
-        [router, updateDocumentById]
-    );
-
     const handleShare = useCallback(
         async (id: string, user_email: string) => {
             const res = await shareFolderPermission(
@@ -77,8 +62,6 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
         queryId.current = router.query.id;
         queryName.current = router.query.name;
         if (queryId.current)
@@ -106,7 +89,6 @@ export default function DriveContainer() {
                 setTarget,
                 movingDest,
                 setMovingDest,
-                handleMove,
                 shareWith,
                 setShareWith,
                 handleShare,

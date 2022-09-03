@@ -31,10 +31,6 @@ function UploadContainer() {
         upload
     ] = useAxios(apiSetting.Storage.upload(), { manual: true });
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
-    }, [router]);
-    useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
             router.push('/classification/validate');

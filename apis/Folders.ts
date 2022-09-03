@@ -20,6 +20,14 @@ export default class Folders {
         };
         return requestHeader;
     }
+    showFolderAncestors(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/folders/${id}/ancestors`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
     createFolder(name: string, parent_id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

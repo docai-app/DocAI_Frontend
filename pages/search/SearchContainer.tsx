@@ -37,10 +37,6 @@ function SearchContainer() {
         }
     });
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
-    }, []);
-    useEffect(() => {
         if (searchDocumentByContentData && searchDocumentByContentData.success === true) {
             setDocuments(searchDocumentByContentData.documents);
             setOpen(false);
