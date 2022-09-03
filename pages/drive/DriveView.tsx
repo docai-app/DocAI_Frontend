@@ -27,7 +27,6 @@ interface DriveViewProps {
     setTarget: Dispatch<SetStateAction<any[]>>;
     movingDest: Folder | null;
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
-    handleMove: (document_id: string, folder_id: string) => void;
     shareWith: any[];
     setShareWith: Dispatch<SetStateAction<any[]>>;
     handleShare: (id: string, user_email: string) => void;
@@ -46,7 +45,6 @@ export default function DriveView(props: DriveViewProps) {
         setTarget = () => {},
         movingDest = null,
         setMovingDest = () => {},
-        handleMove = async () => {},
         shareWith = [],
         setShareWith = () => {},
         handleShare = async () => {},

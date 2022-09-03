@@ -51,11 +51,6 @@ function UploadContainer() {
     }, [allTagsData]);
 
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
-    }, [router]);
-
-    useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
             alert('上傳成功！');

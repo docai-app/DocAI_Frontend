@@ -19,8 +19,6 @@ function TagContainer() {
         manual: true
     });
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
         if (router.query.name) {
             setTagName(router.query.name.toString());
             getDocumentsByTagID({

@@ -103,8 +103,6 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
         getAndPredictLatestUploadedDocument();
     }, [getAndPredictLatestUploadedDocument]);
 

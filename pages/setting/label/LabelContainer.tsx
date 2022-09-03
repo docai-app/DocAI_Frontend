@@ -37,8 +37,6 @@ export default function LabelContainer() {
     );
 
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
         getAllLabels();
     }, [getAllLabels]);
 

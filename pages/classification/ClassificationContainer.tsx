@@ -10,10 +10,6 @@ function ClassificationContainer() {
     const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getTagByTagging(), {
         manual: false
     });
-    useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
-    }, []);
     return (
         <>
             <ClassificationView {...{ getTagByTaggingData }} />

@@ -62,8 +62,6 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
         queryId.current = router.query.id;
         queryName.current = router.query.name;
         if (queryId.current)
@@ -91,7 +89,6 @@ export default function DriveContainer() {
                 setTarget,
                 movingDest,
                 setMovingDest,
-                handleMove,
                 shareWith,
                 setShareWith,
                 handleShare,
