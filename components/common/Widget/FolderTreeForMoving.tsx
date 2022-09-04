@@ -21,7 +21,9 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
     const handleMove = useCallback(
         async (document_id: string | null, folder_id: string) => {
             if (document_id != null) {
-                const res = await axios.request(apiSetting.Document.updateDocumentById(document_id, folder_id))
+                const res = await axios.request(
+                    apiSetting.Document.updateDocumentById(document_id, folder_id)
+                );
                 if (res.data?.success) {
                     alert('移動成功');
                     router.reload();

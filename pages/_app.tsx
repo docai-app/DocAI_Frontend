@@ -5,8 +5,9 @@ import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] = window.localStorage?.getItem('authorization') || ''
-    }, [])
+        axios.defaults.headers.common['authorization'] =
+            window.localStorage?.getItem('authorization') || '';
+    }, []);
     return <Component {...pageProps} />;
 }
 
