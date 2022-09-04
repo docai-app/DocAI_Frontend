@@ -1,12 +1,29 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 function MyApp({ Component, pageProps }: AppProps) {
+    const router = useRouter();
     useEffect(() => {
-        axios.defaults.headers.common['authorization'] = window.localStorage?.getItem('authorization') || ''
-    }, [])
+        axios.defaults.headers.common['authorization'] =
+            window.localStorage?.getItem('authorization') || '';
+        axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    localStorage.removeItem('authorization');
+                    localStorage.removeItem('email');
+                    document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+                    router.reload();
+                } else {
+                    return Promise.reject(error);
+                }
+            }
+        );
+    }, [router]);
     return <Component {...pageProps} />;
 }
 
