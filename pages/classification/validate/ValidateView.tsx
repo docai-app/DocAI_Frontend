@@ -20,7 +20,6 @@ interface ValidateViewProps {
     setMode: Dispatch<SetStateAction<'view' | 'move'>>;
     movingDest: Folder | null;
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
-    showFolderAncestorsData: any;
     documentPath: { id: string | null; name: string }[];
 }
 

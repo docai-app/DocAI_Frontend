@@ -53,10 +53,10 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
             </Transition.Child>
             <Transition.Child
                 as={Fragment}
-                enter="translate ease-out duration-300"
+                enter="translate ease-in-out duration-300"
                 enterFrom="translate-x-full"
                 enterTo="translate-x-0"
-                leave="translate ease-out duration-300"
+                leave="translate ease-in-out duration-300"
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >

@@ -62,13 +62,11 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        if (router.isReady) {
-            queryId.current = router.query.id;
-            queryName.current = router.query.name;
-            if (queryId.current) {
-                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
-            } else showAllItems(apiSetting.Drive.showAllRootItems());
-        }
+        queryId.current = router.query.id;
+        queryName.current = router.query.name;
+        if (queryId.current) {
+            showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
+        } else showAllItems(apiSetting.Drive.showAllRootItems());
     }, [router, showAllItems]);
 
     useEffect(() => {

@@ -63,6 +63,7 @@ function ValidateContainer() {
     });
 
     const [{ data: showFolderAncestorsData }, showFolderAncestors] = useAxios({}, { manual: true });
+    const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -103,31 +104,36 @@ function ValidateContainer() {
     });
 
     useEffect(() => {
-        getAndPredictLatestUploadedDocument();
-    }, [getAndPredictLatestUploadedDocument]);
+        if (router.isReady) {
+            getAndPredictLatestUploadedDocument();
+        }
+    }, [router, getAndPredictLatestUploadedDocument]);
 
     useEffect(() => {
         if (
             latestPredictionData?.prediction?.document?.id &&
             latestPredictionData?.prediction?.document?.folder_id
-        )
-            showFolderAncestors(
-                apiSetting.Folders.showFolderAncestors(
+        ) {
+            showFolderByID(
+                apiSetting.Folders.showFolderByID(
                     latestPredictionData.prediction.document.folder_id
                 )
             );
-    }, [latestPredictionData, showFolderAncestors]);
-
-    useEffect(() => {
-        if (showFolderAncestorsData?.success) {
-            setDocumentPath((prevState) => {
-                return [...prevState, ...showFolderAncestorsData.ancestors.slice().reverse()];
-            });
         }
-    }, [showFolderAncestorsData]);
+    }, [latestPredictionData, showFolderByID]);
 
     useEffect(() => {
-        console.log(latestPredictionData);
+        if (showFolderByIDData?.success) {
+            setDocumentPath([
+                { id: null, name: 'Root' },
+                ...showFolderByIDData.ancestors.slice().reverse(),
+                showFolderByIDData.folder
+            ]);
+        }
+    }, [showFolderByIDData]);
+
+    useEffect(() => {
+        //console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.prediction &&
@@ -142,6 +148,8 @@ function ValidateContainer() {
             alert('沒有文件需要驗證');
             router.push('/classification');
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, latestPredictionData]);
     return (
         <>
@@ -155,7 +163,6 @@ function ValidateContainer() {
                     setMode,
                     movingDest,
                     setMovingDest,
-                    showFolderAncestorsData,
                     documentPath
                 }}
             />
