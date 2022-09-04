@@ -210,23 +210,26 @@ function ValidateView(props: ValidateViewProps) {
                                                     <div className="flex flex-row gap-2">
                                                         <FolderIcon className="h-6 text-blue-200" />
                                                         <div className="flex flex-row">
-                                                            {documentPath
-                                                                .slice(0, documentPath.length - 1)
-                                                                .map((folder) => (
-                                                                    <div
-                                                                        key={folder.id}
-                                                                        className="flex flex-row items-center"
-                                                                    >
-                                                                        {folder.name}{' '}
-                                                                        <ChevronRightIcon className="text-gray-400 text-sm h-5" />
-                                                                    </div>
-                                                                ))}
+                                                            {documentPath &&
+                                                                documentPath
+                                                                    .slice(
+                                                                        0,
+                                                                        documentPath.length - 1
+                                                                    )
+                                                                    .map((folder) => (
+                                                                        <div
+                                                                            key={folder.id}
+                                                                            className="flex flex-row items-center"
+                                                                        >
+                                                                            {folder.name}{' '}
+                                                                            <ChevronRightIcon className="text-gray-400 text-sm h-5" />
+                                                                        </div>
+                                                                    ))}
                                                             <div className="flex flex-row items-center">
-                                                                {
+                                                                {documentPath &&
                                                                     documentPath[
                                                                         documentPath.length - 1
-                                                                    ].name
-                                                                }
+                                                                    ].name}
                                                             </div>
                                                         </div>
                                                     </div>
