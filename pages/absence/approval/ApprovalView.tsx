@@ -153,7 +153,7 @@ function ApprovalView(props: any) {
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {data.map((item: any) => {
-                                            console.log(data);
+                                            //console.log(data);
                                             const {
                                                 id = null,
                                                 remark = null,

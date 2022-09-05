@@ -37,7 +37,7 @@ function UploadView(props: UploadViewProps) {
                                 name="new-type"
                                 className="mt-1 block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                 onChange={async (e) => {
-                                    console.log(e.target.value);
+                                    //console.log(e.target.value);
                                     formik.setFieldValue('tag_id', e.target.value);
                                 }}
                             >
