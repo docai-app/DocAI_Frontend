@@ -191,7 +191,7 @@ function HeadNav() {
                                         {/*{user.name}*/}
                                         {/*</div>*/}
                                         <div className="text-sm my-2 font-medium leading-none text-gray-200">
-                                            {user.email}
+                                            {email}
                                         </div>
                                     </div>
                                     {/*<button*/}
