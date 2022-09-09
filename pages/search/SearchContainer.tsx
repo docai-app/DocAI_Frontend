@@ -4,10 +4,12 @@ import Api from '../../apis/index';
 import SearchView from './SearchView';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const apiSetting = new Api();
 
 function SearchContainer() {
+    const router = useRouter();
     const [documents, setDocuments] = useState([]);
     const [open, setOpen] = useState(false);
     const [
@@ -45,6 +47,13 @@ function SearchContainer() {
     useEffect(() => {
         setOpen(searchDocumentByContentLoading);
     }, [searchDocumentByContentLoading]);
+
+    useEffect(() => {
+        if( router.query.content ){
+            searchDocumentFormik.setValues({'content': router.query.content + ''})
+            searchDocumentFormik.handleSubmit()
+        }
+    },[router.query.content])
     return (
         <>
             <SearchView {...{ searchDocumentFormik, documents, open, setOpen }} />

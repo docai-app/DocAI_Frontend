@@ -31,6 +31,17 @@ export default function DriveContainer() {
     );
     const [{ data: createFolderData }, createFolder] = useAxios({}, { manual: true });
 
+    const [{ data: countDocumentsByDateData }, countDocumentsByDate] = useAxios(
+        apiSetting.Statistics.countDocumentsByDate(
+            new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
+        ),
+        { manual: true }
+    );
+
+    useEffect(() => {
+        countDocumentsByDate();
+    }, [ countDocumentsByDate]);
+
     const handleShare = useCallback(
         async (id: string, user_email: string) => {
             const res = await shareFolderPermission(
@@ -62,15 +73,16 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        if (router.asPath !== router.route) {
-            queryId.current = router.query.id;
-            queryName.current = router.query.name;
-            if (queryId.current) {
-                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
-            } else {
-                showAllItems(apiSetting.Drive.showAllRootItems());
-            }
-        }
+        showAllItems(apiSetting.Drive.showAllRootItems());
+        // if (router.asPath !== router.route) {
+        //     queryId.current = router.query.id;
+        //     queryName.current = router.query.name;
+        //     if (queryId.current) {
+        //         showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
+        //     } else {
+        //         showAllItems(apiSetting.Drive.showAllRootItems());
+        //     }
+        // }
     }, [router, showAllItems]);
 
     useEffect(() => {
@@ -97,7 +109,8 @@ export default function DriveContainer() {
                 setShareWith,
                 handleShare,
                 newFolderName,
-                handleNewFolder
+                handleNewFolder,
+                countDocumentsByDateData
             }}
         />
     );

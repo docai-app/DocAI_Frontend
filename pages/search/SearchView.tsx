@@ -28,7 +28,7 @@ export default function SearchView(props: SearchViewProps) {
                     icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                 }}
             />
-            <div className="bg-indigo-700">
+            {/* <div className="bg-indigo-700">
                 <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
                         <span className="block">DocAI</span>
@@ -62,6 +62,9 @@ export default function SearchView(props: SearchViewProps) {
                         </button>
                     </section>
                 </div>
+            </div> */}
+            <div>
+                <p className=' text-black text-xl font-bold'>與  "{searchDocumentFormik?.values?.content}"  相關的文檔共有  {documents?.length}  份</p>
             </div>
             <div className="px-16">
                 <div className="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -96,7 +99,7 @@ export default function SearchView(props: SearchViewProps) {
                             <div className="mt-4 flex justify-between overflow-hidden">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
-                                        <a href={document.storage_url}>
+                                        <a href={document.storage_url} target="_blank">
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {document.name}
                                         </a>
