@@ -1,7 +1,12 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
+import SearchContainer from '../../../pages/search/SearchContainer';
+import { text } from 'stream/consumers';
+import MyDropdown from '../Widget/MyDropdown';
+import Api from '../../../apis';
+import useAxios from 'axios-hooks';
 
 const user = {
     name: 'Tom Cook',
@@ -23,10 +28,11 @@ const userNavigation = [
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ');
 }
-
+const apiSetting = new Api();
 function HeadNav() {
     const [email, setEmail] = useState<string>('');
     const router = useRouter();
+    const [searchContent, setSearchContent] = useState('')
 
     useEffect(() => {
         setEmail(localStorage.getItem('email') || 'testing');
@@ -39,6 +45,13 @@ function HeadNav() {
         router.reload();
     }, [router]);
 
+    const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getTagByTagging(), {
+        manual: false
+    });
+
+    const onSwitch = ( tag: any ) => {
+        router.push({pathname: '/classification/' + tag.id , query: { name : tag.name}})
+    }
     return (
         <>
             <Disclosure as="nav" className="bg-gray-800">
@@ -46,7 +59,7 @@ function HeadNav() {
                     <>
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex items-center justify-between h-16">
-                                <div className="flex items-center">
+                                <div className="flex items-center w-full">
                                     <div className="flex-shrink-0">
                                         <img
                                             className="h-8 w-8"
@@ -54,9 +67,39 @@ function HeadNav() {
                                             alt="Workflow"
                                         />
                                     </div>
-                                    <div className="hidden md:block">
-                                        <div className="ml-10 flex items-baseline space-x-4">
-                                            {navigation.map((item) => (
+                                    
+                                    <div className="hidden md:block w-full">
+                                        <div className="ml-10 ">
+                                            <section className="w-full flex justify-center items-center">
+                                                <div className="flex w-full">
+                                                    <input
+                                                        type="text"
+                                                        name="content"
+                                                        id="content"
+                                                        className="p-2 shadow-sm focus:ring-indigo-500 w-full sm:max-w-xs focus:border-indigo-500 block  sm:text-sm border-gray-300 rounded-tl-md rounded-bl-md"
+                                                        placeholder="輸入文件的關鍵字或文件的相關內容"
+                                                        onChange={(text) => setSearchContent(text.target.value)}
+                                                    />
+                                                    <MyDropdown value={''} datas={getTagByTaggingData?.tags} onSwitch={onSwitch} />
+                                                    <button
+                                                        type="submit"
+                                                        className="flex mt-3 items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                                        onClick={() => {
+                                                            if( searchContent )
+                                                                Router.push({pathname: '/search', query: {'content': searchContent}})
+                                                            // searchDocumentFormik.handleSubmit();
+                                                        }}
+                                                    >
+                                                    搜尋 🔍
+                                                </button>
+                                                
+                                                </div>
+                                                
+                                            </section>
+                                        </div>
+
+                                        {/* <div className="ml-10 flex w-full items-center"> */}
+                                            {/* {navigation.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -70,8 +113,8 @@ function HeadNav() {
                                                 >
                                                     {item.name}
                                                 </a>
-                                            ))}
-                                        </div>
+                                            ))} */}
+                                        {/* </div> */}
                                     </div>
                                 </div>
                                 <div className="hidden md:block">
@@ -107,7 +150,7 @@ function HeadNav() {
                                                 leaveFrom="transform opacity-100 scale-100"
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
-                                                <Menu.Items className="origin-top-right absolute right-0 mt-6 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Menu.Items className="origin-top-right absolute z-10 right-0 mt-6 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     {/*{userNavigation.map((item) => (*/}
                                                     {/*<Menu.Item key={item.name}>*/}
                                                     {/*{({ active }) => (*/}
@@ -130,7 +173,7 @@ function HeadNav() {
                                                                     active ? 'bg-gray-100' : '',
                                                                     'block px-4 py-2 text-sm text-gray-700 w-full text-left'
                                                                 )}
-                                                                onClick={signOut}
+                                                                onClick={()=>signOut()}
                                                             >
                                                                 登出
                                                             </button>
@@ -158,9 +201,9 @@ function HeadNav() {
                             </div>
                         </div>
 
-                        <Disclosure.Panel className="md:hidden">
+                        <Disclosure.Panel className="hidden">
                             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                {navigation.map((item) => (
+                                {/* {navigation.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}
                                         as="a"
@@ -175,7 +218,16 @@ function HeadNav() {
                                     >
                                         {item.name}
                                     </Disclosure.Button>
-                                ))}
+                                ))} */}
+                                <input
+                                    type="text"
+                                    name="content"
+                                    id="content"
+                                    className="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="輸入文件的關鍵字或文件的相關內容"
+                                    // onChange={searchDocumentFormik.handleChange('content')}
+                                />
+
                             </div>
                             <div className="pt-4 pb-3 border-t border-gray-700">
                                 <div className="flex items-center px-5">

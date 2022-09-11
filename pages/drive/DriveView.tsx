@@ -31,6 +31,7 @@ interface DriveViewProps {
     setShareWith: Dispatch<SetStateAction<any[]>>;
     handleShare: (id: string, user_email: string) => void;
     handleNewFolder: (name: string) => Promise<void>;
+    countDocumentsByDateData: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -48,7 +49,8 @@ export default function DriveView(props: DriveViewProps) {
         shareWith = [],
         setShareWith = () => {},
         handleShare = async () => {},
-        handleNewFolder = async () => {}
+        handleNewFolder = async () => {},
+        countDocumentsByDateData = null
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
@@ -57,8 +59,36 @@ export default function DriveView(props: DriveViewProps) {
     return (
         <>
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">DocAI</h2>
+                        <dl className="mt-10 mb-10 flex justify-evenly items-center rounded-lg bg-white shadow-lg">
+                            <div className='p-4 text-center items-center justify-center'>
+                                <p className='text-4xl font-extrabold text-indigo-600'>{countDocumentsByDateData?.documents_count || 0}</p>
+                                <p className=' text-gray-500'>今天上傳文档</p>
+                            </div>
+                            <div className='p-4 text-center' >
+                                <p className='text-4xl font-extrabold text-indigo-600'>0</p>
+                                <p className=' text-gray-500'>今天已處理文檔</p>
+                            </div>
+                            <div className='p-4 text-center' >
+                                <p className='text-4xl font-extrabold text-indigo-600'>0</p>
+                                <p className=' text-gray-500'>累積已處理文檔</p>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
                 <div className="py-4 flex flex-col gap-4 h-full">
-                    <div className="flex flex-row gap-2 pb-4 border-b">
+                    <div className="flex flex-row gap-2 pb-4 border-b justify-between">
+                        {showAllItemsData && (
+                            <BreadCrumb
+                                ancestors={showAllItemsData?.ancestors}
+                                id={id?.toString()}
+                                name={name?.toString()}
+                            />
+                        )}
+
                         <Menu as="div" className="relative">
                             <Menu.Button
                                 as="button"
@@ -77,7 +107,7 @@ export default function DriveView(props: DriveViewProps) {
                                 leaveFrom="transform scale-100 opacity-100"
                                 leaveTo="transform scale-95 opacity-0"
                             >
-                                <Menu.Items className="absolute left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="absolute z-20 left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="p-1">
                                         <Menu.Item>
                                             {({ active }) => (
@@ -105,21 +135,21 @@ export default function DriveView(props: DriveViewProps) {
                         </button>
                         */}
                     </div>
-                    <div>
-                        {showAllItemsData && (
+                    {/* <div> */}
+                        {/* {showAllItemsData && (
                             <BreadCrumb
                                 ancestors={showAllItemsData?.ancestors}
                                 id={id?.toString()}
                                 name={name?.toString()}
                             />
-                        )}
-                        {/*<a
+                        )} */}
+                        {/* <a
                             className="hover:underline cursor-pointer text-lg"
                             onClick={() => {
                                 router.back();
                             }}
-                        >{`<< 返回`}</a>*/}
-                    </div>
+                        >{`<< 返回`}</a> */}
+                    {/* </div> */}
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
                         <table className="w-full">
                             <thead className="bg-gray-50 shadow-sm sticky top-0 border-b border-b-gray-200">

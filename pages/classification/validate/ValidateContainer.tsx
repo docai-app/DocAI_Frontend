@@ -16,6 +16,7 @@ function ValidateContainer() {
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
+    const [visable, setVisable] = useState(false)
     const [
         {
             data: latestPredictionData,
@@ -71,6 +72,8 @@ function ValidateContainer() {
             tag_id: null
         },
         onSubmit: async (values) => {
+            //如果是請假紙但未處理的時候提示
+            // setVisable(true)
             let res = await confirmDocument({
                 data: {
                     ...values
@@ -163,7 +166,9 @@ function ValidateContainer() {
                     setMode,
                     movingDest,
                     setMovingDest,
-                    documentPath
+                    documentPath,
+                    visable, 
+                    setVisable
                 }}
             />
         </>
