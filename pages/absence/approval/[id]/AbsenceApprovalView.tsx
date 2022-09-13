@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+import InputRemarkModal from '../../../../components/common/Widget/InputRemarkModal';
 
 const Form = withTheme(Bootstrap4Theme);
 
@@ -15,6 +16,10 @@ interface ValidateViewProps {
     widgets: any;
     fields: any;
     onSubmit: any;
+    visable: boolean;
+    setVisable: any;
+    extraData: any;
+    setExtraData: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -28,23 +33,27 @@ function ValidateView(props: ValidateViewProps) {
         approvalUiSchema = { current: {} },
         widgets = {},
         fields = {},
-        onSubmit
+        onSubmit,
+        visable,
+        setVisable,
+        extraData = {},
+        setExtraData
     } = props;
     return (
         <>
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">請假表審批</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">文件審批</h1>
                     </div>
                 </header>
                 <main>
-                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto py-0 sm:px-0 lg:px-0">
                         <div className="px-4 py-6 sm:px-0">
-                            <p className="mb-2 text-lg">DocAI的分析結果</p>
-                            <div className="flex justify-center md:items-center flex-col md:flex-row p-4 border-4 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
+                            <p className="mb-2 text-lg">請假紙</p>
+                            <div className="flex justify-center md:items-center flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-full md:w-5/6 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                    <div className="w-full md:w-full m-4 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                         {formUrl.split('.').pop() === 'pdf' ? (
                                             <object
                                                 className="object-center object-cover w-full h-full flex justify-center items-center"
@@ -78,21 +87,36 @@ function ValidateView(props: ValidateViewProps) {
                                         fields={fields.current}
                                         formData={result}
                                     />
-                                    <Form
-                                        className="w-5/6"
-                                        schema={approvalSchema.current}
-                                        uiSchema={approvalUiSchema.current}
-                                        widgets={widgets.current}
-                                        fields={fields.current}
-                                        formData={approval}
-                                        onSubmit={onSubmit}
-                                    />
+                             
                                 </div>
+                            </div>
+                            <div className='flex w-full pb-4  text-center items-center justify-center object-center bg-white '>
+                            <input
+                                    className="rounded-md    checked:text-slate-500 "
+                                    type="checkbox"
+                                    checked={true}
+                                    disabled={true}
+
+                                />
+                                <label className='text-gray-500 r'>我已核對所有資料</label>
+                            </div>
+                            <div className='flex w-full items-center justify-center object-center bg-white '>
+                                <Form
+                                    // className="w-5/6"
+                                    schema={approvalSchema.current}
+                                    uiSchema={approvalUiSchema.current}
+                                    widgets={widgets.current}
+                                    fields={fields.current}
+                                    formData={approval}
+                                    onSubmit={onSubmit}
+                                />
                             </div>
                         </div>
                     </div>
                 </main>
             </div>
+            <InputRemarkModal visable={visable}  approval={approval} cancelClick={()=>setVisable(false)} confirmClick={(data: any)=>{setExtraData(data);setVisable(false);onSubmit(data)
+            }}/>
         </>
     );
 }
