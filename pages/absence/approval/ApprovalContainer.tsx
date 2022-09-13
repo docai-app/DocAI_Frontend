@@ -7,8 +7,14 @@ import axios from 'axios';
 const apiSetting = new Api();
 
 function ApprovalContainer() {
+    //點擊“已審批”時，需要把“已批准”和“已拒絕”同時獲取出來
     const [currentTabStatus, setCurrentTabStatus] = useState<'approved' | 'awaiting' | 'rejected'>(
         'awaiting'
+    );
+
+    //請假紙，工場維修，店鋪維修，name是隨便起的，到時根據DB改名
+    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<'vacation' | 'factory' | 'shop'>(
+        'vacation'
     );
     const [
         {
@@ -26,6 +32,8 @@ function ApprovalContainer() {
         data: [],
         currentTabStatus: currentTabStatus,
         setCurrentTabStatus: setCurrentTabStatus,
+        currentTypeTabStatus: currentTypeTabStatus,
+        setCurrentTypeTabStatus: setCurrentTypeTabStatus,
         formSchema: formSchema
     });
 
@@ -66,6 +74,14 @@ function ApprovalContainer() {
             url: `/api/v1/form/absence/approval?status=${currentTabStatus}`
         });
     }, [currentTabStatus, getAbsenceFormByApprovalStatus]);
+
+    useEffect(() => {
+        setProps((p: any) => ({
+            ...p,
+            currentTypeTabStatus: currentTypeTabStatus,
+            setCurrentTypeTabStatus: setCurrentTypeTabStatus
+        }));
+    }, [currentTypeTabStatus]);
 
     return (
         <ApprovalView

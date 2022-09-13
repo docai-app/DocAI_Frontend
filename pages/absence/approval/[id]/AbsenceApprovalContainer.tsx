@@ -13,31 +13,37 @@ const apiSetting = new Api();
 function AbsenceApprovalContainer() {
     const router = useRouter();
     const [formUrl, setFormUrl] = useState('');
-    const [result, setResult] = useState({});
+    const [result, setResult] = useState();
     const [approval, setApproval] = useState({});
     const [formSchema, setFormSchema] = useState({});
+    const [visable, setVisable] = useState(false)
+    const [extraData, setExtraData] = useState({})
 
     const approvalButtonContainer = useCallback(
         (props) => (
             <div className="flex gap-2">
-                <button
-                    className="p-[0.75rem] rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
-                    type="submit"
+                 <a
+                    className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
+                    // type="submit"
                     onClick={() => {
-                        props.onChange('approved');
-                    }}
-                >
-                    批准
-                </button>
-                <button
-                    className="p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
-                    type="submit"
-                    onClick={() => {
-                        props.onChange('rejected');
+                        setVisable(true)
+                        setApproval('rejected')
+                        // props.onChange('rejected');
                     }}
                 >
                     拒絕
-                </button>
+                </a>
+                <a
+                    className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                    // type="submit"
+                    onClick={() => {
+                        setVisable(true)
+                        setApproval('approved')
+                        // props.onChange('approved');
+                    }}
+                >
+                    批准並簽名
+                </a>
             </div>
         ),
         []
@@ -80,10 +86,10 @@ function AbsenceApprovalContainer() {
     const approvalSchema = useRef({
         type: 'object',
         properties: {
-            remark: {
-                title: '備註',
-                type: 'string'
-            },
+            // remark: {
+            //     title: '備註',
+            //     type: 'string'
+            // },
             approval: {
                 title: '',
                 type: 'string'
@@ -122,7 +128,8 @@ function AbsenceApprovalContainer() {
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval, remark } = formData.formData;
+            // const { approval, remark } = formData.formData;
+            const {approval, signature, remark } = formData
             if (router.query.id) {
                 updateFormApprovalStatus({
                     data: {
@@ -183,7 +190,11 @@ function AbsenceApprovalContainer() {
                     approvalUiSchema,
                     widgets,
                     fields,
-                    onSubmit
+                    onSubmit,
+                    visable,
+                    setVisable,
+                    extraData,
+                    setExtraData
                 }}
             />
         </>

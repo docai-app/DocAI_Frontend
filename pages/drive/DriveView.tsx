@@ -65,15 +65,15 @@ export default function DriveView(props: DriveViewProps) {
                         <dl className="mt-10 mb-10 flex justify-evenly items-center rounded-lg bg-white shadow-lg">
                             <div className='p-4 text-center items-center justify-center'>
                                 <p className='text-4xl font-extrabold text-indigo-600'>{countDocumentsByDateData?.documents_count || 0}</p>
-                                <p className=' text-gray-500'>今天上傳文档</p>
+                                <p className=' text-gray-500'>今天上傳文檔</p>
                             </div>
                             <div className='p-4 text-center' >
-                                <p className='text-4xl font-extrabold text-indigo-600'>0</p>
+                                <p className='text-4xl font-extrabold text-indigo-600'>{countDocumentsByDateData?.confirmed_count || 0}</p>
                                 <p className=' text-gray-500'>今天已處理文檔</p>
                             </div>
                             <div className='p-4 text-center' >
-                                <p className='text-4xl font-extrabold text-indigo-600'>0</p>
-                                <p className=' text-gray-500'>累積已處理文檔</p>
+                                <p className='text-4xl font-extrabold text-indigo-600'>{countDocumentsByDateData?.unconfirmed_count || 0}</p>
+                                <p className=' text-gray-500'>累積未處理文檔</p>
                             </div>
                         </dl>
                     </div>
