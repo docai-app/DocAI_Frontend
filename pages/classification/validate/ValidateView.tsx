@@ -23,7 +23,7 @@ interface ValidateViewProps {
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     documentPath: { id: string | null; name: string }[];
     visable: boolean;
-    setVisable: any
+    setVisable: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -139,10 +139,8 @@ function ValidateView(props: ValidateViewProps) {
                                     <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
                                         <div className="mx-auto py-4 border-b w-full max-w-sm lg:w-96">
                                             <div>
-                                                <div className='flex flex-row'>
-                                                    <label className='w-28'>
-                                                    上傳時名稱:
-                                                    </label>
+                                                <div className="flex flex-row">
+                                                    <label className="w-28">上傳時名稱:</label>
                                                     <span className="font-bold text-sm ">
                                                         {_get(
                                                             latestPredictionData,
@@ -150,10 +148,8 @@ function ValidateView(props: ValidateViewProps) {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <div className='flex flex-row mt-2 '>
-                                                    <label className='w-28'>
-                                                        上傳日期:
-                                                    </label>
+                                                <div className="flex flex-row mt-2 ">
+                                                    <label className="w-28">上傳日期:</label>
                                                     <span className="font-bold text-sm ">
                                                         {
                                                             _get(
@@ -162,9 +158,8 @@ function ValidateView(props: ValidateViewProps) {
                                                             )?.split('T')[0]
                                                         }
                                                     </span>
-                                                    
                                                 </div>
-{/* 
+                                                {/* 
                                                 <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
                                                     AI建議的類型
                                                 </h2>
@@ -179,8 +174,8 @@ function ValidateView(props: ValidateViewProps) {
                                                     </h2>
                                                 </div> */}
                                                 <div className="flex flex-row items-end">
-                                                    <div className='flex flex-row'>
-                                                        <div className=' w-28'>路徑: </div>
+                                                    <div className="flex flex-row">
+                                                        <div className=" w-28">路徑: </div>
                                                         <div className="flex flex-row gap-2">
                                                             <FolderIcon className="h-6 text-blue-200" />
                                                             <div className="flex flex-row">
@@ -217,24 +212,23 @@ function ValidateView(props: ValidateViewProps) {
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div className='flex flex-row'>
-                                                    <div className='flex flex-row mt-2 w-full '>
-                                                        <label className='w-28 flex justify-start'>
+                                                <div className="flex flex-row">
+                                                    <div className="flex flex-row mt-2 w-full ">
+                                                        <label className="w-28 flex justify-start">
                                                             分類:
                                                         </label>
                                                         <div>
-                                                        <div className="font-bold text-sm flex items-center">
-                                                            <span >
-                                                                {
-                                                                    _get(
+                                                            <div className="font-bold text-sm flex items-center">
+                                                                <span>
+                                                                    {_get(
                                                                         latestPredictionData,
                                                                         'prediction.tag.name'
-                                                                    )
-                                                                }
-                                                            </span>
-                                                            
-                                                        </div>
-                                                        <label className='font-bold  text-sm text-green-500'>AI預測的結果</label>
+                                                                    )}
+                                                                </span>
+                                                            </div>
+                                                            <label className="font-bold  text-sm text-green-500">
+                                                                AI預測的結果
+                                                            </label>
                                                         </div>
                                                     </div>
                                                     <div className="ml-auto">
@@ -254,12 +248,12 @@ function ValidateView(props: ValidateViewProps) {
                                                     </div>
                                                 </div>
 
-                                                <div className='flex flex-row mt-2 w-full '>
-                                                    <label className='w-28 flex justify-start'>
+                                                <div className="flex flex-row mt-2 w-full ">
+                                                    <label className="w-28 flex justify-start">
                                                         現有名稱:
                                                     </label>
                                                     <div className="font-bold text-sm flex items-center">
-                                                         <input
+                                                        <input
                                                             id="type"
                                                             name="path_name"
                                                             type="string"
@@ -276,10 +270,7 @@ function ValidateView(props: ValidateViewProps) {
                                                         />
                                                     </div>
                                                 </div>
-
                                             </div>
-
-                                         
 
                                             {/* <div className="mt-8">
                                                 <div className="mt-6">
@@ -343,8 +334,10 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        <div className='mx-auto py-4 w-full max-w-sm lg:w-96'>
-                                            <p className='my-4 font-bold'>請假紙為特別分類，需特殊處理</p>
+                                        <div className="mx-auto py-4 w-full max-w-sm lg:w-96">
+                                            <p className="my-4 font-bold">
+                                                請假紙為特別分類，需特殊處理
+                                            </p>
                                             <button
                                                 type="button"
                                                 className="mr-4 inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -355,12 +348,10 @@ function ValidateView(props: ValidateViewProps) {
                                                 處理
                                             </button>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex w-full items-center justify-center object-center bg-white pb-4'>
+                            <div className="flex w-full items-center justify-center object-center bg-white pb-4">
                                 <div className="items-center">
                                     <button
                                         type="button"
@@ -396,14 +387,14 @@ function ValidateView(props: ValidateViewProps) {
                     }}
                 />
             </div>
-            <MyModal 
-                visable={visable} 
-                cancelClick={()=>setVisable(false)} 
+            <MyModal
+                visable={visable}
+                cancelClick={() => setVisable(false)}
                 cancelText={'取消'}
-                confirmClick={()=>setVisable(false)} 
+                confirmClick={() => setVisable(false)}
                 confirmText={'確認'}
-                description={`需要為請假紙進行額外處理，方可完成資料確認`} 
-                />
+                description={`需要為請假紙進行額外處理，方可完成資料確認`}
+            />
         </>
     );
 }

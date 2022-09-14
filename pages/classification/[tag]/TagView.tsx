@@ -32,7 +32,9 @@ export default function TagView(props: LabelViewProps) {
                 </div>
             </div> */}
             <div>
-                <p className=' text-black text-xl font-bold'>與  "{tagName}"  相關的文檔共有  {documents?.length}  份</p>
+                <p className=" text-black text-xl font-bold">
+                    與 "{tagName}" 相關的文檔共有 {documents?.length} 份
+                </p>
             </div>
 
             <div className="px-16">
