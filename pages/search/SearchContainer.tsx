@@ -49,11 +49,11 @@ function SearchContainer() {
     }, [searchDocumentByContentLoading]);
 
     useEffect(() => {
-        if( router.query.content ){
-            searchDocumentFormik.setValues({'content': router.query.content + ''})
-            searchDocumentFormik.handleSubmit()
+        if (router.query.content) {
+            searchDocumentFormik.setValues({ content: router.query.content + '' });
+            searchDocumentFormik.handleSubmit();
         }
-    },[router.query.content])
+    }, [router.query.content]);
     return (
         <>
             <SearchView {...{ searchDocumentFormik, documents, open, setOpen }} />

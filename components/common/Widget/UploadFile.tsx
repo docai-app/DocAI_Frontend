@@ -1,9 +1,7 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
 import { ChangeEvent, useEffect, useRef } from 'react';
-import {
-    XIcon,
-  } from '@heroicons/react/outline'
+import { XIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 import { FolderIcon } from '@heroicons/react/solid';
 import { Folder } from './FolderTree';
@@ -22,8 +20,8 @@ export default function UploadFile(props: UploadFileProps) {
     const { title, btnName, selectName, multiple = false, formik, setDocuments } = props;
     const fileInput = useRef<HTMLInputElement>(null);
 
-    const [myfiles, setMyFiles] = useState<any>([])
-    const [mode, setMode] = useState('')
+    const [myfiles, setMyFiles] = useState<any>([]);
+    const [mode, setMode] = useState('');
     const [folderPath, setFolderPath] = useState<Folder | null>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -33,9 +31,8 @@ export default function UploadFile(props: UploadFileProps) {
             return;
         } else if (event.target.files && event.target.files.length > 0) {
             setDocuments(event.target.files);
-            setMyFiles(event.target.files)
+            setMyFiles(event.target.files);
             console.log(event.target.files);
-            
         }
     };
 
@@ -46,17 +43,16 @@ export default function UploadFile(props: UploadFileProps) {
     };
 
     const deleteAll = () => {
-        if (fileInput.current != null) 
-            fileInput.current.value = '';
-        setDocuments([])
-        setMyFiles([])
-    }
+        if (fileInput.current != null) fileInput.current.value = '';
+        setDocuments([]);
+        setMyFiles([]);
+    };
     const deleteOne = (index: number) => {
-        const fileListArr = Array.from(myfiles)
-        fileListArr.splice(index, 1) // here u remove the file
-        setDocuments(fileListArr)
-        setMyFiles(fileListArr)
-    }
+        const fileListArr = Array.from(myfiles);
+        fileListArr.splice(index, 1); // here u remove the file
+        setDocuments(fileListArr);
+        setMyFiles(fileListArr);
+    };
 
     return (
         <main>
@@ -75,7 +71,7 @@ export default function UploadFile(props: UploadFileProps) {
                             {btnName}
                         </button>
                     </div>
-                    
+
                     <div className="p-8 flex flex-col justify-center items-center text-gray-500 bg-white border-4 border-dashed border-gray-200 rounded-lg relative">
                         {/* <div className="flex flex-row flex-wrap items-center mb-8 w-full">
                             {fileInput.current?.files != null &&
@@ -157,16 +153,22 @@ export default function UploadFile(props: UploadFileProps) {
                         <span className="mt-2 block text-sm font-medium">
                             PNG, JPG, PDF up to 5MB
                         </span>
-                        
                     </div>
-                    <div className='mt-4 rounded-md border-2 border-gray-200 p-4 bg-white'>
+                    <div className="mt-4 rounded-md border-2 border-gray-200 p-4 bg-white">
                         <label className="text-md font-bold text-gray-900">儲存路徑</label>
-                        <div className='flex flex-row justify-between mt-2'>
-                            <div className='flex flex-row'>
+                        <div className="flex flex-row justify-between mt-2">
+                            <div className="flex flex-row">
                                 <FolderIcon className="h-6 text-blue-200" />
-                                <label className='ml-2'>{folderPath?.name || 'Root'}</label>
+                                <label className="ml-2">{folderPath?.name || 'Root'}</label>
                             </div>
-                            <a className='text-indigo-600 underline cursor-pointer' onClick={() => {setMode('move')}}>編輯</a>    
+                            <a
+                                className="text-indigo-600 underline cursor-pointer"
+                                onClick={() => {
+                                    setMode('move');
+                                }}
+                            >
+                                編輯
+                            </a>
                         </div>
                     </div>
                     <FolderTreeForSelect
@@ -179,9 +181,17 @@ export default function UploadFile(props: UploadFileProps) {
                         }}
                     />
                     <div className="flex p-2 mt-2 justify-between">
-                       <label>已選擇  <label className='text-indigo-600'>{myfiles?.length}</label>  份文檔</label>    
-                       <label className=' text-red-500 underline cursor-pointer' onClick={deleteAll}>全部刪除</label>             
-                    </div>                
+                        <label>
+                            已選擇 <label className="text-indigo-600">{myfiles?.length}</label>{' '}
+                            份文檔
+                        </label>
+                        <label
+                            className=" text-red-500 underline cursor-pointer"
+                            onClick={deleteAll}
+                        >
+                            全部刪除
+                        </label>
+                    </div>
                     <div className="flex flex-row flex-wrap items-center mb-8 w-full">
                         {myfiles != null &&
                             Array.from(myfiles)?.map((doc: any, index) => {
@@ -190,7 +200,6 @@ export default function UploadFile(props: UploadFileProps) {
                                         key={`file_${doc.name}`}
                                         className="w-1/6 h-60 p-2 flex relative mr-2"
                                     >
-                                        
                                         <div className="w-full h-full rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm">
                                             {doc.type.includes('image/') ? (
                                                 <div className="h-40 flex items-center">
@@ -221,14 +230,12 @@ export default function UploadFile(props: UploadFileProps) {
                                                     大小：{readableSize(doc.size)}
                                                 </div>
                                             </div>
-
-                                            
                                         </div>
-                                        <div className=' absolute flex -right-1 -top-1'>
+                                        <div className=" absolute flex -right-1 -top-1">
                                             <button
                                                 type="button"
                                                 className="cursor-pointer inline-flex items-center p-1.5 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                onClick={()=> deleteOne(index)}
+                                                onClick={() => deleteOne(index)}
                                             >
                                                 {/* <label className="cursor-pointer h-5 w-5">X</label> */}
                                                 <XIcon className="h-5 w-5" aria-hidden="true" />
@@ -239,7 +246,6 @@ export default function UploadFile(props: UploadFileProps) {
                                 );
                             })}
                     </div>
-
                 </div>
             </div>
         </main>

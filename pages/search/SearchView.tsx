@@ -64,7 +64,10 @@ export default function SearchView(props: SearchViewProps) {
                 </div>
             </div> */}
             <div>
-                <p className=' text-black text-xl font-bold'>與  "{searchDocumentFormik?.values?.content}"  相關的文檔共有  {documents?.length}  份</p>
+                <p className=" text-black text-xl font-bold">
+                    與 "{searchDocumentFormik?.values?.content}" 相關的文檔共有 {documents?.length}{' '}
+                    份
+                </p>
             </div>
             <div className="px-16">
                 <div className="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">

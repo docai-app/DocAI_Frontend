@@ -13,9 +13,9 @@ function ApprovalContainer() {
     );
 
     //請假紙，工場維修，店鋪維修，name是隨便起的，到時根據DB改名
-    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<'vacation' | 'factory' | 'shop'>(
-        'vacation'
-    );
+    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<
+        'vacation' | 'factory' | 'shop'
+    >('vacation');
     const [
         {
             data: getAbsenceFormByApprovalStatusData,

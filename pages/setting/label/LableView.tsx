@@ -73,7 +73,16 @@ export default function LabelView(props: LabelProps) {
                                     <div className="text-slate-500">修改現有的標籤的名稱</div> */}
                                 </div>
                                 <div className="flex flex-col gap-2 mt-4">
-                                    {sortedLabels.map((label: any, index: number) =>  <LabelTag key={index} label={label} updateLabelNameByIdHandler={updateLabelNameByIdHandler}/>
+                                    {sortedLabels.map(
+                                        (label: any, index: number) => (
+                                            <LabelTag
+                                                key={index}
+                                                label={label}
+                                                updateLabelNameByIdHandler={
+                                                    updateLabelNameByIdHandler
+                                                }
+                                            />
+                                        )
                                         // return (
                                         //     <form
                                         //         onSubmit={(e) => {
@@ -133,8 +142,14 @@ export default function LabelView(props: LabelProps) {
                                     <h2 className="text-2xl font-bold">待查核標籤</h2>
                                 </div>
                                 <div className="flex flex-col gap-2 mt-4">
-                                    {sortedLabels.map((label: any, index: number) =>  <LabelTag key={index} label={label} updateLabelNameByIdHandler={updateLabelNameByIdHandler} unCheck={true}/>
-                                    )}
+                                    {sortedLabels.map((label: any, index: number) => (
+                                        <LabelTag
+                                            key={index}
+                                            label={label}
+                                            updateLabelNameByIdHandler={updateLabelNameByIdHandler}
+                                            unCheck={true}
+                                        />
+                                    ))}
                                 </div>
                             </>
                         )}

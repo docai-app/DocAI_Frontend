@@ -40,7 +40,7 @@ export default function DriveContainer() {
 
     useEffect(() => {
         countDocumentsByDate();
-    }, [ countDocumentsByDate]);
+    }, [countDocumentsByDate]);
 
     const handleShare = useCallback(
         async (id: string, user_email: string) => {

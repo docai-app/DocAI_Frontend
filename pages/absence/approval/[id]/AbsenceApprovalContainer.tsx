@@ -16,18 +16,18 @@ function AbsenceApprovalContainer() {
     const [result, setResult] = useState();
     const [approval, setApproval] = useState({});
     const [formSchema, setFormSchema] = useState({});
-    const [visable, setVisable] = useState(false)
-    const [extraData, setExtraData] = useState({})
+    const [visable, setVisable] = useState(false);
+    const [extraData, setExtraData] = useState({});
 
     const approvalButtonContainer = useCallback(
         (props) => (
             <div className="flex gap-2">
-                 <a
+                <a
                     className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
                     // type="submit"
                     onClick={() => {
-                        setVisable(true)
-                        setApproval('rejected')
+                        setVisable(true);
+                        setApproval('rejected');
                         // props.onChange('rejected');
                     }}
                 >
@@ -37,8 +37,8 @@ function AbsenceApprovalContainer() {
                     className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                     // type="submit"
                     onClick={() => {
-                        setVisable(true)
-                        setApproval('approved')
+                        setVisable(true);
+                        setApproval('approved');
                         // props.onChange('approved');
                     }}
                 >
@@ -129,7 +129,7 @@ function AbsenceApprovalContainer() {
     const onSubmit = useCallback(
         async (formData: any) => {
             // const { approval, remark } = formData.formData;
-            const {approval, signature, remark } = formData
+            const { approval, signature, remark } = formData;
             if (router.query.id) {
                 updateFormApprovalStatus({
                     data: {
