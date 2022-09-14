@@ -21,13 +21,17 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
     const [_movingDest, _setMovingDest] = useState<Folder | null>(null);
 
     const router = useRouter();
-    const handleMove = useCallback(
-        async (document_id: string | null, folder: Folder) => {
-            setFolderPath(folder)
-            setMode('view');
-        },
-        [router]
-    );
+    const handleMove =  (document_id: string | null, folder: Folder) => {
+        setFolderPath(folder)
+        setMode('view');
+    }
+    // const handleMove = useCallback(
+    //     async (document_id: string | null, folder: Folder) => {
+    //         setFolderPath(folder)
+    //         setMode('view');
+    //     },
+    //     [router]
+    // );
     return (
         <Transition show={mode === 'move'}>
             <Transition.Child

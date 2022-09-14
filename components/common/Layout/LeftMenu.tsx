@@ -22,7 +22,7 @@ import {
 } from '@heroicons/react/outline'
 import { useRouter } from 'next/router';
 
-export default function LeftMenu(props) {
+export default function LeftMenu(props: any) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
 
@@ -69,7 +69,7 @@ export default function LeftMenu(props) {
     },
   ]
   
-  function classNames(...classes) {
+  function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
   }
   

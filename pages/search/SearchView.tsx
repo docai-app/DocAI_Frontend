@@ -99,7 +99,7 @@ export default function SearchView(props: SearchViewProps) {
                             <div className="mt-4 flex justify-between overflow-hidden">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
-                                        <a href={document.storage_url} target="_blank">
+                                        <a href={document.storage_url}>
                                             <span aria-hidden="true" className="absolute inset-0" />
                                             {document.name}
                                         </a>
