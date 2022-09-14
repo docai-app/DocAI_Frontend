@@ -12,19 +12,19 @@ export default function LabelTag({label, updateLabelNameByIdHandler, unCheck}: a
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
                 const newName = formData.get('name');
-                if( newName !== label.name ){
-                    updateLabelNameByIdHandler(label.id, newName);
+                if( newName !== label?.name ){
+                    updateLabelNameByIdHandler(label?.id, newName);
                 }
                 setReadOnly(true)
             }}
-            key={label.id}
+            key={label?.id}
             className="flex  flex-row  max-w-2xl"
         >
             <div className="flex flex-row  w-4/5 rounded-md bg-white border border-gray-200">
                 <input
                     type="text"
                     name="name"
-                    defaultValue={label.name}
+                    defaultValue={label?.name}
                     readOnly={readOnly}
                     className="flex-1 p-2 border-0   shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300"
                 />
@@ -32,7 +32,7 @@ export default function LabelTag({label, updateLabelNameByIdHandler, unCheck}: a
                     readOnly ? (
                         <div className='flex-0 flex flex-row items-center'>
                             <a className='w-10 cursor-pointer h-full items-center justify-center text-center'
-                                href={`/classification/${label.id}?name=${label.name}`}
+                                href={`/classification/${label?.id}?name=${label?.name}`}
                                 >
                                 <EyeIcon className='p-2 text-indigo-500 '/>
                             </a>

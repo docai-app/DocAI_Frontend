@@ -46,7 +46,8 @@ export default function UploadFile(props: UploadFileProps) {
     };
 
     const deleteAll = () => {
-        fileInput.current?.value = null;
+        if (fileInput.current != null) 
+            fileInput.current.value = '';
         setDocuments([])
         setMyFiles([])
     }
