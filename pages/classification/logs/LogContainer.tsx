@@ -51,6 +51,6 @@ function LogContainer() {
                 {...props}
             />
         </>
-    )
+    );
 }
 export default LogContainer;

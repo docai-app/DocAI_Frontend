@@ -16,7 +16,7 @@ function ValidateContainer() {
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
-    const [visable, setVisable] = useState(false)
+    const [visable, setVisable] = useState(false);
     const [
         {
             data: latestPredictionData,
@@ -167,7 +167,7 @@ function ValidateContainer() {
                     movingDest,
                     setMovingDest,
                     documentPath,
-                    visable, 
+                    visable,
                     setVisable
                 }}
             />

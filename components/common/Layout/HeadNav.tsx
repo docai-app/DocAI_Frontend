@@ -32,7 +32,7 @@ const apiSetting = new Api();
 function HeadNav() {
     const [email, setEmail] = useState<string>('');
     const router = useRouter();
-    const [searchContent, setSearchContent] = useState('')
+    const [searchContent, setSearchContent] = useState('');
 
     useEffect(() => {
         setEmail(localStorage.getItem('email') || 'testing');
@@ -49,9 +49,9 @@ function HeadNav() {
         manual: false
     });
 
-    const onSwitch = ( tag: any ) => {
-        router.push({pathname: '/classification/' + tag.id , query: { name : tag.name}})
-    }
+    const onSwitch = (tag: any) => {
+        router.push({ pathname: '/classification/' + tag.id, query: { name: tag.name } });
+    };
     return (
         <>
             <Disclosure as="nav" className="bg-gray-800">
@@ -67,7 +67,7 @@ function HeadNav() {
                                             alt="Workflow"
                                         />
                                     </div>
-                                    
+
                                     <div className="hidden md:block w-full">
                                         <div className="ml-10 ">
                                             <section className="w-full flex justify-center items-center">
@@ -78,28 +78,37 @@ function HeadNav() {
                                                         id="content"
                                                         className="p-2 shadow-sm focus:ring-indigo-500 w-full sm:max-w-xs focus:border-indigo-500 block  sm:text-sm border-gray-300 rounded-tl-md rounded-bl-md"
                                                         placeholder="輸入文件的關鍵字或文件的相關內容"
-                                                        onChange={(text) => setSearchContent(text.target.value)}
+                                                        onChange={(text) =>
+                                                            setSearchContent(text.target.value)
+                                                        }
                                                     />
-                                                    <MyDropdown value={''} datas={getTagByTaggingData?.tags} onSwitch={onSwitch} />
+                                                    <MyDropdown
+                                                        value={''}
+                                                        datas={getTagByTaggingData?.tags}
+                                                        onSwitch={onSwitch}
+                                                    />
                                                     <button
                                                         type="submit"
                                                         className="flex mt-3 items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                                                         onClick={() => {
-                                                            if( searchContent )
-                                                                Router.push({pathname: '/search', query: {'content': searchContent}})
+                                                            if (searchContent)
+                                                                Router.push({
+                                                                    pathname: '/search',
+                                                                    query: {
+                                                                        content: searchContent
+                                                                    }
+                                                                });
                                                             // searchDocumentFormik.handleSubmit();
                                                         }}
                                                     >
-                                                    搜尋 🔍
-                                                </button>
-                                                
+                                                        搜尋 🔍
+                                                    </button>
                                                 </div>
-                                                
                                             </section>
                                         </div>
 
                                         {/* <div className="ml-10 flex w-full items-center"> */}
-                                            {/* {navigation.map((item) => (
+                                        {/* {navigation.map((item) => (
                                                 <a
                                                     key={item.name}
                                                     href={item.href}
@@ -173,7 +182,7 @@ function HeadNav() {
                                                                     active ? 'bg-gray-100' : '',
                                                                     'block px-4 py-2 text-sm text-gray-700 w-full text-left'
                                                                 )}
-                                                                onClick={()=>signOut()}
+                                                                onClick={() => signOut()}
                                                             >
                                                                 登出
                                                             </button>
@@ -227,7 +236,6 @@ function HeadNav() {
                                     placeholder="輸入文件的關鍵字或文件的相關內容"
                                     // onChange={searchDocumentFormik.handleChange('content')}
                                 />
-
                             </div>
                             <div className="pt-4 pb-3 border-t border-gray-700">
                                 <div className="flex items-center px-5">

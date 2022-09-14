@@ -87,20 +87,18 @@ function ValidateView(props: ValidateViewProps) {
                                         fields={fields.current}
                                         formData={result}
                                     />
-                             
                                 </div>
                             </div>
-                            <div className='flex w-full pb-4  text-center items-center justify-center object-center bg-white '>
-                            <input
+                            <div className="flex w-full pb-4  text-center items-center justify-center object-center bg-white ">
+                                <input
                                     className="rounded-md    checked:text-slate-500 "
                                     type="checkbox"
                                     checked={true}
                                     disabled={true}
-
                                 />
-                                <label className='text-gray-500 r'>我已核對所有資料</label>
+                                <label className="text-gray-500 r">我已核對所有資料</label>
                             </div>
-                            <div className='flex w-full items-center justify-center object-center bg-white '>
+                            <div className="flex w-full items-center justify-center object-center bg-white ">
                                 <Form
                                     // className="w-5/6"
                                     schema={approvalSchema.current}
@@ -115,8 +113,16 @@ function ValidateView(props: ValidateViewProps) {
                     </div>
                 </main>
             </div>
-            <InputRemarkModal visable={visable}  approval={approval} cancelClick={()=>setVisable(false)} confirmClick={(data: any)=>{setExtraData(data);setVisable(false);onSubmit(data)
-            }}/>
+            <InputRemarkModal
+                visable={visable}
+                approval={approval}
+                cancelClick={() => setVisable(false)}
+                confirmClick={(data: any) => {
+                    setExtraData(data);
+                    setVisable(false);
+                    onSubmit(data);
+                }}
+            />
         </>
     );
 }

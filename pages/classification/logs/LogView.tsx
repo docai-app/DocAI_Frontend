@@ -80,9 +80,9 @@ function LogView(props: any) {
                                                     <ClockIcon className='w-5 h-5 text-green-500'/>
                                                     <p className='ml-1 text-green-500 text-sm'>正在進行智能分類，需時  {item.estimated_time / 60}  分鐘</p>
                                                 </div>
-                                            }
+                                            )}
                                         </div>
-                                    )
+                                    );
                                 })}
                             </div>
                         </>
@@ -90,7 +90,7 @@ function LogView(props: any) {
                 )}
             </div>
         </>
-    )
+    );
 }
 
 export default LogView;

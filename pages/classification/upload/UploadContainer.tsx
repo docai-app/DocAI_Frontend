@@ -34,7 +34,7 @@ function UploadContainer() {
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
-            setVisable(true)
+            setVisable(true);
             // router.push('/classification/validate');
         } else if (uploadData && uploadData.success === false) {
             setOpen(false);
@@ -44,28 +44,28 @@ function UploadContainer() {
     useEffect(() => {
         setOpen(uploadLoading);
     }, [uploadLoading]);
-    
-    const [visable, setVisable] = useState(false)
+
+    const [visable, setVisable] = useState(false);
     const nextUpload = () => {
-        setVisable(false)
+        setVisable(false);
         router.reload();
-    }
+    };
     const confirm = () => {
-        setVisable(false)
+        setVisable(false);
         router.push('/classification/validate');
-    }
+    };
     return (
         <>
             <UploadView {...{ formik, setDocuments, open, setOpen }} />
-            <MyModal 
-                visable={visable} 
-                cancelClick={confirm} 
+            <MyModal
+                visable={visable}
+                cancelClick={confirm}
                 cancelText={'完成並進行智能分類'}
-                confirmClick={nextUpload} 
+                confirmClick={nextUpload}
                 confirmText={'下一批'}
-                success={true} 
-                description={`已成功上傳  ${documents.length}  份文檔`} 
-                />
+                success={true}
+                description={`已成功上傳  ${documents.length}  份文檔`}
+            />
         </>
     );
 }
