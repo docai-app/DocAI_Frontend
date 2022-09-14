@@ -11,28 +11,21 @@ import moment from 'moment';
 const apiSetting = new Api();
 
 function LogContainer() {
-
-    const [{ data: countDocumentsStatusByDateData, loading }, countDocumentsStatusByDate] = useAxios(
-        apiSetting.Statistics.countDocumentsStatusByDate(
-            moment().format('YYYY-MM-DD')
-        ),
-        { manual: true }
-    );
+    const [{ data: countDocumentsStatusByDateData, loading }, countDocumentsStatusByDate] =
+        useAxios(apiSetting.Statistics.countDocumentsStatusByDate(moment().format('YYYY-MM-DD')), {
+            manual: true
+        });
 
     useEffect(() => {
         countDocumentsStatusByDate();
-    }, [ countDocumentsStatusByDate]);
+    }, [countDocumentsStatusByDate]);
 
-    const [currentTabStatus, setCurrentTabStatus] = useState<'all' | 'unfinish' | 'finish'>(
-        'all'
-    );
-
+    const [currentTabStatus, setCurrentTabStatus] = useState<'all' | 'unfinish' | 'finish'>('all');
 
     const [props, setProps] = useState<any>({
         currentTabStatus: currentTabStatus,
         setCurrentTabStatus: setCurrentTabStatus
     });
-
 
     useEffect(() => {
         setProps((p: any) => ({
@@ -41,16 +34,16 @@ function LogContainer() {
             setCurrentTabStatus: setCurrentTabStatus,
             countDocumentsStatusByDateData
         }));
-    }, [currentTabStatus,countDocumentsStatusByDateData]);
-    
+    }, [currentTabStatus, countDocumentsStatusByDateData]);
+
     return (
         <>
             <LogView
                 // data = {data}
-                loading = {loading}
+                loading={loading}
                 {...props}
             />
         </>
-    )
+    );
 }
 export default LogContainer;

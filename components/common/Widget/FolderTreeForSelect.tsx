@@ -16,15 +16,15 @@ interface FolderTreeForSelectgProps {
 
 const apiSetting = new Api();
 export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
-    const { mode, setMode,folderPath, setFolderPath, targetId } = props;
+    const { mode, setMode, folderPath, setFolderPath, targetId } = props;
 
     const [_movingDest, _setMovingDest] = useState<Folder | null>(null);
 
     const router = useRouter();
-    const handleMove =  (document_id: string | null, folder: Folder) => {
-        setFolderPath(folder)
+    const handleMove = (document_id: string | null, folder: Folder) => {
+        setFolderPath(folder);
         setMode('view');
-    }
+    };
     // const handleMove = useCallback(
     //     async (document_id: string | null, folder: Folder) => {
     //         setFolderPath(folder)

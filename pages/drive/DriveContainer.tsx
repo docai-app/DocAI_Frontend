@@ -40,7 +40,7 @@ export default function DriveContainer() {
 
     useEffect(() => {
         countDocumentsByDate();
-    }, [ countDocumentsByDate]);
+    }, [countDocumentsByDate]);
 
     const handleShare = useCallback(
         async (id: string, user_email: string) => {
@@ -81,7 +81,7 @@ export default function DriveContainer() {
             } else {
                 showAllItems(apiSetting.Drive.showAllRootItems());
             }
-        }else{
+        } else {
             showAllItems(apiSetting.Drive.showAllRootItems());
         }
     }, [router, showAllItems]);
