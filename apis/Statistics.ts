@@ -21,4 +21,13 @@ export default class Statistics {
         };
         return requestHeader;
     }
+
+    countDocumentsStatusByDate(date: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/statistics/count/documents/status/${date}?days=7`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

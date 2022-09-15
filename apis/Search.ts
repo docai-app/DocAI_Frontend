@@ -13,6 +13,15 @@ export default class Search {
         return requestHeader;
     }
 
+    searchDocumentByDate() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/search/documents/date`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     searchFormByLabelAndDate(label: string, date: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
