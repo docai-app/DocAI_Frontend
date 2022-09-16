@@ -4,10 +4,10 @@ import { AxiosRequestConfig } from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class Absence {
-    getAbsenceFormByApprovalStatus(status: string) {
+    getAbsenceFormByApprovalStatus(status: string, days: number = 3, page: number = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/form/absence/approval?status=${status}`,
+            url: `/api/v1/form/absence/approval?status=${status}&days=${days}&page=${page}`,
             method: 'GET'
         };
         return requestHeader;

@@ -112,7 +112,7 @@ export default function SearchView(props: SearchViewProps) {
                         </div>
                     ))}
                 </div>
-                <PaginationView meta={meta} content={searchDocumentFormik?.values?.content} date={searchDocumentFormik?.values?.date}/>
+                <PaginationView meta={meta} pathname={'/search'} params={searchDocumentFormik?.values?.date ? {'date': searchDocumentFormik?.values?.date} : {'content': searchDocumentFormik?.values?.content}} />
             </div>
         </>
     );

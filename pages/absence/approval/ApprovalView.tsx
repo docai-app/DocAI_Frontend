@@ -7,9 +7,10 @@ import MyDropdown from '../../../components/common/Widget/MyDropdown';
 import { useState } from 'react';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import  moment  from 'moment';
+import PaginationView from '../../../components/common/Widget/PaginationView';
 
 function ApprovalView(props: any) {
-    const { data = [], currentTabStatus, setCurrentTabStatus,currentTypeTabStatus, setCurrentTypeTabStatus, formSchema, loading, error } = props;
+    const { data = [], meta, currentTabStatus, setCurrentTabStatus,currentTypeTabStatus, setCurrentTypeTabStatus, formSchema, loading, days, setDays, error } = props;
     const fields = [
         {
             label: '員工編號',
@@ -53,23 +54,23 @@ function ApprovalView(props: any) {
         
         {
             name: '最近三天',
-            value: ''
+            value: '3'
         },
         {
             name: '最近一周',
-            value: ''
+            value: '7'
         },
         {
             name: '最近一個月',
-            value: ''
+            value: '30'
         },
         {
             name: '最近三個月',
-            value: ''
+            value: '90'
         },
         {
             name: '最近半年',
-            value: ''
+            value: '180'
         },
     ]
     const statusDatas = [
@@ -87,6 +88,7 @@ function ApprovalView(props: any) {
 
     const onSwitch = (date: any) => {
         setDate(date.name)
+        setDays(date.value)
     }
     const onSwitchStatus = (status: any) => {
         setStatus(status.name)
@@ -183,16 +185,6 @@ function ApprovalView(props: any) {
                         >
                             已審批
                         </li>
-                        {/* <li
-                            onClick={() => setCurrentTabStatus('rejected')}
-                            className={`p-4 cursor-pointer ${
-                                currentTabStatus === 'rejected'
-                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            已拒絕
-                        </li> */}
                     </ul>
                 </div>
                 {loading ? (
@@ -437,6 +429,7 @@ function ApprovalView(props: any) {
                     )
                 )}
             </div>
+            <PaginationView meta={meta} pathname={'/absence/approval'} params={null} />
         </>
     );
 }
