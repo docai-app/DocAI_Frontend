@@ -15,11 +15,11 @@ function ApprovalContainer() {
     );
 
     //請假紙，工場維修，店鋪維修，name是隨便起的，到時根據DB改名
-    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<'vacation' | 'factory' | 'shop'>(
-        'vacation'
-    );
-    const [days, setDays] = useState(3)
-    const [page, setPage] = useState(1)
+    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<
+        'vacation' | 'factory' | 'shop'
+    >('vacation');
+    const [days, setDays] = useState(3);
+    const [page, setPage] = useState(1);
 
     const [
         {
@@ -67,7 +67,7 @@ function ApprovalContainer() {
         setProps((p: any) => ({
             ...p,
             data: getAbsenceFormByApprovalStatusData?.absence_forms || p.data,
-            meta: getAbsenceFormByApprovalStatusData?.meta || p.meta 
+            meta: getAbsenceFormByApprovalStatusData?.meta || p.meta
         }));
     }, [getAbsenceFormByApprovalStatusData]);
 
@@ -80,23 +80,23 @@ function ApprovalContainer() {
         getAbsenceFormByApprovalStatus({
             url: `/api/v1/form/absence/approval?status=${currentTabStatus}&days=${days}&page=${page}`
         });
-    }, [currentTabStatus,days,page, getAbsenceFormByApprovalStatus]);
+    }, [currentTabStatus, days, page, getAbsenceFormByApprovalStatus]);
 
     useEffect(() => {
         setProps((p: any) => ({
             ...p,
             currentTypeTabStatus: currentTypeTabStatus,
             setCurrentTypeTabStatus: setCurrentTypeTabStatus,
-            days, 
+            days,
             setDays
         }));
     }, [currentTypeTabStatus, days, page]);
 
     useEffect(() => {
-        if( router.query.page ){
-            setPage(parseInt(router.query.page+"") || 1)
+        if (router.query.page) {
+            setPage(parseInt(router.query.page + '') || 1);
         }
-    },[router.query.page])
+    }, [router.query.page]);
     return (
         <ApprovalView
             loading={getAbsenceFormByApprovalStatusLoading}

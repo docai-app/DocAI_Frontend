@@ -6,11 +6,23 @@ import _get from 'lodash/get';
 import MyDropdown from '../../../components/common/Widget/MyDropdown';
 import { useState } from 'react';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
-import  moment  from 'moment';
+import moment from 'moment';
 import PaginationView from '../../../components/common/Widget/PaginationView';
 
 function ApprovalView(props: any) {
-    const { data = [], meta, currentTabStatus, setCurrentTabStatus,currentTypeTabStatus, setCurrentTypeTabStatus, formSchema, loading, days, setDays, error } = props;
+    const {
+        data = [],
+        meta,
+        currentTabStatus,
+        setCurrentTabStatus,
+        currentTypeTabStatus,
+        setCurrentTypeTabStatus,
+        formSchema,
+        loading,
+        days,
+        setDays,
+        error
+    } = props;
     const fields = [
         {
             label: '員工編號',
@@ -70,8 +82,8 @@ function ApprovalView(props: any) {
         {
             name: '最近半年',
             value: '180'
-        },
-    ]
+        }
+    ];
     const statusDatas = [
         {
             name: '已批准',
@@ -86,9 +98,9 @@ function ApprovalView(props: any) {
     const [status, setStatus] = useState(statusDatas[0].name);
 
     const onSwitch = (date: any) => {
-        setDate(date.name)
-        setDays(date.value)
-    }
+        setDate(date.name);
+        setDays(date.value);
+    };
     const onSwitchStatus = (status: any) => {
         setStatus(status.name);
         setCurrentTabStatus(status.value);
