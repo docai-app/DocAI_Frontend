@@ -57,12 +57,12 @@ function ValidateView(props: ValidateViewProps) {
                     </div>
                 </header>
                 <main>
-                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                        <div className="px-4 py-0 sm:px-0 border-4 border-dashed border-gray-200">
+                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 mb-0">
+                        <div className="px-4 py-0 sm:px-0 border-4 bg-white border-dashed border-gray-200">
                             {/* <p className="mb-2 text-lg">Document AI的建議</p> */}
                             <div className="flex justify-center  p-0  bg-white rounded-lg h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-5/6 h-full flex flex-col justify-center">
+                                    <div className="w-full h-full flex flex-col justify-center">
                                         {/* <p>
                                             文檔名稱:{' '}
                                             <span className="font-bold">
@@ -83,7 +83,7 @@ function ValidateView(props: ValidateViewProps) {
                                                 }
                                             </span>
                                         </p> */}
-                                        <div className="w-full h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                        <div className="w-5/6 h-full rounded-lg object-cover">
                                             {_get(
                                                 latestPredictionData,
                                                 'prediction.document.storage_url'
@@ -120,7 +120,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     </object>
                                                 ) : (
                                                     <img
-                                                        className="object-cover shadow-lg rounded-lg"
+                                                        className="object-cover h-full shadow-lg rounded-lg"
                                                         alt={_get(
                                                             latestPredictionData,
                                                             'prediction.document.name'
@@ -136,14 +136,14 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                                 <div className="right-side flex-1">
-                                    <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-                                        <div className="mx-auto py-4 border-b w-full max-w-sm lg:w-96">
+                                    <div className="flex-1 flex flex-col justify-start py-0 px-2 sm:px-6 lg:flex-none lg:px-2 xl:px-2">
+                                        <div className=" py-4 border-b w-full max-w-sm lg:w-96">
                                             <div>
                                                 <div className='flex flex-row'>
-                                                    <label className='w-28'>
+                                                    <label className='w-28 flex-0'>
                                                     上傳時名稱:
                                                     </label>
-                                                    <span className="font-bold text-sm ">
+                                                    <span className="font-bold text-sm flex-1">
                                                         {_get(
                                                             latestPredictionData,
                                                             'prediction.document.name'
@@ -343,7 +343,7 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        <div className='mx-auto py-4 w-full max-w-sm lg:w-96'>
+                                        <div className=' py-4 w-full max-w-sm lg:w-96'>
                                             <p className='my-4 font-bold'>請假紙為特別分類，需特殊處理</p>
                                             <button
                                                 type="button"
@@ -360,7 +360,7 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex w-full items-center justify-center object-center bg-white pb-4'>
+                            <div className='flex w-full items-center justify-center object-center bg-white pb-4 mt-10'>
                                 <div className="items-center">
                                     <button
                                         type="button"
