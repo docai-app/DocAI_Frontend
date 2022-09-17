@@ -139,9 +139,9 @@ function ValidateView(props: ValidateViewProps) {
                                     <div className="flex-1 flex flex-col justify-start py-0 px-2 sm:px-6 lg:flex-none lg:px-2 xl:px-2">
                                         <div className=" py-4 border-b w-full max-w-sm lg:w-96">
                                             <div>
-                                                <div className='flex flex-row'>
-                                                    <label className='w-28 flex-0'>
-                                                    上傳時名稱:
+                                                <div className="flex flex-row">
+                                                    <label className="w-28 flex-0">
+                                                        上傳時名稱:
                                                     </label>
                                                     <span className="font-bold text-sm flex-1">
                                                         {_get(
@@ -336,8 +336,10 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        <div className=' py-4 w-full max-w-sm lg:w-96'>
-                                            <p className='my-4 font-bold'>請假紙為特別分類，需特殊處理</p>
+                                        <div className=" py-4 w-full max-w-sm lg:w-96">
+                                            <p className="my-4 font-bold">
+                                                請假紙為特別分類，需特殊處理
+                                            </p>
                                             <button
                                                 type="button"
                                                 className="mr-4 inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -351,7 +353,7 @@ function ValidateView(props: ValidateViewProps) {
                                     </div>
                                 </div>
                             </div>
-                            <div className='flex w-full items-center justify-center object-center bg-white pb-4 mt-10'>
+                            <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-10">
                                 <div className="items-center">
                                     <button
                                         type="button"

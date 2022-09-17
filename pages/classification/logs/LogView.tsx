@@ -30,7 +30,8 @@ function LogView(props: any) {
                                 currentTabStatus === 'all'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                            } font-bold text-sm`}>
+                            } font-bold text-sm`}
+                        >
                             全部
                         </li>
                         {/* <li
@@ -90,7 +91,8 @@ function LogView(props: any) {
                                                     {item.uploaded_count != item.ready_count && (
                                                         <a
                                                             className="p-2 text-sm underline text-indigo-500"
-                                                            href={'/classification/validate'}>
+                                                            href={'/classification/validate'}
+                                                        >
                                                             繼續處理
                                                         </a>
                                                     )}
@@ -103,7 +105,8 @@ function LogView(props: any) {
                                                                         pathname: '/search',
                                                                         query: { date: item.date }
                                                                     });
-                                                            }}>
+                                                            }}
+                                                        >
                                                             查看
                                                         </button>
                                                     )}
