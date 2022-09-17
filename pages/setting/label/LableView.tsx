@@ -135,19 +135,25 @@ export default function LabelView(props: LabelProps) {
                         )}
                     </div>
 
-                    <div className="py-4">
+                    {/* <div className="py-4">
                         {sortedLabels && (
                             <>
                                 <div>
                                     <h2 className="text-2xl font-bold">待查核標籤</h2>
                                 </div>
                                 <div className="flex flex-col gap-2 mt-4">
-                                    {/* {sortedLabels.map((label: any, index: number) =>  <LabelTag key={index} label={label} updateLabelNameByIdHandler={updateLabelNameByIdHandler} unCheck={true}/>
-                                    )} */}
+                                    {sortedLabels.map((label: any, index: number) => (
+                                        <LabelTag
+                                            key={index}
+                                            label={label}
+                                            updateLabelNameByIdHandler={updateLabelNameByIdHandler}
+                                            unCheck={true}
+                                        />
+                                    ))}
                                 </div>
                             </>
                         )}
-                    </div>
+                    </div> */}
                 </div>
             </main>
         </div>
