@@ -10,18 +10,18 @@ interface PaginationProps {
 
 export default function PaginationView({ meta, pathname, params }: PaginationProps) {
     const previous = () => {
-        var general = {
+        const general = {
             page: meta?.current_page - 1
         };
-        let query = { ...general, ...params };
+        const query = { ...general, ...params };
         Router.push({ pathname: pathname, query: query });
     };
 
     const next = () => {
-        var general = {
+        const general = {
             page: meta?.current_page + 1
         };
-        let query = { ...general, ...params };
+        const query = { ...general, ...params };
         Router.push({ pathname: pathname, query: query });
     };
 

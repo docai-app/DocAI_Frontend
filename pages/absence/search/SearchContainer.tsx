@@ -31,7 +31,7 @@ function SearchContainer() {
             date: new Date().toISOString().split('T')[0]
         },
         onSubmit: async (values) => {
-            let res = await searchFormByLabelAndDate({
+            const res = await searchFormByLabelAndDate({
                 url: `/api/v1/search/form/${encodeURI(label)}/${values.date}`
             });
             if (res.data) {

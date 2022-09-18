@@ -7,7 +7,7 @@ const Form = withTheme(Bootstrap4Theme);
 interface ValidateViewProps {
     formUrl: string;
     result: any;
-    setResult: Function;
+    setResult: any;
     formSchema: any;
     uiSchema: any;
     widgets: any;

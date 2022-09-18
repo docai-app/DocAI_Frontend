@@ -74,7 +74,7 @@ function ValidateContainer() {
         onSubmit: async (values) => {
             //如果是請假紙但未處理的時候提示
             // setVisable(true)
-            let res = await confirmDocument({
+            const res = await confirmDocument({
                 data: {
                     ...values
                 }
@@ -91,7 +91,7 @@ function ValidateContainer() {
             name: null
         },
         onSubmit: async (values) => {
-            let res = await addNewTag({
+            const res = await addNewTag({
                 data: {
                     ...values
                 }

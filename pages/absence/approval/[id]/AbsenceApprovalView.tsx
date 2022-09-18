@@ -1,4 +1,3 @@
-import _get from 'lodash/get';
 import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import InputRemarkModal from '../../../../components/common/Widget/InputRemarkModal';
@@ -36,7 +35,6 @@ function ValidateView(props: ValidateViewProps) {
         onSubmit,
         visable,
         setVisable,
-        extraData = {},
         setExtraData
     } = props;
     return (
@@ -100,7 +98,6 @@ function ValidateView(props: ValidateViewProps) {
                             </div>
                             <div className="flex w-full items-center justify-center object-center bg-white ">
                                 <Form
-                                    // className="w-5/6"
                                     schema={approvalSchema.current}
                                     uiSchema={approvalUiSchema.current}
                                     widgets={widgets.current}

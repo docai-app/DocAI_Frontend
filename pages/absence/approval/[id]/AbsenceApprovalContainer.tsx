@@ -4,7 +4,6 @@ import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
 import _get from 'lodash/get';
-import _set from 'lodash/set';
 import { FieldProps, WidgetProps } from '@rjsf/core';
 import axios from 'axios';
 
@@ -20,7 +19,7 @@ function AbsenceApprovalContainer() {
     const [extraData, setExtraData] = useState({});
 
     const approvalButtonContainer = useCallback(
-        (props) => (
+        () => (
             <div className="flex gap-2">
                 <a
                     className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
@@ -128,8 +127,7 @@ function AbsenceApprovalContainer() {
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            // const { approval, remark } = formData.formData;
-            const { approval, signature, remark } = formData;
+            const { approval, remark } = formData;
             if (router.query.id) {
                 updateFormApprovalStatus({
                     data: {

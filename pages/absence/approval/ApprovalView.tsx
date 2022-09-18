@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { DownloadIcon } from '@heroicons/react/solid';
 import { Parser } from 'json2csv';
 import _get from 'lodash/get';
-import MyDropdown from '../../../components/common/Widget/MyDropdown';
 import { useState } from 'react';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import moment from 'moment';
@@ -19,9 +18,7 @@ function ApprovalView(props: any) {
         setCurrentTypeTabStatus,
         formSchema,
         loading,
-        days,
-        setDays,
-        error
+        setDays
     } = props;
     const fields = [
         {
@@ -106,10 +103,10 @@ function ApprovalView(props: any) {
         setCurrentTabStatus(status.value);
     };
     const downloadCSV = () => {
-        let absencesFormData: Array<any> = [];
+        const absencesFormData: Array<any> = [];
         data.map((item: any) => {
             const itemJSON = item.form_data.data;
-            let tempData = itemJSON;
+            const tempData = itemJSON;
             const working_department = _findKey(itemJSON.working_department, function (value) {
                 return value === true;
             });

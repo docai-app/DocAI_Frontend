@@ -36,7 +36,7 @@ function SearchContainer() {
             page: 1
         },
         onSubmit: async (values) => {
-            let res = await searchDocumentByContent({
+            const res = await searchDocumentByContent({
                 params: {
                     ...values
                 }

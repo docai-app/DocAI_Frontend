@@ -25,8 +25,7 @@ function ApprovalContainer() {
         {
             data: getAbsenceFormByApprovalStatusData,
             loading: getAbsenceFormByApprovalStatusLoading,
-            error: getAbsenceFormByApprovalStatusError,
-            response: getAbsenceFormByApprovalStatusResponse
+            error: getAbsenceFormByApprovalStatusError
         },
         getAbsenceFormByApprovalStatus
     ] = useAxios(apiSetting.Absence.getAbsenceFormByApprovalStatus(currentTabStatus, days, page), {

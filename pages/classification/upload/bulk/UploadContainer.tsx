@@ -27,7 +27,7 @@ function UploadContainer() {
             return errors;
         },
         onSubmit: (values) => {
-            let formData = new FormData();
+            const formData = new FormData();
             for (const i of documents) {
                 formData.append('document[]', i);
             }
