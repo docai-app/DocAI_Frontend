@@ -73,16 +73,17 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        showAllItems(apiSetting.Drive.showAllRootItems());
-        // if (router.asPath !== router.route) {
-        //     queryId.current = router.query.id;
-        //     queryName.current = router.query.name;
-        //     if (queryId.current) {
-        //         showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
-        //     } else {
-        //         showAllItems(apiSetting.Drive.showAllRootItems());
-        //     }
-        // }
+        if (router.asPath !== router.route) {
+            queryId.current = router.query.id;
+            queryName.current = router.query.name;
+            if (queryId.current) {
+                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
+            } else {
+                showAllItems(apiSetting.Drive.showAllRootItems());
+            }
+        } else {
+            showAllItems(apiSetting.Drive.showAllRootItems());
+        }
     }, [router, showAllItems]);
 
     useEffect(() => {

@@ -3,9 +3,11 @@ import LabelView from './LableView';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
 import { EyeIcon } from '@heroicons/react/outline';
+import React from 'react';
 
 export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck }: any) {
     const [readOnly, setReadOnly] = useState(true);
+    const inputRef = React.createRef<HTMLInputElement>();
     return (
         <form
             onSubmit={(e) => {
@@ -22,6 +24,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck }:
         >
             <div className="flex flex-row  w-4/5 rounded-md bg-white border border-gray-200">
                 <input
+                    ref={inputRef}
                     type="text"
                     name="name"
                     defaultValue={label?.name}
@@ -40,6 +43,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck }:
                         <a
                             className=" cursor-pointer p-3 leading-none text-indigo-500 "
                             onClick={() => {
+                                if (inputRef.current) inputRef.current.focus();
                                 setReadOnly(false);
                             }}
                         >
