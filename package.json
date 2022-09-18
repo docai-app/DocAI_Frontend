@@ -6,7 +6,7 @@
         "build": "next build",
         "start": "next start -p 8080",
         "lint": "next lint",
-        "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+        "format": "prettier --single-quote --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc"
     },
     "dependencies": {
         "@headlessui/react": "^1.5.0",
