@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Folder } from '../../../components/common/Widget/FolderTree';
+import moment from 'moment';
 
 const apiSetting = new Api();
 
@@ -16,6 +17,9 @@ function ValidateContainer() {
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
+    const [documentName, setDocumentName] = useState('');
+    const [isChangeName, setIsChangeName] = useState(false)
+    const [tagName, setTagName] = useState('')
     const [visable, setVisable] = useState(false);
     const [
         {
@@ -106,6 +110,56 @@ function ValidateContainer() {
         }
     });
 
+    const changeDocumentName = () => {
+        if( latestPredictionData ){
+            const created_at = moment(latestPredictionData.prediction.document.created_at).format('YYYYMMDD')
+            const tag = latestPredictionData.prediction.tag.name
+            const file_type = latestPredictionData.prediction.document.name.match(/.[^.]+$/)[0];
+            const newName = tag + '_' + created_at + file_type
+            setDocumentName(newName)
+            setIsChangeName(true)
+            
+        }
+    }
+
+    const recoverDocumentName = () => {
+        if( latestPredictionData ){
+            setDocumentName(latestPredictionData.prediction.document.name)
+            setIsChangeName(false)
+        }
+    }
+
+    const tagTypes = [
+        { id: '1', type: 'a', label: '普通文檔', feature: '查閱' },
+        { id: '2', type: 'b', label: '請假紙審批', feature: '查閱,請假紙專屬OCR,審批' },
+        { id: '3', type: 'c', label: '非OCR審批', feature: '查閱,審批' }
+    ]
+
+    const [newLabelName, setNewLabelName] = useState('');
+    const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
+        apiSetting.Tag.addNewTag(),
+        { manual: true }
+    );
+
+    const addNewLabelHandler = useCallback(async () => {
+        // addNewLabel({ data: { name: newLabelName } });
+        // console.log('newLabelName',newLabelName);
+    }, [addNewLabel, newLabelName]);
+
+    useEffect(() => {
+        if (addNewLabelData && addNewLabelData.success) {
+            alert('新增成功');
+            setTagName(newLabelName)
+            setNewLabelName('');
+            // confirmDocumentFormik.setFieldValue(
+            //     'tag_id',
+            //     newLabelName
+            // );
+        } else if (addNewLabelData && !addNewLabelData.success) {
+            alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
+        }
+    }, [addNewLabelData]);
+
     useEffect(() => {
         if (router.isReady) {
             getAndPredictLatestUploadedDocument();
@@ -136,12 +190,14 @@ function ValidateContainer() {
     }, [showFolderByIDData]);
 
     useEffect(() => {
-        //console.log(latestPredictionData);
+        console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.prediction &&
             latestPredictionData.success == true
         ) {
+            setDocumentName(latestPredictionData.prediction.document.name)
+            setTagName(latestPredictionData.prediction.tag.name)
             confirmDocumentFormik.setFieldValue(
                 'document_id',
                 latestPredictionData.prediction.document.id
@@ -168,7 +224,18 @@ function ValidateContainer() {
                     setMovingDest,
                     documentPath,
                     visable,
-                    setVisable
+                    setVisable,
+                    documentName,
+                    setDocumentName,
+                    changeDocumentName,
+                    recoverDocumentName,
+                    isChangeName,
+                    tagName,
+                    setTagName,
+                    tagTypes,
+                    newLabelName, 
+                    setNewLabelName,
+                    addNewLabelHandler
                 }}
             />
         </>

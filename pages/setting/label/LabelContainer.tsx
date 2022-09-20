@@ -23,7 +23,8 @@ export default function LabelContainer() {
     ] = useAxios(apiSetting.Tag.updateTagNameById(''), { manual: true });
 
     const addNewLabelHandler = useCallback(async () => {
-        addNewLabel({ data: { name: newLabelName } });
+        // addNewLabel({ data: { name: newLabelName } });
+        console.log('newLabelName',newLabelName);
     }, [addNewLabel, newLabelName]);
 
     const updateLabelNameByIdHandler = useCallback(
@@ -35,7 +36,12 @@ export default function LabelContainer() {
         },
         [updateLabelNameById]
     );
-
+    
+    const tagTypes = [
+        { id: '1', type: 'a', label: '普通文檔', feature: '查閱' },
+        { id: '2', type: 'b', label: '請假紙審批', feature: '查閱,請假紙專屬OCR,審批' },
+        { id: '3', type: 'c', label: '非OCR審批', feature: '查閱,審批' }
+    ]
     useEffect(() => {
         getAllLabels();
     }, [getAllLabels]);
@@ -66,7 +72,8 @@ export default function LabelContainer() {
                 addNewLabelData,
                 newLabelName,
                 setNewLabelName,
-                updateLabelNameByIdHandler
+                updateLabelNameByIdHandler,
+                tagTypes
             }}
         />
     );

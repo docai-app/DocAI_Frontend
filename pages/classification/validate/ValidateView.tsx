@@ -7,6 +7,9 @@ import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree
 import { Transition } from '@headlessui/react';
 import FolderTreeForMoving from '../../../components/common/Widget/FolderTreeForMoving';
 import MyModal from '../../../components/common/Widget/MyModal';
+import Link from 'next/link';
+import EditLabel from '../../../components/feature/setting/label/EditLabel';
+import Router from 'next/router';
 
 interface LatestPredictionDataProps {
     prediction: any;
@@ -24,6 +27,17 @@ interface ValidateViewProps {
     documentPath: { id: string | null; name: string }[];
     visable: boolean;
     setVisable: any;
+    documentName: string;
+    setDocumentName: any;
+    changeDocumentName: any;
+    recoverDocumentName: any;
+    isChangeName: boolean;
+    tagName: string;
+    setTagName: any;
+    tagTypes: any;
+    newLabelName: string, 
+    setNewLabelName: any, 
+    addNewLabelHandler: any
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -38,22 +52,51 @@ function ValidateView(props: ValidateViewProps) {
         setMovingDest,
         documentPath,
         visable,
-        setVisable
+        setVisable,
+        documentName,
+        setDocumentName,
+        changeDocumentName,
+        recoverDocumentName,
+        isChangeName,
+        tagName,
+        setTagName,
+        tagTypes,
+        newLabelName, 
+        setNewLabelName, 
+        addNewLabelHandler
     } = props;
     const [open, setOpen] = useState(false);
-
-    function handleChange(e: any) {
-        console.log(e.target.value);
+    const [openEditLabel, setOpenEditLabel] = useState(false);
+    // function handleChange(e: any) {
+    //     console.log('latestPredictionData',latestPredictionData);
+        
+    //     console.log(e.target.value);
+    //     setDocumentName(e.target.value)
+    // }
+    function classNames(...classes: any) {
+        return classes.filter(Boolean).join(' ');
     }
     return (
         <>
             <AmendLabel
-                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik }}
+                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik, setTagName, setOpenEditLabel }}
+            />
+            <EditLabel
+                {...{ open: openEditLabel, setOpen: setOpenEditLabel, tagTypes, newLabelName, setNewLabelName, addNewLabelHandler}}
             />
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">確認資料</h1>
+                        <div className=' items-center  flex  justify-center '>
+                            <label className=''>已完成 3 / 4 文檔的處理</label>
+                            <Link href={''}>
+                                <a className='text-indigo-600 underline ml-4'>查看</a>
+                            </Link>
+                        </div>
+                        <Link href={'/classification/logs'}>
+                            <XIcon className=' cursor-pointer w-8 h-8'/>
+                        </Link>
                     </div>
                 </header>
                 <main>
@@ -222,10 +265,11 @@ function ValidateView(props: ValidateViewProps) {
                                                         <div>
                                                             <div className="font-bold text-sm flex items-center">
                                                                 <span>
-                                                                    {_get(
+                                                                    {/* {_get(
                                                                         latestPredictionData,
                                                                         'prediction.tag.name'
-                                                                    )}
+                                                                    )} */}
+                                                                    {tagName}
                                                                 </span>
                                                             </div>
                                                             <label className="font-bold  text-sm text-green-500">
@@ -259,15 +303,12 @@ function ValidateView(props: ValidateViewProps) {
                                                             id="type"
                                                             name="path_name"
                                                             type="string"
-                                                            defaultValue={_get(
-                                                                latestPredictionData,
-                                                                'prediction.document.name'
-                                                            )}
                                                             placeholder={_get(
                                                                 latestPredictionData,
                                                                 'prediction.document.name'
                                                             )}
-                                                            onChange={handleChange}
+                                                            value={documentName}
+                                                            onChange={(e) => setDocumentName(e.target.value)}
                                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                         />
                                                     </div>
@@ -344,6 +385,23 @@ function ValidateView(props: ValidateViewProps) {
                                                 type="button"
                                                 className="mr-4 inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 onClick={() => {
+                                                    Router.push({
+                                                        pathname: '/absence/validate',
+                                                        query: {
+                                                            form_url: `${_get(
+                                                                latestPredictionData,
+                                                                'prediction.document.storage_url'
+                                                            )}`,
+                                                            // form_id: `${_get(
+                                                            //     latestPredictionData,
+                                                            //     'prediction.form_data.id'
+                                                            // )}`,
+                                                            // result: JSON.stringify(_get(
+                                                            //     latestPredictionData,
+                                                            //     'prediction.form_data.data'
+                                                            // ))
+                                                        }
+                                                    });
                                                     // confirmDocumentFormik.handleSubmit();
                                                 }}
                                             >
@@ -359,10 +417,10 @@ function ValidateView(props: ValidateViewProps) {
                                         type="button"
                                         className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                         onClick={() => {
-                                            confirmDocumentFormik.handleSubmit();
+                                            isChangeName ? recoverDocumentName() : changeDocumentName()
                                         }}
                                     >
-                                        智能改名
+                                        {isChangeName ? '還原名稱' : '智能改名'}
                                     </button>
 
                                     <button
@@ -374,6 +432,26 @@ function ValidateView(props: ValidateViewProps) {
                                     >
                                         資料正確
                                     </button>
+                                </div>
+                            </div>
+                            <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
+                                <div className="items-center">
+                                    { ['1','2','3'].map((item: any, index: number) => {
+                                        return (
+                                            <button
+                                                key={index}
+                                                type="button"
+                                                className={classNames(
+                                                    1 == 1 
+                                                    ? "text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500" 
+                                                    : 'text-black bg-white border border-gray-600 hover:bg-gray-100 focus:ring-gray-500',
+                                                    "mr-4 items-center w-8 h-8 text-center border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
+                                                )}
+                                            >
+                                                { index + 1 }
+                                            </button>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>

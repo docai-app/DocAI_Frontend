@@ -5,6 +5,7 @@ import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree
 import { ClockIcon } from '@heroicons/react/outline';
 import label from '../../setting/label';
 import Router from 'next/router';
+import PaginationView from '../../../components/common/Widget/PaginationView';
 
 interface LatestPredictionDataProps {
     prediction: any;
@@ -126,6 +127,7 @@ function LogView(props: any) {
                                     }
                                 )}
                             </div>
+                            <PaginationView meta={undefined} params={undefined} pathname={"/classification/logs"} />
                         </>
                     )
                 )}
