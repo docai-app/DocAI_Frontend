@@ -75,7 +75,7 @@ export default function LeftMenu(props: any) {
 
     return (
         <>
-            <div className="h-full flex">
+            <div className="h-full flex pt-16">
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog
                         as="div"
@@ -184,7 +184,7 @@ export default function LeftMenu(props: any) {
                                     <div className="flex-shrink-0 w-full group block">
                                         <div className="flex items-center">
                                             <div>
-                                                <p className="mt-8 text-center text-base text-gray-400">
+                                                <p className="mt-0 text-center text-base text-gray-400">
                                                     &copy; {new Date().getFullYear()} M2M. All
                                                     rights reserved.
                                                 </p>
@@ -262,7 +262,7 @@ export default function LeftMenu(props: any) {
                             <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                                 <div className="flex-shrink-0 w-full group block">
                                     <div className="flex items-center">
-                                        <p className="mt-8 text-center text-base text-gray-400">
+                                        <p className="mt-0 text-center text-base text-gray-400">
                                             &copy; {new Date().getFullYear()} M2M. All rights
                                             reserved.
                                         </p>

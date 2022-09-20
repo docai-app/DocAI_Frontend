@@ -10,7 +10,7 @@ interface SimpleLayoutProps {
 function SimpleLayout(props: SimpleLayoutProps) {
     const { children } = props;
     return (
-        <div className="h-screen">
+        <div className="h-screen relative">
             <HeadNav />
             <LeftMenu content={children} />
             {/* {children} */}

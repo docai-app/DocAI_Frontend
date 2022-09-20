@@ -84,7 +84,7 @@ function ValidateView(props: ValidateViewProps) {
             <EditLabel
                 {...{ open: openEditLabel, setOpen: setOpenEditLabel, tagTypes, newLabelName, setNewLabelName, addNewLabelHandler}}
             />
-            <div className="min-h-full bg-slate-50">
+            <div className="  bg-slate-50 min-h-screen ">
                 <header className="shadow bg-white">
                     <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">確認資料</h1>
