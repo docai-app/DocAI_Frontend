@@ -67,7 +67,7 @@ export default function LabelView(props: LabelProps) {
                                 </button>
                             </div>
                         </div> */}
-                        <div className="py-4">
+                        <div className="py-0">
                             {sortedLabels && (
                                 <>
                                     <div className='flex justify-between border-b-2 pb-2'>
@@ -88,10 +88,10 @@ export default function LabelView(props: LabelProps) {
                                         <table className='border-collapse '>
                                             <tbody>
                                                 <tr>
-                                                    <th>名稱 </th>
-                                                    <th>分類類型</th>
-                                                    <th>功能</th>
-                                                    <th></th>
+                                                    <th className='text-left p-4'>名稱 </th>
+                                                    <th className='text-left'>分類類型</th>
+                                                    <th className='text-left'>功能</th>
+                                                    <th className='text-left'></th>
                                                 </tr>
                                                 {sortedLabels.map(
                                                     (label: any, index: number) => (

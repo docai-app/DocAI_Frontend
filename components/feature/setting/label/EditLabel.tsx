@@ -6,6 +6,7 @@ import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import React from 'react';
+import { PencilAltIcon } from '@heroicons/react/solid';
 
 interface EditLabelProps {
     open: boolean;
@@ -70,19 +71,21 @@ export default function EditLabel(props: EditLabelProps) {
                     >
                         <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div className="sm:flex sm:items-start">
-                                {/* <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
-                                    <InformationCircleIcon
-                                        className="h-6 w-6 text-sky-600"
-                                        aria-hidden="true"
-                                    />
-                                </div> */}
-                                <div className="w-full mt-3 text-center sm:mt-0 sm:ml-4 sm:text-center">
-                                    <Dialog.Title
-                                        as="h3"
-                                        className="text-lg leading-6 font-medium text-gray-900"
-                                    >
-                                        {tag ? '編輯標籤' : '新增標籤'}
-                                    </Dialog.Title>
+                                <div className="w-full  mt-3 text-center sm:mt-0 sm:ml-4 sm:text-center">
+                                    <div className='flex flex-row justify-center items-center'>
+                                        <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
+                                            <PencilAltIcon
+                                                className="h-6 w-6 text-sky-600"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                        <Dialog.Title
+                                            as="h3"
+                                            className="text-lg leading-6 font-medium ml-2 text-gray-900"
+                                        >
+                                            {tag ? '編輯標籤' : '新增標籤'}
+                                        </Dialog.Title>
+                                    </div>
                                     <div className="mt-4">
                                         <div className="w-full flex flex-row">
                                             <div className='w-1/4 flex justify-left items-center '>
@@ -170,14 +173,14 @@ export default function EditLabel(props: EditLabelProps) {
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => confirmDocument()}
+                                    onClick={() => {setFeature('');confirmDocument()}}
                                 >
                                     確認
                                 </button>
                                 <button
                                     type="button"
                                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                    onClick={() => setOpen(false)}
+                                    onClick={() => {setFeature('');setOpen(false)}}
                                     ref={cancelButtonRef}
                                 >
                                     取消

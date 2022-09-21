@@ -9,12 +9,15 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
     const [readOnly, setReadOnly] = useState(true);
     const inputRef = React.createRef<HTMLInputElement>();
     return (
-        <>
+        <>  
+            <tr>
+                <td className='pt-1'></td>
+            </tr>
             <tr key={label?.id} className='rounded-md bg-white border border-gray-200' >
-                <td className=' text-center'>{label?.name}</td>
-                <td className=' text-center'>{label?.name}</td>
-                <td className=' text-center'>{label?.name}</td>
-                <td className=' text-center flex flex-row justify-center'>
+                <td className='pl-4'>{label?.name}</td>
+                <td className=''>{label?.name}</td>
+                <td className=''>{label?.name}</td>
+                <td className='flex flex-row justify-center'>
                     <a
                         className="w-10 cursor-pointer h-full items-center justify-center text-center"
                         href={`/classification/${label?.id}?name=${label?.name}`}

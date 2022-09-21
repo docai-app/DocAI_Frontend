@@ -6,6 +6,7 @@ import { ClockIcon } from '@heroicons/react/outline';
 import label from '../../setting/label';
 import Router from 'next/router';
 import PaginationView from '../../../components/common/Widget/PaginationView';
+import Link from 'next/link';
 
 interface LatestPredictionDataProps {
     prediction: any;
@@ -90,26 +91,34 @@ function LogView(props: any) {
                                                         份
                                                     </label>
                                                     {item.uploaded_count != item.ready_count && (
-                                                        <a
-                                                            className="p-2 text-sm underline text-indigo-500"
-                                                            href={'/classification/validate'}
-                                                        >
-                                                            繼續處理
-                                                        </a>
+                                                        <Link href={'/classification/validate'}>
+                                                            <a
+                                                                className="p-2 text-sm underline text-indigo-500"
+                                                            >
+                                                                繼續處理
+                                                            </a>
+                                                        </Link>
                                                     )}
                                                     {item.uploaded_count == item.ready_count && (
-                                                        <button
-                                                            className="p-2 text-sm underline text-indigo-500"
-                                                            onClick={() => {
-                                                                if (item.date)
-                                                                    Router.push({
-                                                                        pathname: '/search',
-                                                                        query: { date: item.date }
-                                                                    });
-                                                            }}
-                                                        >
-                                                            查看
-                                                        </button>
+                                                        // <button
+                                                        //     className="p-2 text-sm underline text-indigo-500"
+                                                        //     onClick={() => {
+                                                        //         if (item.date)
+                                                        //             Router.push({
+                                                        //                 pathname: '/search',
+                                                        //                 query: { date: item.date }
+                                                        //             });
+                                                        //     }}
+                                                        // >
+                                                        //     查看
+                                                        // </button>
+                                                        <Link href={'/classification/show'}>
+                                                            <a
+                                                                className="p-2 text-sm underline text-indigo-500"
+                                                            >
+                                                                查看
+                                                            </a>
+                                                        </Link>
                                                     )}
                                                 </div>
 

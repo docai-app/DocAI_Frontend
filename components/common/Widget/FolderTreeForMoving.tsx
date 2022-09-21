@@ -25,7 +25,7 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     apiSetting.Document.updateDocumentById(document_id, folder_id)
                 );
                 if (res.data?.success) {
-                    alert('移動成功');
+                    // alert('移動成功');
                     router.reload();
                 } else {
                     alert('發生錯誤');
@@ -62,7 +62,7 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >
-                <div className="fixed h-[calc(100vh)] shadow-lg right-0 top-0 bg-white w-[28rem]">
+                <div className="fixed h-[calc(100vh)] pt-10 shadow-lg right-0 top-0 bg-white w-[28rem]">
                     <div className="w-full h-full flex flex-col">
                         <h1 className="p-5 pt-10 font-bold text-3xl">選擇移動目的地</h1>
                         <div className="pr-5 overflow-auto">

@@ -19,6 +19,7 @@ interface ValidateViewProps {
     setVisable: any;
     extraData: any;
     setExtraData: any;
+    setDocuments: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -35,7 +36,8 @@ function ValidateView(props: ValidateViewProps) {
         onSubmit,
         visable,
         setVisable,
-        setExtraData
+        setExtraData,
+        setDocuments
     } = props;
     return (
         <>
@@ -118,6 +120,9 @@ function ValidateView(props: ValidateViewProps) {
                     setExtraData(data);
                     setVisable(false);
                     onSubmit(data);
+                }}
+                setDocuments={(files: any) => {
+                    setDocuments(files)
                 }}
             />
         </>
