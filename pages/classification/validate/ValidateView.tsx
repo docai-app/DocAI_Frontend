@@ -88,12 +88,12 @@ function ValidateView(props: ValidateViewProps) {
                 <header className="shadow bg-white">
                     <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">確認資料</h1>
-                        <div className=' items-center  flex  justify-center '>
+                        {/* <div className=' items-center  flex  justify-center '>
                             <label className=''>已完成 3 / 4 文檔的處理</label>
                             <Link href={'/classification/show'}>
                                 <a className='text-indigo-600 underline ml-4'>查看</a>
                             </Link>
-                        </div>
+                        </div> */}
                         <Link href={'/classification/logs'}>
                             <XIcon className=' cursor-pointer w-8 h-8'/>
                         </Link>
@@ -377,7 +377,7 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        {   tagName && tagName == '請假紙' &&
+                                        {   tagName && tagName.indexOf('請假') != -1 &&
                                             <div className=" py-4 w-full max-w-sm lg:w-96">
                                                 <p className="my-4 font-bold">
                                                     請假紙為特別分類，需特殊處理
@@ -389,10 +389,14 @@ function ValidateView(props: ValidateViewProps) {
                                                         Router.push({
                                                             pathname: '/absence/validate',
                                                             query: {
-                                                                form_url: `${_get(
+                                                                document_id: `${_get(
                                                                     latestPredictionData,
-                                                                    'prediction.document.storage_url'
+                                                                    'prediction.document.id'
                                                                 )}`,
+                                                                // form_url: `${_get(
+                                                                //     latestPredictionData,
+                                                                //     'prediction.document.storage_url'
+                                                                // )}`,
                                                                 // form_id: `${_get(
                                                                 //     latestPredictionData,
                                                                 //     'prediction.form_data.id'
@@ -436,7 +440,7 @@ function ValidateView(props: ValidateViewProps) {
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
+                            {/* <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
                                 <div className="items-center">
                                     { ['1','2','3'].map((item: any, index: number) => {
                                         return (
@@ -455,7 +459,7 @@ function ValidateView(props: ValidateViewProps) {
                                         )
                                     })}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </main>

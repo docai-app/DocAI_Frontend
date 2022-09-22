@@ -22,10 +22,10 @@ export default class Statistics {
         return requestHeader;
     }
 
-    countDocumentsStatusByDate(date: string) {
+    countDocumentsStatusByDate(date: string, page: any) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/statistics/count/documents/status/${date}?days=7`,
+            url: `/api/v1/statistics/count/documents/status/${date}?page=${page}`,
             method: 'GET'
         };
         return requestHeader;

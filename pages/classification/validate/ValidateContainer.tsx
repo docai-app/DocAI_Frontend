@@ -29,7 +29,7 @@ function ValidateContainer() {
             response: latestPredictionResponse
         },
         getAndPredictLatestUploadedDocument
-    ] = useAxios(apiSetting.Document.getAndPredictLatestUploadedDocument(), {
+    ] = useAxios(router.query.date ? apiSetting.Document.getAndPredictByDateUploadedDocument(router.query.date+"") : apiSetting.Document.getAndPredictLatestUploadedDocument(), {
         manual: true
     });
 
@@ -84,7 +84,7 @@ function ValidateContainer() {
                 }
             });
             if (res.data.success === true) {
-                alert('Document Confirmed!');
+                // alert('Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
             }
         }
@@ -113,7 +113,7 @@ function ValidateContainer() {
     const changeDocumentName = () => {
         if( latestPredictionData ){
             const created_at = moment(latestPredictionData.prediction.document.created_at).format('YYYYMMDD')
-            const tag = latestPredictionData.prediction.tag.name
+            const tag = tagName || latestPredictionData.prediction.tag.name
             const file_type = latestPredictionData.prediction.document.name.match(/.[^.]+$/)[0];
             const newName = tag + '_' + created_at + file_type
             setDocumentName(newName)
@@ -190,7 +190,6 @@ function ValidateContainer() {
     }, [showFolderByIDData]);
 
     useEffect(() => {
-        console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.prediction &&
@@ -205,7 +204,7 @@ function ValidateContainer() {
             confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
         } else if (latestPredictionData && latestPredictionData.success === false) {
             alert('沒有文件需要驗證');
-            router.push('/classification');
+            router.push('/classification/logs');
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

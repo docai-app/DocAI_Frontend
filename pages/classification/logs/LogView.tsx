@@ -90,8 +90,8 @@ function LogView(props: any) {
                                                         </label>{' '}
                                                         份
                                                     </label>
-                                                    {item.uploaded_count != item.ready_count && (
-                                                        <Link href={'/classification/validate'}>
+                                                    {item.uploaded_count != item.confirmed_count && (
+                                                        <Link href={`/classification/validate?date=${item.date}`}>
                                                             <a
                                                                 className="p-2 text-sm underline text-indigo-500"
                                                             >
@@ -99,7 +99,7 @@ function LogView(props: any) {
                                                             </a>
                                                         </Link>
                                                     )}
-                                                    {item.uploaded_count == item.ready_count && (
+                                                    {item.uploaded_count == item.confirmed_count && (
                                                         // <button
                                                         //     className="p-2 text-sm underline text-indigo-500"
                                                         //     onClick={() => {
@@ -136,7 +136,7 @@ function LogView(props: any) {
                                     }
                                 )}
                             </div>
-                            <PaginationView meta={undefined} params={undefined} pathname={"/classification/logs"} />
+                            <PaginationView meta={countDocumentsStatusByDateData?.meta}  pathname={"/classification/logs"} params={''}/>
                         </>
                     )
                 )}

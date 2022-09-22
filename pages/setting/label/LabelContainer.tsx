@@ -48,7 +48,7 @@ export default function LabelContainer() {
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
-            alert('新增成功');
+            // alert('新增成功');
             getAllLabels();
             setNewLabelName('');
         } else if (addNewLabelData && !addNewLabelData.success) {
@@ -58,7 +58,7 @@ export default function LabelContainer() {
 
     useEffect(() => {
         if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
-            alert('更新成功');
+            // alert('更新成功');
             getAllLabels();
         } else if (updateLabelNameByIdData && !updateLabelNameByIdData.success) {
             alert(`更新失敗！原因：${updateLabelNameByIdData.errors.name[0]}`);

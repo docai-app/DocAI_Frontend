@@ -15,8 +15,8 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
             </tr>
             <tr key={label?.id} className='rounded-md bg-white border border-gray-200' >
                 <td className='pl-4'>{label?.name}</td>
-                <td className=''>{label?.name}</td>
-                <td className=''>{label?.name}</td>
+                <td className=''>{'普通文檔'}</td>
+                <td className=''>{'查閱'}</td>
                 <td className='flex flex-row justify-center'>
                     <a
                         className="w-10 cursor-pointer h-full items-center justify-center text-center"
