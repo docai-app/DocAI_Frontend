@@ -20,16 +20,25 @@ interface EditLabelProps {
 }
 
 export default function EditLabel(props: EditLabelProps) {
-    const { open, setOpen, tag, tagTypes, newLabelName, addNewLabelHandler, setNewLabelName, updateLabelNameByIdHandler  } = props;
+    const {
+        open,
+        setOpen,
+        tag,
+        tagTypes,
+        newLabelName,
+        addNewLabelHandler,
+        setNewLabelName,
+        updateLabelNameByIdHandler
+    } = props;
     const cancelButtonRef = useRef(null);
-    const [feature, setFeature] = useState('')
+    const [feature, setFeature] = useState('');
     const inputRef = React.createRef<HTMLInputElement>();
     const confirmDocument = () => {
         setOpen(false);
-        if( tag ){
-            updateLabelNameByIdHandler(tag.id, inputRef.current?.value)
-        }else{
-            addNewLabelHandler()
+        if (tag) {
+            updateLabelNameByIdHandler(tag.id, inputRef.current?.value);
+        } else {
+            addNewLabelHandler();
         }
     };
     return (
@@ -72,7 +81,7 @@ export default function EditLabel(props: EditLabelProps) {
                         <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div className="sm:flex sm:items-start">
                                 <div className="w-full  mt-3 text-center sm:mt-0 sm:ml-4 sm:text-center">
-                                    <div className='flex flex-row justify-center items-center'>
+                                    <div className="flex flex-row justify-center items-center">
                                         <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
                                             <PencilAltIcon
                                                 className="h-6 w-6 text-sky-600"
@@ -88,7 +97,7 @@ export default function EditLabel(props: EditLabelProps) {
                                     </div>
                                     <div className="mt-4">
                                         <div className="w-full flex flex-row">
-                                            <div className='w-1/4 flex justify-left items-center '>
+                                            <div className="w-1/4 flex justify-left items-center ">
                                                 <label
                                                     htmlFor="new-type"
                                                     className="block text-sm font-medium text-gray-700"
@@ -96,7 +105,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                     名稱:
                                                 </label>
                                             </div>
-                                            <div className='flex w-3/4'>
+                                            <div className="flex w-3/4">
                                                 <input
                                                     ref={inputRef}
                                                     id="type"
@@ -105,13 +114,13 @@ export default function EditLabel(props: EditLabelProps) {
                                                     defaultValue={tag && tag.name}
                                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                     onChange={async (e) => {
-                                                        setNewLabelName(e.target.value)
+                                                        setNewLabelName(e.target.value);
                                                     }}
                                                 />
                                             </div>
                                         </div>
                                         <div className="w-full flex flex-row mt-2">
-                                            <div className='w-1/4 flex justify-left items-center'>
+                                            <div className="w-1/4 flex justify-left items-center">
                                                 <label
                                                     htmlFor="new-type"
                                                     className="block text-sm font-medium text-gray-700"
@@ -123,10 +132,14 @@ export default function EditLabel(props: EditLabelProps) {
                                                 <select
                                                     id="new-type"
                                                     name="new-type"
-                                                    defaultValue={""}
+                                                    defaultValue={''}
                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                     onChange={async (e) => {
-                                                        setFeature(_find(tagTypes, { type: e.target.value }).feature)
+                                                        setFeature(
+                                                            _find(tagTypes, {
+                                                                type: e.target.value
+                                                            }).feature
+                                                        );
                                                         // confirmDocumentFormik.setFieldValue(
                                                         //     'tag_id',
                                                         //     e.target.value
@@ -136,12 +149,12 @@ export default function EditLabel(props: EditLabelProps) {
                                                     <option value="" disabled hidden>
                                                         請選擇批量文件的類型
                                                     </option>
-                                                    { tagTypes?.map((item: any) => {
+                                                    {tagTypes?.map((item: any) => {
                                                         return (
                                                             <option key={item.id} value={item.type}>
                                                                 {item.label}
                                                             </option>
-                                                        )
+                                                        );
                                                     })}
                                                     {/* {_map(_get(allLabelsData, 'tags'), (item) => {
                                                         return (
@@ -154,7 +167,7 @@ export default function EditLabel(props: EditLabelProps) {
                                             </div>
                                         </div>
                                         <div className="w-full flex flex-row mt-2">
-                                            <div className='w-1/4 flex justify-left items-center'>
+                                            <div className="w-1/4 flex justify-left items-center">
                                                 <label
                                                     htmlFor="new-type"
                                                     className="block  text-sm font-medium text-gray-700"
@@ -173,14 +186,20 @@ export default function EditLabel(props: EditLabelProps) {
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    onClick={() => {setFeature('');confirmDocument()}}
+                                    onClick={() => {
+                                        setFeature('');
+                                        confirmDocument();
+                                    }}
                                 >
                                     確認
                                 </button>
                                 <button
                                     type="button"
                                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                    onClick={() => {setFeature('');setOpen(false)}}
+                                    onClick={() => {
+                                        setFeature('');
+                                        setOpen(false);
+                                    }}
                                     ref={cancelButtonRef}
                                 >
                                     取消

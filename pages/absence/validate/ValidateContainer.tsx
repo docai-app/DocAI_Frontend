@@ -91,10 +91,10 @@ function ValidateContainer() {
     });
 
     const [
-        { 
+        {
             data: getAbsenceFormRecognitionByIdData,
-            loading: getAbsenceFormRecognitionByIdDataLoading,
-        }, 
+            loading: getAbsenceFormRecognitionByIdDataLoading
+        },
         getAbsenceFormRecognitionById
     ] = useAxios('', {
         manual: true
@@ -114,10 +114,13 @@ function ValidateContainer() {
     }, [router]);
 
     useEffect(() => {
-        if( getAbsenceFormRecognitionByIdData && getAbsenceFormRecognitionByIdData.success === true ){
+        if (
+            getAbsenceFormRecognitionByIdData &&
+            getAbsenceFormRecognitionByIdData.success === true
+        ) {
             setFormUrl(getAbsenceFormRecognitionByIdData.document.storage_url);
             setResult(getAbsenceFormRecognitionByIdData.form_data.data);
-            setFormId(getAbsenceFormRecognitionByIdData.form_data.id)
+            setFormId(getAbsenceFormRecognitionByIdData.form_data.id);
         }
     }, [getAbsenceFormRecognitionByIdData]);
 
@@ -139,7 +142,7 @@ function ValidateContainer() {
         if (updateFormDataData && updateFormDataData.success === true) {
             alert('請假表提交成功！');
             // router.push('/');
-            router.back()
+            router.back();
         }
     }, [router, updateFormDataData]);
 

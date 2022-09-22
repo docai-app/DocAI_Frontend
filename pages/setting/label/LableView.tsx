@@ -31,7 +31,7 @@ export default function LabelView(props: LabelProps) {
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
     const [open, setOpen] = useState(false);
-    const [tag, setTag] = useState('')
+    const [tag, setTag] = useState('');
     useEffect(() => {
         if (getAllLabelsData)
             setSortedLabels(
@@ -41,9 +41,18 @@ export default function LabelView(props: LabelProps) {
     return (
         <>
             <EditLabel
-                {...{ open, setOpen, tag, tagTypes, newLabelName, setNewLabelName, addNewLabelHandler, updateLabelNameByIdHandler}}
+                {...{
+                    open,
+                    setOpen,
+                    tag,
+                    tagTypes,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler,
+                    updateLabelNameByIdHandler
+                }}
             />
-       
+
             <div className="min-h-full bg-slate-50">
                 <main>
                     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -70,13 +79,13 @@ export default function LabelView(props: LabelProps) {
                         <div className="py-0">
                             {sortedLabels && (
                                 <>
-                                    <div className='flex justify-between border-b-2 pb-2'>
+                                    <div className="flex justify-between border-b-2 pb-2">
                                         <h2 className="text-2xl font-bold">標籤管理</h2>
                                         <button
                                             className="px-4 py-2 bg-indigo-600  hover:bg-indigo-700 leading-none text-white rounded-md"
-                                            onClick={()=> {
-                                                setOpen(true)
-                                                setTag('')
+                                            onClick={() => {
+                                                setOpen(true);
+                                                setTag('');
                                             }}
                                         >
                                             +新增
@@ -85,29 +94,27 @@ export default function LabelView(props: LabelProps) {
                                         <div className="text-slate-500">修改現有的標籤的名稱</div> */}
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
-                                        <table className='border-collapse '>
+                                        <table className="border-collapse ">
                                             <tbody>
                                                 <tr>
-                                                    <th className='text-left p-4'>名稱 </th>
-                                                    <th className='text-left'>分類類型</th>
-                                                    <th className='text-left'>功能</th>
-                                                    <th className='text-left'></th>
+                                                    <th className="text-left p-4">名稱 </th>
+                                                    <th className="text-left">分類類型</th>
+                                                    <th className="text-left">功能</th>
+                                                    <th className="text-left"></th>
                                                 </tr>
-                                                {sortedLabels.map(
-                                                    (label: any, index: number) => (
-                                                        <LabelTag
-                                                            key={index}
-                                                            label={label}
-                                                            onEdit={(tag: any) => {
-                                                                setTag(tag)
-                                                                setOpen(true)
-                                                            }}
-                                                            updateLabelNameByIdHandler={
-                                                                updateLabelNameByIdHandler
-                                                            }
-                                                        />
-                                                    )
-                                                )}
+                                                {sortedLabels.map((label: any, index: number) => (
+                                                    <LabelTag
+                                                        key={index}
+                                                        label={label}
+                                                        onEdit={(tag: any) => {
+                                                            setTag(tag);
+                                                            setOpen(true);
+                                                        }}
+                                                        updateLabelNameByIdHandler={
+                                                            updateLabelNameByIdHandler
+                                                        }
+                                                    />
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>

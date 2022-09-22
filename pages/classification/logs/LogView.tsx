@@ -90,16 +90,18 @@ function LogView(props: any) {
                                                         </label>{' '}
                                                         份
                                                     </label>
-                                                    {item.uploaded_count != item.confirmed_count && (
-                                                        <Link href={`/classification/validate?date=${item.date}`}>
-                                                            <a
-                                                                className="p-2 text-sm underline text-indigo-500"
-                                                            >
+                                                    {item.uploaded_count !=
+                                                        item.confirmed_count && (
+                                                        <Link
+                                                            href={`/classification/validate?date=${item.date}`}
+                                                        >
+                                                            <a className="p-2 text-sm underline text-indigo-500">
                                                                 繼續處理
                                                             </a>
                                                         </Link>
                                                     )}
-                                                    {item.uploaded_count == item.confirmed_count && (
+                                                    {item.uploaded_count ==
+                                                        item.confirmed_count && (
                                                         // <button
                                                         //     className="p-2 text-sm underline text-indigo-500"
                                                         //     onClick={() => {
@@ -113,9 +115,7 @@ function LogView(props: any) {
                                                         //     查看
                                                         // </button>
                                                         <Link href={'/classification/show'}>
-                                                            <a
-                                                                className="p-2 text-sm underline text-indigo-500"
-                                                            >
+                                                            <a className="p-2 text-sm underline text-indigo-500">
                                                                 查看
                                                             </a>
                                                         </Link>
@@ -136,7 +136,11 @@ function LogView(props: any) {
                                     }
                                 )}
                             </div>
-                            <PaginationView meta={countDocumentsStatusByDateData?.meta}  pathname={"/classification/logs"} params={''}/>
+                            <PaginationView
+                                meta={countDocumentsStatusByDateData?.meta}
+                                pathname={'/classification/logs'}
+                                params={''}
+                            />
                         </>
                     )
                 )}

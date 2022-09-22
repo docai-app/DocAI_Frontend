@@ -18,8 +18,8 @@ function ShowContainer() {
         { id: null, name: 'Root' }
     ]);
     const [documentName, setDocumentName] = useState('');
-    const [isChangeName, setIsChangeName] = useState(false)
-    const [tagName, setTagName] = useState('')
+    const [isChangeName, setIsChangeName] = useState(false);
+    const [tagName, setTagName] = useState('');
     const [visable, setVisable] = useState(false);
     const [
         {
@@ -111,29 +111,30 @@ function ShowContainer() {
     });
 
     const changeDocumentName = () => {
-        if( latestPredictionData ){
-            const created_at = moment(latestPredictionData.prediction.document.created_at).format('YYYYMMDD')
-            const tag = latestPredictionData.prediction.tag.name
+        if (latestPredictionData) {
+            const created_at = moment(latestPredictionData.prediction.document.created_at).format(
+                'YYYYMMDD'
+            );
+            const tag = latestPredictionData.prediction.tag.name;
             const file_type = latestPredictionData.prediction.document.name.match(/.[^.]+$/)[0];
-            const newName = tag + '_' + created_at + file_type
-            setDocumentName(newName)
-            setIsChangeName(true)
-            
+            const newName = tag + '_' + created_at + file_type;
+            setDocumentName(newName);
+            setIsChangeName(true);
         }
-    }
+    };
 
     const recoverDocumentName = () => {
-        if( latestPredictionData ){
-            setDocumentName(latestPredictionData.prediction.document.name)
-            setIsChangeName(false)
+        if (latestPredictionData) {
+            setDocumentName(latestPredictionData.prediction.document.name);
+            setIsChangeName(false);
         }
-    }
+    };
 
     const tagTypes = [
         { id: '1', type: 'a', label: '普通文檔', feature: '查閱' },
         { id: '2', type: 'b', label: '請假紙審批', feature: '查閱,請假紙專屬OCR,審批' },
         { id: '3', type: 'c', label: '非OCR審批', feature: '查閱,審批' }
-    ]
+    ];
 
     const [newLabelName, setNewLabelName] = useState('');
     const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
@@ -149,7 +150,7 @@ function ShowContainer() {
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
             alert('新增成功');
-            setTagName(newLabelName)
+            setTagName(newLabelName);
             setNewLabelName('');
             // confirmDocumentFormik.setFieldValue(
             //     'tag_id',
@@ -196,8 +197,8 @@ function ShowContainer() {
             latestPredictionData.prediction &&
             latestPredictionData.success == true
         ) {
-            setDocumentName(latestPredictionData.prediction.document.name)
-            setTagName(latestPredictionData.prediction.tag.name)
+            setDocumentName(latestPredictionData.prediction.document.name);
+            setTagName(latestPredictionData.prediction.tag.name);
             confirmDocumentFormik.setFieldValue(
                 'document_id',
                 latestPredictionData.prediction.document.id
@@ -233,7 +234,7 @@ function ShowContainer() {
                     tagName,
                     setTagName,
                     tagTypes,
-                    newLabelName, 
+                    newLabelName,
                     setNewLabelName,
                     addNewLabelHandler
                 }}

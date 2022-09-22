@@ -45,7 +45,7 @@ function HeadNav() {
         router.reload();
     }, [router]);
 
-    const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getTagByTagging(), {
+    const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getAllTags(), {
         manual: false
     });
 

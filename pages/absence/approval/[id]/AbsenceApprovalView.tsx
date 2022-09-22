@@ -122,7 +122,7 @@ function ValidateView(props: ValidateViewProps) {
                     onSubmit(data);
                 }}
                 setDocuments={(files: any) => {
-                    setDocuments(files)
+                    setDocuments(files);
                 }}
             />
         </>

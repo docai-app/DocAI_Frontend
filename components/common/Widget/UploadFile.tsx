@@ -43,17 +43,11 @@ export default function UploadFile(props: UploadFileProps) {
     }, [showFolderByIDData]);
 
     useEffect(() => {
-        if (
-            movingDest?.id
-        ) {
-            showFolderByID(
-                apiSetting.Folders.showFolderByID(
-                    movingDest?.id
-                )
-            );
+        if (movingDest?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
         }
     }, [movingDest, showFolderByID]);
-    
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         // Set the selected maximum file limit to 5 files:
         if (event.target.files && event.target.files.length > 5) {
@@ -190,25 +184,14 @@ export default function UploadFile(props: UploadFileProps) {
                             <div className="flex flex-row">
                                 <FolderIcon className="h-6 text-blue-200" />
                                 {documentPath &&
-                                    documentPath
-                                        .slice(
-                                            0,
-                                            documentPath.length - 1
-                                        )
-                                        .map((folder) => (
-                                            <div
-                                                key={folder.id}
-                                                className="flex flex-row items-center"
-                                            >
-                                                {folder.name}{' '}
-                                                <ChevronRightIcon className="text-gray-400 text-sm h-5" />
-                                            </div>
-                                        ))}
+                                    documentPath.slice(0, documentPath.length - 1).map((folder) => (
+                                        <div key={folder.id} className="flex flex-row items-center">
+                                            {folder.name}{' '}
+                                            <ChevronRightIcon className="text-gray-400 text-sm h-5" />
+                                        </div>
+                                    ))}
                                 <div className="flex flex-row items-center">
-                                    {documentPath &&
-                                        documentPath[
-                                            documentPath.length - 1
-                                        ].name}
+                                    {documentPath && documentPath[documentPath.length - 1].name}
                                 </div>
 
                                 {/* <FolderIcon className="h-6 text-blue-200" />

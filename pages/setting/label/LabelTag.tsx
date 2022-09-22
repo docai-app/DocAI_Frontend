@@ -9,15 +9,15 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
     const [readOnly, setReadOnly] = useState(true);
     const inputRef = React.createRef<HTMLInputElement>();
     return (
-        <>  
+        <>
             <tr>
-                <td className='pt-1'></td>
+                <td className="pt-1"></td>
             </tr>
-            <tr key={label?.id} className='rounded-md bg-white border border-gray-200' >
-                <td className='pl-4'>{label?.name}</td>
-                <td className=''>{'普通文檔'}</td>
-                <td className=''>{'查閱'}</td>
-                <td className='flex flex-row justify-center'>
+            <tr key={label?.id} className="rounded-md bg-white border border-gray-200">
+                <td className="pl-4">{label?.name}</td>
+                <td className="">{'普通文檔'}</td>
+                <td className="">{'查閱'}</td>
+                <td className="flex flex-row justify-center">
                     <a
                         className="w-10 cursor-pointer h-full items-center justify-center text-center"
                         href={`/classification/${label?.id}?name=${label?.name}`}
@@ -27,7 +27,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                     <a
                         className=" cursor-pointer p-3 leading-none text-indigo-500 "
                         onClick={() => {
-                            onEdit(label)
+                            onEdit(label);
                             // if (inputRef.current) inputRef.current.focus();
                             // setReadOnly(false);
                         }}

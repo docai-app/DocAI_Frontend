@@ -35,9 +35,9 @@ interface ValidateViewProps {
     tagName: string;
     setTagName: any;
     tagTypes: any;
-    newLabelName: string, 
-    setNewLabelName: any, 
-    addNewLabelHandler: any
+    newLabelName: string;
+    setNewLabelName: any;
+    addNewLabelHandler: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -61,15 +61,15 @@ function ValidateView(props: ValidateViewProps) {
         tagName,
         setTagName,
         tagTypes,
-        newLabelName, 
-        setNewLabelName, 
+        newLabelName,
+        setNewLabelName,
         addNewLabelHandler
     } = props;
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     // function handleChange(e: any) {
     //     console.log('latestPredictionData',latestPredictionData);
-        
+
     //     console.log(e.target.value);
     //     setDocumentName(e.target.value)
     // }
@@ -79,10 +79,25 @@ function ValidateView(props: ValidateViewProps) {
     return (
         <>
             <AmendLabel
-                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik, setTagName, setOpenEditLabel }}
+                {...{
+                    open,
+                    setOpen,
+                    allLabelsData,
+                    confirmDocumentFormik,
+                    addNewTagFormik,
+                    setTagName,
+                    setOpenEditLabel
+                }}
             />
             <EditLabel
-                {...{ open: openEditLabel, setOpen: setOpenEditLabel, tagTypes, newLabelName, setNewLabelName, addNewLabelHandler}}
+                {...{
+                    open: openEditLabel,
+                    setOpen: setOpenEditLabel,
+                    tagTypes,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler
+                }}
             />
             <div className="  bg-slate-50 min-h-screen ">
                 <header className="shadow bg-white">
@@ -95,7 +110,7 @@ function ValidateView(props: ValidateViewProps) {
                             </Link>
                         </div> */}
                         <Link href={'/classification/logs'}>
-                            <XIcon className=' cursor-pointer w-8 h-8'/>
+                            <XIcon className=" cursor-pointer w-8 h-8" />
                         </Link>
                     </div>
                 </header>
@@ -308,7 +323,9 @@ function ValidateView(props: ValidateViewProps) {
                                                                 'prediction.document.name'
                                                             )}
                                                             value={documentName}
-                                                            onChange={(e) => setDocumentName(e.target.value)}
+                                                            onChange={(e) =>
+                                                                setDocumentName(e.target.value)
+                                                            }
                                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                         />
                                                     </div>
@@ -377,7 +394,7 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        {   tagName && tagName.indexOf('請假') != -1 &&
+                                        {tagName && tagName.indexOf('請假') != -1 && (
                                             <div className=" py-4 w-full max-w-sm lg:w-96">
                                                 <p className="my-4 font-bold">
                                                     請假紙為特別分類，需特殊處理
@@ -392,7 +409,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                 document_id: `${_get(
                                                                     latestPredictionData,
                                                                     'prediction.document.id'
-                                                                )}`,
+                                                                )}`
                                                                 // form_url: `${_get(
                                                                 //     latestPredictionData,
                                                                 //     'prediction.document.storage_url'
@@ -413,7 +430,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     處理
                                                 </button>
                                             </div>
-                                        }
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +440,9 @@ function ValidateView(props: ValidateViewProps) {
                                         type="button"
                                         className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                         onClick={() => {
-                                            isChangeName ? recoverDocumentName() : changeDocumentName()
+                                            isChangeName
+                                                ? recoverDocumentName()
+                                                : changeDocumentName();
                                         }}
                                     >
                                         {isChangeName ? '還原名稱' : '智能改名'}

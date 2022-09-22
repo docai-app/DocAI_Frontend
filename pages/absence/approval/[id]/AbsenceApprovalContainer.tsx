@@ -129,13 +129,13 @@ function AbsenceApprovalContainer() {
     const onSubmit = useCallback(
         async (formData: any) => {
             const { approval, signature, remark } = formData;
-            console.log("fuck",formData);
+            console.log('fuck', formData);
             // const formData2 = new FormData();
             // for (const i of documents) {
             //     formData2.append('document[]', i);
             // }
             // console.log("fo", formData2);
-            
+
             // if (router.query.id) {
             //     updateFormApprovalStatus({
             //         data: {
@@ -145,7 +145,7 @@ function AbsenceApprovalContainer() {
             //         }
             //     });
             // }
-            setDocuments([])
+            setDocuments([]);
         },
         [router, updateFormApprovalStatus]
     );

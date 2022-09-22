@@ -70,7 +70,7 @@ export default function SearchView(props: SearchViewProps) {
                 <p className=" text-black text-xl font-bold">
                     與 "
                     {searchDocumentFormik?.values?.content || searchDocumentFormik?.values?.date}"
-                    相關的文檔共有 {documents?.length} 份
+                    相關的文檔共有 {meta?.total_count} 份
                 </p>
             </div>
             <div className="px-16">

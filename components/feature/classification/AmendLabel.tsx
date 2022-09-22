@@ -17,22 +17,27 @@ interface AmendLabelProps {
 }
 
 export default function AmendLabel(props: AmendLabelProps) {
-    const { open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik, setTagName, setOpenEditLabel } = props;
+    const {
+        open,
+        setOpen,
+        allLabelsData,
+        confirmDocumentFormik,
+        addNewTagFormik,
+        setTagName,
+        setOpenEditLabel
+    } = props;
     const cancelButtonRef = useRef(null);
-    const [tag_id, setTagId] = useState('')
+    const [tag_id, setTagId] = useState('');
     const confirmDocument = () => {
         setOpen(false);
         // confirmDocumentFormik.handleSubmit();
-        confirmDocumentFormik.setFieldValue(
-            'tag_id',
-            tag_id
-        );
-        setTagName(_find(_get(allLabelsData, 'tags'), { id: tag_id }).name)
+        confirmDocumentFormik.setFieldValue('tag_id', tag_id);
+        setTagName(_find(_get(allLabelsData, 'tags'), { id: tag_id }).name);
     };
     const addNewTag = () => {
         // addNewTagFormik.handleSubmit();
-        setOpenEditLabel(true)
-        setOpen(false)
+        setOpenEditLabel(true);
+        setOpen(false);
     };
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -98,10 +103,10 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                 <select
                                                     id="new-type"
                                                     name="new-type"
-                                                    defaultValue={""}
+                                                    defaultValue={''}
                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                     onChange={async (e) => {
-                                                        setTagId(e.target.value)
+                                                        setTagId(e.target.value);
                                                         // confirmDocumentFormik.setFieldValue(
                                                         //     'tag_id',
                                                         //     e.target.value
@@ -113,7 +118,7 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                     </option>
                                                     {_map(_get(allLabelsData, 'tags'), (item) => {
                                                         return (
-                                                            <option key={item.id} value={item.id} >
+                                                            <option key={item.id} value={item.id}>
                                                                 {item.name}
                                                             </option>
                                                         );

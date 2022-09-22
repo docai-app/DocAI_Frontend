@@ -12,11 +12,11 @@ export default function InputRemarkModal(props: any) {
         signature: '',
         remark: ''
     });
-    const [myFile, setMyFile] = useState<any>()
+    const [myFile, setMyFile] = useState<any>();
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             props.setDocuments(event.target.files);
-            setMyFile(event.target.files[0])
+            setMyFile(event.target.files[0]);
         }
     };
     return (
@@ -65,7 +65,7 @@ export default function InputRemarkModal(props: any) {
                 } */}
 
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <div className='flex flex-row justify-center items-center'>
+                                    <div className="flex flex-row justify-center items-center">
                                         <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                                             <EyeIcon
                                                 className="h-6 w-6 text-blue-600"
@@ -76,7 +76,6 @@ export default function InputRemarkModal(props: any) {
                                             as="h3"
                                             className="flex flex-row ml-2 text-md leading-6 font-medium text-gray-900"
                                         >
-                                            
                                             請填寫資料審批
                                         </Dialog.Title>
                                     </div>
@@ -132,22 +131,22 @@ export default function InputRemarkModal(props: any) {
                                     ></input>
                                 </div>
                             </div>
-                            <div className='mt-4 w-full items-center justify-center flex'>
-                                { myFile && <img src={URL.createObjectURL(myFile)} className='h-20'/>}
-                                <label
-                                    className="cursor-pointer underline ml-4 bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-                                >
+                            <div className="mt-4 w-full items-center justify-center flex">
+                                {myFile && (
+                                    <img src={URL.createObjectURL(myFile)} className="h-20" />
+                                )}
+                                <label className="cursor-pointer underline ml-4 bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
                                     <span>上傳簽名圖片</span>
-                                    <input  
-                                        name="file-upload" 
-                                        type="file" 
-                                        className="sr-only"   
+                                    <input
+                                        name="file-upload"
+                                        type="file"
+                                        className="sr-only"
                                         accept="image/*"
                                         onChange={(e) => {
                                             handleChange(e);
                                         }}
                                         ref={fileInput}
-                                        />
+                                    />
                                 </label>
                             </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
@@ -160,7 +159,7 @@ export default function InputRemarkModal(props: any) {
                                             ...data,
                                             signature: '',
                                             remark: ''
-                                        })
+                                        });
                                     }}
                                 >
                                     {props.confirmText || '確認'}
@@ -170,12 +169,12 @@ export default function InputRemarkModal(props: any) {
                                     type="button"
                                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:white sm:mt-0 sm:w-auto sm:text-sm"
                                     onClick={() => {
-                                        props.cancelClick()
+                                        props.cancelClick();
                                         setData({
                                             ...data,
                                             signature: '',
                                             remark: ''
-                                        })
+                                        });
                                     }}
                                     ref={cancelButtonRef}
                                 >

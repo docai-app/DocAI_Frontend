@@ -35,9 +35,9 @@ interface ShowViewProps {
     tagName: string;
     setTagName: any;
     tagTypes: any;
-    newLabelName: string, 
-    setNewLabelName: any, 
-    addNewLabelHandler: any
+    newLabelName: string;
+    setNewLabelName: any;
+    addNewLabelHandler: any;
 }
 
 function ValidateView(props: ShowViewProps) {
@@ -61,15 +61,15 @@ function ValidateView(props: ShowViewProps) {
         tagName,
         setTagName,
         tagTypes,
-        newLabelName, 
-        setNewLabelName, 
+        newLabelName,
+        setNewLabelName,
         addNewLabelHandler
     } = props;
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     // function handleChange(e: any) {
     //     console.log('latestPredictionData',latestPredictionData);
-        
+
     //     console.log(e.target.value);
     //     setDocumentName(e.target.value)
     // }
@@ -79,17 +79,32 @@ function ValidateView(props: ShowViewProps) {
     return (
         <>
             <AmendLabel
-                {...{ open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik, setTagName, setOpenEditLabel }}
+                {...{
+                    open,
+                    setOpen,
+                    allLabelsData,
+                    confirmDocumentFormik,
+                    addNewTagFormik,
+                    setTagName,
+                    setOpenEditLabel
+                }}
             />
             <EditLabel
-                {...{ open: openEditLabel, setOpen: setOpenEditLabel, tagTypes, newLabelName, setNewLabelName, addNewLabelHandler}}
+                {...{
+                    open: openEditLabel,
+                    setOpen: setOpenEditLabel,
+                    tagTypes,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler
+                }}
             />
             <div className="  bg-slate-50 min-h-screen ">
                 <header className="shadow bg-white">
                     <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">查看文檔</h1>
                         <Link href={'/classification/logs'}>
-                            <XIcon className=' cursor-pointer w-8 h-8'/>
+                            <XIcon className=" cursor-pointer w-8 h-8" />
                         </Link>
                     </div>
                 </header>
@@ -272,14 +287,15 @@ function ValidateView(props: ShowViewProps) {
                                         type="button"
                                         className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
-                                            confirmDocumentFormik.handleSubmit();
+                                            // confirmDocumentFormik.handleSubmit();
+                                            alert('未做');
                                         }}
                                     >
                                         編輯
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
+                            {/* <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
                                 <div className="items-center">
                                     { ['1','2','3'].map((item: any, index: number) => {
                                         return (
@@ -298,7 +314,7 @@ function ValidateView(props: ShowViewProps) {
                                         )
                                     })}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </main>

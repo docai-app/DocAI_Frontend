@@ -69,4 +69,16 @@ export default class Absence {
         };
         return requestHeader;
     }
+
+    updateDocumentNameById(document_id: string, name: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/${document_id}`,
+            method: 'PUT',
+            data: {
+                name: name
+            }
+        };
+        return requestHeader;
+    }
 }
