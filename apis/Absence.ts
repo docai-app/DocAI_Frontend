@@ -34,4 +34,13 @@ export default class Absence {
         };
         return requestHeader;
     }
+
+    getAbsenceFormRecognitionByID(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/absence/recognition/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

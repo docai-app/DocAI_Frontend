@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import ValidateView from './ValidateView';
+import ValidateView from './ShowView';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useFormik } from 'formik';
@@ -10,7 +10,7 @@ import moment from 'moment';
 
 const apiSetting = new Api();
 
-function ValidateContainer() {
+function ShowContainer() {
     const router = useRouter();
     const [mode, setMode] = useState<'view' | 'move'>('view');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
@@ -29,14 +29,9 @@ function ValidateContainer() {
             response: latestPredictionResponse
         },
         getAndPredictLatestUploadedDocument
-    ] = useAxios(
-        router.query.date
-            ? apiSetting.Document.getAndPredictByDateUploadedDocument(router.query.date + '')
-            : apiSetting.Document.getAndPredictLatestUploadedDocument(),
-        {
-            manual: true
-        }
-    );
+    ] = useAxios(apiSetting.Document.getAndPredictLatestUploadedDocument(), {
+        manual: true
+    });
 
     const [
         {
@@ -75,11 +70,6 @@ function ValidateContainer() {
     const [{ data: showFolderAncestorsData }, showFolderAncestors] = useAxios({}, { manual: true });
     const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
 
-    const [{ data: updateDocumentNameByIdData }, updateDocumentNameById] = useAxios(
-        {},
-        { manual: true }
-    );
-
     const confirmDocumentFormik = useFormik({
         initialValues: {
             document_id: null,
@@ -94,7 +84,7 @@ function ValidateContainer() {
                 }
             });
             if (res.data.success === true) {
-                // alert('Document Confirmed!');
+                alert('Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
             }
         }
@@ -125,18 +115,11 @@ function ValidateContainer() {
             const created_at = moment(latestPredictionData.prediction.document.created_at).format(
                 'YYYYMMDD'
             );
-            const tag = tagName || latestPredictionData.prediction.tag.name;
+            const tag = latestPredictionData.prediction.tag.name;
             const file_type = latestPredictionData.prediction.document.name.match(/.[^.]+$/)[0];
             const newName = tag + '_' + created_at + file_type;
             setDocumentName(newName);
-            setIsChangeName(false);
-
-            updateDocumentNameById(
-                apiSetting.Document.updateDocumentNameById(
-                    latestPredictionData.prediction.document.id,
-                    newName
-                )
-            );
+            setIsChangeName(true);
         }
     };
 
@@ -160,7 +143,7 @@ function ValidateContainer() {
     );
 
     const addNewLabelHandler = useCallback(async () => {
-        addNewLabel({ data: { name: newLabelName } });
+        // addNewLabel({ data: { name: newLabelName } });
         // console.log('newLabelName',newLabelName);
     }, [addNewLabel, newLabelName]);
 
@@ -169,8 +152,10 @@ function ValidateContainer() {
             alert('新增成功');
             setTagName(newLabelName);
             setNewLabelName('');
-            confirmDocumentFormik.setFieldValue('tag_id', addNewLabelData.tag.id);
-            getAllTags();
+            // confirmDocumentFormik.setFieldValue(
+            //     'tag_id',
+            //     newLabelName
+            // );
         } else if (addNewLabelData && !addNewLabelData.success) {
             alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
         }
@@ -206,12 +191,7 @@ function ValidateContainer() {
     }, [showFolderByIDData]);
 
     useEffect(() => {
-        if (updateDocumentNameByIdData?.success) {
-            alert('改名成功');
-        }
-    }, [updateDocumentNameByIdData]);
-
-    useEffect(() => {
+        console.log(latestPredictionData);
         if (
             latestPredictionData &&
             latestPredictionData.prediction &&
@@ -226,7 +206,7 @@ function ValidateContainer() {
             confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
         } else if (latestPredictionData && latestPredictionData.success === false) {
             alert('沒有文件需要驗證');
-            router.push('/classification/logs');
+            router.push('/classification');
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -263,4 +243,4 @@ function ValidateContainer() {
     );
 }
 
-export default ValidateContainer;
+export default ShowContainer;

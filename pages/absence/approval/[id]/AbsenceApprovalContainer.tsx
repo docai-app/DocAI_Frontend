@@ -17,6 +17,7 @@ function AbsenceApprovalContainer() {
     const [formSchema, setFormSchema] = useState({});
     const [visable, setVisable] = useState(false);
     const [extraData, setExtraData] = useState({});
+    const [documents, setDocuments] = useState([]);
 
     const approvalButtonContainer = useCallback(
         () => (
@@ -127,15 +128,24 @@ function AbsenceApprovalContainer() {
 
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval, remark } = formData;
-            if (router.query.id) {
-                updateFormApprovalStatus({
-                    data: {
-                        approval_status: approval,
-                        remark: remark
-                    }
-                });
-            }
+            const { approval, signature, remark } = formData;
+            console.log('fuck', formData);
+            // const formData2 = new FormData();
+            // for (const i of documents) {
+            //     formData2.append('document[]', i);
+            // }
+            // console.log("fo", formData2);
+
+            // if (router.query.id) {
+            //     updateFormApprovalStatus({
+            //         data: {
+            //             approval_status: approval,
+            //             remark: remark,
+            //             signature: signature
+            //         }
+            //     });
+            // }
+            setDocuments([]);
         },
         [router, updateFormApprovalStatus]
     );
@@ -192,7 +202,8 @@ function AbsenceApprovalContainer() {
                     visable,
                     setVisable,
                     extraData,
-                    setExtraData
+                    setExtraData,
+                    setDocuments
                 }}
             />
         </>

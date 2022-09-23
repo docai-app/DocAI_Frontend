@@ -1,11 +1,13 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
 import { ChangeEvent, useEffect, useRef } from 'react';
-import { XIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
 import { useState } from 'react';
 import { FolderIcon } from '@heroicons/react/solid';
 import { Folder } from './FolderTree';
 import FolderTreeForSelect from './FolderTreeForSelect';
+import useAxios from 'axios-hooks';
+import Api from '../../../apis';
 
 interface UploadFileProps {
     title: string;
@@ -16,13 +18,35 @@ interface UploadFileProps {
     multiple?: boolean;
 }
 
+const apiSetting = new Api();
+
 export default function UploadFile(props: UploadFileProps) {
     const { title, btnName, selectName, multiple = false, formik, setDocuments } = props;
     const fileInput = useRef<HTMLInputElement>(null);
 
     const [myfiles, setMyFiles] = useState<any>([]);
     const [mode, setMode] = useState('');
-    const [folderPath, setFolderPath] = useState<Folder | null>(null);
+    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
+        { id: null, name: 'Root' }
+    ]);
+
+    const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
+    useEffect(() => {
+        if (showFolderByIDData?.success) {
+            setDocumentPath([
+                { id: null, name: 'Root' },
+                ...showFolderByIDData.ancestors.slice().reverse(),
+                showFolderByIDData.folder
+            ]);
+        }
+    }, [showFolderByIDData]);
+
+    useEffect(() => {
+        if (movingDest?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
+        }
+    }, [movingDest, showFolderByID]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         // Set the selected maximum file limit to 5 files:
@@ -159,7 +183,19 @@ export default function UploadFile(props: UploadFileProps) {
                         <div className="flex flex-row justify-between mt-2">
                             <div className="flex flex-row">
                                 <FolderIcon className="h-6 text-blue-200" />
-                                <label className="ml-2">{folderPath?.name || 'Root'}</label>
+                                {documentPath &&
+                                    documentPath.slice(0, documentPath.length - 1).map((folder) => (
+                                        <div key={folder.id} className="flex flex-row items-center">
+                                            {folder.name}{' '}
+                                            <ChevronRightIcon className="text-gray-400 text-sm h-5" />
+                                        </div>
+                                    ))}
+                                <div className="flex flex-row items-center">
+                                    {documentPath && documentPath[documentPath.length - 1].name}
+                                </div>
+
+                                {/* <FolderIcon className="h-6 text-blue-200" />
+                                <label className="ml-2">{folderPath?.name || 'Root'}</label> */}
                             </div>
                             <a
                                 className="text-indigo-600 underline cursor-pointer"
@@ -175,8 +211,8 @@ export default function UploadFile(props: UploadFileProps) {
                         {...{
                             mode,
                             setMode,
-                            folderPath,
-                            setFolderPath,
+                            movingDest,
+                            setMovingDest,
                             targetId: ''
                         }}
                     />

@@ -49,6 +49,15 @@ export default class Absence {
         return requestHeader;
     }
 
+    getAndPredictByDateUploadedDocument(date: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/${date}/predict`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     updateDocumentById(document_id: string, folder_id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
@@ -56,6 +65,18 @@ export default class Absence {
             method: 'PUT',
             data: {
                 folder_id
+            }
+        };
+        return requestHeader;
+    }
+
+    updateDocumentNameById(document_id: string, name: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/${document_id}`,
+            method: 'PUT',
+            data: {
+                name: name
             }
         };
         return requestHeader;

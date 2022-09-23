@@ -9,20 +9,22 @@ import FolderTree, { Folder } from './FolderTree';
 interface FolderTreeForSelectgProps {
     mode: 'view' | 'move' | string;
     setMode: any;
-    folderPath: Folder | null;
-    setFolderPath: Dispatch<SetStateAction<Folder | null>>;
+    // folderPath: Folder | null;
+    // setFolderPath: Dispatch<SetStateAction<Folder | null>>;
+    movingDest: Folder | null;
+    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     targetId: string | null;
 }
 
 const apiSetting = new Api();
 export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
-    const { mode, setMode, folderPath, setFolderPath, targetId } = props;
+    const { mode, setMode, movingDest, setMovingDest, targetId } = props;
 
     const [_movingDest, _setMovingDest] = useState<Folder | null>(null);
 
     const router = useRouter();
     const handleMove = (document_id: string | null, folder: Folder) => {
-        setFolderPath(folder);
+        setMovingDest(folder);
         setMode('view');
     };
     // const handleMove = useCallback(
@@ -60,7 +62,7 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >
-                <div className="fixed h-[calc(100vh)] shadow-lg right-0 top-0 bg-white w-[28rem] z-10">
+                <div className="fixed h-[calc(100vh)] shadow-lg right-0 top-0 pt-10 bg-white w-[28rem] z-50">
                     <div className="w-full h-full flex flex-col">
                         <h1 className="p-5 pt-10 font-bold text-3xl">選擇儲存路徑</h1>
                         <div className="pr-5 overflow-auto">

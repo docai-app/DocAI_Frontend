@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { InformationCircleIcon } from '@heroicons/react/outline';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import _find from 'lodash/find';
 
 interface AmendLabelProps {
     open: boolean;
@@ -11,17 +12,32 @@ interface AmendLabelProps {
     allLabelsData: object;
     confirmDocumentFormik: any;
     addNewTagFormik: any;
+    setTagName: any;
+    setOpenEditLabel: any;
 }
 
 export default function AmendLabel(props: AmendLabelProps) {
-    const { open, setOpen, allLabelsData, confirmDocumentFormik, addNewTagFormik } = props;
+    const {
+        open,
+        setOpen,
+        allLabelsData,
+        confirmDocumentFormik,
+        addNewTagFormik,
+        setTagName,
+        setOpenEditLabel
+    } = props;
     const cancelButtonRef = useRef(null);
+    const [tag_id, setTagId] = useState('');
     const confirmDocument = () => {
         setOpen(false);
-        confirmDocumentFormik.handleSubmit();
+        // confirmDocumentFormik.handleSubmit();
+        confirmDocumentFormik.setFieldValue('tag_id', tag_id);
+        setTagName(_find(_get(allLabelsData, 'tags'), { id: tag_id }).name);
     };
     const addNewTag = () => {
-        addNewTagFormik.handleSubmit();
+        // addNewTagFormik.handleSubmit();
+        setOpenEditLabel(true);
+        setOpen(false);
     };
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -87,15 +103,17 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                 <select
                                                     id="new-type"
                                                     name="new-type"
+                                                    defaultValue={''}
                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                     onChange={async (e) => {
-                                                        confirmDocumentFormik.setFieldValue(
-                                                            'tag_id',
-                                                            e.target.value
-                                                        );
+                                                        setTagId(e.target.value);
+                                                        // confirmDocumentFormik.setFieldValue(
+                                                        //     'tag_id',
+                                                        //     e.target.value
+                                                        // );
                                                     }}
                                                 >
-                                                    <option value="" selected disabled hidden>
+                                                    <option value="" disabled hidden>
                                                         請選擇批量文件的類型
                                                     </option>
                                                     {_map(_get(allLabelsData, 'tags'), (item) => {
@@ -115,10 +133,10 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                 htmlFor="type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                輸入新的類型（如果此文檔是新的文檔類型）
+                                                若找不到相關標籤,可以建立新標籤
                                             </label>
                                             <div className="flex mt-1">
-                                                <input
+                                                {/* <input
                                                     id="type"
                                                     name="type"
                                                     type="string"
@@ -129,10 +147,10 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                             e.target.value
                                                         );
                                                     }}
-                                                />
+                                                /> */}
                                                 <button
                                                     type="submit"
-                                                    className="min-w-fit ml-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                    className="min-w-fit ml-0 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                     onClick={() => addNewTag()}
                                                 >
                                                     新增類型
@@ -148,7 +166,7 @@ export default function AmendLabel(props: AmendLabelProps) {
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     onClick={() => confirmDocument()}
                                 >
-                                    更新
+                                    確認
                                 </button>
                                 <button
                                     type="button"

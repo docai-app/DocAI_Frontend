@@ -11,10 +11,17 @@ import moment from 'moment';
 const apiSetting = new Api();
 
 function LogContainer() {
+    const router = useRouter();
     const [{ data: countDocumentsStatusByDateData, loading }, countDocumentsStatusByDate] =
-        useAxios(apiSetting.Statistics.countDocumentsStatusByDate(moment().format('YYYY-MM-DD')), {
-            manual: true
-        });
+        useAxios(
+            apiSetting.Statistics.countDocumentsStatusByDate(
+                moment().format('YYYY-MM-DD'),
+                router.query.page
+            ),
+            {
+                manual: true
+            }
+        );
 
     useEffect(() => {
         countDocumentsStatusByDate();
