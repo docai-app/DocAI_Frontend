@@ -18,6 +18,7 @@ function AbsenceApprovalContainer() {
     const [visable, setVisable] = useState(false);
     const [extraData, setExtraData] = useState({});
     const [documents, setDocuments] = useState([]);
+    const [signature_image_url, set_signature_image_url] = useState('')
 
     const approvalButtonContainer = useCallback(
         () => (
@@ -126,29 +127,53 @@ function AbsenceApprovalContainer() {
         }
     );
 
+    const [
+        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
+        upload
+    ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
+
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval, signature, remark } = formData;
-            console.log('fuck', formData);
-            // const formData2 = new FormData();
-            // for (const i of documents) {
-            //     formData2.append('document[]', i);
-            // }
-            // console.log("fo", formData2);
-
-            // if (router.query.id) {
-            //     updateFormApprovalStatus({
-            //         data: {
-            //             approval_status: approval,
-            //             remark: remark,
-            //             signature: signature
-            //         }
-            //     });
-            // }
+            const { approval, remark, signature } = formData;
+            if (router.query.id) {
+                updateFormApprovalStatus({
+                    data: {
+                        approval_status: approval,
+                        remark: remark,
+                        signature: signature,
+                        signature_image_url: signature_image_url
+                    }
+                });
+            }
             setDocuments([]);
+            set_signature_image_url('')
         },
         [router, updateFormApprovalStatus]
     );
+
+    useEffect(() => {
+        if (documents && documents.length > 0) {
+            const formData = new FormData();
+            for (const i of documents) {
+                formData.append('file', i);
+            }
+            upload({
+                data: {
+                    formData
+                }
+            });
+        }
+    }, [documents]);
+
+    useEffect(() => {
+        if (uploadData && uploadData.success === true) {
+            // setOpen(false);
+            set_signature_image_url(uploadData.file_url)
+            console.log('uploadData',uploadData);
+        } else if (uploadData && uploadData.success === false) {
+            alert('Upload failed! Please try again!');
+        }
+    }, [router, uploadData]);
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =

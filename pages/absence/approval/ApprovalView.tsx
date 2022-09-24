@@ -270,7 +270,9 @@ function ApprovalView(props: any) {
                                             const {
                                                 id = null,
                                                 remark = null,
-                                                approval_status = null
+                                                approval_status = null,
+                                                signature = null,
+                                                signature_image_url = null
                                             } = item;
                                             const { storage_url: formUrl = null } = item.document;
                                             if (item.form_data.data == null) return;
@@ -434,7 +436,7 @@ function ApprovalView(props: any) {
                                                                     <label className="text-xl">
                                                                         ●
                                                                     </label>
-                                                                    ***批准
+                                                                     {signature}  批准
                                                                 </p>
                                                                 <p className="text-sm">
                                                                     備註：{remark || '無'}
