@@ -27,4 +27,16 @@ export default class Storage {
         };
         return requestHeader;
     }
+
+    uploadDirectly() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: '/api/v1/storage/upload/directly',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return requestHeader;
+    }
 }
