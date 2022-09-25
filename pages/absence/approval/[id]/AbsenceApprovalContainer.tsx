@@ -18,7 +18,7 @@ function AbsenceApprovalContainer() {
     const [visable, setVisable] = useState(false);
     const [extraData, setExtraData] = useState({});
     const [documents, setDocuments] = useState([]);
-    const [signature_image_url, set_signature_image_url] = useState('')
+    const [signature_image_url, set_signature_image_url] = useState('');
 
     const approvalButtonContainer = useCallback(
         () => (
@@ -146,7 +146,7 @@ function AbsenceApprovalContainer() {
                 });
             }
             setDocuments([]);
-            set_signature_image_url('')
+            set_signature_image_url('');
         },
         [router, updateFormApprovalStatus]
     );
@@ -158,9 +158,7 @@ function AbsenceApprovalContainer() {
                 formData.append('file', i);
             }
             upload({
-                data: {
-                    formData
-                }
+                data: formData
             });
         }
     }, [documents]);
@@ -168,8 +166,8 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             // setOpen(false);
-            set_signature_image_url(uploadData.file_url)
-            console.log('uploadData',uploadData);
+            set_signature_image_url(uploadData.file_url);
+            console.log('uploadData', uploadData);
         } else if (uploadData && uploadData.success === false) {
             alert('Upload failed! Please try again!');
         }
