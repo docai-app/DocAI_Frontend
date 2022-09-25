@@ -158,9 +158,7 @@ function AbsenceApprovalContainer() {
                 formData.append('file', i);
             }
             upload({
-                data: {
-                    formData
-                }
+                data: formData
             });
         }
     }, [documents]);

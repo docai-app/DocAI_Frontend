@@ -142,6 +142,7 @@ export default function InputRemarkModal(props: any) {
                                         type="file"
                                         className="sr-only"
                                         accept="image/*"
+                                        multiple={false}
                                         onChange={(e) => {
                                             handleChange(e);
                                         }}
