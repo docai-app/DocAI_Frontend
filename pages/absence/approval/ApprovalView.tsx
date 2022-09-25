@@ -436,7 +436,7 @@ function ApprovalView(props: any) {
                                                                     <label className="text-xl">
                                                                         ●
                                                                     </label>
-                                                                     {signature}  批准
+                                                                    {signature} 批准
                                                                 </p>
                                                                 <p className="text-sm">
                                                                     備註：{remark || '無'}
@@ -451,7 +451,7 @@ function ApprovalView(props: any) {
                                                                     <label className="text-xl">
                                                                         ●
                                                                     </label>
-                                                                    ***拒絕
+                                                                    {signature} 拒絕
                                                                 </p>
                                                                 <p className="text-sm">
                                                                     備註：{remark || '無'}
