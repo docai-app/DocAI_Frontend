@@ -16,7 +16,6 @@ export default function MyDropdown(props: any) {
         <Menu as="div" className="relative inline-block text-left z-50">
             <div className="-z-10">
                 <Menu.Button className="inline-flex justify-center w-full rounded-tr-md rounded-br-md border border-indigo-600 shadow-sm px-2 py-2 bg-indigo-500 text-sm font-medium text-gray-700 hover:bg-indigo-500 focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-indigo-500 focus:ring-indigo-500">
-                    {/* {props.value} */}
                     <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
                 </Menu.Button>
             </div>

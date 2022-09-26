@@ -67,12 +67,6 @@ function ValidateView(props: ShowViewProps) {
     } = props;
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
-    // function handleChange(e: any) {
-    //     console.log('latestPredictionData',latestPredictionData);
-
-    //     console.log(e.target.value);
-    //     setDocumentName(e.target.value)
-    // }
     function classNames(...classes: any) {
         return classes.filter(Boolean).join(' ');
     }

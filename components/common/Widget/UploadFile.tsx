@@ -56,7 +56,6 @@ export default function UploadFile(props: UploadFileProps) {
         } else if (event.target.files && event.target.files.length > 0) {
             setDocuments(event.target.files);
             setMyFiles(event.target.files);
-            console.log(event.target.files);
         }
     };
 

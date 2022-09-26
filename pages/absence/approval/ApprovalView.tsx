@@ -457,9 +457,12 @@ function ApprovalView(props: any) {
                                                                 </p>
                                                             </div>
                                                         )}
-                                                        { signature_image_url &&
-                                                            <img src={signature_image_url} className="h-20 max-w-md" />
-                                                        }
+                                                        {signature_image_url && (
+                                                            <img
+                                                                src={signature_image_url}
+                                                                className="h-20 max-w-md"
+                                                            />
+                                                        )}
                                                     </td>
                                                 </tr>
                                             );
