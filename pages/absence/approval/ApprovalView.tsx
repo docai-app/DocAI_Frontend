@@ -266,7 +266,6 @@ function ApprovalView(props: any) {
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {data.map((item: any, index: number) => {
-                                            //console.log(data);
                                             const {
                                                 id = null,
                                                 remark = null,
@@ -451,13 +450,16 @@ function ApprovalView(props: any) {
                                                                     <label className="text-xl">
                                                                         ●
                                                                     </label>
-                                                                    ***拒絕
+                                                                    {signature} 拒絕
                                                                 </p>
                                                                 <p className="text-sm">
                                                                     備註：{remark || '無'}
                                                                 </p>
                                                             </div>
                                                         )}
+                                                        { signature_image_url &&
+                                                            <img src={signature_image_url} className="h-20 max-w-md" />
+                                                        }
                                                     </td>
                                                 </tr>
                                             );

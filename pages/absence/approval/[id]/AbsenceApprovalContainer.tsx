@@ -148,7 +148,7 @@ function AbsenceApprovalContainer() {
             setDocuments([]);
             set_signature_image_url('');
         },
-        [router, updateFormApprovalStatus]
+        [router, signature_image_url, updateFormApprovalStatus]
     );
 
     useEffect(() => {
@@ -167,7 +167,7 @@ function AbsenceApprovalContainer() {
         if (uploadData && uploadData.success === true) {
             // setOpen(false);
             set_signature_image_url(uploadData.file_url);
-            console.log('uploadData', uploadData);
+            // console.log('uploadData', uploadData);
         } else if (uploadData && uploadData.success === false) {
             alert('Upload failed! Please try again!');
         }
