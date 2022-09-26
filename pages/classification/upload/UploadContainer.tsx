@@ -52,7 +52,7 @@ function UploadContainer() {
     };
     const confirm = () => {
         setVisable(false);
-        router.push('/classification/validate');
+        router.push('/classification/logs');
     };
     return (
         <>
