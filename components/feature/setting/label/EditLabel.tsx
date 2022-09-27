@@ -36,7 +36,7 @@ export default function EditLabel(props: EditLabelProps) {
     const confirmDocument = () => {
         setOpen(false);
         if (tag) {
-            updateLabelNameByIdHandler(tag.id, inputRef.current?.value);
+            updateLabelNameByIdHandler(tag.id, inputRef.current?.value, tag.is_checked);
         } else {
             addNewLabelHandler();
         }

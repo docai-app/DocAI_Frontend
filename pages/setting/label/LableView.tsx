@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
 import TagView from '../../classification/[tag]/TagView';
@@ -30,13 +31,23 @@ export default function LabelView(props: LabelProps) {
         tagTypes
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
+    const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
     const [open, setOpen] = useState(false);
     const [tag, setTag] = useState('');
     useEffect(() => {
-        if (getAllLabelsData)
-            setSortedLabels(
-                getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
-            );
+        if (getAllLabelsData){
+            // setSortedLabels(
+            //     getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
+            // );
+
+            setSortedLabels(_.filter(getAllLabelsData.tags, function(o: any) { 
+                return o.is_checked; 
+            }))
+
+            setSortedUnCheckLabels(_.filter(getAllLabelsData.tags, function(o: any) { 
+                return !o.is_checked; 
+            }))
+        }
     }, [getAllLabelsData]);
     return (
         <>
@@ -122,26 +133,42 @@ export default function LabelView(props: LabelProps) {
                             )}
                         </div>
 
-                        {/* <div className="py-4">
-                            {sortedLabels && (
+                        <div className="py-4">
+                            {sortedUnCheckLabels && (
                                 <>
                                     <div>
                                         <h2 className="text-2xl font-bold">待查核標籤</h2>
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
-                                        {sortedLabels.map((label: any, index: number) => (
-                                            <LabelTag
-                                                key={index}
-                                                label={label}
-                                                updateLabelNameByIdHandler={updateLabelNameByIdHandler}
-                                                unCheck={true}
-                                            />
-                                        ))}
+                                        <table className="border-collapse ">
+                                            <tbody>
+                                                <tr>
+                                                    <th className="text-left p-4">名稱 </th>
+                                                    <th className="text-left">分類類型</th>
+                                                    <th className="text-left">功能</th>
+                                                    <th className="text-left"></th>
+                                                </tr>
+                                                {sortedUnCheckLabels.map((label: any, index: number) => (
+                                                    <LabelTag
+                                                        key={index}
+                                                        label={label}
+                                                        onEdit={(tag: any) => {
+                                                            setTag(tag);
+                                                            setOpen(true);
+                                                        }}
+                                                        updateLabelNameByIdHandler={
+                                                            updateLabelNameByIdHandler
+                                                        }
+                                                    />
+                                                ))}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </>
                             )}
-                        </div> */}
+                        </div>
                     </div>
+                    
                 </main>
             </div>
         </>

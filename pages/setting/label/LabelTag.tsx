@@ -6,8 +6,6 @@ import { EyeIcon } from '@heroicons/react/outline';
 import React from 'react';
 
 export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, onEdit }: any) {
-    const [readOnly, setReadOnly] = useState(true);
-    const inputRef = React.createRef<HTMLInputElement>();
     return (
         <>
             <tr>
@@ -28,12 +26,21 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                         className=" cursor-pointer p-3 leading-none text-indigo-500 "
                         onClick={() => {
                             onEdit(label);
-                            // if (inputRef.current) inputRef.current.focus();
-                            // setReadOnly(false);
                         }}
                     >
                         編輯
                     </a>
+                    {
+                        label && !label?.is_checked &&
+                        <button
+                            className=" my-1 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
+                            onClick={() => {
+                                updateLabelNameByIdHandler(label.id, label?.name, true);
+                            }}
+                        >
+                            加到名單
+                        </button>
+                    }
                 </td>
             </tr>
         </>
