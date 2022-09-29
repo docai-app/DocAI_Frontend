@@ -30,8 +30,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                     >
                         編輯
                     </a>
-                    {
-                        label && !label?.is_checked &&
+                    {label && !label?.is_checked && (
                         <button
                             className=" my-1 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
                             onClick={() => {
@@ -40,7 +39,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                         >
                             加到名單
                         </button>
-                    }
+                    )}
                 </td>
             </tr>
         </>

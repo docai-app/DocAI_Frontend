@@ -39,4 +39,13 @@ export default class Tag {
         };
         return requestHeader;
     }
+
+    getTagFunctionsById(id?: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/${id}/functions`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }
