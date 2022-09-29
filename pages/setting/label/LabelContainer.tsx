@@ -28,10 +28,10 @@ export default function LabelContainer() {
     }, [addNewLabel, newLabelName]);
 
     const updateLabelNameByIdHandler = useCallback(
-        async (id: string, newName: string) => {
+        async (id: string, newName: string, is_checked?: boolean) => {
             updateLabelNameById({
                 ...apiSetting.Tag.updateTagNameById(id),
-                data: { name: newName }
+                data: { name: newName, is_checked: is_checked }
             });
         },
         [updateLabelNameById]
