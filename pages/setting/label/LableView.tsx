@@ -35,18 +35,22 @@ export default function LabelView(props: LabelProps) {
     const [open, setOpen] = useState(false);
     const [tag, setTag] = useState('');
     useEffect(() => {
-        if (getAllLabelsData){
+        if (getAllLabelsData) {
             // setSortedLabels(
             //     getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
             // );
 
-            setSortedLabels(_.filter(getAllLabelsData.tags, function(o: any) { 
-                return o.is_checked; 
-            }))
+            setSortedLabels(
+                _.filter(getAllLabelsData.tags, function (o: any) {
+                    return o.is_checked;
+                })
+            );
 
-            setSortedUnCheckLabels(_.filter(getAllLabelsData.tags, function(o: any) { 
-                return !o.is_checked; 
-            }))
+            setSortedUnCheckLabels(
+                _.filter(getAllLabelsData.tags, function (o: any) {
+                    return !o.is_checked;
+                })
+            );
         }
     }, [getAllLabelsData]);
     return (
@@ -148,19 +152,21 @@ export default function LabelView(props: LabelProps) {
                                                     <th className="text-left">功能</th>
                                                     <th className="text-left"></th>
                                                 </tr>
-                                                {sortedUnCheckLabels.map((label: any, index: number) => (
-                                                    <LabelTag
-                                                        key={index}
-                                                        label={label}
-                                                        onEdit={(tag: any) => {
-                                                            setTag(tag);
-                                                            setOpen(true);
-                                                        }}
-                                                        updateLabelNameByIdHandler={
-                                                            updateLabelNameByIdHandler
-                                                        }
-                                                    />
-                                                ))}
+                                                {sortedUnCheckLabels.map(
+                                                    (label: any, index: number) => (
+                                                        <LabelTag
+                                                            key={index}
+                                                            label={label}
+                                                            onEdit={(tag: any) => {
+                                                                setTag(tag);
+                                                                setOpen(true);
+                                                            }}
+                                                            updateLabelNameByIdHandler={
+                                                                updateLabelNameByIdHandler
+                                                            }
+                                                        />
+                                                    )
+                                                )}
                                             </tbody>
                                         </table>
                                     </div>
@@ -168,7 +174,6 @@ export default function LabelView(props: LabelProps) {
                             )}
                         </div>
                     </div>
-                    
                 </main>
             </div>
         </>

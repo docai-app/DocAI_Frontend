@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import moment from 'moment';
+import _ from 'lodash';
 
 const apiSetting = new Api();
 
@@ -21,6 +22,7 @@ function ValidateContainer() {
     const [isChangeName, setIsChangeName] = useState(false);
     const [tagName, setTagName] = useState('');
     const [visable, setVisable] = useState(false);
+    const [tagHasFunction, setTagHasFunction] = useState(false);
     const [
         {
             data: latestPredictionData,
@@ -79,6 +81,15 @@ function ValidateContainer() {
         {},
         { manual: true }
     );
+
+    const [
+        {
+            data: tagFunctionsData,
+        },
+        getTagFunctions
+    ] = useAxios(apiSetting.Tag.getTagFunctionsById(''), {
+        manual: true
+    });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -230,6 +241,21 @@ function ValidateContainer() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, latestPredictionData]);
+
+    useEffect(() => {
+        if( confirmDocumentFormik.values.tag_id ){
+            getTagFunctions({
+                ...apiSetting.Tag.getTagFunctionsById(confirmDocumentFormik.values.tag_id)
+            });
+        }
+    }, [confirmDocumentFormik.values.tag_id]);
+
+    useEffect(() => {
+        if( tagFunctionsData && tagFunctionsData.functions  ){
+            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form understanding'))
+        }
+    }, [tagFunctionsData]);
+
     return (
         <>
             <ValidateView
@@ -255,7 +281,8 @@ function ValidateContainer() {
                     tagTypes,
                     newLabelName,
                     setNewLabelName,
-                    addNewLabelHandler
+                    addNewLabelHandler,
+                    tagHasFunction
                 }}
             />
         </>
