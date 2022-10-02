@@ -1,18 +1,11 @@
 // apis/Storage.ts
-import { Method } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface RequestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: Method;
-    headers: Record<string, string>;
-}
-
 export default class Storage {
     upload() {
-        const requestHeader: RequestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/storage/upload',
             method: 'POST',
@@ -24,9 +17,21 @@ export default class Storage {
     }
 
     uploadBulkWithSameTag() {
-        const requestHeader: RequestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/storage/upload/bulk/tag',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return requestHeader;
+    }
+
+    uploadDirectly() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: '/api/v1/storage/upload/directly',
             method: 'POST',
             headers: {
                 'Content-Type': 'multipart/form-data'

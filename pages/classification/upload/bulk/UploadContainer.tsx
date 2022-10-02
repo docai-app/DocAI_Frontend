@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -26,7 +27,7 @@ function UploadContainer() {
             return errors;
         },
         onSubmit: (values) => {
-            let formData = new FormData();
+            const formData = new FormData();
             for (const i of documents) {
                 formData.append('document[]', i);
             }
@@ -47,8 +48,6 @@ function UploadContainer() {
 
     useEffect(() => {
         setTags(allTagsData);
-        console.log(allTagsData);
-        console.log(tags);
     }, [allTagsData]);
 
     useEffect(() => {
@@ -60,7 +59,7 @@ function UploadContainer() {
             setOpen(false);
             alert('Upload failed! Please try again!');
         }
-    }, [uploadData]);
+    }, [router, uploadData]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, tags, open, setOpen }} />

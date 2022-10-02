@@ -4,38 +4,47 @@ import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
 import _get from 'lodash/get';
-import _set from 'lodash/set';
 import { FieldProps, WidgetProps } from '@rjsf/core';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
 function AbsenceApprovalContainer() {
     const router = useRouter();
     const [formUrl, setFormUrl] = useState('');
-    const [result, setResult] = useState({});
-    const formSchema = useRef({});
+    const [result, setResult] = useState();
+    const [approval, setApproval] = useState({});
+    const [formSchema, setFormSchema] = useState({});
+    const [visable, setVisable] = useState(false);
+    const [extraData, setExtraData] = useState({});
+    const [documents, setDocuments] = useState([]);
+    const [signature_image_url, set_signature_image_url] = useState('');
 
     const approvalButtonContainer = useCallback(
-        (props) => (
+        () => (
             <div className="flex gap-2">
-                <button
-                    className="p-[0.75rem] rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
-                    type="submit"
+                <a
+                    className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
+                    // type="submit"
                     onClick={() => {
-                        props.onChange('approved');
-                    }}
-                >
-                    批准
-                </button>
-                <button
-                    className="p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
-                    type="submit"
-                    onClick={() => {
-                        props.onChange('rejected');
+                        setVisable(true);
+                        setApproval('rejected');
+                        // props.onChange('rejected');
                     }}
                 >
                     拒絕
-                </button>
+                </a>
+                <a
+                    className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                    // type="submit"
+                    onClick={() => {
+                        setVisable(true);
+                        setApproval('approved');
+                        // props.onChange('approved');
+                    }}
+                >
+                    批准並簽名
+                </a>
             </div>
         ),
         []
@@ -75,7 +84,25 @@ function AbsenceApprovalContainer() {
             </div>
         )
     });
+    const approvalSchema = useRef({
+        type: 'object',
+        properties: {
+            // remark: {
+            //     title: '備註',
+            //     type: 'string'
+            // },
+            approval: {
+                title: '',
+                type: 'string'
+            }
+        }
+    });
     const uiSchema = useRef({
+        'ui:submitButtonOptions': {
+            norender: true
+        }
+    });
+    const approvalUiSchema = useRef({
         'ui:submitButtonOptions': {
             norender: true
         },
@@ -100,24 +127,55 @@ function AbsenceApprovalContainer() {
         }
     );
 
+    const [
+        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
+        upload
+    ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
+
     const onSubmit = useCallback(
         async (formData: any) => {
-            const { approval, remark } = formData.formData;
+            const { approval, remark, signature } = formData;
             if (router.query.id) {
                 updateFormApprovalStatus({
                     data: {
                         approval_status: approval,
-                        remark: remark
+                        remark: remark,
+                        signature: signature,
+                        signature_image_url: signature_image_url
                     }
                 });
             }
+            setDocuments([]);
+            set_signature_image_url('');
         },
-        [router, updateFormApprovalStatus]
+        [router, signature_image_url, updateFormApprovalStatus]
     );
 
     useEffect(() => {
+        if (documents && documents.length > 0) {
+            const formData = new FormData();
+            for (const i of documents) {
+                formData.append('file', i);
+            }
+            upload({
+                data: formData
+            });
+        }
+    }, [documents]);
+
+    useEffect(() => {
+        if (uploadData && uploadData.success === true) {
+            set_signature_image_url(uploadData.file_url);
+        } else if (uploadData && uploadData.success === false) {
+            alert('Upload failed! Please try again!');
+        }
+    }, [router, uploadData]);
+
+    useEffect(() => {
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
         getFormsSchemaByName();
-    }, []);
+    }, [getFormsSchemaByName]);
 
     useEffect(() => {
         if (router.query.id) {
@@ -125,26 +183,19 @@ function AbsenceApprovalContainer() {
                 apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
             );
         }
-    }, [router]);
+    }, [router, getAbsenceFormByApprovalId]);
 
     useEffect(() => {
         if (getAbsenceFormByApprovalIdData && getAbsenceFormByApprovalIdData.success === true) {
             setFormUrl(getAbsenceFormByApprovalIdData.absence_form.document.storage_url);
             setResult(getAbsenceFormByApprovalIdData.absence_form.form_data.data);
+            setApproval({ remark: getAbsenceFormByApprovalIdData.absence_form?.remark || '' });
         }
     }, [getAbsenceFormByApprovalIdData]);
 
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-            formSchema.current = getFormsSchemaByNameData.form_schema.form_schema;
-            _set(formSchema.current, 'properties.remark', {
-                title: '備註',
-                type: 'string'
-            });
-            _set(formSchema.current, 'properties.approval', {
-                title: '',
-                type: 'string'
-            });
+            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
         }
     }, [getFormsSchemaByNameData]);
 
@@ -153,7 +204,7 @@ function AbsenceApprovalContainer() {
             alert('審批成功！');
             router.push(`/absence/approval`);
         }
-    }, [updateFormApprovalStatusData]);
+    }, [router, updateFormApprovalStatusData]);
 
     return (
         <>
@@ -161,11 +212,19 @@ function AbsenceApprovalContainer() {
                 {...{
                     formUrl,
                     result,
+                    approval,
                     formSchema,
+                    approvalSchema,
                     uiSchema,
+                    approvalUiSchema,
                     widgets,
                     fields,
-                    onSubmit
+                    onSubmit,
+                    visable,
+                    setVisable,
+                    extraData,
+                    setExtraData,
+                    setDocuments
                 }}
             />
         </>

@@ -1,4 +1,8 @@
+import _ from 'lodash';
 import { useEffect, useState } from 'react';
+import EditLabel from '../../../components/feature/setting/label/EditLabel';
+import TagView from '../../classification/[tag]/TagView';
+import LabelTag from './LabelTag';
 
 interface LabelProps {
     addNewLabelHandler: any;
@@ -15,6 +19,7 @@ interface LabelProps {
     setNewLabelName: any;
     newLabelName: string;
     updateLabelNameByIdHandler: any;
+    tagTypes: any;
 }
 export default function LabelView(props: LabelProps) {
     const {
@@ -22,100 +27,155 @@ export default function LabelView(props: LabelProps) {
         addNewLabelHandler,
         newLabelName,
         setNewLabelName,
-        updateLabelNameByIdHandler
+        updateLabelNameByIdHandler,
+        tagTypes
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
+    const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
+    const [open, setOpen] = useState(false);
+    const [tag, setTag] = useState('');
     useEffect(() => {
-        if (getAllLabelsData)
+        if (getAllLabelsData) {
+            // setSortedLabels(
+            //     getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
+            // );
+
             setSortedLabels(
-                getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
+                _.filter(getAllLabelsData.tags, function (o: any) {
+                    return o.is_checked;
+                })
             );
+
+            setSortedUnCheckLabels(
+                _.filter(getAllLabelsData.tags, function (o: any) {
+                    return !o.is_checked;
+                })
+            );
+        }
     }, [getAllLabelsData]);
     return (
-        <div className="min-h-full bg-slate-50">
-            <header className="shadow bg-white">
-                <div className="flex w-full py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="w-full">
-                        <h1 className="text-3xl font-bold text-gray-900">標籤管理</h1>
-                    </div>
-                </div>
-            </header>
-            <main>
-                <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                    <div className="flex flex-col gap-4 py-4 border-b">
-                        <div>
-                            <h2 className="text-2xl font-bold">新增標籤 (Tags)</h2>
-                            <div className="text-slate-500">新增一個新的標籤</div>
-                        </div>
-                        <div className="mx-auto sm:mx-0 flex flex-row gap-2 flex-wrap">
-                            <input
-                                type="text"
-                                value={newLabelName}
-                                className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300"
-                                onChange={(e) => setNewLabelName(e.target.value)}
-                            />
-                            <button
-                                className="p-3 bg-green-600 hover:bg-green-700 leading-none text-white rounded-md"
-                                onClick={addNewLabelHandler}
-                            >
-                                新增
-                            </button>
-                        </div>
-                    </div>
-                    <div className="py-4">
-                        {sortedLabels && (
-                            <>
-                                <div>
-                                    <h2 className="text-2xl font-bold">修改標籤 (Label)</h2>
-                                    <div className="text-slate-500">修改現有的標籤的名稱</div>
-                                </div>
-                                <div className="flex flex-col gap-2 mt-4">
-                                    {sortedLabels.map((label) => {
-                                        return (
-                                            <form
-                                                onSubmit={(e) => {
-                                                    e.preventDefault();
-                                                    const formData = new FormData(e.currentTarget);
-                                                    const newName = formData.get('name');
-                                                    updateLabelNameByIdHandler(label.id, newName);
-                                                }}
-                                                key={label.id}
-                                                className="flex flex-row flex-wrap gap-2 max-w-xl"
-                                            >
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    defaultValue={label.name}
-                                                    className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 flex-grow focus:ring-2 focus:ring-slate-300"
-                                                    onChange={(e) => {
-                                                        if (label.name !== e.target.value) {
-                                                            e.target.classList.toggle(
-                                                                'bg-yellow-100',
-                                                                true
-                                                            );
-                                                        } else {
-                                                            e.target.classList.toggle(
-                                                                'bg-yellow-100',
-                                                                false
-                                                            );
+        <>
+            <EditLabel
+                {...{
+                    open,
+                    setOpen,
+                    tag,
+                    tagTypes,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler,
+                    updateLabelNameByIdHandler
+                }}
+            />
+
+            <div className="min-h-full bg-slate-50">
+                <main>
+                    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                        {/* <div className="flex flex-col gap-4 py-4 border-b">
+                            <div>
+                                <h2 className="text-2xl font-bold">新增標籤 (Tags)</h2>
+                                <div className="text-slate-500">新增一個新的標籤</div>
+                            </div>
+                            <div className="mx-auto sm:mx-0 flex flex-row gap-2 flex-wrap">
+                                <input
+                                    type="text"
+                                    value={newLabelName}
+                                    className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300"
+                                    onChange={(e) => setNewLabelName(e.target.value)}
+                                />
+                                <button
+                                    className="p-3 bg-green-600 hover:bg-green-700 leading-none text-white rounded-md"
+                                    onClick={addNewLabelHandler}
+                                >
+                                    新增
+                                </button>
+                            </div>
+                        </div> */}
+                        <div className="py-0">
+                            {sortedLabels && (
+                                <>
+                                    <div className="flex justify-between border-b-2 pb-2">
+                                        <h2 className="text-2xl font-bold">標籤管理</h2>
+                                        <button
+                                            className="px-4 py-2 bg-indigo-600  hover:bg-indigo-700 leading-none text-white rounded-md"
+                                            onClick={() => {
+                                                setOpen(true);
+                                                setTag('');
+                                            }}
+                                        >
+                                            +新增
+                                        </button>
+                                        {/* <h2 className="text-2xl font-bold">修改標籤 (Label)</h2>
+                                        <div className="text-slate-500">修改現有的標籤的名稱</div> */}
+                                    </div>
+                                    <div className="flex flex-col gap-2 mt-4">
+                                        <table className="border-collapse ">
+                                            <tbody>
+                                                <tr>
+                                                    <th className="text-left p-4">名稱 </th>
+                                                    <th className="text-left">分類類型</th>
+                                                    <th className="text-left">功能</th>
+                                                    <th className="text-left"></th>
+                                                </tr>
+                                                {sortedLabels.map((label: any, index: number) => (
+                                                    <LabelTag
+                                                        key={index}
+                                                        label={label}
+                                                        onEdit={(tag: any) => {
+                                                            setTag(tag);
+                                                            setOpen(true);
+                                                        }}
+                                                        updateLabelNameByIdHandler={
+                                                            updateLabelNameByIdHandler
                                                         }
-                                                    }}
-                                                />
-                                                <button
-                                                    className="p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
-                                                    type="submit"
-                                                >
-                                                    更新
-                                                </button>
-                                            </form>
-                                        );
-                                    })}
-                                </div>
-                            </>
-                        )}
+                                                    />
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        <div className="py-4">
+                            {sortedUnCheckLabels && (
+                                <>
+                                    <div>
+                                        <h2 className="text-2xl font-bold">待查核標籤</h2>
+                                    </div>
+                                    <div className="flex flex-col gap-2 mt-4">
+                                        <table className="border-collapse ">
+                                            <tbody>
+                                                <tr>
+                                                    <th className="text-left p-4">名稱 </th>
+                                                    <th className="text-left">分類類型</th>
+                                                    <th className="text-left">功能</th>
+                                                    <th className="text-left"></th>
+                                                </tr>
+                                                {sortedUnCheckLabels.map(
+                                                    (label: any, index: number) => (
+                                                        <LabelTag
+                                                            key={index}
+                                                            label={label}
+                                                            onEdit={(tag: any) => {
+                                                                setTag(tag);
+                                                                setOpen(true);
+                                                            }}
+                                                            updateLabelNameByIdHandler={
+                                                                updateLabelNameByIdHandler
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </div>
-                </div>
-            </main>
-        </div>
+                </main>
+            </div>
+        </>
     );
 }

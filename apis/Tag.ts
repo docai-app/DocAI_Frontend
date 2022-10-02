@@ -1,17 +1,11 @@
-import { Method } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 // apis/Classification.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface requestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: Method;
-}
-
 export default class Tag {
     getAllTags() {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/tags',
             method: 'GET'
@@ -20,7 +14,7 @@ export default class Tag {
     }
 
     getTagByTagging() {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/tags/tagging/document',
             method: 'GET'
@@ -29,7 +23,7 @@ export default class Tag {
     }
 
     addNewTag() {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/tags',
             method: 'POST'
@@ -38,10 +32,19 @@ export default class Tag {
     }
 
     updateTagNameById(id: string) {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/tags/${id}`,
             method: 'PUT'
+        };
+        return requestHeader;
+    }
+
+    getTagFunctionsById(id?: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/${id}/functions`,
+            method: 'GET'
         };
         return requestHeader;
     }

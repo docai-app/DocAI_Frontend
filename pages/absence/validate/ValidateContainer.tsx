@@ -6,12 +6,14 @@ import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import _get from 'lodash/get';
 import { WidgetProps, FieldProps } from '@rjsf/core';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
 function ValidateContainer() {
     const router = useRouter();
     const [formUrl, setFormUrl] = useState('');
+    const [formId, setFormId] = useState('');
     const [result, setResult] = useState({});
     const [formSchema, setFormSchema] = useState({});
     // const formSchema = useRef({});
@@ -84,13 +86,25 @@ function ValidateContainer() {
             response: updateFormDataResponse
         },
         updateFormData
-    ] = useAxios(apiSetting.Form.updateFormData(_get(router, 'query.form_id')), {
+    ] = useAxios(apiSetting.Form.updateFormData(formId), {
+        manual: true
+    });
+
+    const [
+        {
+            data: getAbsenceFormRecognitionByIdData,
+            loading: getAbsenceFormRecognitionByIdDataLoading
+        },
+        getAbsenceFormRecognitionById
+    ] = useAxios('', {
         manual: true
     });
 
     useEffect(() => {
         getFormsSchemaByName();
-    }, []);
+        axios.defaults.headers.common['authorization'] =
+            localStorage.getItem('authorization') || '';
+    }, [getFormsSchemaByName]);
 
     useEffect(() => {
         if (router.query.form_url && router.query.result) {
@@ -98,6 +112,25 @@ function ValidateContainer() {
             setResult(JSON.parse(`${router.query.result}`));
         }
     }, [router]);
+
+    useEffect(() => {
+        if (
+            getAbsenceFormRecognitionByIdData &&
+            getAbsenceFormRecognitionByIdData.success === true
+        ) {
+            setFormUrl(getAbsenceFormRecognitionByIdData.document.storage_url);
+            setResult(getAbsenceFormRecognitionByIdData.form_data.data);
+            setFormId(getAbsenceFormRecognitionByIdData.form_data.id);
+        }
+    }, [getAbsenceFormRecognitionByIdData]);
+
+    useEffect(() => {
+        if (router.query.document_id) {
+            getAbsenceFormRecognitionById(
+                apiSetting.Absence.getAbsenceFormRecognitionByID(_get(router, 'query.document_id'))
+            );
+        }
+    }, [router, getAbsenceFormRecognitionById]);
 
     useEffect(() => {
         if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
@@ -108,9 +141,10 @@ function ValidateContainer() {
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
             alert('請假表提交成功！');
-            router.push('/');
+            // router.push('/');
+            router.back();
         }
-    }, [updateFormDataData]);
+    }, [router, updateFormDataData]);
 
     return (
         <>
@@ -123,7 +157,8 @@ function ValidateContainer() {
                     uiSchema,
                     widgets,
                     fields,
-                    absenceFormFormik
+                    absenceFormFormik,
+                    getAbsenceFormRecognitionByIdDataLoading
                 }}
             />
         </>

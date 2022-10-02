@@ -1,4 +1,6 @@
+import axios from 'axios';
 import useAxios from 'axios-hooks';
+import { useEffect } from 'react';
 import Api from '../../apis/index';
 import ClassificationView from './ClassificationView';
 

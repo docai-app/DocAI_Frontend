@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import TagView from './TagView';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -24,7 +25,7 @@ function TagContainer() {
                 url: `/api/v1/documents/tags/${router.query.tag}`
             });
         }
-    }, [router]);
+    }, [router, getDocumentsByTagID]);
     useEffect(() => {
         if (getDocumentsByTagIDData && getDocumentsByTagIDData.success === true) {
             setDocuments(getDocumentsByTagIDData.documents);

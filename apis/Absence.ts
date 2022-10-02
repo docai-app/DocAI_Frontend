@@ -1,27 +1,20 @@
-import { Method } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 // apis/Absence.ts
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-interface requestHeaderProps {
-    baseURL: string | undefined;
-    url: string;
-    method: Method;
-    data?: any;
-}
-
 export default class Absence {
-    getAbsenceFormByApprovalStatus(status: string) {
-        const requestHeader: requestHeaderProps = {
+    getAbsenceFormByApprovalStatus(status: string, days: number = 3, page: number = 1) {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/form/absence/approval?status=${status}`,
+            url: `/api/v1/form/absence/approval?status=${status}&days=${days}&page=${page}`,
             method: 'GET'
         };
         return requestHeader;
     }
 
     getAbsenceFormByApprovalApprovalID(id: string) {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/absence/approval/${id}`,
             method: 'GET'
@@ -30,7 +23,7 @@ export default class Absence {
     }
 
     updateAbsenceFormApprovalStatus(id: string, status: string, remark: string = '') {
-        const requestHeader: requestHeaderProps = {
+        const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/absence/${id}/approval?status=${status}`,
             method: 'PUT',
@@ -38,6 +31,15 @@ export default class Absence {
                 status,
                 remark
             }
+        };
+        return requestHeader;
+    }
+
+    getAbsenceFormRecognitionByID(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/absence/recognition/${id}`,
+            method: 'GET'
         };
         return requestHeader;
     }

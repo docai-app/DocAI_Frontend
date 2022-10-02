@@ -9,6 +9,9 @@ import Document from './Document';
 import FormSchema from './FormSchema';
 import Statistics from './Statistics';
 import DocumentApproval from './DocumentApproval';
+import Authorization from './Authorization';
+import Drive from './Drive';
+import Folders from './Folders';
 
 export default class Api {
     Storage: Storage;
@@ -21,6 +24,9 @@ export default class Api {
     FormSchema: FormSchema;
     Statistics: Statistics;
     DocumentApproval: DocumentApproval;
+    Authorization: Authorization;
+    Drive: Drive;
+    Folders: Folders;
 
     constructor() {
         this.Storage = new Storage();
@@ -33,5 +39,8 @@ export default class Api {
         this.FormSchema = new FormSchema();
         this.Statistics = new Statistics();
         this.DocumentApproval = new DocumentApproval();
+        this.Authorization = new Authorization();
+        this.Drive = new Drive();
+        this.Folders = new Folders();
     }
 }

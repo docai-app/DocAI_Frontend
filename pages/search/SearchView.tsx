@@ -2,10 +2,12 @@ import _get from 'lodash/get';
 import _map from 'lodash/map';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import { SearchIcon } from '@heroicons/react/outline';
+import PaginationView from '../../components/common/Widget/PaginationView';
 
 interface SearchViewProps {
     searchDocumentFormik: any;
     documents: Array<any>;
+    meta: any;
     open: boolean;
     setOpen: any;
 }
@@ -14,6 +16,7 @@ export default function SearchView(props: SearchViewProps) {
     const {
         searchDocumentFormik = { handleChange: () => {} },
         documents = [],
+        meta,
         open,
         setOpen
     } = props;
@@ -28,7 +31,7 @@ export default function SearchView(props: SearchViewProps) {
                     icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                 }}
             />
-            <div className="bg-indigo-700">
+            {/* <div className="bg-indigo-700">
                 <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
                         <span className="block">DocAI</span>
@@ -62,6 +65,13 @@ export default function SearchView(props: SearchViewProps) {
                         </button>
                     </section>
                 </div>
+            </div> */}
+            <div>
+                <p className=" text-black text-xl font-bold">
+                    與 "
+                    {searchDocumentFormik?.values?.content || searchDocumentFormik?.values?.date}"
+                    相關的文檔共有 {meta?.total_count} 份
+                </p>
             </div>
             <div className="px-16">
                 <div className="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -106,6 +116,15 @@ export default function SearchView(props: SearchViewProps) {
                         </div>
                     ))}
                 </div>
+                <PaginationView
+                    meta={meta}
+                    pathname={'/search'}
+                    params={
+                        searchDocumentFormik?.values?.date
+                            ? { date: searchDocumentFormik?.values?.date }
+                            : { content: searchDocumentFormik?.values?.content }
+                    }
+                />
             </div>
         </>
     );
