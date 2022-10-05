@@ -390,7 +390,7 @@ function ValidateView(props: ValidateViewProps) {
                                         </div>
 
                                         {/* 當分類是請假紙時顯示 */}
-                                        {   tagHasFunction && (
+                                        {tagHasFunction && (
                                             <div className=" py-4 w-full max-w-sm lg:w-96">
                                                 <p className="my-4 font-bold">
                                                     請假紙為特別分類，需特殊處理

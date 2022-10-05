@@ -82,14 +82,12 @@ function ValidateContainer() {
         { manual: true }
     );
 
-    const [
+    const [{ data: tagFunctionsData }, getTagFunctions] = useAxios(
+        apiSetting.Tag.getTagFunctionsById(''),
         {
-            data: tagFunctionsData,
-        },
-        getTagFunctions
-    ] = useAxios(apiSetting.Tag.getTagFunctionsById(''), {
-        manual: true
-    });
+            manual: true
+        }
+    );
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -243,7 +241,7 @@ function ValidateContainer() {
     }, [router, latestPredictionData]);
 
     useEffect(() => {
-        if( confirmDocumentFormik.values.tag_id ){
+        if (confirmDocumentFormik.values.tag_id) {
             getTagFunctions({
                 ...apiSetting.Tag.getTagFunctionsById(confirmDocumentFormik.values.tag_id)
             });
@@ -251,8 +249,8 @@ function ValidateContainer() {
     }, [confirmDocumentFormik.values.tag_id]);
 
     useEffect(() => {
-        if( tagFunctionsData && tagFunctionsData.functions  ){
-            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form understanding'))
+        if (tagFunctionsData && tagFunctionsData.functions) {
+            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form understanding'));
         }
     }, [tagFunctionsData]);
 
