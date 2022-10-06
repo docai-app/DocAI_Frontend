@@ -250,7 +250,7 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (tagFunctionsData && tagFunctionsData.functions) {
-            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form understanding'));
+            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form_understanding'));
         }
     }, [tagFunctionsData]);
 
