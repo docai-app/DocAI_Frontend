@@ -76,17 +76,17 @@ function LogView(props: any) {
                                                         <label className="font-bold">
                                                             {item.uploaded_count}
                                                         </label>{' '}
-                                                        份文檔，智能處理了{' '}
-                                                        <label className="font-bold">
-                                                            {item.confirmed_count}
-                                                        </label>{' '}
                                                         份，未處理{' '}
                                                         <label className="font-bold">
                                                             {item.non_ready_count}
                                                         </label>{' '}
-                                                        份，已處理{' '}
+                                                        份，已預處理{' '}
                                                         <label className="font-bold">
                                                             {item.ready_count}
+                                                        </label>{' '}
+                                                        份，智能文檔分類處理了{' '}
+                                                        <label className="font-bold">
+                                                            {item.confirmed_count}
                                                         </label>{' '}
                                                         份
                                                     </label>
@@ -127,7 +127,8 @@ function LogView(props: any) {
                                                         <ClockIcon className="w-5 h-5 text-green-500" />
                                                         <p className="ml-1 text-green-500 text-sm">
                                                             正在進行智能分類，需時{' '}
-                                                            {item.estimated_time / 60} 分鐘
+                                                            {Math.ceil(item.estimated_time / 60)}{' '}
+                                                            分鐘
                                                         </p>
                                                     </div>
                                                 )}
