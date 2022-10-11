@@ -285,7 +285,7 @@ function ApprovalView(props: any) {
                                                 // formUrl = 'https://m2mda.blob.core.windows.net/chyb-document-storage/23fbc66d-2cd3-4e26-8eea-031eb6d99651_de0bf284-ceaa-4baf-beef-e89ddf1f27ad_20220618111108227.jpg'
                                             } = item.form_data.data;
 
-                                            const created_at = moment(item.form_data.created_at)
+                                            const created_at = moment(item.created_at)
                                                 .startOf('day')
                                                 .fromNow();
                                             const type_of_leave = _findKey(
