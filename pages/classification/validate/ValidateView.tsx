@@ -99,12 +99,15 @@ function ValidateView(props: ValidateViewProps) {
                 <header className="shadow bg-white">
                     <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">確認資料</h1>
-                        {/* <div className=' items-center  flex  justify-center '>
-                            <label className=''>已完成 3 / 4 文檔的處理</label>
-                            <Link href={'/classification/show'}>
+                        <div className=" items-center  flex  justify-center ">
+                            <label className="">
+                                已完成 {_get(latestPredictionData, 'confirmed_count', 0)}{' '}/ {_get(latestPredictionData, 'unconfirmed_count', 0) + _get(latestPredictionData, 'confirmed_count', 0)}{' '}
+                                文檔的處理
+                            </label>
+                            {/* <Link href={'/classification/show'}>
                                 <a className='text-indigo-600 underline ml-4'>查看</a>
-                            </Link>
-                        </div> */}
+                            </Link> */}
+                        </div>
                         <Link href={'/classification/logs'}>
                             <XIcon className=" cursor-pointer w-8 h-8" />
                         </Link>
@@ -159,8 +162,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                 'prediction.document.storage_url'
                                                             ) + '#toolbar=0'
                                                         }
-                                                        width="250"
-                                                    >
+                                                        width="250">
                                                         <img
                                                             src={
                                                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
@@ -244,8 +246,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                         .map((folder) => (
                                                                             <div
                                                                                 key={folder.id}
-                                                                                className="flex flex-row items-center"
-                                                                            >
+                                                                                className="flex flex-row items-center">
                                                                                 {folder.name}{' '}
                                                                                 <ChevronRightIcon className="text-gray-400 text-sm h-5" />
                                                                             </div>
@@ -262,8 +263,7 @@ function ValidateView(props: ValidateViewProps) {
                                                     <div className="ml-auto">
                                                         <button
                                                             className="bg-green-600 text-white text-sm px-3 py-1 w-20 rounded-md hover:bg-green-700"
-                                                            onClick={() => setMode('move')}
-                                                        >
+                                                            onClick={() => setMode('move')}>
                                                             移動至...
                                                         </button>
                                                     </div>
@@ -294,8 +294,7 @@ function ValidateView(props: ValidateViewProps) {
                                                             className="flex flex-row items-center bg-red-600 text-white text-sm px-3 py-1 w-20 rounded-md hover:bg-red-700"
                                                             onClick={() => {
                                                                 setOpen(true);
-                                                            }}
-                                                        >
+                                                            }}>
                                                             <XIcon
                                                                 className="-ml-0.5 mr-2 h-4 w-4"
                                                                 aria-hidden="true"
@@ -421,8 +420,7 @@ function ValidateView(props: ValidateViewProps) {
                                                             }
                                                         });
                                                         // confirmDocumentFormik.handleSubmit();
-                                                    }}
-                                                >
+                                                    }}>
                                                     處理
                                                 </button>
                                             </div>
@@ -439,8 +437,7 @@ function ValidateView(props: ValidateViewProps) {
                                             isChangeName
                                                 ? recoverDocumentName()
                                                 : changeDocumentName();
-                                        }}
-                                    >
+                                        }}>
                                         {isChangeName ? '還原名稱' : '智能改名'}
                                     </button>
 
@@ -449,8 +446,7 @@ function ValidateView(props: ValidateViewProps) {
                                         className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
                                             confirmDocumentFormik.handleSubmit();
-                                        }}
-                                    >
+                                        }}>
                                         資料正確
                                     </button>
                                 </div>
