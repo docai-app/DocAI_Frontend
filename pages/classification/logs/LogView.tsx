@@ -3,8 +3,6 @@ import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree';
 import { ClockIcon } from '@heroicons/react/outline';
-import label from '../../setting/label';
-import Router from 'next/router';
 import PaginationView from '../../../components/common/Widget/PaginationView';
 import Link from 'next/link';
 
@@ -36,26 +34,6 @@ function LogView(props: any) {
                         >
                             全部
                         </li>
-                        {/* <li
-                            onClick={() => setCurrentTabStatus('unfinish')}
-                            className={`p-4 cursor-pointer ${
-                                currentTabStatus === 'unfinish'
-                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            未處理
-                        </li>
-                        <li
-                            onClick={() => setCurrentTabStatus('finish')}
-                            className={`p-4 cursor-pointer ${
-                                currentTabStatus === 'finish'
-                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            已處理
-                        </li> */}
                     </ul>
                 </div>
                 {loading ? (
@@ -102,18 +80,6 @@ function LogView(props: any) {
                                                     )}
                                                     {item.uploaded_count ==
                                                         item.confirmed_count && (
-                                                        // <button
-                                                        //     className="p-2 text-sm underline text-indigo-500"
-                                                        //     onClick={() => {
-                                                        //         if (item.date)
-                                                        //             Router.push({
-                                                        //                 pathname: '/search',
-                                                        //                 query: { date: item.date }
-                                                        //             });
-                                                        //     }}
-                                                        // >
-                                                        //     查看
-                                                        // </button>
                                                         <Link href={'/classification/show'}>
                                                             <a className="p-2 text-sm underline text-indigo-500">
                                                                 查看
@@ -126,7 +92,7 @@ function LogView(props: any) {
                                                     <div className="flex flex-row items-center">
                                                         <ClockIcon className="w-5 h-5 text-green-500" />
                                                         <p className="ml-1 text-green-500 text-sm">
-                                                            正在進行智能分類，需時{' '}
+                                                            正在進行預處理，需時{' '}
                                                             {Math.ceil(item.estimated_time / 60)}{' '}
                                                             分鐘
                                                         </p>
