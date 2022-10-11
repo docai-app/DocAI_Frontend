@@ -282,12 +282,8 @@ function ApprovalView(props: any) {
                                                 employee_position = null,
                                                 type_of_leave: type_of_leave_obj = null,
                                                 working_department: working_department_obj = null
-                                                // formUrl = 'https://m2mda.blob.core.windows.net/chyb-document-storage/23fbc66d-2cd3-4e26-8eea-031eb6d99651_de0bf284-ceaa-4baf-beef-e89ddf1f27ad_20220618111108227.jpg'
                                             } = item.form_data.data;
-
-                                            const created_at = moment(item.created_at)
-                                                .startOf('day')
-                                                .fromNow();
+                                            const created_at = moment(item.created_at).fromNow();
                                             const type_of_leave = _findKey(
                                                 type_of_leave_obj,
                                                 (value) => value
