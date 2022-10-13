@@ -103,7 +103,7 @@ function ApprovalView(props: any) {
         },
         {
             name: 'YAO',
-            value: 'YAO'
+            value: 'yao'
         },
         {
             name: 'TPA',
