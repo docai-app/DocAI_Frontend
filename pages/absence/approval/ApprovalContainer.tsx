@@ -4,6 +4,7 @@ import ApprovalView from './ApprovalView';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import _ from 'lodash';
 
 const apiSetting = new Api();
 
@@ -20,6 +21,7 @@ function ApprovalContainer() {
     >('vacation');
     const [days, setDays] = useState(3);
     const [page, setPage] = useState(1);
+    const [department, setDepartment] = useState('')
 
     const [
         {
@@ -82,14 +84,23 @@ function ApprovalContainer() {
     }, [currentTabStatus, days, page, getAbsenceFormByApprovalStatus]);
 
     useEffect(() => {
+        let data: any = []
+        if (department) {
+            data = _.filter(getAbsenceFormByApprovalStatusData?.absence_forms, function(o) { return o.form_data.data?.working_department[department] == true; });
+            if( department == 'all' )
+                data = getAbsenceFormByApprovalStatusData?.absence_forms
+        }
         setProps((p: any) => ({
             ...p,
+            data: data || p.data,
             currentTypeTabStatus: currentTypeTabStatus,
             setCurrentTypeTabStatus: setCurrentTypeTabStatus,
             days,
-            setDays
+            setDays,
+            department, 
+            setDepartment
         }));
-    }, [currentTypeTabStatus, days, page]);
+    }, [currentTypeTabStatus, days, page, department]);
 
     useEffect(() => {
         if (router.query.page) {

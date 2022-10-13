@@ -18,7 +18,8 @@ function ApprovalView(props: any) {
         setCurrentTypeTabStatus,
         formSchema,
         loading,
-        setDays
+        setDays,
+        setDepartment
     } = props;
     const fields = [
         {
@@ -59,6 +60,90 @@ function ApprovalView(props: any) {
         // }
     ];
 
+    const working_departments = [
+        {
+            name: '全部',
+            value: 'all',
+        },
+        {
+            name: '309',
+            value: '309'
+        },
+        {
+            name: 'OFF',
+            value: 'off'
+        },
+        {
+            name: 'SML',
+            value: 'sml'
+        },
+        {
+            name: 'CPG',
+            value: 'cpg'
+        },
+        {
+            name: 'CPG20',
+            value: 'cpg20'
+        },
+        {
+            name: 'TSB5',
+            value: 'tsb5'
+        },
+        {
+            name: 'HZM',
+            value: 'hzm'
+        },
+        {
+            name: 'TSB28',
+            value: 'tsb28'
+        },
+        {
+            name: 'BGA',
+            value: 'bga'
+        },
+        {
+            name: 'YAO',
+            value: 'YAO'
+        },
+        {
+            name: 'TPA',
+            value: 'tpa'
+        },
+        {
+            name: 'TFT',
+            value: 'tft'
+        },
+        {
+            name: 'GLP',
+            value: 'glp'
+        },
+        {
+            name: 'MGM',
+            value: 'mgm'
+        },
+        {
+            name: 'FTY',
+            value: 'fty'
+        },
+        {
+            name: 'CUN',
+            value: 'cun'
+        },
+        {
+            name: '其他',
+            value: 'other'
+        }
+    ];
+    const statusDatas = [
+        {
+            name: '已批准',
+            value: 'approved'
+        },
+        {
+            name: '已拒絕',
+            value: 'rejected'
+        }
+    ];
     const dates = [
         {
             name: '最近三天',
@@ -81,22 +166,17 @@ function ApprovalView(props: any) {
             value: '180'
         }
     ];
-    const statusDatas = [
-        {
-            name: '已批准',
-            value: 'approved'
-        },
-        {
-            name: '已拒絕',
-            value: 'rejected'
-        }
-    ];
     const [date, setDate] = useState(dates[0].name);
     const [status, setStatus] = useState(statusDatas[0].name);
+    const [working_department, setWorking_departments] = useState(working_departments[0].name);
 
     const onSwitch = (date: any) => {
         setDate(date.name);
         setDays(date.value);
+    };
+    const onSwitchWorkingDepartment = (working_department: any) => {
+        setWorking_departments(working_department.name)
+        setDepartment(working_department.value)
     };
     const onSwitchStatus = (status: any) => {
         setStatus(status.name);
@@ -207,6 +287,13 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
+                                    <div className="ml-4">
+                                        <MyDateDropdown
+                                            value={working_department}
+                                            datas={working_departments}
+                                            onSwitch={onSwitchWorkingDepartment}
+                                        />
+                                    </div>
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
                                         <div className="ml-4">
