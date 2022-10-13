@@ -63,7 +63,7 @@ function ApprovalView(props: any) {
     const working_departments = [
         {
             name: '全部',
-            value: 'all',
+            value: 'all'
         },
         {
             name: '309',
@@ -175,8 +175,8 @@ function ApprovalView(props: any) {
         setDays(date.value);
     };
     const onSwitchWorkingDepartment = (working_department: any) => {
-        setWorking_departments(working_department.name)
-        setDepartment(working_department.value)
+        setWorking_departments(working_department.name);
+        setDepartment(working_department.value);
     };
     const onSwitchStatus = (status: any) => {
         setStatus(status.name);
