@@ -228,6 +228,16 @@ function ApprovalView(props: any) {
                             請假紙
                         </li>
                         <li
+                            onClick={() => setCurrentTypeTabStatus('normal')}
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTabStatus === 'normal'
+                                    ? 'text-black border-b-2 border-black'
+                                    : 'text-gray-400'
+                            } font-bold text-sm`}
+                        >
+                            普通文件
+                        </li>
+                        <li
                             onClick={() => setCurrentTypeTabStatus('factory')}
                             className={`p-4 cursor-pointer ${
                                 currentTypeTabStatus === 'factory'
@@ -287,13 +297,17 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
-                                    <div className="ml-4">
-                                        <MyDateDropdown
-                                            value={working_department}
-                                            datas={working_departments}
-                                            onSwitch={onSwitchWorkingDepartment}
-                                        />
-                                    </div>
+                                    {
+                                        currentTypeTabStatus === 'vacation' ?
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={working_department}
+                                                datas={working_departments}
+                                                onSwitch={onSwitchWorkingDepartment}
+                                            />
+                                        </div>
+                                        : null
+                                    }
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
                                         <div className="ml-4">
@@ -327,9 +341,13 @@ function ApprovalView(props: any) {
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 文檔
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left w-1/3">
-                                                內容
-                                            </th>
+                                            {
+                                                currentTypeTabStatus === 'vacation' ?
+                                                <th scope="col" className="px-6 py-3 text-left w-1/3">
+                                                    內容
+                                                </th>
+                                                : null
+                                            }
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 上傳日期
                                             </th>
@@ -361,7 +379,7 @@ function ApprovalView(props: any) {
                                                 signature_image_url = null
                                             } = item;
                                             const { storage_url: formUrl = null } = item.document;
-                                            if (item.form_data.data == null) return;
+                                            if (item.form_data?.data == null && currentTypeTabStatus === 'vacation') return;
                                             const {
                                                 employee_id = null,
                                                 employee_name = null,
@@ -369,7 +387,7 @@ function ApprovalView(props: any) {
                                                 employee_position = null,
                                                 type_of_leave: type_of_leave_obj = null,
                                                 working_department: working_department_obj = null
-                                            } = item.form_data.data;
+                                            } = item.form_data?.data || {};
                                             const created_at = moment(item.created_at).fromNow();
                                             const type_of_leave = _findKey(
                                                 type_of_leave_obj,
@@ -411,85 +429,89 @@ function ApprovalView(props: any) {
                                                             />
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 text-left overflow-hidden">
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>員工編號:</label>
+                                                    {
+                                                        currentTypeTabStatus === 'vacation' ?
+                                                        <td className="px-6 py-4 text-left overflow-hidden">
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>員工編號:</label>
+                                                                </div>
+                                                                <div className="flex-1 text-left  text-sm">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_id}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1 text-left  text-sm">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_id}
-                                                                </label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>員工姓名:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_name}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>員工姓名:</label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>職稱:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_position || ''}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_name}
-                                                                </label>
+                                                            <div className="flex flex-row text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>申請理由:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {reason_of_absence}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>職稱:</label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>工作部門:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {working_department &&
+                                                                            _get(
+                                                                                formSchema,
+                                                                                `properties.working_department.properties[${working_department}].title`
+                                                                            )}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_position || ''}
-                                                                </label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>申請假期類別:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {type_of_leave &&
+                                                                            _get(
+                                                                                formSchema,
+                                                                                `properties.type_of_leave.properties[${type_of_leave}].title`
+                                                                            )}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row text-sm">
-                                                            <div className="flex-1">
-                                                                <label>申請理由:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {reason_of_absence}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>工作部門:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {working_department &&
-                                                                        _get(
-                                                                            formSchema,
-                                                                            `properties.working_department.properties[${working_department}].title`
-                                                                        )}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>申請假期類別:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {type_of_leave &&
-                                                                        _get(
-                                                                            formSchema,
-                                                                            `properties.type_of_leave.properties[${type_of_leave}].title`
-                                                                        )}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <a
-                                                            href={formUrl}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            className="text-sm text-indigo-600 underline"
-                                                        >
-                                                            更多{'>>'}
-                                                        </a>
-                                                        {/* {reason_of_absence} */}
-                                                    </td>
+                                                            <a
+                                                                href={formUrl}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="text-sm text-indigo-600 underline"
+                                                            >
+                                                                更多{'>>'}
+                                                            </a>
+                                                            {/* {reason_of_absence} */}
+                                                        </td>
+                                                        : null
+                                                    }
                                                     {/* <td className="px-6 py-4 text-left">
                                                         {type_of_leave &&
                                                             _get(
