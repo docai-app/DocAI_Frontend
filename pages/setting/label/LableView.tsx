@@ -87,7 +87,7 @@ export default function LabelView(props: LabelProps) {
                                             <tbody>
                                                 <tr>
                                                     <th className="text-left p-4">名稱 </th>
-                                                    <th className="text-left">分類類型</th>
+                                                    {/* <th className="text-left">分類類型</th> */}
                                                     <th className="text-left">功能</th>
                                                     <th className="text-left"></th>
                                                 </tr>
@@ -122,7 +122,7 @@ export default function LabelView(props: LabelProps) {
                                             <tbody>
                                                 <tr>
                                                     <th className="text-left p-4">名稱 </th>
-                                                    <th className="text-left">分類類型</th>
+                                                    {/* <th className="text-left">分類類型</th> */}
                                                     <th className="text-left">功能</th>
                                                     <th className="text-left"></th>
                                                 </tr>

@@ -13,6 +13,15 @@ export default class Absence {
         return requestHeader;
     }
 
+    getNormalDocumentFormByApprovalStatus(status: string, days: number = 3, page: number = 1) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/approval/normal/documents?status=${status}&days=${days}&page=${page}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     getAbsenceFormByApprovalApprovalID(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

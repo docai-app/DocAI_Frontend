@@ -119,7 +119,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="w-full flex flex-row mt-2">
+                                        <div className="w-full flex flex-row mt-2 invisible">
                                             <div className="w-1/4 flex justify-left items-center">
                                                 <label
                                                     htmlFor="new-type"
@@ -166,7 +166,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="w-full flex flex-row mt-2">
+                                        <div className="w-full flex flex-row mt-2 invisible">
                                             <div className="w-1/4 flex justify-left items-center">
                                                 <label
                                                     htmlFor="new-type"
