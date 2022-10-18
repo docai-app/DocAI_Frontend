@@ -20,6 +20,7 @@ interface LabelProps {
     newLabelName: string;
     updateLabelNameByIdHandler: any;
     tagTypes: any;
+    updateTagFunctionsHandler: any;
 }
 export default function LabelView(props: LabelProps) {
     const {
@@ -28,7 +29,8 @@ export default function LabelView(props: LabelProps) {
         newLabelName,
         setNewLabelName,
         updateLabelNameByIdHandler,
-        tagTypes
+        tagTypes,
+        updateTagFunctionsHandler
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
     const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
@@ -36,10 +38,6 @@ export default function LabelView(props: LabelProps) {
     const [tag, setTag] = useState('');
     useEffect(() => {
         if (getAllLabelsData) {
-            // setSortedLabels(
-            //     getAllLabelsData.tags.slice().sort((a, b) => parseInt(a.id) - parseInt(b.id))
-            // );
-
             setSortedLabels(
                 _.filter(getAllLabelsData.tags, function (o: any) {
                     return o.is_checked;
@@ -64,39 +62,20 @@ export default function LabelView(props: LabelProps) {
                     newLabelName,
                     setNewLabelName,
                     addNewLabelHandler,
-                    updateLabelNameByIdHandler
+                    updateLabelNameByIdHandler,
+                    updateTagFunctionsHandler
                 }}
             />
 
             <div className="min-h-full bg-slate-50">
                 <main>
                     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-                        {/* <div className="flex flex-col gap-4 py-4 border-b">
-                            <div>
-                                <h2 className="text-2xl font-bold">新增標籤 (Tags)</h2>
-                                <div className="text-slate-500">新增一個新的標籤</div>
-                            </div>
-                            <div className="mx-auto sm:mx-0 flex flex-row gap-2 flex-wrap">
-                                <input
-                                    type="text"
-                                    value={newLabelName}
-                                    className="border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300"
-                                    onChange={(e) => setNewLabelName(e.target.value)}
-                                />
-                                <button
-                                    className="p-3 bg-green-600 hover:bg-green-700 leading-none text-white rounded-md"
-                                    onClick={addNewLabelHandler}
-                                >
-                                    新增
-                                </button>
-                            </div>
-                        </div> */}
                         <div className="py-0">
                             {sortedLabels && (
                                 <>
                                     <div className="flex justify-between border-b-2 pb-2">
                                         <h2 className="text-2xl font-bold">標籤管理</h2>
-                                        <button
+                                        {/* <button
                                             className="px-4 py-2 bg-indigo-600  hover:bg-indigo-700 leading-none text-white rounded-md"
                                             onClick={() => {
                                                 setOpen(true);
@@ -104,16 +83,14 @@ export default function LabelView(props: LabelProps) {
                                             }}
                                         >
                                             +新增
-                                        </button>
-                                        {/* <h2 className="text-2xl font-bold">修改標籤 (Label)</h2>
-                                        <div className="text-slate-500">修改現有的標籤的名稱</div> */}
+                                        </button> */}
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
                                         <table className="border-collapse ">
                                             <tbody>
                                                 <tr>
                                                     <th className="text-left p-4">名稱 </th>
-                                                    <th className="text-left">分類類型</th>
+                                                    {/* <th className="text-left">分類類型</th> */}
                                                     <th className="text-left">功能</th>
                                                     <th className="text-left"></th>
                                                 </tr>
@@ -148,7 +125,7 @@ export default function LabelView(props: LabelProps) {
                                             <tbody>
                                                 <tr>
                                                     <th className="text-left p-4">名稱 </th>
-                                                    <th className="text-left">分類類型</th>
+                                                    {/* <th className="text-left">分類類型</th> */}
                                                     <th className="text-left">功能</th>
                                                     <th className="text-left"></th>
                                                 </tr>

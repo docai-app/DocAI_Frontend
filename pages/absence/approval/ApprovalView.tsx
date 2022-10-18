@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import moment from 'moment';
 import PaginationView from '../../../components/common/Widget/PaginationView';
+import InputRemarkModal from '../../../components/common/Widget/InputRemarkModal';
 
 function ApprovalView(props: any) {
     const {
@@ -18,8 +19,14 @@ function ApprovalView(props: any) {
         setCurrentTypeTabStatus,
         formSchema,
         loading,
-        setDays
+        setDays,
+        setDepartment,
+        onSubmit,
+        setDocuments,
+        uploadLoading
     } = props;
+    const [visable, setVisable] = useState(false);
+    const [absenceFormId, setAbsenceFormId] = useState('');
     const fields = [
         {
             label: '員工編號',
@@ -59,6 +66,90 @@ function ApprovalView(props: any) {
         // }
     ];
 
+    const working_departments = [
+        {
+            name: '全部',
+            value: 'all'
+        },
+        {
+            name: '309',
+            value: '309'
+        },
+        {
+            name: 'OFF',
+            value: 'off'
+        },
+        {
+            name: 'SML',
+            value: 'sml'
+        },
+        {
+            name: 'CPG',
+            value: 'cpg'
+        },
+        {
+            name: 'CPG20',
+            value: 'cpg20'
+        },
+        {
+            name: 'TSB5',
+            value: 'tsb5'
+        },
+        {
+            name: 'HZM',
+            value: 'hzm'
+        },
+        {
+            name: 'TSB28',
+            value: 'tsb28'
+        },
+        {
+            name: 'BGA',
+            value: 'bga'
+        },
+        {
+            name: 'YAO',
+            value: 'yao'
+        },
+        {
+            name: 'TPA',
+            value: 'tpa'
+        },
+        {
+            name: 'TFT',
+            value: 'tft'
+        },
+        {
+            name: 'GLP',
+            value: 'glp'
+        },
+        {
+            name: 'MGM',
+            value: 'mgm'
+        },
+        {
+            name: 'FTY',
+            value: 'fty'
+        },
+        {
+            name: 'CUN',
+            value: 'cun'
+        },
+        {
+            name: '其他',
+            value: 'other'
+        }
+    ];
+    const statusDatas = [
+        {
+            name: '已批准',
+            value: 'approved'
+        },
+        {
+            name: '已拒絕',
+            value: 'rejected'
+        }
+    ];
     const dates = [
         {
             name: '最近三天',
@@ -81,22 +172,17 @@ function ApprovalView(props: any) {
             value: '180'
         }
     ];
-    const statusDatas = [
-        {
-            name: '已批准',
-            value: 'approved'
-        },
-        {
-            name: '已拒絕',
-            value: 'rejected'
-        }
-    ];
     const [date, setDate] = useState(dates[0].name);
     const [status, setStatus] = useState(statusDatas[0].name);
+    const [working_department, setWorking_departments] = useState(working_departments[0].name);
 
     const onSwitch = (date: any) => {
         setDate(date.name);
         setDays(date.value);
+    };
+    const onSwitchWorkingDepartment = (working_department: any) => {
+        setWorking_departments(working_department.name);
+        setDepartment(working_department.value);
     };
     const onSwitchStatus = (status: any) => {
         setStatus(status.name);
@@ -146,6 +232,16 @@ function ApprovalView(props: any) {
                             } font-bold text-sm`}
                         >
                             請假紙
+                        </li>
+                        <li
+                            onClick={() => setCurrentTypeTabStatus('normal')}
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTabStatus === 'normal'
+                                    ? 'text-black border-b-2 border-black'
+                                    : 'text-gray-400'
+                            } font-bold text-sm`}
+                        >
+                            普通文件
                         </li>
                         <li
                             onClick={() => setCurrentTypeTabStatus('factory')}
@@ -207,6 +303,15 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
+                                    {currentTypeTabStatus === 'vacation' ? (
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={working_department}
+                                                datas={working_departments}
+                                                onSwitch={onSwitchWorkingDepartment}
+                                            />
+                                        </div>
+                                    ) : null}
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
                                         <div className="ml-4">
@@ -240,9 +345,14 @@ function ApprovalView(props: any) {
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 文檔
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left w-1/3">
-                                                內容
-                                            </th>
+                                            {currentTypeTabStatus === 'vacation' ? (
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-left w-1/3"
+                                                >
+                                                    內容
+                                                </th>
+                                            ) : null}
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 上傳日期
                                             </th>
@@ -274,7 +384,11 @@ function ApprovalView(props: any) {
                                                 signature_image_url = null
                                             } = item;
                                             const { storage_url: formUrl = null } = item.document;
-                                            if (item.form_data.data == null) return;
+                                            if (
+                                                item.form_data?.data == null &&
+                                                currentTypeTabStatus === 'vacation'
+                                            )
+                                                return;
                                             const {
                                                 employee_id = null,
                                                 employee_name = null,
@@ -282,12 +396,8 @@ function ApprovalView(props: any) {
                                                 employee_position = null,
                                                 type_of_leave: type_of_leave_obj = null,
                                                 working_department: working_department_obj = null
-                                                // formUrl = 'https://m2mda.blob.core.windows.net/chyb-document-storage/23fbc66d-2cd3-4e26-8eea-031eb6d99651_de0bf284-ceaa-4baf-beef-e89ddf1f27ad_20220618111108227.jpg'
-                                            } = item.form_data.data;
-
-                                            const created_at = moment(item.form_data.created_at)
-                                                .startOf('day')
-                                                .fromNow();
+                                            } = item.form_data?.data || {};
+                                            const created_at = moment(item.created_at).fromNow();
                                             const type_of_leave = _findKey(
                                                 type_of_leave_obj,
                                                 (value) => value
@@ -328,85 +438,87 @@ function ApprovalView(props: any) {
                                                             />
                                                         )}
                                                     </td>
-                                                    <td className="px-6 py-4 text-left overflow-hidden">
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>員工編號:</label>
+                                                    {currentTypeTabStatus === 'vacation' ? (
+                                                        <td className="px-6 py-4 text-left overflow-hidden">
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>員工編號:</label>
+                                                                </div>
+                                                                <div className="flex-1 text-left  text-sm">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_id}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1 text-left  text-sm">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_id}
-                                                                </label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>員工姓名:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_name}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>員工姓名:</label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>職稱:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {employee_position || ''}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_name}
-                                                                </label>
+                                                            <div className="flex flex-row text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>申請理由:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {reason_of_absence}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>職稱:</label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>工作部門:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {working_department &&
+                                                                            _get(
+                                                                                formSchema,
+                                                                                `properties.working_department.properties[${working_department}].title`
+                                                                            )}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {employee_position || ''}
-                                                                </label>
+                                                            <div className="flex flex-row  text-sm">
+                                                                <div className="flex-1">
+                                                                    <label>申請假期類別:</label>
+                                                                </div>
+                                                                <div className="flex-1">
+                                                                    <label className="text-sm font-bold">
+                                                                        {type_of_leave &&
+                                                                            _get(
+                                                                                formSchema,
+                                                                                `properties.type_of_leave.properties[${type_of_leave}].title`
+                                                                            )}
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="flex flex-row text-sm">
-                                                            <div className="flex-1">
-                                                                <label>申請理由:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {reason_of_absence}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>工作部門:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {working_department &&
-                                                                        _get(
-                                                                            formSchema,
-                                                                            `properties.working_department.properties[${working_department}].title`
-                                                                        )}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex flex-row  text-sm">
-                                                            <div className="flex-1">
-                                                                <label>申請假期類別:</label>
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <label className="text-sm font-bold">
-                                                                    {type_of_leave &&
-                                                                        _get(
-                                                                            formSchema,
-                                                                            `properties.type_of_leave.properties[${type_of_leave}].title`
-                                                                        )}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <a
-                                                            href={formUrl}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                            className="text-sm text-indigo-600 underline"
-                                                        >
-                                                            更多{'>>'}
-                                                        </a>
-                                                        {/* {reason_of_absence} */}
-                                                    </td>
+                                                            <a
+                                                                href={formUrl}
+                                                                target="_blank"
+                                                                rel="noreferrer"
+                                                                className="text-sm text-indigo-600 underline"
+                                                            >
+                                                                更多{'>>'}
+                                                            </a>
+                                                            {/* {reason_of_absence} */}
+                                                        </td>
+                                                    ) : null}
                                                     {/* <td className="px-6 py-4 text-left">
                                                         {type_of_leave &&
                                                             _get(
@@ -419,13 +531,27 @@ function ApprovalView(props: any) {
                                                     </td>
                                                     <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-left">
                                                         {approval_status === 'awaiting' ? (
-                                                            <Link
-                                                                href={`/absence/approval/${id.toString()}`}
-                                                            >
-                                                                <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                                            currentTypeTabStatus == 'vacation' ? (
+                                                                <Link
+                                                                    href={`/absence/approval/${id.toString()}`}
+                                                                >
+                                                                    <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                                                        立即審批
+                                                                    </a>
+                                                                </Link>
+                                                            ) : (
+                                                                <a
+                                                                    onClick={() => {
+                                                                        setAbsenceFormId(
+                                                                            id.toString()
+                                                                        );
+                                                                        setVisable(true);
+                                                                    }}
+                                                                    className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline"
+                                                                >
                                                                     立即審批
                                                                 </a>
-                                                            </Link>
+                                                            )
                                                         ) : approval_status === 'approved' ? (
                                                             // <a className="text-green-600 hover:text-green-900 underline">
                                                             //     已審批
@@ -475,6 +601,22 @@ function ApprovalView(props: any) {
                 )}
             </div>
             <PaginationView meta={meta} pathname={'/absence/approval'} params={null} />
+            <InputRemarkModal
+                visable={visable}
+                approval={'approved'}
+                uploadLoading={uploadLoading}
+                cancelClick={() => setVisable(false)}
+                confirmClick={(data: any) => {
+                    setVisable(false);
+                    onSubmit({
+                        ...data,
+                        absenceFormId: absenceFormId
+                    });
+                }}
+                setDocuments={(files: any) => {
+                    setDocuments(files);
+                }}
+            />
         </>
     );
 }

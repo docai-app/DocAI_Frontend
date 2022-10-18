@@ -150,6 +150,11 @@ export default function InputRemarkModal(props: any) {
                                     />
                                 </label>
                             </div>
+                            <div className="mt-4 w-full items-center justify-center flex">
+                                {props.uploadLoading && (
+                                    <label className=" text-red-500">圖片上傳中...</label>
+                                )}
+                            </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
                                     type="button"

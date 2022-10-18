@@ -4,7 +4,6 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import moment from 'moment';
 import _ from 'lodash';
@@ -81,15 +80,6 @@ function ValidateContainer() {
         {},
         { manual: true }
     );
-
-    const [
-        {
-            data: tagFunctionsData,
-        },
-        getTagFunctions
-    ] = useAxios(apiSetting.Tag.getTagFunctionsById(''), {
-        manual: true
-    });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -229,6 +219,12 @@ function ValidateContainer() {
         ) {
             setDocumentName(latestPredictionData.prediction.document.name);
             setTagName(latestPredictionData.prediction.tag.name);
+            setTagHasFunction(
+                _.find(latestPredictionData.prediction.tag.functions, {
+                    name: 'form_understanding'
+                })
+            );
+
             confirmDocumentFormik.setFieldValue(
                 'document_id',
                 latestPredictionData.prediction.document.id
@@ -241,20 +237,6 @@ function ValidateContainer() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, latestPredictionData]);
-
-    useEffect(() => {
-        if( confirmDocumentFormik.values.tag_id ){
-            getTagFunctions({
-                ...apiSetting.Tag.getTagFunctionsById(confirmDocumentFormik.values.tag_id)
-            });
-        }
-    }, [confirmDocumentFormik.values.tag_id]);
-
-    useEffect(() => {
-        if( tagFunctionsData && tagFunctionsData.functions  ){
-            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form understanding'))
-        }
-    }, [tagFunctionsData]);
 
     return (
         <>

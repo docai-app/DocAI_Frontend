@@ -17,14 +17,22 @@ export default function LabelContainer() {
         apiSetting.Tag.getAllTags(),
         { manual: true }
     );
+    const [{ data: tagTypes, error: getAllTagFunctionsError }, getAllTagFunctions] = useAxios(
+        apiSetting.Tag.getTagFunctions(),
+        { manual: false }
+    );
+
+    const [{ data: updateTagFunctionsData, error: updateTagFunctionsError }, updateTagFunctions] =
+        useAxios(apiSetting.Tag.updateTagFunctions(), { manual: true });
+
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
         updateLabelNameById
     ] = useAxios(apiSetting.Tag.updateTagNameById(''), { manual: true });
 
     const addNewLabelHandler = useCallback(async () => {
-        // addNewLabel({ data: { name: newLabelName } });
-        console.log('newLabelName', newLabelName);
+        addNewLabel({ data: { name: newLabelName } });
+        // console.log('newLabelName', newLabelName);
     }, [addNewLabel, newLabelName]);
 
     const updateLabelNameByIdHandler = useCallback(
@@ -37,11 +45,6 @@ export default function LabelContainer() {
         [updateLabelNameById]
     );
 
-    const tagTypes = [
-        { id: '1', type: 'a', label: '普通文檔', feature: '查閱' },
-        { id: '2', type: 'b', label: '請假紙審批', feature: '查閱,請假紙專屬OCR,審批' },
-        { id: '3', type: 'c', label: '非OCR審批', feature: '查閱,審批' }
-    ];
     useEffect(() => {
         getAllLabels();
     }, [getAllLabels]);
@@ -64,6 +67,17 @@ export default function LabelContainer() {
             alert(`更新失敗！原因：${updateLabelNameByIdData.errors.name[0]}`);
         }
     }, [getAllLabels, updateLabelNameByIdData]);
+
+    const updateTagFunctionsHandler = useCallback(
+        async (tag_id: string, function_id: string) => {
+            if (function_id)
+                updateTagFunctions({
+                    data: { tag_id: tag_id, function_id: function_id }
+                });
+        },
+        [updateTagFunctions]
+    );
+
     return (
         <LabelView
             {...{
@@ -73,7 +87,8 @@ export default function LabelContainer() {
                 newLabelName,
                 setNewLabelName,
                 updateLabelNameByIdHandler,
-                tagTypes
+                tagTypes,
+                updateTagFunctionsHandler
             }}
         />
     );

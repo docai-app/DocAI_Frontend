@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogView from './LogView';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
-import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { Folder } from '../../../components/common/Widget/FolderTree';
 import moment from 'moment';
 
 const apiSetting = new Api();
