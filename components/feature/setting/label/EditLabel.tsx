@@ -7,6 +7,7 @@ import _map from 'lodash/map';
 import _find from 'lodash/find';
 import React from 'react';
 import { PencilAltIcon } from '@heroicons/react/solid';
+import _ from 'lodash';
 
 interface EditLabelProps {
     open: boolean;
@@ -43,6 +44,11 @@ export default function EditLabel(props: EditLabelProps) {
             addNewLabelHandler();
         }
     };
+    const isContain = (value: any) => {
+        let index = _.findIndex(tag?.functions, function(func: any){ return  func.id == value});
+        return index == -1
+    }
+
     return (
         <Transition.Root show={open} as={Fragment}>
             <Dialog
@@ -139,7 +145,9 @@ export default function EditLabel(props: EditLabelProps) {
                                                         defaultValue={''}
                                                         className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                         onChange={async (e) => {
-                                                            updateTagFunctionsHandler(tag.id, e.target.value);
+                                                            if( isContain(e.target.value) ) {
+                                                                updateTagFunctionsHandler(tag.id, e.target.value);
+                                                            }
                                                         }}
                                                     >
                                                         <option value="">
