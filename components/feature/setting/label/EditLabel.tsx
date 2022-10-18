@@ -17,6 +17,7 @@ interface EditLabelProps {
     addNewLabelHandler: any;
     setNewLabelName: any;
     updateLabelNameByIdHandler?: any;
+    updateTagFunctionsHandler?: any;
 }
 
 export default function EditLabel(props: EditLabelProps) {
@@ -28,7 +29,8 @@ export default function EditLabel(props: EditLabelProps) {
         newLabelName,
         addNewLabelHandler,
         setNewLabelName,
-        updateLabelNameByIdHandler
+        updateLabelNameByIdHandler,
+        updateTagFunctionsHandler
     } = props;
     const cancelButtonRef = useRef(null);
     const [feature, setFeature] = useState('');
@@ -119,66 +121,41 @@ export default function EditLabel(props: EditLabelProps) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="w-full flex flex-row mt-2 invisible">
-                                            <div className="w-1/4 flex justify-left items-center">
-                                                <label
-                                                    htmlFor="new-type"
-                                                    className="block text-sm font-medium text-gray-700"
-                                                >
-                                                    分類類型:
-                                                </label>
+                                        {
+                                            tagTypes && tagTypes?.functions &&
+                                            <div className="w-full flex flex-row mt-2">
+                                                <div className="w-1/4 flex justify-left items-center">
+                                                    <label
+                                                        htmlFor="new-type"
+                                                        className="block text-sm font-medium text-gray-700"
+                                                    >
+                                                        功能:
+                                                    </label>
+                                                </div>
+                                                <div className="flex w-3/4">
+                                                    <select
+                                                        id="new-type"
+                                                        name="new-type"
+                                                        defaultValue={''}
+                                                        className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                                        onChange={async (e) => {
+                                                            updateTagFunctionsHandler(tag.id, e.target.value);
+                                                        }}
+                                                    >
+                                                        <option value="">
+                                                            請選擇功能
+                                                        </option>
+                                                        {tagTypes?.functions?.map((item: any) => {
+                                                            return (
+                                                                <option key={item.id} value={item.id}>
+                                                                    {item.title}
+                                                                </option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div className="flex w-3/4">
-                                                <select
-                                                    id="new-type"
-                                                    name="new-type"
-                                                    defaultValue={''}
-                                                    className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                                    onChange={async (e) => {
-                                                        setFeature(
-                                                            _find(tagTypes, {
-                                                                type: e.target.value
-                                                            }).feature
-                                                        );
-                                                        // confirmDocumentFormik.setFieldValue(
-                                                        //     'tag_id',
-                                                        //     e.target.value
-                                                        // );
-                                                    }}
-                                                >
-                                                    <option value="" disabled hidden>
-                                                        請選擇批量文件的類型
-                                                    </option>
-                                                    {tagTypes?.map((item: any) => {
-                                                        return (
-                                                            <option key={item.id} value={item.type}>
-                                                                {item.label}
-                                                            </option>
-                                                        );
-                                                    })}
-                                                    {/* {_map(_get(allLabelsData, 'tags'), (item) => {
-                                                        return (
-                                                            <option key={item.id} value={item.id}>
-                                                                {item.name}
-                                                            </option>
-                                                        );
-                                                    })} */}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="w-full flex flex-row mt-2 invisible">
-                                            <div className="w-1/4 flex justify-left items-center">
-                                                <label
-                                                    htmlFor="new-type"
-                                                    className="block  text-sm font-medium text-gray-700"
-                                                >
-                                                    功能:
-                                                </label>
-                                            </div>
-                                            <div className="flex w-3/4">
-                                                <label>{feature}</label>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -224,7 +224,8 @@ function AbsenceApprovalContainer() {
                     setVisable,
                     extraData,
                     setExtraData,
-                    setDocuments
+                    setDocuments,
+                    uploadLoading
                 }}
             />
         </>

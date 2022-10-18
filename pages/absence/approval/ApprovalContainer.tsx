@@ -1,10 +1,11 @@
 import useAxios from 'axios-hooks';
 import Api from '../../../apis';
 import ApprovalView from './ApprovalView';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import _ from 'lodash';
+import _get from 'lodash/get';
 
 const apiSetting = new Api();
 
@@ -15,13 +16,15 @@ function ApprovalContainer() {
         'awaiting'
     );
 
-    //請假紙，工場維修，店鋪維修，name是隨便起的，到時根據DB改名
+    //請假紙，普通文件, 工場維修，店鋪維修
     const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<
         'vacation' | 'normal' | 'factory' | 'shop'
     >('vacation');
     const [days, setDays] = useState(3);
     const [page, setPage] = useState(1);
     const [department, setDepartment] = useState('');
+    const [signature_image_url, set_signature_image_url] = useState('');
+    const [documents, setDocuments] = useState([]);
 
     const [
         {
@@ -48,6 +51,19 @@ function ApprovalContainer() {
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
         { manual: true }
     );
+
+    const [{ data: updateFormApprovalStatusData }, updateFormApprovalStatus] = useAxios(
+        apiSetting.DocumentApproval.updateFormApprovalStatus(''),
+        {
+            manual: true
+        }
+    );
+
+    const [
+        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
+        upload
+    ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
+    
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -118,10 +134,65 @@ function ApprovalContainer() {
             setPage(parseInt(router.query.page + '') || 1);
         }
     }, [router.query.page]);
+
+    const onSubmit = useCallback(
+        async (formData: any) => {
+            const { approval, remark, signature, absenceFormId } = formData;
+            // console.log("form", formData);
+            if (absenceFormId) {
+                updateFormApprovalStatus({
+                    ...apiSetting.DocumentApproval.updateFormApprovalStatus(absenceFormId),
+                    data: {
+                        approval_status: approval,
+                        remark: remark,
+                        signature: signature,
+                        signature_image_url: signature_image_url
+                    }
+                });
+            }
+            setDocuments([]);
+            set_signature_image_url('');
+        },
+        [router, signature_image_url, updateFormApprovalStatus]
+    );
+
+    useEffect(() => {
+        if (documents && documents.length > 0) {
+            const formData = new FormData();
+            for (const i of documents) {
+                formData.append('file', i);
+            }
+            upload({
+                data: formData
+            });
+        }
+    }, [documents]);
+
+    useEffect(() => {
+        if (uploadData && uploadData.success === true) {
+            set_signature_image_url(uploadData.file_url);
+        } else if (uploadData && uploadData.success === false) {
+            alert('Upload failed! Please try again!');
+        }
+    }, [router, uploadData]);
+    
+    useEffect(() => {
+        if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
+            alert('審批成功！');
+            // router.reload()
+            getAbsenceFormByApprovalStatus({
+                url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
+            })
+        }
+    }, [updateFormApprovalStatusData]);
+
     return (
         <ApprovalView
             loading={getAbsenceFormByApprovalStatusLoading}
             error={getAbsenceFormByApprovalStatusError}
+            onSubmit={onSubmit}
+            setDocuments={setDocuments}
+            uploadLoading={uploadLoading}
             {...props}
         />
     );

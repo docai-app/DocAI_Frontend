@@ -4,6 +4,7 @@ import useAxios from 'axios-hooks';
 import axios from 'axios';
 import { EyeIcon } from '@heroicons/react/outline';
 import React from 'react';
+import _ from 'lodash';
 
 export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, onEdit }: any) {
     return (
@@ -15,11 +16,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                 <td className="pl-4">{label?.name}</td>
                 {/* <td className="">{'普通文檔'}</td> */}
                 <td className="">
-                    {
-                        label?.functions?.map( (func: any) => {
-                            return ( func.title + "," )
-                        })
-                    }
+                    {_.join(_.map(label?.functions, 'title'),', ')}
                 </td>
                 <td className="flex flex-row justify-center">
                     <a

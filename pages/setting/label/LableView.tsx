@@ -20,6 +20,7 @@ interface LabelProps {
     newLabelName: string;
     updateLabelNameByIdHandler: any;
     tagTypes: any;
+    updateTagFunctionsHandler: any;
 }
 export default function LabelView(props: LabelProps) {
     const {
@@ -28,7 +29,8 @@ export default function LabelView(props: LabelProps) {
         newLabelName,
         setNewLabelName,
         updateLabelNameByIdHandler,
-        tagTypes
+        tagTypes,
+        updateTagFunctionsHandler
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
     const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
@@ -60,7 +62,8 @@ export default function LabelView(props: LabelProps) {
                     newLabelName,
                     setNewLabelName,
                     addNewLabelHandler,
-                    updateLabelNameByIdHandler
+                    updateLabelNameByIdHandler,
+                    updateTagFunctionsHandler
                 }}
             />
 

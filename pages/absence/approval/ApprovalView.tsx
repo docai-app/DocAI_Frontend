@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import moment from 'moment';
 import PaginationView from '../../../components/common/Widget/PaginationView';
+import InputRemarkModal from '../../../components/common/Widget/InputRemarkModal';
 
 function ApprovalView(props: any) {
     const {
@@ -19,8 +20,13 @@ function ApprovalView(props: any) {
         formSchema,
         loading,
         setDays,
-        setDepartment
+        setDepartment,
+        onSubmit,
+        setDocuments,
+        uploadLoading
     } = props;
+    const [visable, setVisable] = useState(false)
+    const [absenceFormId, setAbsenceFormId] = useState('')
     const fields = [
         {
             label: '員工編號',
@@ -524,13 +530,21 @@ function ApprovalView(props: any) {
                                                     </td>
                                                     <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-left">
                                                         {approval_status === 'awaiting' ? (
-                                                            <Link
-                                                                href={`/absence/approval/${id.toString()}`}
-                                                            >
-                                                                <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                                            
+                                                            currentTypeTabStatus == 'vacation' ? 
+                                                                <Link
+                                                                    href={`/absence/approval/${id.toString()}`}
+                                                                >
+                                                                    <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                                                        立即審批
+                                                                    </a>
+                                                                </Link>
+                                                                :
+                                                                <a onClick={()=>{setAbsenceFormId(id.toString());setVisable(true)}} className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
                                                                     立即審批
                                                                 </a>
-                                                            </Link>
+                                                            
+                                                            
                                                         ) : approval_status === 'approved' ? (
                                                             // <a className="text-green-600 hover:text-green-900 underline">
                                                             //     已審批
@@ -580,6 +594,22 @@ function ApprovalView(props: any) {
                 )}
             </div>
             <PaginationView meta={meta} pathname={'/absence/approval'} params={null} />
+            <InputRemarkModal
+                visable={visable}
+                approval={'approved'}
+                uploadLoading={uploadLoading}
+                cancelClick={() => setVisable(false)}
+                confirmClick={(data: any) => {
+                    setVisable(false);
+                    onSubmit({
+                        ...data,
+                        absenceFormId: absenceFormId
+                    });
+                }}
+                setDocuments={(files: any) => {
+                    setDocuments(files);
+                }}
+            />
         </>
     );
 }
