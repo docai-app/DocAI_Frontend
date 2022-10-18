@@ -20,6 +20,7 @@ interface ValidateViewProps {
     extraData: any;
     setExtraData: any;
     setDocuments: any;
+    uploadLoading: boolean;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -37,7 +38,8 @@ function ValidateView(props: ValidateViewProps) {
         visable,
         setVisable,
         setExtraData,
-        setDocuments
+        setDocuments,
+        uploadLoading
     } = props;
     return (
         <>
@@ -115,6 +117,7 @@ function ValidateView(props: ValidateViewProps) {
             <InputRemarkModal
                 visable={visable}
                 approval={approval}
+                uploadLoading={uploadLoading}
                 cancelClick={() => setVisable(false)}
                 confirmClick={(data: any) => {
                     setExtraData(data);
