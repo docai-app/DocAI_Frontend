@@ -25,8 +25,8 @@ function ApprovalView(props: any) {
         setDocuments,
         uploadLoading
     } = props;
-    const [visable, setVisable] = useState(false)
-    const [absenceFormId, setAbsenceFormId] = useState('')
+    const [visable, setVisable] = useState(false);
+    const [absenceFormId, setAbsenceFormId] = useState('');
     const fields = [
         {
             label: '員工編號',
@@ -303,8 +303,7 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
-                                    {
-                                        currentTypeTabStatus === 'vacation' ?
+                                    {currentTypeTabStatus === 'vacation' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -312,8 +311,7 @@ function ApprovalView(props: any) {
                                                 onSwitch={onSwitchWorkingDepartment}
                                             />
                                         </div>
-                                        : null
-                                    }
+                                    ) : null}
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
                                         <div className="ml-4">
@@ -347,13 +345,14 @@ function ApprovalView(props: any) {
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 文檔
                                             </th>
-                                            {
-                                                currentTypeTabStatus === 'vacation' ?
-                                                <th scope="col" className="px-6 py-3 text-left w-1/3">
+                                            {currentTypeTabStatus === 'vacation' ? (
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3 text-left w-1/3"
+                                                >
                                                     內容
                                                 </th>
-                                                : null
-                                            }
+                                            ) : null}
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 上傳日期
                                             </th>
@@ -385,7 +384,11 @@ function ApprovalView(props: any) {
                                                 signature_image_url = null
                                             } = item;
                                             const { storage_url: formUrl = null } = item.document;
-                                            if (item.form_data?.data == null && currentTypeTabStatus === 'vacation') return;
+                                            if (
+                                                item.form_data?.data == null &&
+                                                currentTypeTabStatus === 'vacation'
+                                            )
+                                                return;
                                             const {
                                                 employee_id = null,
                                                 employee_name = null,
@@ -435,8 +438,7 @@ function ApprovalView(props: any) {
                                                             />
                                                         )}
                                                     </td>
-                                                    {
-                                                        currentTypeTabStatus === 'vacation' ?
+                                                    {currentTypeTabStatus === 'vacation' ? (
                                                         <td className="px-6 py-4 text-left overflow-hidden">
                                                             <div className="flex flex-row  text-sm">
                                                                 <div className="flex-1">
@@ -516,8 +518,7 @@ function ApprovalView(props: any) {
                                                             </a>
                                                             {/* {reason_of_absence} */}
                                                         </td>
-                                                        : null
-                                                    }
+                                                    ) : null}
                                                     {/* <td className="px-6 py-4 text-left">
                                                         {type_of_leave &&
                                                             _get(
@@ -530,8 +531,7 @@ function ApprovalView(props: any) {
                                                     </td>
                                                     <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-left">
                                                         {approval_status === 'awaiting' ? (
-                                                            
-                                                            currentTypeTabStatus == 'vacation' ? 
+                                                            currentTypeTabStatus == 'vacation' ? (
                                                                 <Link
                                                                     href={`/absence/approval/${id.toString()}`}
                                                                 >
@@ -539,12 +539,19 @@ function ApprovalView(props: any) {
                                                                         立即審批
                                                                     </a>
                                                                 </Link>
-                                                                :
-                                                                <a onClick={()=>{setAbsenceFormId(id.toString());setVisable(true)}} className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                                            ) : (
+                                                                <a
+                                                                    onClick={() => {
+                                                                        setAbsenceFormId(
+                                                                            id.toString()
+                                                                        );
+                                                                        setVisable(true);
+                                                                    }}
+                                                                    className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline"
+                                                                >
                                                                     立即審批
                                                                 </a>
-                                                            
-                                                            
+                                                            )
                                                         ) : approval_status === 'approved' ? (
                                                             // <a className="text-green-600 hover:text-green-900 underline">
                                                             //     已審批

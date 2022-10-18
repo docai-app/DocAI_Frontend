@@ -121,8 +121,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                 />
                                             </div>
                                         </div>
-                                        {
-                                            tagTypes && tagTypes?.functions &&
+                                        {tagTypes && tagTypes?.functions && (
                                             <div className="w-full flex flex-row mt-2">
                                                 <div className="w-1/4 flex justify-left items-center">
                                                     <label
@@ -139,15 +138,19 @@ export default function EditLabel(props: EditLabelProps) {
                                                         defaultValue={''}
                                                         className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                         onChange={async (e) => {
-                                                            updateTagFunctionsHandler(tag.id, e.target.value);
+                                                            updateTagFunctionsHandler(
+                                                                tag.id,
+                                                                e.target.value
+                                                            );
                                                         }}
                                                     >
-                                                        <option value="">
-                                                            請選擇功能
-                                                        </option>
+                                                        <option value="">請選擇功能</option>
                                                         {tagTypes?.functions?.map((item: any) => {
                                                             return (
-                                                                <option key={item.id} value={item.id}>
+                                                                <option
+                                                                    key={item.id}
+                                                                    value={item.id}
+                                                                >
                                                                     {item.title}
                                                                 </option>
                                                             );
@@ -155,7 +158,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                     </select>
                                                 </div>
                                             </div>
-                                        }
+                                        )}
                                     </div>
                                 </div>
                             </div>

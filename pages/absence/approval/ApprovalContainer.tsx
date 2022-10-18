@@ -63,7 +63,7 @@ function ApprovalContainer() {
         { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
         upload
     ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
-    
+
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
@@ -86,8 +86,7 @@ function ApprovalContainer() {
             data: getAbsenceFormByApprovalStatusData?.absence_forms || p.data,
             meta: getAbsenceFormByApprovalStatusData?.meta || p.meta
         }));
-        console.log('getAbsenceFormByApprovalStatusData',getAbsenceFormByApprovalStatusData);
-        
+        console.log('getAbsenceFormByApprovalStatusData', getAbsenceFormByApprovalStatusData);
     }, [getAbsenceFormByApprovalStatusData]);
 
     useEffect(() => {
@@ -96,17 +95,17 @@ function ApprovalContainer() {
             currentTabStatus: currentTabStatus,
             setCurrentTabStatus: setCurrentTabStatus
         }));
-        console.log('currentTypeTabStatus',currentTypeTabStatus);
-        
-        currentTypeTabStatus == 'vacation' ?
-            getAbsenceFormByApprovalStatus({
-                url: `/api/v1/form/absence/approval?status=${currentTabStatus}&days=${days}&page=${page}`
-            }) : 
-        currentTypeTabStatus == 'normal' ?
-            getAbsenceFormByApprovalStatus({
-                url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
-            }) : null
-        ;
+        console.log('currentTypeTabStatus', currentTypeTabStatus);
+
+        currentTypeTabStatus == 'vacation'
+            ? getAbsenceFormByApprovalStatus({
+                  url: `/api/v1/form/absence/approval?status=${currentTabStatus}&days=${days}&page=${page}`
+              })
+            : currentTypeTabStatus == 'normal'
+            ? getAbsenceFormByApprovalStatus({
+                  url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
+              })
+            : null;
     }, [currentTypeTabStatus, currentTabStatus, days, page, getAbsenceFormByApprovalStatus]);
 
     useEffect(() => {
@@ -175,14 +174,14 @@ function ApprovalContainer() {
             alert('Upload failed! Please try again!');
         }
     }, [router, uploadData]);
-    
+
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
             alert('審批成功！');
             // router.reload()
             getAbsenceFormByApprovalStatus({
                 url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
-            })
+            });
         }
     }, [updateFormApprovalStatusData]);
 

@@ -22,10 +22,8 @@ export default function LabelContainer() {
         { manual: false }
     );
 
-    const [{ data: updateTagFunctionsData, error: updateTagFunctionsError }, updateTagFunctions] = useAxios(
-        apiSetting.Tag.updateTagFunctions(),
-        { manual: true }
-    );
+    const [{ data: updateTagFunctionsData, error: updateTagFunctionsError }, updateTagFunctions] =
+        useAxios(apiSetting.Tag.updateTagFunctions(), { manual: true });
 
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
@@ -72,7 +70,7 @@ export default function LabelContainer() {
 
     const updateTagFunctionsHandler = useCallback(
         async (tag_id: string, function_id: string) => {
-            if( function_id )
+            if (function_id)
                 updateTagFunctions({
                     data: { tag_id: tag_id, function_id: function_id }
                 });
