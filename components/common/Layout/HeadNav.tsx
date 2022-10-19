@@ -42,7 +42,7 @@ function HeadNav() {
         localStorage.removeItem('authorization');
         localStorage.removeItem('email');
         document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
-        router.reload();
+        router.push('/login');
     }, [router]);
 
     const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getAllTags(), {
