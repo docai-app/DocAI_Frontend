@@ -35,7 +35,7 @@ function HeadNav() {
     const [searchContent, setSearchContent] = useState('');
 
     useEffect(() => {
-        setEmail(localStorage.getItem('email') || 'testing');
+        setEmail(localStorage.getItem('email') || '');
     }, []);
 
     const signOut = useCallback(() => {
