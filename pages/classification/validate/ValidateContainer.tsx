@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import ValidateView from './ValidateView';
 import useAxios from 'axios-hooks';
-import Api from '../../../apis/index';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import { Folder } from '../../../components/common/Widget/FolderTree';
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import Api from '../../../apis/index';
+import { Folder } from '../../../components/common/Widget/FolderTree';
+import ValidateView from './ValidateView';
 
 const apiSetting = new Api();
 
@@ -78,6 +77,11 @@ function ValidateContainer() {
     const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
 
     const [{ data: updateDocumentNameByIdData }, updateDocumentNameById] = useAxios(
+        {},
+        { manual: true }
+    );
+
+    const [{ data: deleteDocumentNameByIdData }, deleteDocumentNameById] = useAxios(
         {},
         { manual: true }
     );
@@ -172,6 +176,17 @@ function ValidateContainer() {
         addNewLabel({ data: { name: newLabelName } });
     }, [addNewLabel, newLabelName]);
 
+    const deleteDocument = () => {
+        if (latestPredictionData) {
+            console.log(latestPredictionData?.prediction?.document?.id);
+            deleteDocumentNameById(
+                apiSetting.Document.deleteDocumentById(
+                    latestPredictionData.prediction.document.id
+                )
+            );
+        }
+    }
+
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
             alert('新增成功');
@@ -254,6 +269,14 @@ function ValidateContainer() {
         }
     }, [tagFunctionsData]);
 
+    useEffect(() => {
+        if (deleteDocumentNameByIdData?.success) {
+            getAndPredictLatestUploadedDocument();
+        } else {
+            console.log(deleteDocumentNameByIdData);
+        }
+    }, [deleteDocumentNameByIdData]);
+
     return (
         <>
             <ValidateView
@@ -280,7 +303,8 @@ function ValidateContainer() {
                     newLabelName,
                     setNewLabelName,
                     addNewLabelHandler,
-                    tagHasFunction
+                    tagHasFunction,
+                    deleteDocument
                 }}
             />
         </>
