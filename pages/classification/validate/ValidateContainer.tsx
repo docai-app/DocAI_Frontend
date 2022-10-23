@@ -269,7 +269,12 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (tagFunctionsData && tagFunctionsData.functions) {
-            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form_understanding'));
+            console.log(tagFunctionsData);
+            setTagHasFunction(
+                _.find(tagFunctionsData.functions, {
+                    name: 'form_understanding'
+                })
+            );
         }
     }, [tagFunctionsData]);
 
