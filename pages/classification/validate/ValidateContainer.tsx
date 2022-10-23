@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import ValidateView from './ValidateView';
 import useAxios from 'axios-hooks';
-import Api from '../../../apis/index';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
-import { Folder } from '../../../components/common/Widget/FolderTree';
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import Api from '../../../apis/index';
+import { Folder } from '../../../components/common/Widget/FolderTree';
+import ValidateView from './ValidateView';
 
 const apiSetting = new Api();
 
@@ -79,6 +79,18 @@ function ValidateContainer() {
     const [{ data: updateDocumentNameByIdData }, updateDocumentNameById] = useAxios(
         {},
         { manual: true }
+    );
+
+    const [{ data: deleteDocumentNameByIdData }, deleteDocumentNameById] = useAxios(
+        {},
+        { manual: true }
+    );
+
+    const [{ data: tagFunctionsData }, getTagFunctions] = useAxios(
+        apiSetting.Tag.getTagFunctionsById(''),
+        {
+            manual: true
+        }
     );
 
     const confirmDocumentFormik = useFormik({
@@ -164,6 +176,15 @@ function ValidateContainer() {
         addNewLabel({ data: { name: newLabelName } });
     }, [addNewLabel, newLabelName]);
 
+    const deleteDocument = () => {
+        if (latestPredictionData) {
+            console.log(latestPredictionData?.prediction?.document?.id);
+            deleteDocumentNameById(
+                apiSetting.Document.deleteDocumentById(latestPredictionData.prediction.document.id)
+            );
+        }
+    };
+
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
             alert('新增成功');
@@ -238,6 +259,28 @@ function ValidateContainer() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, latestPredictionData]);
 
+    useEffect(() => {
+        if (confirmDocumentFormik.values.tag_id) {
+            getTagFunctions({
+                ...apiSetting.Tag.getTagFunctionsById(confirmDocumentFormik.values.tag_id)
+            });
+        }
+    }, [confirmDocumentFormik.values.tag_id]);
+
+    useEffect(() => {
+        if (tagFunctionsData && tagFunctionsData.functions) {
+            setTagHasFunction(_.includes(tagFunctionsData.functions, 'form_understanding'));
+        }
+    }, [tagFunctionsData]);
+
+    useEffect(() => {
+        if (deleteDocumentNameByIdData?.success) {
+            getAndPredictLatestUploadedDocument();
+        } else {
+            console.log(deleteDocumentNameByIdData);
+        }
+    }, [deleteDocumentNameByIdData]);
+
     return (
         <>
             <ValidateView
@@ -264,7 +307,8 @@ function ValidateContainer() {
                     newLabelName,
                     setNewLabelName,
                     addNewLabelHandler,
-                    tagHasFunction
+                    tagHasFunction,
+                    deleteDocument
                 }}
             />
         </>

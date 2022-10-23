@@ -22,6 +22,15 @@ export default class Absence {
         return requestHeader;
     }
 
+    deleteDocumentById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
+
     getDocumentsByTagID(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
