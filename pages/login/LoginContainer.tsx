@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useCallback, useEffect, useState } from 'react';
 import Api from '../../apis';
 import LoginView from './LoginView';
 import { useRouter } from 'next/router';
@@ -17,31 +17,34 @@ export default function LoginContainer() {
         localStorage.removeItem('email');
         document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
     }, []);
-    const handleSignIn: FormEventHandler<HTMLFormElement> = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
-        const remember = formData.get('remember');
-        const res = await signIn(apiSetting.Authorization.signIn(email, password));
-        if (res.data.success) {
-            //if (res.headers.authorization) {
-            const token = res.headers.authorization;
-            localStorage.setItem('authorization', token);
-            localStorage.setItem('email', email);
-            if (remember) {
-                const expiryDate = 'Fri, 31 Dec 9999 23:59:59 GMT'; // to be updated so that this can be dynamic
-                document.cookie = `authorization=${escape(token)}; expires=${expiryDate}`;
+    const handleSignIn: FormEventHandler<HTMLFormElement> = useCallback(
+        async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+            const remember = formData.get('remember');
+            const res = await signIn(apiSetting.Authorization.signIn(email, password));
+            if (res.data.success) {
+                //if (res.headers.authorization) {
+                const token = res.headers.authorization;
+                localStorage.setItem('authorization', token);
+                localStorage.setItem('email', email);
+                if (remember) {
+                    const expiryDate = 'Fri, 31 Dec 9999 23:59:59 GMT'; // to be updated so that this can be dynamic
+                    document.cookie = `authorization=${escape(token)}; expires=${expiryDate}`;
+                } else {
+                    document.cookie = `authorization=${escape(token)}`;
+                }
+                if (router.pathname === '/login') router.push('/');
+                else router.reload();
             } else {
-                document.cookie = `authorization=${escape(token)}`;
+                localStorage.removeItem('authorization');
+                localStorage.removeItem('email');
+                document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
             }
-            if (router.pathname === 'login') router.push('/');
-            else router.reload();
-        } else {
-            localStorage.removeItem('authorization');
-            localStorage.removeItem('email');
-            document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
-        }
-    };
+        },
+        [router, signIn]
+    );
     return <LoginView {...{ handleSignIn, signInData, signInLoading, signInError }} />;
 }
