@@ -199,16 +199,19 @@ function ApprovalView(props: any) {
             const type_of_leave = _findKey(itemJSON.type_of_leave, function (value: boolean) {
                 return value === true;
             });
-            tempData.working_department = working_department;
-            tempData.type_of_leave =
-                formSchema.properties.type_of_leave.properties[`${type_of_leave}`].title;
+            tempData.working_department = working_department ? working_department : '';
+            tempData.type_of_leave = formSchema?.properties?.type_of_leave?.properties[
+                `${type_of_leave}`
+            ]?.title
+                ? formSchema.properties.type_of_leave.properties[`${type_of_leave}`].title
+                : '';
             absencesFormData.push(tempData);
         });
         const json2csvParser = new Parser({ fields });
         const csv = json2csvParser.parse(absencesFormData);
         const link = document.createElement('a');
         link.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
-        link.download = '請假表.csv';
+        link.download = '表格.csv';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -323,17 +326,19 @@ function ApprovalView(props: any) {
                                         </div>
                                     )}
                                 </div>
-                                <button
-                                    type="button"
-                                    className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={downloadCSV}
-                                >
-                                    <DownloadIcon
-                                        className="-ml-0.5 mr-2 h-4 w-4"
-                                        aria-hidden="true"
-                                    />
-                                    下載請假表
-                                </button>
+                                {currentTypeTabStatus === 'vacation' ? (
+                                    <button
+                                        type="button"
+                                        className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        onClick={downloadCSV}
+                                    >
+                                        <DownloadIcon
+                                            className="-ml-0.5 mr-2 h-4 w-4"
+                                            aria-hidden="true"
+                                        />
+                                        下載
+                                    </button>
+                                ) : null}
                             </div>
                             <div className="shadow w-full sm:rounded-lg overflow-hidden ring-1 ring-black ring-opacity-5">
                                 <table className="w-full divide-y divide-gray-300">
@@ -369,7 +374,7 @@ function ApprovalView(props: any) {
                                                         className="-ml-0.5 mr-2 h-4 w-4"
                                                         aria-hidden="true"
                                                     />
-                                                    下載請假表
+                                                    下載
                                                 </button>
                                             </th> */}
                                         </tr>
