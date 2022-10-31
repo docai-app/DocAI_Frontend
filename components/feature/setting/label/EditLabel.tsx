@@ -149,7 +149,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                             }
                                                         }}
                                                     >
-                                                        <option value="">請選擇功能</option>
+                                                        <option value="">請選擇新增的功能</option>
                                                         {tagTypes?.functions?.map((item: any) => {
                                                             return (
                                                                 <option
