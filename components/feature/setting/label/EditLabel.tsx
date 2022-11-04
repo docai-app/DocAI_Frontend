@@ -14,6 +14,7 @@ interface EditLabelProps {
     setNewLabelName: any;
     updateLabelNameByIdHandler?: any;
     updateTagFunctionsHandler?: any;
+    deleteTagFunctionsHandler?: any;
 }
 
 export default function EditLabel(props: EditLabelProps) {
@@ -26,7 +27,8 @@ export default function EditLabel(props: EditLabelProps) {
         addNewLabelHandler,
         setNewLabelName,
         updateLabelNameByIdHandler,
-        updateTagFunctionsHandler
+        updateTagFunctionsHandler,
+        deleteTagFunctionsHandler
     } = props;
     const cancelButtonRef = useRef(null);
     const [feature, setFeature] = useState('');
@@ -134,33 +136,62 @@ export default function EditLabel(props: EditLabelProps) {
                                                         功能:
                                                     </label>
                                                 </div>
-                                                <div className="flex w-3/4">
-                                                    <select
+                                                <div className="flex flex-col justify-start items-start w-3/4">
+                                                    {tagTypes?.functions?.map(
+                                                        (item: any, index: number) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <input
+                                                                        type={'checkbox'}
+                                                                        name={item.title}
+                                                                        defaultChecked={
+                                                                            !isContain(item.id)
+                                                                        }
+                                                                        onChange={(e) => {
+                                                                            if (e.target.checked) {
+                                                                                updateTagFunctionsHandler(
+                                                                                    tag.id,
+                                                                                    item.id
+                                                                                );
+                                                                            } else {
+                                                                                deleteTagFunctionsHandler(
+                                                                                    tag.id,
+                                                                                    item.id
+                                                                                );
+                                                                            }
+                                                                        }}
+                                                                    />
+                                                                    <label className="ml-2">
+                                                                        {' '}
+                                                                        {item.title}
+                                                                    </label>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    )}
+
+                                                    {/* <select
                                                         id="new-type"
                                                         name="new-type"
                                                         defaultValue={''}
                                                         className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                         onChange={async (e) => {
                                                             if (isContain(e.target.value)) {
-                                                                updateTagFunctionsHandler(
-                                                                    tag.id,
-                                                                    e.target.value
-                                                                );
+                                                                updateTagFunctionsHandler(tag.id, e.target.value);
                                                             }
                                                         }}
                                                     >
-                                                        <option value="">請選擇新增的功能</option>
+                                                        <option value="">
+                                                            請選擇功能
+                                                        </option>
                                                         {tagTypes?.functions?.map((item: any) => {
                                                             return (
-                                                                <option
-                                                                    key={item.id}
-                                                                    value={item.id}
-                                                                >
+                                                                <option key={item.id} value={item.id}>
                                                                     {item.title}
                                                                 </option>
                                                             );
                                                         })}
-                                                    </select>
+                                                    </select> */}
                                                 </div>
                                             </div>
                                         )}

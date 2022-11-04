@@ -66,4 +66,13 @@ export default class Tag {
         };
         return requestHeader;
     }
+
+    deleteTagFunctions() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/function`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
 }

@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import LabelView from './LableView';
-import Api from '../../../apis';
 import useAxios from 'axios-hooks';
-import axios from 'axios';
+import { useCallback, useEffect, useState } from 'react';
+import Api from '../../../apis';
+import LabelView from './LableView';
 
 const apiSetting = new Api();
 
@@ -24,6 +23,9 @@ export default function LabelContainer() {
 
     const [{ data: updateTagFunctionsData, error: updateTagFunctionsError }, updateTagFunctions] =
         useAxios(apiSetting.Tag.updateTagFunctions(), { manual: true });
+
+    const [{ data: deleteTagFunctionsData, error: deleteTagFunctionsError }, deleteTagFunctions] =
+        useAxios(apiSetting.Tag.deleteTagFunctions(), { manual: true });
 
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
@@ -78,6 +80,16 @@ export default function LabelContainer() {
         [updateTagFunctions]
     );
 
+    const deleteTagFunctionsHandler = useCallback(
+        async (tag_id: string, function_id: string) => {
+            if (function_id)
+                deleteTagFunctions({
+                    data: { tag_id: tag_id, function_id: function_id }
+                });
+        },
+        [deleteTagFunctions]
+    );
+
     return (
         <LabelView
             {...{
@@ -88,7 +100,8 @@ export default function LabelContainer() {
                 setNewLabelName,
                 updateLabelNameByIdHandler,
                 tagTypes,
-                updateTagFunctionsHandler
+                updateTagFunctionsHandler,
+                deleteTagFunctionsHandler
             }}
         />
     );

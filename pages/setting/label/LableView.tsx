@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
-import TagView from '../../classification/[tag]/TagView';
 import LabelTag from './LabelTag';
 
 interface LabelProps {
@@ -21,6 +20,7 @@ interface LabelProps {
     updateLabelNameByIdHandler: any;
     tagTypes: any;
     updateTagFunctionsHandler: any;
+    deleteTagFunctionsHandler: any;
 }
 export default function LabelView(props: LabelProps) {
     const {
@@ -30,7 +30,8 @@ export default function LabelView(props: LabelProps) {
         setNewLabelName,
         updateLabelNameByIdHandler,
         tagTypes,
-        updateTagFunctionsHandler
+        updateTagFunctionsHandler,
+        deleteTagFunctionsHandler
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
     const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
@@ -63,7 +64,8 @@ export default function LabelView(props: LabelProps) {
                     setNewLabelName,
                     addNewLabelHandler,
                     updateLabelNameByIdHandler,
-                    updateTagFunctionsHandler
+                    updateTagFunctionsHandler,
+                    deleteTagFunctionsHandler
                 }}
             />
 
