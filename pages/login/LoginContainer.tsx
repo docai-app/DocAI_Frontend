@@ -9,7 +9,7 @@ const apiSetting = new Api();
 export default function LoginContainer() {
     const router = useRouter();
     const [{ data: signInData, loading: signInLoading, error: signInError }, signIn] = useAxios(
-        '',
+        {},
         { manual: true }
     );
     useEffect(() => {
