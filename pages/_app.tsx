@@ -20,9 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                     localStorage.removeItem('email');
                     document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
                     router.push('/login');
-                } else {
-                    return Promise.reject(error);
                 }
+                return Promise.reject(error);
             }
         );
     }, [router]);
