@@ -6,6 +6,7 @@ import axios from 'axios';
 import { NextRouter, useRouter } from 'next/router';
 import _ from 'lodash';
 import _get from 'lodash/get';
+import { matchFormSchemaAndFormData } from '../../../utils/form';
 
 const apiSetting = new Api();
 
@@ -63,6 +64,10 @@ function ApprovalContainer() {
         { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
         upload
     ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
+
+    // useEffect(() => {
+    //     matchFormSchemaAndFormData();
+    // }, [])
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
