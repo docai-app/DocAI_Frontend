@@ -201,7 +201,7 @@ function ValidateContainer() {
                 type: 'error'
             });
         }
-    }, [addNewLabelData]);
+    }, [addNewLabelData, setAlert]);
 
     useEffect(() => {
         if (router.isReady) {
@@ -236,7 +236,7 @@ function ValidateContainer() {
         if (updateDocumentNameByIdData?.success) {
             setAlert({ title: '改名成功', type: 'success' });
         }
-    }, [updateDocumentNameByIdData]);
+    }, [updateDocumentNameByIdData, setAlert]);
 
     useEffect(() => {
         if (

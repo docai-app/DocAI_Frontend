@@ -165,7 +165,7 @@ function ShowContainer() {
                 type: 'error'
             });
         }
-    }, [addNewLabelData]);
+    }, [addNewLabelData, setAlert]);
 
     useEffect(() => {
         if (router.isReady) {

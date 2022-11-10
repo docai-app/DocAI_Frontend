@@ -61,7 +61,7 @@ function UploadContainer() {
             setOpen(false);
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
-    }, [router, uploadData]);
+    }, [router, uploadData, setAlert]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, tags, open, setOpen }} />

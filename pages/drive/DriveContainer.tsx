@@ -56,7 +56,7 @@ export default function DriveContainer() {
                 setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
-        [router, shareFolderPermission]
+        [router, shareFolderPermission, setAlert]
     );
 
     const handleNewFolder = useCallback(
@@ -71,7 +71,7 @@ export default function DriveContainer() {
                 setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
-        [router, createFolder, queryId]
+        [router, createFolder, queryId, setAlert]
     );
 
     useEffect(() => {

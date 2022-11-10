@@ -65,7 +65,7 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
-    }, [getAllLabels, addNewLabelData]);
+    }, [getAllLabels, addNewLabelData, setAlert]);
 
     useEffect(() => {
         if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
@@ -78,7 +78,7 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
-    }, [getAllLabels, updateLabelNameByIdData]);
+    }, [getAllLabels, updateLabelNameByIdData, setAlert]);
 
     const updateTagFunctionsHandler = useCallback(
         async (tag_id: string, function_id: string) => {

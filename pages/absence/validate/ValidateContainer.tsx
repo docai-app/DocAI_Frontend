@@ -146,7 +146,7 @@ function ValidateContainer() {
             // router.push('/');
             router.back();
         }
-    }, [router, updateFormDataData]);
+    }, [router, updateFormDataData, setAlert]);
 
     return (
         <>

@@ -180,7 +180,7 @@ function ApprovalContainer() {
         } else if (uploadData && uploadData.success === false) {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
-    }, [router, uploadData]);
+    }, [router, uploadData, setAlert]);
 
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {

@@ -34,7 +34,7 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                 }
             }
         },
-        [router]
+        [router, setAlert]
     );
     return (
         <Transition show={mode === 'move'}>
