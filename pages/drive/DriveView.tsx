@@ -1,20 +1,16 @@
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
     ChevronDownIcon,
     DocumentIcon,
     PencilIcon,
-    PlusIcon,
-    ShareIcon
+    PlusIcon
 } from '@heroicons/react/outline';
 import { FolderIcon } from '@heroicons/react/solid';
-import { DocumentDuplicateIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Dispatch, Fragment, SetStateAction, useCallback, useRef } from 'react';
-import FolderTree, { Folder } from '../../components/common/Widget/FolderTree';
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import TableRow from '../../components/feature/drive/TableRow';
-import BreadCrumb from '../../components/feature/drive/BreadCrumb';
+import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
+import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
+import BreadCrumb from '../../components/feature/drive/BreadCrumb';
+import TableRow from '../../components/feature/drive/TableRow';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -41,15 +37,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         movingDest = null,
-        setMovingDest = () => {},
+        setMovingDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null
     } = props;
 
@@ -118,9 +114,8 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -158,7 +153,7 @@ export default function DriveView(props: DriveViewProps) {
                     {/* </div> */}
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
                         <table className="w-full">
-                            <thead className="bg-gray-50 shadow-sm sticky top-0 border-b border-b-gray-200">
+                            <thead className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200">
                                 <tr>
                                     <th scope="col" className="px-2 py-3 w-1/12">
                                         <DocumentIcon className="ml-auto h-6" />
@@ -176,10 +171,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -213,8 +208,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
