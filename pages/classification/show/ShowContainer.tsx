@@ -7,11 +7,13 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import moment from 'moment';
+import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function ShowContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [mode, setMode] = useState<'view' | 'move'>('view');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
@@ -84,7 +86,7 @@ function ShowContainer() {
                 }
             });
             if (res.data.success === true) {
-                alert('Document Confirmed!');
+                setAlert({ title: 'Document Confirmed!', type: 'success' });
                 await getAndPredictLatestUploadedDocument();
             }
         }
@@ -102,10 +104,10 @@ function ShowContainer() {
             });
             await getAllTags();
             if (res.data.success) {
-                alert('新類型已新增！');
+                setAlert({ title: '新類型已新增！', type: 'success' });
                 await getAndPredictLatestUploadedDocument();
             } else if (res.data.success === false) {
-                alert('新類型已存在！');
+                setAlert({ title: '新類型已存在！', type: 'warning' });
             }
         }
     });
@@ -149,7 +151,7 @@ function ShowContainer() {
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
-            alert('新增成功');
+            setAlert({ title: '新增成功', type: 'success' });
             setTagName(newLabelName);
             setNewLabelName('');
             // confirmDocumentFormik.setFieldValue(
@@ -157,9 +159,13 @@ function ShowContainer() {
             //     newLabelName
             // );
         } else if (addNewLabelData && !addNewLabelData.success) {
-            alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
+            setAlert({
+                title: `新增失敗！`,
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: 'error'
+            });
         }
-    }, [addNewLabelData]);
+    }, [addNewLabelData, setAlert]);
 
     useEffect(() => {
         if (router.isReady) {
@@ -205,7 +211,7 @@ function ShowContainer() {
             );
             confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
         } else if (latestPredictionData && latestPredictionData.success === false) {
-            alert('沒有文件需要驗證');
+            setAlert({ title: '沒有文件需要驗證', type: 'info' });
             router.push('/classification');
         }
 

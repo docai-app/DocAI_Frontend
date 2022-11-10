@@ -4,6 +4,7 @@ import Api from '../../../apis/index';
 import SearchView from './SearchView';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
@@ -11,6 +12,7 @@ function SearchContainer() {
     const [absenceForms, setAbsenceForms] = useState({
         form_data: []
     });
+    const { setAlert } = useAlert();
     const [label, setLabel] = useState('請假表');
     const [
         {
@@ -35,7 +37,7 @@ function SearchContainer() {
                 url: `/api/v1/search/form/${encodeURI(label)}/${values.date}`
             });
             if (res.data) {
-                alert('Absence Form Found!');
+                setAlert({ title: 'Absence Form Found!', type: 'info' });
                 setAbsenceForms({
                     form_data: res.data.form_data
                 });

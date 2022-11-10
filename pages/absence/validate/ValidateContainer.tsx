@@ -7,11 +7,13 @@ import { useFormik } from 'formik';
 import _get from 'lodash/get';
 import { WidgetProps, FieldProps } from '@rjsf/core';
 import axios from 'axios';
+import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function ValidateContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
     const [formId, setFormId] = useState('');
     const [result, setResult] = useState({});
@@ -140,11 +142,11 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
-            alert('請假表提交成功！');
+            setAlert({ title: '請假表提交成功！', type: 'success' });
             // router.push('/');
             router.back();
         }
-    }, [router, updateFormDataData]);
+    }, [router, updateFormDataData, setAlert]);
 
     return (
         <>

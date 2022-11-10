@@ -6,12 +6,14 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis/index';
 import { Folder } from '../../../components/common/Widget/FolderTree';
+import useAlert from '../../../hooks/useAlert';
 import ValidateView from './ValidateView';
 
 const apiSetting = new Api();
 
 function ValidateContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [mode, setMode] = useState<'view' | 'move'>('view');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
@@ -107,7 +109,7 @@ function ValidateContainer() {
                 }
             });
             if (res.data.success === true) {
-                // alert('Document Confirmed!');
+                // setAlert({title: 'Document Confirmed!');
                 await getAndPredictLatestUploadedDocument();
             }
         }
@@ -125,10 +127,10 @@ function ValidateContainer() {
             });
             await getAllTags();
             if (res.data.success) {
-                alert('新類型已新增！');
+                setAlert({ title: '新類型已新增！', type: 'success' });
                 await getAndPredictLatestUploadedDocument();
             } else if (res.data.success === false) {
-                alert('新類型已存在！');
+                setAlert({ title: '新類型已存在！', type: 'error' });
             }
         }
     });
@@ -187,15 +189,19 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
-            alert('新增成功');
+            setAlert({ title: '新增成功', type: 'success' });
             setTagName(newLabelName);
             setNewLabelName('');
             confirmDocumentFormik.setFieldValue('tag_id', addNewLabelData.tag.id);
             getAllTags();
         } else if (addNewLabelData && !addNewLabelData.success) {
-            alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
+            setAlert({
+                title: '新增失敗！',
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: 'error'
+            });
         }
-    }, [addNewLabelData]);
+    }, [addNewLabelData, setAlert]);
 
     useEffect(() => {
         if (router.isReady) {
@@ -228,9 +234,9 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (updateDocumentNameByIdData?.success) {
-            alert('改名成功');
+            setAlert({ title: '改名成功', type: 'success' });
         }
-    }, [updateDocumentNameByIdData]);
+    }, [updateDocumentNameByIdData, setAlert]);
 
     useEffect(() => {
         if (
@@ -252,7 +258,7 @@ function ValidateContainer() {
             );
             confirmDocumentFormik.setFieldValue('tag_id', latestPredictionData.prediction.tag.id);
         } else if (latestPredictionData && latestPredictionData.success === false) {
-            alert('沒有文件需要驗證');
+            setAlert({ title: '沒有文件需要驗證', type: 'info' });
             router.push('/classification/logs');
         }
 

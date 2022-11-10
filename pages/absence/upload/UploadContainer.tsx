@@ -5,11 +5,13 @@ import useAxios from 'axios-hooks';
 import Api from '../../../apis/index';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function UploadContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
     const [
@@ -48,9 +50,9 @@ function UploadContainer() {
             });
         } else if (uploadData && uploadData.success === false) {
             setOpen(false);
-            alert('Upload failed! Please try again!');
+            setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
-    }, [router, uploadData]);
+    }, [router, uploadData, setAlert]);
     return (
         <>
             <UploadView {...{ formik, setDocuments, open, setOpen }} />

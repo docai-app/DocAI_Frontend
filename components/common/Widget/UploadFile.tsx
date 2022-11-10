@@ -8,6 +8,7 @@ import { Folder } from './FolderTree';
 import FolderTreeForSelect from './FolderTreeForSelect';
 import useAxios from 'axios-hooks';
 import Api from '../../../apis';
+import useAlert from '../../../hooks/useAlert';
 
 interface UploadFileProps {
     title: string;
@@ -23,6 +24,7 @@ const apiSetting = new Api();
 export default function UploadFile(props: UploadFileProps) {
     const { title, btnName, selectName, multiple = false, formik, setDocuments } = props;
     const fileInput = useRef<HTMLInputElement>(null);
+    const { setAlert } = useAlert();
 
     const [myfiles, setMyFiles] = useState<any>([]);
     const [mode, setMode] = useState('');
@@ -51,7 +53,7 @@ export default function UploadFile(props: UploadFileProps) {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         // Set the selected maximum file limit to 10 files:
         if (event.target.files && event.target.files.length > 10) {
-            alert('最多只能上傳10個文檔');
+            setAlert({ title: '最多只能上傳10個文檔', type: 'warning' });
             return;
         } else if (event.target.files && event.target.files.length > 0) {
             setDocuments(event.target.files);
