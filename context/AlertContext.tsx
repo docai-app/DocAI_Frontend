@@ -1,23 +1,36 @@
 import { createContext, useState } from 'react';
 
+interface AlertModalProps {
+    title: string;
+    show: boolean;
+    content?: string;
+    type?: 'success' | 'warning' | 'error' | 'info';
+    confirmText?: string;
+    cancelText?: string;
+}
+
+interface AlertContextProps extends AlertModalProps {
+    setAlert: (props: AlertModalProps) => void;
+}
+
 const initialState = {
     title: '',
-    content: '',
-    type: '',
-    confirmText: '',
-    cancelText: '',
     show: false,
     onClose: (value: boolean) => {}
 };
-const AlertContext = createContext({
+
+const AlertContext = createContext<AlertContextProps>({
     ...initialState,
-    setAlert: () => {}
+    setAlert: (props: AlertModalProps) => {}
 });
 
 export const AlertProvider = ({ children }: any) => {
-    const [props, setProps] = useState<any>({});
+    const [props, setProps] = useState<AlertModalProps>({
+        title: '',
+        show: false
+    });
 
-    const setAlert = (props: any) => {
+    const setAlert = (props: AlertModalProps) => {
         setProps(props);
     };
 

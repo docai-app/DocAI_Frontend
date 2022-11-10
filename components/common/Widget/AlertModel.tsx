@@ -1,22 +1,33 @@
 import { Transition, Dialog } from '@headlessui/react';
-import { CheckIcon, XIcon } from '@heroicons/react/outline';
+import { CheckIcon, ExclamationIcon, InformationCircleIcon, XIcon } from '@heroicons/react/outline';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { Fragment } from 'react';
 import useAlert from '../../../hooks/useAlert';
 
-interface AlertModalProps {
-    title: string;
-    content?: string;
-    confirmText?: string;
-    cancelText?: string;
-    show: boolean;
-    onClose: (value: boolean) => void;
-}
-function AlertModel(props: AlertModalProps) {
-    const { title, content, confirmText = 'OK', cancelText, show, onClose } = useAlert();
+function AlertModel() {
+    const alert = useAlert();
+    const {
+        title,
+        type = 'info',
+        content,
+        confirmText = 'OK',
+        cancelText,
+        show: alertShow,
+        setAlert
+    } = alert;
+    const [show, setShow] = useState(alertShow);
+    useEffect(() => {
+        setShow(alertShow);
+    }, [alertShow]);
     return (
         <div>
             <Transition.Root show={show} as={Fragment}>
-                <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={onClose}>
+                <Dialog
+                    as="div"
+                    className="fixed z-10 inset-0 overflow-y-auto"
+                    onClose={() => setAlert({ ...alert, show: false })}
+                >
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -48,6 +59,35 @@ function AlertModel(props: AlertModalProps) {
                         >
                             <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                 <div>
+                                    {type === 'success' ? (
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                                            <CheckIcon
+                                                className="h-6 w-6 text-green-600"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                    ) : type === 'warning' ? (
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
+                                            <ExclamationIcon
+                                                className="h-6 w-6 text-yellow-600"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                    ) : type === 'error' ? (
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                                            <XIcon
+                                                className="h-6 w-6 text-red-600"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+                                            <InformationCircleIcon
+                                                className="h-6 w-6 text-blue-600"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                    )}
                                     <div className="mt-3 text-center sm:mt-5">
                                         <Dialog.Title
                                             as="h3"
@@ -65,7 +105,7 @@ function AlertModel(props: AlertModalProps) {
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            onClick={() => onClose(false)}
+                                            onClick={() => setAlert({ ...alert, show: false })}
                                         >
                                             {confirmText}
                                         </button>

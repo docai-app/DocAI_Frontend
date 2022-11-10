@@ -4,12 +4,15 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect } from 'react';
 import { AlertProvider } from '../context/AlertContext';
+import AlertModel from '../components/common/Widget/AlertModel';
+import useAlert from '../hooks/useAlert';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
+    const { setAlert } = useAlert();
     useIsomorphicLayoutEffect(() => {
         axios.defaults.headers.common['authorization'] =
             window.localStorage?.getItem('authorization') || '';
@@ -29,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <AlertProvider>
             <Component {...pageProps} />
+            <AlertModel />
         </AlertProvider>
     );
 }

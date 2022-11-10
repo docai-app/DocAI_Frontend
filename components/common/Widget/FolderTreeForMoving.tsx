@@ -4,6 +4,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback } from 'react';
 import Api from '../../../apis';
+import useAlert from '../../../hooks/useAlert';
 import FolderTree, { Folder } from './FolderTree';
 
 interface FolderTreeForMovingProps {
@@ -17,6 +18,7 @@ interface FolderTreeForMovingProps {
 const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
     const { mode, setMode, movingDest, setMovingDest, targetId } = props;
+    const { setAlert } = useAlert();
     const router = useRouter();
     const handleMove = useCallback(
         async (document_id: string | null, folder_id: string) => {
