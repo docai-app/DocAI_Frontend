@@ -10,6 +10,7 @@ import MyModal from '../../../components/common/Widget/MyModal';
 import Link from 'next/link';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
 import Router from 'next/router';
+import useAlert from '../../../hooks/useAlert';
 
 interface LatestPredictionDataProps {
     prediction: any;
@@ -65,6 +66,7 @@ function ValidateView(props: ShowViewProps) {
         setNewLabelName,
         addNewLabelHandler
     } = props;
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     function classNames(...classes: any) {
@@ -282,7 +284,7 @@ function ValidateView(props: ShowViewProps) {
                                         className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
                                             // confirmDocumentFormik.handleSubmit();
-                                            alert('未做');
+                                            setAlert({ title: '未做', type: 'error' });
                                         }}
                                     >
                                         編輯

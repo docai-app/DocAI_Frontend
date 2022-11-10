@@ -4,6 +4,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback } from 'react';
 import Api from '../../../apis';
+import useAlert from '../../../hooks/useAlert';
 import FolderTree, { Folder } from './FolderTree';
 
 interface FolderTreeForMovingProps {
@@ -17,6 +18,7 @@ interface FolderTreeForMovingProps {
 const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
     const { mode, setMode, movingDest, setMovingDest, targetId } = props;
+    const { setAlert } = useAlert();
     const router = useRouter();
     const handleMove = useCallback(
         async (document_id: string | null, folder_id: string) => {
@@ -25,14 +27,14 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     apiSetting.Document.updateDocumentById(document_id, folder_id)
                 );
                 if (res.data?.success) {
-                    // alert('移動成功');
+                    // setAlert({title: '移動成功');
                     router.reload();
                 } else {
-                    alert('發生錯誤');
+                    setAlert({ title: '發生錯誤', type: 'error' });
                 }
             }
         },
-        [router]
+        [router, setAlert]
     );
     return (
         <Transition show={mode === 'move'}>
