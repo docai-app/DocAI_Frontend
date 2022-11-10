@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect } from 'react';
+import { AlertProvider } from '../context/AlertContext';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
@@ -25,7 +26,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
         );
     }, [router]);
-    return <Component {...pageProps} />;
+    return (
+        <AlertProvider>
+            <Component {...pageProps} />
+        </AlertProvider>
+    );
 }
 
 export default MyApp;
