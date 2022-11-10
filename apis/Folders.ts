@@ -40,4 +40,25 @@ export default class Folders {
         };
         return requestHeader;
     }
+
+    updateFoldertNameById(id: string, name: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/folders/${id}`,
+            method: 'PUT',
+            data: {
+                name: name
+            }
+        };
+        return requestHeader;
+    }
+
+    deleteFolderById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/folders/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
 }

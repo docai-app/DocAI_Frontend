@@ -1,6 +1,5 @@
 import { Transition } from '@headlessui/react';
 import axios from 'axios';
-import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback } from 'react';
 import Api from '../../../apis';
@@ -64,7 +63,7 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
             >
-                <div className="fixed h-[calc(100vh)] pt-10 shadow-lg right-0 top-0 bg-white w-[28rem]">
+                <div className="fixed h-[calc(100vh)] z-50 pt-10 shadow-lg right-0 top-0 bg-white w-[28rem]">
                     <div className="w-full h-full flex flex-col">
                         <h1 className="p-5 pt-10 font-bold text-3xl">選擇移動目的地</h1>
                         <div className="pr-5 overflow-auto">

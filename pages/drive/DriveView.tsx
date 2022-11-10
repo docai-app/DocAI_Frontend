@@ -9,6 +9,8 @@ import { FolderIcon } from '@heroicons/react/solid';
 import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
+import InputNameModal from '../../components/common/Widget/InputNameModal';
+import MyModal from '../../components/common/Widget/MyModal';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 import TableRow from '../../components/feature/drive/TableRow';
 
@@ -28,6 +30,14 @@ interface DriveViewProps {
     handleShare: (id: string, user_email: string) => void;
     handleNewFolder: (name: string) => Promise<void>;
     countDocumentsByDateData: any;
+    current: any;
+    setCurrent: any;
+    visableRename: boolean;
+    setVisableRename: any;
+    updateFolderOrDocumentHandler: any;
+    deleteFolderOrDocumentHandler: any
+    visableDelete: boolean;
+    setVisableDelete: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -46,11 +56,20 @@ export default function DriveView(props: DriveViewProps) {
         setShareWith = () => { },
         handleShare = async () => { },
         handleNewFolder = async () => { },
-        countDocumentsByDateData = null
+        countDocumentsByDateData = null,
+        current,
+        setCurrent,
+        visableRename,
+        setVisableRename,
+        updateFolderOrDocumentHandler,
+        visableDelete,
+        setVisableDelete,
+        deleteFolderOrDocumentHandler
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
     const newFolderNameInput = useRef<HTMLInputElement>(null);
+
 
     return (
         <>
@@ -184,6 +203,9 @@ export default function DriveView(props: DriveViewProps) {
                                                     type="folders"
                                                     setTarget={setTarget}
                                                     setMode={setMode}
+                                                    setVisableRename={setVisableRename}
+                                                    setVisableDelete={setVisableDelete}
+                                                    setCurrent={setCurrent}
                                                 />
                                             );
                                         })}
@@ -195,6 +217,9 @@ export default function DriveView(props: DriveViewProps) {
                                                     type="documents"
                                                     setTarget={setTarget}
                                                     setMode={setMode}
+                                                    setVisableRename={setVisableRename}
+                                                    setVisableDelete={setVisableDelete}
+                                                    setCurrent={setCurrent}
                                                 />
                                             );
                                         })}
@@ -346,6 +371,8 @@ export default function DriveView(props: DriveViewProps) {
                     </Transition.Child>
                 </Dialog>
             </Transition>
+            <InputNameModal visable={visableRename} current={current} setCurrent={setCurrent} description={`輸入新的名稱`} cancelClick={() => { setVisableRename(false) }} confirmClick={() => { setVisableRename(false); updateFolderOrDocumentHandler() }} />
+            <MyModal visable={visableDelete} description={`是否刪除"${current?.name}"?`} cancelClick={() => { setVisableDelete(false) }} confirmClick={() => { setVisableDelete(false); deleteFolderOrDocumentHandler() }} />
         </>
     );
 }

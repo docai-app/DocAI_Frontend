@@ -8,9 +8,12 @@ interface TableRowProps {
     type: string;
     setMode: Dispatch<SetStateAction<'view' | 'move' | 'share' | 'newFolder'>>;
     setTarget: any;
+    setVisableDelete?: any;
+    setVisableRename: any;
+    setCurrent?: any;
 }
 export default function TableRow(props: TableRowProps) {
-    const { doc, type, setMode, setTarget } = props;
+    const { doc, type, setMode, setTarget, setVisableDelete, setVisableRename, setCurrent } = props;
     const updated_at = new Date(doc.updated_at);
     const now = new Date();
     let date = '';
@@ -71,8 +74,15 @@ export default function TableRow(props: TableRowProps) {
                 )}
                 <Dropdowns
                     type={type}
+                    url={url}
+                    name={doc?.name}
                     rename={() => {
-
+                        setVisableRename(true)
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        })
                     }}
                     download={() => {
 
@@ -82,7 +92,12 @@ export default function TableRow(props: TableRowProps) {
                         setTarget([doc]);
                     }}
                     remove={() => {
-
+                        setVisableDelete(true)
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        })
                     }}
                 />
                 {/* <DocumentDuplicateIcon
@@ -94,6 +109,7 @@ export default function TableRow(props: TableRowProps) {
                 /> */}
             </td>
             <td className="pr-6 py-4 text-right">{date}</td>
+
         </tr>
     );
 }
