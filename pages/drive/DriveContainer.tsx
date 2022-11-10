@@ -5,11 +5,13 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Folder } from '../../components/common/Widget/FolderTree';
+import useAlert from '../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 export default function DriveContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const queryId = useRef(router.query.id);
     const queryName = useRef(router.query.name);
     const [id, setId] = useState<string | null>(null);
@@ -48,10 +50,10 @@ export default function DriveContainer() {
                 apiSetting.Drive.shareFolderPermission(id, user_email)
             );
             if (res.data?.success) {
-                alert('共用成功');
+                setAlert({ title: '共用成功', type: 'success' });
                 router.reload();
             } else {
-                alert('發生錯誤');
+                setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
         [router, shareFolderPermission]
@@ -63,10 +65,10 @@ export default function DriveContainer() {
                 apiSetting.Folders.createFolder(name, queryId.current?.toString() || '')
             );
             if (res.data?.success) {
-                alert('資料夾新增成功');
+                setAlert({ title: '資料夾新增成功', type: 'success' });
                 router.reload();
             } else {
-                alert('發生錯誤');
+                setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
         [router, createFolder, queryId]

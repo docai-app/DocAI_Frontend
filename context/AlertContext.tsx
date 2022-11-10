@@ -2,7 +2,7 @@ import { createContext, useState } from 'react';
 
 interface AlertModalProps {
     title: string;
-    show: boolean;
+    show?: boolean;
     content?: string;
     type?: 'success' | 'warning' | 'error' | 'info';
     confirmText?: string;
@@ -31,7 +31,7 @@ export const AlertProvider = ({ children }: any) => {
     });
 
     const setAlert = (props: AlertModalProps) => {
-        setProps(props);
+        setProps({ show: true, ...props });
     };
 
     return (

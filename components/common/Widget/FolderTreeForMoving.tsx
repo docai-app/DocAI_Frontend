@@ -27,10 +27,10 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     apiSetting.Document.updateDocumentById(document_id, folder_id)
                 );
                 if (res.data?.success) {
-                    // alert('移動成功');
+                    // setAlert({title: '移動成功');
                     router.reload();
                 } else {
-                    alert('發生錯誤');
+                    setAlert({ title: '發生錯誤', type: 'error' });
                 }
             }
         },

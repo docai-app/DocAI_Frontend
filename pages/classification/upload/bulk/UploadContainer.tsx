@@ -5,11 +5,13 @@ import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import useAlert from '../../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function UploadContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
     const [tags, setTags] = useState([]);
@@ -22,7 +24,7 @@ function UploadContainer() {
             const errors: any = {};
             if (!values.tag_id) {
                 errors.tag_id = 'Required';
-                alert('請選擇批量文件的類型！');
+                setAlert({ title: '請選擇批量文件的類型！', type: 'warning' });
             }
             return errors;
         },
@@ -53,11 +55,11 @@ function UploadContainer() {
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
-            alert('上傳成功！');
+            setAlert({ title: '上傳成功！', type: 'success' });
             router.push('/classification');
         } else if (uploadData && uploadData.success === false) {
             setOpen(false);
-            alert('Upload failed! Please try again!');
+            setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadData]);
     return (

@@ -12,7 +12,6 @@ const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
 function MyApp({ Component, pageProps }: AppProps) {
     const router = useRouter();
-    const { setAlert } = useAlert();
     useIsomorphicLayoutEffect(() => {
         axios.defaults.headers.common['authorization'] =
             window.localStorage?.getItem('authorization') || '';

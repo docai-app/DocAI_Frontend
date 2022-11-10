@@ -6,11 +6,13 @@ import { useRouter } from 'next/router';
 import _get from 'lodash/get';
 import { FieldProps, WidgetProps } from '@rjsf/core';
 import axios from 'axios';
+import useAlert from '../../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function AbsenceApprovalContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
     const [result, setResult] = useState();
     const [approval, setApproval] = useState({});
@@ -167,7 +169,7 @@ function AbsenceApprovalContainer() {
         if (uploadData && uploadData.success === true) {
             set_signature_image_url(uploadData.file_url);
         } else if (uploadData && uploadData.success === false) {
-            alert('Upload failed! Please try again!');
+            setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadData]);
 
@@ -201,7 +203,7 @@ function AbsenceApprovalContainer() {
 
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
-            alert('審批成功！');
+            setAlert({ title: '審批成功！', type: 'success' });
             router.push(`/absence/approval`);
         }
     }, [router, updateFormApprovalStatusData]);

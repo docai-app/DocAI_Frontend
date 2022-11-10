@@ -7,11 +7,13 @@ import { NextRouter, useRouter } from 'next/router';
 import _ from 'lodash';
 import _get from 'lodash/get';
 import { matchFormSchemaAndFormData } from '../../../utils/form';
+import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 function ApprovalContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     //點擊“已審批”時，需要把“已批准”和“已拒絕”同時獲取出來
     const [currentTabStatus, setCurrentTabStatus] = useState<'approved' | 'awaiting' | 'rejected'>(
         'awaiting'
@@ -176,13 +178,13 @@ function ApprovalContainer() {
         if (uploadData && uploadData.success === true) {
             set_signature_image_url(uploadData.file_url);
         } else if (uploadData && uploadData.success === false) {
-            alert('Upload failed! Please try again!');
+            setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadData]);
 
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
-            alert('審批成功！');
+            setAlert({ title: '審批成功！', type: 'success' });
             // router.reload()
             getAbsenceFormByApprovalStatus({
                 url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`

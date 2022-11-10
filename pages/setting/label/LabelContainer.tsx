@@ -1,12 +1,14 @@
 import useAxios from 'axios-hooks';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis';
+import useAlert from '../../../hooks/useAlert';
 import LabelView from './LableView';
 
 const apiSetting = new Api();
 
 export default function LabelContainer() {
     const [props, setProps] = useState<any>({});
+    const { setAlert } = useAlert();
     const [newLabelName, setNewLabelName] = useState('');
     const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
         apiSetting.Tag.addNewTag(),
@@ -53,20 +55,28 @@ export default function LabelContainer() {
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
-            // alert('新增成功');
+            // setAlert({title: '新增成功');
             getAllLabels();
             setNewLabelName('');
         } else if (addNewLabelData && !addNewLabelData.success) {
-            alert(`新增失敗！原因：${addNewLabelData.errors.name[0]}`);
+            setAlert({
+                title: '新增失敗！',
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: 'error'
+            });
         }
     }, [getAllLabels, addNewLabelData]);
 
     useEffect(() => {
         if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
-            // alert('更新成功');
+            // setAlert({title: '更新成功');
             getAllLabels();
         } else if (updateLabelNameByIdData && !updateLabelNameByIdData.success) {
-            alert(`更新失敗！原因：${updateLabelNameByIdData.errors.name[0]}`);
+            setAlert({
+                title: '更新失敗！',
+                content: `原因：${updateLabelNameByIdData.errors.name[0]}`,
+                type: 'error'
+            });
         }
     }, [getAllLabels, updateLabelNameByIdData]);
 
