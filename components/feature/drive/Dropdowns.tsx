@@ -8,6 +8,8 @@ function classNames(...classes: any) {
 
 interface DropdownsProps {
     type?: string;
+    url?: string;
+    name?: string;
     move?: any;
     download?: any;
     rename?: any;
@@ -15,7 +17,7 @@ interface DropdownsProps {
 }
 
 export default function Dropdowns(props: DropdownsProps) {
-    const { type, move, download, rename, remove } = props;
+    const { type, move, download, rename, remove, url, name } = props;
     return (
         <Menu as="div" className="relative inline-block text-left ">
             <div>
@@ -41,7 +43,9 @@ export default function Dropdowns(props: DropdownsProps) {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        onClick={download}
+                                        // onClick={download}
+                                        href={url}
+                                        download={name}
                                         className={classNames(
                                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                             'group flex items-center px-4 py-2 text-sm cursor-pointer'

@@ -1,11 +1,10 @@
 import useAxios from 'axios-hooks';
-import DriveView from './DriveView';
-import Api from '../../apis';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import Api from '../../apis';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import useAlert from '../../hooks/useAlert';
+import DriveView from './DriveView';
 
 const apiSetting = new Api();
 
@@ -21,6 +20,9 @@ export default function DriveContainer() {
     const [shareWith, setShareWith] = useState<any[]>([]);
     const [newFolderName, setNewFolderName] = useState<string | null>(null);
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [visableDelete, setVisableDelete] = useState(false)
+    const [visableRename, setVisableRename] = useState(false)
+    const [current, setCurrent] = useState<any>();
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -37,6 +39,20 @@ export default function DriveContainer() {
         apiSetting.Statistics.countDocumentsByDate(
             new Date().toLocaleString('fr-CA', { timeZone: 'Asia/Taipei' }).split(' ')[0]
         ),
+        { manual: true }
+    );
+
+    const [{ data: deleteDocumentByIdData }, deleteDocumentById] = useAxios(
+        {},
+        { manual: true }
+    );
+    const [{ data: deleteFolderByIdData }, deleteFolderById] = useAxios(
+        {},
+        { manual: true }
+    );
+
+    const [{ data: updateFolderNameData }, updateFolderName] = useAxios(
+        {},
         { manual: true }
     );
 
@@ -73,6 +89,82 @@ export default function DriveContainer() {
         },
         [router, createFolder, queryId, setAlert]
     );
+
+    const updateDocument = async (id: string, name: string) => {
+        if (id) {
+            const res = await updateDocumentById(
+                apiSetting.Document.updateDocumentNameById(id, name)
+            );
+            if (res.data?.success) {
+                setAlert({ title: '更新成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
+
+    const updateFolder = async (id: string, name: string) => {
+        if (id) {
+            const res = await updateFolderName(
+                apiSetting.Folders.updateFoldertNameById(id, name)
+            );
+            if (res.data?.success) {
+                setAlert({ title: '更新成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
+
+    const updateFolderOrDocumentHandler = useCallback(
+        async () => {
+            if (current?.type === 'folders')
+                updateFolder(current?.id, current?.name)
+            else
+                updateDocument(current?.id, current?.name)
+        },
+        [current]
+    )
+
+    const deleteDocument = async (id: string) => {
+        if (id) {
+            const res = await deleteDocumentById(
+                apiSetting.Document.deleteDocumentById(id)
+            );
+            if (res.data?.success) {
+                setAlert({ title: '刪除成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
+
+    const deleteFolder = async (id: string) => {
+        if (id) {
+            const res = await deleteFolderById(
+                apiSetting.Folders.deleteFolderById(id)
+            );
+            if (res.data?.success) {
+                setAlert({ title: '刪除成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
+
+    const deleteFolderOrDocumentHandler = useCallback(
+        async () => {
+            if (current?.type === 'folders')
+                deleteFolder(current?.id)
+            else
+                deleteDocument(current?.id)
+        },
+        [current]
+    )
 
     useEffect(() => {
         if (router.asPath !== router.route) {
@@ -113,7 +205,15 @@ export default function DriveContainer() {
                 handleShare,
                 newFolderName,
                 handleNewFolder,
-                countDocumentsByDateData
+                countDocumentsByDateData,
+                current,
+                setCurrent,
+                visableRename,
+                setVisableRename,
+                updateFolderOrDocumentHandler,
+                visableDelete,
+                setVisableDelete,
+                deleteFolderOrDocumentHandler
             }}
         />
     );
