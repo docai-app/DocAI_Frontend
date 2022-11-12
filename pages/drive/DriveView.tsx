@@ -249,7 +249,8 @@ export default function DriveView(props: DriveViewProps) {
                     setMode,
                     movingDest,
                     setMovingDest,
-                    targetId: target?.[0]?.id
+                    targetId: target?.[0]?.id,
+                    current
                 }}
             />
             <Transition show={mode === 'share'} as={Fragment}>

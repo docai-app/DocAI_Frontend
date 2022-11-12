@@ -480,7 +480,8 @@ function ValidateView(props: ValidateViewProps) {
                         setMode,
                         movingDest,
                         setMovingDest,
-                        targetId: latestPredictionData?.prediction?.document?.id
+                        targetId: latestPredictionData?.prediction?.document?.id,
+                        current: { type: 'document' }
                     }}
                 />
             </div>

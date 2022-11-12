@@ -53,6 +53,18 @@ export default class Folders {
         return requestHeader;
     }
 
+    updateFolderById(folder_id: string, parent_id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/folders/${folder_id}`,
+            method: 'PUT',
+            data: {
+                parent_id
+            }
+        };
+        return requestHeader;
+    }
+
     deleteFolderById(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
