@@ -90,6 +90,11 @@ export default function TableRow(props: TableRowProps) {
                     move={() => {
                         setMode('move');
                         setTarget([doc]);
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        })
                     }}
                     remove={() => {
                         setVisableDelete(true)

@@ -12,11 +12,12 @@ interface FolderTreeForMovingProps {
     movingDest: Folder | null;
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     targetId: string | null;
+    current: any;
 }
 
 const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
-    const { mode, setMode, movingDest, setMovingDest, targetId } = props;
+    const { mode, setMode, movingDest, setMovingDest, targetId, current } = props;
     const { setAlert } = useAlert();
     const router = useRouter();
     const handleMove = useCallback(
@@ -24,6 +25,22 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
             if (document_id != null) {
                 const res = await axios.request(
                     apiSetting.Document.updateDocumentById(document_id, folder_id)
+                );
+                if (res.data?.success) {
+                    // setAlert({title: '移動成功');
+                    router.reload();
+                } else {
+                    setAlert({ title: '發生錯誤', type: 'error' });
+                }
+            }
+        },
+        [router, setAlert]
+    );
+    const handleMoveFolder = useCallback(
+        async (folder_id: string | null, parent_id: string | null) => {
+            if (folder_id != null && parent_id != null) {
+                const res = await axios.request(
+                    apiSetting.Folders.updateFolderById(folder_id, parent_id)
                 );
                 if (res.data?.success) {
                     // setAlert({title: '移動成功');
@@ -77,7 +94,11 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                             <div className="py-5 px-5 flex">
                                 <button
                                     className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                    onClick={() => handleMove(targetId, movingDest.id)}
+                                    onClick={() =>
+                                        current?.type == 'folders'
+                                            ? handleMoveFolder(targetId, movingDest.id)
+                                            : handleMove(targetId, movingDest.id)
+                                    }
                                 >
                                     移動
                                 </button>
