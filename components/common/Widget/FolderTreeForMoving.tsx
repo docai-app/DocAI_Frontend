@@ -27,14 +27,14 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     apiSetting.Document.updateDocumentById(document_id, folder_id)
                 );
                 if (res.data?.success) {
-                    // setAlert({title: '移動成功');
+                    setAlert({ title: '移動成功', type: 'success' });
                     router.reload();
                 } else {
                     setAlert({ title: '發生錯誤', type: 'error' });
                 }
             }
         },
-        [router, setAlert]
+        [router]
     );
     const handleMoveFolder = useCallback(
         async (folder_id: string | null, parent_id: string | null) => {
@@ -43,14 +43,14 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     apiSetting.Folders.updateFolderById(folder_id, parent_id)
                 );
                 if (res.data?.success) {
-                    // setAlert({title: '移動成功');
+                    setAlert({ title: '移動成功', type: 'success' });
                     router.reload();
                 } else {
                     setAlert({ title: '發生錯誤', type: 'error' });
                 }
             }
         },
-        [router, setAlert]
+        [router]
     );
     return (
         <Transition show={mode === 'move'}>

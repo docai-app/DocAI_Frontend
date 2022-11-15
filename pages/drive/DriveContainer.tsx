@@ -20,8 +20,8 @@ export default function DriveContainer() {
     const [shareWith, setShareWith] = useState<any[]>([]);
     const [newFolderName, setNewFolderName] = useState<string | null>(null);
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
-    const [visableDelete, setVisableDelete] = useState(false)
-    const [visableRename, setVisableRename] = useState(false)
+    const [visableDelete, setVisableDelete] = useState(false);
+    const [visableRename, setVisableRename] = useState(false);
     const [current, setCurrent] = useState<any>();
 
     const [
@@ -42,19 +42,10 @@ export default function DriveContainer() {
         { manual: true }
     );
 
-    const [{ data: deleteDocumentByIdData }, deleteDocumentById] = useAxios(
-        {},
-        { manual: true }
-    );
-    const [{ data: deleteFolderByIdData }, deleteFolderById] = useAxios(
-        {},
-        { manual: true }
-    );
+    const [{ data: deleteDocumentByIdData }, deleteDocumentById] = useAxios({}, { manual: true });
+    const [{ data: deleteFolderByIdData }, deleteFolderById] = useAxios({}, { manual: true });
 
-    const [{ data: updateFolderNameData }, updateFolderName] = useAxios(
-        {},
-        { manual: true }
-    );
+    const [{ data: updateFolderNameData }, updateFolderName] = useAxios({}, { manual: true });
 
     useEffect(() => {
         countDocumentsByDate();
@@ -72,7 +63,7 @@ export default function DriveContainer() {
                 setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
-        [router, shareFolderPermission, setAlert]
+        [router, shareFolderPermission]
     );
 
     const handleNewFolder = useCallback(
@@ -87,7 +78,7 @@ export default function DriveContainer() {
                 setAlert({ title: '發生錯誤', type: 'error' });
             }
         },
-        [router, createFolder, queryId, setAlert]
+        [router, createFolder, queryId]
     );
 
     const updateDocument = async (id: string, name: string) => {
@@ -106,9 +97,7 @@ export default function DriveContainer() {
 
     const updateFolder = async (id: string, name: string) => {
         if (id) {
-            const res = await updateFolderName(
-                apiSetting.Folders.updateFoldertNameById(id, name)
-            );
+            const res = await updateFolderName(apiSetting.Folders.updateFoldertNameById(id, name));
             if (res.data?.success) {
                 setAlert({ title: '更新成功', type: 'success' });
                 router.reload();
@@ -118,21 +107,14 @@ export default function DriveContainer() {
         }
     };
 
-    const updateFolderOrDocumentHandler = useCallback(
-        async () => {
-            if (current?.type === 'folders')
-                updateFolder(current?.id, current?.name)
-            else
-                updateDocument(current?.id, current?.name)
-        },
-        [current]
-    )
+    const updateFolderOrDocumentHandler = useCallback(async () => {
+        if (current?.type === 'folders') updateFolder(current?.id, current?.name);
+        else updateDocument(current?.id, current?.name);
+    }, [current]);
 
     const deleteDocument = async (id: string) => {
         if (id) {
-            const res = await deleteDocumentById(
-                apiSetting.Document.deleteDocumentById(id)
-            );
+            const res = await deleteDocumentById(apiSetting.Document.deleteDocumentById(id));
             if (res.data?.success) {
                 setAlert({ title: '刪除成功', type: 'success' });
                 router.reload();
@@ -144,9 +126,7 @@ export default function DriveContainer() {
 
     const deleteFolder = async (id: string) => {
         if (id) {
-            const res = await deleteFolderById(
-                apiSetting.Folders.deleteFolderById(id)
-            );
+            const res = await deleteFolderById(apiSetting.Folders.deleteFolderById(id));
             if (res.data?.success) {
                 setAlert({ title: '刪除成功', type: 'success' });
                 router.reload();
@@ -156,15 +136,10 @@ export default function DriveContainer() {
         }
     };
 
-    const deleteFolderOrDocumentHandler = useCallback(
-        async () => {
-            if (current?.type === 'folders')
-                deleteFolder(current?.id)
-            else
-                deleteDocument(current?.id)
-        },
-        [current]
-    )
+    const deleteFolderOrDocumentHandler = useCallback(async () => {
+        if (current?.type === 'folders') deleteFolder(current?.id);
+        else deleteDocument(current?.id);
+    }, [current]);
 
     useEffect(() => {
         if (router.asPath !== router.route) {

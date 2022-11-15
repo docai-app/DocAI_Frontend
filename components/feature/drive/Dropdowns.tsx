@@ -1,9 +1,15 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ArrowCircleRightIcon, DotsVerticalIcon, DownloadIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
+import {
+    ArrowCircleRightIcon,
+    DotsVerticalIcon,
+    DownloadIcon,
+    PencilAltIcon,
+    TrashIcon
+} from '@heroicons/react/solid';
 import { Fragment } from 'react';
 
 function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
 interface DropdownsProps {
@@ -38,8 +44,7 @@ export default function Dropdowns(props: DropdownsProps) {
             >
                 <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black  divide-y divide-gray-100 ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                        {
-                            type !== 'folders' &&
+                        {type !== 'folders' && (
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
@@ -51,12 +56,15 @@ export default function Dropdowns(props: DropdownsProps) {
                                             'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                         )}
                                     >
-                                        <DownloadIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                        <DownloadIcon
+                                            className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
                                         下載
                                     </a>
                                 )}
                             </Menu.Item>
-                        }
+                        )}
                         <Menu.Item>
                             {({ active }) => (
                                 <a
@@ -66,7 +74,10 @@ export default function Dropdowns(props: DropdownsProps) {
                                         'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
-                                    <PencilAltIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    <PencilAltIcon
+                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true"
+                                    />
                                     重新命名
                                 </a>
                             )}
@@ -90,7 +101,7 @@ export default function Dropdowns(props: DropdownsProps) {
                         </Menu.Item>
                     </div>
                     <div className="py-1">
-                        <Menu.Item >
+                        <Menu.Item>
                             {({ active }) => (
                                 <a
                                     onClick={remove}
@@ -99,13 +110,15 @@ export default function Dropdowns(props: DropdownsProps) {
                                         'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
-                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                                    <TrashIcon
+                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true"
+                                    />
                                     刪除
                                 </a>
                             )}
                         </Menu.Item>
                     </div>
-
                 </Menu.Items>
             </Transition>
         </Menu>

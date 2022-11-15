@@ -45,9 +45,7 @@ export default function InputNameModal(props: any) {
                             <div className="sm:flex sm:items-center justify-center">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
-                                        <p className="text-sm text-gray-500">
-                                            {props.description}
-                                        </p>
+                                        <p className="text-sm text-gray-500">{props.description}</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +61,7 @@ export default function InputNameModal(props: any) {
                                             props.setCurrent({
                                                 ...props?.current,
                                                 name: e.target.value
-                                            })
+                                            });
                                         }}
                                     ></input>
                                 </div>

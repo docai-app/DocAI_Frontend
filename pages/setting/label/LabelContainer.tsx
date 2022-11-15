@@ -55,7 +55,7 @@ export default function LabelContainer() {
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
-            // setAlert({title: '新增成功');
+            setAlert({ title: '新增成功', type: 'success' });
             getAllLabels();
             setNewLabelName('');
         } else if (addNewLabelData && !addNewLabelData.success) {
@@ -65,11 +65,11 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
-    }, [getAllLabels, addNewLabelData, setAlert]);
+    }, [getAllLabels, addNewLabelData]);
 
     useEffect(() => {
         if (updateLabelNameByIdData && updateLabelNameByIdData.success) {
-            // setAlert({title: '更新成功');
+            setAlert({ title: '更新成功', type: 'success' });
             getAllLabels();
         } else if (updateLabelNameByIdData && !updateLabelNameByIdData.success) {
             setAlert({
@@ -78,7 +78,7 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
-    }, [getAllLabels, updateLabelNameByIdData, setAlert]);
+    }, [getAllLabels, updateLabelNameByIdData]);
 
     const updateTagFunctionsHandler = useCallback(
         async (tag_id: string, function_id: string) => {

@@ -171,7 +171,7 @@ function AbsenceApprovalContainer() {
         } else if (uploadData && uploadData.success === false) {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
-    }, [router, uploadData, setAlert]);
+    }, [router, uploadData]);
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
@@ -206,7 +206,7 @@ function AbsenceApprovalContainer() {
             setAlert({ title: '審批成功！', type: 'success' });
             router.push(`/absence/approval`);
         }
-    }, [router, updateFormApprovalStatusData, setAlert]);
+    }, [router, updateFormApprovalStatusData]);
 
     return (
         <>
