@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
-import ValidateView from './ValidateView';
+import { FieldProps, WidgetProps } from '@rjsf/core';
+import axios from 'axios';
 import useAxios from 'axios-hooks';
-import Api from '../../../apis/index';
-import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import _get from 'lodash/get';
-import { WidgetProps, FieldProps } from '@rjsf/core';
-import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import Api from '../../../apis/index';
 import useAlert from '../../../hooks/useAlert';
+import ValidateView from './ValidateView';
 
 const apiSetting = new Api();
 
@@ -142,7 +142,7 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
-            setAlert({ title: '請假表提交成功！', type: 'success' });
+            setAlert({ title: '資料提交成功！', type: 'success' });
             // router.push('/');
             router.back();
         }
