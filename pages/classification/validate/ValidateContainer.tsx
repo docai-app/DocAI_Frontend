@@ -95,6 +95,20 @@ function ValidateContainer() {
         }
     );
 
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: true
+        }
+    );
+
+    const [{ data: updateFormRecognitionData, loading: updateFormRecognitionLoading }, updateFormRecognition] = useAxios(
+        apiSetting.Form.updateFormRecognition(),
+        {
+            manual: true
+        }
+    );
+
     const confirmDocumentFormik = useFormik({
         initialValues: {
             document_id: null,
@@ -187,6 +201,21 @@ function ValidateContainer() {
         }
     };
 
+    const onSubmitRecognition = useCallback(
+        async (formData: any) => {
+            const { azure_form_model_id } = formData
+            console.log(azure_form_model_id);
+            console.log(latestPredictionData?.prediction?.document?.id);
+            updateFormRecognition({
+                data: {
+                    "model_id": azure_form_model_id,
+                    "id": latestPredictionData?.prediction?.document?.id
+                }
+            });
+        },
+        [router, latestPredictionData, updateFormRecognition]
+    );
+
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
             setAlert({ title: '新增成功', type: 'success' });
@@ -275,7 +304,7 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (tagFunctionsData && tagFunctionsData.functions) {
-            console.log(tagFunctionsData);
+            // console.log(tagFunctionsData);
             setTagHasFunction(
                 _.find(tagFunctionsData.functions, {
                     name: 'form_understanding'
@@ -291,6 +320,19 @@ function ValidateContainer() {
             console.log(deleteDocumentNameByIdData);
         }
     }, [deleteDocumentNameByIdData]);
+
+    useEffect(() => {
+        if (tagHasFunction) {
+            schemasStatusReady()
+        }
+    }, [tagHasFunction]);
+
+    useEffect(() => {
+        if (updateFormRecognitionData) {
+            // console.log("updateFormRecognitionData", updateFormRecognitionData);
+            setAlert({ title: '成功處理', type: 'success' });
+        }
+    }, [updateFormRecognitionData]);
 
     return (
         <>
@@ -319,7 +361,10 @@ function ValidateContainer() {
                     setNewLabelName,
                     addNewLabelHandler,
                     tagHasFunction,
-                    deleteDocument
+                    deleteDocument,
+                    schemasStatusReadyData,
+                    onSubmitRecognition,
+                    updateFormRecognitionLoading
                 }}
             />
         </>

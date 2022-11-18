@@ -21,4 +21,22 @@ export default class Form {
         };
         return requestHeader;
     }
+
+    schemasStatusReady() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/schemas/status/ready`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    updateFormRecognition() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/recognition`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }

@@ -2,10 +2,10 @@ import { TrashIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon, FolderIcon, XIcon } from '@heroicons/react/solid';
 import _get from 'lodash/get';
 import Link from 'next/link';
-import Router from 'next/router';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../../components/common/Widget/FolderTreeForMoving';
+import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import MyModal from '../../../components/common/Widget/MyModal';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
@@ -39,6 +39,9 @@ interface ValidateViewProps {
     addNewLabelHandler: any;
     tagHasFunction?: boolean;
     deleteDocument?: any;
+    schemasStatusReadyData?: any;
+    onSubmitRecognition?: any;
+    updateFormRecognitionLoading?: any;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -66,14 +69,21 @@ function ValidateView(props: ValidateViewProps) {
         setNewLabelName,
         addNewLabelHandler,
         tagHasFunction,
-        deleteDocument
+        deleteDocument,
+        schemasStatusReadyData,
+        onSubmitRecognition,
+        updateFormRecognitionLoading
     } = props;
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
-    function classNames(...classes: any) {
-        return classes.filter(Boolean).join(' ');
-    }
+    const [selectSchemasStatusReady, setSelectSchemasStatusReady] = useState<any>()
+    useEffect(() => {
+        if (schemasStatusReadyData && schemasStatusReadyData.form_schema && schemasStatusReadyData.form_schema.length > 0) {
+            setSelectSchemasStatusReady(schemasStatusReadyData.form_schema[0])
+
+        }
+    }, [schemasStatusReadyData]);
     return (
         <>
             <AmendLabel
@@ -388,38 +398,45 @@ function ValidateView(props: ValidateViewProps) {
                                         {/* 當分類是請假紙時顯示 */}
                                         {tagHasFunction && (
                                             <div className=" py-4 w-full max-w-sm lg:w-96">
+                                                <MyDateDropdown
+                                                    value={selectSchemasStatusReady?.name}
+                                                    datas={schemasStatusReadyData?.form_schema}
+                                                    onSwitch={() => { }}
+                                                />
+
                                                 <p className="my-4 font-bold">
-                                                    請假紙為特別分類，需特殊處理
+                                                    {selectSchemasStatusReady?.name}為特別分類，需特殊處理
                                                 </p>
                                                 <button
                                                     type="button"
                                                     className="mr-4 inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                     onClick={() => {
-                                                        Router.push({
-                                                            pathname: '/absence/validate',
-                                                            query: {
-                                                                document_id: `${_get(
-                                                                    latestPredictionData,
-                                                                    'prediction.document.id'
-                                                                )}`
-                                                                // form_url: `${_get(
-                                                                //     latestPredictionData,
-                                                                //     'prediction.document.storage_url'
-                                                                // )}`,
-                                                                // form_id: `${_get(
-                                                                //     latestPredictionData,
-                                                                //     'prediction.form_data.id'
-                                                                // )}`,
-                                                                // result: JSON.stringify(_get(
-                                                                //     latestPredictionData,
-                                                                //     'prediction.form_data.data'
-                                                                // ))
-                                                            }
-                                                        });
+                                                        onSubmitRecognition(selectSchemasStatusReady)
+                                                        // Router.push({
+                                                        //     pathname: '/absence/validate',
+                                                        //     query: {
+                                                        //         document_id: `${_get(
+                                                        //             latestPredictionData,
+                                                        //             'prediction.document.id'
+                                                        //         )}`
+                                                        //         // form_url: `${_get(
+                                                        //         //     latestPredictionData,
+                                                        //         //     'prediction.document.storage_url'
+                                                        //         // )}`,
+                                                        //         // form_id: `${_get(
+                                                        //         //     latestPredictionData,
+                                                        //         //     'prediction.form_data.id'
+                                                        //         // )}`,
+                                                        //         // result: JSON.stringify(_get(
+                                                        //         //     latestPredictionData,
+                                                        //         //     'prediction.form_data.data'
+                                                        //         // ))
+                                                        //     }
+                                                        // });
                                                         // confirmDocumentFormik.handleSubmit();
                                                     }}
                                                 >
-                                                    處理
+                                                    {updateFormRecognitionLoading ? '處理中...' : '處理'}
                                                 </button>
                                             </div>
                                         )}
