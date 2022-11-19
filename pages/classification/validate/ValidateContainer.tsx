@@ -204,8 +204,8 @@ function ValidateContainer() {
     const onSubmitRecognition = useCallback(
         async (formData: any) => {
             const { azure_form_model_id } = formData
-            console.log(azure_form_model_id);
-            console.log(latestPredictionData?.prediction?.document?.id);
+            // console.log(azure_form_model_id);
+            // console.log(latestPredictionData?.prediction?.document?.id);
             updateFormRecognition({
                 data: {
                     "model_id": azure_form_model_id,
@@ -331,6 +331,12 @@ function ValidateContainer() {
         if (updateFormRecognitionData) {
             // console.log("updateFormRecognitionData", updateFormRecognitionData);
             setAlert({ title: '成功處理', type: 'success' });
+            router.push({
+                pathname: '/absence/validate',
+                query: {
+                    document_id: latestPredictionData?.prediction?.document?.id,
+                }
+            })
         }
     }, [updateFormRecognitionData]);
 

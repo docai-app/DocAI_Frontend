@@ -1,6 +1,5 @@
-import _get from 'lodash/get';
-import { withTheme } from '@rjsf/core';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
+import { withTheme } from '@rjsf/core';
 
 const Form = withTheme(Bootstrap4Theme);
 
@@ -36,7 +35,7 @@ function ValidateView(props: ValidateViewProps) {
             <div className="min-h-full bg-slate-50">
                 <header className="shadow bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">請假表資料確認</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">資料確認</h1>
                     </div>
                 </header>
 
