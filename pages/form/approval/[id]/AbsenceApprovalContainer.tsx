@@ -204,7 +204,7 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
             setAlert({ title: '審批成功！', type: 'success' });
-            router.push(`/absence/approval`);
+            router.push(`/form/approval`);
         }
     }, [router, updateFormApprovalStatusData]);
 

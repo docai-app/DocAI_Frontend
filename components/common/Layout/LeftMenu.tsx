@@ -51,19 +51,11 @@ export default function LeftMenu(props: any) {
             iconForeground: 'text-violet-700',
             iconBackground: 'bg-violet-50'
         },
-        // {
-        //   name: '請假表搜尋',
-        //   href: '/absence/search',
-        //   icon: SearchCircleIcon,
-        //   current: router.pathname.indexOf('/absence/search') != -1,
-        //   iconForeground: 'text-orange-700',
-        //   iconBackground: 'bg-orange-50'
-        // },
         {
             name: '文件審批',
-            href: '/absence/approval',
+            href: '/form/approval',
             icon: ShieldCheckIcon,
-            current: router.pathname.indexOf('/absence') != -1,
+            current: router.pathname.indexOf('/form') != -1,
             iconForeground: 'text-blue-700',
             iconBackground: 'bg-blue-50'
         }

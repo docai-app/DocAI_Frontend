@@ -411,7 +411,7 @@ function ApprovalView(props: any) {
                                                         {approval_status === 'awaiting' ? (
                                                             currentTypeTabStatus == 'vacation' ? (
                                                                 <Link
-                                                                    href={`/absence/approval/${id.toString()}`}
+                                                                    href={`/form/approval/${id.toString()}`}
                                                                 >
                                                                     <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
                                                                         立即審批
@@ -472,7 +472,7 @@ function ApprovalView(props: any) {
                     )
                 )}
             </div>
-            <PaginationView meta={meta} pathname={'/absence/approval'} params={null} />
+            <PaginationView meta={meta} pathname={'/form/approval'} params={null} />
             <InputRemarkModal
                 visable={visable}
                 approval={'approved'}

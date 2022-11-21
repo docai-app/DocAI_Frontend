@@ -330,7 +330,7 @@ function ValidateContainer() {
             console.log('updateFormRecognitionData: ', updateFormRecognitionData);
             setAlert({ title: '成功處理', type: 'success' });
             router.push({
-                pathname: `/absence/validate`,
+                pathname: `/form/validate`,
                 query: {
                     document_id: latestPredictionData?.prediction?.document?.id,
                     form_url: updateFormRecognitionData?.document?.storage_url,
