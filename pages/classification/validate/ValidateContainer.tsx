@@ -102,12 +102,12 @@ function ValidateContainer() {
         }
     );
 
-    const [{ data: updateFormRecognitionData, loading: updateFormRecognitionLoading }, updateFormRecognition] = useAxios(
-        apiSetting.Form.updateFormRecognition(),
-        {
-            manual: true
-        }
-    );
+    const [
+        { data: updateFormRecognitionData, loading: updateFormRecognitionLoading },
+        updateFormRecognition
+    ] = useAxios(apiSetting.Form.updateFormRecognition(), {
+        manual: true
+    });
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -203,13 +203,11 @@ function ValidateContainer() {
 
     const onSubmitRecognition = useCallback(
         async (formData: any) => {
-            const { azure_form_model_id } = formData
-            // console.log(azure_form_model_id);
-            // console.log(latestPredictionData?.prediction?.document?.id);
+            const { azure_form_model_id } = formData;
             updateFormRecognition({
                 data: {
-                    "model_id": azure_form_model_id,
-                    "id": latestPredictionData?.prediction?.document?.id
+                    model_id: azure_form_model_id,
+                    id: latestPredictionData?.prediction?.document?.id
                 }
             });
         },
@@ -323,20 +321,24 @@ function ValidateContainer() {
 
     useEffect(() => {
         if (tagHasFunction) {
-            schemasStatusReady()
+            schemasStatusReady();
         }
     }, [tagHasFunction]);
 
     useEffect(() => {
         if (updateFormRecognitionData) {
-            // console.log("updateFormRecognitionData", updateFormRecognitionData);
+            console.log('updateFormRecognitionData: ', updateFormRecognitionData);
             setAlert({ title: '成功處理', type: 'success' });
             router.push({
-                pathname: '/absence/validate',
+                pathname: `/absence/validate`,
                 query: {
                     document_id: latestPredictionData?.prediction?.document?.id,
+                    form_url: updateFormRecognitionData?.document?.storage_url,
+                    form_id: updateFormRecognitionData?.form_data?.id,
+                    form_schema_id: updateFormRecognitionData?.form_data?.form_schema_id,
+                    result: JSON.stringify(updateFormRecognitionData?.form_data?.data)
                 }
-            })
+            });
         }
     }, [updateFormRecognitionData]);
 

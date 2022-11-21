@@ -12,7 +12,7 @@ interface ValidateViewProps {
     widgets: any;
     fields: any;
     absenceFormFormik: any;
-    getAbsenceFormRecognitionByIdDataLoading: boolean;
+    getFormsSchemaByIdDataLoading: boolean;
 }
 
 function ValidateView(props: ValidateViewProps) {
@@ -27,7 +27,7 @@ function ValidateView(props: ValidateViewProps) {
         widgets = {},
         fields = {},
         absenceFormFormik,
-        getAbsenceFormRecognitionByIdDataLoading
+        getFormsSchemaByIdDataLoading
     } = props;
 
     return (
@@ -41,7 +41,7 @@ function ValidateView(props: ValidateViewProps) {
 
                 <main>
                     <div className="max-w-7xl mx-auto py-0 sm:px-6 lg:px-8">
-                        {getAbsenceFormRecognitionByIdDataLoading ? (
+                        {getFormsSchemaByIdDataLoading ? (
                             <div>載入中...</div>
                         ) : (
                             <div className="px-4 py-6 sm:px-0">

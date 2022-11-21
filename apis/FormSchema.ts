@@ -12,4 +12,13 @@ export default class FormSchema {
         };
         return requestHeader;
     }
+
+    getFormsSchemaById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/schemas/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

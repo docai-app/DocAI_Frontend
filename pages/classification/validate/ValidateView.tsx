@@ -77,11 +77,14 @@ function ValidateView(props: ValidateViewProps) {
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
-    const [selectSchemasStatusReady, setSelectSchemasStatusReady] = useState<any>()
+    const [selectSchemasStatusReady, setSelectSchemasStatusReady] = useState<any>();
     useEffect(() => {
-        if (schemasStatusReadyData && schemasStatusReadyData.form_schema && schemasStatusReadyData.form_schema.length > 0) {
-            setSelectSchemasStatusReady(schemasStatusReadyData.form_schema[0])
-
+        if (
+            schemasStatusReadyData &&
+            schemasStatusReadyData.form_schema &&
+            schemasStatusReadyData.form_schema.length > 0
+        ) {
+            setSelectSchemasStatusReady(schemasStatusReadyData.form_schema[0]);
         }
     }, [schemasStatusReadyData]);
     return (
@@ -333,110 +336,36 @@ function ValidateView(props: ValidateViewProps) {
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            {/* <div className="mt-8">
-                                                <div className="mt-6">
-                                                    <form
-                                                        action="#"
-                                                        method="POST"
-                                                        className="space-y-6"
-                                                    >
-                                                        <div>
-                                                            <label
-                                                                htmlFor="type"
-                                                                className="block text-sm font-medium text-gray-700"
-                                                            >
-                                                                AI預測的結果
-                                                            </label>
-                                                            <div className="mt-1">
-                                                                <input
-                                                                    id="type"
-                                                                    name="type"
-                                                                    type="string"
-                                                                    readOnly
-                                                                    placeholder={_get(
-                                                                        latestPredictionData,
-                                                                        'prediction.tag.name'
-                                                                    )}
-                                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <button
-                                                                type="button"
-                                                                className="mr-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                                onClick={() => {
-                                                                    confirmDocumentFormik.handleSubmit();
-                                                                }}
-                                                            >
-                                                                <CheckIcon
-                                                                    className="-ml-0.5 mr-2 h-4 w-4"
-                                                                    aria-hidden="true"
-                                                                />
-                                                                正確
-                                                            </button>
-                                                            <button
-                                                                type="button"
-                                                                className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                                onClick={() => {
-                                                                    setOpen(true);
-                                                                }}
-                                                            >
-                                                                <XIcon
-                                                                    className="-ml-0.5 mr-2 h-4 w-4"
-                                                                    aria-hidden="true"
-                                                                />
-                                                                更正
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div> */}
                                         </div>
 
-                                        {/* 當分類是請假紙時顯示 */}
+                                        {/* When the tag's function is "表格深度理解", show the table */}
                                         {tagHasFunction && (
                                             <div className=" py-4 w-full max-w-sm lg:w-96">
                                                 <MyDateDropdown
                                                     value={selectSchemasStatusReady?.name}
                                                     datas={schemasStatusReadyData?.form_schema}
-                                                    onSwitch={() => { }}
+                                                    onSwitch={(data: any) => {
+                                                        console.log('data: ', data);
+                                                        setSelectSchemasStatusReady(data);
+                                                    }}
                                                 />
 
                                                 <p className="my-4 font-bold">
-                                                    {selectSchemasStatusReady?.name}為特別分類，需特殊處理
+                                                    {selectSchemasStatusReady?.name}
+                                                    為特別分類，需特殊處理
                                                 </p>
                                                 <button
                                                     type="button"
                                                     className="mr-4 inline-flex items-center px-6 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                     onClick={() => {
-                                                        onSubmitRecognition(selectSchemasStatusReady)
-                                                        // Router.push({
-                                                        //     pathname: '/absence/validate',
-                                                        //     query: {
-                                                        //         document_id: `${_get(
-                                                        //             latestPredictionData,
-                                                        //             'prediction.document.id'
-                                                        //         )}`
-                                                        //         // form_url: `${_get(
-                                                        //         //     latestPredictionData,
-                                                        //         //     'prediction.document.storage_url'
-                                                        //         // )}`,
-                                                        //         // form_id: `${_get(
-                                                        //         //     latestPredictionData,
-                                                        //         //     'prediction.form_data.id'
-                                                        //         // )}`,
-                                                        //         // result: JSON.stringify(_get(
-                                                        //         //     latestPredictionData,
-                                                        //         //     'prediction.form_data.data'
-                                                        //         // ))
-                                                        //     }
-                                                        // });
-                                                        // confirmDocumentFormik.handleSubmit();
+                                                        onSubmitRecognition(
+                                                            selectSchemasStatusReady
+                                                        );
                                                     }}
                                                 >
-                                                    {updateFormRecognitionLoading ? '處理中...' : '處理'}
+                                                    {updateFormRecognitionLoading
+                                                        ? '處理中...'
+                                                        : '處理'}
                                                 </button>
                                             </div>
                                         )}
@@ -468,26 +397,6 @@ function ValidateView(props: ValidateViewProps) {
                                     </button>
                                 </div>
                             </div>
-                            {/* <div className="flex w-full items-center justify-center object-center bg-white pb-4 mt-2">
-                                <div className="items-center">
-                                    { ['1','2','3'].map((item: any, index: number) => {
-                                        return (
-                                            <button
-                                                key={index}
-                                                type="button"
-                                                className={classNames(
-                                                    1 == 1 
-                                                    ? "text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500" 
-                                                    : 'text-black bg-white border border-gray-600 hover:bg-gray-100 focus:ring-gray-500',
-                                                    "mr-4 items-center w-8 h-8 text-center border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 "
-                                                )}
-                                            >
-                                                { index + 1 }
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </main>

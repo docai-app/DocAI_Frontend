@@ -16,6 +16,7 @@ function ValidateContainer() {
     const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
     const [formId, setFormId] = useState('');
+    const [formSchemaId, setFormSchemaId] = useState('');
     const [result, setResult] = useState({});
     const [formSchema, setFormSchema] = useState({});
     // const formSchema = useRef({});
@@ -75,10 +76,12 @@ function ValidateContainer() {
         }
     });
 
-    const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: true }
-    );
+    const [
+        { data: getFormsSchemaByIdData, loading: getFormsSchemaByIdDataLoading },
+        getFormsSchemaById
+    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(_get(router, 'query.form_schema_id')), {
+        manual: true
+    });
 
     const [
         {
@@ -92,53 +95,22 @@ function ValidateContainer() {
         manual: true
     });
 
-    const [
-        {
-            data: getAbsenceFormRecognitionByIdData,
-            loading: getAbsenceFormRecognitionByIdDataLoading
-        },
-        getAbsenceFormRecognitionById
-    ] = useAxios('', {
-        manual: true
-    });
-
-    useEffect(() => {
-        getFormsSchemaByName();
-        axios.defaults.headers.common['authorization'] =
-            localStorage.getItem('authorization') || '';
-    }, [getFormsSchemaByName]);
-
     useEffect(() => {
         if (router.query.form_url && router.query.result) {
             setFormUrl(`${router.query.form_url}`);
             setResult(JSON.parse(`${router.query.result}`));
+            setFormId(`${router.query.form_id}`);
+            setFormSchemaId(`${router.query.form_schema_id}`);
+            console.log('form_schema_id: ', `${router.query.form_schema_id}`);
+            getFormsSchemaById();
         }
     }, [router]);
 
     useEffect(() => {
-        if (
-            getAbsenceFormRecognitionByIdData &&
-            getAbsenceFormRecognitionByIdData.success === true
-        ) {
-            setFormUrl(getAbsenceFormRecognitionByIdData.document.storage_url);
-            setResult(getAbsenceFormRecognitionByIdData.form_data.data);
-            setFormId(getAbsenceFormRecognitionByIdData.form_data.id);
+        if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
+            setFormSchema(getFormsSchemaByIdData?.form_schema?.form_schema);
         }
-    }, [getAbsenceFormRecognitionByIdData]);
-
-    useEffect(() => {
-        if (router.query.document_id) {
-            getAbsenceFormRecognitionById(
-                apiSetting.Absence.getAbsenceFormRecognitionByID(_get(router, 'query.document_id'))
-            );
-        }
-    }, [router, getAbsenceFormRecognitionById]);
-
-    useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
-        }
-    }, [getFormsSchemaByNameData]);
+    }, [getFormsSchemaByIdData]);
 
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
@@ -160,7 +132,7 @@ function ValidateContainer() {
                     widgets,
                     fields,
                     absenceFormFormik,
-                    getAbsenceFormRecognitionByIdDataLoading
+                    getFormsSchemaByIdDataLoading
                 }}
             />
         </>
