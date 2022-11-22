@@ -3,10 +3,9 @@ import Api from '../../../apis';
 import ApprovalView from './ApprovalView';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { NextRouter, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import _ from 'lodash';
 import _get from 'lodash/get';
-import { matchFormSchemaAndFormData } from '../../../utils/form';
 import useAlert from '../../../hooks/useAlert';
 
 const apiSetting = new Api();
@@ -20,14 +19,14 @@ function ApprovalContainer() {
     );
 
     //請假紙，普通文件, 工場維修，店鋪維修
-    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<
-        'vacation' | 'normal' | 'factory' | 'shop'
-    >('vacation');
+    const [currentTypeTabStatus, setCurrentTypeTabStatus] = useState<'normal'>('normal');
     const [days, setDays] = useState(3);
     const [page, setPage] = useState(1);
     const [department, setDepartment] = useState('');
     const [signature_image_url, set_signature_image_url] = useState('');
     const [documents, setDocuments] = useState([]);
+    const [formSchemaId, setFormSchemaId] = useState('');
+    const [formSchemaList, setFormSchemaList] = useState([]);
 
     const [
         {
@@ -39,6 +38,26 @@ function ApprovalContainer() {
     ] = useAxios(apiSetting.Absence.getAbsenceFormByApprovalStatus(currentTabStatus, days, page), {
         manual: true
     });
+
+    const [
+        {
+            data: getFormsByApprovalStatusData,
+            loading: getFormsByApprovalStatusLoading,
+            error: getFormsByApprovalStatusError
+        },
+        getFormsByApprovalStatus
+    ] = useAxios(
+        apiSetting.DocumentApproval.getFormsByApprovalStatus(
+            currentTabStatus,
+            days,
+            page,
+            formSchemaId
+        ),
+        {
+            manual: true
+        }
+    );
+
     const [formSchema, setFormSchema] = useState({});
     const [props, setProps] = useState<any>({
         data: [],
@@ -50,8 +69,13 @@ function ApprovalContainer() {
         formSchema: formSchema
     });
 
-    const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
+    // const [
+    //     { data: getFormsSchemaByNameData },
+    //     getFormsSchemaByName
+    // ] = useAxios(apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')), { manual: true });
+
+    const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
+        apiSetting.FormSchema.getFormsSchemaById(currentTypeTabStatus),
         { manual: true }
     );
 
@@ -62,38 +86,46 @@ function ApprovalContainer() {
         }
     );
 
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
     const [
         { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
         upload
     ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
 
-    // useEffect(() => {
-    //     matchFormSchemaAndFormData();
-    // }, [])
+    useEffect(() => {
+        if (schemasStatusReadyData) {
+            setFormSchemaList(schemasStatusReadyData.form_schema);
+        }
+    }, [schemasStatusReadyData]);
 
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
-        getFormsSchemaByName();
-    }, [getFormsSchemaByName]);
+        getFormsSchemaById();
+    }, [getFormsSchemaById]);
 
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
+        if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
+            setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
             setProps((p: any) => ({
                 ...p,
-                formSchema: getFormsSchemaByNameData.form_schema.form_schema
+                formSchema: getFormsSchemaByIdData.form_schema.form_schema
             }));
         }
-    }, [getFormsSchemaByNameData]);
+    }, [getFormsSchemaByIdData]);
 
     useEffect(() => {
         setProps((p: any) => ({
             ...p,
-            data: getAbsenceFormByApprovalStatusData?.absence_forms || p.data,
+            data: getAbsenceFormByApprovalStatusData?.forms || p.data,
             meta: getAbsenceFormByApprovalStatusData?.meta || p.meta
         }));
-        console.log('getAbsenceFormByApprovalStatusData', getAbsenceFormByApprovalStatusData);
     }, [getAbsenceFormByApprovalStatusData]);
 
     useEffect(() => {
@@ -104,9 +136,9 @@ function ApprovalContainer() {
         }));
         console.log('currentTypeTabStatus', currentTypeTabStatus);
 
-        currentTypeTabStatus == 'vacation'
+        currentTypeTabStatus != 'normal'
             ? getAbsenceFormByApprovalStatus({
-                  url: `/api/v1/form/absence/approval?status=${currentTabStatus}&days=${days}&page=${page}`
+                  url: `/api/v1/approval/form/documents?status=${currentTabStatus}&days=${days}&page=${page}&form_schema_id=${currentTypeTabStatus}`
               })
             : currentTypeTabStatus == 'normal'
             ? getAbsenceFormByApprovalStatus({
@@ -118,10 +150,10 @@ function ApprovalContainer() {
     useEffect(() => {
         let data: any = [];
         if (department) {
-            data = _.filter(getAbsenceFormByApprovalStatusData?.absence_forms, function (o) {
+            data = _.filter(getAbsenceFormByApprovalStatusData?.forms, function (o) {
                 return o.form_data.data?.working_department[department] == true;
             });
-            if (department == 'all') data = getAbsenceFormByApprovalStatusData?.absence_forms;
+            if (department == 'all') data = getAbsenceFormByApprovalStatusData?.forms;
         }
         setProps((p: any) => ({
             ...p,
@@ -199,6 +231,7 @@ function ApprovalContainer() {
             onSubmit={onSubmit}
             setDocuments={setDocuments}
             uploadLoading={uploadLoading}
+            formSchemaList={formSchemaList}
             {...props}
         />
     );

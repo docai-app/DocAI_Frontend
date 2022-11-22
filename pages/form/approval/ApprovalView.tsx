@@ -19,6 +19,7 @@ function ApprovalView(props: any) {
         currentTypeTabStatus,
         setCurrentTypeTabStatus,
         formSchema,
+        formSchemaList = [],
         loading,
         setDays,
         setDepartment,
@@ -183,16 +184,6 @@ function ApprovalView(props: any) {
                 <div className="mb-2  ">
                     <ul className="flex flex-row -my-px">
                         <li
-                            onClick={() => setCurrentTypeTabStatus('vacation')}
-                            className={`p-4 cursor-pointer ${
-                                currentTypeTabStatus === 'vacation'
-                                    ? 'text-black border-b-2 border-black'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            請假紙
-                        </li>
-                        <li
                             onClick={() => setCurrentTypeTabStatus('normal')}
                             className={`p-4 cursor-pointer ${
                                 currentTypeTabStatus === 'normal'
@@ -202,26 +193,21 @@ function ApprovalView(props: any) {
                         >
                             普通文件
                         </li>
-                        <li
-                            onClick={() => setCurrentTypeTabStatus('factory')}
-                            className={`p-4 cursor-pointer ${
-                                currentTypeTabStatus === 'factory'
-                                    ? 'text-black border-b-2 border-black'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            工場維修
-                        </li>
-                        <li
-                            onClick={() => setCurrentTypeTabStatus('shop')}
-                            className={`p-4 cursor-pointer ${
-                                currentTypeTabStatus === 'shop'
-                                    ? 'text-black border-b-2 border-black'
-                                    : 'text-gray-400'
-                            } font-bold text-sm`}
-                        >
-                            店鋪維修
-                        </li>
+                        {formSchemaList.map((item: any) => {
+                            return (
+                                <li
+                                    key={item.id}
+                                    onClick={() => setCurrentTypeTabStatus(item.id)}
+                                    className={`p-4 cursor-pointer ${
+                                        currentTypeTabStatus === item.id
+                                            ? 'text-black border-b-2 border-black'
+                                            : 'text-gray-400'
+                                    } font-bold text-sm`}
+                                >
+                                    {item.name}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
             </div>
@@ -262,7 +248,7 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
-                                    {currentTypeTabStatus === 'vacation' ? (
+                                    {currentTypeTabStatus != 'normal' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -282,7 +268,7 @@ function ApprovalView(props: any) {
                                         </div>
                                     )}
                                 </div>
-                                {currentTypeTabStatus === 'vacation' ? (
+                                {currentTypeTabStatus != 'normal' ? (
                                     <button
                                         type="button"
                                         className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -306,7 +292,7 @@ function ApprovalView(props: any) {
                                             <th scope="col" className="px-6 py-3 text-left">
                                                 文檔
                                             </th>
-                                            {currentTypeTabStatus === 'vacation' ? (
+                                            {currentTypeTabStatus != 'normal' ? (
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-left w-1/3"
@@ -334,7 +320,7 @@ function ApprovalView(props: any) {
                                             const { storage_url: formUrl = null } = item.document;
                                             if (
                                                 item.form_data?.data == null &&
-                                                currentTypeTabStatus === 'vacation'
+                                                currentTypeTabStatus != 'normal'
                                             )
                                                 return;
                                             const created_at = moment(item.created_at).fromNow();
@@ -370,7 +356,7 @@ function ApprovalView(props: any) {
                                                             />
                                                         )}
                                                     </td>
-                                                    {currentTypeTabStatus === 'vacation' ? (
+                                                    {currentTypeTabStatus != 'normal' ? (
                                                         <td className="px-6 py-4 text-left overflow-hidden">
                                                             {matchFormSchemaAndFormData(
                                                                 formSchema,
@@ -409,7 +395,7 @@ function ApprovalView(props: any) {
                                                     </td>
                                                     <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-left">
                                                         {approval_status === 'awaiting' ? (
-                                                            currentTypeTabStatus == 'vacation' ? (
+                                                            currentTypeTabStatus != 'normal' ? (
                                                                 <Link
                                                                     href={`/form/approval/${id.toString()}`}
                                                                 >

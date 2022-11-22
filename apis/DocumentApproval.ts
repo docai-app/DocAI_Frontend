@@ -12,4 +12,18 @@ export default class DocumentApproval {
         };
         return requestHeader;
     }
+
+    getFormsByApprovalStatus(
+        status: string,
+        days: number = 3,
+        page: number = 1,
+        form_schema_id: string = ''
+    ) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/approval/form/documents?status=${status}&days=${days}&page=${page}&form_schema_id=${form_schema_id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }
