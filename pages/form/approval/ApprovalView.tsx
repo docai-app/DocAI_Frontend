@@ -397,7 +397,7 @@ function ApprovalView(props: any) {
                                                         {approval_status === 'awaiting' ? (
                                                             currentTypeTabStatus != 'normal' ? (
                                                                 <Link
-                                                                    href={`/form/approval/${id.toString()}`}
+                                                                    href={`/form/approval/${id.toString()}?form_schema_id=${currentTypeTabStatus}`}
                                                                 >
                                                                     <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
                                                                         立即審批

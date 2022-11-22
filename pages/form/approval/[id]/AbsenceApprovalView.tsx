@@ -43,17 +43,18 @@ function ValidateView(props: ValidateViewProps) {
     } = props;
     return (
         <>
-            <div className="min-h-full bg-slate-50">
-                <header className="shadow bg-white">
+            <div className="min-h-full">
+                <header className="bg-white">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">文件審批</h1>
+                        <h1 className="text-3xl font-bold text-gray-900">
+                            文件審批（{formSchema.title}）
+                        </h1>
                     </div>
                 </header>
                 <main>
                     <div className="max-w-7xl mx-auto py-0 sm:px-0 lg:px-0">
-                        <div className="px-4 py-6 sm:px-0">
-                            <p className="mb-2 text-lg">請假紙</p>
-                            <div className="flex justify-center md:items-center flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white rounded-lg h-80vh">
+                        <div className="px-4 pb-8 sm:px-0">
+                            <div className="flex justify-center md:items-center flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
                                     <div className="w-full md:w-full m-4 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                         {formUrl.split('.').pop() === 'pdf' ? (

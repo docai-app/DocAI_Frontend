@@ -51,6 +51,7 @@ function AbsenceApprovalContainer() {
         ),
         []
     );
+
     const widgets = useRef({
         TextWidget: (props: WidgetProps) => (
             <label>
@@ -79,6 +80,7 @@ function AbsenceApprovalContainer() {
             </label>
         )
     });
+
     const fields = useRef({
         TitleField: (props: FieldProps) => (
             <div>
@@ -86,13 +88,10 @@ function AbsenceApprovalContainer() {
             </div>
         )
     });
+
     const approvalSchema = useRef({
         type: 'object',
         properties: {
-            // remark: {
-            //     title: '備註',
-            //     type: 'string'
-            // },
             approval: {
                 title: '',
                 type: 'string'
@@ -115,6 +114,11 @@ function AbsenceApprovalContainer() {
 
     const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
         apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
+        { manual: true }
+    );
+
+    const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
+        apiSetting.FormSchema.getFormsSchemaById(`${router.query.form_schema_id}`),
         { manual: true }
     );
 
@@ -180,10 +184,11 @@ function AbsenceApprovalContainer() {
     }, [getFormsSchemaByName]);
 
     useEffect(() => {
-        if (router.query.id) {
+        if (router.query.id && router.query.form_schema_id) {
             getAbsenceFormByApprovalId(
                 apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
             );
+            getFormsSchemaById();
         }
     }, [router, getAbsenceFormByApprovalId]);
 
@@ -195,11 +200,17 @@ function AbsenceApprovalContainer() {
         }
     }, [getAbsenceFormByApprovalIdData]);
 
+    // useEffect(() => {
+    //     if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
+    //         setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
+    //     }
+    // }, [getFormsSchemaByNameData]);
+
     useEffect(() => {
-        if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-            setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
+        if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
+            setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
         }
-    }, [getFormsSchemaByNameData]);
+    }, [getFormsSchemaByIdData]);
 
     useEffect(() => {
         if (updateFormApprovalStatusData && updateFormApprovalStatusData.success === true) {
