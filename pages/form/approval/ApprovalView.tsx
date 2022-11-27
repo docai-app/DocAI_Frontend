@@ -173,7 +173,7 @@ function ApprovalView(props: any) {
         const csv = json2csvParser.parse(absencesFormData);
         const link = document.createElement('a');
         link.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
-        link.download = '表格.csv';
+        link.download = `${formSchema.title}.csv`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -248,7 +248,7 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
-                                    {currentTypeTabStatus != 'normal' ? (
+                                    {/* {currentTypeTabStatus != 'normal' && formSchema.title === '請假表' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -266,7 +266,7 @@ function ApprovalView(props: any) {
                                                 onSwitch={onSwitchStatus}
                                             />
                                         </div>
-                                    )}
+                                    )} */}
                                 </div>
                                 {currentTypeTabStatus != 'normal' ? (
                                     <button
