@@ -112,11 +112,6 @@ function AbsenceApprovalContainer() {
         }
     });
 
-    const [{ data: getFormsSchemaByNameData }, getFormsSchemaByName] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')),
-        { manual: true }
-    );
-
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(`${router.query.form_schema_id}`),
         { manual: true }
@@ -180,8 +175,8 @@ function AbsenceApprovalContainer() {
     useEffect(() => {
         axios.defaults.headers.common['authorization'] =
             localStorage.getItem('authorization') || '';
-        getFormsSchemaByName();
-    }, [getFormsSchemaByName]);
+        getFormsSchemaById();
+    }, [getFormsSchemaById]);
 
     useEffect(() => {
         if (router.query.id && router.query.form_schema_id) {
@@ -199,12 +194,6 @@ function AbsenceApprovalContainer() {
             setApproval({ remark: getAbsenceFormByApprovalIdData.absence_form?.remark || '' });
         }
     }, [getAbsenceFormByApprovalIdData]);
-
-    // useEffect(() => {
-    //     if (getFormsSchemaByNameData && getFormsSchemaByNameData.success === true) {
-    //         setFormSchema(getFormsSchemaByNameData.form_schema.form_schema);
-    //     }
-    // }, [getFormsSchemaByNameData]);
 
     useEffect(() => {
         if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {

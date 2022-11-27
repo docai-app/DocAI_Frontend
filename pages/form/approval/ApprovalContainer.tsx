@@ -39,25 +39,6 @@ function ApprovalContainer() {
         manual: true
     });
 
-    const [
-        {
-            data: getFormsByApprovalStatusData,
-            loading: getFormsByApprovalStatusLoading,
-            error: getFormsByApprovalStatusError
-        },
-        getFormsByApprovalStatus
-    ] = useAxios(
-        apiSetting.DocumentApproval.getFormsByApprovalStatus(
-            currentTabStatus,
-            days,
-            page,
-            formSchemaId
-        ),
-        {
-            manual: true
-        }
-    );
-
     const [formSchema, setFormSchema] = useState({});
     const [props, setProps] = useState<any>({
         data: [],
@@ -68,11 +49,6 @@ function ApprovalContainer() {
         setCurrentTypeTabStatus: setCurrentTypeTabStatus,
         formSchema: formSchema
     });
-
-    // const [
-    //     { data: getFormsSchemaByNameData },
-    //     getFormsSchemaByName
-    // ] = useAxios(apiSetting.FormSchema.getFormsSchemaByName(encodeURI('請假表')), { manual: true });
 
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(currentTypeTabStatus),
