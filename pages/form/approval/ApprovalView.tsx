@@ -9,6 +9,7 @@ import moment from 'moment';
 import PaginationView from '../../../components/common/Widget/PaginationView';
 import InputRemarkModal from '../../../components/common/Widget/InputRemarkModal';
 import { getDownloadFields, matchFormSchemaAndFormData } from '../../../utils/form';
+import DocumentPreview from '../../../components/common/Widget/DocumentPreview';
 
 function ApprovalView(props: any) {
     const {
@@ -330,29 +331,9 @@ function ApprovalView(props: any) {
                                                         {index + 1}
                                                     </td>
                                                     <td className="px-6 py-4 text-left">
-                                                        {formUrl &&
-                                                        formUrl.split('.').pop() === 'pdf' ? (
-                                                            <object
-                                                                className="object-center object-cover flex justify-center items-center"
-                                                                type="application/pdf"
-                                                                data={formUrl + '#toolbar=0'}
-                                                                width="200"
-                                                                height={250}
-                                                            >
-                                                                <img
-                                                                    src={
-                                                                        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
-                                                                    }
-                                                                    alt="PDF file icon"
-                                                                    className="w-1/3 h-1/3 object-contain object-center"
-                                                                />
-                                                            </object>
-                                                        ) : (
-                                                            <img
-                                                                className="object-contain h-full object-center  "
-                                                                style={{ width: 200, height: 200 }}
-                                                                src={formUrl}
-                                                                alt={formUrl}
+                                                        {formUrl && (
+                                                            <DocumentPreview
+                                                                document={item.document}
                                                             />
                                                         )}
                                                     </td>
