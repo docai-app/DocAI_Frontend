@@ -98,49 +98,6 @@ export default function UploadFile(props: UploadFileProps) {
                     </div>
 
                     <div className="p-8 flex flex-col justify-center items-center text-gray-500 bg-white border-4 border-dashed border-gray-200 rounded-lg relative">
-                        {/* <div className="flex flex-row flex-wrap items-center mb-8 w-full">
-                            {fileInput.current?.files != null &&
-                                Array.from(fileInput.current.files).map((doc) => {
-                                    return (
-                                        <div
-                                            key={`file_${doc.name}`}
-                                            className="w-1/6 h-60 p-2 flex"
-                                        >
-                                            <div className="w-full h-full rounded-lg border-2 border-dashed border-neutral-200 bg-neutral-50 shadow-sm">
-                                                {doc.type.includes('image/') ? (
-                                                    <div className="h-40 flex items-center">
-                                                        <img
-                                                            alt="Image Preview"
-                                                            src={URL.createObjectURL(doc)}
-                                                            className="rounded-lg shadow-sm object-contain object-center h-full w-full"
-                                                        />
-                                                    </div>
-                                                ) : (
-                                                    <object
-                                                        className="w-full h-40 flex justify-center items-center"
-                                                        type="application/pdf"
-                                                        data={URL.createObjectURL(doc)}
-                                                    >
-                                                        <img
-                                                            alt="PDF Preview"
-                                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png"
-                                                            className="rounded-lg shadow-sm object-contain object-center h-20"
-                                                        />
-                                                    </object>
-                                                )}
-                                                <div className="p-2">
-                                                    <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">
-                                                        {doc.name}
-                                                    </div>
-                                                    <div className="text-sm">
-                                                        大小：{readableSize(doc.size)}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                        </div> */}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-20 w-20 stroke-gray-400"
@@ -167,7 +124,7 @@ export default function UploadFile(props: UploadFileProps) {
                                     type="file"
                                     className="sr-only"
                                     multiple={multiple}
-                                    accept="image/*,.pdf"
+                                    // accept="image/*,.pdf"
                                     onChange={(e) => {
                                         handleChange(e);
                                     }}
@@ -175,9 +132,7 @@ export default function UploadFile(props: UploadFileProps) {
                                 />
                             </label>
                         </div>
-                        <span className="mt-2 block text-sm font-medium">
-                            PNG, JPG, PDF up to 5MB
-                        </span>
+                        <span className="mt-2 block text-sm font-medium">支持10MB大小的文件</span>
                     </div>
                     <div className="mt-4 rounded-md border-2 border-gray-200 p-4 bg-white">
                         <label className="text-md font-bold text-gray-900">儲存路徑</label>
@@ -194,9 +149,6 @@ export default function UploadFile(props: UploadFileProps) {
                                 <div className="flex flex-row items-center">
                                     {documentPath && documentPath[documentPath.length - 1].name}
                                 </div>
-
-                                {/* <FolderIcon className="h-6 text-blue-200" />
-                                <label className="ml-2">{folderPath?.name || 'Root'}</label> */}
                             </div>
                             <a
                                 className="text-indigo-600 underline cursor-pointer"
@@ -246,7 +198,8 @@ export default function UploadFile(props: UploadFileProps) {
                                                         className="rounded-lg shadow-sm object-contain object-center h-full w-full"
                                                     />
                                                 </div>
-                                            ) : (
+                                            ) : null}
+                                            {doc.type.includes('application/pdf') ? (
                                                 <object
                                                     className="w-full h-40 flex justify-center items-center"
                                                     type="application/pdf"
@@ -258,7 +211,7 @@ export default function UploadFile(props: UploadFileProps) {
                                                         className="rounded-lg shadow-sm object-contain object-center h-20"
                                                     />
                                                 </object>
-                                            )}
+                                            ) : null}
                                             <div className="p-2">
                                                 <div className="text-sm text-neutral-900 whitespace-nowrap text-ellipsis overflow-hidden">
                                                     {doc.name}
