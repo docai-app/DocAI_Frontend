@@ -1,17 +1,19 @@
 // index.js
-import Storage from './Storage';
-import Classification from './Classification';
-import Tag from './Tag';
-import Search from './Search';
-import Form from './Form';
 import Absence from './Absence';
-import Document from './Document';
-import FormSchema from './FormSchema';
-import Statistics from './Statistics';
-import DocumentApproval from './DocumentApproval';
 import Authorization from './Authorization';
+import Classification from './Classification';
+import Document from './Document';
+import DocumentApproval from './DocumentApproval';
 import Drive from './Drive';
 import Folders from './Folders';
+import Form from './Form';
+import FormSchema from './FormSchema';
+import Project from './Project';
+import ProjectTask from './ProjectTask';
+import Search from './Search';
+import Statistics from './Statistics';
+import Storage from './Storage';
+import Tag from './Tag';
 
 export default class Api {
     Storage: Storage;
@@ -27,6 +29,8 @@ export default class Api {
     Authorization: Authorization;
     Drive: Drive;
     Folders: Folders;
+    Project: Project;
+    ProjectTask: ProjectTask;
 
     constructor() {
         this.Storage = new Storage();
@@ -42,5 +46,7 @@ export default class Api {
         this.Authorization = new Authorization();
         this.Drive = new Drive();
         this.Folders = new Folders();
+        this.Project = new Project();
+        this.ProjectTask = new ProjectTask();
     }
 }
