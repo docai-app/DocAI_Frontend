@@ -1,26 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import {
-    CalendarIcon,
-    HomeIcon,
-    MapIcon,
-    MenuIcon,
-    SearchCircleIcon,
-    SpeakerphoneIcon,
-    UserGroupIcon,
-    XIcon,
-    FolderIcon,
-    DocumentSearchIcon,
-    ShieldCheckIcon,
-    UploadIcon,
-    CloudUploadIcon,
-    ClipboardCheckIcon,
-    SortAscendingIcon,
-    CloudIcon,
-    TagIcon
+    ClipboardCheckIcon, FolderIcon, MenuIcon, ShieldCheckIcon, TagIcon, UserCircleIcon, XIcon
 } from '@heroicons/react/outline';
+import { SearchCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
+import { Fragment, useState } from 'react';
 
 export default function LeftMenu(props: any) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -58,6 +43,22 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/form') != -1,
             iconForeground: 'text-blue-700',
             iconBackground: 'bg-blue-50'
+        },
+        {
+            name: '項目管理',
+            href: '/project',
+            icon: UserCircleIcon,
+            current: router.pathname.indexOf('/project') != -1,
+            iconForeground: 'text-red-700',
+            iconBackground: 'bg-red-50'
+        },
+        {
+            name: '數據搜尋',
+            href: '/data',
+            icon: SearchCircleIcon,
+            current: router.pathname.indexOf('/data') != -1,
+            iconForeground: 'text-indigo-700',
+            iconBackground: 'bg-indigo-50'
         }
     ];
 
@@ -289,7 +290,7 @@ export default function LeftMenu(props: any) {
                     <div className="flex-1 relative z-0 flex overflow-hidden">
                         <main className="flex-1 relative  overflow-y-auto focus:outline-none">
                             {/* Start main area*/}
-                            <div className="absolute inset-0 py-6 px-4 sm:px-6 lg:px-8">
+                            <div className="absolute inset-0 py-0 px-0 sm:px-6 sm:py-4 lg:px-8">
                                 <div className="h-full rounded-lg">{props.content}</div>
                             </div>
                             {/* End main area */}
