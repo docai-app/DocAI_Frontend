@@ -1,4 +1,4 @@
-import { DocumentTextIcon } from "@heroicons/react/solid";
+import { ClipboardListIcon, UserCircleIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import Progress from "../../common/Widget/Progress";
 
@@ -12,15 +12,24 @@ export default function ProjectRow(props: ProjectRowProps) {
     } = props;
     return (
         <>
-            <div className="flex flex-row px-4 py-2 items-center cursor-pointer justify-between">
-                <div className="flex flex-1 flex-row items-center">
-                    <DocumentTextIcon className="w-4 m-2" />
-                    <Link href={`/project/${project?.id}`}>
-                        <a className=" text-sm hover:underline">{project?.name}</a>
-                    </Link>
+            <div>
+                <div className="flex flex-row px-2 py-0 items-center cursor-pointer justify-between">
+                    <div className="flex flex-1 flex-row items-center">
+                        <ClipboardListIcon className="w-4 m-2" />
+                        <Link href={`/project/${project?.id}`}>
+                            <a className=" text-sm hover:underline">{project?.name}</a>
+                        </Link>
+                    </div>
+                    <div className="flex w-1/6" >
+                        <Progress value={project?.progress} />
+                    </div>
                 </div>
-                <div className="flex w-1/6" >
-                    <Progress value={project?.progress} />
+                <div className="flex px-2 items-center justify-between">
+                    <label className="text-xs text-gray-400">截止日期: {project?.deadline_at}</label>
+                    <div className="flex flex-row items-center">
+                        <UserCircleIcon className="w-4 m-1" /><label className="text-xs text-gray-400">{project?.user?.nickname}</label>
+                    </div>
+
                 </div>
             </div>
         </>

@@ -4,10 +4,10 @@ import { AxiosRequestConfig } from "axios";
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class Project {
-    getAllProjects() {
+    getAllProjects(page: number) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/projects`,
+            url: `/api/v1/projects?page=${page}`,
             method: 'GET'
         };
         return requestHeader;

@@ -14,6 +14,8 @@ export default function ProjectContainer() {
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string | null>(null);
     const [projects, setProjects] = useState();
+    const [meta, setMeta] = useState()
+    const [page, setPage] = useState(1);
     const [currentStatus, setCurrentStatus] = useState("")
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -23,7 +25,7 @@ export default function ProjectContainer() {
     const [
         { data: showAllProjectsData, loading: showAllProjectsLoading, error: showAllProjectsError },
         showAllProjects
-    ] = useAxios(apiSetting.Project.getAllProjects(), { manual: false });
+    ] = useAxios(apiSetting.Project.getAllProjects(page), { manual: false });
 
     const [
         { data: addNewProjectData, loading: addNewProjectLoading, error: addNewProjectError },
@@ -31,9 +33,15 @@ export default function ProjectContainer() {
     ] = useAxios(apiSetting.Project.addNewProject(), { manual: true });
 
     const addNewProjectHeadler = useCallback(async (data) => {
-        const { name } = data
+        const { name, description, deadline_at } = data
         console.log(data)
-        addNewProject({ data: { name: name } });
+        addNewProject({
+            data: {
+                name: name,
+                description: description,
+                deadline_at: deadline_at
+            }
+        });
     }, [addNewProject])
 
     useEffect(() => {
@@ -67,6 +75,7 @@ export default function ProjectContainer() {
                 return project
             })
             setProjects(showAllProjectsData.projects)
+            setMeta(showAllProjectsData?.meta)
 
         }
     }, [showAllProjectsLoading, showAllProjectsData]);
@@ -91,11 +100,18 @@ export default function ProjectContainer() {
         }
     }, [currentStatus]);
 
+    useEffect(() => {
+        if (router.query.page) {
+            setPage(parseInt(router.query.page + '') || 1);
+        }
+    }, [router.query.page]);
+
     return <ProjectView {...{
         id,
         name,
         showAllItemsData,
         projects,
+        meta,
         currentStatus,
         setCurrentStatus,
         addNewProjectHeadler

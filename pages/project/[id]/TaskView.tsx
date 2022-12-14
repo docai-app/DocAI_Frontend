@@ -1,6 +1,7 @@
 import { ChevronLeftIcon } from '@heroicons/react/solid';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
+import OGView from '../../../components/common/Widget/OGView';
 import Progress from '../../../components/common/Widget/Progress';
 import EditTaskModal from '../../../components/feature/project/task/EditTaskModal';
 import TaskRow from '../../../components/feature/project/task/TaskRow';
@@ -25,6 +26,7 @@ function TaskView(props: TaskViewProps) {
     } = props;
     const [mode, setMode] = useState('');
     const [currentTask, setCurrentTask] = useState<any>(null)
+    const route = useRouter()
     return (
         <>
             <div className="w-full mx-auto h-[calc(100vh-18.5rem)] px-1 sm:px-0 lg:px-8 mb-6">
@@ -48,8 +50,15 @@ function TaskView(props: TaskViewProps) {
                         </button>
                     </div>
                 </header>
+                <div className="flex w-full flex-col  mt-2" >
+                    <p className="text-sm flex flex-0 mr-4">項目進度</p>
+                    <div className="flex flex-1">
+                        <Progress value={project?.progress} />
+                    </div>
+
+                </div>
                 <div className="flex w-full" >
-                    <Progress value={project?.progress} />
+                    <p className="text-sm text-gray-400">{project?.description}</p>
                 </div>
                 <div className="mt-4">
                     {tasks?.sort((a: any, b: any) => a.created_at > b.created_at ? 1 : -1).map((task: any, index: number) => {
@@ -64,8 +73,8 @@ function TaskView(props: TaskViewProps) {
                         )
                     })}
                 </div>
-                <div className="mt-4">
-
+                <div className="py-4">
+                    {project && <OGView title={project?.name} description={project?.description} url={window?.location.href} />}
                 </div>
             </div>
             <EditTaskModal
