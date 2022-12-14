@@ -2,12 +2,21 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
 import { Fragment, useRef, useState } from 'react';
+import useAlert from '../../../hooks/useAlert';
 
 export default function EditProjectModal(props: any) {
     const cancelButtonRef = useRef(null);
+    const { setAlert } = useAlert();
     const [data, setData] = useState({
-        name: ''
+        name: '',
+        description: '',
+        deadline_at: '',
     })
+    const validate = () => {
+        if (!data.name)
+            return setAlert({ title: '請輸入名稱', type: 'info' });
+        props.confirmClick(data)
+    }
 
     return (
         <>
@@ -57,7 +66,7 @@ export default function EditProjectModal(props: any) {
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
-                                            props.confirmClick(data)
+                                            validate()
                                         }}
                                     >
                                         完成
@@ -71,7 +80,7 @@ export default function EditProjectModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                名稱:
+                                                <span className="text-red-500">*</span>名稱:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">
@@ -79,11 +88,37 @@ export default function EditProjectModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="string"
+                                                required={true}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
                                                         name: e.target.value
+                                                    })
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="w-full flex flex-row m-2">
+                                        <div className="w-1/4 flex justify-left items-center ">
+                                            <label
+                                                htmlFor="new-type"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                描述:
+                                            </label>
+                                        </div>
+                                        <div className="flex w-1/2">
+                                            <input
+                                                id="type"
+                                                name="type"
+                                                type="string"
+                                                required={true}
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                onChange={async (e) => {
+                                                    setData({
+                                                        ...data,
+                                                        description: e.target.value
                                                     })
                                                 }}
                                             />
@@ -105,6 +140,10 @@ export default function EditProjectModal(props: any) {
                                                 type="date"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
+                                                    setData({
+                                                        ...data,
+                                                        deadline_at: e.target.value
+                                                    })
                                                 }}
                                             />
                                         </div>
@@ -127,7 +166,7 @@ export default function EditProjectModal(props: any) {
                                         </div>
                                     </div>
 
-                                    <div className="w-full flex flex-row m-2">
+                                    <div className="w-full flex-row m-2 hidden">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
                                                 htmlFor="new-type"

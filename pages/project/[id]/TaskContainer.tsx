@@ -37,12 +37,14 @@ export default function TaskContainer() {
     ] = useAxios(apiSetting.ProjectTask.deleteProjectTaskById(''), { manual: true });
 
     const addNewTaskHandler = useCallback(async (data) => {
-        const { title, description } = data
+        const { title, description, deadline_at } = data
+
         addNewTask({
             data: {
                 project_id: router.query.id,
                 title: title,
-                description: description
+                description: description,
+                deadline_at: deadline_at
             }
         });
     }, [router, addNewTask])

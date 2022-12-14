@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
+import PaginationView from '../../components/common/Widget/PaginationView';
 import EditProjectModal from '../../components/feature/project/EditProjectModal';
 import ProjectItem from '../../components/feature/project/ProjectItem';
 import ProjectRow from '../../components/feature/project/ProjectRow';
@@ -16,6 +17,7 @@ interface ProjectViewProps {
     name: string | string[] | null | undefined;
     showAllItemsData: any;
     projects: any;
+    meta: any;
     currentStatus: string;
     setCurrentStatus: any;
     addNewProjectHeadler: any;
@@ -27,6 +29,7 @@ function ProjectView(props: ProjectViewProps) {
         name = 'Root',
         showAllItemsData = null,
         projects = null,
+        meta,
         currentStatus,
         setCurrentStatus,
         addNewProjectHeadler
@@ -153,6 +156,7 @@ function ProjectView(props: ProjectViewProps) {
                         {/* <ProjectItem /> */}
                     </div>
                 </div>
+                <PaginationView meta={meta} pathname={'/project'} params={null} />
             </div>
             <EditProjectModal
                 visable={visiable}

@@ -1,6 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import Router from 'next/router';
-import { useEffect } from 'react';
 
 interface PaginationProps {
     meta: any;
