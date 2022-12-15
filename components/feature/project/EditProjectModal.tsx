@@ -1,17 +1,38 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
-import { Fragment, useRef, useState } from 'react';
+import moment from 'moment';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import useAlert from '../../../hooks/useAlert';
 
 export default function EditProjectModal(props: any) {
     const cancelButtonRef = useRef(null);
     const { setAlert } = useAlert();
     const [data, setData] = useState({
+        id: null,
         name: '',
         description: '',
         deadline_at: '',
     })
+    useEffect(() => {
+        if (props.project != null) {
+            setData({
+                ...data,
+                id: props.project.id,
+                name: props.project.name,
+                description: props.project.description,
+                deadline_at: props.project.deadline_at && moment(props.project.deadline_at).format("YYYY-MM-DD")
+            })
+        } else {
+            setData({
+                ...data,
+                id: null,
+                name: '',
+                description: '',
+                deadline_at: '',
+            })
+        }
+    }, [props])
     const validate = () => {
         if (!data.name)
             return setAlert({ title: '請輸入名稱', type: 'info' });
@@ -61,7 +82,7 @@ export default function EditProjectModal(props: any) {
                                     <XIcon
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick} />
-                                    <label>新項目</label>
+                                    <label>{props?.project == null ? "新項目" : "編輯項目"}</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -89,6 +110,7 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 required={true}
+                                                defaultValue={data?.name}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
@@ -114,6 +136,7 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 required={true}
+                                                defaultValue={data?.description}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
@@ -138,6 +161,7 @@ export default function EditProjectModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
+                                                defaultValue={data?.deadline_at}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({

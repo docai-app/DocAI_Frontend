@@ -3,12 +3,14 @@ import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../apis';
+import useAlert from '../../hooks/useAlert';
 import ProjectView from './ProjectView';
 
 const apiSetting = new Api();
 
 export default function ProjectContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const queryId = useRef(router.query.id);
     const queryName = useRef(router.query.name);
     const [id, setId] = useState<string | null>(null);
@@ -32,6 +34,11 @@ export default function ProjectContainer() {
         addNewProject
     ] = useAxios(apiSetting.Project.addNewProject(), { manual: true });
 
+    const [
+        { data: updateProjectData, loading: updateProjectLoading, error: updateProjectError },
+        updateProject
+    ] = useAxios(apiSetting.Project.updateProjectById(""), { manual: true });
+
     const addNewProjectHeadler = useCallback(async (data) => {
         const { name, description, deadline_at } = data
         console.log(data)
@@ -43,6 +50,18 @@ export default function ProjectContainer() {
             }
         });
     }, [addNewProject])
+
+    const updateProjectHandler = useCallback(async (data) => {
+        const { id, name, description, deadline_at } = data
+        updateProject({
+            ...apiSetting.Project.updateProjectById(id),
+            data: {
+                name: name,
+                description: description,
+                deadline_at: deadline_at,
+            }
+        });
+    }, [updateProject])
 
     useEffect(() => {
         if (router.asPath !== router.route) {
@@ -87,6 +106,14 @@ export default function ProjectContainer() {
     }, [addNewProjectData]);
 
     useEffect(() => {
+        if (updateProjectData && updateProjectData.success) {
+            router.reload()
+        } else if (updateProjectData && !updateProjectData.success) {
+            setAlert({ title: updateProjectData.error, type: 'error' });
+        }
+    }, [updateProjectData]);
+
+    useEffect(() => {
         if (currentStatus && projects) {
             const data: any = _.filter(showAllProjectsData?.projects, function (o: any) {
                 if (currentStatus == "all")
@@ -114,6 +141,7 @@ export default function ProjectContainer() {
         meta,
         currentStatus,
         setCurrentStatus,
-        addNewProjectHeadler
+        addNewProjectHeadler,
+        updateProjectHandler
     }} />;
 }

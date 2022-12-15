@@ -39,4 +39,13 @@ export default class Project {
         };
         return requestHeader;
     }
+
+    updateProjectById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/projects/${id}`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

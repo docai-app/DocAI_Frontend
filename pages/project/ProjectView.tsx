@@ -21,6 +21,7 @@ interface ProjectViewProps {
     currentStatus: string;
     setCurrentStatus: any;
     addNewProjectHeadler: any;
+    updateProjectHandler: any;
 }
 
 function ProjectView(props: ProjectViewProps) {
@@ -32,7 +33,8 @@ function ProjectView(props: ProjectViewProps) {
         meta,
         currentStatus,
         setCurrentStatus,
-        addNewProjectHeadler
+        addNewProjectHeadler,
+        updateProjectHandler
     } = props;
     const [visiable, setVisiable] = useState(false)
     const [mode, setMode] = useState('');
@@ -125,7 +127,7 @@ function ProjectView(props: ProjectViewProps) {
                             </button>
                         </div>
                         <div className=" divide-y">
-                            <ProjectRow project={null} />
+                            <ProjectRow project={null} updateProjectHandler={updateProjectHandler} />
                         </div>
 
                     </div>
@@ -152,7 +154,7 @@ function ProjectView(props: ProjectViewProps) {
                         />
                     </div>
                     <div>
-                        <ProjectItem projects={projects} />
+                        <ProjectItem projects={projects} updateProjectHandler={updateProjectHandler} />
                         {/* <ProjectItem /> */}
                     </div>
                 </div>
