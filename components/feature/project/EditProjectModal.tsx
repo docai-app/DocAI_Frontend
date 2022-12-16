@@ -12,8 +12,8 @@ export default function EditProjectModal(props: any) {
         id: null,
         name: '',
         description: '',
-        deadline_at: '',
-    })
+        deadline_at: ''
+    });
     useEffect(() => {
         if (props.project != null) {
             setData({
@@ -21,23 +21,24 @@ export default function EditProjectModal(props: any) {
                 id: props.project.id,
                 name: props.project.name,
                 description: props.project.description,
-                deadline_at: props.project.deadline_at && moment(props.project.deadline_at).format("YYYY-MM-DD")
-            })
+                deadline_at:
+                    props.project.deadline_at &&
+                    moment(props.project.deadline_at).format('YYYY-MM-DD')
+            });
         } else {
             setData({
                 ...data,
                 id: null,
                 name: '',
                 description: '',
-                deadline_at: '',
-            })
+                deadline_at: ''
+            });
         }
-    }, [props])
+    }, [props]);
     const validate = () => {
-        if (!data.name)
-            return setAlert({ title: '請輸入名稱', type: 'info' });
-        props.confirmClick(data)
-    }
+        if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
+        props.confirmClick(data);
+    };
 
     return (
         <>
@@ -46,7 +47,7 @@ export default function EditProjectModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -81,20 +82,20 @@ export default function EditProjectModal(props: any) {
                                 <div className="flex flex-row justify-between">
                                     <XIcon
                                         className="w-6 cursor-pointer"
-                                        onClick={props.cancelClick} />
-                                    <label>{props?.project == null ? "新項目" : "編輯項目"}</label>
+                                        onClick={props.cancelClick}
+                                    />
+                                    <label>{props?.project == null ? '新項目' : '編輯項目'}</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
-                                            validate()
+                                            validate();
                                         }}
                                     >
                                         完成
                                     </button>
                                 </div>
                                 <div className="w-full mt-4">
-
                                     <div className="w-full flex flex-row m-2">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
@@ -116,7 +117,7 @@ export default function EditProjectModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         name: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
@@ -142,7 +143,7 @@ export default function EditProjectModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         description: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
@@ -167,12 +168,12 @@ export default function EditProjectModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         deadline_at: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
                                     </div>
-                                    <div className="w-full flex flex-row m-2">
+                                    {/* <div className="w-full flex flex-row m-2">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
                                                 htmlFor="new-type"
@@ -188,7 +189,7 @@ export default function EditProjectModal(props: any) {
                                                 props.cancelClick()
                                             }}>編輯</a>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="w-full flex-row m-2 hidden">
                                         <div className="w-1/4 flex justify-left items-center ">
@@ -205,12 +206,10 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => {
-                                                }}
+                                                onChange={async (e) => {}}
                                             />
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </Transition.Child>

@@ -11,7 +11,7 @@ export default function EditTaskModal(props: any) {
         title: '',
         description: '',
         deadline_at: ''
-    })
+    });
 
     useEffect(() => {
         if (props.task != null) {
@@ -20,22 +20,21 @@ export default function EditTaskModal(props: any) {
                 id: props.task.id,
                 title: props.task.title,
                 description: props.task.description
-            })
+            });
         } else {
             setData({
                 ...data,
                 id: null,
                 title: '',
                 description: ''
-            })
+            });
         }
-    }, [props])
+    }, [props]);
 
     const validate = () => {
-        if (!data.title)
-            return setAlert({ title: '請輸入名稱', type: 'info' });
-        props.confirmClick(data)
-    }
+        if (!data.title) return setAlert({ title: '請輸入名稱', type: 'info' });
+        props.confirmClick(data);
+    };
 
     return (
         <>
@@ -44,7 +43,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -79,20 +78,20 @@ export default function EditTaskModal(props: any) {
                                 <div className="flex flex-row justify-between">
                                     <XIcon
                                         className="w-6 cursor-pointer"
-                                        onClick={props.cancelClick} />
-                                    <label>{props?.task == null ? "新增" : "編輯"}</label>
+                                        onClick={props.cancelClick}
+                                    />
+                                    <label>{props?.task == null ? '新增' : '編輯'}</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
-                                            validate()
+                                            validate();
                                         }}
                                     >
                                         完成
                                     </button>
                                 </div>
                                 <div className="w-full mt-4">
-
                                     <div className="w-full flex flex-row m-2">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
@@ -113,7 +112,7 @@ export default function EditTaskModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         title: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
@@ -139,7 +138,7 @@ export default function EditTaskModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         description: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
@@ -164,7 +163,7 @@ export default function EditTaskModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         deadline_at: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>

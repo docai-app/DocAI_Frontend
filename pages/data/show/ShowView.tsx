@@ -31,23 +31,21 @@ function ShowView(props: ShowViewProps) {
                         </div>
                     </header>
                     <div className="px-2 py-4">
-
-
                         <div className="flex flex-row mt-2 flex-wrap">
                             <div className="mx-4">
                                 <label className="mr-2">物品:</label>
                                 <MyDateDropdown
-                                    value={"請假紙"}
+                                    value={'請假紙'}
                                     datas={dates}
-                                    onSwitch={() => { }}
+                                    onSwitch={() => {}}
                                 />
                             </div>
                             <div className="mx-2">
                                 <label className="mr-2">供應商:</label>
                                 <MyDateDropdown
-                                    value={"請假紙"}
+                                    value={'請假紙'}
                                     datas={dates}
-                                    onSwitch={() => { }}
+                                    onSwitch={() => {}}
                                 />
                             </div>
                         </div>
@@ -56,7 +54,9 @@ function ShowView(props: ShowViewProps) {
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             <div className="relative flex justify-center">
-                                <span className="px-3 bg-white text-lg font-medium text-indigo-500">結果</span>
+                                <span className="px-3 bg-white text-lg font-medium text-indigo-500">
+                                    結果
+                                </span>
                             </div>
                         </div>
                         <div className="flex w-full items-center justify-center text-center py-2 md:px-6 lg:px-8">
@@ -64,10 +64,16 @@ function ShowView(props: ShowViewProps) {
                                 <table className="w-full text-left divide-y divide-gray-300">
                                     <thead className="bg-gray-50">
                                         <tr className="divide-x divide-gray-200">
-                                            <th scope="col" className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                            <th
+                                                scope="col"
+                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                            >
                                                 名稱
                                             </th>
-                                            <th scope="col" className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            <th
+                                                scope="col"
+                                                className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                            >
                                                 值
                                             </th>
                                         </tr>
@@ -78,7 +84,9 @@ function ShowView(props: ShowViewProps) {
                                                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                                                     {item}
                                                 </td>
-                                                <td className="whitespace-nowrap p-4 text-sm text-gray-500">{item}</td>
+                                                <td className="whitespace-nowrap p-4 text-sm text-gray-500">
+                                                    {item}
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -86,10 +94,9 @@ function ShowView(props: ShowViewProps) {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>
-    )
+    );
 }
 export default ShowView;

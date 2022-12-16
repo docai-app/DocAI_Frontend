@@ -247,7 +247,7 @@ function ValidateContainer() {
                 )
             );
         } else {
-            setDocumentPath([{ id: null, name: 'Root' }])
+            setDocumentPath([{ id: null, name: 'Root' }]);
         }
     }, [latestPredictionData, showFolderByID]);
 

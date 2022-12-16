@@ -16,9 +16,9 @@ export default function ProjectContainer() {
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string | null>(null);
     const [projects, setProjects] = useState();
-    const [meta, setMeta] = useState()
+    const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
-    const [currentStatus, setCurrentStatus] = useState("")
+    const [currentStatus, setCurrentStatus] = useState('');
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
@@ -37,31 +37,37 @@ export default function ProjectContainer() {
     const [
         { data: updateProjectData, loading: updateProjectLoading, error: updateProjectError },
         updateProject
-    ] = useAxios(apiSetting.Project.updateProjectById(""), { manual: true });
+    ] = useAxios(apiSetting.Project.updateProjectById(''), { manual: true });
 
-    const addNewProjectHeadler = useCallback(async (data) => {
-        const { name, description, deadline_at } = data
-        console.log(data)
-        addNewProject({
-            data: {
-                name: name,
-                description: description,
-                deadline_at: deadline_at
-            }
-        });
-    }, [addNewProject])
+    const addNewProjectHeadler = useCallback(
+        async (data) => {
+            const { name, description, deadline_at } = data;
+            console.log(data);
+            addNewProject({
+                data: {
+                    name: name,
+                    description: description,
+                    deadline_at: deadline_at
+                }
+            });
+        },
+        [addNewProject]
+    );
 
-    const updateProjectHandler = useCallback(async (data) => {
-        const { id, name, description, deadline_at } = data
-        updateProject({
-            ...apiSetting.Project.updateProjectById(id),
-            data: {
-                name: name,
-                description: description,
-                deadline_at: deadline_at,
-            }
-        });
-    }, [updateProject])
+    const updateProjectHandler = useCallback(
+        async (data) => {
+            const { id, name, description, deadline_at } = data;
+            updateProject({
+                ...apiSetting.Project.updateProjectById(id),
+                data: {
+                    name: name,
+                    description: description,
+                    deadline_at: deadline_at
+                }
+            });
+        },
+        [updateProject]
+    );
 
     useEffect(() => {
         if (router.asPath !== router.route) {
@@ -88,26 +94,27 @@ export default function ProjectContainer() {
         if (!showAllProjectsLoading && showAllProjectsData) {
             showAllProjectsData.projects.map((project: any) => {
                 const count = _.filter(project.project_tasks, function (p) {
-                    return p["is_completed"] === true
-                }).length
-                project.progress = Math.round(count / (project.project_tasks.length || 1).toFixed(0) * 100)
-                return project
-            })
-            setProjects(showAllProjectsData.projects)
-            setMeta(showAllProjectsData?.meta)
-
+                    return p['is_completed'] === true;
+                }).length;
+                project.progress = Math.round(
+                    (count / (project.project_tasks.length || 1).toFixed(0)) * 100
+                );
+                return project;
+            });
+            setProjects(showAllProjectsData.projects);
+            setMeta(showAllProjectsData?.meta);
         }
     }, [showAllProjectsLoading, showAllProjectsData]);
 
     useEffect(() => {
         if (addNewProjectData && addNewProjectData.success) {
-            router.reload()
+            router.reload();
         }
     }, [addNewProjectData]);
 
     useEffect(() => {
         if (updateProjectData && updateProjectData.success) {
-            router.reload()
+            router.reload();
         } else if (updateProjectData && !updateProjectData.success) {
             setAlert({ title: updateProjectData.error, type: 'error' });
         }
@@ -116,14 +123,11 @@ export default function ProjectContainer() {
     useEffect(() => {
         if (currentStatus && projects) {
             const data: any = _.filter(showAllProjectsData?.projects, function (o: any) {
-                if (currentStatus == "all")
-                    return o;
-                else if (currentStatus == "finish")
-                    return o["progress"] == 100;
-                else if (currentStatus == "unfinish")
-                    return o["progress"] != 100;
+                if (currentStatus == 'all') return o;
+                else if (currentStatus == 'finish') return o['progress'] == 100;
+                else if (currentStatus == 'unfinish') return o['progress'] != 100;
             });
-            setProjects(data)
+            setProjects(data);
         }
     }, [currentStatus]);
 
@@ -133,15 +137,19 @@ export default function ProjectContainer() {
         }
     }, [router.query.page]);
 
-    return <ProjectView {...{
-        id,
-        name,
-        showAllItemsData,
-        projects,
-        meta,
-        currentStatus,
-        setCurrentStatus,
-        addNewProjectHeadler,
-        updateProjectHandler
-    }} />;
+    return (
+        <ProjectView
+            {...{
+                id,
+                name,
+                showAllItemsData,
+                projects,
+                meta,
+                currentStatus,
+                setCurrentStatus,
+                addNewProjectHeadler,
+                updateProjectHandler
+            }}
+        />
+    );
 }

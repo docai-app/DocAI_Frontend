@@ -25,18 +25,20 @@ function TaskView(props: TaskViewProps) {
         removeTaskHandler
     } = props;
     const [mode, setMode] = useState('');
-    const [currentTask, setCurrentTask] = useState<any>(null)
-    const route = useRouter()
+    const [currentTask, setCurrentTask] = useState<any>(null);
+    const route = useRouter();
     return (
         <>
             <div className="w-full mx-auto h-[calc(100vh-18.5rem)] px-1 sm:px-0 lg:px-8 mb-6">
                 <header className="shadow bg-white   w-full z-20">
                     <div className=" py-2 px-4 sm:px-6 sm:py-4 lg:px-8 lg:py-6  flex justify-between">
                         <div className="flex flex-row items-center">
-                            <ChevronLeftIcon className="w-8 h-8 mr-2 text-gray-500 hover:bg-slate-50 cursor-pointer"
+                            <ChevronLeftIcon
+                                className="w-8 h-8 mr-2 text-gray-500 hover:bg-slate-50 cursor-pointer"
                                 onClick={() => {
-                                    Router.back()
-                                }} />
+                                    Router.back();
+                                }}
+                            />
                             <h1 className="text-md font-bold text-gray-900">{project?.name}</h1>
                         </div>
 
@@ -45,50 +47,67 @@ function TaskView(props: TaskViewProps) {
                             onClick={() => {
                                 setMode('add');
                                 setCurrentTask(null);
-                            }}>
+                            }}
+                        >
                             新增
                         </button>
                     </div>
                 </header>
-                <div className="flex w-full flex-col  mt-2" >
+                <div className="flex w-full flex-col  mt-2">
                     <p className="text-sm flex flex-0 mr-4">項目進度</p>
                     <div className="flex flex-1">
                         <Progress value={project?.progress} />
                     </div>
-
                 </div>
-                <div className="flex w-full" >
+                <div className="flex w-full">
                     <p className="text-sm text-gray-400">{project?.description}</p>
                 </div>
                 <div className="mt-4">
-                    {tasks?.sort((a: any, b: any) => a.created_at > b.created_at ? 1 : -1).map((task: any, index: number) => {
-                        return (
-                            <TaskRow
-                                key={index}
-                                task={task}
-                                completeTask={(data: any) => { updateLocalData(); updateTaskHandler(data) }}
-                                updateTask={() => { updateLocalData(); setMode('edit'); setCurrentTask(task) }}
-                                removeTask={() => removeTaskHandler(task.id)}
-                            />
-                        )
-                    })}
+                    {tasks
+                        ?.sort((a: any, b: any) => (a.created_at > b.created_at ? 1 : -1))
+                        .map((task: any, index: number) => {
+                            return (
+                                <TaskRow
+                                    key={index}
+                                    task={task}
+                                    completeTask={(data: any) => {
+                                        updateLocalData();
+                                        updateTaskHandler(data);
+                                    }}
+                                    updateTask={() => {
+                                        updateLocalData();
+                                        setMode('edit');
+                                        setCurrentTask(task);
+                                    }}
+                                    removeTask={() => removeTaskHandler(task.id)}
+                                />
+                            );
+                        })}
                 </div>
                 <div className="py-4">
-                    {project && <OGView title={project?.name} description={project?.description} url={window?.location.href} />}
+                    {project && (
+                        <OGView
+                            title={project?.name}
+                            description={project?.description}
+                            url={window?.location.href}
+                        />
+                    )}
                 </div>
             </div>
             <EditTaskModal
                 visable={mode != ''}
                 task={currentTask}
-                cancelClick={() => { setMode(''); setCurrentTask(null) }}
+                cancelClick={() => {
+                    setMode('');
+                    setCurrentTask(null);
+                }}
                 confirmClick={(data: any) => {
                     setMode('');
                     setCurrentTask(null);
-                    if (mode == 'add')
-                        addNewTaskHandler(data)
+                    if (mode == 'add') addNewTaskHandler(data);
                     else if (mode == 'edit') {
                         if (currentTask != null) {
-                            currentTask.title = data.title
+                            currentTask.title = data.title;
                         }
                         updateLocalData();
                         updateTaskHandler(data);
@@ -96,6 +115,6 @@ function TaskView(props: TaskViewProps) {
                 }}
             />
         </>
-    )
+    );
 }
 export default TaskView;

@@ -8,10 +8,10 @@ import EditDataResultModal from './EditDataResultModal';
 
 export default function EditDataModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const [visableFilter, setVisiableFilter] = useState(false)
-    const [visableResult, setVisiableResult] = useState(false)
-    const [filterDatas, setFilterDatas] = useState<any>([])
-    const [resultDatas, setResultDatas] = useState<any>([])
+    const [visableFilter, setVisiableFilter] = useState(false);
+    const [visableResult, setVisiableResult] = useState(false);
+    const [filterDatas, setFilterDatas] = useState<any>([]);
+    const [resultDatas, setResultDatas] = useState<any>([]);
     const dates = [
         {
             name: '請假紙',
@@ -30,7 +30,7 @@ export default function EditDataModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -65,20 +65,20 @@ export default function EditDataModal(props: any) {
                                 <div className="flex flex-row justify-between">
                                     <XIcon
                                         className="w-6 cursor-pointer"
-                                        onClick={props.cancelClick} />
+                                        onClick={props.cancelClick}
+                                    />
                                     <label>新增數據搜尋App</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                         onClick={() => {
-                                            props.cancelClick
+                                            props.cancelClick;
                                         }}
                                     >
                                         完成
                                     </button>
                                 </div>
                                 <div className="w-full mt-4">
-
                                     <div className="w-full flex flex-row">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
@@ -94,8 +94,7 @@ export default function EditDataModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => {
-                                                }}
+                                                onChange={async (e) => {}}
                                             />
                                         </div>
                                     </div>
@@ -111,9 +110,9 @@ export default function EditDataModal(props: any) {
                                         </div>
                                         <div className="flex w-3/4">
                                             <MyDateDropdown
-                                                value={"請假紙"}
+                                                value={'請假紙'}
                                                 datas={dates}
-                                                onSwitch={() => { }}
+                                                onSwitch={() => {}}
                                             />
                                         </div>
                                     </div>
@@ -131,12 +130,23 @@ export default function EditDataModal(props: any) {
                                             <div className="flex flex-1 flex-wrap">
                                                 {filterDatas.map((data: any, index: number) => {
                                                     return (
-                                                        <label key={index} className="px-4 py-1 rounded-md border m-1">{data.name}</label>
-                                                    )
+                                                        <label
+                                                            key={index}
+                                                            className="px-4 py-1 rounded-md border m-1"
+                                                        >
+                                                            {data.name}
+                                                        </label>
+                                                    );
                                                 })}
                                             </div>
-                                            <a className="flex flex-0 cursor-pointer underline text-blue-500" onClick={() => { setVisiableFilter(true) }}>编辑</a>
-
+                                            <a
+                                                className="flex flex-0 cursor-pointer underline text-blue-500"
+                                                onClick={() => {
+                                                    setVisiableFilter(true);
+                                                }}
+                                            >
+                                                編輯
+                                            </a>
                                         </div>
                                     </div>
 
@@ -153,11 +163,23 @@ export default function EditDataModal(props: any) {
                                             <div className="flex flex-1 flex-wrap">
                                                 {resultDatas.map((data: any, index: number) => {
                                                     return (
-                                                        <label key={index} className="px-4 py-1 rounded-md border m-1">{data.name}</label>
-                                                    )
+                                                        <label
+                                                            key={index}
+                                                            className="px-4 py-1 rounded-md border m-1"
+                                                        >
+                                                            {data.name}
+                                                        </label>
+                                                    );
                                                 })}
                                             </div>
-                                            <a className="flex flex-0 cursor-pointer underline text-blue-500" onClick={() => { setVisiableResult(true) }}>编辑</a>
+                                            <a
+                                                className="flex flex-0 cursor-pointer underline text-blue-500"
+                                                onClick={() => {
+                                                    setVisiableResult(true);
+                                                }}
+                                            >
+                                                編輯
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -169,17 +191,23 @@ export default function EditDataModal(props: any) {
             <EditDataFilterModal
                 visable={visableFilter}
                 datas={filterDatas}
-                cancelClick={() => { setVisiableFilter(false) }}
+                cancelClick={() => {
+                    setVisiableFilter(false);
+                }}
                 selectData={(datas: any) => {
-                    setFilterDatas(datas)
-                }} />
+                    setFilterDatas(datas);
+                }}
+            />
             <EditDataResultModal
                 visable={visableResult}
                 datas={resultDatas}
-                cancelClick={() => { setVisiableResult(false) }}
+                cancelClick={() => {
+                    setVisiableResult(false);
+                }}
                 selectData={(datas: any) => {
-                    setResultDatas(datas)
-                }} />
+                    setResultDatas(datas);
+                }}
+            />
         </>
     );
 }

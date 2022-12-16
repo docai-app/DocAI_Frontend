@@ -14,12 +14,16 @@ export default function TaskContainer() {
     const [
         { data: showProjectByIdData, loading: showProjectByIdLoading, error: showrojectByIdError },
         showProjectById
-    ] = useAxios(apiSetting.Project.getProjectById(router.query.id + ""), { manual: false });
+    ] = useAxios(apiSetting.Project.getProjectById(router.query.id + ''), { manual: false });
 
     const [
-        { data: showProjectTaskByIdData, loading: showProjectTaskByIdLoading, error: showProjectTaskByIdError },
+        {
+            data: showProjectTaskByIdData,
+            loading: showProjectTaskByIdLoading,
+            error: showProjectTaskByIdError
+        },
         showProjectTaskById
-    ] = useAxios(apiSetting.Project.getProjectTasksById(router.query.id + ""), { manual: false });
+    ] = useAxios(apiSetting.Project.getProjectTasksById(router.query.id + ''), { manual: false });
 
     const [
         { data: addNewTaskData, loading: addNewTaskLoading, error: addNewTaskError },
@@ -36,35 +40,43 @@ export default function TaskContainer() {
         removeTask
     ] = useAxios(apiSetting.ProjectTask.deleteProjectTaskById(''), { manual: true });
 
-    const addNewTaskHandler = useCallback(async (data) => {
-        const { title, description, deadline_at } = data
+    const addNewTaskHandler = useCallback(
+        async (data) => {
+            const { title, description, deadline_at } = data;
 
-        addNewTask({
-            data: {
-                project_id: router.query.id,
-                title: title,
-                description: description,
-                deadline_at: deadline_at
-            }
-        });
-    }, [router, addNewTask])
+            addNewTask({
+                data: {
+                    project_id: router.query.id,
+                    title: title,
+                    description: description,
+                    deadline_at: deadline_at
+                }
+            });
+        },
+        [router, addNewTask]
+    );
 
-    const updateTaskHandler = useCallback(async (data) => {
-        const { id, title, description, is_completed } = data
-        updateTask({
-            ...apiSetting.ProjectTask.updateProjectTaskById(id),
-            data: {
-                title: title,
-                description: description,
-                is_completed: is_completed,
-            }
-        });
-    }, [updateTask])
+    const updateTaskHandler = useCallback(
+        async (data) => {
+            const { id, title, description, is_completed } = data;
+            updateTask({
+                ...apiSetting.ProjectTask.updateProjectTaskById(id),
+                data: {
+                    title: title,
+                    description: description,
+                    is_completed: is_completed
+                }
+            });
+        },
+        [updateTask]
+    );
 
-    const removeTaskHandler = useCallback(async (task_id) => {
-        if (task_id)
-            removeTask(apiSetting.ProjectTask.deleteProjectTaskById(task_id));
-    }, [removeTask])
+    const removeTaskHandler = useCallback(
+        async (task_id) => {
+            if (task_id) removeTask(apiSetting.ProjectTask.deleteProjectTaskById(task_id));
+        },
+        [removeTask]
+    );
 
     //更新本地数据
     const updateLocalData = () => {
@@ -75,45 +87,51 @@ export default function TaskContainer() {
 
     useEffect(() => {
         if (showProjectByIdData && showProjectByIdData.success) {
-            setProject(showProjectByIdData.project)
+            setProject(showProjectByIdData.project);
         }
     }, [showProjectByIdData]);
 
     useEffect(() => {
         if (showProjectTaskByIdData && showProjectTaskByIdData.success) {
             const count = _.filter(showProjectTaskByIdData.project_tasks, function (p) {
-                return p["is_completed"] === true
-            }).length
+                return p['is_completed'] === true;
+            }).length;
             if (project)
-                project.progress = Math.round(count / (showProjectTaskByIdData.project_tasks.length || 1).toFixed(0) * 100)
-            setTasks(showProjectTaskByIdData.project_tasks)
+                project.progress = Math.round(
+                    (count / (showProjectTaskByIdData.project_tasks.length || 1).toFixed(0)) * 100
+                );
+            setTasks(showProjectTaskByIdData.project_tasks);
         }
     }, [showProjectTaskByIdData]);
 
     useEffect(() => {
         if (addNewTaskData && addNewTaskData.success) {
-            showProjectTaskById()
+            showProjectTaskById();
         }
     }, [addNewTaskData]);
 
     useEffect(() => {
         if (updateTaskData && updateTaskData.success) {
-            showProjectTaskById()
+            showProjectTaskById();
         }
     }, [updateTaskData]);
 
     useEffect(() => {
         if (removeTaskData && removeTaskData.success) {
-            showProjectTaskById()
+            showProjectTaskById();
         }
     }, [removeTaskData]);
 
-    return <TaskView {...{
-        project,
-        tasks,
-        updateLocalData,
-        addNewTaskHandler,
-        updateTaskHandler,
-        removeTaskHandler,
-    }} />;
+    return (
+        <TaskView
+            {...{
+                project,
+                tasks,
+                updateLocalData,
+                addNewTaskHandler,
+                updateTaskHandler,
+                removeTaskHandler
+            }}
+        />
+    );
 }

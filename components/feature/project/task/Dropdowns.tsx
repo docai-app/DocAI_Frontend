@@ -1,8 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import {
-    DotsVerticalIcon, PencilAltIcon,
-    TrashIcon
-} from '@heroicons/react/solid';
+import { DotsVerticalIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
 import { Fragment } from 'react';
 
 function classNames(...classes: any) {
@@ -39,8 +36,7 @@ export default function Dropdowns(props: DropdownsProps) {
             >
                 <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black  divide-y divide-gray-100 ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                        {
-                            !is_completed &&
+                        {!is_completed && (
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
@@ -54,11 +50,11 @@ export default function Dropdowns(props: DropdownsProps) {
                                             className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
-                                        编辑
+                                        編輯
                                     </a>
                                 )}
                             </Menu.Item>
-                        }
+                        )}
                         {/* <Menu.Item>
                             {({ active }) => (
                                 <a

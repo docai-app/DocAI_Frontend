@@ -2,9 +2,8 @@ import { PlusIcon } from '@heroicons/react/solid';
 import { useState } from 'react';
 import EditDataModal from './EditDataModal';
 
-
 export default function HeadView() {
-    const [visable, setVisiable] = useState(false)
+    const [visable, setVisiable] = useState(false);
     return (
         <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,7 +17,7 @@ export default function HeadView() {
                         type="button"
                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={() => {
-                            setVisiable(true)
+                            setVisiable(true);
                         }}
                     >
                         <PlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
@@ -26,7 +25,12 @@ export default function HeadView() {
                     </button>
                 </div>
             </div>
-            <EditDataModal visable={visable} cancelClick={() => { setVisiable(false) }} />
+            <EditDataModal
+                visable={visable}
+                cancelClick={() => {
+                    setVisiable(false);
+                }}
+            />
         </>
-    )
+    );
 }

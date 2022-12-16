@@ -36,7 +36,7 @@ function ProjectView(props: ProjectViewProps) {
         addNewProjectHeadler,
         updateProjectHandler
     } = props;
-    const [visiable, setVisiable] = useState(false)
+    const [visiable, setVisiable] = useState(false);
     const [mode, setMode] = useState('');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
     const dates = [
@@ -88,7 +88,7 @@ function ProjectView(props: ProjectViewProps) {
 
     useEffect(() => {
         if (movingDest?.id) {
-            setVisiable(true)
+            setVisiable(true);
             console.log(movingDest);
         }
     }, [movingDest]);
@@ -97,7 +97,9 @@ function ProjectView(props: ProjectViewProps) {
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">項目管理</h2>
+                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                            項目管理
+                        </h2>
                     </div>
                 </div>
                 <div className="mt-4 hidden">
@@ -107,11 +109,7 @@ function ProjectView(props: ProjectViewProps) {
                             datas={statusDatas}
                             onSwitch={onSwitchStatus}
                         />
-                        <MyDateDropdown
-                            value={date}
-                            datas={dates}
-                            onSwitch={onSwitchDates}
-                        />
+                        <MyDateDropdown value={date} datas={dates} onSwitch={onSwitchDates} />
                     </div>
                     <div className="mt-2 rounded-lg shadow">
                         <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
@@ -127,9 +125,11 @@ function ProjectView(props: ProjectViewProps) {
                             </button>
                         </div>
                         <div className=" divide-y">
-                            <ProjectRow project={null} updateProjectHandler={updateProjectHandler} />
+                            <ProjectRow
+                                project={null}
+                                updateProjectHandler={updateProjectHandler}
+                            />
                         </div>
-
                     </div>
                 </div>
                 <div className="mt-4 pb-4">
@@ -139,7 +139,7 @@ function ProjectView(props: ProjectViewProps) {
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={() => {
-                                setVisiable(true)
+                                setVisiable(true);
                             }}
                         >
                             <PlusIcon className="h-4" />
@@ -154,7 +154,10 @@ function ProjectView(props: ProjectViewProps) {
                         />
                     </div>
                     <div>
-                        <ProjectItem projects={projects} updateProjectHandler={updateProjectHandler} />
+                        <ProjectItem
+                            projects={projects}
+                            updateProjectHandler={updateProjectHandler}
+                        />
                         {/* <ProjectItem /> */}
                     </div>
                 </div>
@@ -164,8 +167,13 @@ function ProjectView(props: ProjectViewProps) {
                 visable={visiable}
                 setMode={setMode}
                 movingDest={movingDest}
-                cancelClick={() => { setVisiable(false) }}
-                confirmClick={(data: any) => { setVisiable(false); addNewProjectHeadler(data) }}
+                cancelClick={() => {
+                    setVisiable(false);
+                }}
+                confirmClick={(data: any) => {
+                    setVisiable(false);
+                    addNewProjectHeadler(data);
+                }}
             />
             <FolderTreeForSelect
                 {...{
@@ -177,6 +185,6 @@ function ProjectView(props: ProjectViewProps) {
                 }}
             />
         </>
-    )
+    );
 }
 export default ProjectView;

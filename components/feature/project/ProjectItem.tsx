@@ -1,5 +1,5 @@
-import { ChevronDownIcon } from "@heroicons/react/solid";
-import ProjectRow from "./ProjectRow";
+import { ChevronDownIcon } from '@heroicons/react/solid';
+import ProjectRow from './ProjectRow';
 
 interface ProjectItemProps {
     projects: any;
@@ -7,10 +7,7 @@ interface ProjectItemProps {
 }
 
 export default function ProjectItem(props: ProjectItemProps) {
-    const {
-        projects,
-        updateProjectHandler
-    } = props;
+    const { projects, updateProjectHandler } = props;
     return (
         <>
             <div className="mt-4 rounded-lg shadow">
@@ -26,17 +23,17 @@ export default function ProjectItem(props: ProjectItemProps) {
                     </button>
                 </div>
                 <div className=" divide-y">
-                    {
-                        projects?.map((project: any, index: number) => {
-                            return (
-                                <ProjectRow key={index} project={project} updateProjectHandler={updateProjectHandler} />
-                            )
-                        })
-                    }
-
+                    {projects?.map((project: any, index: number) => {
+                        return (
+                            <ProjectRow
+                                key={index}
+                                project={project}
+                                updateProjectHandler={updateProjectHandler}
+                            />
+                        );
+                    })}
                 </div>
-
             </div>
         </>
-    )
+    );
 }

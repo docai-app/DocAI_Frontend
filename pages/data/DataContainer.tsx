@@ -15,8 +15,7 @@ export default function DataContainer() {
 
     useEffect(() => {
         if (tagFunctionsData) {
-            console.log("tagFunctionsData", tagFunctionsData);
-
+            console.log('tagFunctionsData', tagFunctionsData);
         }
     }, [tagFunctionsData]);
 
