@@ -246,6 +246,8 @@ function ValidateContainer() {
                     latestPredictionData.prediction.document.folder_id
                 )
             );
+        } else {
+            setDocumentPath([{ id: null, name: 'Root' }])
         }
     }, [latestPredictionData, showFolderByID]);
 

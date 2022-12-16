@@ -3,11 +3,13 @@ import ProjectRow from "./ProjectRow";
 
 interface ProjectItemProps {
     projects: any;
+    updateProjectHandler: any;
 }
 
 export default function ProjectItem(props: ProjectItemProps) {
     const {
-        projects
+        projects,
+        updateProjectHandler
     } = props;
     return (
         <>
@@ -27,7 +29,7 @@ export default function ProjectItem(props: ProjectItemProps) {
                     {
                         projects?.map((project: any, index: number) => {
                             return (
-                                <ProjectRow key={index} project={project} />
+                                <ProjectRow key={index} project={project} updateProjectHandler={updateProjectHandler} />
                             )
                         })
                     }
