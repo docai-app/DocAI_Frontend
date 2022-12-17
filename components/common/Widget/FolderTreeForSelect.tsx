@@ -1,8 +1,6 @@
 import { Transition } from '@headlessui/react';
-import axios from 'axios';
-import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import { Dispatch, Fragment, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';
 import FolderTree, { Folder } from './FolderTree';
 
@@ -27,6 +25,9 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
         setMovingDest(folder);
         setMode('view');
     };
+    useEffect(() => {
+        _setMovingDest(null)
+    }, [])
     // const handleMove = useCallback(
     //     async (document_id: string | null, folder: Folder) => {
     //         setFolderPath(folder)

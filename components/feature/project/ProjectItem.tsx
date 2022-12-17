@@ -3,11 +3,12 @@ import ProjectRow from './ProjectRow';
 
 interface ProjectItemProps {
     projects: any;
-    updateProjectHandler: any;
+    setVisiable: any;
+    setProject: any;
 }
 
 export default function ProjectItem(props: ProjectItemProps) {
-    const { projects, updateProjectHandler } = props;
+    const { projects, setVisiable, setProject } = props;
     return (
         <>
             <div className="mt-4 rounded-lg shadow">
@@ -28,7 +29,8 @@ export default function ProjectItem(props: ProjectItemProps) {
                             <ProjectRow
                                 key={index}
                                 project={project}
-                                updateProjectHandler={updateProjectHandler}
+                                setVisiable={setVisiable}
+                                setProject={setProject}
                             />
                         );
                     })}
