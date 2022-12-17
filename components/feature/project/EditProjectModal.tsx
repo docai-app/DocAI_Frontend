@@ -1,43 +1,42 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
-import moment from 'moment';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useRef } from 'react';
 import useAlert from '../../../hooks/useAlert';
 
 export default function EditProjectModal(props: any) {
     const cancelButtonRef = useRef(null);
     const { setAlert } = useAlert();
-    const [data, setData] = useState({
-        id: null,
-        name: '',
-        description: '',
-        deadline_at: ''
-    });
-    useEffect(() => {
-        if (props.project != null) {
-            setData({
-                ...data,
-                id: props.project.id,
-                name: props.project.name,
-                description: props.project.description,
-                deadline_at:
-                    props.project.deadline_at &&
-                    moment(props.project.deadline_at).format('YYYY-MM-DD')
-            });
-        } else {
-            setData({
-                ...data,
-                id: null,
-                name: '',
-                description: '',
-                deadline_at: ''
-            });
-        }
-    }, [props]);
+    // const [data, setData] = useState({
+    //     id: null,
+    //     name: '',
+    //     description: '',
+    //     deadline_at: ''
+    // });
+    // useEffect(() => {
+    //     if (props.project != null) {
+    //         setData({
+    //             ...data,
+    //             id: props.project.id,
+    //             name: props.project.name,
+    //             description: props.project.description,
+    //             deadline_at:
+    //                 props.project.deadline_at &&
+    //                 moment(props.project.deadline_at).format('YYYY-MM-DD')
+    //         });
+    //     } else {
+    //         setData({
+    //             ...data,
+    //             id: null,
+    //             name: '',
+    //             description: '',
+    //             deadline_at: ''
+    //         });
+    //     }
+    // }, [props]);
     const validate = () => {
-        if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
-        props.confirmClick(data);
+        if (!props?.project.name) return setAlert({ title: '請輸入名稱', type: 'info' });
+        props.confirmClick(props?.project);
     };
 
     return (
@@ -47,7 +46,7 @@ export default function EditProjectModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -111,11 +110,11 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 required={true}
-                                                defaultValue={data?.name}
+                                                defaultValue={props?.project?.name}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
-                                                    setData({
-                                                        ...data,
+                                                    props?.setProject({
+                                                        ...props?.project,
                                                         name: e.target.value
                                                     });
                                                 }}
@@ -137,11 +136,11 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 required={true}
-                                                defaultValue={data?.description}
+                                                defaultValue={props?.project?.description}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
-                                                    setData({
-                                                        ...data,
+                                                    props?.setProject({
+                                                        ...props?.project,
                                                         description: e.target.value
                                                     });
                                                 }}
@@ -162,18 +161,18 @@ export default function EditProjectModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
-                                                defaultValue={data?.deadline_at}
+                                                defaultValue={props?.project?.deadline_at}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
-                                                    setData({
-                                                        ...data,
+                                                    props?.setProject({
+                                                        ...props?.project,
                                                         deadline_at: e.target.value
                                                     });
                                                 }}
                                             />
                                         </div>
                                     </div>
-                                    {/* <div className="w-full flex flex-row m-2">
+                                    <div className="w-full flex flex-row m-2">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
                                                 htmlFor="new-type"
@@ -183,13 +182,13 @@ export default function EditProjectModal(props: any) {
                                             </label>
                                         </div>
                                         <div className="flex flex-1">
-                                            <label className="flex flex-1">{props?.movingDest?.name || 'Root'}</label>
+                                            <label className="flex flex-1">{props?.movingDest?.name || props?.project?.folder_name || 'Root'}</label>
                                             <a className="cursor-pointer underline flex flex-0 text-blue-500" onClick={() => {
                                                 props.setMode("move");
                                                 props.cancelClick()
                                             }}>編輯</a>
                                         </div>
-                                    </div> */}
+                                    </div>
 
                                     <div className="w-full flex-row m-2 hidden">
                                         <div className="w-1/4 flex justify-left items-center ">
@@ -206,7 +205,9 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => {}}
+                                                onChange={async (e) => {
+
+                                                }}
                                             />
                                         </div>
                                     </div>

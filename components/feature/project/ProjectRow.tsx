@@ -1,18 +1,16 @@
 import { ClipboardListIcon, CogIcon, UserCircleIcon } from '@heroicons/react/outline';
 import moment from 'moment';
 import Link from 'next/link';
-import { useState } from 'react';
 import Progress from '../../common/Widget/Progress';
-import EditProjectModal from './EditProjectModal';
 
 interface ProjectRowProps {
     project: any;
-    updateProjectHandler: any;
+    setVisiable: any;
+    setProject: any;
 }
 
 export default function ProjectRow(props: ProjectRowProps) {
-    const { project, updateProjectHandler } = props;
-    const [visiable, setVisiable] = useState(false);
+    const { project, setProject, setVisiable } = props;
     return (
         <>
             <div className="flex items-center justify-between">
@@ -46,25 +44,13 @@ export default function ProjectRow(props: ProjectRowProps) {
                                 className="w-4"
                                 onClick={() => {
                                     setVisiable(true);
+                                    setProject(project)
                                 }}
                             />
                         </div>
                     </div>
                 </div>
             </div>
-            <EditProjectModal
-                visable={visiable}
-                setMode={''}
-                project={project}
-                movingDest={''}
-                cancelClick={() => {
-                    setVisiable(false);
-                }}
-                confirmClick={(data: any) => {
-                    setVisiable(false);
-                    updateProjectHandler(data);
-                }}
-            />
         </>
     );
 }

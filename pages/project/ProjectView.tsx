@@ -8,7 +8,6 @@ import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import EditProjectModal from '../../components/feature/project/EditProjectModal';
 import ProjectItem from '../../components/feature/project/ProjectItem';
-import ProjectRow from '../../components/feature/project/ProjectRow';
 
 const Form = withTheme(Bootstrap4Theme);
 
@@ -86,12 +85,30 @@ function ProjectView(props: ProjectViewProps) {
         // setCurrentTabStatus(status.value);
     };
 
+    const [project, setProject] = useState({
+        id: null,
+        name: '',
+        description: '',
+        deadline_at: '',
+    });
+
+    function init() {
+        setMovingDest(null)
+        setProject({
+            id: null,
+            name: '',
+            description: '',
+            deadline_at: '',
+        })
+    }
+
     useEffect(() => {
         if (movingDest?.id) {
             setVisiable(true);
             console.log(movingDest);
         }
     }, [movingDest]);
+
     return (
         <>
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
@@ -125,10 +142,11 @@ function ProjectView(props: ProjectViewProps) {
                             </button>
                         </div>
                         <div className=" divide-y">
-                            <ProjectRow
+                            {/* <ProjectRow
                                 project={null}
+                                setVisiable={setVisiable}
                                 updateProjectHandler={updateProjectHandler}
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
@@ -139,6 +157,7 @@ function ProjectView(props: ProjectViewProps) {
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={() => {
+                                init()
                                 setVisiable(true);
                             }}
                         >
@@ -156,7 +175,8 @@ function ProjectView(props: ProjectViewProps) {
                     <div>
                         <ProjectItem
                             projects={projects}
-                            updateProjectHandler={updateProjectHandler}
+                            setVisiable={setVisiable}
+                            setProject={setProject}
                         />
                         {/* <ProjectItem /> */}
                     </div>
@@ -167,12 +187,19 @@ function ProjectView(props: ProjectViewProps) {
                 visable={visiable}
                 setMode={setMode}
                 movingDest={movingDest}
+                project={project}
+                setProject={setProject}
                 cancelClick={() => {
                     setVisiable(false);
                 }}
                 confirmClick={(data: any) => {
                     setVisiable(false);
-                    addNewProjectHeadler(data);
+                    data.folder_id = movingDest?.id || data.folder_id
+                    if (data?.id)
+                        updateProjectHandler(data);
+                    else
+                        addNewProjectHeadler(data);
+                    init()
                 }}
             />
             <FolderTreeForSelect
