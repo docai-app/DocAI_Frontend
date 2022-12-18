@@ -11,6 +11,10 @@ export default function TaskContainer() {
     const router = useRouter();
     const [project, setProject] = useState<any>();
     const [tasks, setTasks] = useState<any>([]);
+    const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
+        { id: null, name: 'Root' }
+    ]);
+
     const [
         { data: showProjectByIdData, loading: showProjectByIdLoading, error: showrojectByIdError },
         showProjectById
@@ -39,6 +43,8 @@ export default function TaskContainer() {
         { data: removeTaskData, loading: removeTaskLoading, error: removeTaskError },
         removeTask
     ] = useAxios(apiSetting.ProjectTask.deleteProjectTaskById(''), { manual: true });
+
+    const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
 
     const addNewTaskHandler = useCallback(
         async (data) => {
@@ -122,11 +128,37 @@ export default function TaskContainer() {
         }
     }, [removeTaskData]);
 
+    useEffect(() => {
+        if (
+            project &&
+            project.folder?.id
+        ) {
+            showFolderByID(
+                apiSetting.Folders.showFolderByID(
+                    project.folder?.id
+                )
+            );
+        } else {
+            setDocumentPath([{ id: null, name: 'Root' }]);
+        }
+    }, [project]);
+
+    useEffect(() => {
+        if (showFolderByIDData?.success) {
+            setDocumentPath([
+                { id: null, name: 'Root' },
+                ...showFolderByIDData.ancestors.slice().reverse(),
+                showFolderByIDData.folder
+            ]);
+        }
+    }, [showFolderByIDData]);
+
     return (
         <TaskView
             {...{
                 project,
                 tasks,
+                documentPath,
                 updateLocalData,
                 addNewTaskHandler,
                 updateTaskHandler,
