@@ -19,33 +19,27 @@ export default function TableRow(props: TableRowProps) {
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${
-                updated_at.getHours() < 10
+            date = `${updated_at.getHours() < 10
                     ? '0' + updated_at.getHours().toString()
                     : updated_at.getHours()
-            }:${
-                updated_at.getMinutes() < 10
+                }:${updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-            }`;
+                }`;
         else
-            date = `${
-                updated_at.getMonth() < 9
+            date = `${updated_at.getMonth() < 9
                     ? '0' + (updated_at.getMonth() + 1).toString()
                     : updated_at.getMonth() + 1
-            }/${
-                updated_at.getDate() < 10
+                }/${updated_at.getDate() < 10
                     ? '0' + updated_at.getDate().toString()
                     : updated_at.getDate()
-            }`;
+                }`;
     } else {
-        date = `${updated_at.getFullYear()}/${
-            updated_at.getMonth() < 9
+        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
                 ? '0' + (updated_at.getMonth() + 1).toString()
                 : updated_at.getMonth() + 1
-        }/${
-            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
-        }`;
+            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+            }`;
     }
     const url = doc.storage_url || `/drive/${doc.id}`;
     return (
@@ -90,7 +84,7 @@ export default function TableRow(props: TableRowProps) {
                             type: type
                         });
                     }}
-                    download={() => {}}
+                    download={() => { }}
                     move={() => {
                         setMode('move');
                         setTarget([doc]);
@@ -118,6 +112,7 @@ export default function TableRow(props: TableRowProps) {
                 /> */}
             </td>
             <td className="pr-6 py-4 text-right">{date}</td>
+            <td className="pr-6 py-4 text-right">{doc?.user?.nickname}</td>
         </tr>
     );
 }

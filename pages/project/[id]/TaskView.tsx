@@ -9,6 +9,7 @@ import TaskRow from '../../../components/feature/project/task/TaskRow';
 interface TaskViewProps {
     project: any;
     tasks: any;
+    documentPath: { id: string | null; name: string }[];
     updateLocalData: any;
     addNewTaskHandler: any;
     updateTaskHandler: any;
@@ -19,6 +20,7 @@ function TaskView(props: TaskViewProps) {
     const {
         project = null,
         tasks = null,
+        documentPath,
         updateLocalData,
         addNewTaskHandler,
         updateTaskHandler,
@@ -60,7 +62,7 @@ function TaskView(props: TaskViewProps) {
                     </div>
                 </div>
                 <div className="flex w-full">
-                    <p className="text-sm text-gray-400">{project?.description}</p>
+                    <p className="text-sm text-gray-400">{project?.description || ""}</p>
                 </div>
                 <div className="mt-4">
                     {tasks
@@ -89,7 +91,8 @@ function TaskView(props: TaskViewProps) {
                         <OGView
                             title={project?.name}
                             description={project?.description}
-                            url={`/drive/${project?.folder_id}?name=${project?.folder_name || ''}`}
+                            documentPath={documentPath}
+                            url={`/drive/${project?.folder_id}?name=${project?.folder?.name || ''}`}
                         />
                     )}
                 </div>
