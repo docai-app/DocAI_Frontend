@@ -46,7 +46,7 @@ export default function EditProjectModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -182,11 +182,20 @@ export default function EditProjectModal(props: any) {
                                             </label>
                                         </div>
                                         <div className="flex flex-1">
-                                            <label className="flex flex-1">{props?.movingDest?.name || props?.project?.folder?.name || 'Root'}</label>
-                                            <a className="cursor-pointer underline flex flex-0 text-blue-500" onClick={() => {
-                                                props.setMode("move");
-                                                props.cancelClick()
-                                            }}>編輯</a>
+                                            <label className="flex flex-1">
+                                                {props?.movingDest?.name ||
+                                                    props?.project?.folder?.name ||
+                                                    'Root'}
+                                            </label>
+                                            <a
+                                                className="cursor-pointer underline flex flex-0 text-blue-500"
+                                                onClick={() => {
+                                                    props.setMode('move');
+                                                    props.cancelClick();
+                                                }}
+                                            >
+                                                編輯
+                                            </a>
                                         </div>
                                     </div>
 
@@ -205,9 +214,7 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => {
-
-                                                }}
+                                                onChange={async (e) => {}}
                                             />
                                         </div>
                                     </div>

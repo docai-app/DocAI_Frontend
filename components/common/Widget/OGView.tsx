@@ -16,12 +16,12 @@ export default function OGView(props: OGProps) {
         <>
             <p className="text-sm">文檔放在這裡</p>
             <Link href={props.url}>
-                <div
-                    className="w-full border border-gray-200 p-2 flex flex-row cursor-pointer"
-                >
+                <div className="w-full border border-gray-200 p-2 flex flex-row cursor-pointer">
                     <div className=" flex flex-1 w-full description">
                         <p className="line_1">{props?.title}</p>
-                        <p className=" line_2 text-gray-400 text-sm min-h-[30px] ">{props?.description || '暫無描述...'}</p>
+                        <p className=" line_2 text-gray-400 text-sm min-h-[30px] ">
+                            {props?.description || '暫無描述...'}
+                        </p>
                         <div className=" overflow-hidden text-ellipsis whitespace-nowrap hidden">
                             {props?.url}
                         </div>
@@ -30,10 +30,7 @@ export default function OGView(props: OGProps) {
                             <div className="flex flex-row">
                                 {props?.documentPath &&
                                     props?.documentPath
-                                        .slice(
-                                            0,
-                                            props?.documentPath.length - 1
-                                        )
+                                        .slice(0, props?.documentPath.length - 1)
                                         .map((folder: any) => (
                                             <div
                                                 key={folder.id}
@@ -45,9 +42,7 @@ export default function OGView(props: OGProps) {
                                         ))}
                                 <div className="flex flex-row items-center text-sm ">
                                     {props?.documentPath &&
-                                        props?.documentPath[
-                                            props?.documentPath.length - 1
-                                        ].name}
+                                        props?.documentPath[props?.documentPath.length - 1].name}
                                 </div>
                             </div>
                         </div>

@@ -52,14 +52,17 @@ export default function TaskRow(props: TaskRowProps) {
             id: task?.id,
             is_completed: task.is_completed
         });
-    }
+    };
 
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer   w-full ">
                 <div className="  flex-row items-start">
                     {task?.is_completed ? (
-                        <CheckCircleIcon className="w-5 h-5 mt-1 text-gray-500" onClick={completed} />
+                        <CheckCircleIcon
+                            className="w-5 h-5 mt-1 text-gray-500"
+                            onClick={completed}
+                        />
                     ) : (
                         <input
                             type={'radio'}
@@ -80,8 +83,9 @@ export default function TaskRow(props: TaskRowProps) {
                     }}
                 >
                     <span
-                        className={`text-md ml-2  text-black break-words break-all ${task?.is_completed ? 'line-through text-gray-500 ' : ''
-                            }`}
+                        className={`text-md ml-2  text-black break-words break-all ${
+                            task?.is_completed ? 'line-through text-gray-500 ' : ''
+                        }`}
                     >
                         {task?.title}
                     </span>

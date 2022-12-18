@@ -129,15 +129,8 @@ export default function TaskContainer() {
     }, [removeTaskData]);
 
     useEffect(() => {
-        if (
-            project &&
-            project.folder?.id
-        ) {
-            showFolderByID(
-                apiSetting.Folders.showFolderByID(
-                    project.folder?.id
-                )
-            );
+        if (project && project.folder?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(project.folder?.id));
         } else {
             setDocumentPath([{ id: null, name: 'Root' }]);
         }

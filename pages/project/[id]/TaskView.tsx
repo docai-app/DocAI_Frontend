@@ -62,7 +62,7 @@ function TaskView(props: TaskViewProps) {
                     </div>
                 </div>
                 <div className="flex w-full">
-                    <p className="text-sm text-gray-400">{project?.description || ""}</p>
+                    <p className="text-sm text-gray-400">{project?.description || ''}</p>
                 </div>
                 <div className="mt-4">
                     {tasks
