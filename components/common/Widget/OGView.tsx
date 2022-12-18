@@ -13,9 +13,7 @@ export default function OGView(props: OGProps) {
         <>
             <p className="text-sm">文檔放在這裡</p>
             <Link href={props.url}>
-                <div
-                    className="w-full border border-gray-200 p-2 flex flex-row cursor-pointer"
-                >
+                <div className="w-full border border-gray-200 p-2 flex flex-row cursor-pointer">
                     <div className=" flex flex-1 w-full description">
                         <p className="line_1">{props?.title}</p>
                         <p className=" line_2 text-gray-400 text-sm  ">{props?.description}</p>

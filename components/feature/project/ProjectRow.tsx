@@ -44,7 +44,7 @@ export default function ProjectRow(props: ProjectRowProps) {
                                 className="w-4"
                                 onClick={() => {
                                     setVisiable(true);
-                                    setProject(project)
+                                    setProject(project);
                                 }}
                             />
                         </div>

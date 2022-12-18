@@ -89,17 +89,17 @@ function ProjectView(props: ProjectViewProps) {
         id: null,
         name: '',
         description: '',
-        deadline_at: '',
+        deadline_at: ''
     });
 
     function init() {
-        setMovingDest(null)
+        setMovingDest(null);
         setProject({
             id: null,
             name: '',
             description: '',
-            deadline_at: '',
-        })
+            deadline_at: ''
+        });
     }
 
     useEffect(() => {
@@ -157,7 +157,7 @@ function ProjectView(props: ProjectViewProps) {
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={() => {
-                                init()
+                                init();
                                 setVisiable(true);
                             }}
                         >
@@ -194,12 +194,10 @@ function ProjectView(props: ProjectViewProps) {
                 }}
                 confirmClick={(data: any) => {
                     setVisiable(false);
-                    data.folder_id = movingDest?.id || data.folder_id
-                    if (data?.id)
-                        updateProjectHandler(data);
-                    else
-                        addNewProjectHeadler(data);
-                    init()
+                    data.folder_id = movingDest?.id || data.folder_id;
+                    if (data?.id) updateProjectHandler(data);
+                    else addNewProjectHeadler(data);
+                    init();
                 }}
             />
             <FolderTreeForSelect

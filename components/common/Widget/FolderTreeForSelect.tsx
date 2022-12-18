@@ -26,8 +26,8 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
         setMode('view');
     };
     useEffect(() => {
-        _setMovingDest(null)
-    }, [])
+        _setMovingDest(null);
+    }, []);
     // const handleMove = useCallback(
     //     async (document_id: string | null, folder: Folder) => {
     //         setFolderPath(folder)
