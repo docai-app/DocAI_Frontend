@@ -89,7 +89,7 @@ function TaskView(props: TaskViewProps) {
                         <OGView
                             title={project?.name}
                             description={project?.description}
-                            url={`/drive/${project?.folder_id}?name=${project?.folder_name || ''}`}
+                            url={`/drive/${project?.folder_id}?name=${project?.folder?.name || ''}`}
                         />
                     )}
                 </div>

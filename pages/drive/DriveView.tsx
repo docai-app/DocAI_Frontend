@@ -42,15 +42,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         movingDest = null,
-        setMovingDest = () => {},
+        setMovingDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -127,9 +127,8 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -172,23 +171,26 @@ export default function DriveView(props: DriveViewProps) {
                                     <th scope="col" className="px-2 py-3 w-1/12">
                                         <DocumentIcon className="ml-auto h-6" />
                                     </th>
-                                    <th scope="col" className="px-2 py-3 w-6/12 text-left">
+                                    <th scope="col" className="px-2 py-3 w-5/12 text-left">
                                         名稱
                                     </th>
-                                    <th scope="col" className="px-2 py-3 w-3/12 text-right">
+                                    <th scope="col" className="px-2 py-3 w-2/12 text-right">
                                         動作
                                     </th>
                                     <th scope="col" className="pr-6 py-3 w-2/12 text-right">
                                         修改日期
                                     </th>
+                                    <th scope="col" className="pr-6 py-3 w-2/12 text-right">
+                                        上載者
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -228,8 +230,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
