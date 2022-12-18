@@ -42,14 +42,13 @@ export default function ProjectContainer() {
 
     const addNewProjectHeadler = useCallback(
         async (data) => {
-            const { name, description, deadline_at, folder_id } = data;
-            // console.log("add data", data);
+            const { name, description, deadline_at, parent_id } = data;
             addNewProject({
                 data: {
                     name: name,
                     description: description,
                     deadline_at: deadline_at,
-                    parent_id: folder_id
+                    parent_id: parent_id
                 }
             });
         },

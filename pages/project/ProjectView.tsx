@@ -178,7 +178,6 @@ function ProjectView(props: ProjectViewProps) {
                             setVisiable={setVisiable}
                             setProject={setProject}
                         />
-                        {/* <ProjectItem /> */}
                     </div>
                 </div>
                 <PaginationView meta={meta} pathname={'/project'} params={null} />
@@ -193,6 +192,8 @@ function ProjectView(props: ProjectViewProps) {
                     setVisiable(false);
                 }}
                 confirmClick={(data: any) => {
+                    // console.log(data);
+                    // console.log("movingDest: ", movingDest);
                     setVisiable(false);
                     data.folder_id = data?.folder?.id;
                     data.parent_id = movingDest?.id;
