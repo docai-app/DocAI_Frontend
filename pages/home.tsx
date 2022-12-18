@@ -289,19 +289,6 @@ const Home: NextPage = () => {
                                         </a>
                                     </p>
                                 </div>
-                                {/* <div className="mt-4">
-                                    <h3 className="text-lg font-medium">
-                                        <a href={action.href} className="focus:outline-none">
-                                            <span className="absolute inset-0" aria-hidden="true" />
-                                            {action.title}
-                                        </a>
-                                    </h3>
-                                    <p className="mt-2 text-sm text-gray-500">
-                                        Doloribus dolores nostrum quia qui natus officia quod et
-                                        dolorem. Sit repellendus qui ut at blanditiis et quo et
-                                        molestiae.
-                                    </p>
-                                </div> */}
                                 <span
                                     className="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400"
                                     aria-hidden="true"

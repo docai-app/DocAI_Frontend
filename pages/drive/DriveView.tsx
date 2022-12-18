@@ -143,28 +143,7 @@ export default function DriveView(props: DriveViewProps) {
                                 </Menu.Items>
                             </Transition>
                         </Menu>
-                        {/*
-                        <button className="py-2 px-4 border-gray-100 hover:bg-gray-200/70 text-black rounded flex flex-row items-center gap-2">
-                            <ShareIcon className="h-4" />
-                            <div className="whitespace-nowrap">共用</div>
-                        </button>
-                        */}
                     </div>
-                    {/* <div> */}
-                    {/* {showAllItemsData && (
-                            <BreadCrumb
-                                ancestors={showAllItemsData?.ancestors}
-                                id={id?.toString()}
-                                name={name?.toString()}
-                            />
-                        )} */}
-                    {/* <a
-                            className="hover:underline cursor-pointer text-lg"
-                            onClick={() => {
-                                router.back();
-                            }}
-                        >{`<< 返回`}</a> */}
-                    {/* </div> */}
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
                         <table className="w-full">
                             <thead className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200">
