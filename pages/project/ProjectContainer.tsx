@@ -1,3 +1,4 @@
+import axios from 'axios';
 import useAxios from 'axios-hooks';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
@@ -42,13 +43,13 @@ export default function ProjectContainer() {
     const addNewProjectHeadler = useCallback(
         async (data) => {
             const { name, description, deadline_at, folder_id } = data;
-            console.log("add data", data);
+            // console.log("add data", data);
             addNewProject({
                 data: {
                     name: name,
                     description: description,
                     deadline_at: deadline_at,
-                    folder_id: folder_id
+                    parent_id: folder_id
                 }
             });
         },
@@ -57,17 +58,20 @@ export default function ProjectContainer() {
 
     const updateProjectHandler = useCallback(
         async (data) => {
-            const { id, name, description, deadline_at, folder_id } = data;
-            console.log("update data", data);
+            const { id, name, description, deadline_at, folder_id, parent_id } = data;
+            // console.log("update data", data);
             updateProject({
                 ...apiSetting.Project.updateProjectById(id),
                 data: {
                     name: name,
                     description: description,
-                    deadline_at: deadline_at,
-                    folder_id: folder_id
+                    deadline_at: deadline_at
                 }
             });
+            if (folder_id && parent_id)
+                axios.request(
+                    apiSetting.Folders.updateFolderById(folder_id, parent_id)
+                );
         },
         [updateProject]
     );
