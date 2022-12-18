@@ -118,6 +118,7 @@ export default function TableRow(props: TableRowProps) {
                 /> */}
             </td>
             <td className="pr-6 py-4 text-right">{date}</td>
+            <td className="pr-6 py-4 text-right">{doc?.user?.nickname}</td>
         </tr>
     );
 }

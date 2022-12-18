@@ -194,7 +194,7 @@ function ProjectView(props: ProjectViewProps) {
                 }}
                 confirmClick={(data: any) => {
                     setVisiable(false);
-                    data.folder_id = movingDest?.id || data.folder_id;
+                    data.folder_id = movingDest?.id || data?.folder?.id;
                     if (data?.id) updateProjectHandler(data);
                     else addNewProjectHeadler(data);
                     init();

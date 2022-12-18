@@ -184,7 +184,7 @@ export default function EditProjectModal(props: any) {
                                         <div className="flex flex-1">
                                             <label className="flex flex-1">
                                                 {props?.movingDest?.name ||
-                                                    props?.project?.folder_name ||
+                                                    props?.project?.folder?.name ||
                                                     'Root'}
                                             </label>
                                             <a

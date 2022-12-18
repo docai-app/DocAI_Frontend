@@ -46,23 +46,28 @@ export default function TaskRow(props: TaskRowProps) {
         }
     }, [size]);
 
+    const completed = () => {
+        task.is_completed = !task.is_completed;
+        completeTask({
+            id: task?.id,
+            is_completed: task.is_completed
+        });
+    };
+
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer   w-full ">
                 <div className="  flex-row items-start">
                     {task?.is_completed ? (
-                        <CheckCircleIcon className="w-5 h-5 mt-1 text-gray-500" />
+                        <CheckCircleIcon
+                            className="w-5 h-5 mt-1 text-gray-500"
+                            onClick={completed}
+                        />
                     ) : (
                         <input
                             type={'radio'}
                             className=" w-5 h-5  mt-1 cursor-pointer "
-                            onClick={() => {
-                                task.is_completed = true;
-                                completeTask({
-                                    id: task?.id,
-                                    is_completed: true
-                                });
-                            }}
+                            onClick={completed}
                         />
                     )}
                 </div>

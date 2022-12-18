@@ -150,7 +150,7 @@ export default function DriveContainer() {
             } else {
                 showAllItems(apiSetting.Drive.showAllRootItems());
             }
-        } else {
+        } else if (router.asPath == '/') {
             showAllItems(apiSetting.Drive.showAllRootItems());
         }
     }, [router, showAllItems]);
