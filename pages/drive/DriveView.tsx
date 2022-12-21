@@ -94,7 +94,7 @@ export default function DriveView(props: DriveViewProps) {
                     </div>
                 </div>
 
-                <div className="py-4 flex flex-col gap-4 h-full">
+                <div className="py-4 flex flex-col gap-4 h-90vh">
                     <div className="flex flex-row gap-2 pb-4 border-b justify-between">
                         {showAllItemsData && (
                             <BreadCrumb
