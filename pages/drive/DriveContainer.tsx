@@ -23,6 +23,9 @@ export default function DriveContainer() {
     const [visableDelete, setVisableDelete] = useState(false);
     const [visableRename, setVisableRename] = useState(false);
     const [current, setCurrent] = useState<any>();
+    const [allItemsData, setAllItemsData] = useState<any>([]);
+    const [allFoldersItemsData, setAllFoldersItemsData] = useState<any>([]);
+    const [page, setPage] = useState(1)
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -141,26 +144,39 @@ export default function DriveContainer() {
         else deleteDocument(current?.id);
     }, [current]);
 
+    const showAllItemsHandler = useCallback(async () => {
+        setPage(page => page + 1)
+    }, []);
+
     useEffect(() => {
         if (router.asPath !== router.route) {
             queryId.current = router.query.id;
             queryName.current = router.query.name;
             if (queryId.current) {
+                setPage(1)
                 showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
             } else {
-                showAllItems(apiSetting.Drive.showAllRootItems());
+                showAllItems(apiSetting.Drive.showAllRootItems(page));
             }
         } else if (router.asPath == '/') {
-            showAllItems(apiSetting.Drive.showAllRootItems());
+            showAllItems(apiSetting.Drive.showAllRootItems(page));
         }
-    }, [router, showAllItems]);
+    }, [router, showAllItems, page]);
 
     useEffect(() => {
         if (!showAllItemsLoading && showAllItemsData) {
             setId(queryId.current?.toString() || null);
             setName(queryName.current?.toString() || null);
+            // console.log("showAllItemsData", showAllItemsData);
+            if (page == 1) {
+                setAllFoldersItemsData(showAllItemsData.folders)
+                setAllItemsData(showAllItemsData.documents)
+            } else {
+                setAllItemsData(allItemsData.concat(showAllItemsData.documents))
+            }
         }
     }, [showAllItemsLoading, showAllItemsData]);
+
 
     return (
         <DriveView
@@ -188,7 +204,10 @@ export default function DriveContainer() {
                 updateFolderOrDocumentHandler,
                 visableDelete,
                 setVisableDelete,
-                deleteFolderOrDocumentHandler
+                deleteFolderOrDocumentHandler,
+                allItemsData,
+                allFoldersItemsData,
+                showAllItemsHandler
             }}
         />
     );

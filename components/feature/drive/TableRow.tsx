@@ -19,45 +19,39 @@ export default function TableRow(props: TableRowProps) {
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${
-                updated_at.getHours() < 10
-                    ? '0' + updated_at.getHours().toString()
-                    : updated_at.getHours()
-            }:${
-                updated_at.getMinutes() < 10
+            date = `${updated_at.getHours() < 10
+                ? '0' + updated_at.getHours().toString()
+                : updated_at.getHours()
+                }:${updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-            }`;
+                }`;
         else
-            date = `${
-                updated_at.getMonth() < 9
-                    ? '0' + (updated_at.getMonth() + 1).toString()
-                    : updated_at.getMonth() + 1
-            }/${
-                updated_at.getDate() < 10
-                    ? '0' + updated_at.getDate().toString()
-                    : updated_at.getDate()
-            }`;
-    } else {
-        date = `${updated_at.getFullYear()}/${
-            updated_at.getMonth() < 9
+            date = `${updated_at.getMonth() < 9
                 ? '0' + (updated_at.getMonth() + 1).toString()
                 : updated_at.getMonth() + 1
-        }/${
-            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
-        }`;
+                }/${updated_at.getDate() < 10
+                    ? '0' + updated_at.getDate().toString()
+                    : updated_at.getDate()
+                }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
+            ? '0' + (updated_at.getMonth() + 1).toString()
+            : updated_at.getMonth() + 1
+            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+            }`;
     }
     const url = doc.storage_url || `/drive/${doc.id}`;
     return (
-        <tr key={doc.id}>
-            <td scope="col" className="px-2 py-3">
+        <div key={doc.id} className="flex" >
+            <div className="px-2 py-3 w-1/12">
                 {type === 'documents' ? (
                     <DocumentIcon className="ml-auto h-6 text-gray-200" />
                 ) : (
                     <FolderIcon className="ml-auto h-6 text-blue-200" />
                 )}
-            </td>
-            <td className="px-2 py-4 text-left">
+            </div>
+            <div className="px-2 py-4 text-left w-5/12">
                 {type === 'folders' ? (
                     <Link href={`${url}?name=${doc.name}`}>
                         <a className="hover:underline">{doc.name}</a>
@@ -67,8 +61,8 @@ export default function TableRow(props: TableRowProps) {
                         {doc.name}
                     </a>
                 )}
-            </td>
-            <td className="px-2 py-4 flex justify-end gap-2">
+            </div>
+            <div className="px-2 py-4 flex justify-end gap-2 w-2/12">
                 {type === 'folders' && (
                     <ShareIcon
                         className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
@@ -90,7 +84,7 @@ export default function TableRow(props: TableRowProps) {
                             type: type
                         });
                     }}
-                    download={() => {}}
+                    download={() => { }}
                     move={() => {
                         setMode('move');
                         setTarget([doc]);
@@ -116,9 +110,9 @@ export default function TableRow(props: TableRowProps) {
                         setTarget([doc]);
                     }}
                 /> */}
-            </td>
-            <td className="pr-6 py-4 text-right">{date}</td>
-            <td className="pr-6 py-4 text-right">{doc?.user?.nickname}</td>
-        </tr>
+            </div>
+            <div className="pr-6 py-4 text-right w-2/12">{date}</div>
+            <div className="pr-6 py-4 text-right w-2/12">{doc?.user?.nickname}</div>
+        </div>
     );
 }
