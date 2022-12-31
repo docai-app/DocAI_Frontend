@@ -1,10 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
+import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import useAlert from '../../../../hooks/useAlert';
 export default function EditTaskModal(props: any) {
     const cancelButtonRef = useRef(null);
+    const refTitle = useRef<HTMLInputElement>(null)
     const { setAlert } = useAlert();
     const [data, setData] = useState({
         id: null,
@@ -13,13 +15,20 @@ export default function EditTaskModal(props: any) {
         deadline_at: ''
     });
 
+
     useEffect(() => {
+        setTimeout(() => {
+            if (refTitle.current)
+                refTitle.current?.focus()
+        }, 100)
+
         if (props.task != null) {
             setData({
                 ...data,
                 id: props.task.id,
                 title: props.task.title,
-                description: props.task.description
+                description: props.task.description,
+                deadline_at: props.task.deadline_at
             });
         } else {
             setData({
@@ -33,6 +42,12 @@ export default function EditTaskModal(props: any) {
 
     const validate = () => {
         if (!data.title) return setAlert({ title: '請輸入名稱', type: 'info' });
+        setData({
+            ...data,
+            id: null,
+            title: '',
+            description: ''
+        });
         props.confirmClick(data);
     };
 
@@ -43,7 +58,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -80,7 +95,7 @@ export default function EditTaskModal(props: any) {
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick}
                                     />
-                                    <label>{props?.task == null ? '新增' : '編輯'}</label>
+                                    <label>{props?.task == null ? '新增任務' : '編輯任務'}</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -106,8 +121,11 @@ export default function EditTaskModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="string"
+                                                autoFocus
+                                                ref={refTitle}
+                                                placeholder='任務名稱'
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                defaultValue={props?.task?.title}
+                                                value={data?.title}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
@@ -132,8 +150,9 @@ export default function EditTaskModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="string"
+                                                placeholder='任務描述'
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                defaultValue={props?.task?.description}
+                                                value={data?.description}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
@@ -158,6 +177,7 @@ export default function EditTaskModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
+                                                value={moment(data?.deadline_at).format('YYYY-MM-DD')}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
