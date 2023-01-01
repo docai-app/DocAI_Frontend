@@ -1,4 +1,4 @@
-import { ClipboardListIcon, CogIcon, UserCircleIcon } from '@heroicons/react/outline';
+import { CalendarIcon, ClipboardListIcon, CogIcon, UserCircleIcon } from '@heroicons/react/outline';
 import moment from 'moment';
 import Link from 'next/link';
 import Progress from '../../common/Widget/Progress';
@@ -28,15 +28,15 @@ export default function ProjectRow(props: ProjectRowProps) {
                     </div>
                     <div className="flex px-2 items-center justify-between">
                         <div className="flex flex-row items-center">
-                            <UserCircleIcon className="w-4 m-1" />
+                            <UserCircleIcon className="w-4 m-1 text-gray-400" />
                             <label className="text-xs text-gray-400">
                                 {project?.user?.nickname}
                             </label>
-                            <label className="text-xs ml-4 text-gray-400">
-                                截止日期:{' '}
+                            <div className="flex flex-row text-xs ml-4 text-gray-400 items-center">
+                                <CalendarIcon className='w-4 m-1 text-gray-400' />
                                 {project?.deadline_at &&
                                     moment(project?.deadline_at).format('YYYY-MM-DD')}
-                            </label>
+                            </div>
                         </div>
 
                         <div className="flex flex-row items-center">

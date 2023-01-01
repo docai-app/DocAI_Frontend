@@ -44,7 +44,7 @@ function TaskView(props: TaskViewProps) {
                             <h1 className="text-md font-bold text-gray-900">{project?.name}</h1>
                         </div>
 
-                        <button
+                        {/* <button
                             className="relative inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={() => {
                                 setMode('add');
@@ -52,7 +52,7 @@ function TaskView(props: TaskViewProps) {
                             }}
                         >
                             新增
-                        </button>
+                        </button> */}
                     </div>
                 </header>
                 <div className="flex w-full flex-col  mt-2">
@@ -64,9 +64,22 @@ function TaskView(props: TaskViewProps) {
                 <div className="flex w-full">
                     <p className="text-sm text-gray-400">{project?.description || ''}</p>
                 </div>
+                <div className='flex flex-row items-center my-2 justify-between'>
+
+                    <p className='border-l-4 pl-2 border-l-gray-500'>任務</p>
+                    <button
+                        className="relative inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={() => {
+                            setMode('add');
+                            setCurrentTask(null);
+                        }}
+                    >
+                        新增
+                    </button>
+                </div>
                 <div className="mt-4">
                     {tasks
-                        ?.sort((a: any, b: any) => (a.created_at > b.created_at ? 1 : -1))
+                        ?.sort((a: any, b: any) => (a.is_completed > b.is_completed ? 1 : -1))
                         .map((task: any, index: number) => {
                             return (
                                 <TaskRow
@@ -105,7 +118,7 @@ function TaskView(props: TaskViewProps) {
                     setCurrentTask(null);
                 }}
                 confirmClick={(data: any) => {
-                    setMode('');
+                    // setMode('');
                     setCurrentTask(null);
                     if (mode == 'add') addNewTaskHandler(data);
                     else if (mode == 'edit') {

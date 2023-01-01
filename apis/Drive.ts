@@ -4,10 +4,10 @@ import { AxiosRequestConfig } from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class Drive {
-    showAllRootItems() {
+    showAllRootItems(page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/drive/files`,
+            url: `/api/v1/drive/files?page=${page}`,
             method: 'GET'
         };
         return requestHeader;

@@ -43,6 +43,7 @@ export default function ProjectContainer() {
     const addNewProjectHeadler = useCallback(
         async (data) => {
             const { name, description, deadline_at, parent_id } = data;
+            // console.log(parent_id);
             addNewProject({
                 data: {
                     name: name,
@@ -58,7 +59,7 @@ export default function ProjectContainer() {
     const updateProjectHandler = useCallback(
         async (data) => {
             const { id, name, description, deadline_at, folder_id, parent_id } = data;
-            // console.log("update data", data);
+            // console.log("parent_id", parent_id);
             updateProject({
                 ...apiSetting.Project.updateProjectById(id),
                 data: {

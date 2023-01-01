@@ -1,5 +1,6 @@
-import { CheckCircleIcon } from '@heroicons/react/outline';
+import { CalendarIcon, CheckCircleIcon } from '@heroicons/react/outline';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
+import moment from 'moment';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdowns from './Dropdowns';
 
@@ -83,14 +84,20 @@ export default function TaskRow(props: TaskRowProps) {
                     }}
                 >
                     <span
-                        className={`text-md ml-2  text-black break-words break-all ${
-                            task?.is_completed ? 'line-through text-gray-500 ' : ''
-                        }`}
+                        className={`text-md ml-2  break-words break-all ${task?.is_completed ? 'line-through text-gray-500 ' : 'text-black'
+                            }`}
                     >
                         {task?.title}
                     </span>
                     <br />
-                    <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
+                    <span className="text-sm ml-6  text-gray-400 ">{task?.description}</span>
+                    {task?.deadline_at &&
+                        <div className='flex flex-row ml-6'>
+                            <CalendarIcon className='w-4 text-yellow-400' />
+                            <p className="text-sm ml-2   text-yellow-400 ">{moment(task?.deadline_at).format('YYYY-MM-DD')}</p>
+                        </div>
+                    }
+
                 </div>
                 <div className=" flex flex-1 ml-2 items-end justify-end ">
                     {visiable && overflow ? (

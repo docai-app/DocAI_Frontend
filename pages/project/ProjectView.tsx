@@ -93,7 +93,7 @@ function ProjectView(props: ProjectViewProps) {
     });
 
     function init() {
-        setMovingDest(null);
+        // setMovingDest(null);
         setProject({
             id: null,
             name: '',

@@ -64,13 +64,16 @@ export default function TaskContainer() {
 
     const updateTaskHandler = useCallback(
         async (data) => {
-            const { id, title, description, is_completed } = data;
+            const { id, title, description, is_completed, deadline_at } = data;
+            // console.log(data);
+
             updateTask({
                 ...apiSetting.ProjectTask.updateProjectTaskById(id),
                 data: {
                     title: title,
                     description: description,
-                    is_completed: is_completed
+                    is_completed: is_completed,
+                    deadline_at: deadline_at
                 }
             });
         },
