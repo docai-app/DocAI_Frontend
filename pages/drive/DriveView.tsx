@@ -46,15 +46,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => { },
+        setMode = () => {},
         target = [],
-        setTarget = () => { },
+        setTarget = () => {},
         movingDest = null,
-        setMovingDest = () => { },
+        setMovingDest = () => {},
         shareWith = [],
-        setShareWith = () => { },
-        handleShare = async () => { },
-        handleNewFolder = async () => { },
+        setShareWith = () => {},
+        handleShare = async () => {},
+        handleNewFolder = async () => {},
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -134,8 +134,9 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -151,84 +152,77 @@ export default function DriveView(props: DriveViewProps) {
                         </Menu>
                     </div>
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
-                        <div className='bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full'>
-                            <div className='w-full flex '>
+                        <div className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full">
+                            <div className="w-full flex ">
                                 <div className="px-2 py-3 w-1/12">
                                     <DocumentIcon className="ml-auto h-6" />
                                 </div>
-                                <div className="px-2 py-3 w-5/12 text-left font-bold">
-                                    名稱
-                                </div>
-                                <div className="px-2 py-3 w-2/12 text-right font-bold">
-                                    動作
-                                </div>
+                                <div className="px-2 py-3 w-5/12 text-left font-bold">名稱</div>
+                                <div className="px-2 py-3 w-2/12 text-right font-bold">動作</div>
                                 <div className="pr-6 py-3 w-2/12 text-right font-bold">
                                     修改日期
                                 </div>
-                                <div className="pr-6 py-3 w-2/12 text-right font-bold">
-                                    上載者
-                                </div>
+                                <div className="pr-6 py-3 w-2/12 text-right font-bold">上載者</div>
                             </div>
                         </div>
-                        <div className='w-full'>
-                            {
-                                allItemsData && allItemsData.length != 0 ?
+                        <div className="w-full">
+                            {allItemsData && allItemsData.length != 0 ? (
+                                <InfiniteScroll
+                                    dataLength={allItemsData?.length} //This is important field to render the next data
+                                    next={showAllItemsHandler}
+                                    hasMore={showAllItemsData?.meta?.next_page != null}
+                                    height={500}
+                                    style={{}}
+                                    loader={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b>Loading...</b>
+                                        </p>
+                                    }
+                                    endMessage={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b></b>
+                                        </p>
+                                    }
+                                >
+                                    {allFoldersItemsData?.map((doc: any) => {
+                                        return (
+                                            <TableRow
+                                                key={doc.id}
+                                                doc={doc}
+                                                type="folders"
+                                                setTarget={setTarget}
+                                                setMode={setMode}
+                                                setVisableRename={setVisableRename}
+                                                setVisableDelete={setVisableDelete}
+                                                setCurrent={setCurrent}
+                                            />
+                                        );
+                                    })}
 
-                                    <InfiniteScroll
-                                        dataLength={allItemsData?.length} //This is important field to render the next data
-                                        next={showAllItemsHandler}
-                                        hasMore={showAllItemsData?.meta?.next_page != null}
-                                        height={500}
-                                        style={{}}
-                                        loader={
-                                            <p style={{ textAlign: 'center' }}>
-                                                <b>Loading...</b>
-                                            </p>
-                                        }
-                                        endMessage={
-                                            <p style={{ textAlign: 'center' }}>
-                                                <b></b>
-                                            </p>
-                                        }>
-                                        {allFoldersItemsData?.map((doc: any) => {
-                                            return (
-                                                <TableRow
-                                                    key={doc.id}
-                                                    doc={doc}
-                                                    type="folders"
-                                                    setTarget={setTarget}
-                                                    setMode={setMode}
-                                                    setVisableRename={setVisableRename}
-                                                    setVisableDelete={setVisableDelete}
-                                                    setCurrent={setCurrent}
-                                                />
-                                            );
-                                        })}
-
-                                        {allItemsData?.map((doc: any) => {
-                                            return (
-                                                <TableRow
-                                                    key={doc.id}
-                                                    doc={doc}
-                                                    type="documents"
-                                                    setTarget={setTarget}
-                                                    setMode={setMode}
-                                                    setVisableRename={setVisableRename}
-                                                    setVisableDelete={setVisableDelete}
-                                                    setCurrent={setCurrent}
-                                                />
-                                            );
-                                        })}
-                                    </InfiniteScroll>
-                                    :
-                                    <div className='py-4 items-center justify-center flex'>
-                                        {showAllItemsData?.success
-                                            ? '沒有檔案'
-                                            : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
-                                    </div>
-                            }
+                                    {allItemsData?.map((doc: any) => {
+                                        return (
+                                            <TableRow
+                                                key={doc.id}
+                                                doc={doc}
+                                                type="documents"
+                                                setTarget={setTarget}
+                                                setMode={setMode}
+                                                setVisableRename={setVisableRename}
+                                                setVisableDelete={setVisableDelete}
+                                                setCurrent={setCurrent}
+                                            />
+                                        );
+                                    })}
+                                </InfiniteScroll>
+                            ) : (
+                                <div className="py-4 items-center justify-center flex">
+                                    {showAllItemsData?.success
+                                        ? '沒有檔案'
+                                        : showAllItemsLoading
+                                        ? '載入中...'
+                                        : showAllItemsData?.error || 'Error'}
+                                </div>
+                            )}
                         </div>
                         <table className="hidden">
                             <thead className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200">
@@ -252,10 +246,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                    showAllItemsData?.documents &&
-                                    showAllItemsData?.success &&
-                                    (showAllItemsData.folders.length > 0 ||
-                                        showAllItemsData.documents.length > 0) ? (
+                                showAllItemsData?.documents &&
+                                showAllItemsData?.success &&
+                                (showAllItemsData.folders.length > 0 ||
+                                    showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -286,7 +280,6 @@ export default function DriveView(props: DriveViewProps) {
                                             );
                                         })}
                                     </>
-
                                 ) : (
                                     <tr>
                                         <td
@@ -296,8 +289,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                    ? '載入中...'
-                                                    : showAllItemsData?.error || 'Error'}
+                                                ? '載入中...'
+                                                : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}

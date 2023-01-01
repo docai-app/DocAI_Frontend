@@ -64,9 +64,8 @@ function TaskView(props: TaskViewProps) {
                 <div className="flex w-full">
                     <p className="text-sm text-gray-400">{project?.description || ''}</p>
                 </div>
-                <div className='flex flex-row items-center my-2 justify-between'>
-
-                    <p className='border-l-4 pl-2 border-l-gray-500'>任務</p>
+                <div className="flex flex-row items-center my-2 justify-between">
+                    <p className="border-l-4 pl-2 border-l-gray-500">任務</p>
                     <button
                         className="relative inline-flex items-center px-2 py-1 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         onClick={() => {

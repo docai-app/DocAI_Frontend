@@ -25,7 +25,7 @@ export default function DriveContainer() {
     const [current, setCurrent] = useState<any>();
     const [allItemsData, setAllItemsData] = useState<any>([]);
     const [allFoldersItemsData, setAllFoldersItemsData] = useState<any>([]);
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1);
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -145,7 +145,7 @@ export default function DriveContainer() {
     }, [current]);
 
     const showAllItemsHandler = useCallback(async () => {
-        setPage(page => page + 1)
+        setPage((page) => page + 1);
     }, []);
 
     useEffect(() => {
@@ -153,7 +153,7 @@ export default function DriveContainer() {
             queryId.current = router.query.id;
             queryName.current = router.query.name;
             if (queryId.current) {
-                setPage(1)
+                setPage(1);
                 showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
             } else {
                 showAllItems(apiSetting.Drive.showAllRootItems(page));
@@ -169,14 +169,13 @@ export default function DriveContainer() {
             setName(queryName.current?.toString() || null);
             // console.log("showAllItemsData", showAllItemsData);
             if (page == 1) {
-                setAllFoldersItemsData(showAllItemsData.folders)
-                setAllItemsData(showAllItemsData.documents)
+                setAllFoldersItemsData(showAllItemsData.folders);
+                setAllItemsData(showAllItemsData.documents);
             } else {
-                setAllItemsData(allItemsData.concat(showAllItemsData.documents))
+                setAllItemsData(allItemsData.concat(showAllItemsData.documents));
             }
         }
     }, [showAllItemsLoading, showAllItemsData]);
-
 
     return (
         <DriveView

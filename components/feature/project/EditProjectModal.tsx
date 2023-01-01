@@ -7,14 +7,13 @@ import useAlert from '../../../hooks/useAlert';
 
 export default function EditProjectModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const refTitle = useRef<HTMLInputElement>(null)
+    const refTitle = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
     useEffect(() => {
         setTimeout(() => {
-            if (refTitle.current)
-                refTitle.current?.focus()
-        }, 100)
-    }, [props])
+            if (refTitle.current) refTitle.current?.focus();
+        }, 100);
+    }, [props]);
     // const [data, setData] = useState({
     //     id: null,
     //     name: '',
@@ -54,7 +53,7 @@ export default function EditProjectModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -121,7 +120,7 @@ export default function EditProjectModal(props: any) {
                                                 defaultValue={props?.project?.name}
                                                 // autoFocus
                                                 ref={refTitle}
-                                                placeholder='項目名稱'
+                                                placeholder="項目名稱"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     props?.setProject({
@@ -148,7 +147,7 @@ export default function EditProjectModal(props: any) {
                                                 type="string"
                                                 required={true}
                                                 defaultValue={props?.project?.description}
-                                                placeholder='項目描述'
+                                                placeholder="項目描述"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     props?.setProject({
@@ -173,7 +172,9 @@ export default function EditProjectModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
-                                                defaultValue={moment(props?.project?.deadline_at).format('YYYY-MM-DD')}
+                                                defaultValue={moment(
+                                                    props?.project?.deadline_at
+                                                ).format('YYYY-MM-DD')}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     props?.setProject({
@@ -195,8 +196,7 @@ export default function EditProjectModal(props: any) {
                                         </div>
                                         <div className="flex flex-1">
                                             <label className="flex flex-1">
-                                                {
-                                                    props?.project?.folder?.name ||
+                                                {props?.project?.folder?.name ||
                                                     props?.movingDest?.name ||
                                                     'Root'}
                                             </label>
@@ -227,7 +227,7 @@ export default function EditProjectModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => { }}
+                                                onChange={async (e) => {}}
                                             />
                                         </div>
                                     </div>

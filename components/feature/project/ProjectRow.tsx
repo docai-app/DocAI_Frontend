@@ -33,7 +33,7 @@ export default function ProjectRow(props: ProjectRowProps) {
                                 {project?.user?.nickname}
                             </label>
                             <div className="flex flex-row text-xs ml-4 text-gray-400 items-center">
-                                <CalendarIcon className='w-4 m-1 text-gray-400' />
+                                <CalendarIcon className="w-4 m-1 text-gray-400" />
                                 {project?.deadline_at &&
                                     moment(project?.deadline_at).format('YYYY-MM-DD')}
                             </div>
