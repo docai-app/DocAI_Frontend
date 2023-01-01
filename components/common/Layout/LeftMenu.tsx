@@ -7,7 +7,8 @@ import {
     ShieldCheckIcon,
     TagIcon,
     XIcon,
-    ChartSquareBarIcon
+    ChartSquareBarIcon,
+    SearchCircleIcon
 } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
@@ -56,15 +57,15 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/project') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
+        },
+        {
+            name: '數據搜尋',
+            href: '/search/form',
+            icon: SearchCircleIcon,
+            current: router.pathname.indexOf('/data') != -1,
+            iconForeground: 'text-indigo-700',
+            iconBackground: 'bg-indigo-50'
         }
-        // {
-        //     name: '數據搜尋',
-        //     href: '/data',
-        //     icon: SearchCircleIcon,
-        //     current: router.pathname.indexOf('/data') != -1,
-        //     iconForeground: 'text-indigo-700',
-        //     iconBackground: 'bg-indigo-50'
-        // }
     ];
 
     function classNames(...classes: any) {

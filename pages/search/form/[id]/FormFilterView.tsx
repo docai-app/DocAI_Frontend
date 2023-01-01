@@ -1,15 +1,15 @@
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { withTheme } from '@rjsf/core';
-import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
-import HeadView from '../../../components/feature/data/HeadView';
+import MyDateDropdown from '../../../../components/common/Widget/MyDateDropdown';
+import HeadView from '../../../../components/feature/data/HeadView';
 
 const Form = withTheme(Bootstrap4Theme);
 
-interface ShowViewProps {
+interface FormFilterViewProps {
     data?: any;
 }
 
-function ShowView(props: ShowViewProps) {
+function FormFilterView(props: FormFilterViewProps) {
     const dates = [
         {
             name: '請假紙',
@@ -99,4 +99,4 @@ function ShowView(props: ShowViewProps) {
         </>
     );
 }
-export default ShowView;
+export default FormFilterView;
