@@ -6,20 +6,11 @@ import HeadView from '../../../../components/feature/data/HeadView';
 const Form = withTheme(Bootstrap4Theme);
 
 interface FormFilterViewProps {
-    data?: any;
+    formSchema: any;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
-    const dates = [
-        {
-            name: '請假紙',
-            value: '請假紙'
-        },
-        {
-            name: '會議記錄',
-            value: '會議記錄'
-        }
-    ];
+    const { formSchema = {} } = props;
     return (
         <>
             <div className="mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
@@ -27,11 +18,13 @@ function FormFilterView(props: FormFilterViewProps) {
                     <HeadView />
                     <header className="shadow bg-white">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
-                            <h1 className="text-3xl font-bold text-gray-900">文檔：採購數字</h1>
+                            <h1 className="text-3xl font-bold text-gray-900">
+                                文檔：{formSchema.name}
+                            </h1>
                         </div>
                     </header>
                     <div className="px-2 py-4">
-                        <div className="flex flex-row mt-2 flex-wrap">
+                        {/* <div className="flex flex-row mt-2 flex-wrap">
                             <div className="mx-4">
                                 <label className="mr-2">物品:</label>
                                 <MyDateDropdown
@@ -48,7 +41,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                     onSwitch={() => {}}
                                 />
                             </div>
-                        </div>
+                        </div> */}
                         <div className="relative my-4">
                             <div className="absolute inset-0 flex items-center" aria-hidden="true">
                                 <div className="w-full border-t border-gray-300" />

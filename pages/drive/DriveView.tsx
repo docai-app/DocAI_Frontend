@@ -101,7 +101,7 @@ export default function DriveView(props: DriveViewProps) {
                     </div>
                 </div>
 
-                <div className="py-4 flex flex-col gap-4 h-90vh">
+                <div className="py-8 flex flex-col gap-4 max-h-80vh">
                     <div className="flex flex-row gap-2 pb-4 border-b justify-between">
                         {showAllItemsData && (
                             <BreadCrumb
@@ -162,7 +162,7 @@ export default function DriveView(props: DriveViewProps) {
                                 <div className="pr-6 py-3 w-2/12 text-right font-bold">
                                     修改日期
                                 </div>
-                                <div className="pr-6 py-3 w-2/12 text-right font-bold">上載者</div>
+                                <div className="pr-6 py-3 w-2/12 text-right font-bold">擁有人</div>
                             </div>
                         </div>
                         <div className="w-full">
@@ -171,16 +171,16 @@ export default function DriveView(props: DriveViewProps) {
                                     dataLength={allItemsData?.length} //This is important field to render the next data
                                     next={showAllItemsHandler}
                                     hasMore={showAllItemsData?.meta?.next_page != null}
-                                    height={500}
-                                    style={{}}
+                                    height={'auto'}
+                                    style={{ maxHeight: '80vh' }}
                                     loader={
-                                        <p style={{ textAlign: 'center' }}>
-                                            <b>Loading...</b>
+                                        <p className="p-4 text-center">
+                                            <b>載入中...</b>
                                         </p>
                                     }
                                     endMessage={
-                                        <p style={{ textAlign: 'center' }}>
-                                            <b></b>
+                                        <p className="p-4 text-gray-300 text-center">
+                                            沒有更多資料
                                         </p>
                                     }
                                 >
@@ -240,7 +240,7 @@ export default function DriveView(props: DriveViewProps) {
                                         修改日期
                                     </th>
                                     <th scope="col" className="pr-6 py-3 w-2/12 text-right">
-                                        上載者
+                                        擁有人
                                     </th>
                                 </tr>
                             </thead>
