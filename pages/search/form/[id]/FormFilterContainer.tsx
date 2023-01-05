@@ -9,6 +9,7 @@ const apiSetting = new Api();
 export default function FormFilterContainer() {
     const router = useRouter();
     const [formSchema, setFormSchema] = useState({});
+    const [selectedFilter, setSelectedFilter] = useState([]);
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -32,5 +33,5 @@ export default function FormFilterContainer() {
         }
     }, [formSchemaData]);
 
-    return <FormFilterView {...{ formSchema }} />;
+    return <FormFilterView {...{ formSchema, selectedFilter, setSelectedFilter }} />;
 }

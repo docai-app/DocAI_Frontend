@@ -1,31 +1,31 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/solid';
+import _ from 'lodash';
 import { Fragment, useRef, useState } from 'react';
 import MyDateDropdown from '../../common/Widget/MyDateDropdown';
 import EditDataFilterModal from './EditDataFilterModal';
 import EditDataResultModal from './EditDataResultModal';
 
-export default function EditDataModal(props: any) {
+interface EditDataModalProps {
+    formSchema: any;
+    visable: boolean;
+    cancelClick: () => void;
+    selectedFilter: any[];
+    setSelectedFilter: (selectedFilter: never[]) => void;
+}
+
+export default function EditDataModal(props: EditDataModalProps) {
+    const { formSchema, selectedFilter, setSelectedFilter, visable } = props;
     const cancelButtonRef = useRef(null);
     const [visableFilter, setVisiableFilter] = useState(false);
     const [visableResult, setVisiableResult] = useState(false);
-    const [filterDatas, setFilterDatas] = useState<any>([]);
+    // const [filterData, setFilterData] = useState<any>([]);
     const [resultDatas, setResultDatas] = useState<any>([]);
-    const dates = [
-        {
-            name: '請假紙',
-            value: '請假紙'
-        },
-        {
-            name: '會議記錄',
-            value: '會議記錄'
-        }
-    ];
 
     return (
         <>
-            <Transition.Root show={props.visable || false} as={Fragment}>
+            <Transition.Root show={visable || false} as={Fragment}>
                 <Dialog
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
@@ -67,7 +67,7 @@ export default function EditDataModal(props: any) {
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick}
                                     />
-                                    <label>新增數據搜尋App</label>
+                                    <label>添加數據搜尋條件</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -85,21 +85,23 @@ export default function EditDataModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                名稱:
+                                                目前文檔名稱:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">
                                             <input
-                                                id="type"
                                                 name="type"
                                                 type="string"
+                                                // value={formSchema.name}
+                                                value={_.get(formSchema, 'name', '')}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                onChange={async (e) => {}}
+                                                readOnly
+                                                disabled
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="w-full flex flex-row my-2">
+                                    {/* <div className="w-full flex flex-row my-2">
                                         <div className="w-1/4 flex justify-left items-center ">
                                             <label
                                                 htmlFor="new-type"
@@ -115,7 +117,7 @@ export default function EditDataModal(props: any) {
                                                 onSwitch={() => {}}
                                             />
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="w-full flex flex-row my-2">
                                         <div className="w-1/4 flex justify-left   ">
@@ -128,13 +130,17 @@ export default function EditDataModal(props: any) {
                                         </div>
                                         <div className="flex w-3/4">
                                             <div className="flex flex-1 flex-wrap">
-                                                {filterDatas.map((data: any, index: number) => {
+                                                {selectedFilter.map((data: any, index: number) => {
                                                     return (
                                                         <label
                                                             key={index}
                                                             className="px-4 py-1 rounded-md border m-1"
                                                         >
-                                                            {data.name}
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${data}`
+                                                                ].title
+                                                            }
                                                         </label>
                                                     );
                                                 })}
@@ -167,7 +173,11 @@ export default function EditDataModal(props: any) {
                                                             key={index}
                                                             className="px-4 py-1 rounded-md border m-1"
                                                         >
-                                                            {data.name}
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${data}`
+                                                                ].title
+                                                            }
                                                         </label>
                                                     );
                                                 })}
@@ -189,24 +199,22 @@ export default function EditDataModal(props: any) {
                 </Dialog>
             </Transition.Root>
             <EditDataFilterModal
+                formSchema={formSchema}
                 visable={visableFilter}
-                datas={filterDatas}
                 cancelClick={() => {
                     setVisiableFilter(false);
                 }}
-                selectData={(datas: any) => {
-                    setFilterDatas(datas);
-                }}
+                setFilterData={setSelectedFilter}
+                filterData={selectedFilter}
             />
-            <EditDataResultModal
+            <EditDataFilterModal
+                formSchema={formSchema}
                 visable={visableResult}
-                datas={resultDatas}
                 cancelClick={() => {
                     setVisiableResult(false);
                 }}
-                selectData={(datas: any) => {
-                    setResultDatas(datas);
-                }}
+                setFilterData={setResultDatas}
+                filterData={resultDatas}
             />
         </>
     );

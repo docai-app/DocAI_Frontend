@@ -94,7 +94,7 @@ function ValidateView(props: ValidateViewProps) {
                             </div>
                             <div className="flex w-full pb-4  text-center items-center justify-center object-center bg-white ">
                                 <input
-                                    className="rounded-md    checked:text-slate-500 "
+                                    className="rounded-md checked:text-slate-500 "
                                     type="checkbox"
                                     checked={true}
                                     disabled={true}

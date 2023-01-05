@@ -1,12 +1,21 @@
+// File Path: components/feature/data/HeadView.tsx
+
 import { PlusIcon } from '@heroicons/react/solid';
 import { useState } from 'react';
 import EditDataModal from './EditDataModal';
 
-export default function HeadView() {
+interface HeadViewProps {
+    formSchema: any;
+    selectedFilter: any[];
+    setSelectedFilter: (selectedFilter: never[]) => void;
+}
+
+export default function HeadView(props: HeadViewProps) {
+    const { formSchema, selectedFilter, setSelectedFilter } = props;
     const [visable, setVisiable] = useState(false);
     return (
         <>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">數據搜尋</h2>
                 </div>
@@ -30,6 +39,7 @@ export default function HeadView() {
                 cancelClick={() => {
                     setVisiable(false);
                 }}
+                {...{ formSchema, selectedFilter, setSelectedFilter }}
             />
         </>
     );

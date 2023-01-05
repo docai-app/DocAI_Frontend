@@ -19,7 +19,6 @@ function ValidateContainer() {
     const [formSchemaId, setFormSchemaId] = useState('');
     const [result, setResult] = useState({});
     const [formSchema, setFormSchema] = useState({});
-    // const formSchema = useRef({});
     const widgets = useRef({
         TextWidget: (props: WidgetProps) => (
             <label>
@@ -48,6 +47,7 @@ function ValidateContainer() {
             </label>
         )
     });
+
     const fields = useRef({
         TitleField: (props: FieldProps) => (
             <div>
@@ -55,6 +55,7 @@ function ValidateContainer() {
             </div>
         )
     });
+
     const uiSchema = useRef({
         'ui:submitButtonOptions': {
             submitText: '提交',
@@ -63,6 +64,7 @@ function ValidateContainer() {
             }
         }
     });
+
     const absenceFormFormik = useFormik({
         initialValues: {
             data: result

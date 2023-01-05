@@ -4,30 +4,36 @@ import { XIcon } from '@heroicons/react/solid';
 import _ from 'lodash';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
-export default function EditDataFilterModal(props: any) {
+export default function EditDataResultModal(props: any) {
     const cancelButtonRef = useRef(null);
     const [selectData, setSelectData] = useState<any>([]);
+
     useEffect(() => {
         if (props.datas) {
             setSelectData(props.datas);
         }
     }, [props.datas]);
+
     const datas = [
         { name: 1, value: 1 },
         { name: 2, value: 2 },
         { name: 3, value: 3 }
     ];
+
     const isContain = (value: any) => {
         const index = _.findIndex(props.datas, function (func: any) {
             return func.value == value;
         });
         return index == -1;
     };
+
     const getDatas = () => {
+        // console.log(selectData);
         props.selectData(selectData);
         props.cancelClick();
         setSelectData([]);
     };
+
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
             <Dialog
@@ -68,7 +74,7 @@ export default function EditDataFilterModal(props: any) {
                         <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center   shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                             <div className="flex flex-row justify-between">
                                 <XIcon className="w-6 cursor-pointer" onClick={props.cancelClick} />
-                                <label>選擇過濾器</label>
+                                <label>選擇顯示結果</label>
                                 <button
                                     type="button"
                                     className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
