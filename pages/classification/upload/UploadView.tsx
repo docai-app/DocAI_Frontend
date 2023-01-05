@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import UploadFile from '../../../components/common/Widget/UploadFile';
 import Uploading from '../../../components/feature/classification/Uploading';
 
@@ -7,10 +6,11 @@ interface UploadViewProps {
     setDocuments: any;
     open: boolean;
     setOpen: any;
+    set_target_folder_id?: any;
 }
 
 function UploadView(props: UploadViewProps) {
-    const { formik, setDocuments, open, setOpen } = props;
+    const { formik, setDocuments, open, setOpen, set_target_folder_id } = props;
     return (
         <>
             <Uploading {...{ open, setOpen }} />
@@ -25,7 +25,7 @@ function UploadView(props: UploadViewProps) {
                     btnName="上傳文檔"
                     selectName="選擇文檔"
                     multiple={true}
-                    {...{ formik, setDocuments }}
+                    {...{ formik, setDocuments, set_target_folder_id }}
                 />
             </div>
         </>

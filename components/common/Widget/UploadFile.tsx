@@ -1,14 +1,13 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
-import { ChangeEvent, useEffect, useRef } from 'react';
 import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
-import { useState } from 'react';
 import { FolderIcon } from '@heroicons/react/solid';
-import { Folder } from './FolderTree';
-import FolderTreeForSelect from './FolderTreeForSelect';
 import useAxios from 'axios-hooks';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Api from '../../../apis';
 import useAlert from '../../../hooks/useAlert';
+import { Folder } from './FolderTree';
+import FolderTreeForSelect from './FolderTreeForSelect';
 
 interface UploadFileProps {
     title: string;
@@ -17,12 +16,13 @@ interface UploadFileProps {
     formik: any;
     setDocuments: any;
     multiple?: boolean;
+    set_target_folder_id?: any;
 }
 
 const apiSetting = new Api();
 
 export default function UploadFile(props: UploadFileProps) {
-    const { title, btnName, selectName, multiple = false, formik, setDocuments } = props;
+    const { title, btnName, selectName, multiple = false, formik, setDocuments, set_target_folder_id } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
 
@@ -47,6 +47,7 @@ export default function UploadFile(props: UploadFileProps) {
     useEffect(() => {
         if (movingDest?.id) {
             showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
+            set_target_folder_id(movingDest?.id)
         }
     }, [movingDest, showFolderByID]);
 

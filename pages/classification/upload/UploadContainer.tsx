@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
-import UploadView from './UploadView';
-import { useFormik } from 'formik';
 import useAxios from 'axios-hooks';
-import Api from '../../../apis/index';
+import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Api from '../../../apis/index';
 import MyModal from '../../../components/common/Widget/MyModal';
 import useAlert from '../../../hooks/useAlert';
+import UploadView from './UploadView';
 
 const apiSetting = new Api();
 
@@ -15,6 +14,7 @@ function UploadContainer() {
     const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
+    const [target_folder_id, set_target_folder_id] = useState()
     const formik = useFormik({
         initialValues: {
             document: []
@@ -23,6 +23,9 @@ function UploadContainer() {
             const formData = new FormData();
             for (const i of documents) {
                 formData.append('document[]', i);
+            }
+            if (target_folder_id) {
+                formData.append('target_folder_id', target_folder_id)
             }
             upload({
                 data: formData
@@ -58,7 +61,7 @@ function UploadContainer() {
     };
     return (
         <>
-            <UploadView {...{ formik, setDocuments, open, setOpen }} />
+            <UploadView {...{ formik, setDocuments, open, setOpen, set_target_folder_id }} />
             <MyModal
                 visable={visable}
                 cancelClick={confirm}
