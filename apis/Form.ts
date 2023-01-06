@@ -4,6 +4,15 @@ import { AxiosRequestConfig } from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class Form {
+    showFormsByFilterAndFormSchemaId(formSchemaId: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `api/v1/form/datum/${formSchemaId}/search`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
     uploadAndRecognizeAbsenceForm() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

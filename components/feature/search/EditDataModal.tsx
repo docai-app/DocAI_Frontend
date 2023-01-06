@@ -13,15 +13,25 @@ interface EditDataModalProps {
     cancelClick: () => void;
     selectedFilter: any[];
     setSelectedFilter: (selectedFilter: never[]) => void;
+    selectedResult: any[];
+    setSelectedResult: (selectedResult: never[]) => void;
 }
 
 export default function EditDataModal(props: EditDataModalProps) {
-    const { formSchema, selectedFilter, setSelectedFilter, visable } = props;
+    const {
+        formSchema,
+        selectedFilter,
+        setSelectedFilter,
+        visable,
+        cancelClick,
+        selectedResult,
+        setSelectedResult
+    } = props;
     const cancelButtonRef = useRef(null);
     const [visableFilter, setVisiableFilter] = useState(false);
     const [visableResult, setVisiableResult] = useState(false);
     // const [filterData, setFilterData] = useState<any>([]);
-    const [resultDatas, setResultDatas] = useState<any>([]);
+    // const [resultDatas, setResultDatas] = useState<any>([]);
 
     return (
         <>
@@ -71,9 +81,7 @@ export default function EditDataModal(props: EditDataModalProps) {
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                        onClick={() => {
-                                            props.cancelClick;
-                                        }}
+                                        onClick={props.cancelClick}
                                     >
                                         完成
                                     </button>
@@ -167,7 +175,7 @@ export default function EditDataModal(props: EditDataModalProps) {
                                         </div>
                                         <div className="flex w-3/4">
                                             <div className="flex flex-1 flex-wrap">
-                                                {resultDatas.map((data: any, index: number) => {
+                                                {selectedResult.map((data: any, index: number) => {
                                                     return (
                                                         <label
                                                             key={index}
@@ -213,8 +221,8 @@ export default function EditDataModal(props: EditDataModalProps) {
                 cancelClick={() => {
                     setVisiableResult(false);
                 }}
-                setFilterData={setResultDatas}
-                filterData={resultDatas}
+                setFilterData={setSelectedResult}
+                filterData={selectedResult}
             />
         </>
     );

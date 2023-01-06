@@ -30,7 +30,7 @@ export default function LeftMenu(props: any) {
             name: '智能文檔處理',
             href: '/classification/logs',
             icon: ClipboardCheckIcon,
-            current: router.pathname.indexOf('classification') != -1,
+            current: router.pathname.indexOf('logs') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
         },
@@ -46,7 +46,7 @@ export default function LeftMenu(props: any) {
             name: '文件審批',
             href: '/form/approval',
             icon: ShieldCheckIcon,
-            current: router.pathname.indexOf('/form') != -1,
+            current: router.pathname.indexOf('/approval') != -1,
             iconForeground: 'text-blue-700',
             iconBackground: 'bg-blue-50'
         },
@@ -62,7 +62,7 @@ export default function LeftMenu(props: any) {
             name: '數據搜尋',
             href: '/search/form',
             icon: SearchCircleIcon,
-            current: router.pathname.indexOf('/data') != -1,
+            current: router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-indigo-50'
         }

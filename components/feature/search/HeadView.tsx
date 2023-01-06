@@ -8,10 +8,13 @@ interface HeadViewProps {
     formSchema: any;
     selectedFilter: any[];
     setSelectedFilter: (selectedFilter: never[]) => void;
+    selectedResult: any[];
+    setSelectedResult: (selectedResult: never[]) => void;
 }
 
 export default function HeadView(props: HeadViewProps) {
-    const { formSchema, selectedFilter, setSelectedFilter } = props;
+    const { formSchema, selectedFilter, setSelectedFilter, selectedResult, setSelectedResult } =
+        props;
     const [visable, setVisiable] = useState(false);
     return (
         <>
@@ -39,7 +42,13 @@ export default function HeadView(props: HeadViewProps) {
                 cancelClick={() => {
                     setVisiable(false);
                 }}
-                {...{ formSchema, selectedFilter, setSelectedFilter }}
+                {...{
+                    formSchema,
+                    selectedFilter,
+                    setSelectedFilter,
+                    selectedResult,
+                    setSelectedResult
+                }}
             />
         </>
     );

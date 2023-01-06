@@ -153,7 +153,6 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
                                     </div>
                                     <div className="flex w-3/4">
                                         <div className=" flex-col">
-                                            {console.log(_.keys(formSchema.data_schema))}
                                             {_.keys(formSchema.data_schema).map(
                                                 (item: any, index: number) => {
                                                     return (

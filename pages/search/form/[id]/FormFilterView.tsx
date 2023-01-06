@@ -1,24 +1,45 @@
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { withTheme } from '@rjsf/core';
 import FormFilterDropdown from '../../../../components/common/Widget/FormFilterDropdown';
-import MyDateDropdown from '../../../../components/common/Widget/MyDateDropdown';
 import HeadView from '../../../../components/feature/search/HeadView';
-
-const Form = withTheme(Bootstrap4Theme);
 
 interface FormFilterViewProps {
     formSchema: any;
     selectedFilter: any[];
     setSelectedFilter: (selectedFilter: never[]) => void;
+    filterData: any;
+    setFilterData: (filterData: any) => void;
+    onSearch: () => void;
+    selectedResult: any[];
+    setSelectedResult: (selectedResult: never[]) => void;
+    formDatum: any[];
 }
 
 function FormFilterView(props: FormFilterViewProps) {
-    const { formSchema = {}, selectedFilter = [], setSelectedFilter } = props;
+    const {
+        formSchema = {},
+        selectedFilter = [],
+        setSelectedFilter,
+        filterData = {},
+        setFilterData,
+        onSearch,
+        selectedResult,
+        setSelectedResult,
+        formDatum = []
+    } = props;
     return (
         <>
             <div className="mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                    <HeadView {...{ formSchema, selectedFilter, setSelectedFilter }} />
+                    <HeadView
+                        {...{
+                            formSchema,
+                            selectedFilter,
+                            setSelectedFilter,
+                            selectedResult,
+                            setSelectedResult
+                        }}
+                    />
                     <header className="shadow bg-white">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                             <h1 className="text-3xl font-bold text-gray-900">
@@ -35,6 +56,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                             {formSchema.form_schema.properties[`${filter}`].title}:
                                         </label>
                                         <FormFilterDropdown
+                                            filterKey={filter}
                                             formSchema={
                                                 formSchema.form_schema.properties[`${filter}`]
                                             }
@@ -42,53 +64,127 @@ function FormFilterView(props: FormFilterViewProps) {
                                             title={
                                                 formSchema.form_schema.properties[`${filter}`].title
                                             }
+                                            filterData={filterData}
+                                            setFilterData={setFilterData}
                                         />
                                     </div>
                                 );
                             })}
+                            {selectedFilter.length > 0 ? (
+                                <button
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md"
+                                    onClick={() => onSearch()}
+                                >
+                                    搜尋
+                                </button>
+                            ) : null}
                         </div>
-                        {/* <div className="relative my-4">
-                            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                <div className="w-full border-t border-gray-300" />
-                            </div>
-                            <div className="relative flex justify-center">
-                                <span className="px-3 bg-white text-lg font-medium text-indigo-500">
-                                    結果
-                                </span>
-                            </div>
-                        </div> */}
                         <div className="flex w-full items-center justify-center text-center py-2">
-                            <div className="overflow-hidden w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                <table className="w-full text-left divide-y divide-gray-300">
-                                    <thead className="bg-gray-50">
-                                        <tr className="divide-x divide-gray-200">
-                                            <th
-                                                scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                            >
-                                                名稱
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-4 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                            >
-                                                值
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200 bg-white">
-                                        {[1, 2, 3, 4].map((item, index) => (
-                                            <tr key={index} className="divide-x divide-gray-200">
-                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                                    {item}
-                                                </td>
-                                                <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                                                    {item}
-                                                </td>
+                            <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
+                                {selectedResult.length > 0 ? (
+                                    <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
+                                        <thead className="bg-gray-50 overflow-scroll">
+                                            <tr className="divide-x divide-gray-200">
+                                                {selectedResult.map((result, index) => {
+                                                    return (
+                                                        <th
+                                                            key={index}
+                                                            scope="col"
+                                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                        >
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${result}`
+                                                                ].title
+                                                            }
+                                                        </th>
+                                                    );
+                                                })}
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
+                                            {formDatum.map((datum, index) => {
+                                                return (
+                                                    <tr
+                                                        key={index}
+                                                        className="divide-x divide-gray-200"
+                                                    >
+                                                        {selectedResult.map((result, index) => {
+                                                            return (
+                                                                <td
+                                                                    key={index}
+                                                                    className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
+                                                                >
+                                                                    {typeof datum.data[
+                                                                        `${result}`
+                                                                    ] === 'object' &&
+                                                                    datum.data[`${result}`] ? (
+                                                                        <div className="flex flex-col">
+                                                                            {Object.keys(
+                                                                                datum.data[
+                                                                                    `${result}`
+                                                                                ]
+                                                                            ).map(
+                                                                                (
+                                                                                    item: any,
+                                                                                    index: number
+                                                                                ) => {
+                                                                                    return datum
+                                                                                        .data[
+                                                                                        `${result}`
+                                                                                    ][`${item}`] ? (
+                                                                                        <div className="flex flex-row text-sm">
+                                                                                            <div className="flex-1">
+                                                                                                <label>
+                                                                                                    {
+                                                                                                        item
+                                                                                                    }
+
+                                                                                                    :{' '}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                key={
+                                                                                                    index
+                                                                                                }
+                                                                                                className="flex flex-row"
+                                                                                            >
+                                                                                                {datum
+                                                                                                    .data[
+                                                                                                    `${result}`
+                                                                                                ][
+                                                                                                    `${item}`
+                                                                                                ] ==
+                                                                                                true
+                                                                                                    ? '✅'
+                                                                                                    : datum
+                                                                                                          .data[
+                                                                                                          `${result}`
+                                                                                                      ][
+                                                                                                          `${item}`
+                                                                                                      ]}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    ) : null;
+                                                                                }
+                                                                            )}
+                                                                        </div>
+                                                                    ) : (
+                                                                        datum.data[`${result}`]
+                                                                    )}
+                                                                </td>
+                                                            );
+                                                        })}
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <div className="py-4">
+                                        <p className="text-gray-500 text-sm">請選擇搜尋條件</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
