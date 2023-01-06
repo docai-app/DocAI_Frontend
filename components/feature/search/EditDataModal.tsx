@@ -30,8 +30,6 @@ export default function EditDataModal(props: EditDataModalProps) {
     const cancelButtonRef = useRef(null);
     const [visableFilter, setVisiableFilter] = useState(false);
     const [visableResult, setVisiableResult] = useState(false);
-    // const [filterData, setFilterData] = useState<any>([]);
-    // const [resultDatas, setResultDatas] = useState<any>([]);
 
     return (
         <>
@@ -108,25 +106,6 @@ export default function EditDataModal(props: EditDataModalProps) {
                                             />
                                         </div>
                                     </div>
-
-                                    {/* <div className="w-full flex flex-row my-2">
-                                        <div className="w-1/4 flex justify-left items-center ">
-                                            <label
-                                                htmlFor="new-type"
-                                                className="block text-sm font-medium text-gray-700"
-                                            >
-                                                選擇文檔分類:
-                                            </label>
-                                        </div>
-                                        <div className="flex w-3/4">
-                                            <MyDateDropdown
-                                                value={'請假紙'}
-                                                datas={dates}
-                                                onSwitch={() => {}}
-                                            />
-                                        </div>
-                                    </div> */}
-
                                     <div className="w-full flex flex-row my-2">
                                         <div className="w-1/4 flex justify-left   ">
                                             <label

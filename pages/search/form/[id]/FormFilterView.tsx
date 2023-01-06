@@ -1,7 +1,8 @@
-import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
-import { withTheme } from '@rjsf/core';
+import { SearchIcon } from '@heroicons/react/outline';
 import FormFilterDropdown from '../../../../components/common/Widget/FormFilterDropdown';
+import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import HeadView from '../../../../components/feature/search/HeadView';
+import { matchFormSchemaAndFormData } from '../../../../utils/form';
 
 interface FormFilterViewProps {
     formSchema: any;
@@ -13,6 +14,8 @@ interface FormFilterViewProps {
     selectedResult: any[];
     setSelectedResult: (selectedResult: never[]) => void;
     formDatum: any[];
+    loadingOpen: boolean;
+    setLoadingOpen: (loadingOpen: boolean) => void;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -25,10 +28,24 @@ function FormFilterView(props: FormFilterViewProps) {
         onSearch,
         selectedResult,
         setSelectedResult,
-        formDatum = []
+        formDatum = [],
+        loadingOpen,
+        setLoadingOpen
     } = props;
+
+    const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
+
     return (
         <>
+            <SingleActionModel
+                open={loadingOpen}
+                setOpen={setLoadingOpen}
+                {...{
+                    title: '正在獲取資料',
+                    content: '',
+                    icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                }}
+            />
             <div className="mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto px-4 sm:px-6 lg:px-8">
                     <HeadView
@@ -43,7 +60,7 @@ function FormFilterView(props: FormFilterViewProps) {
                     <header className="shadow bg-white">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                             <h1 className="text-3xl font-bold text-gray-900">
-                                文檔：{formSchema.name}
+                                文檔: {formSchema.name}
                             </h1>
                         </div>
                     </header>
@@ -133,22 +150,27 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                         .data[
                                                                                         `${result}`
                                                                                     ][`${item}`] ? (
-                                                                                        <div className="flex flex-row text-sm">
+                                                                                        <div
+                                                                                            className="flex flex-row text-sm"
+                                                                                            key={
+                                                                                                index
+                                                                                            }
+                                                                                        >
                                                                                             <div className="flex-1">
                                                                                                 <label>
-                                                                                                    {
-                                                                                                        item
-                                                                                                    }
-
-                                                                                                    :{' '}
+                                                                                                    {`${
+                                                                                                        itemList.find(
+                                                                                                            (
+                                                                                                                element
+                                                                                                            ) =>
+                                                                                                                element.keyName ===
+                                                                                                                item
+                                                                                                        )
+                                                                                                            .title
+                                                                                                    }: `}
                                                                                                 </label>
                                                                                             </div>
-                                                                                            <div
-                                                                                                key={
-                                                                                                    index
-                                                                                                }
-                                                                                                className="flex flex-row"
-                                                                                            >
+                                                                                            <div className="flex flex-row">
                                                                                                 {datum
                                                                                                     .data[
                                                                                                     `${result}`
@@ -182,7 +204,9 @@ function FormFilterView(props: FormFilterViewProps) {
                                     </table>
                                 ) : (
                                     <div className="py-4">
-                                        <p className="text-gray-500 text-sm">請選擇搜尋條件</p>
+                                        <p className="text-gray-500 text-sm">
+                                            請點擊右上角 "+ 新增" 來選顯示欄位
+                                        </p>
                                     </div>
                                 )}
                             </div>

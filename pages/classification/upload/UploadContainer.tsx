@@ -14,7 +14,7 @@ function UploadContainer() {
     const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
-    const [target_folder_id, set_target_folder_id] = useState()
+    const [target_folder_id, set_target_folder_id] = useState();
     const formik = useFormik({
         initialValues: {
             document: []
@@ -25,7 +25,7 @@ function UploadContainer() {
                 formData.append('document[]', i);
             }
             if (target_folder_id) {
-                formData.append('target_folder_id', target_folder_id)
+                formData.append('target_folder_id', target_folder_id);
             }
             upload({
                 data: formData

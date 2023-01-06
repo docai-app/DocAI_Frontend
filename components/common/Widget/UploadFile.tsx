@@ -22,7 +22,15 @@ interface UploadFileProps {
 const apiSetting = new Api();
 
 export default function UploadFile(props: UploadFileProps) {
-    const { title, btnName, selectName, multiple = false, formik, setDocuments, set_target_folder_id } = props;
+    const {
+        title,
+        btnName,
+        selectName,
+        multiple = false,
+        formik,
+        setDocuments,
+        set_target_folder_id
+    } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
 
@@ -47,7 +55,7 @@ export default function UploadFile(props: UploadFileProps) {
     useEffect(() => {
         if (movingDest?.id) {
             showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
-            set_target_folder_id(movingDest?.id)
+            set_target_folder_id(movingDest?.id);
         }
     }, [movingDest, showFolderByID]);
 

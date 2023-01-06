@@ -13,6 +13,7 @@ export default function FormFilterContainer() {
     const [selectedResult, setSelectedResult] = useState([]);
     const [formDatum, setFormDatum] = useState([]);
     const [filterData, setFilterData] = useState({});
+    const [loadingOpen, setLoadingOpen] = useState(false);
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -20,15 +21,14 @@ export default function FormFilterContainer() {
         }
     );
 
-    const [{ data: resultFormsData }, showFormsByFilterAndFormSchemaId] = useAxios(
-        apiSetting.Form.showFormsByFilterAndFormSchemaId(''),
-        {
-            manual: true
-        }
-    );
+    const [
+        { data: resultFormsData, loading: resultFormsLoading },
+        showFormsByFilterAndFormSchemaId
+    ] = useAxios(apiSetting.Form.showFormsByFilterAndFormSchemaId(''), {
+        manual: true
+    });
 
     useEffect(() => {
-        console.log('router.query.id: ', router.query.id);
         if (router && router.query.id) {
             getFormsSchemaById({
                 url: apiSetting.FormSchema.getFormsSchemaById(router.query.id as string).url
@@ -46,25 +46,34 @@ export default function FormFilterContainer() {
 
     useEffect(() => {
         if (formSchemaData && formSchemaData.success) {
-            console.log(formSchemaData);
             setFormSchema(formSchemaData.form_schema);
         }
     }, [formSchemaData]);
 
     useEffect(() => {
-        console.log('filterData: ', filterData);
-        console.log('router.query.id: ', router.query.id);
-    }, [filterData]);
+        // if filterData keys cannot include selectedFilter keys, then remove it
+        const filterDataKeys = Object.keys(filterData);
+        const filterDataKeysToRemove = filterDataKeys.filter(
+            (key) => !selectedFilter.includes(key as never)
+        );
+        const newFilterData: any = { ...filterData };
+        filterDataKeysToRemove.forEach((key) => {
+            delete newFilterData[key];
+        });
+        setFilterData(newFilterData);
+    }, [selectedFilter]);
 
     useEffect(() => {
         if (resultFormsData && resultFormsData.success) {
-            console.log(resultFormsData);
             setFormDatum(resultFormsData.form_datum);
         }
     }, [resultFormsData]);
 
+    useEffect(() => {
+        setLoadingOpen(resultFormsLoading);
+    }, [resultFormsLoading]);
+
     const onSearch = () => {
-        console.log('onSearch! filterData: ', filterData);
         showFormsByFilterAndFormSchemaId({
             url: apiSetting.Form.showFormsByFilterAndFormSchemaId(router.query.id as string).url,
             data: {
@@ -84,7 +93,9 @@ export default function FormFilterContainer() {
                 onSearch,
                 selectedResult,
                 setSelectedResult,
-                formDatum
+                formDatum,
+                loadingOpen,
+                setLoadingOpen
             }}
         />
     );

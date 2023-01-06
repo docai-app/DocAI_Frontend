@@ -1,6 +1,5 @@
 import { DocumentSearchIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import HeadView from '../../../components/feature/search/HeadView';
 
 interface SearchFormViewProps {
     forms: any[];
@@ -24,7 +23,7 @@ function SearchFormView(props: SearchFormViewProps) {
                         {forms.map((item, index) => {
                             return (
                                 <Link href={`/search/form/${item.id}`} key={index}>
-                                    <a className="p-4 hover:bg-gray-100  items-center text-center">
+                                    <a className="p-8 hover:bg-gray-100  items-center text-center">
                                         <DocumentSearchIcon className="h-20" />
                                         <p>{item.name}</p>
                                     </a>

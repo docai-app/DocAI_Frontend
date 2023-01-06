@@ -1,8 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { FieldProps, WidgetProps, withTheme } from '@rjsf/core';
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useRef } from 'react';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 
 function classNames(...classes: string[]) {
@@ -26,7 +26,6 @@ const Form = withTheme(Bootstrap4Theme);
 
 export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     const { formSchema, formData, title = '', filterKey, filterData = {}, setFilterData } = props;
-    const [open, setOpen] = useState(false);
 
     const uiSchema = useRef({
         'ui:submitButtonOptions': {
@@ -75,53 +74,50 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     });
 
     return (
-        <Menu as="div" className="relative inline-block text-left z-10 mr-4">
-            <div className="z-10">
-                <Menu.Button
-                    className="inline-flex text-sm items-center justify-center w-full rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-white text-gray-500 font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500"
-                    onClick={() => setOpen(!open)}
-                >
-                    <span className="mr-2">{title}</span>
-                    <ChevronDownIcon className="h-5 w-5 ml-0 text-gray-500" aria-hidden="true" />
-                </Menu.Button>
-            </div>
-
-            <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-                show={open || false}
-            >
-                <Menu.Items className="z-100 origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
-                    <div className="py-1">
-                        <Form
-                            className="w-full p-2"
-                            schema={formSchema}
-                            formData={formData}
-                            uiSchema={uiSchema.current}
-                            widgets={widgets.current}
-                            fields={fields.current}
-                            onSubmit={(res) => {
-                                console.log('data: ', res.formData);
-                                console.log('filterKey: ', filterKey);
-                                console.log('filterData: ', filterData);
-
-                                Object.keys(res.formData).forEach((key) => {
-                                    if (res.formData[key] === '') {
-                                        res.formData[key] = null;
-                                    }
-                                });
-                                setFilterData({ ...filterData, [filterKey]: res.formData });
-                                setOpen(false);
-                            }}
+        <Popover className="relative inline-block text-left z-10 mr-4">
+            {({ close }) => (
+                <>
+                    <Popover.Button className="inline-flex text-sm items-center justify-center w-full rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-white text-gray-500 font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500">
+                        <span className="mr-2">{title}</span>
+                        <ChevronDownIcon
+                            className="h-5 w-5 ml-0 text-gray-500"
+                            aria-hidden="true"
                         />
-                    </div>
-                </Menu.Items>
-            </Transition>
-        </Menu>
+                    </Popover.Button>
+
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 translate-y-1"
+                    >
+                        <Popover.Panel className="z-100 origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
+                            <div className="py-1">
+                                <Form
+                                    className="w-full p-2"
+                                    schema={formSchema}
+                                    formData={filterData[filterKey] || formData}
+                                    uiSchema={uiSchema.current}
+                                    widgets={widgets.current}
+                                    fields={fields.current}
+                                    onSubmit={(res) => {
+                                        Object.keys(res.formData).forEach((key) => {
+                                            if (res.formData[key] === '') {
+                                                res.formData[key] = null;
+                                            }
+                                        });
+                                        setFilterData({ ...filterData, [filterKey]: res.formData });
+                                        close();
+                                    }}
+                                />
+                            </div>
+                        </Popover.Panel>
+                    </Transition>
+                </>
+            )}
+        </Popover>
     );
 }
