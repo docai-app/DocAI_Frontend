@@ -1,6 +1,6 @@
 import { DocumentIcon, FolderIcon, ShareIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Dropdowns from './Dropdowns';
 
 interface TableRowProps {
@@ -11,46 +11,65 @@ interface TableRowProps {
     setVisableDelete?: any;
     setVisableRename: any;
     setCurrent?: any;
+    setChecedkData?: any;
+    checked?: boolean;
 }
 export default function TableRow(props: TableRowProps) {
-    const { doc, type, setMode, setTarget, setVisableDelete, setVisableRename, setCurrent } = props;
+    const { doc, type, setMode, setTarget, setVisableDelete, setVisableRename, setCurrent, setChecedkData, checked } = props;
+    const [visable, setVisable] = useState(false)
     const updated_at = new Date(doc.updated_at);
     const now = new Date();
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${
-                updated_at.getHours() < 10
-                    ? '0' + updated_at.getHours().toString()
-                    : updated_at.getHours()
-            }:${
-                updated_at.getMinutes() < 10
+            date = `${updated_at.getHours() < 10
+                ? '0' + updated_at.getHours().toString()
+                : updated_at.getHours()
+                }:${updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-            }`;
+                }`;
         else
-            date = `${
-                updated_at.getMonth() < 9
-                    ? '0' + (updated_at.getMonth() + 1).toString()
-                    : updated_at.getMonth() + 1
-            }/${
-                updated_at.getDate() < 10
-                    ? '0' + updated_at.getDate().toString()
-                    : updated_at.getDate()
-            }`;
-    } else {
-        date = `${updated_at.getFullYear()}/${
-            updated_at.getMonth() < 9
+            date = `${updated_at.getMonth() < 9
                 ? '0' + (updated_at.getMonth() + 1).toString()
                 : updated_at.getMonth() + 1
-        }/${
-            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
-        }`;
+                }/${updated_at.getDate() < 10
+                    ? '0' + updated_at.getDate().toString()
+                    : updated_at.getDate()
+                }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
+            ? '0' + (updated_at.getMonth() + 1).toString()
+            : updated_at.getMonth() + 1
+            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+            }`;
     }
     const url = doc.storage_url || `/drive/${doc.id}`;
+    const onMouseEnter = () => {
+        if (checked) return
+        setVisable(true)
+    }
+    const onMouseLeave = () => {
+        if (checked) return
+        setVisable(false)
+    }
+    const check = (e: any) => {
+        setChecedkData(type, e.target.checked, e.target.value)
+    }
+
+    useEffect(() => {
+        if (!checked) {
+            setVisable(false)
+        }
+    }, [checked])
+
     return (
-        <div key={doc.id} className="flex">
-            <div className="px-2 py-3 w-1/12">
+        <div key={doc.id} className={`flex hover:bg-gray-100`} onMouseEnter={() => { onMouseEnter() }} onMouseLeave={() => { onMouseLeave() }}>
+            <div className=" mx-2 w-10 items-center flex justify-center">
+                {visable &&
+                    <input type={"checkbox"} value={doc.id} className='' onChange={(e) => { check(e) }} />}
+            </div>
+            <div className="px-2 py-3 flex flex-row items-center">
                 {type === 'documents' ? (
                     <DocumentIcon className="ml-auto h-6 text-gray-200" />
                 ) : (
@@ -90,7 +109,7 @@ export default function TableRow(props: TableRowProps) {
                             type: type
                         });
                     }}
-                    download={() => {}}
+                    download={() => { }}
                     move={() => {
                         setMode('move');
                         setTarget([doc]);

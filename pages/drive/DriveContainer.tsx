@@ -26,6 +26,8 @@ export default function DriveContainer() {
     const [allItemsData, setAllItemsData] = useState<any>([]);
     const [allFoldersItemsData, setAllFoldersItemsData] = useState<any>([]);
     const [page, setPage] = useState(1);
+    const [documents_items, setDocumentsItems] = useState<any>([])
+    const [folders_items, setFoldersItems] = useState<any>([])
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -49,6 +51,8 @@ export default function DriveContainer() {
     const [{ data: deleteFolderByIdData }, deleteFolderById] = useAxios({}, { manual: true });
 
     const [{ data: updateFolderNameData }, updateFolderName] = useAxios({}, { manual: true });
+
+    const [{ data: moveItemsToSpecificFolderData }, moveItemsToSpecificFolder] = useAxios(apiSetting.Drive.moveItemsToSpecificFolder(), { manual: true });
 
     useEffect(() => {
         countDocumentsByDate();
@@ -96,6 +100,41 @@ export default function DriveContainer() {
                 setAlert({ title: '發生錯誤', type: 'error' });
             }
         }
+    };
+
+    const handleMoveItems = async (target_folder_id: string | null) => {
+        if (target_folder_id != null) {
+            const formData = new FormData();
+            for (const i of documents_items) {
+                formData.append('document_items[]', i);
+            }
+            for (const i of folders_items) {
+                formData.append('folder_items[]', i);
+            }
+            if (target_folder_id) {
+                formData.append('target_folder_id', target_folder_id);
+            }
+            if (router.query.id) {
+                formData.append('current_folder_id', router.query.id + "");
+            }
+            moveItemsToSpecificFolder({
+                data: formData
+            });
+        }
+    };
+
+    const handleDeleteItems = async () => {
+        const formData = new FormData();
+        for (const i of documents_items) {
+            formData.append('document_items[]', i);
+        }
+        for (const i of folders_items) {
+            formData.append('folder_items[]', i);
+        }
+        // moveItemsToSpecificFolder({
+        //     data: formData
+        // });
+
     };
 
     const updateFolder = async (id: string, name: string) => {
@@ -177,6 +216,17 @@ export default function DriveContainer() {
         }
     }, [showAllItemsLoading, showAllItemsData]);
 
+    useEffect(() => {
+        if (moveItemsToSpecificFolderData) {
+            if (moveItemsToSpecificFolderData?.success) {
+                setAlert({ title: '移動成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '沒有權限', type: 'error' });
+            }
+        }
+    }, [moveItemsToSpecificFolderData]);
+
     return (
         <DriveView
             {...{
@@ -206,7 +256,13 @@ export default function DriveContainer() {
                 deleteFolderOrDocumentHandler,
                 allItemsData,
                 allFoldersItemsData,
-                showAllItemsHandler
+                showAllItemsHandler,
+                documents_items,
+                setDocumentsItems,
+                folders_items,
+                setFoldersItems,
+                handleMoveItems,
+                handleDeleteItems
             }}
         />
     );
