@@ -4,10 +4,10 @@ import { AxiosRequestConfig } from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class Form {
-    showFormsByFilterAndFormSchemaId(formSchemaId: string) {
+    showFormsByFilterAndFormSchemaId(formSchemaId: string, page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `api/v1/form/datum/${formSchemaId}/search`,
+            url: `api/v1/form/datum/${formSchemaId}/search?page=${page}`,
             method: 'POST'
         };
         return requestHeader;

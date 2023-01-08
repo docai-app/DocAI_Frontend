@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
 import FormFilterView from './FormFilterView';
 
@@ -14,6 +14,7 @@ export default function FormFilterContainer() {
     const [formDatum, setFormDatum] = useState([]);
     const [filterData, setFilterData] = useState({});
     const [loadingOpen, setLoadingOpen] = useState(false);
+    const [page, setPage] = useState(1);
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -24,7 +25,7 @@ export default function FormFilterContainer() {
     const [
         { data: resultFormsData, loading: resultFormsLoading },
         showFormsByFilterAndFormSchemaId
-    ] = useAxios(apiSetting.Form.showFormsByFilterAndFormSchemaId(''), {
+    ] = useAxios(apiSetting.Form.showFormsByFilterAndFormSchemaId('', 1), {
         manual: true
     });
 
@@ -34,8 +35,10 @@ export default function FormFilterContainer() {
                 url: apiSetting.FormSchema.getFormsSchemaById(router.query.id as string).url
             });
             showFormsByFilterAndFormSchemaId({
-                url: apiSetting.Form.showFormsByFilterAndFormSchemaId(router.query.id as string)
-                    .url,
+                url: apiSetting.Form.showFormsByFilterAndFormSchemaId(
+                    router.query.id as string,
+                    page
+                ).url,
                 data: {
                     filter: filterData
                 }
@@ -65,7 +68,9 @@ export default function FormFilterContainer() {
 
     useEffect(() => {
         if (resultFormsData && resultFormsData.success) {
-            setFormDatum(resultFormsData.form_datum);
+            // console.log(resultFormsData);
+            setFormDatum(formDatum.concat(resultFormsData.form_datum));
+            // setFormDatum(resultFormsData.form_datum);
         }
     }, [resultFormsData]);
 
@@ -73,14 +78,34 @@ export default function FormFilterContainer() {
         setLoadingOpen(resultFormsLoading);
     }, [resultFormsLoading]);
 
+    useEffect(() => {
+        if (router && router.query.id) {
+            showFormsByFilterAndFormSchemaId({
+                url: apiSetting.Form.showFormsByFilterAndFormSchemaId(
+                    router.query.id as string,
+                    page
+                ).url,
+                data: {
+                    filter: filterData
+                }
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
+
     const onSearch = () => {
         showFormsByFilterAndFormSchemaId({
-            url: apiSetting.Form.showFormsByFilterAndFormSchemaId(router.query.id as string).url,
+            url: apiSetting.Form.showFormsByFilterAndFormSchemaId(router.query.id as string, page)
+                .url,
             data: {
                 filter: filterData
             }
         });
     };
+
+    const showAllItemsHandler = useCallback(async () => {
+        setPage((page) => page + 1);
+    }, []);
 
     return (
         <FormFilterView
@@ -95,7 +120,9 @@ export default function FormFilterContainer() {
                 setSelectedResult,
                 formDatum,
                 loadingOpen,
-                setLoadingOpen
+                setLoadingOpen,
+                resultFormsData,
+                showAllItemsHandler
             }}
         />
     );
