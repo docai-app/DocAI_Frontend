@@ -96,13 +96,12 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                                 <button
                                     className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
                                     onClick={() => {
-                                        current?.type == "moveItems"
+                                        current?.type == 'moveItems'
                                             ? handleMoveItems(movingDest.id)
                                             : current?.type == 'folders'
-                                                ? handleMoveFolder(targetId, movingDest.id)
-                                                : handleMove(targetId, movingDest.id)
-                                    }
-                                    }
+                                            ? handleMoveFolder(targetId, movingDest.id)
+                                            : handleMove(targetId, movingDest.id);
+                                    }}
                                 >
                                     移動
                                 </button>

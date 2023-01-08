@@ -26,8 +26,8 @@ export default function DriveContainer() {
     const [allItemsData, setAllItemsData] = useState<any>([]);
     const [allFoldersItemsData, setAllFoldersItemsData] = useState<any>([]);
     const [page, setPage] = useState(1);
-    const [documents_items, setDocumentsItems] = useState<any>([])
-    const [folders_items, setFoldersItems] = useState<any>([])
+    const [documents_items, setDocumentsItems] = useState<any>([]);
+    const [folders_items, setFoldersItems] = useState<any>([]);
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -52,7 +52,10 @@ export default function DriveContainer() {
 
     const [{ data: updateFolderNameData }, updateFolderName] = useAxios({}, { manual: true });
 
-    const [{ data: moveItemsToSpecificFolderData }, moveItemsToSpecificFolder] = useAxios(apiSetting.Drive.moveItemsToSpecificFolder(), { manual: true });
+    const [{ data: moveItemsToSpecificFolderData }, moveItemsToSpecificFolder] = useAxios(
+        apiSetting.Drive.moveItemsToSpecificFolder(),
+        { manual: true }
+    );
 
     useEffect(() => {
         countDocumentsByDate();
@@ -115,7 +118,7 @@ export default function DriveContainer() {
                 formData.append('target_folder_id', target_folder_id);
             }
             if (router.query.id) {
-                formData.append('current_folder_id', router.query.id + "");
+                formData.append('current_folder_id', router.query.id + '');
             }
             moveItemsToSpecificFolder({
                 data: formData
@@ -134,7 +137,6 @@ export default function DriveContainer() {
         // moveItemsToSpecificFolder({
         //     data: formData
         // });
-
     };
 
     const updateFolder = async (id: string, name: string) => {

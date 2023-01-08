@@ -54,15 +54,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => { },
+        setMode = () => {},
         target = [],
-        setTarget = () => { },
+        setTarget = () => {},
         movingDest = null,
-        setMovingDest = () => { },
+        setMovingDest = () => {},
         shareWith = [],
-        setShareWith = () => { },
-        handleShare = async () => { },
-        handleNewFolder = async () => { },
+        setShareWith = () => {},
+        handleShare = async () => {},
+        handleNewFolder = async () => {},
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -88,25 +88,36 @@ export default function DriveView(props: DriveViewProps) {
 
     const setChecedkData = (type: string, checked: boolean, value: string) => {
         if (type == 'folders') {
-            const newData = checked ? [...folders_items, value] : folders_items.filter((_value: string) => _value !== value)
-            setFoldersItems(newData)
+            const newData = checked
+                ? [...folders_items, value]
+                : folders_items.filter((_value: string) => _value !== value);
+            setFoldersItems(newData);
         } else {
-            const newData = checked ? [...documents_items, value] : documents_items.filter((_value: string) => _value !== value)
-            setDocumentsItems(newData)
+            const newData = checked
+                ? [...documents_items, value]
+                : documents_items.filter((_value: string) => _value !== value);
+            setDocumentsItems(newData);
         }
-    }
+    };
 
     const clearCheckedData = () => {
-        setFoldersItems([])
-        setDocumentsItems([])
-    }
+        setFoldersItems([]);
+        setDocumentsItems([]);
+    };
 
     return (
         <>
             <EditItems
-                moveItems={() => { setCurrent({ type: "moveItems" }); setMode('move'); }}
-                clearItems={() => { clearCheckedData() }}
-                deleteItems={() => { handleDeleteItems() }}
+                moveItems={() => {
+                    setCurrent({ type: 'moveItems' });
+                    setMode('move');
+                }}
+                clearItems={() => {
+                    clearCheckedData();
+                }}
+                deleteItems={() => {
+                    handleDeleteItems();
+                }}
                 count={documents_items?.length + folders_items?.length}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
@@ -169,8 +180,9 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -258,8 +270,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                            ? '載入中...'
-                                            : showAllItemsData?.error || 'Error'}
+                                        ? '載入中...'
+                                        : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -285,10 +297,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                    showAllItemsData?.documents &&
-                                    showAllItemsData?.success &&
-                                    (showAllItemsData.folders.length > 0 ||
-                                        showAllItemsData.documents.length > 0) ? (
+                                showAllItemsData?.documents &&
+                                showAllItemsData?.success &&
+                                (showAllItemsData.folders.length > 0 ||
+                                    showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -328,8 +340,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                    ? '載入中...'
-                                                    : showAllItemsData?.error || 'Error'}
+                                                ? '載入中...'
+                                                : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
