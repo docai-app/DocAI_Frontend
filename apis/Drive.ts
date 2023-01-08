@@ -32,4 +32,15 @@ export default class Drive {
         };
         return requestHeader;
     }
+    moveItemsToSpecificFolder() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/drive/items/move`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return requestHeader;
+    }
 }

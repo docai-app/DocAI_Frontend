@@ -13,11 +13,12 @@ interface FolderTreeForMovingProps {
     setMovingDest: Dispatch<SetStateAction<Folder | null>>;
     targetId: string | null;
     current: any;
+    handleMoveItems?: any;
 }
 
 const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
-    const { mode, setMode, movingDest, setMovingDest, targetId, current } = props;
+    const { mode, setMode, movingDest, setMovingDest, targetId, current, handleMoveItems } = props;
     const { setAlert } = useAlert();
     const router = useRouter();
     const handleMove = useCallback(
@@ -94,10 +95,13 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                             <div className="py-5 px-5 flex">
                                 <button
                                     className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                    onClick={() =>
-                                        current?.type == 'folders'
-                                            ? handleMoveFolder(targetId, movingDest.id)
-                                            : handleMove(targetId, movingDest.id)
+                                    onClick={() => {
+                                        current?.type == "moveItems"
+                                            ? handleMoveItems(movingDest.id)
+                                            : current?.type == 'folders'
+                                                ? handleMoveFolder(targetId, movingDest.id)
+                                                : handleMove(targetId, movingDest.id)
+                                    }
                                     }
                                 >
                                     移動

@@ -1,6 +1,7 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/outline';
 import { FolderIcon } from '@heroicons/react/solid';
+import _ from 'lodash';
 import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Folder } from '../../components/common/Widget/FolderTree';
@@ -8,6 +9,7 @@ import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMov
 import InputNameModal from '../../components/common/Widget/InputNameModal';
 import MyModal from '../../components/common/Widget/MyModal';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
+import EditItems from '../../components/feature/drive/EditItems';
 import TableRow from '../../components/feature/drive/TableRow';
 
 interface DriveViewProps {
@@ -37,6 +39,12 @@ interface DriveViewProps {
     allItemsData: any;
     allFoldersItemsData: any;
     showAllItemsHandler: any;
+    documents_items: any;
+    setDocumentsItems: any;
+    folders_items: any;
+    setFoldersItems: any;
+    handleMoveItems: any;
+    handleDeleteItems: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -46,15 +54,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         movingDest = null,
-        setMovingDest = () => {},
+        setMovingDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -66,14 +74,41 @@ export default function DriveView(props: DriveViewProps) {
         deleteFolderOrDocumentHandler,
         allItemsData,
         allFoldersItemsData,
-        showAllItemsHandler
+        showAllItemsHandler,
+        documents_items,
+        setDocumentsItems,
+        folders_items,
+        setFoldersItems,
+        handleMoveItems,
+        handleDeleteItems
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
     const newFolderNameInput = useRef<HTMLInputElement>(null);
 
+    const setChecedkData = (type: string, checked: boolean, value: string) => {
+        if (type == 'folders') {
+            const newData = checked ? [...folders_items, value] : folders_items.filter((_value: string) => _value !== value)
+            setFoldersItems(newData)
+        } else {
+            const newData = checked ? [...documents_items, value] : documents_items.filter((_value: string) => _value !== value)
+            setDocumentsItems(newData)
+        }
+    }
+
+    const clearCheckedData = () => {
+        setFoldersItems([])
+        setDocumentsItems([])
+    }
+
     return (
         <>
+            <EditItems
+                moveItems={() => { setCurrent({ type: "moveItems" }); setMode('move'); }}
+                clearItems={() => { clearCheckedData() }}
+                deleteItems={() => { handleDeleteItems() }}
+                count={documents_items?.length + folders_items?.length}
+            />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
@@ -134,9 +169,8 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -154,6 +188,7 @@ export default function DriveView(props: DriveViewProps) {
                     <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
                         <div className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full">
                             <div className="w-full flex ">
+                                <div className=" w-6 items-center flex justify-center"></div>
                                 <div className="px-2 py-3 w-1/12">
                                     <DocumentIcon className="ml-auto h-6" />
                                 </div>
@@ -195,6 +230,8 @@ export default function DriveView(props: DriveViewProps) {
                                                 setVisableRename={setVisableRename}
                                                 setVisableDelete={setVisableDelete}
                                                 setCurrent={setCurrent}
+                                                setChecedkData={setChecedkData}
+                                                checked={_.includes(folders_items, doc.id)}
                                             />
                                         );
                                     })}
@@ -210,6 +247,8 @@ export default function DriveView(props: DriveViewProps) {
                                                 setVisableRename={setVisableRename}
                                                 setVisableDelete={setVisableDelete}
                                                 setCurrent={setCurrent}
+                                                setChecedkData={setChecedkData}
+                                                checked={_.includes(documents_items, doc.id)}
                                             />
                                         );
                                     })}
@@ -219,8 +258,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                        ? '載入中...'
-                                        : showAllItemsData?.error || 'Error'}
+                                            ? '載入中...'
+                                            : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -246,10 +285,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -289,8 +328,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
@@ -306,7 +345,8 @@ export default function DriveView(props: DriveViewProps) {
                     movingDest,
                     setMovingDest,
                     targetId: target?.[0]?.id,
-                    current
+                    current,
+                    handleMoveItems
                 }}
             />
             <Transition show={mode === 'share'} as={Fragment}>
