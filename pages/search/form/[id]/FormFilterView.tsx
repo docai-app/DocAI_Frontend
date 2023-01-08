@@ -29,7 +29,7 @@ function FormFilterView(props: FormFilterViewProps) {
         filterData = {},
         setFilterData,
         onSearch,
-        selectedResult,
+        selectedResult = [],
         setSelectedResult,
         formDatum = [],
         loadingOpen,
