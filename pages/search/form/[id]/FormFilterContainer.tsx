@@ -67,10 +67,9 @@ export default function FormFilterContainer() {
     }, [selectedFilter]);
 
     useEffect(() => {
+        console.log('resultFormsData: ', resultFormsData);
         if (resultFormsData && resultFormsData.success) {
-            // console.log(resultFormsData);
             setFormDatum(formDatum.concat(resultFormsData.form_datum));
-            // setFormDatum(resultFormsData.form_datum);
         }
     }, [resultFormsData]);
 
@@ -93,8 +92,9 @@ export default function FormFilterContainer() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
-    const onSearch = () => {
-        showFormsByFilterAndFormSchemaId({
+    const onSearch = async () => {
+        setFormDatum([]);
+        await showFormsByFilterAndFormSchemaId({
             url: apiSetting.Form.showFormsByFilterAndFormSchemaId(router.query.id as string, page)
                 .url,
             data: {
