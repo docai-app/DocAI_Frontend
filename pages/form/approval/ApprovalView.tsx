@@ -249,7 +249,8 @@ function ApprovalView(props: any) {
                                         datas={dates}
                                         onSwitch={onSwitch}
                                     />
-                                    {/* {currentTypeTabStatus != 'normal' && formSchema.title === '請假表' ? (
+                                    {currentTypeTabStatus != 'normal' &&
+                                    formSchema.title === '請假表' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -267,7 +268,7 @@ function ApprovalView(props: any) {
                                                 onSwitch={onSwitchStatus}
                                             />
                                         </div>
-                                    )} */}
+                                    )}
                                 </div>
                                 {currentTypeTabStatus != 'normal' ? (
                                     <button
