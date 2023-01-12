@@ -60,7 +60,7 @@ export default function LeftMenu(props: any) {
         },
         {
             name: '數據搜尋',
-            href: '/search/form',
+            href: '/search/form/schema',
             icon: SearchCircleIcon,
             current: router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-indigo-700',

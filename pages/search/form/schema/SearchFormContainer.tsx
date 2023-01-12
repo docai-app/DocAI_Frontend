@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 import { useEffect, useState } from 'react';
-import Api from '../../../apis';
+import Api from '../../../../apis';
 import SearchFormView from './SearchFormView';
 
 const apiSetting = new Api();

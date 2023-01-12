@@ -22,7 +22,7 @@ function SearchFormView(props: SearchFormViewProps) {
                     <div className="flex float-row flex-wrap">
                         {forms.map((item, index) => {
                             return (
-                                <Link href={`/search/form/${item.id}`} key={index}>
+                                <Link href={`/search/form/schema/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
                                         <DocumentSearchIcon className="h-20" />
                                         <p>{item.name}</p>

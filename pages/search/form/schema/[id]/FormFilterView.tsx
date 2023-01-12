@@ -1,8 +1,8 @@
 import { SearchIcon } from '@heroicons/react/outline';
-import FormFilterDropdown from '../../../../components/common/Widget/FormFilterDropdown';
-import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
-import HeadView from '../../../../components/feature/search/HeadView';
-import { matchFormSchemaAndFormData } from '../../../../utils/form';
+import FormFilterDropdown from '../../../../../components/common/Widget/FormFilterDropdown';
+import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
+import HeadView from '../../../../../components/feature/search/HeadView';
+import { matchFormSchemaAndFormData } from '../../../../../utils/form';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface FormFilterViewProps {
