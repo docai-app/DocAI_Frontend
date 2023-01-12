@@ -1,3 +1,5 @@
+// File Path: pages/form/approval/ApprovalView.tsx
+
 import _findKey from 'lodash/findKey';
 import Link from 'next/link';
 import { DownloadIcon } from '@heroicons/react/solid';
@@ -165,10 +167,15 @@ function ApprovalView(props: any) {
             matchedData.map((item: any) => {
                 tempData[item.keyName] = item.value;
             });
+            tempData['storage_url'] = item.document.storage_url;
             absencesFormData.push(tempData);
             if (i + 1 === data.length) {
                 fields = getDownloadFields(matchedData);
             }
+            fields.push({
+                label: '文檔連結',
+                value: 'storage_url'
+            });
         });
         const json2csvParser = new Parser({ fields });
         const csv = json2csvParser.parse(absencesFormData);
