@@ -119,7 +119,7 @@ export default function FormFilterContainer() {
             matchedData.map((item: any) => {
                 tempData[item.keyName] = item.value;
             });
-            tempData['storage_url'] = item.document.storage_url;
+            tempData['storage_url'] = item.document?.storage_url;
             downloadFormData.push(tempData);
             if (i + 1 === formDatum.length) {
                 fields = getDownloadFields(matchedData);

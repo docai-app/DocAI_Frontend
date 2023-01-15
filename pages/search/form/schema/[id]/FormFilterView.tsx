@@ -260,7 +260,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                     <a
                                                                         href={
                                                                             datum.document
-                                                                                .storage_url
+                                                                                ?.storage_url || '#'
                                                                         }
                                                                         className="text-blue-500 hover:text-blue-700 underline"
                                                                         target="_blank"
