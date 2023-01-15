@@ -1,8 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CheckIcon, ExclamationIcon } from '@heroicons/react/outline';
-import React from 'react';
+import { Fragment, useRef, useState } from 'react';
 
 export default function MyModal(props: any) {
     const [open, setOpen] = useState(false);
@@ -88,6 +87,15 @@ export default function MyModal(props: any) {
                                 >
                                     {props.confirmText || '確認'}
                                 </button>
+                                {props.otherText && (
+                                    <button
+                                        type="button"
+                                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                        onClick={props.confirmClick}
+                                    >
+                                        {props.otherText || '確認'}
+                                    </button>
+                                )}
                                 {props.success ? (
                                     <button
                                         type="button"
