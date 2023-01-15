@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import _ from 'lodash';
+import { Parser } from 'json2csv';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../../apis';
@@ -108,12 +109,13 @@ export default function FormFilterContainer() {
     const handleDownload = () => {
         const downloadFormData: Array<any> = [];
         let fields: any[] = [];
-        console.log('formDatum: ', formDatum);
-        console.log('formSchema: ', _.get(formSchema, 'form_schema'));
         formDatum.map((item: any, i: number) => {
             const itemJSON = item.data;
             const tempData: any = {};
-            const matchedData: any[] = matchFormSchemaAndFormData(formSchema, itemJSON);
+            const matchedData: any[] = matchFormSchemaAndFormData(
+                _.get(formSchema, 'form_schema', {}),
+                itemJSON
+            );
             matchedData.map((item: any) => {
                 tempData[item.keyName] = item.value;
             });
@@ -127,6 +129,14 @@ export default function FormFilterContainer() {
                 value: 'storage_url'
             });
         });
+        const json2csvParser = new Parser({ fields });
+        const csv = json2csvParser.parse(downloadFormData);
+        const link = document.createElement('a');
+        link.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+        link.download = `${_.get(formSchema, 'form_schema.title')}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const showAllItemsHandler = useCallback(async () => {

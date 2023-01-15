@@ -135,6 +135,12 @@ function FormFilterView(props: FormFilterViewProps) {
                                             <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
                                                 <thead className="bg-gray-50 overflow-scroll">
                                                     <tr className="divide-x divide-gray-200">
+                                                        <th
+                                                            scope="col"
+                                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                        >
+                                                            編號
+                                                        </th>
                                                         {selectedResult.map((result, index) => {
                                                             return (
                                                                 <th
@@ -150,6 +156,12 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                 </th>
                                                             );
                                                         })}
+                                                        <th
+                                                            scope="col"
+                                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                        >
+                                                            文檔連結
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
@@ -159,6 +171,10 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                 key={index}
                                                                 className="divide-x divide-gray-200"
                                                             >
+                                                                {/* Add the index to the data */}
+                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                    {index + 1}
+                                                                </td>
                                                                 {selectedResult.map(
                                                                     (result, index) => {
                                                                         return (
@@ -239,6 +255,20 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         );
                                                                     }
                                                                 )}
+                                                                {/* Add the storage_url to the data and open it in a new tab */}
+                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                    <a
+                                                                        href={
+                                                                            datum.document
+                                                                                .storage_url
+                                                                        }
+                                                                        className="text-blue-500 hover:text-blue-700 underline"
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                    >
+                                                                        點擊開啟
+                                                                    </a>
+                                                                </td>
                                                             </tr>
                                                         );
                                                     })}
