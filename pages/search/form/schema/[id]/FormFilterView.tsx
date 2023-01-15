@@ -12,6 +12,7 @@ interface FormFilterViewProps {
     filterData: any;
     setFilterData: (filterData: any) => void;
     onSearch: () => void;
+    handleDownload: () => void;
     selectedResult: any[];
     setSelectedResult: (selectedResult: never[]) => void;
     formDatum: any[];
@@ -29,6 +30,7 @@ function FormFilterView(props: FormFilterViewProps) {
         filterData = {},
         setFilterData,
         onSearch,
+        handleDownload,
         selectedResult = [],
         setSelectedResult,
         formDatum = [],
@@ -94,10 +96,18 @@ function FormFilterView(props: FormFilterViewProps) {
                             })}
                             {selectedFilter.length > 0 ? (
                                 <button
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md"
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md mx-2"
                                     onClick={() => onSearch()}
                                 >
                                     搜尋
+                                </button>
+                            ) : null}
+                            {selectedResult.length > 0 ? (
+                                <button
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md mx-2"
+                                    onClick={() => handleDownload()}
+                                >
+                                    下載
                                 </button>
                             ) : null}
                         </div>

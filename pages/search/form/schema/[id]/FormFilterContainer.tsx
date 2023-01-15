@@ -1,7 +1,9 @@
 import useAxios from 'axios-hooks';
+import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../../apis';
+import { getDownloadFields, matchFormSchemaAndFormData } from '../../../../../utils/form';
 import FormFilterView from './FormFilterView';
 
 const apiSetting = new Api();
@@ -103,6 +105,30 @@ export default function FormFilterContainer() {
         });
     };
 
+    const handleDownload = () => {
+        const downloadFormData: Array<any> = [];
+        let fields: any[] = [];
+        console.log('formDatum: ', formDatum);
+        console.log('formSchema: ', _.get(formSchema, 'form_schema'));
+        formDatum.map((item: any, i: number) => {
+            const itemJSON = item.data;
+            const tempData: any = {};
+            const matchedData: any[] = matchFormSchemaAndFormData(formSchema, itemJSON);
+            matchedData.map((item: any) => {
+                tempData[item.keyName] = item.value;
+            });
+            tempData['storage_url'] = item.document.storage_url;
+            downloadFormData.push(tempData);
+            if (i + 1 === formDatum.length) {
+                fields = getDownloadFields(matchedData);
+            }
+            fields.push({
+                label: '文檔連結',
+                value: 'storage_url'
+            });
+        });
+    };
+
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
     }, []);
@@ -116,6 +142,7 @@ export default function FormFilterContainer() {
                 filterData,
                 setFilterData,
                 onSearch,
+                handleDownload,
                 selectedResult,
                 setSelectedResult,
                 formDatum,
