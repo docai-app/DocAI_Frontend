@@ -86,12 +86,12 @@ export default function InputRemarkModal(props: any) {
                                         <span
                                             dangerouslySetInnerHTML={{
                                                 __html:
-                                                    props.approval == 'approved'
+                                                    props.approval === 'approved'
                                                         ? '你批准了這份文檔'
                                                         : '你拒絕了這份文檔'
                                             }}
                                             className={`text-xl ${
-                                                props.approval == 'approved'
+                                                props.approval === 'approved'
                                                     ? 'text-green-500'
                                                     : 'text-red-500'
                                             }`}

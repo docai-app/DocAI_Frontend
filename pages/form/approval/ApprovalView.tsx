@@ -4,7 +4,7 @@ import { DownloadIcon } from '@heroicons/react/solid';
 import { Parser } from 'json2csv';
 import moment from 'moment';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import DocumentPreview from '../../../components/common/Widget/DocumentPreview';
 import InputRemarkModal from '../../../components/common/Widget/InputRemarkModal';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
@@ -31,7 +31,7 @@ function ApprovalView(props: any) {
     } = props;
     const [visable, setVisable] = useState(false);
     const [visableRemark, setVisableRemark] = useState(false);
-    const [approval_status, set_approval_status] = useState('');
+    const [approvalStatus, setApprovalStatus] = useState('');
     const [absenceFormId, setAbsenceFormId] = useState('');
 
     const working_departments = [
@@ -146,6 +146,57 @@ function ApprovalView(props: any) {
     const [status, setStatus] = useState(statusDatas[0].name);
     const [working_department, setWorking_departments] = useState(working_departments[0].name);
 
+    const approvalStatusFactory: any = useCallback(
+        (approval_status: string, id: string, signature: string, remark: string) => {
+            if (approval_status === 'awaiting') {
+                if (currentTypeTabStatus != 'normal') {
+                    return (
+                        <Link
+                            href={`/form/approval/${id.toString()}?form_schema_id=${currentTypeTabStatus}`}
+                        >
+                            <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
+                                立即審批
+                            </a>
+                        </Link>
+                    );
+                } else {
+                    return (
+                        <a
+                            onClick={() => {
+                                setAbsenceFormId(id.toString());
+                                setVisable(true);
+                            }}
+                            className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline"
+                        >
+                            立即審批
+                        </a>
+                    );
+                }
+            } else if (approval_status === 'approved') {
+                return (
+                    <div>
+                        <p className=" text-green-600 text-sm">
+                            <label className="text-xl">●</label>
+                            {signature} 批准
+                        </p>
+                        <p className="text-sm">備註：{remark || '無'}</p>
+                    </div>
+                );
+            } else if (approval_status === 'rejected') {
+                return (
+                    <div>
+                        <p className=" text-red-600 text-sm">
+                            <label className="text-xl">●</label>
+                            {signature} 拒絕
+                        </p>
+                        <p className="text-sm">備註：{remark || '無'}</p>
+                    </div>
+                );
+            }
+        },
+        [currentTypeTabStatus]
+    );
+
     const onSwitch = (date: any) => {
         setDate(date.name);
         setDays(date.value);
@@ -194,10 +245,11 @@ function ApprovalView(props: any) {
                     <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTypeTabStatus('normal')}
-                            className={`p-4 cursor-pointer ${currentTypeTabStatus === 'normal'
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTabStatus === 'normal'
                                     ? 'text-black border-b-2 border-black'
                                     : 'text-gray-400'
-                                } font-bold text-sm`}
+                            } font-bold text-sm`}
                         >
                             普通文件
                         </li>
@@ -206,10 +258,11 @@ function ApprovalView(props: any) {
                                 <li
                                     key={item.id}
                                     onClick={() => setCurrentTypeTabStatus(item.id)}
-                                    className={`p-4 cursor-pointer ${currentTypeTabStatus === item.id
+                                    className={`p-4 cursor-pointer ${
+                                        currentTypeTabStatus === item.id
                                             ? 'text-black border-b-2 border-black'
                                             : 'text-gray-400'
-                                        } font-bold text-sm`}
+                                    } font-bold text-sm`}
                                 >
                                     {item.name}
                                 </li>
@@ -223,19 +276,21 @@ function ApprovalView(props: any) {
                     <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTabStatus('awaiting')}
-                            className={`p-4 cursor-pointer ${currentTabStatus === 'awaiting'
+                            className={`p-4 cursor-pointer ${
+                                currentTabStatus === 'awaiting'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                                } font-bold text-sm`}
+                            } font-bold text-sm`}
                         >
                             待審批
                         </li>
                         <li
                             onClick={() => setCurrentTabStatus('approved')}
-                            className={`p-4 cursor-pointer ${currentTabStatus === 'approved' || currentTabStatus === 'rejected'
+                            className={`p-4 cursor-pointer ${
+                                currentTabStatus === 'approved' || currentTabStatus === 'rejected'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                                } font-bold text-sm`}
+                            } font-bold text-sm`}
                         >
                             已審批
                         </li>
@@ -254,7 +309,7 @@ function ApprovalView(props: any) {
                                         onSwitch={onSwitch}
                                     />
                                     {currentTypeTabStatus != 'normal' &&
-                                        formSchema?.title === '請假表' ? (
+                                    formSchema?.title === '請假表' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -265,14 +320,14 @@ function ApprovalView(props: any) {
                                     ) : null}
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
-                                            <div className="ml-4">
-                                                <MyDateDropdown
-                                                    value={status}
-                                                    datas={statusDatas}
-                                                    onSwitch={onSwitchStatus}
-                                                />
-                                            </div>
-                                        )}
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={status}
+                                                datas={statusDatas}
+                                                onSwitch={onSwitchStatus}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                                 {currentTypeTabStatus != 'normal' ? (
                                     <button
@@ -366,7 +421,7 @@ function ApprovalView(props: any) {
                                                                         <div className="flex-1 text-left  text-sm">
                                                                             <label className="text-sm font-bold">
                                                                                 {element.value ===
-                                                                                    true
+                                                                                true
                                                                                     ? '✅'
                                                                                     : element.value}
                                                                             </label>
@@ -380,56 +435,16 @@ function ApprovalView(props: any) {
                                                         {created_at}
                                                     </td>
                                                     <td className="py-3.5 pl-3 pr-4 sm:pr-6 text-left">
-                                                        {approval_status === 'awaiting' ? (
-                                                            currentTypeTabStatus != 'normal' ? (
-                                                                <Link
-                                                                    href={`/form/approval/${id.toString()}?form_schema_id=${currentTypeTabStatus}`}
-                                                                >
-                                                                    <a className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline">
-                                                                        立即審批
-                                                                    </a>
-                                                                </Link>
-                                                            ) : (
-                                                                <a
-                                                                    onClick={() => {
-                                                                        setAbsenceFormId(
-                                                                            id.toString()
-                                                                        );
-                                                                        setVisable(true);
-                                                                    }}
-                                                                    className=" cursor-pointer text-indigo-600 hover:text-indigo-900 underline"
-                                                                >
-                                                                    立即審批
-                                                                </a>
-                                                            )
-                                                        ) : approval_status === 'approved' ? (
-                                                            <div>
-                                                                <p className=" text-green-600 text-sm">
-                                                                    <label className="text-xl">
-                                                                        ●
-                                                                    </label>
-                                                                    {signature} 批准
-                                                                </p>
-                                                                <p className="text-sm">
-                                                                    備註：{remark || '無'}
-                                                                </p>
-                                                            </div>
-                                                        ) : (
-                                                            <div>
-                                                                <p className=" text-red-600 text-sm">
-                                                                    <label className="text-xl">
-                                                                        ●
-                                                                    </label>
-                                                                    {signature} 拒絕
-                                                                </p>
-                                                                <p className="text-sm">
-                                                                    備註：{remark || '無'}
-                                                                </p>
-                                                            </div>
+                                                        {approvalStatusFactory(
+                                                            approval_status,
+                                                            id,
+                                                            signature,
+                                                            remark
                                                         )}
                                                         {signature_image_url && (
                                                             <img
                                                                 src={signature_image_url}
+                                                                alt="signature"
                                                                 className="h-20 max-w-md"
                                                             />
                                                         )}
@@ -447,27 +462,30 @@ function ApprovalView(props: any) {
             <PaginationView meta={meta} pathname={'/form/approval'} params={null} />
             <MyModal
                 visable={visable}
-                description={"是否同意審批?"}
-                confirmText={"同意"}
-                cancelText={"取消"}
+                description={'是否同意審批？'}
+                confirmText={'同意'}
+                cancelText={'取消'}
+                otherText={'拒絕'}
                 cancelClick={() => {
-                    setVisable(false)
+                    console.log('cancelClick');
+                    setVisable(false);
                 }}
-                otherText={"拒絕"}
                 otherClick={() => {
-                    setVisable(false)
-                    setVisableRemark(true)
-                    set_approval_status("rejected")
-                }}
-                confirmClick={(data: any) => {
+                    console.log('otherClick');
+                    setApprovalStatus('rejected');
                     setVisable(false);
                     setVisableRemark(true);
-                    set_approval_status('approved');
+                }}
+                confirmClick={(data: any) => {
+                    console.log('confirmClick');
+                    setApprovalStatus('approved');
+                    setVisable(false);
+                    setVisableRemark(true);
                 }}
             />
             <InputRemarkModal
                 visable={visableRemark}
-                approval={approval_status}
+                approval={approvalStatus}
                 uploadLoading={uploadLoading}
                 cancelClick={() => setVisableRemark(false)}
                 confirmClick={(data: any) => {
