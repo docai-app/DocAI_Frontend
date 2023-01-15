@@ -449,8 +449,12 @@ function ApprovalView(props: any) {
                 visable={visable}
                 description={"是否同意審批?"}
                 confirmText={"同意"}
-                cancelText={"拒絕"}
+                cancelText={"取消"}
                 cancelClick={() => {
+                    setVisable(false)
+                }}
+                otherText={"拒絕"}
+                otherClick={() => {
                     setVisable(false)
                     setVisableRemark(true)
                     set_approval_status("rejected")
