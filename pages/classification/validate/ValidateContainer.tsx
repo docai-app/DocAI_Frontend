@@ -23,6 +23,7 @@ function ValidateContainer() {
     const [isChangeName, setIsChangeName] = useState(false);
     const [tagName, setTagName] = useState('');
     const [visable, setVisable] = useState(false);
+    const [page, setPage] = useState(1);
     const [tagHasFunction, setTagHasFunction] = useState(false);
     const [
         {
@@ -34,8 +35,8 @@ function ValidateContainer() {
         getAndPredictLatestUploadedDocument
     ] = useAxios(
         router.query.date
-            ? apiSetting.Document.getAndPredictByDateUploadedDocument(router.query.date + '')
-            : apiSetting.Document.getAndPredictLatestUploadedDocument(),
+            ? apiSetting.Document.getAndPredictByDateUploadedDocument(page, router.query.date + '')
+            : apiSetting.Document.getAndPredictLatestUploadedDocument(page),
         {
             manual: true
         }
@@ -343,6 +344,12 @@ function ValidateContainer() {
             });
         }
     }, [updateFormRecognitionData]);
+
+    useEffect(() => {
+        if (router.query.page) {
+            setPage(parseInt(router.query.page.toString()) || 1);
+        }
+    }, [router.query.page]);
 
     return (
         <>

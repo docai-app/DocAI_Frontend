@@ -2,16 +2,19 @@ import { TrashIcon } from '@heroicons/react/outline';
 import { ChevronRightIcon, FolderIcon, XIcon } from '@heroicons/react/solid';
 import _get from 'lodash/get';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../../components/common/Widget/FolderTreeForMoving';
 import MyDateDropdown from '../../../components/common/Widget/MyDateDropdown';
 import MyModal from '../../../components/common/Widget/MyModal';
+import PaginationView from '../../../components/common/Widget/PaginationView';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
 
 interface LatestPredictionDataProps {
     prediction: any;
+    meta: any;
 }
 
 interface ValidateViewProps {
@@ -74,6 +77,7 @@ function ValidateView(props: ValidateViewProps) {
         onSubmitRecognition,
         updateFormRecognitionLoading
     } = props;
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
@@ -398,7 +402,9 @@ function ValidateView(props: ValidateViewProps) {
                                 </div>
                             </div>
                         </div>
+                        <PaginationView meta={latestPredictionData?.meta} pathname={'/classification/validate'} params={{ date: router.query.date }} />
                     </div>
+
                 </main>
                 <FolderTreeForMoving
                     {...{
