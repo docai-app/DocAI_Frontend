@@ -48,4 +48,21 @@ export default class Form {
         };
         return requestHeader;
     }
+
+    previewFormProjection() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/projection/preview`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+    confirmFormProjection() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/projection/confirm`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }

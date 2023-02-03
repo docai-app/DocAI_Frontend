@@ -1,14 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import {
-    ClipboardCheckIcon,
+    ChartSquareBarIcon, ClipboardCheckIcon,
     FolderIcon,
-    MenuIcon,
-    ShieldCheckIcon,
+    MenuIcon, SearchCircleIcon, ShieldCheckIcon,
+    TableIcon,
     TagIcon,
-    XIcon,
-    ChartSquareBarIcon,
-    SearchCircleIcon
+    XIcon
 } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
@@ -65,6 +63,14 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-indigo-50'
+        },
+        {
+            name: '填寫表格',
+            href: '/new/',
+            icon: TableIcon,
+            current: router.pathname.indexOf('/new') != -1,
+            iconForeground: 'text-red-700',
+            iconBackground: 'bg-red-50'
         }
     ];
 
