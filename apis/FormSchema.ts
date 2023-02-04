@@ -21,4 +21,13 @@ export default class FormSchema {
         };
         return requestHeader;
     }
+
+    getAllCanProjectFormsSchema() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/schemas/status/project`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

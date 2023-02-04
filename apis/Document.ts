@@ -49,19 +49,19 @@ export default class Absence {
         return requestHeader;
     }
 
-    getAndPredictLatestUploadedDocument() {
+    getAndPredictLatestUploadedDocument(page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/documents/latest/predict`,
+            url: `/api/v1/documents/latest/predict?page=${page}`,
             method: 'GET'
         };
         return requestHeader;
     }
 
-    getAndPredictByDateUploadedDocument(date: string) {
+    getAndPredictByDateUploadedDocument(page = 1, date: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/documents/${date}/predict`,
+            url: `/api/v1/documents/${date}/predict?page=${page}`,
             method: 'GET'
         };
         return requestHeader;
