@@ -5,6 +5,10 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../../../../apis/index';
 import useAlert from '../../../../../hooks/useAlert';
+import {
+    matchAndFillFormDataByFormSchema,
+    matchFormSchemaAndFormData
+} from '../../../../../utils/form';
 import FormApprovalView from './FormApprovalView';
 
 const apiSetting = new Api();
@@ -143,12 +147,16 @@ function FormApprovalContainer() {
             const { filename, target_folder_id } = data;
             setActionContent('正在提交，請稍候。');
             setOpen(true);
+            console.log('result: ', result);
+            console.log('form_schema: ', formSchema);
+            const matchedResult = matchAndFillFormDataByFormSchema(formSchema, result);
+            console.log('matchedResult: ', matchedResult);
             confirmFormProjection({
                 data: {
                     form_schema_id: router.query.id,
                     filename: filename,
                     target_folder_id: target_folder_id,
-                    data: result
+                    data: matchedResult
                 }
             });
         },
@@ -189,10 +197,14 @@ function FormApprovalContainer() {
         if (preview) {
             setActionContent('正在生成預覽圖，請稍候。');
             setOpen(true);
+            console.log('result: ', result);
+            console.log('form_schema: ', formSchema);
+            const matchedResult = matchAndFillFormDataByFormSchema(formSchema, result);
+            console.log('matchedResult: ', matchedResult);
             previewFormProjection({
                 data: {
                     form_schema_id: router.query.id,
-                    data: result
+                    data: matchedResult
                 }
             });
         }
