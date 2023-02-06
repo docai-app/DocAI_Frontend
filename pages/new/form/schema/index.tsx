@@ -1,5 +1,5 @@
 import withLayout from '../../../../components/hocs/withLayout';
 import SimpleLayout from '../../../../components/layout/SimpleLayout';
-import FormApprovalContainer from './FormApprovalContainer';
+import NewContainer from '../../form/schema/NewContainer';
 
-export default withLayout(FormApprovalContainer, SimpleLayout);
+export default withLayout(NewContainer, SimpleLayout);

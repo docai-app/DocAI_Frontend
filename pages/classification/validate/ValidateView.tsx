@@ -402,9 +402,12 @@ function ValidateView(props: ValidateViewProps) {
                                 </div>
                             </div>
                         </div>
-                        <PaginationView meta={latestPredictionData?.meta} pathname={'/classification/validate'} params={{ date: router.query.date }} />
+                        <PaginationView
+                            meta={latestPredictionData?.meta}
+                            pathname={'/classification/validate'}
+                            params={{ date: router.query.date }}
+                        />
                     </div>
-
                 </main>
                 <FolderTreeForMoving
                     {...{

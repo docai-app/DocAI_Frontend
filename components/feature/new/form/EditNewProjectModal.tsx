@@ -25,7 +25,7 @@ export default function EditNewProjectModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -103,8 +103,7 @@ export default function EditNewProjectModal(props: any) {
                                         </div>
                                         <div className="flex flex-1">
                                             <label className="flex flex-1">
-                                                {props?.movingDest?.name ||
-                                                    'Root'}
+                                                {props?.movingDest?.name || 'Root'}
                                             </label>
                                             <a
                                                 className="cursor-pointer underline flex flex-0 text-blue-500"
@@ -133,7 +132,6 @@ export default function EditNewProjectModal(props: any) {
                                             className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:white sm:mt-0 sm:w-auto sm:text-sm"
                                             onClick={() => {
                                                 props.cancelClick();
-
                                             }}
                                             ref={cancelButtonRef}
                                         >

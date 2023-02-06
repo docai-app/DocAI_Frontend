@@ -3,8 +3,8 @@ import axios from 'axios';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Api from '../../../../apis/index';
-import useAlert from '../../../../hooks/useAlert';
+import Api from '../../../../../apis/index';
+import useAlert from '../../../../../hooks/useAlert';
 import FormApprovalView from './FormApprovalView';
 
 const apiSetting = new Api();
@@ -19,7 +19,7 @@ function FormApprovalContainer() {
     const [preview, setPreview] = useState(false);
     const [reset, setReset] = useState(false);
     const [open, setOpen] = useState(false);
-    const [actionContent, setActionContent] = useState("")
+    const [actionContent, setActionContent] = useState('');
     const [visiable, setVisiable] = useState(false);
     const approvalButtonContainer = useCallback(
         () => (
@@ -28,7 +28,7 @@ function FormApprovalContainer() {
                     className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
                     // type="submit"
                     onClick={() => {
-                        setReset(true)
+                        setReset(true);
                     }}
                 >
                     重新填寫
@@ -37,7 +37,7 @@ function FormApprovalContainer() {
                     className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                     // type="submit"
                     onClick={() => {
-                        setPreview(true)
+                        setPreview(true);
                     }}
                 >
                     預覽
@@ -46,7 +46,7 @@ function FormApprovalContainer() {
                     className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                     // type="submit"
                     onClick={() => {
-                        setVisiable(true)
+                        setVisiable(true);
                     }}
                 >
                     提交
@@ -117,19 +117,19 @@ function FormApprovalContainer() {
     });
 
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaById(`${router.query.form_schema_id}`),
+        apiSetting.FormSchema.getFormsSchemaById(`${router.query.id}`),
         { manual: true }
     );
 
-    const [{ data: previewFormProjectionData, loading: previewFormProjectionLoading }, previewFormProjection] = useAxios(
-        apiSetting.Form.previewFormProjection(),
-        { manual: true }
-    );
+    const [
+        { data: previewFormProjectionData, loading: previewFormProjectionLoading },
+        previewFormProjection
+    ] = useAxios(apiSetting.Form.previewFormProjection(), { manual: true });
 
-    const [{ data: confirmFormProjectionData, loading: confirmFormProjectionLoading }, confirmFormProjection] = useAxios(
-        apiSetting.Form.confirmFormProjection(),
-        { manual: true }
-    );
+    const [
+        { data: confirmFormProjectionData, loading: confirmFormProjectionLoading },
+        confirmFormProjection
+    ] = useAxios(apiSetting.Form.confirmFormProjection(), { manual: true });
 
     const onSubmit = useCallback(
         async (formData: any) => {
@@ -141,43 +141,41 @@ function FormApprovalContainer() {
     const onConfirm = useCallback(
         async (data: any) => {
             const { filename, target_folder_id } = data;
-            setActionContent("正在提交，請稍候。")
-            setOpen(true)
+            setActionContent('正在提交，請稍候。');
+            setOpen(true);
             confirmFormProjection({
                 data: {
-                    form_schema_id: router.query.form_schema_id,
+                    form_schema_id: router.query.id,
                     filename: filename,
                     target_folder_id: target_folder_id,
                     data: result
                 }
-            })
+            });
         },
         [router, result]
     );
 
-
     useEffect(() => {
         if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
-            setFormUrl(getFormsSchemaByIdData.form_schema.projection_image_url)
+            setFormUrl(getFormsSchemaByIdData.form_schema.projection_image_url);
             setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
         }
     }, [getFormsSchemaByIdData]);
 
     useEffect(() => {
         if (previewFormProjectionData && previewFormProjectionData.success === true) {
-            setFormUrl("data:image/jpg;base64," + previewFormProjectionData.image)
-            setOpen(false)
+            setFormUrl('data:image/jpg;base64,' + previewFormProjectionData.image);
+            setOpen(false);
         }
     }, [previewFormProjectionData]);
 
     useEffect(() => {
         if (confirmFormProjectionData && confirmFormProjectionData.success === true) {
             setAlert({ title: '提交成功', type: 'success' });
-            init()
+            init();
         } else if (confirmFormProjectionData && confirmFormProjectionData.success === false) {
             console.log('confirmFormProjectionData', confirmFormProjectionData);
             setAlert({ title: '提交失敗', type: 'error' });
-
         }
     }, [confirmFormProjectionData]);
 
@@ -189,11 +187,11 @@ function FormApprovalContainer() {
 
     useEffect(() => {
         if (preview) {
-            setActionContent("正在生成預覽圖，請稍候。")
-            setOpen(true)
+            setActionContent('正在生成預覽圖，請稍候。');
+            setOpen(true);
             previewFormProjection({
                 data: {
-                    form_schema_id: router.query.form_schema_id,
+                    form_schema_id: router.query.id,
                     data: result
                 }
             });
@@ -201,15 +199,15 @@ function FormApprovalContainer() {
     }, [router, preview]);
 
     const init = () => {
-        setFormUrl(getFormsSchemaByIdData.form_schema.projection_image_url)
+        setFormUrl(getFormsSchemaByIdData.form_schema.projection_image_url);
         setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
-        setReset(false)
-        setOpen(false)
-        setResult({})
-    }
+        setReset(false);
+        setOpen(false);
+        setResult({});
+    };
     useEffect(() => {
         if (reset) {
-            init()
+            init();
         }
     }, [reset]);
 

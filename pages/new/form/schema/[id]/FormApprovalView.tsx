@@ -2,10 +2,10 @@ import { PaperAirplaneIcon } from '@heroicons/react/solid';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { withTheme } from '@rjsf/core';
 import { useEffect, useState } from 'react';
-import { Folder } from '../../../../components/common/Widget/FolderTree';
-import FolderTreeForSelect from '../../../../components/common/Widget/FolderTreeForSelect';
-import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
-import EditNewProjectModal from '../../../../components/feature/new/form/EditNewProjectModal';
+import { Folder } from '../../../../../components/common/Widget/FolderTree';
+import FolderTreeForSelect from '../../../../../components/common/Widget/FolderTreeForSelect';
+import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
+import EditNewProjectModal from '../../../../../components/feature/new/form/EditNewProjectModal';
 
 const Form = withTheme(Bootstrap4Theme);
 
@@ -33,7 +33,7 @@ interface FormApprovalViewProps {
 
 function FormApprovalView(props: FormApprovalViewProps) {
     const {
-        formUrl = "",
+        formUrl = '',
         result = {},
         setResult,
         approval = {},
@@ -56,7 +56,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
 
     const [mode, setMode] = useState('');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
-    const [filename, setFilename] = useState("");
+    const [filename, setFilename] = useState('');
     useEffect(() => {
         if (movingDest?.id) {
             setVisiable(true);
@@ -70,7 +70,9 @@ function FormApprovalView(props: FormApprovalViewProps) {
                     setOpen,
                     title: '進行中......',
                     content: actionContent,
-                    icon: <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    icon: (
+                        <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    )
                 }}
             />
             <div className="min-h-full">
@@ -120,8 +122,8 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                         fields={fields.current}
                                         formData={result}
                                         onChange={(data: any) => {
-                                            setResult(data.formData)
-                                            setPreview(false)
+                                            setResult(data.formData);
+                                            setPreview(false);
                                         }}
                                     />
                                 </div>
@@ -163,8 +165,8 @@ function FormApprovalView(props: FormApprovalViewProps) {
                     onConfirm({
                         filename: filename,
                         target_folder_id: movingDest?.id
-                    })
-                    setFilename("")
+                    });
+                    setFilename('');
                 }}
             />
             <FolderTreeForSelect
@@ -177,6 +179,6 @@ function FormApprovalView(props: FormApprovalViewProps) {
                 }}
             />
         </>
-    )
+    );
 }
 export default FormApprovalView;

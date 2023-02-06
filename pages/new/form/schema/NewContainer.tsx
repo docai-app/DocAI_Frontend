@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Api from '../../apis/index';
+import Api from '../../../../apis/index';
 import NewView from './NewView';
 
 const apiSetting = new Api();
@@ -11,20 +11,15 @@ function NewContainer() {
     const [forms, setForms] = useState([]);
 
     const [
-        {
-            data: getAllCanProjectFormsSchemaData,
-            loading: getAllCanProjectFormsSchemaLoading
-        },
+        { data: getAllCanProjectFormsSchemaData, loading: getAllCanProjectFormsSchemaLoading },
         getAllCanProjectFormsSchema
-    ] = useAxios(apiSetting.FormSchema.getAllCanProjectFormsSchema(),
-        {
-            manual: false
-        }
-    );
+    ] = useAxios(apiSetting.FormSchema.getAllCanProjectFormsSchema(), {
+        manual: false
+    });
 
     useEffect(() => {
         if (getAllCanProjectFormsSchemaData && getAllCanProjectFormsSchemaData.success) {
-            setForms(getAllCanProjectFormsSchemaData.form_schema)
+            setForms(getAllCanProjectFormsSchemaData.form_schema);
         }
     }, [getAllCanProjectFormsSchemaData]);
     return (

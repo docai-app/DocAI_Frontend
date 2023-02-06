@@ -1,9 +1,12 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import {
-    ChartSquareBarIcon, ClipboardCheckIcon,
+    ChartSquareBarIcon,
+    ClipboardCheckIcon,
     FolderIcon,
-    MenuIcon, SearchCircleIcon, ShieldCheckIcon,
+    MenuIcon,
+    SearchCircleIcon,
+    ShieldCheckIcon,
     TableIcon,
     TagIcon,
     XIcon
@@ -66,7 +69,7 @@ export default function LeftMenu(props: any) {
         },
         {
             name: '填寫表格',
-            href: '/new/',
+            href: '/new/form/schema',
             icon: TableIcon,
             current: router.pathname.indexOf('/new') != -1,
             iconForeground: 'text-red-700',
