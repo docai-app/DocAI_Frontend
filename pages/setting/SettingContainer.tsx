@@ -15,7 +15,7 @@ export interface ShowCurrentUser {
         nickname: string | null;
         phone: string | null;
         position: string | null;
-        sex: string | null;
+        sex: 0 | 1 | null;
     };
 }
 

@@ -71,9 +71,9 @@ export default function SettingView({
                                                 <input
                                                     type="radio"
                                                     name="sex"
-                                                    value="male"
+                                                    value="1"
                                                     defaultChecked={
-                                                        currentUserData?.user?.sex === 'male'
+                                                        currentUserData?.user?.sex === 1
                                                     }
                                                 />
                                                 <span>男</span>
@@ -82,9 +82,9 @@ export default function SettingView({
                                                 <input
                                                     type="radio"
                                                     name="sex"
-                                                    value="female"
+                                                    value="0"
                                                     defaultChecked={
-                                                        currentUserData?.user?.sex === 'female'
+                                                        currentUserData?.user?.sex === 0
                                                     }
                                                 />
                                                 <span>女</span>
@@ -94,7 +94,7 @@ export default function SettingView({
                                 </div>
                             </div>
                             <div className="bg-slate-50 rounded-b-lg px-6 py-3 flex justify-end shadow-md">
-                                <button className="text-white bg-indigo-600 px-4 py-2 rounded-lg">
+                                <button className="text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg">
                                     保存
                                 </button>
                             </div>
