@@ -1,4 +1,4 @@
-import { PaperAirplaneIcon } from '@heroicons/react/solid';
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { withTheme } from '@rjsf/core';
 import { useEffect, useState } from 'react';

@@ -1,5 +1,5 @@
-import { TrashIcon } from '@heroicons/react/outline';
-import { ChevronRightIcon, FolderIcon, XIcon } from '@heroicons/react/solid';
+import { TrashIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon, FolderIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import _get from 'lodash/get';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -130,7 +130,7 @@ function ValidateView(props: ValidateViewProps) {
                             </Link> */}
                         </div>
                         <Link href={'/classification/logs'}>
-                            <XIcon className=" cursor-pointer w-8 h-8" />
+                            <XMarkIcon className=" cursor-pointer w-8 h-8" />
                         </Link>
                     </div>
                 </header>
@@ -309,7 +309,7 @@ function ValidateView(props: ValidateViewProps) {
                                                                 setOpen(true);
                                                             }}
                                                         >
-                                                            <XIcon
+                                                            <XMarkIcon
                                                                 className="-ml-0.5 mr-2 h-4 w-4"
                                                                 aria-hidden="true"
                                                             />

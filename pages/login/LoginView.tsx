@@ -1,4 +1,4 @@
-import { CheckIcon, XIcon } from '@heroicons/react/outline';
+import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FormEventHandler } from 'react';
 
 interface LoginViewProps {
@@ -63,7 +63,7 @@ export default function LoginView(props: LoginViewProps) {
                         ) : (
                             signInError && (
                                 <div className="flex flex-row gap-1 absolute -top-6 text-red-700">
-                                    <XIcon className="h-6 w-6" />
+                                    <XMarkIcon className="h-6 w-6" />
                                     <div>帳戶或密碼錯誤</div>
                                 </div>
                             )

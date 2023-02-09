@@ -1,7 +1,7 @@
 // components/feature/classification/AmendLabel.tsx
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { InformationCircleIcon } from '@heroicons/react/outline';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _find from 'lodash/find';

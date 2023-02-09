@@ -1,4 +1,4 @@
-import { DocumentIcon, FolderIcon, ShareIcon } from '@heroicons/react/solid';
+import { DocumentIcon, FolderIcon, ShareIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Dropdowns from './Dropdowns';
@@ -161,7 +161,7 @@ export default function TableRow(props: TableRowProps) {
                         });
                     }}
                 />
-                {/* <DocumentDuplicateIcon
+                {/* <DocumentSquare2StackIcon
                     className="h-5 text-gray-300 hover:text-gray-500 cursor-pointer"
                     onClick={() => {
                         setMode('move');

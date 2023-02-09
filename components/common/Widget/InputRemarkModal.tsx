@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { ChangeEvent, Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CheckIcon, ExclamationIcon, EyeIcon } from '@heroicons/react/outline';
+import { CheckIcon, ExclamationTriangleIcon, EyeIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 export default function InputRemarkModal(props: any) {

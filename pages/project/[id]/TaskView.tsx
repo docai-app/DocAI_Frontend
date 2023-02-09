@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from '@heroicons/react/solid';
+import { ChevronLeftIcon } from '@heroicons/react/20/solid';
 import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import OGView from '../../../components/common/Widget/OGView';

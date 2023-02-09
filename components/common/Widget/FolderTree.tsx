@@ -3,7 +3,7 @@ import {
     ChevronRightIcon,
     FolderIcon,
     FolderOpenIcon
-} from '@heroicons/react/solid';
+} from '@heroicons/react/20/solid';
 import useAxios from 'axios-hooks';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';

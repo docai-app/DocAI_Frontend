@@ -1,6 +1,6 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
-import { FolderIcon, PlusIcon } from '@heroicons/react/outline';
+import { FolderIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 
 interface ClassificationViewProps {

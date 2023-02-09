@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/solid';
+import { XMarkIcon } from '@heroicons/react/20/solid';
 import moment from 'moment';
 import { Fragment, useEffect, useRef } from 'react';
 import useAlert from '../../../hooks/useAlert';
@@ -86,7 +86,7 @@ export default function EditProjectModal(props: any) {
                         >
                             <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center   shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                                 <div className="flex flex-row justify-between">
-                                    <XIcon
+                                    <XMarkIcon
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick}
                                     />

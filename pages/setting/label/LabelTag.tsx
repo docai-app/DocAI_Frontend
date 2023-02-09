@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import LabelView from './LableView';
 import useAxios from 'axios-hooks';
 import axios from 'axios';
-import { EyeIcon } from '@heroicons/react/outline';
+import { EyeIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import _ from 'lodash';
 

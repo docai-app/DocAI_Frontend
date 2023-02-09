@@ -1,16 +1,16 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import {
-    ChartSquareBarIcon,
-    ClipboardCheckIcon,
+    ChartBarSquareIcon,
+    ClipboardIcon,
     FolderIcon,
-    MenuIcon,
-    SearchCircleIcon,
+    MinusIcon,
+    UserCircleIcon,
     ShieldCheckIcon,
-    TableIcon,
+    TableCellsIcon,
     TagIcon,
-    XIcon
-} from '@heroicons/react/outline';
+    XMarkIcon
+} from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
 
@@ -30,7 +30,7 @@ export default function LeftMenu(props: any) {
         {
             name: '智能文檔處理',
             href: '/classification/logs',
-            icon: ClipboardCheckIcon,
+            icon: ClipboardIcon,
             current: router.pathname.indexOf('logs') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
@@ -54,7 +54,7 @@ export default function LeftMenu(props: any) {
         {
             name: '項目管理',
             href: '/project',
-            icon: ChartSquareBarIcon,
+            icon: ChartBarSquareIcon,
             current: router.pathname.indexOf('/project') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
@@ -62,7 +62,7 @@ export default function LeftMenu(props: any) {
         {
             name: '數據搜尋',
             href: '/search/form/schema',
-            icon: SearchCircleIcon,
+            icon: UserCircleIcon,
             current: router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-indigo-50'
@@ -70,7 +70,7 @@ export default function LeftMenu(props: any) {
         {
             name: '填寫表格',
             href: '/new/form/schema',
-            icon: TableIcon,
+            icon: TableCellsIcon,
             current: router.pathname.indexOf('/new') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
@@ -127,7 +127,7 @@ export default function LeftMenu(props: any) {
                                             onClick={() => setSidebarOpen(false)}
                                         >
                                             <span className="sr-only">Close sidebar</span>
-                                            <XIcon
+                                            <XMarkIcon
                                                 className="h-6 w-6 text-white"
                                                 aria-hidden="true"
                                             />
@@ -297,7 +297,7 @@ export default function LeftMenu(props: any) {
                                     onClick={() => setSidebarOpen(true)}
                                 >
                                     <span className="sr-only">Open sidebar</span>
-                                    <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                                    <MinusIcon className="h-6 w-6" aria-hidden="true" />
                                 </button>
                             </div>
                         </div>

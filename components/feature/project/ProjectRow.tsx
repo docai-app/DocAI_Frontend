@@ -1,4 +1,9 @@
-import { CalendarIcon, ClipboardListIcon, CogIcon, UserCircleIcon } from '@heroicons/react/outline';
+import {
+    CalendarIcon,
+    ClipboardDocumentListIcon,
+    CogIcon,
+    UserCircleIcon
+} from '@heroicons/react/24/outline';
 import moment from 'moment';
 import Link from 'next/link';
 import Progress from '../../common/Widget/Progress';
@@ -17,7 +22,7 @@ export default function ProjectRow(props: ProjectRowProps) {
                 <div className="flex flex-1 flex-col">
                     <div className="flex flex-row px-2 py-0 items-center cursor-pointer justify-between">
                         <div className="flex flex-1 flex-row items-center">
-                            <ClipboardListIcon className="w-4 m-2" />
+                            <ClipboardDocumentListIcon className="w-4 m-2" />
                             <Link href={`/project/${project?.id}`}>
                                 <a className=" text-sm hover:underline">{project?.name}</a>
                             </Link>

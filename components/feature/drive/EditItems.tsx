@@ -1,5 +1,5 @@
-import { ArrowCircleRightIcon } from '@heroicons/react/outline';
-import { TrashIcon, XIcon } from '@heroicons/react/solid';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, XMarkIcon } from '@heroicons/react/20/solid';
 
 interface EditItemsProps {
     moveItems?: any;
@@ -26,7 +26,7 @@ export default function EditItems(props: EditItemsProps) {
                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
                             onClick={moveItems}
                         >
-                            <ArrowCircleRightIcon className="w-4 m-1 " />
+                            <ArrowRightCircleIcon className="w-4 m-1 " />
                             <label className="text-sm">移動至</label>
                         </div>
                     </div>
@@ -35,7 +35,7 @@ export default function EditItems(props: EditItemsProps) {
                             className="flex flex-row items-center rounded-lg border border-gray-300 p-1"
                             onClick={clearItems}
                         >
-                            <XIcon className="w-4 m-1" />
+                            <XMarkIcon className="w-4 m-1" />
                             <label className="text-sm">已選取 {count} 個項目</label>
                         </div>
                     </div>
