@@ -1,7 +1,7 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
-import { ChevronRightIcon, XIcon } from '@heroicons/react/outline';
-import { FolderIcon } from '@heroicons/react/solid';
+import { ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { FolderIcon } from '@heroicons/react/20/solid';
 import useAxios from 'axios-hooks';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Api from '../../../apis';
@@ -237,7 +237,7 @@ export default function UploadFile(props: UploadFileProps) {
                                                 onClick={() => deleteOne(index)}
                                             >
                                                 {/* <label className="cursor-pointer h-5 w-5">X</label> */}
-                                                <XIcon className="h-5 w-5" aria-hidden="true" />
+                                                <XMarkIcon className="h-5 w-5" aria-hidden="true" />
                                             </button>
                                             {/* <label className=' cursor-pointer p-10 text-white bg-red-500 text-center justify-center items-center rounded-full'>X</label> */}
                                         </div>

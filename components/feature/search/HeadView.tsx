@@ -1,6 +1,6 @@
 // File Path: components/feature/data/HeadView.tsx
 
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import EditDataModal from './EditDataModal';
 

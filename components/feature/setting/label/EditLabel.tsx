@@ -1,6 +1,6 @@
 // components/feature/classification/AmendLabel.tsx
 import { Dialog, Transition } from '@headlessui/react';
-import { PencilAltIcon } from '@heroicons/react/solid';
+import { PencilSquareIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import React, { Fragment, useRef, useState } from 'react';
 
@@ -90,7 +90,7 @@ export default function EditLabel(props: EditLabelProps) {
                                 <div className="w-full  mt-3 text-center sm:mt-0 sm:ml-4 sm:text-center">
                                     <div className="flex flex-row justify-center items-center">
                                         <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-sky-100 sm:mx-0 sm:h-10 sm:w-10">
-                                            <PencilAltIcon
+                                            <PencilSquareIcon
                                                 className="h-6 w-6 text-sky-600"
                                                 aria-hidden="true"
                                             />

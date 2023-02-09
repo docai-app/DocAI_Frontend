@@ -1,5 +1,11 @@
 import { useState, useEffect, Dispatch, SetStateAction, Fragment } from 'react';
-import { MailIcon, CheckIcon, XIcon, FolderIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import {
+    EnvelopeIcon,
+    CheckIcon,
+    XMarkIcon,
+    FolderIcon,
+    ChevronRightIcon
+} from '@heroicons/react/20/solid';
 import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import AmendLabel from '../../../components/feature/classification/AmendLabel';
@@ -100,7 +106,7 @@ function ValidateView(props: ShowViewProps) {
                     <div className="   py-6 px-4 sm:px-6 lg:px-8  flex justify-between">
                         <h1 className="text-3xl font-bold text-gray-900">查看文檔</h1>
                         <Link href={'/classification/logs'}>
-                            <XIcon className=" cursor-pointer w-8 h-8" />
+                            <XMarkIcon className=" cursor-pointer w-8 h-8" />
                         </Link>
                     </div>
                 </header>

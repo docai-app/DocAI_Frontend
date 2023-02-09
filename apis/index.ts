@@ -14,6 +14,7 @@ import Search from './Search';
 import Statistics from './Statistics';
 import Storage from './Storage';
 import Tag from './Tag';
+import User from './User';
 
 export default class Api {
     Storage: Storage;
@@ -31,6 +32,7 @@ export default class Api {
     Folders: Folders;
     Project: Project;
     ProjectTask: ProjectTask;
+    User: User;
 
     constructor() {
         this.Storage = new Storage();
@@ -48,5 +50,6 @@ export default class Api {
         this.Folders = new Folders();
         this.Project = new Project();
         this.ProjectTask = new ProjectTask();
+        this.User = new User();
     }
 }

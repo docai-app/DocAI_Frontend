@@ -1,4 +1,4 @@
-import { DocumentSearchIcon } from '@heroicons/react/outline';
+import { DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 interface SearchFormViewProps {
@@ -24,7 +24,7 @@ function SearchFormView(props: SearchFormViewProps) {
                             return (
                                 <Link href={`/search/form/schema/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
-                                        <DocumentSearchIcon className="h-20" />
+                                        <DocumentMagnifyingGlassIcon className="h-20" />
                                         <p>{item.name}</p>
                                     </a>
                                 </Link>

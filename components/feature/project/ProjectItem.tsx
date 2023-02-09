@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from '@heroicons/react/solid';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import ProjectRow from './ProjectRow';
 
 interface ProjectItemProps {

@@ -1,4 +1,4 @@
-import { TableIcon } from '@heroicons/react/outline';
+import { TableCellsIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 interface NewViewProps {
@@ -23,7 +23,7 @@ export default function NewView(props: NewViewProps) {
                             return (
                                 <Link href={`/new/form/schema/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
-                                        <TableIcon className="h-20" />
+                                        <TableCellsIcon className="h-20" />
                                         <p>{item.name}</p>
                                     </a>
                                 </Link>

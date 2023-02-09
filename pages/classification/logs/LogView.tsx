@@ -2,7 +2,7 @@ import { useState, useEffect, Dispatch, SetStateAction, Fragment } from 'react';
 import { Document, Page } from 'react-pdf';
 import _get from 'lodash/get';
 import FolderTree, { Folder } from '../../../components/common/Widget/FolderTree';
-import { ClockIcon } from '@heroicons/react/outline';
+import { ClockIcon } from '@heroicons/react/24/outline';
 import PaginationView from '../../../components/common/Widget/PaginationView';
 import Link from 'next/link';
 

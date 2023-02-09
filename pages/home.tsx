@@ -5,16 +5,16 @@ import SimpleLayout from '../components/layout/SimpleLayout';
 import withLayout from '../components/hocs/withLayout';
 import {
     FolderIcon,
-    DocumentSearchIcon,
-    SearchCircleIcon,
+    DocumentMagnifyingGlassIcon,
+    MagnifyingGlassCircleIcon,
     ShieldCheckIcon,
-    UploadIcon,
-    CloudUploadIcon,
-    ClipboardCheckIcon,
-    SortAscendingIcon,
+    ArrowUpTrayIcon,
+    CloudArrowUpIcon,
+    ClipboardDocumentCheckIcon,
+    BarsArrowUpIcon,
     CloudIcon,
     TagIcon
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 import Api from '../apis/index';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -26,14 +26,14 @@ const absenceFormAction = [
     {
         title: '請假表識別',
         href: '/absence/upload',
-        icon: UploadIcon,
+        icon: ArrowUpTrayIcon,
         iconForeground: 'text-sky-700',
         iconBackground: 'bg-sky-50'
     },
     {
         title: '請假表搜尋',
         href: '/absence/search',
-        icon: SearchCircleIcon,
+        icon: MagnifyingGlassCircleIcon,
         iconForeground: 'text-orange-700',
         iconBackground: 'bg-orange-50'
     },
@@ -57,21 +57,21 @@ const classificationActions = [
     {
         title: '上傳文件',
         href: '/classification/upload',
-        icon: CloudUploadIcon,
+        icon: CloudArrowUpIcon,
         iconForeground: 'text-sky-700',
         iconBackground: 'bg-sky-50'
     },
     {
         title: '同一類型批量上傳文件',
         href: '/classification/upload/bulk',
-        icon: SortAscendingIcon,
+        icon: BarsArrowUpIcon,
         iconForeground: 'text-cyan-700',
         iconBackground: 'bg-cyan-50'
     },
     {
         title: '文件驗證',
         href: '/classification/validate',
-        icon: ClipboardCheckIcon,
+        icon: ClipboardDocumentCheckIcon,
         iconForeground: 'text-red-700',
         iconBackground: 'bg-red-50'
     }
@@ -81,7 +81,7 @@ const documentAction = [
     {
         title: '文件搜尋',
         href: '/search',
-        icon: DocumentSearchIcon,
+        icon: DocumentMagnifyingGlassIcon,
         iconForeground: 'text-purple-700',
         iconBackground: 'bg-purple-50'
     },

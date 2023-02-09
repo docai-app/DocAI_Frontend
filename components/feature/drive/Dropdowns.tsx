@@ -1,11 +1,11 @@
 import { Menu, Transition } from '@headlessui/react';
 import {
-    ArrowCircleRightIcon,
-    DotsVerticalIcon,
-    DownloadIcon,
-    PencilAltIcon,
+    ArrowRightCircleIcon,
+    EllipsisVerticalIcon,
+    ArrowDownTrayIcon,
+    PencilSquareIcon,
     TrashIcon
-} from '@heroicons/react/solid';
+} from '@heroicons/react/20/solid';
 import { Fragment } from 'react';
 
 function classNames(...classes: any) {
@@ -29,7 +29,7 @@ export default function Dropdowns(props: DropdownsProps) {
             <div>
                 <Menu.Button className="bg-gray-100 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                     <span className="sr-only">Open options</span>
-                    <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                    <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
                 </Menu.Button>
             </div>
 
@@ -56,7 +56,7 @@ export default function Dropdowns(props: DropdownsProps) {
                                             'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                         )}
                                     >
-                                        <DownloadIcon
+                                        <ArrowDownTrayIcon
                                             className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
@@ -74,7 +74,7 @@ export default function Dropdowns(props: DropdownsProps) {
                                         'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
-                                    <PencilAltIcon
+                                    <PencilSquareIcon
                                         className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true"
                                     />
@@ -91,7 +91,7 @@ export default function Dropdowns(props: DropdownsProps) {
                                         'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
-                                    <ArrowCircleRightIcon
+                                    <ArrowRightCircleIcon
                                         className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true"
                                     />

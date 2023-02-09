@@ -1,5 +1,10 @@
 import { Transition, Dialog } from '@headlessui/react';
-import { CheckIcon, ExclamationIcon, InformationCircleIcon, XIcon } from '@heroicons/react/outline';
+import {
+    CheckIcon,
+    ExclamationTriangleIcon,
+    InformationCircleIcon,
+    XMarkIcon
+} from '@heroicons/react/24/outline';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Fragment } from 'react';
@@ -68,14 +73,14 @@ function AlertModel() {
                                         </div>
                                     ) : type === 'warning' ? (
                                         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
-                                            <ExclamationIcon
+                                            <ExclamationTriangleIcon
                                                 className="h-6 w-6 text-yellow-600"
                                                 aria-hidden="true"
                                             />
                                         </div>
                                     ) : type === 'error' ? (
                                         <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                                            <XIcon
+                                            <XMarkIcon
                                                 className="h-6 w-6 text-red-600"
                                                 aria-hidden="true"
                                             />

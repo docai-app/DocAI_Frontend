@@ -1,4 +1,4 @@
-import { SearchIcon } from '@heroicons/react/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import FormFilterDropdown from '../../../../../components/common/Widget/FormFilterDropdown';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
 import HeadView from '../../../../../components/feature/search/HeadView';
@@ -50,7 +50,12 @@ function FormFilterView(props: FormFilterViewProps) {
                 {...{
                     title: '正在獲取資料',
                     content: '',
-                    icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    icon: (
+                        <MagnifyingGlassIcon
+                            className="h-6 w-6 text-green-600"
+                            aria-hidden="true"
+                        />
+                    )
                 }}
             />
             <div className="mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">

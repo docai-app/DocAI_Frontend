@@ -1,6 +1,6 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/outline';
-import { FolderIcon } from '@heroicons/react/solid';
+import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { FolderIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';

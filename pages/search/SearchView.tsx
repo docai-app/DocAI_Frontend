@@ -1,7 +1,7 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
-import { SearchIcon } from '@heroicons/react/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import PaginationView from '../../components/common/Widget/PaginationView';
 
 interface SearchViewProps {
@@ -28,7 +28,12 @@ export default function SearchView(props: SearchViewProps) {
                     setOpen,
                     title: '正在搜尋......',
                     content: '文檔搜尋中，請稍候。',
-                    icon: <SearchIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    icon: (
+                        <MagnifyingGlassIcon
+                            className="h-6 w-6 text-green-600"
+                            aria-hidden="true"
+                        />
+                    )
                 }}
             />
             {/* <div className="bg-indigo-700">
