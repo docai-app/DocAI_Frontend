@@ -6,8 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../../../../apis/index';
 import useAlert from '../../../../../hooks/useAlert';
 import {
-    matchAndFillFormDataByFormSchema,
-    matchFormSchemaAndFormData
+    matchAndFillFormDataByFormSchema
 } from '../../../../../utils/form';
 import FormApprovalView from './FormApprovalView';
 
@@ -27,7 +26,7 @@ function FormApprovalContainer() {
     const [visiable, setVisiable] = useState(false);
     const approvalButtonContainer = useCallback(
         () => (
-            <div className="flex gap-2">
+            <div className="flex gap-2 pt-2">
                 <a
                     className=" cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50"
                     // type="submit"
@@ -46,7 +45,7 @@ function FormApprovalContainer() {
                 >
                     預覽
                 </a>
-                <a
+                {/* <a
                     className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                     // type="submit"
                     onClick={() => {
@@ -54,7 +53,7 @@ function FormApprovalContainer() {
                     }}
                 >
                     提交
-                </a>
+                </a> */}
             </div>
         ),
         []
