@@ -146,6 +146,24 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                     formData={approval}
                                     onSubmit={onSubmit}
                                 />
+                                {
+                                    formUrl &&
+                                    <a
+                                        className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                                        href={formUrl}
+                                        download={formSchema.title}
+                                    >
+                                        下載預覽
+                                    </a>
+                                }
+                                <a
+                                    className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                                    onClick={() => {
+                                        setVisiable(true);
+                                    }}
+                                >
+                                    提交
+                                </a>
                             </div>
                         </div>
                     </div>
