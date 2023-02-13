@@ -151,7 +151,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                     <a
                                         className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                                         href={formUrl}
-                                        download={formSchema.title}
+                                        download={formSchema.title+".png"}
                                     >
                                         下載預覽
                                     </a>
