@@ -13,10 +13,10 @@ export default class User {
         return requestHeader;
     }
 
-    updateUserByID(id: string) {
+    updateMeProfile() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/users/${id}/profile`,
+            url: `/api/v1/users/me/profile`,
             method: 'PUT'
         };
         return requestHeader;

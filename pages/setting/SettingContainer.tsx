@@ -29,10 +29,7 @@ export default function SettingContainer() {
         showCurrentUser
     ] = useAxios<ShowCurrentUser>(apiSetting.User.showCurrentUser(), { manual: true });
 
-    const [{}, updateUserByID] = useAxios(
-        apiSetting.User.updateUserByID(currentUserData?.user?.id || ''),
-        { manual: true }
-    );
+    const [{}, updateMeProfile] = useAxios(apiSetting.User.updateMeProfile(), { manual: true });
 
     const formSubmit: FormEventHandler = useCallback(
         (e: FormEvent) => {
@@ -41,9 +38,9 @@ export default function SettingContainer() {
             const formData = new FormData(formRef.current);
             const data: any = {};
             formData.forEach((value, key) => (data[key] = value));
-            updateUserByID({
+            updateMeProfile({
                 data,
-                ...apiSetting.User.updateUserByID(currentUserData?.user?.id || '')
+                ...apiSetting.User.updateMeProfile()
             }).then((res) => {
                 if (res.data?.success) {
                     setAlert({ title: '保存成功', type: 'success' });

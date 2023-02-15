@@ -5,9 +5,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../../../../apis/index';
 import useAlert from '../../../../../hooks/useAlert';
-import {
-    matchAndFillFormDataByFormSchema
-} from '../../../../../utils/form';
+import { matchAndFillFormDataByFormSchema } from '../../../../../utils/form';
 import FormApprovalView from './FormApprovalView';
 
 const apiSetting = new Api();
