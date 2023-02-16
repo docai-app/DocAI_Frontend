@@ -21,4 +21,13 @@ export default class User {
         };
         return requestHeader;
     }
+
+    updateMePassword() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/users/me/password`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

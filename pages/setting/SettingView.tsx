@@ -10,6 +10,7 @@ export default function SettingView({ currentUserData, currentUserLoading }: Set
     return (
         <div className="flex flex-col gap-4">
             <Profile {...{ currentUserData, currentUserLoading }} />
+            <ChangePassword />
         </div>
     );
 }
