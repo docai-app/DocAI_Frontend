@@ -26,8 +26,8 @@ function Profile({ currentUserData, currentUserLoading }: ProfileProps) {
                 ...apiSetting.User.updateMeProfile()
             }).then((res) => {
                 if (res.data?.success) {
-                    setAlert({ title: '保存成功', type: 'success' });
-                } else setAlert({ title: '保存失敗', type: 'error' });
+                    setAlert({ title: '儲存成功', type: 'success' });
+                } else setAlert({ title: '儲存失敗', type: 'error' });
             });
         },
         [formRef, currentUserData]
