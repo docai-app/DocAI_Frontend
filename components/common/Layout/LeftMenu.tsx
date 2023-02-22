@@ -4,12 +4,12 @@ import {
     ChartBarSquareIcon,
     ClipboardIcon,
     FolderIcon,
-    MinusIcon,
     UserCircleIcon,
     ShieldCheckIcon,
     TableCellsIcon,
     TagIcon,
-    XMarkIcon
+    XMarkIcon,
+    Bars3Icon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
@@ -297,7 +297,7 @@ export default function LeftMenu(props: any) {
                                     onClick={() => setSidebarOpen(true)}
                                 >
                                     <span className="sr-only">Open sidebar</span>
-                                    <MinusIcon className="h-6 w-6" aria-hidden="true" />
+                                    <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                                 </button>
                             </div>
                         </div>
