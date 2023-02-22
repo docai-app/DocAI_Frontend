@@ -8,7 +8,7 @@ interface SettingViewProps {
 }
 export default function SettingView({ currentUserData, currentUserLoading }: SettingViewProps) {
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 sm:pb-4">
             <Profile {...{ currentUserData, currentUserLoading }} />
             <ChangePassword />
         </div>
