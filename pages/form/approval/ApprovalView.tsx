@@ -147,7 +147,13 @@ function ApprovalView(props: any) {
     const [working_department, setWorking_departments] = useState(working_departments[0].name);
 
     const approvalStatusFactory: any = useCallback(
-        (approval_status: string, id: string, signature: string, remark: string) => {
+        (
+            approval_status: string,
+            id: string,
+            signature: string,
+            remark: string,
+            approval_user: any
+        ) => {
             if (approval_status === 'awaiting') {
                 if (currentTypeTabStatus != 'normal') {
                     return (
@@ -179,6 +185,11 @@ function ApprovalView(props: any) {
                             <label className="text-xl">●</label>
                             {signature} 批准
                         </p>
+                        {approval_user ? (
+                            <p className=" text-green-600 text-sm">
+                                用戶 {approval_user.nickname} 進行了操作
+                            </p>
+                        ) : null}
                         <p className="text-sm">備註：{remark || '無'}</p>
                     </div>
                 );
@@ -189,6 +200,11 @@ function ApprovalView(props: any) {
                             <label className="text-xl">●</label>
                             {signature} 拒絕
                         </p>
+                        {approval_user ? (
+                            <p className=" text-red-600 text-sm">
+                                用戶 {approval_user.nickname} 進行了操作
+                            </p>
+                        ) : null}
                         <p className="text-sm">備註：{remark || '無'}</p>
                     </div>
                 );
@@ -376,8 +392,10 @@ function ApprovalView(props: any) {
                                                 remark = null,
                                                 approval_status = null,
                                                 signature = null,
-                                                signature_image_url = null
+                                                signature_image_url = null,
+                                                approval_user = null
                                             } = item;
+                                            console.log(item.approval_user);
                                             const { storage_url: formUrl = null } = item.document;
                                             if (
                                                 item.form_data?.data == null &&
@@ -439,7 +457,8 @@ function ApprovalView(props: any) {
                                                             approval_status,
                                                             id,
                                                             signature,
-                                                            remark
+                                                            remark,
+                                                            approval_user
                                                         )}
                                                         {signature_image_url && (
                                                             <img
