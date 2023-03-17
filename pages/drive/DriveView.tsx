@@ -121,10 +121,39 @@ export default function DriveView(props: DriveViewProps) {
                 count={documents_items?.length + folders_items?.length}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">DocAI</h2>
-                        <dl className="mt-10 mb-10 flex justify-evenly items-center rounded-lg bg-white shadow-lg">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-center items-center">
+                    <div className="w-full mx-auto text-center">
+                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-12">
+                            DocAI
+                        </h2>
+                        <div className="grid grid-cols-6 gap-6 mb-12">
+                            <div className="col-span-6 sm:col-span-2">
+                                <select
+                                    id="location"
+                                    name="location"
+                                    className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                >
+                                    <option value="" disabled selected>
+                                        請選擇類別
+                                    </option>
+                                </select>
+                            </div>
+                            <div className="col-span-6 sm:col-span-3">
+                                <input
+                                    type="text"
+                                    name="street-address"
+                                    id="street-address"
+                                    autoComplete="street-address"
+                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                            <div className="col-span-6 sm:col-span-1">
+                                <button className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    搜尋 🔍
+                                </button>
+                            </div>
+                        </div>
+                        <dl className="mb-12 flex justify-evenly items-center rounded-lg bg-white shadow-lg">
                             <div className="p-4 text-center items-center justify-center">
                                 <p className="text-4xl font-extrabold text-indigo-600">
                                     {countDocumentsByDateData?.documents_count || 0}
