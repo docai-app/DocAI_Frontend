@@ -13,6 +13,15 @@ export default class Search {
         return requestHeader;
     }
 
+    searchDocumentByTagContent() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/search/documents/tag_content`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     searchDocumentByDate() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../apis';
 import { Folder } from '../../components/common/Widget/FolderTree';
@@ -28,6 +28,8 @@ export default function DriveContainer() {
     const [page, setPage] = useState(1);
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [folders_items, setFoldersItems] = useState<any>([]);
+    const [tag_id, setTagId] = useState('')
+    const [content, setContent] = useState('')
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -55,6 +57,11 @@ export default function DriveContainer() {
     const [{ data: moveItemsToSpecificFolderData }, moveItemsToSpecificFolder] = useAxios(
         apiSetting.Drive.moveItemsToSpecificFolder(),
         { manual: true }
+    );
+
+    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+        apiSetting.Tag.getAllTags(),
+        { manual: false }
     );
 
     useEffect(() => {
@@ -189,6 +196,21 @@ export default function DriveContainer() {
         setPage((page) => page + 1);
     }, []);
 
+    const search = () => {
+        if (tag_id == '') {
+            setAlert({ title: '請選擇類別', type: 'info' });
+            return
+        }
+        Router.push({
+            pathname: '/search',
+            query: {
+                content: content,
+                tag_id: tag_id,
+            }
+        });
+    }
+
+
     useEffect(() => {
         if (router.asPath !== router.route) {
             queryId.current = router.query.id;
@@ -264,7 +286,11 @@ export default function DriveContainer() {
                 folders_items,
                 setFoldersItems,
                 handleMoveItems,
-                handleDeleteItems
+                handleDeleteItems,
+                getAllLabelsData,
+                setTagId,
+                setContent,
+                search
             }}
         />
     );

@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
 import useAxios from 'axios-hooks';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Api from '../../apis/index';
 import SearchView from './SearchView';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import { useRouter } from 'next/router';
 
 const apiSetting = new Api();
 
@@ -24,13 +23,18 @@ function SearchContainer() {
     ] = useAxios(
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
-            : apiSetting.Search.searchDocumentByContent(),
+            :
+            router.query.tag_id
+                ?
+                apiSetting.Search.searchDocumentByTagContent()
+                : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
     );
     const searchDocumentFormik = useFormik({
         initialValues: {
+            tag_id: '',
             content: '',
             date: '',
             page: 1
@@ -62,13 +66,24 @@ function SearchContainer() {
             searchDocumentFormik.setValues({
                 date: router.query.date + '',
                 content: '',
+                tag_id: '',
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
-        } else if (router.query.content) {
+        } else if (router.query.tag_id) {
             searchDocumentFormik.setValues({
                 content: router.query.content + '',
                 date: '',
+                tag_id: router.query.tag_id + '',
+                page: parseInt(router.query.page + '') || 1
+            });
+            searchDocumentFormik.handleSubmit();
+
+        } else {
+            searchDocumentFormik.setValues({
+                content: router.query.content + '',
+                date: '',
+                tag_id: '',
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
