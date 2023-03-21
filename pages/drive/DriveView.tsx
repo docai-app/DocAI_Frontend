@@ -1,6 +1,6 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { FolderIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -45,6 +45,10 @@ interface DriveViewProps {
     setFoldersItems: any;
     handleMoveItems: any;
     handleDeleteItems: any;
+    getAllLabelsData: any;
+    setTagId: any;
+    setContent: any;
+    search: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -54,15 +58,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         movingDest = null,
-        setMovingDest = () => {},
+        setMovingDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -80,7 +84,11 @@ export default function DriveView(props: DriveViewProps) {
         folders_items,
         setFoldersItems,
         handleMoveItems,
-        handleDeleteItems
+        handleDeleteItems,
+        getAllLabelsData,
+        setTagId,
+        setContent,
+        search
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
@@ -129,13 +137,22 @@ export default function DriveView(props: DriveViewProps) {
                         <div className="grid grid-cols-6 gap-6 mb-12">
                             <div className="col-span-6 sm:col-span-2">
                                 <select
-                                    id="location"
+                                    id="select_tag"
                                     name="location"
                                     className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    defaultValue=""
+                                    onChange={(e) => { setTagId(e.target.value); }}
                                 >
-                                    <option value="" disabled selected>
+                                    <option value="" disabled>
                                         請選擇類別
                                     </option>
+                                    {getAllLabelsData?.tags.map((tag: any, index: number) => {
+                                        return (
+                                            <option key={index} value={tag.id} >
+                                                {tag.name}
+                                            </option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                             <div className="col-span-6 sm:col-span-3">
@@ -145,10 +162,12 @@ export default function DriveView(props: DriveViewProps) {
                                     id="street-address"
                                     autoComplete="street-address"
                                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => { setContent(e.target.value) }}
                                 />
                             </div>
                             <div className="col-span-6 sm:col-span-1">
-                                <button className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    onClick={search}>
                                     搜尋 🔍
                                 </button>
                             </div>
@@ -209,9 +228,8 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -299,8 +317,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                        ? '載入中...'
-                                        : showAllItemsData?.error || 'Error'}
+                                            ? '載入中...'
+                                            : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -326,10 +344,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -369,8 +387,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
