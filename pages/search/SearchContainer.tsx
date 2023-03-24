@@ -23,11 +23,9 @@ function SearchContainer() {
     ] = useAxios(
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
-            :
-            router.query.tag_id
-                ?
-                apiSetting.Search.searchDocumentByTagContent()
-                : apiSetting.Search.searchDocumentByContent(),
+            : router.query.tag_id
+            ? apiSetting.Search.searchDocumentByTagContent()
+            : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
@@ -78,7 +76,6 @@ function SearchContainer() {
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
-
         } else {
             searchDocumentFormik.setValues({
                 content: router.query.content + '',

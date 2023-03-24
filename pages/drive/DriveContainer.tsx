@@ -28,8 +28,8 @@ export default function DriveContainer() {
     const [page, setPage] = useState(1);
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [folders_items, setFoldersItems] = useState<any>([]);
-    const [tag_id, setTagId] = useState('')
-    const [content, setContent] = useState('')
+    const [tag_id, setTagId] = useState('');
+    const [content, setContent] = useState('');
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -199,17 +199,16 @@ export default function DriveContainer() {
     const search = () => {
         if (tag_id == '') {
             setAlert({ title: '請選擇類別', type: 'info' });
-            return
+            return;
         }
         Router.push({
             pathname: '/search',
             query: {
                 content: content,
-                tag_id: tag_id,
+                tag_id: tag_id
             }
         });
-    }
-
+    };
 
     useEffect(() => {
         if (router.asPath !== router.route) {

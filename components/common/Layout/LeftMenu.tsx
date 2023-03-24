@@ -271,7 +271,7 @@ export default function LeftMenu(props: any) {
                                 <div className="flex-shrink-0 w-full group block">
                                     <div className="flex items-center">
                                         <p className="mt-0 text-center text-base text-gray-400">
-                                            &copy; {new Date().getFullYear()} M2M. All rights
+                                            &copy; {new Date().getFullYear()} DocAI. All rights
                                             reserved.
                                         </p>
                                     </div>

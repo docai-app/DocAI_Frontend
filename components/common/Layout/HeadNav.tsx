@@ -11,6 +11,7 @@ import Router, { useRouter } from 'next/router';
 import MyDropdown from '../Widget/MyDropdown';
 import Api from '../../../apis';
 import useAxios from 'axios-hooks';
+import Link from 'next/link';
 
 const user = {
     name: 'Tom Cook',
@@ -62,15 +63,15 @@ function HeadNav() {
             <Disclosure as="nav" className="bg-gray-800 w-full absolute top-0 z-50">
                 {({ open }) => (
                     <>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex items-center justify-between h-16">
                                 <div className="flex items-center w-full">
                                     <div className="flex-shrink-0">
-                                        <img
-                                            className="h-8 w-8"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                            alt="Workflow"
-                                        />
+                                        <Link href="/" passHref>
+                                            <p className="text-white text-2xl font-bold cursor-pointer">
+                                                DocAI
+                                            </p>
+                                        </Link>
                                     </div>
 
                                     <div className="hidden md:block w-full">

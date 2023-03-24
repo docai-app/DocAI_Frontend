@@ -1,8 +1,20 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
-import { FolderIcon } from '@heroicons/react/20/solid';
-import { ChevronDownIcon, DocumentIcon, PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import {
+    ChevronDownIcon,
+    DocumentIcon,
+    PencilIcon,
+    PlusIcon,
+    ScaleIcon,
+    FolderIcon,
+    CloudIcon,
+    TagIcon,
+    CheckIcon,
+    CheckCircleIcon,
+    ClockIcon,
+    ExclamationTriangleIcon
+} from '@heroicons/react/24/outline';
 import _ from 'lodash';
-import { Dispatch, Fragment, SetStateAction, useRef } from 'react';
+import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
@@ -58,15 +70,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => { },
+        setMode = () => {},
         target = [],
-        setTarget = () => { },
+        setTarget = () => {},
         movingDest = null,
-        setMovingDest = () => { },
+        setMovingDest = () => {},
         shareWith = [],
-        setShareWith = () => { },
-        handleShare = async () => { },
-        handleNewFolder = async () => { },
+        setShareWith = () => {},
+        handleShare = async () => {},
+        handleNewFolder = async () => {},
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -93,6 +105,22 @@ export default function DriveView(props: DriveViewProps) {
 
     const shareWithInput = useRef<HTMLInputElement>(null);
     const newFolderNameInput = useRef<HTMLInputElement>(null);
+    const [cards, setCards] = useState<any[]>([
+        { name: '今天已上傳的文檔', href: '/classification/logs', icon: CloudIcon, amount: 0 },
+        {
+            name: '今天已分類的文檔',
+            href: '/classification/logs',
+            icon: CheckCircleIcon,
+            amount: 0
+        },
+        { name: '今天未分類的文檔', href: '/classification/logs', icon: ClockIcon, amount: 0 },
+        {
+            name: '累計未分類的文檔',
+            href: '/classification/logs',
+            icon: ExclamationTriangleIcon,
+            amount: 0
+        }
+    ]);
 
     const setChecedkData = (type: string, checked: boolean, value: string) => {
         if (type == 'folders') {
@@ -113,6 +141,39 @@ export default function DriveView(props: DriveViewProps) {
         setDocumentsItems([]);
     };
 
+    useEffect(() => {
+        if (countDocumentsByDateData) {
+            setCards([
+                {
+                    name: '今天已上傳的文檔',
+                    href: '/classification/logs',
+                    icon: CloudIcon,
+                    amount: countDocumentsByDateData?.documents_count || 0
+                },
+                {
+                    name: '今天已分類的文檔',
+                    href: '/classification/logs',
+                    icon: CheckCircleIcon,
+                    amount: countDocumentsByDateData?.confirmed_count || 0
+                },
+                {
+                    name: '今天未分類的文檔',
+                    href: '/classification/logs',
+                    icon: ClockIcon,
+                    amount:
+                        countDocumentsByDateData?.documents_count -
+                            countDocumentsByDateData?.confirmed_count || 0
+                },
+                {
+                    name: '累計未分類的文檔',
+                    href: '/classification/logs',
+                    icon: ExclamationTriangleIcon,
+                    amount: countDocumentsByDateData?.unconfirmed_count || 0
+                }
+            ]);
+        }
+    }, [countDocumentsByDateData]);
+
     return (
         <>
             <EditItems
@@ -128,7 +189,7 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 count={documents_items?.length + folders_items?.length}
             />
-            <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto h-60vh px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-center items-center">
                     <div className="w-full mx-auto text-center">
                         <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-12">
@@ -141,17 +202,19 @@ export default function DriveView(props: DriveViewProps) {
                                     name="location"
                                     className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     defaultValue=""
-                                    onChange={(e) => { setTagId(e.target.value); }}
+                                    onChange={(e) => {
+                                        setTagId(e.target.value);
+                                    }}
                                 >
                                     <option value="" disabled>
                                         請選擇類別
                                     </option>
                                     {getAllLabelsData?.tags.map((tag: any, index: number) => {
                                         return (
-                                            <option key={index} value={tag.id} >
+                                            <option key={index} value={tag.id}>
                                                 {tag.name}
                                             </option>
-                                        )
+                                        );
                                     })}
                                 </select>
                             </div>
@@ -162,40 +225,71 @@ export default function DriveView(props: DriveViewProps) {
                                     id="street-address"
                                     autoComplete="street-address"
                                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    onChange={(e) => { setContent(e.target.value) }}
+                                    onChange={(e) => {
+                                        setContent(e.target.value);
+                                    }}
                                 />
                             </div>
                             <div className="col-span-6 sm:col-span-1">
-                                <button className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={search}>
+                                <button
+                                    className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    onClick={search}
+                                >
                                     搜尋 🔍
                                 </button>
                             </div>
                         </div>
-                        <dl className="mb-12 flex justify-evenly items-center rounded-lg bg-white shadow-lg">
-                            <div className="p-4 text-center items-center justify-center">
-                                <p className="text-4xl font-extrabold text-indigo-600">
-                                    {countDocumentsByDateData?.documents_count || 0}
-                                </p>
-                                <p className=" text-gray-500">今天上傳文檔</p>
-                            </div>
-                            <div className="p-4 text-center">
-                                <p className="text-4xl font-extrabold text-indigo-600">
-                                    {countDocumentsByDateData?.confirmed_count || 0}
-                                </p>
-                                <p className=" text-gray-500">今天已處理文檔</p>
-                            </div>
-                            <div className="p-4 text-center">
-                                <p className="text-4xl font-extrabold text-indigo-600">
-                                    {countDocumentsByDateData?.unconfirmed_count || 0}
-                                </p>
-                                <p className=" text-gray-500">累積未處理文檔</p>
-                            </div>
-                        </dl>
                     </div>
                 </div>
 
-                <div className="py-8 flex flex-col gap-4 max-h-80vh">
+                <div className="mx-auto max-w-6xl">
+                    <h2 className="text-lg font-medium leading-6 text-gray-900">上傳概況</h2>
+                    <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                        {/* Card */}
+                        {cards.map((card) => (
+                            <div
+                                key={card.name}
+                                className="overflow-hidden rounded-lg bg-white shadow"
+                            >
+                                <div className="p-4">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0">
+                                            <card.icon
+                                                className="h-6 w-6 text-gray-400"
+                                                aria-hidden="true"
+                                            />
+                                        </div>
+                                        <div className="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt className="truncate text-sm font-medium text-gray-500">
+                                                    {card.name}
+                                                </dt>
+                                                <dd>
+                                                    <div className="text-lg font-medium text-gray-900">
+                                                        {card.amount}
+                                                    </div>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 px-2 py-3">
+                                    <div className="text-sm">
+                                        <a
+                                            href={card.href}
+                                            className="font-medium text-cyan-700 hover:text-cyan-900"
+                                        >
+                                            View all
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="py-8 flex flex-col gap-4 max-h-80vh mt-4">
+                    <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
                     <div className="flex flex-row gap-2 pb-4 border-b justify-between">
                         {showAllItemsData && (
                             <BreadCrumb
@@ -228,8 +322,9 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -317,8 +412,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                            ? '載入中...'
-                                            : showAllItemsData?.error || 'Error'}
+                                        ? '載入中...'
+                                        : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -344,10 +439,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                    showAllItemsData?.documents &&
-                                    showAllItemsData?.success &&
-                                    (showAllItemsData.folders.length > 0 ||
-                                        showAllItemsData.documents.length > 0) ? (
+                                showAllItemsData?.documents &&
+                                showAllItemsData?.success &&
+                                (showAllItemsData.folders.length > 0 ||
+                                    showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -387,8 +482,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                    ? '載入中...'
-                                                    : showAllItemsData?.error || 'Error'}
+                                                ? '載入中...'
+                                                : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
