@@ -384,7 +384,8 @@ module.exports = {
             '6xl': ['3.75rem', { lineHeight: '1' }],
             '7xl': ['4.5rem', { lineHeight: '1' }],
             '8xl': ['6rem', { lineHeight: '1' }],
-            '9xl': ['8rem', { lineHeight: '1' }]
+            '9xl': ['8rem', { lineHeight: '1' }],
+            '10xl': ['10rem', { lineHeight: '1' }]
         },
         fontWeight: {
             thin: '100',
@@ -531,6 +532,7 @@ module.exports = {
             '3/6': '50%',
             '4/6': '66.666667%',
             '5/6': '83.333333%',
+            '50vh': '50vh',
             '60vh': '60vh',
             '70vh': '70vh',
             '80vh': '80vh',

@@ -9,7 +9,8 @@ import {
     TableCellsIcon,
     TagIcon,
     XMarkIcon,
-    Bars3Icon
+    Bars3Icon,
+    CloudArrowUpIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
@@ -135,18 +136,13 @@ export default function LeftMenu(props: any) {
                                     </div>
                                 </Transition.Child>
                                 <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                                    <div className="flex justify-center flex-shrink-0 items-center px-4">
-                                        {/* <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-900-text.svg"
-                      alt="Workflow"
-                    /> */}
-                                        {/* <label>DocAI</label> */}
+                                    <div className="w-full flex justify-center items-center flex-shrink-0 px-4 mt-14">
                                         <a
-                                            className="p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
+                                            className="w-full flex justify-center items-center p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
                                             href={'/classification/upload'}
                                         >
-                                            +上傳文檔
+                                            <CloudArrowUpIcon className="h-6 w-6 inline-block mr-2" />
+                                            <span>上傳文檔</span>
                                         </a>
                                     </div>
                                     <nav aria-label="Sidebar" className="mt-5">
@@ -174,14 +170,6 @@ export default function LeftMenu(props: any) {
                                                             aria-hidden="true"
                                                         />
                                                     </span>
-
-                                                    {/* <item.icon
-                            className={classNames(
-                              item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                              'mr-4 h-6 w-6'
-                            )}
-                            aria-hidden="true"
-                          /> */}
                                                     {item.name}
                                                 </a>
                                             ))}
@@ -214,17 +202,13 @@ export default function LeftMenu(props: any) {
                         {/* Sidebar component, swap this element with another sidebar if you like */}
                         <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100">
                             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-                                <div className="flex justify-center items-center flex-shrink-0 px-4">
-                                    {/* <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-900-text.svg"
-                    alt="Workflow"
-                  /> */}
+                                <div className="w-full flex justify-center items-center flex-shrink-0 px-4">
                                     <a
-                                        className="p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
+                                        className="w-full flex justify-center items-center p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
                                         href={'/classification/upload'}
                                     >
-                                        +上傳文檔
+                                        <CloudArrowUpIcon className="h-6 w-6 inline-block mr-2" />
+                                        <span>上傳文檔</span>
                                     </a>
                                 </div>
                                 <nav className="mt-5 flex-1" aria-label="Sidebar">
@@ -252,15 +236,6 @@ export default function LeftMenu(props: any) {
                                                         aria-hidden="true"
                                                     />
                                                 </span>
-
-                                                {/* <item.icon
-                          className={classNames(
-                            'h-6 w-6 mr-3'
-                            // item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                            // 'mr-3 h-6 w-6'
-                          )}
-                          aria-hidden="true"
-                        /> */}
                                                 {item.name}
                                             </a>
                                         ))}

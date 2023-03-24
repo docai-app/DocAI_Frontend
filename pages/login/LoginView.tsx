@@ -1,5 +1,6 @@
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FormEventHandler } from 'react';
+import { Matrix } from '../../components/common/Widget/Martix';
 
 interface LoginViewProps {
     signInData: any;
@@ -10,10 +11,11 @@ interface LoginViewProps {
 
 export default function LoginView(props: LoginViewProps) {
     const { signInData, signInError, signInLoading, handleSignIn } = props;
+
     return (
-        <div className="w-screen h-screen relative">
-            <div className="w-[44rem] max-w-full h-full flex-grow relative z-10">
-                <div className="w-full h-full flex flex-col justify-center px-8 sm:px-28 bg-white">
+        <div className="w-screen h-screen">
+            <div className="w-full h-full flex z-10">
+                <div className="w-1/2 h-full flex flex-col justify-center px-8 sm:px-28 bg-white">
                     <div className="flex flex-col relative">
                         <h1 className="font-bold text-5xl my-8">登入</h1>
                         <form className="flex flex-col gap-4" onSubmit={handleSignIn}>
@@ -70,14 +72,28 @@ export default function LoginView(props: LoginViewProps) {
                         )}
                     </div>
                 </div>
-            </div>
-            <div className="absolute top-0 left-0 h-full w-full">
-                <img
-                    alt=""
-                    // src="https://source.unsplash.com/8fMj0tJcM2A/5464x3640"
-                    src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Ftxt207.book118.com%2F2017%2F0203%2Fbook88149%2F88148216.jpg&refer=http%3A%2F%2Ftxt207.book118.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665101485&t=1f7cfa84a8a98ef75fc9f5016940d6ed"
-                    className="object-cover h-full w-full object-left"
-                />
+                <div className="w-1/2 h-full flex flex-col justify-center relative bg-black">
+                    <div className="absolute w-full flex flex-col justify-center items-center z-50 animate__animated animate__bounce animate__fadeInUp duration-300">
+                        <p className="flex justify-center items-center mx-auto text-9xl font-bold text-white z-50">
+                            DocAI
+                        </p>
+                        <p className="flex justify-center items-center mx-auto text-3xl font-bold text-white z-50 ">
+                            Improve your work efficiency
+                        </p>
+                    </div>
+                    {/* Add the opacity-50 class to make the background image darker */}
+                    <div className="relative h-full w-full">
+                        <div className="absolute inset-0 bg-gradient-to-r opacity-30">
+                            <Matrix />
+                        </div>
+                    </div>
+                    {/* <img
+                        alt=""
+                        // src="https://source.unsplash.com/8fMj0tJcM2A/5464x3640"
+                        src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Ftxt207.book118.com%2F2017%2F0203%2Fbook88149%2F88148216.jpg&refer=http%3A%2F%2Ftxt207.book118.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1665101485&t=1f7cfa84a8a98ef75fc9f5016940d6ed"
+                        className="object-cover h-full w-full object-left"
+                    /> */}
+                </div>
             </div>
         </div>
     );

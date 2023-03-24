@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect } from 'react';
 import { AlertProvider } from '../context/AlertContext';
 import AlertModel from '../components/common/Widget/AlertModel';
-import useAlert from '../hooks/useAlert';
+import 'animate.css';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;

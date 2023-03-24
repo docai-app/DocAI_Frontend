@@ -189,7 +189,7 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 count={documents_items?.length + folders_items?.length}
             />
-            <div className="max-w-7xl mx-auto h-60vh px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-center items-center">
                     <div className="w-full mx-auto text-center">
                         <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-12">
@@ -225,6 +225,7 @@ export default function DriveView(props: DriveViewProps) {
                                     id="street-address"
                                     autoComplete="street-address"
                                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="輸入文件的關鍵字或文件的相關內容"
                                     onChange={(e) => {
                                         setContent(e.target.value);
                                     }}
@@ -241,7 +242,6 @@ export default function DriveView(props: DriveViewProps) {
                         </div>
                     </div>
                 </div>
-
                 <div className="mx-auto max-w-6xl">
                     <h2 className="text-lg font-medium leading-6 text-gray-900">上傳概況</h2>
                     <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -287,10 +287,14 @@ export default function DriveView(props: DriveViewProps) {
                         ))}
                     </div>
                 </div>
-
-                <div className="py-8 flex flex-col gap-4 max-h-80vh mt-4">
+                <div className="py-8 flex flex-col gap-4 max-h-80vh">
                     <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
-                    <div className="flex flex-row gap-2 pb-4 border-b justify-between">
+                    <div className="flex flex-row gap-2 justify-between">
+                        {showAllItemsData == null ? (
+                            <div className="animate-pulse flex flex-row justify-center items-center gap-2">
+                                <div className="h-4 w-32 bg-gray-400 rounded"></div>
+                            </div>
+                        ) : null}
                         {showAllItemsData && (
                             <BreadCrumb
                                 ancestors={showAllItemsData?.ancestors}
