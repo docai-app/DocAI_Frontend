@@ -190,13 +190,19 @@ export default function DriveView(props: DriveViewProps) {
                 count={documents_items?.length + folders_items?.length}
             />
             <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex justify-center items-center">
+                <div className="max-w-4xl mx-auto my-8 h-full flex justify-center items-center">
                     <div className="w-full mx-auto text-center">
-                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-12">
+                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-4">
                             DocAI
                         </h2>
-                        <div className="grid grid-cols-6 gap-6 mb-12">
+                        <div className="grid grid-cols-6 gap-4 mb-8 border-gray-200 rounded-md md:p-8 p-4 shadow-md">
                             <div className="col-span-6 sm:col-span-2">
+                                <label
+                                    htmlFor="content"
+                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
+                                >
+                                    類別
+                                </label>
                                 <select
                                     id="select_tag"
                                     name="location"
@@ -218,12 +224,17 @@ export default function DriveView(props: DriveViewProps) {
                                     })}
                                 </select>
                             </div>
-                            <div className="col-span-6 sm:col-span-3">
+                            <div className="col-span-6 sm:col-span-4">
+                                <label
+                                    htmlFor="content"
+                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
+                                >
+                                    關鍵字
+                                </label>
                                 <input
                                     type="text"
-                                    name="street-address"
-                                    id="street-address"
-                                    autoComplete="street-address"
+                                    name="content"
+                                    id="content"
                                     className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     placeholder="輸入文件的關鍵字或文件的相關內容"
                                     onChange={(e) => {
@@ -231,7 +242,43 @@ export default function DriveView(props: DriveViewProps) {
                                     }}
                                 />
                             </div>
-                            <div className="col-span-6 sm:col-span-1">
+                            <div className="col-span-6 sm:col-span-3">
+                                <label
+                                    htmlFor="from_date"
+                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
+                                >
+                                    起始日期
+                                </label>
+                                <input
+                                    type="date"
+                                    name="from_date"
+                                    id="from_date"
+                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="請選擇起始日期"
+                                    onChange={(e) => {
+                                        setContent(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="col-span-6 sm:col-span-3">
+                                <label
+                                    htmlFor="to_date"
+                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
+                                >
+                                    結束日期
+                                </label>
+                                <input
+                                    type="date"
+                                    name="to_date"
+                                    id="to_date"
+                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    placeholder="請選擇結束日期"
+                                    onChange={(e) => {
+                                        setContent(e.target.value);
+                                    }}
+                                />
+                            </div>
+                            <div className="col-span-6 sm:col-start-5 sm:col-end-7">
                                 <button
                                     className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     onClick={search}
