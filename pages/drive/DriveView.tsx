@@ -1,17 +1,7 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
-    ChevronDownIcon,
-    DocumentIcon,
-    PencilIcon,
-    PlusIcon,
-    ScaleIcon,
-    FolderIcon,
-    CloudIcon,
-    TagIcon,
-    CheckIcon,
-    CheckCircleIcon,
-    ClockIcon,
-    ExclamationTriangleIcon
+    CheckCircleIcon, ChevronDownIcon, ClockIcon, CloudIcon, DocumentIcon, ExclamationTriangleIcon, FolderIcon, PencilIcon,
+    PlusIcon
 } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react';
@@ -23,6 +13,7 @@ import MyModal from '../../components/common/Widget/MyModal';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 import EditItems from '../../components/feature/drive/EditItems';
 import TableRow from '../../components/feature/drive/TableRow';
+import SearchDocumentForm from '../../components/feature/home/SearchDocumentForm';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -58,8 +49,6 @@ interface DriveViewProps {
     handleMoveItems: any;
     handleDeleteItems: any;
     getAllLabelsData: any;
-    setTagId: any;
-    setContent: any;
     search: any;
 }
 
@@ -70,15 +59,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         movingDest = null,
-        setMovingDest = () => {},
+        setMovingDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -98,8 +87,6 @@ export default function DriveView(props: DriveViewProps) {
         handleMoveItems,
         handleDeleteItems,
         getAllLabelsData,
-        setTagId,
-        setContent,
         search
     } = props;
 
@@ -162,7 +149,7 @@ export default function DriveView(props: DriveViewProps) {
                     icon: ClockIcon,
                     amount:
                         countDocumentsByDateData?.documents_count -
-                            countDocumentsByDateData?.confirmed_count || 0
+                        countDocumentsByDateData?.confirmed_count || 0
                 },
                 {
                     name: '累計未分類的文檔',
@@ -195,98 +182,7 @@ export default function DriveView(props: DriveViewProps) {
                         <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-4">
                             DocAI
                         </h2>
-                        <div className="grid grid-cols-6 gap-4 mb-8 border-gray-200 rounded-md md:p-8 p-4 shadow-md">
-                            <div className="col-span-6 sm:col-span-2">
-                                <label
-                                    htmlFor="content"
-                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
-                                >
-                                    類別
-                                </label>
-                                <select
-                                    id="select_tag"
-                                    name="location"
-                                    className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue=""
-                                    onChange={(e) => {
-                                        setTagId(e.target.value);
-                                    }}
-                                >
-                                    <option value="" disabled>
-                                        請選擇類別
-                                    </option>
-                                    {getAllLabelsData?.tags.map((tag: any, index: number) => {
-                                        return (
-                                            <option key={index} value={tag.id}>
-                                                {tag.name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            </div>
-                            <div className="col-span-6 sm:col-span-4">
-                                <label
-                                    htmlFor="content"
-                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
-                                >
-                                    關鍵字
-                                </label>
-                                <input
-                                    type="text"
-                                    name="content"
-                                    id="content"
-                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="輸入文件的關鍵字或文件的相關內容"
-                                    onChange={(e) => {
-                                        setContent(e.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label
-                                    htmlFor="from_date"
-                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
-                                >
-                                    起始日期
-                                </label>
-                                <input
-                                    type="date"
-                                    name="from_date"
-                                    id="from_date"
-                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="請選擇起始日期"
-                                    onChange={(e) => {
-                                        setContent(e.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3">
-                                <label
-                                    htmlFor="to_date"
-                                    className="block text-sm font-semibold leading-6 text-gray-900 text-left"
-                                >
-                                    結束日期
-                                </label>
-                                <input
-                                    type="date"
-                                    name="to_date"
-                                    id="to_date"
-                                    className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    placeholder="請選擇結束日期"
-                                    onChange={(e) => {
-                                        setContent(e.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className="col-span-6 sm:col-start-5 sm:col-end-7">
-                                <button
-                                    className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={search}
-                                >
-                                    搜尋 🔍
-                                </button>
-                            </div>
-                        </div>
+                        <SearchDocumentForm getAllLabelsData={getAllLabelsData} search={search} />
                     </div>
                 </div>
                 <div className="mx-auto max-w-6xl">
@@ -373,9 +269,8 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -463,8 +358,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                        ? '載入中...'
-                                        : showAllItemsData?.error || 'Error'}
+                                            ? '載入中...'
+                                            : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -490,10 +385,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -533,8 +428,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}

@@ -28,8 +28,6 @@ export default function DriveContainer() {
     const [page, setPage] = useState(1);
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [folders_items, setFoldersItems] = useState<any>([]);
-    const [tag_id, setTagId] = useState('');
-    const [content, setContent] = useState('');
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -196,18 +194,25 @@ export default function DriveContainer() {
         setPage((page) => page + 1);
     }, []);
 
-    const search = () => {
+    const search = async (tag_id: string, content: string, startDate: string, endDate: string) => {
         if (tag_id == '') {
             setAlert({ title: '請選擇類別', type: 'info' });
+            return;
+        }
+        if (startDate > endDate) {
+            setAlert({ title: '起始日期不能大於結束日期', type: 'info' });
             return;
         }
         Router.push({
             pathname: '/search',
             query: {
                 content: content,
-                tag_id: tag_id
+                tag_id: tag_id,
+                from: startDate,
+                to: endDate,
             }
         });
+
     };
 
     useEffect(() => {
@@ -287,8 +292,6 @@ export default function DriveContainer() {
                 handleMoveItems,
                 handleDeleteItems,
                 getAllLabelsData,
-                setTagId,
-                setContent,
                 search
             }}
         />
