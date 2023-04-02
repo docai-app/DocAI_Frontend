@@ -79,36 +79,34 @@ export default function SearchView(props: SearchViewProps) {
                 </p>
             </div>
             <div className="px-16">
-                <div className="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div className="mt-8 mb-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {documents.map((document) => (
-                        <div key={document.id} className="group relative">
-                            <div className="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                        <div key={document.id} className="group relative flex flex-col">
+                            <div className="w-full h-64 bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75">
                                 {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() ===
                                 'pdf' ? (
                                     <object
-                                        className="w-full h-full object-center object-cover lg:w-full lg:h-full flex justify-center items-center"
+                                        className="w-full h-full object-center object-contain"
                                         type="application/pdf"
                                         data={document.storage_url + '#toolbar=0'}
-                                        width="250"
-                                        height="200"
                                     >
                                         <img
                                             src={
                                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
                                             }
                                             alt="PDF file icon"
-                                            className="w-1/2 h-1/2 object-contain object-center"
+                                            className="w-full h-auto object-contain object-center"
                                         />
                                     </object>
                                 ) : (
                                     <img
                                         src={document.storage_url}
                                         alt={document.name}
-                                        className="w-full h-full object-contain object-center lg:w-full lg:h-full"
+                                        className="w-full h-full object-contain object-center"
                                     />
                                 )}
                             </div>
-                            <div className="mt-4 flex justify-between overflow-hidden">
+                            <div className="mt-4 flex justify-between">
                                 <div>
                                     <h3 className="text-sm text-gray-700">
                                         <a href={document.storage_url}>

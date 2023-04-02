@@ -25,11 +25,7 @@ const navigation = [
     { name: '文檔類型', href: '/classification', current: false },
     { name: '文檔搜尋', href: '/search', current: false }
 ];
-const userNavigation = [
-    //{ name: 'Your Profile', href: '#' },
-    //{ name: 'Settings', href: '#' },
-    { name: '登出', href: '#' }
-];
+const userNavigation = [{ name: '登出', href: '#' }];
 
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ');
@@ -73,84 +69,13 @@ function HeadNav() {
                                             </p>
                                         </Link>
                                     </div>
-
-                                    <div className="hidden md:block w-full">
-                                        <div className="ml-10 ">
-                                            <section className="w-full flex justify-center items-center">
-                                                <div className="flex w-full">
-                                                    <input
-                                                        type="text"
-                                                        name="content"
-                                                        id="content"
-                                                        className="p-2 shadow-sm focus:ring-indigo-500 w-full sm:max-w-xs focus:border-indigo-500 block  sm:text-sm border-gray-300 rounded-tl-md rounded-bl-md"
-                                                        placeholder="輸入文件的關鍵字或文件的相關內容"
-                                                        onChange={(text) =>
-                                                            setSearchContent(text.target.value)
-                                                        }
-                                                    />
-                                                    <MyDropdown
-                                                        value={''}
-                                                        datas={getTagByTaggingData?.tags}
-                                                        onSwitch={onSwitch}
-                                                    />
-                                                    <button
-                                                        type="submit"
-                                                        className="flex mt-3 items-center justify-center px-4 py-2 border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                                        onClick={() => {
-                                                            if (searchContent)
-                                                                Router.push({
-                                                                    pathname: '/search',
-                                                                    query: {
-                                                                        content: searchContent
-                                                                    }
-                                                                });
-                                                            // searchDocumentFormik.handleSubmit();
-                                                        }}
-                                                    >
-                                                        搜尋 🔍
-                                                    </button>
-                                                </div>
-                                            </section>
-                                        </div>
-
-                                        {/* <div className="ml-10 flex w-full items-center"> */}
-                                        {/* {navigation.map((item) => (
-                                                <a
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'bg-gray-900 text-white'
-                                                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                        'px-3 py-2 rounded-md text-sm font-medium'
-                                                    )}
-                                                    aria-current={item.current ? 'page' : undefined}
-                                                >
-                                                    {item.name}
-                                                </a>
-                                            ))} */}
-                                        {/* </div> */}
-                                    </div>
                                 </div>
                                 <div className="hidden md:block">
                                     <div className="ml-4 flex items-center md:ml-6">
-                                        {/*<button*/}
-                                        {/*type="button"*/}
-                                        {/*className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"*/}
-                                        {/*>*/}
-                                        {/*<span className="sr-only">View notifications</span>*/}
-                                        {/*<BellIcon className="h-6 w-6" aria-hidden="true" />*/}
-                                        {/*</button>*/}
-
                                         <Menu as="div" className="ml-3 relative">
                                             <div>
                                                 <Menu.Button className="max-w-xs bg-gray-800 rounded-md flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                                     <span className="sr-only">Open user menu</span>
-                                                    {/*<img*/}
-                                                    {/*className="h-8 w-8 rounded-full"*/}
-                                                    {/*src={user.imageUrl}*/}
-                                                    {/*alt=""*/}
-                                                    {/*/>*/}
                                                     <div className="text-white px-2 py-1">
                                                         {email}
                                                     </div>
@@ -223,55 +148,21 @@ function HeadNav() {
 
                         <Disclosure.Panel className="hidden">
                             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                {/* {navigation.map((item) => (
-                                    <Disclosure.Button
-                                        key={item.name}
-                                        as="a"
-                                        href={item.href}
-                                        className={classNames(
-                                            item.current
-                                                ? 'bg-gray-900 text-white'
-                                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                            'block px-3 py-2 rounded-md text-base font-medium'
-                                        )}
-                                        aria-current={item.current ? 'page' : undefined}
-                                    >
-                                        {item.name}
-                                    </Disclosure.Button>
-                                ))} */}
                                 <input
                                     type="text"
                                     name="content"
                                     id="content"
                                     className="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="輸入文件的關鍵字或文件的相關內容"
-                                    // onChange={searchDocumentFormik.handleChange('content')}
                                 />
                             </div>
                             <div className="pt-4 pb-3 border-t border-gray-700">
                                 <div className="flex items-center px-5">
-                                    {/*<div className="flex-shrink-0">*/}
-                                    {/*<img*/}
-                                    {/*className="h-10 w-10 rounded-full"*/}
-                                    {/*src={user.imageUrl}*/}
-                                    {/*alt=""*/}
-                                    {/*/>*/}
-                                    {/*</div>*/}
                                     <div>
-                                        {/*<div className="text-base font-medium leading-none text-white">*/}
-                                        {/*{user.name}*/}
-                                        {/*</div>*/}
                                         <div className="text-sm my-2 font-medium leading-none text-gray-200">
                                             {email}
                                         </div>
                                     </div>
-                                    {/*<button*/}
-                                    {/*type="button"*/}
-                                    {/*className="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"*/}
-                                    {/*>*/}
-                                    {/*<span className="sr-only">View notifications</span>*/}
-                                    {/*<BellIcon className="h-6 w-6" aria-hidden="true" />*/}
-                                    {/*</button>*/}
                                 </div>
                                 <div className="mt-1 px-2 space-y-1 flex">
                                     <Disclosure.Button
