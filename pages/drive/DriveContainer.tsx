@@ -209,10 +209,9 @@ export default function DriveContainer() {
                 content: content,
                 tag_id: tag_id,
                 from: startDate,
-                to: endDate,
+                to: endDate
             }
         });
-
     };
 
     useEffect(() => {

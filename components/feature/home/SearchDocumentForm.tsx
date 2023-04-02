@@ -1,10 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { useState } from 'react';
 export default function SearchDocumentForm(props: any) {
-    const [tagId, setTagId] = useState('')
-    const [content, setContent] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
+    const [tagId, setTagId] = useState('');
+    const [content, setContent] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     return (
         <>
             <div className="grid grid-cols-6 gap-4 mb-8 border-gray-200 rounded-md md:p-8 p-4 shadow-md">
@@ -93,12 +93,14 @@ export default function SearchDocumentForm(props: any) {
                 <div className="col-span-6 sm:col-start-5 sm:col-end-7">
                     <button
                         className="block h-full w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        onClick={() => { props.search(tagId, content, startDate, endDate) }}
+                        onClick={() => {
+                            props.search(tagId, content, startDate, endDate);
+                        }}
                     >
                         搜尋 🔍
                     </button>
                 </div>
             </div>
         </>
-    )
+    );
 }
