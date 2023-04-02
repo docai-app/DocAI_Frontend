@@ -81,8 +81,11 @@ export default function SearchView(props: SearchViewProps) {
             <div className="px-16">
                 <div className="mt-8 mb-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {documents.map((document) => (
-                        <div key={document.id} className="group relative flex flex-col">
-                            <div className="w-full h-64 bg-gray-200 rounded-md overflow-hidden group-hover:opacity-75">
+                        <div
+                            key={document.id}
+                            className="group relative flex flex-col justify-start items-center p-4 rounded-md hover:bg-gray-100"
+                        >
+                            <div className="w-3/4 h-60 rounded-md overflow-hidden group-hover:opacity-75">
                                 {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() ===
                                 'pdf' ? (
                                     <object
@@ -95,7 +98,7 @@ export default function SearchView(props: SearchViewProps) {
                                                 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
                                             }
                                             alt="PDF file icon"
-                                            className="w-full h-auto object-contain object-center"
+                                            className="w-full h-full object-contain object-center"
                                         />
                                     </object>
                                 ) : (
@@ -106,15 +109,15 @@ export default function SearchView(props: SearchViewProps) {
                                     />
                                 )}
                             </div>
-                            <div className="mt-4 flex justify-between">
-                                <div>
-                                    <h3 className="text-sm text-gray-700">
-                                        <a href={document.storage_url}>
-                                            <span aria-hidden="true" className="absolute inset-0" />
-                                            {document.name}
-                                        </a>
-                                    </h3>
-                                </div>
+                            <div className="mt-2 flex justify-center items-center">
+                                <a href={document.storage_url} className="text-center">
+                                    <p className="relative text-gray-900 text-center text-sm">
+                                        {document.name}
+                                    </p>
+                                    <p className="relative text-gray-400  text-center text-xs">
+                                        {document.created_at.split('T')[0]}
+                                    </p>
+                                </a>
                             </div>
                         </div>
                     ))}
