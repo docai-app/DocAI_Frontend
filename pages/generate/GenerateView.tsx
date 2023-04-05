@@ -14,8 +14,15 @@ interface GenerateViewProps {
 }
 
 export default function GenerateView(props: GenerateViewProps) {
-    const { document, handleQuery, open, setOpen, generateContent = '', setGenerateContent, setAlert } =
-        props;
+    const {
+        document,
+        handleQuery,
+        open,
+        setOpen,
+        generateContent = '',
+        setGenerateContent,
+        setAlert
+    } = props;
     const [content, setContent] = useState('');
     const submit = () => {
         if (content == '') {
