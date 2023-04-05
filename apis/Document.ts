@@ -16,7 +16,7 @@ export default class Absence {
     getDocumentById(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/documents/${id}`,
+            url: `/api/v1/documents/${id}`,
             method: 'GET'
         };
         return requestHeader;

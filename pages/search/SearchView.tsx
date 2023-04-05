@@ -1,8 +1,11 @@
-import _get from 'lodash/get';
-import _map from 'lodash/map';
-import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import _ from 'lodash';
+import Router from 'next/router';
+import { useState } from 'react';
 import PaginationView from '../../components/common/Widget/PaginationView';
+import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import SearchEditItems from '../../components/feature/search/SearchEditItems';
+import SearchRow from '../../components/feature/search/SearchRow';
 
 interface SearchViewProps {
     searchDocumentFormik: any;
@@ -10,18 +13,45 @@ interface SearchViewProps {
     meta: any;
     open: boolean;
     setOpen: any;
+    documents_items: any;
+    setDocumentsItems: any
 }
 
 export default function SearchView(props: SearchViewProps) {
     const {
-        searchDocumentFormik = { handleChange: () => {} },
+        searchDocumentFormik = { handleChange: () => { } },
         documents = [],
         meta,
         open,
-        setOpen
+        setOpen,
+        documents_items,
+        setDocumentsItems,
     } = props;
+    const [document, setDocument] = useState<any>();
+    const setChecedkData = (checked: boolean, value: string) => {
+        setDocumentsItems([value]);
+        // const newData = checked
+        //     ? [...documents_items, value]
+        //     : documents_items.filter((_value: string) => _value !== value);
+        // setDocumentsItems(newData);
+    };
+
     return (
         <>
+            <SearchEditItems
+                openItems={() => {
+                    if (document)
+                        window.open(document?.storage_url, "_blank", "noreferrer")
+                }}
+                searchItems={() => {
+                    if (document)
+                        Router.push({ pathname: '/generate', query: { 'document_id': document.id } })
+                }}
+                clearItems={() => {
+                    setDocumentsItems([])
+                }}
+                count={documents_items?.length}
+            />
             <SingleActionModel
                 {...{
                     open,
@@ -80,47 +110,11 @@ export default function SearchView(props: SearchViewProps) {
             </div>
             <div className="px-16">
                 <div className="mt-8 mb-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    {documents.map((document) => (
-                        <div
-                            key={document.id}
-                            className="group relative flex flex-col justify-start items-center p-4 rounded-md hover:bg-gray-100"
-                        >
-                            <div className="w-3/4 h-60 rounded-md overflow-hidden group-hover:opacity-75">
-                                {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() ===
-                                'pdf' ? (
-                                    <object
-                                        className="w-full h-full object-center object-contain"
-                                        type="application/pdf"
-                                        data={document.storage_url + '#toolbar=0'}
-                                    >
-                                        <img
-                                            src={
-                                                'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
-                                            }
-                                            alt="PDF file icon"
-                                            className="w-full h-full object-contain object-center"
-                                        />
-                                    </object>
-                                ) : (
-                                    <img
-                                        src={document.storage_url}
-                                        alt={document.name}
-                                        className="w-full h-full object-contain object-center"
-                                    />
-                                )}
-                            </div>
-                            <div className="mt-2 flex justify-center items-center">
-                                <a href={document.storage_url} className="text-center">
-                                    <p className="relative text-gray-900 text-center text-sm">
-                                        {document.name}
-                                    </p>
-                                    <p className="relative text-gray-400  text-center text-xs">
-                                        {document.created_at.split('T')[0]}
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
-                    ))}
+                    {documents.map((document: any) => {
+                        return (<SearchRow key={document?.id} document={document} setChecedkData={setChecedkData}
+                            checked={_.includes(documents_items, document?.id)} setDocument={setDocument} />)
+
+                    })}
                 </div>
                 <PaginationView
                     meta={meta}
@@ -128,10 +122,15 @@ export default function SearchView(props: SearchViewProps) {
                     params={
                         searchDocumentFormik?.values?.date
                             ? { date: searchDocumentFormik?.values?.date }
-                            : { content: searchDocumentFormik?.values?.content }
+                            : searchDocumentFormik?.values?.tag_id ? {
+                                content: searchDocumentFormik?.values?.content,
+                                tag_id: searchDocumentFormik?.values?.tag_id
+
+                            }
+                                : { content: searchDocumentFormik?.values?.content }
                     }
                 />
-            </div>
+            </div >
         </>
     );
 }

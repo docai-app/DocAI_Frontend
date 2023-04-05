@@ -8,6 +8,7 @@ import Drive from './Drive';
 import Folders from './Folders';
 import Form from './Form';
 import FormSchema from './FormSchema';
+import Generate from './Generate';
 import Project from './Project';
 import ProjectTask from './ProjectTask';
 import Search from './Search';
@@ -33,6 +34,7 @@ export default class Api {
     Project: Project;
     ProjectTask: ProjectTask;
     User: User;
+    Generate: Generate;
 
     constructor() {
         this.Storage = new Storage();
@@ -51,5 +53,6 @@ export default class Api {
         this.Project = new Project();
         this.ProjectTask = new ProjectTask();
         this.User = new User();
+        this.Generate = new Generate();
     }
 }
