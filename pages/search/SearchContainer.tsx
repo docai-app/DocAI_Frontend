@@ -25,8 +25,8 @@ function SearchContainer() {
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
             : router.query.tag_id
-                ? apiSetting.Search.searchDocumentByTagContent()
-                : apiSetting.Search.searchDocumentByContent(),
+            ? apiSetting.Search.searchDocumentByTagContent()
+            : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
@@ -89,7 +89,17 @@ function SearchContainer() {
     }, [router]);
     return (
         <>
-            <SearchView {...{ searchDocumentFormik, documents, meta, open, setOpen, documents_items, setDocumentsItems }} />
+            <SearchView
+                {...{
+                    searchDocumentFormik,
+                    documents,
+                    meta,
+                    open,
+                    setOpen,
+                    documents_items,
+                    setDocumentsItems
+                }}
+            />
         </>
     );
 }

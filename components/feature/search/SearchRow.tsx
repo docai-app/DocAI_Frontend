@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react';
 
-
 interface SearchRowProps {
     document?: any;
     setChecedkData?: any;
-    checked: boolean
+    checked: boolean;
     setDocument?: any;
 }
 export default function SearchRow(props: SearchRowProps) {
-    const {
-        document,
-        setChecedkData,
-        checked,
-        setDocument
-    } = props;
+    const { document, setChecedkData, checked, setDocument } = props;
 
     const [visable, setVisable] = useState(false);
 
@@ -31,14 +25,16 @@ export default function SearchRow(props: SearchRowProps) {
     };
     const check = (e: any) => {
         setChecedkData(e.target.checked, e.target.value);
-        setDocument(document)
+        setDocument(document);
     };
 
     return (
         <>
             <div
                 key={document.id}
-                className={`group relative flex flex-col justify-start items-center p-4 rounded-md hover:bg-gray-100 ${checked && 'bg-gray-100'}`}
+                className={`group relative flex flex-col justify-start items-center p-4 rounded-md hover:bg-gray-100 ${
+                    checked && 'bg-gray-100'
+                }`}
                 onMouseEnter={() => {
                     onMouseEnter();
                 }}
@@ -53,13 +49,12 @@ export default function SearchRow(props: SearchRowProps) {
                         name="document"
                         className=" absolute top-2 right-2"
                         onChange={(e) => {
-                            check(e)
+                            check(e);
                         }}
                     />
                 )}
                 <div className="w-3/4 h-60 rounded-md overflow-hidden group-hover:opacity-75">
-                    {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() ===
-                        'pdf' ? (
+                    {document.storage_url.split(/[#?]/)[0].split('.').pop().trim() === 'pdf' ? (
                         <object
                             className="w-full h-full object-center object-contain"
                             type="application/pdf"
@@ -93,5 +88,5 @@ export default function SearchRow(props: SearchRowProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }

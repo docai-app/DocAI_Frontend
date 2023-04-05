@@ -14,18 +14,18 @@ interface SearchViewProps {
     open: boolean;
     setOpen: any;
     documents_items: any;
-    setDocumentsItems: any
+    setDocumentsItems: any;
 }
 
 export default function SearchView(props: SearchViewProps) {
     const {
-        searchDocumentFormik = { handleChange: () => { } },
+        searchDocumentFormik = { handleChange: () => {} },
         documents = [],
         meta,
         open,
         setOpen,
         documents_items,
-        setDocumentsItems,
+        setDocumentsItems
     } = props;
     const [document, setDocument] = useState<any>();
     const setChecedkData = (checked: boolean, value: string) => {
@@ -40,15 +40,14 @@ export default function SearchView(props: SearchViewProps) {
         <>
             <SearchEditItems
                 openItems={() => {
-                    if (document)
-                        window.open(document?.storage_url, "_blank", "noreferrer")
+                    if (document) window.open(document?.storage_url, '_blank', 'noreferrer');
                 }}
                 searchItems={() => {
                     if (document)
-                        Router.push({ pathname: '/generate', query: { 'document_id': document.id } })
+                        Router.push({ pathname: '/generate', query: { document_id: document.id } });
                 }}
                 clearItems={() => {
-                    setDocumentsItems([])
+                    setDocumentsItems([]);
                 }}
                 count={documents_items?.length}
             />
@@ -111,9 +110,15 @@ export default function SearchView(props: SearchViewProps) {
             <div className="px-16">
                 <div className="mt-8 mb-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {documents.map((document: any) => {
-                        return (<SearchRow key={document?.id} document={document} setChecedkData={setChecedkData}
-                            checked={_.includes(documents_items, document?.id)} setDocument={setDocument} />)
-
+                        return (
+                            <SearchRow
+                                key={document?.id}
+                                document={document}
+                                setChecedkData={setChecedkData}
+                                checked={_.includes(documents_items, document?.id)}
+                                setDocument={setDocument}
+                            />
+                        );
                     })}
                 </div>
                 <PaginationView
@@ -122,15 +127,15 @@ export default function SearchView(props: SearchViewProps) {
                     params={
                         searchDocumentFormik?.values?.date
                             ? { date: searchDocumentFormik?.values?.date }
-                            : searchDocumentFormik?.values?.tag_id ? {
-                                content: searchDocumentFormik?.values?.content,
-                                tag_id: searchDocumentFormik?.values?.tag_id
-
-                            }
-                                : { content: searchDocumentFormik?.values?.content }
+                            : searchDocumentFormik?.values?.tag_id
+                            ? {
+                                  content: searchDocumentFormik?.values?.content,
+                                  tag_id: searchDocumentFormik?.values?.tag_id
+                              }
+                            : { content: searchDocumentFormik?.values?.content }
                     }
                 />
-            </div >
+            </div>
         </>
     );
 }
