@@ -1,23 +1,26 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
+import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
-    ChartBarSquareIcon,
-    ClipboardIcon,
-    FolderIcon,
-    UserCircleIcon,
-    ShieldCheckIcon,
+    ArrowRightOnRectangleIcon,
+    Bars3Icon, ChartBarSquareIcon,
+    ClipboardIcon, CloudArrowUpIcon, FolderIcon, ShieldCheckIcon,
     TableCellsIcon,
-    TagIcon,
-    XMarkIcon,
-    Bars3Icon,
-    CloudArrowUpIcon
+    TagIcon, UserCircleIcon, XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback } from 'react';
 
 export default function LeftMenu(props: any) {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    // const [sidebarOpen, setSidebarOpen] = useState(false);
     const router = useRouter();
+
+    const signOut = useCallback(() => {
+        localStorage.removeItem('authorization');
+        localStorage.removeItem('email');
+        document.cookie = `authorization=null; expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+        router.push('/login');
+    }, [router]);
 
     const navigation = [
         {
@@ -85,11 +88,11 @@ export default function LeftMenu(props: any) {
     return (
         <>
             <div className="h-full flex pt-16">
-                <Transition.Root show={sidebarOpen} as={Fragment}>
+                <Transition.Root show={props.sidebarOpen} as={Fragment}>
                     <Dialog
                         as="div"
                         className="fixed inset-0 flex z-40 lg:hidden"
-                        onClose={setSidebarOpen}
+                        onClose={() => { props.setSidebarOpen(false) }}
                     >
                         <Transition.Child
                             as={Fragment}
@@ -125,7 +128,7 @@ export default function LeftMenu(props: any) {
                                         <button
                                             type="button"
                                             className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                            onClick={() => setSidebarOpen(false)}
+                                            onClick={() => props.setSidebarOpen(false)}
                                         >
                                             <span className="sr-only">Close sidebar</span>
                                             <XMarkIcon
@@ -176,8 +179,31 @@ export default function LeftMenu(props: any) {
                                         </div>
                                     </nav>
                                 </div>
+                                <div className='flex flex-row'>
+                                    <button
+                                        className={classNames(
+                                            'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 w-full text-center hover:bg-red-100'
+                                        )}
+                                        onClick={() =>
+                                            router.push('/setting')
+                                        }
+                                    >
+                                        <Cog6ToothIcon className="h-4" />
+                                        設定
+                                    </button>
+                                    <button
+                                        className={classNames(
+                                            'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 w-full text-center hover:bg-red-100'
+                                        )}
+                                        onClick={() => { signOut() }}
+                                    >
+                                        <ArrowRightOnRectangleIcon className="h-4" />
+                                        登出
+                                    </button>
+                                </div>
                                 <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                                     <div className="flex-shrink-0 w-full group block">
+
                                         <div className="flex items-center">
                                             <div>
                                                 <p className="mt-0 text-center text-base text-gray-400">
@@ -256,20 +282,13 @@ export default function LeftMenu(props: any) {
                     </div>
                 </div>
                 <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                    <div className="lg:hidden">
+                    <div className="hidden">
                         <div className="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
-                            {/* <div>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                  alt="Workflow"
-                />
-              </div> */}
                             <div>
                                 <button
                                     type="button"
                                     className="-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
-                                    onClick={() => setSidebarOpen(true)}
+                                    onClick={() => { props.setSidebarOpen(true) }}
                                 >
                                     <span className="sr-only">Open sidebar</span>
                                     <Bars3Icon className="h-6 w-6" aria-hidden="true" />

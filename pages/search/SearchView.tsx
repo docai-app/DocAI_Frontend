@@ -19,7 +19,7 @@ interface SearchViewProps {
 
 export default function SearchView(props: SearchViewProps) {
     const {
-        searchDocumentFormik = { handleChange: () => {} },
+        searchDocumentFormik = { handleChange: () => { } },
         documents = [],
         meta,
         open,
@@ -128,11 +128,13 @@ export default function SearchView(props: SearchViewProps) {
                         searchDocumentFormik?.values?.date
                             ? { date: searchDocumentFormik?.values?.date }
                             : searchDocumentFormik?.values?.tag_id
-                            ? {
-                                  content: searchDocumentFormik?.values?.content,
-                                  tag_id: searchDocumentFormik?.values?.tag_id
-                              }
-                            : { content: searchDocumentFormik?.values?.content }
+                                ? {
+                                    content: searchDocumentFormik?.values?.content,
+                                    tag_id: searchDocumentFormik?.values?.tag_id,
+                                    from: searchDocumentFormik?.values?.from,
+                                    to: searchDocumentFormik?.values?.to
+                                }
+                                : { content: searchDocumentFormik?.values?.content }
                     }
                 />
             </div>

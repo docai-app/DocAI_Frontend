@@ -1,17 +1,12 @@
-import { Fragment, useCallback, useEffect, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import {
-    BellIcon,
-    Bars3Icon,
-    XMarkIcon,
-    Cog6ToothIcon,
-    ArrowRightOnRectangleIcon
+    ArrowRightOnRectangleIcon, Bars3Icon, Cog6ToothIcon, XMarkIcon
 } from '@heroicons/react/24/outline';
-import Router, { useRouter } from 'next/router';
-import MyDropdown from '../Widget/MyDropdown';
-import Api from '../../../apis';
 import useAxios from 'axios-hooks';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Fragment, useCallback, useEffect, useState } from 'react';
+import Api from '../../../apis';
 
 const user = {
     name: 'Tom Cook',
@@ -31,7 +26,7 @@ function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ');
 }
 const apiSetting = new Api();
-function HeadNav() {
+function HeadNav(props: any) {
     const [email, setEmail] = useState<string>('');
     const router = useRouter();
     const [searchContent, setSearchContent] = useState('');
@@ -70,7 +65,7 @@ function HeadNav() {
                                         </Link>
                                     </div>
                                 </div>
-                                <div className="hidden md:block">
+                                <div className="hidden lg:block">
                                     <div className="ml-4 flex items-center md:ml-6">
                                         <Menu as="div" className="ml-3 relative">
                                             <div>
@@ -126,19 +121,21 @@ function HeadNav() {
                                         </Menu>
                                     </div>
                                 </div>
-                                <div className="-mr-2 flex md:hidden">
+                                <div className="-mr-2 flex lg:hidden">
                                     {/* Mobile menu button */}
                                     <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                                         <span className="sr-only">Open main menu</span>
-                                        {open ? (
+                                        {props.sidebarOpen ? (
                                             <XMarkIcon
                                                 className="block h-6 w-6"
                                                 aria-hidden="true"
+                                                onClick={() => props.setSidebarOpen(false)}
                                             />
                                         ) : (
                                             <Bars3Icon
                                                 className="block h-6 w-6"
                                                 aria-hidden="true"
+                                                onClick={() => props.setSidebarOpen(true)}
                                             />
                                         )}
                                     </Disclosure.Button>

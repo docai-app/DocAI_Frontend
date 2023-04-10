@@ -25,8 +25,8 @@ function SearchContainer() {
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
             : router.query.tag_id
-            ? apiSetting.Search.searchDocumentByTagContent()
-            : apiSetting.Search.searchDocumentByContent(),
+                ? apiSetting.Search.searchDocumentByTagContent()
+                : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
@@ -36,6 +36,8 @@ function SearchContainer() {
             tag_id: '',
             content: '',
             date: '',
+            from: '',
+            to: '',
             page: 1
         },
         onSubmit: async (values) => {
@@ -66,6 +68,8 @@ function SearchContainer() {
                 date: router.query.date + '',
                 content: '',
                 tag_id: '',
+                from: '',
+                to: '',
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
@@ -74,6 +78,8 @@ function SearchContainer() {
                 content: router.query.content + '',
                 date: '',
                 tag_id: router.query.tag_id + '',
+                from: router.query.from + '',
+                to: router.query.to + '',
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
@@ -82,6 +88,8 @@ function SearchContainer() {
                 content: router.query.content + '',
                 date: '',
                 tag_id: '',
+                from: '',
+                to: '',
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { useState } from 'react';
 import HeadNav from '../common/Layout/HeadNav';
-import Footer from '../common/Layout/Footer';
 import LeftMenu from '../common/Layout/LeftMenu';
 
 interface SimpleLayoutProps {
@@ -9,10 +9,11 @@ interface SimpleLayoutProps {
 
 function SimpleLayout(props: SimpleLayoutProps) {
     const { children } = props;
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
         <div className="h-screen relative">
-            <HeadNav />
-            <LeftMenu content={children} />
+            <HeadNav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <LeftMenu content={children} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
             {/* {children} */}
             {/* <Footer /> */}
         </div>
