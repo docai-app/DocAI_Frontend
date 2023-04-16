@@ -2,6 +2,7 @@ import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import copy from 'copy-to-clipboard';
 import { useState } from 'react';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 
 interface GenerateViewProps {
     document: any;
@@ -24,11 +25,84 @@ export default function GenerateView(props: GenerateViewProps) {
         setAlert
     } = props;
     const [content, setContent] = useState('');
+   
+    const formats = [
+        {
+            name: '郵件',
+            value: '郵件'
+        },
+        {
+            name: '即時通訊',
+            value: '即時通訊'
+        },
+        {
+            name: '信函',
+            value: '信函'
+        }
+    ];
+    const topics = [
+        {
+            name: '人力資源',
+            value: '人力資源'
+        },
+        {
+            name: '客戶服務',
+            value: '客戶服務'
+        },
+        {
+            name: '技術服務',
+            value: '技術服務'
+        },
+        {
+            name: '行政事務',
+            value: '行政事務'
+        }
+    ];
+    const languages = [
+        { 
+            name: '中文(繁體)', 
+            value: '中文(繁體)' 
+        },
+        { 
+            name: '中文(简体)', 
+            value: '中文(简体)' 
+        },
+        { 
+            name: 'English', 
+            value: 'English' 
+        },
+    ];
+
+    const styles = [
+        { 
+            name: '正式', 
+            value: '正式' 
+        },
+        { 
+            name: '輕鬆', 
+            value: '輕鬆' 
+        }
+    ];
+
+    const [format, setFormat] = useState(formats[0].name)
+    const [language, setLanguage] = useState(languages[0].name)
+    const [topic, setTopic] = useState(topics[0].name)
+    const [style, setStyle] = useState(styles[0].name)
+
+
+    const onSwitchFormat = (item: any) => {
+        setFormat(item.name);
+    };
+    
+    const onSwitchTopic = (item: any) => {
+        setTopic(item.name);
+    };
+
     const submit = () => {
         if (content == '') {
             setAlert({ title: '請填寫內容', type: 'info' });
         } else {
-            handleQuery(content);
+            handleQuery(content,format,language,topic,style);
         }
     };
     return (
@@ -85,24 +159,95 @@ export default function GenerateView(props: GenerateViewProps) {
                                     <label className="flex justify-start text-sm text-gray-500 ">
                                         根據文件內容生成你想要的內容
                                     </label>
-
-                                    <label className="font-bold mt-4 flex justify-start">
-                                        想要生成什麼?
-                                    </label>
-                                    <div className="mt-2 text-sm flex items-center">
-                                        <input
-                                            id="type"
-                                            name="path_name"
-                                            type="string"
-                                            placeholder={
-                                                '填寫內容...（例如：幫我根據這份文檔寫一封詳細的拒絕批准的繁體中文電子郵件。）'
-                                            }
-                                            value={content}
-                                            onChange={(e) => {
-                                                setContent(e.target.value);
-                                            }}
-                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        />
+                                    <div className="flex flex-row items-center my-2">
+                                        <label className="font-bold">文本格式:</label>
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={format}
+                                                datas={formats}
+                                                onSwitch={onSwitchFormat}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row items-center my-2">
+                                        <label className="font-bold">語言:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <div className="ml-4">
+                                            <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                                                {languages.map((item) => (
+                                                    <div key={item.name} className="flex items-center">
+                                                        <input
+                                                            id={item.name}
+                                                            name="language"
+                                                            type="radio"
+                                                            defaultChecked={item.name == language}
+                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                            onChange={(e)=>{
+                                                                setLanguage(item.value)
+                                                            }}
+                                                        />
+                                                        <label htmlFor={item.name} className="ml-3 block text-sm font-medium text-gray-700">
+                                                            {item.value}
+                                                        </label>
+                                                    </div>
+                                                ))} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row items-center my-2">
+                                        <label className="font-bold">主題選擇:</label>
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={topic}
+                                                datas={topics}
+                                                onSwitch={onSwitchTopic}
+                                                zindex={"z-10"}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row items-center my-2">
+                                        <label className="font-bold">回復風格:</label>
+                                        <div className="ml-4">
+                                            <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                                                {styles.map((item) => (
+                                                    <div key={item.name} className="flex items-center">
+                                                        <input
+                                                            id={item.name}
+                                                            name="style"
+                                                            type="radio"
+                                                            defaultChecked={item.name == style}
+                                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                                            onChange={(e)=>{
+                                                                setStyle(item.value)
+                                                            }}
+                                                        />
+                                                        <label htmlFor={item.name} className="ml-3 block text-sm font-medium text-gray-700">
+                                                            {item.value}
+                                                        </label>
+                                                    </div>
+                                                ))} 
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div className="flex flex-row items-center my-2">
+                                        <label className="font-bold">
+                                            你的想法:
+                                        </label>
+                                        <div className="ml-4 flex-1 text-sm flex items-center">
+                                            <input
+                                                id="type"
+                                                name="path_name"
+                                                type="string"
+                                                placeholder={
+                                                    '填寫內容...（例如：幫我根據這份文檔寫一封詳細的拒絕批准的繁體中文電子郵件。）'
+                                                }
+                                                value={content}
+                                                onChange={(e) => {
+                                                    setContent(e.target.value);
+                                                }}
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
+                                        </div>
                                     </div>
                                     <div className="mt-2 text-sm flex items-center justify-end">
                                         <a
