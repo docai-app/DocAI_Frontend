@@ -1,8 +1,8 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import copy from 'copy-to-clipboard';
 import { useState } from 'react';
-import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
+import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 
 interface GenerateViewProps {
     document: any;
@@ -25,7 +25,7 @@ export default function GenerateView(props: GenerateViewProps) {
         setAlert
     } = props;
     const [content, setContent] = useState('');
-   
+
     const formats = [
         {
             name: '郵件',
@@ -59,28 +59,28 @@ export default function GenerateView(props: GenerateViewProps) {
         }
     ];
     const languages = [
-        { 
-            name: '中文(繁體)', 
-            value: '中文(繁體)' 
+        {
+            name: '中文(繁體)',
+            value: '中文(繁體)'
         },
-        { 
-            name: '中文(简体)', 
-            value: '中文(简体)' 
+        {
+            name: '中文(简体)',
+            value: '中文(简体)'
         },
-        { 
-            name: 'English', 
-            value: 'English' 
+        {
+            name: 'English',
+            value: 'English'
         },
     ];
 
     const styles = [
-        { 
-            name: '正式', 
-            value: '正式' 
+        {
+            name: '正式',
+            value: '正式'
         },
-        { 
-            name: '輕鬆', 
-            value: '輕鬆' 
+        {
+            name: '輕鬆',
+            value: '輕鬆'
         }
     ];
 
@@ -93,7 +93,7 @@ export default function GenerateView(props: GenerateViewProps) {
     const onSwitchFormat = (item: any) => {
         setFormat(item.name);
     };
-    
+
     const onSwitchTopic = (item: any) => {
         setTopic(item.name);
     };
@@ -102,7 +102,7 @@ export default function GenerateView(props: GenerateViewProps) {
         if (content == '') {
             setAlert({ title: '請填寫內容', type: 'info' });
         } else {
-            handleQuery(content,format,language,topic,style);
+            handleQuery(content, format, language, topic, style);
         }
     };
     return (
@@ -181,7 +181,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             type="radio"
                                                             defaultChecked={item.name == language}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                            onChange={(e)=>{
+                                                            onChange={(e) => {
                                                                 setLanguage(item.value)
                                                             }}
                                                         />
@@ -189,7 +189,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             {item.value}
                                                         </label>
                                                     </div>
-                                                ))} 
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             type="radio"
                                                             defaultChecked={item.name == style}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                                            onChange={(e)=>{
+                                                            onChange={(e) => {
                                                                 setStyle(item.value)
                                                             }}
                                                         />
@@ -224,11 +224,11 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             {item.value}
                                                         </label>
                                                     </div>
-                                                ))} 
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
-                                   
+
                                     <div className="flex flex-row items-center my-2">
                                         <label className="font-bold">
                                             你的想法:
