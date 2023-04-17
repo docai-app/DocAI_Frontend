@@ -13,7 +13,11 @@ function SimpleLayout(props: SimpleLayoutProps) {
     return (
         <div className="h-screen relative">
             <HeadNav sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <LeftMenu content={children} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <LeftMenu
+                content={children}
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+            />
             {/* {children} */}
             {/* <Footer /> */}
         </div>

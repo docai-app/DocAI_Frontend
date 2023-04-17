@@ -33,7 +33,9 @@ function GenerateContainer() {
         async (query: string, format: string, language: string, topic: string, style: string) => {
             // console.log("query", query);
             setOpen(true);
-            const res = await getGenerate(apiSetting.Generate.query(document.id, query, format, language, topic, style));
+            const res = await getGenerate(
+                apiSetting.Generate.query(document.id, query, format, language, topic, style)
+            );
             setOpen(false);
 
             if (res.data?.success) {

@@ -70,7 +70,7 @@ export default function GenerateView(props: GenerateViewProps) {
         {
             name: 'English',
             value: 'English'
-        },
+        }
     ];
 
     const styles = [
@@ -84,11 +84,10 @@ export default function GenerateView(props: GenerateViewProps) {
         }
     ];
 
-    const [format, setFormat] = useState(formats[0].name)
-    const [language, setLanguage] = useState(languages[0].name)
-    const [topic, setTopic] = useState(topics[0].name)
-    const [style, setStyle] = useState(styles[0].name)
-
+    const [format, setFormat] = useState(formats[0].name);
+    const [language, setLanguage] = useState(languages[0].name);
+    const [topic, setTopic] = useState(topics[0].name);
+    const [style, setStyle] = useState(styles[0].name);
 
     const onSwitchFormat = (item: any) => {
         setFormat(item.name);
@@ -170,11 +169,16 @@ export default function GenerateView(props: GenerateViewProps) {
                                         </div>
                                     </div>
                                     <div className="flex flex-row items-center my-2">
-                                        <label className="font-bold">語言:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <label className="font-bold">
+                                            語言:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </label>
                                         <div className="ml-4">
                                             <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                                                 {languages.map((item) => (
-                                                    <div key={item.name} className="flex items-center">
+                                                    <div
+                                                        key={item.name}
+                                                        className="flex items-center"
+                                                    >
                                                         <input
                                                             id={item.name}
                                                             name="language"
@@ -182,10 +186,13 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             defaultChecked={item.name == language}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                             onChange={(e) => {
-                                                                setLanguage(item.value)
+                                                                setLanguage(item.value);
                                                             }}
                                                         />
-                                                        <label htmlFor={item.name} className="ml-3 block text-sm font-medium text-gray-700">
+                                                        <label
+                                                            htmlFor={item.name}
+                                                            className="ml-3 block text-sm font-medium text-gray-700"
+                                                        >
                                                             {item.value}
                                                         </label>
                                                     </div>
@@ -200,7 +207,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                 value={topic}
                                                 datas={topics}
                                                 onSwitch={onSwitchTopic}
-                                                zindex={"z-10"}
+                                                zindex={'z-10'}
                                             />
                                         </div>
                                     </div>
@@ -209,7 +216,10 @@ export default function GenerateView(props: GenerateViewProps) {
                                         <div className="ml-4">
                                             <div className="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
                                                 {styles.map((item) => (
-                                                    <div key={item.name} className="flex items-center">
+                                                    <div
+                                                        key={item.name}
+                                                        className="flex items-center"
+                                                    >
                                                         <input
                                                             id={item.name}
                                                             name="style"
@@ -217,10 +227,13 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             defaultChecked={item.name == style}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                             onChange={(e) => {
-                                                                setStyle(item.value)
+                                                                setStyle(item.value);
                                                             }}
                                                         />
-                                                        <label htmlFor={item.name} className="ml-3 block text-sm font-medium text-gray-700">
+                                                        <label
+                                                            htmlFor={item.name}
+                                                            className="ml-3 block text-sm font-medium text-gray-700"
+                                                        >
                                                             {item.value}
                                                         </label>
                                                     </div>
@@ -230,9 +243,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                     </div>
 
                                     <div className="flex flex-row items-center my-2">
-                                        <label className="font-bold">
-                                            你的想法:
-                                        </label>
+                                        <label className="font-bold">你的想法:</label>
                                         <div className="ml-4 flex-1 text-sm flex items-center">
                                             <input
                                                 id="type"

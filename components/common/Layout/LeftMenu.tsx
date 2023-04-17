@@ -3,10 +3,16 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
     ArrowRightOnRectangleIcon,
-    Bars3Icon, ChartBarSquareIcon,
-    ClipboardIcon, CloudArrowUpIcon, FolderIcon, ShieldCheckIcon,
+    Bars3Icon,
+    ChartBarSquareIcon,
+    ClipboardIcon,
+    CloudArrowUpIcon,
+    FolderIcon,
+    ShieldCheckIcon,
     TableCellsIcon,
-    TagIcon, UserCircleIcon, XMarkIcon
+    TagIcon,
+    UserCircleIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -92,7 +98,9 @@ export default function LeftMenu(props: any) {
                     <Dialog
                         as="div"
                         className="fixed inset-0 flex z-40 lg:hidden"
-                        onClose={() => { props.setSidebarOpen(false) }}
+                        onClose={() => {
+                            props.setSidebarOpen(false);
+                        }}
                     >
                         <Transition.Child
                             as={Fragment}
@@ -179,14 +187,12 @@ export default function LeftMenu(props: any) {
                                         </div>
                                     </nav>
                                 </div>
-                                <div className='flex flex-row'>
+                                <div className="flex flex-row">
                                     <button
                                         className={classNames(
                                             'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 w-full text-center hover:bg-red-100'
                                         )}
-                                        onClick={() =>
-                                            router.push('/setting')
-                                        }
+                                        onClick={() => router.push('/setting')}
                                     >
                                         <Cog6ToothIcon className="h-4" />
                                         設定
@@ -195,7 +201,9 @@ export default function LeftMenu(props: any) {
                                         className={classNames(
                                             'flex items-center gap-2 px-4 py-2 text-sm text-gray-700 w-full text-center hover:bg-red-100'
                                         )}
-                                        onClick={() => { signOut() }}
+                                        onClick={() => {
+                                            signOut();
+                                        }}
                                     >
                                         <ArrowRightOnRectangleIcon className="h-4" />
                                         登出
@@ -203,7 +211,6 @@ export default function LeftMenu(props: any) {
                                 </div>
                                 <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
                                     <div className="flex-shrink-0 w-full group block">
-
                                         <div className="flex items-center">
                                             <div>
                                                 <p className="mt-0 text-center text-base text-gray-400">
@@ -288,7 +295,9 @@ export default function LeftMenu(props: any) {
                                 <button
                                     type="button"
                                     className="-mr-3 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900"
-                                    onClick={() => { props.setSidebarOpen(true) }}
+                                    onClick={() => {
+                                        props.setSidebarOpen(true);
+                                    }}
                                 >
                                     <span className="sr-only">Open sidebar</span>
                                     <Bars3Icon className="h-6 w-6" aria-hidden="true" />

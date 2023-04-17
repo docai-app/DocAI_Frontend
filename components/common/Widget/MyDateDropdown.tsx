@@ -13,7 +13,13 @@ export default function MyDateDropdown(props: any) {
     };
 
     return (
-        <Menu as="div" className={classNames(props.zindex ? props.zindex : "z-50", "relative inline-block text-left mr-4")}>
+        <Menu
+            as="div"
+            className={classNames(
+                props.zindex ? props.zindex : 'z-50',
+                'relative inline-block text-left mr-4'
+            )}
+        >
             <div className="z-10">
                 <Menu.Button className="inline-flex text-sm items-center justify-center w-full rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-white text-gray-500 font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500">
                     {props.value}

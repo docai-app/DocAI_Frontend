@@ -1,6 +1,9 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import {
-    ArrowRightOnRectangleIcon, Bars3Icon, Cog6ToothIcon, XMarkIcon
+    ArrowRightOnRectangleIcon,
+    Bars3Icon,
+    Cog6ToothIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 import useAxios from 'axios-hooks';
 import Link from 'next/link';

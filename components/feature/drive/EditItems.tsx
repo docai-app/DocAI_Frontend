@@ -31,7 +31,7 @@ export default function EditItems(props: EditItemsProps) {
                             <ArrowRightCircleIcon className="w-4 m-1 " />
                             <label className="text-sm">移動至</label>
                         </div>
-                        {visiblSearchItems &&
+                        {visiblSearchItems && (
                             <div
                                 className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
                                 onClick={searchItems}
@@ -39,7 +39,7 @@ export default function EditItems(props: EditItemsProps) {
                                 <MagnifyingGlassIcon className="w-4 m-1 " />
                                 <label className="text-sm">智能查詢</label>
                             </div>
-                        }
+                        )}
                     </div>
                     <div className="flex flex-0 mr-4">
                         <div
