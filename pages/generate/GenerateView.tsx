@@ -29,79 +29,79 @@ export default function GenerateView(props: GenerateViewProps) {
     const formats = [
         {
             name: '郵件',
-            value: '郵件'
+            value: 'email'
         },
         {
             name: '即時通訊',
-            value: '即時通訊'
+            value: 'instant message'
         },
         {
             name: '信函',
-            value: '信函'
+            value: 'letter'
         }
     ];
     const topics = [
         {
             name: '人力資源',
-            value: '人力資源'
+            value: 'human resource'
         },
         {
             name: '客戶服務',
-            value: '客戶服務'
+            value: 'customer service'
         },
         {
             name: '技術服務',
-            value: '技術服務'
+            value: 'technical service'
         },
         {
             name: '行政事務',
-            value: '行政事務'
+            value: 'administrative affairs'
         }
     ];
     const languages = [
         {
             name: '中文(繁體)',
-            value: '中文(繁體)'
+            value: 'Traditional Chinese 🇭🇰'
         },
         {
             name: '中文(简体)',
-            value: '中文(简体)'
+            value: 'Simplified Chinese 🇨🇳'
         },
         {
             name: 'English',
-            value: 'English'
+            value: 'English 🇺🇸'
         }
     ];
 
     const styles = [
         {
             name: '正式',
-            value: '正式'
+            value: 'formal'
         },
         {
             name: '輕鬆',
-            value: '輕鬆'
+            value: 'casual'
         }
     ];
 
-    const [format, setFormat] = useState(formats[0].name);
-    const [language, setLanguage] = useState(languages[0].name);
-    const [topic, setTopic] = useState(topics[0].name);
-    const [style, setStyle] = useState(styles[0].name);
+    const [format, setFormat] = useState(formats[0]);
+    const [language, setLanguage] = useState(languages[0].value);
+    const [topic, setTopic] = useState(topics[0]);
+    const [style, setStyle] = useState(styles[0].value);
 
     const onSwitchFormat = (item: any) => {
-        setFormat(item.name);
+        setFormat(item);
     };
 
     const onSwitchTopic = (item: any) => {
-        setTopic(item.name);
+        setTopic(item);
     };
 
     const submit = () => {
         if (content == '') {
             setAlert({ title: '請填寫內容', type: 'info' });
         } else {
-            handleQuery(content, format, language, topic, style);
+            handleQuery(content, format.value, language, topic.value, style);
         }
     };
     return (
@@ -162,7 +162,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                         <label className="font-bold">文本格式:</label>
                                         <div className="ml-4">
                                             <MyDateDropdown
-                                                value={format}
+                                                value={format.name}
                                                 datas={formats}
                                                 onSwitch={onSwitchFormat}
                                             />
@@ -183,7 +183,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             id={item.name}
                                                             name="language"
                                                             type="radio"
-                                                            defaultChecked={item.name == language}
+                                                            defaultChecked={item.value == language}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                             onChange={(e) => {
                                                                 setLanguage(item.value);
@@ -193,7 +193,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             htmlFor={item.name}
                                                             className="ml-3 block text-sm font-medium text-gray-700"
                                                         >
-                                                            {item.value}
+                                                            {item.name}
                                                         </label>
                                                     </div>
                                                 ))}
@@ -204,7 +204,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                         <label className="font-bold">主題選擇:</label>
                                         <div className="ml-4">
                                             <MyDateDropdown
-                                                value={topic}
+                                                value={topic.name}
                                                 datas={topics}
                                                 onSwitch={onSwitchTopic}
                                                 zindex={'z-10'}
@@ -224,7 +224,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             id={item.name}
                                                             name="style"
                                                             type="radio"
-                                                            defaultChecked={item.name == style}
+                                                            defaultChecked={item.value == style}
                                                             className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                                             onChange={(e) => {
                                                                 setStyle(item.value);
@@ -234,7 +234,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                                             htmlFor={item.name}
                                                             className="ml-3 block text-sm font-medium text-gray-700"
                                                         >
-                                                            {item.value}
+                                                            {item.name}
                                                         </label>
                                                     </div>
                                                 ))}
