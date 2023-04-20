@@ -32,27 +32,33 @@ export default function TableRow(props: TableRowProps) {
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${updated_at.getHours() < 10
-                ? '0' + updated_at.getHours().toString()
-                : updated_at.getHours()
-                }:${updated_at.getMinutes() < 10
+            date = `${
+                updated_at.getHours() < 10
+                    ? '0' + updated_at.getHours().toString()
+                    : updated_at.getHours()
+            }:${
+                updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-                }`;
+            }`;
         else
-            date = `${updated_at.getMonth() < 9
-                ? '0' + (updated_at.getMonth() + 1).toString()
-                : updated_at.getMonth() + 1
-                }/${updated_at.getDate() < 10
+            date = `${
+                updated_at.getMonth() < 9
+                    ? '0' + (updated_at.getMonth() + 1).toString()
+                    : updated_at.getMonth() + 1
+            }/${
+                updated_at.getDate() < 10
                     ? '0' + updated_at.getDate().toString()
                     : updated_at.getDate()
-                }`;
-    } else {
-        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
-            ? '0' + (updated_at.getMonth() + 1).toString()
-            : updated_at.getMonth() + 1
-            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
             }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${
+            updated_at.getMonth() < 9
+                ? '0' + (updated_at.getMonth() + 1).toString()
+                : updated_at.getMonth() + 1
+        }/${
+            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+        }`;
     }
     const url = doc.storage_url || `/drive/${doc.id}`;
     const onMouseEnter = () => {
@@ -115,24 +121,23 @@ export default function TableRow(props: TableRowProps) {
                 )}
             </div>
             <div className="px-2 py-4 flex justify-end gap-2 w-2/12 flex-wrap">
-                {type !== 'folders' && (
-                    doc?.is_classified === false && doc?.labels?.length == 0 ? (
+                {type !== 'folders' &&
+                    (doc?.is_classified === false && doc?.labels?.length == 0 ? (
                         <span className="inline-flex items-center px-2.5 h-6 rounded-full text-xs font-medium bg-red-100 text-red-800">
                             未分類
                         </span>
                     ) : (
                         doc?.labels?.map((label: any, index: number) => {
                             return (
-                                <span key={index} className="inline-flex items-center px-2.5 h-6 rounded-full text-xs font-medium bg-green-100 text-black">
+                                <span
+                                    key={index}
+                                    className="inline-flex items-center px-2.5 h-6 rounded-full text-xs font-medium bg-green-100 text-black"
+                                >
                                     {label?.name}
                                 </span>
-                            )
+                            );
                         })
-
-
-                    )
-                )
-                }
+                    ))}
             </div>
             <div className="px-2 py-4 flex justify-end gap-2 w-2/12">
                 {type === 'folders' && (
@@ -156,7 +161,7 @@ export default function TableRow(props: TableRowProps) {
                             type: type
                         });
                     }}
-                    download={() => { }}
+                    download={() => {}}
                     move={() => {
                         setMode('move');
                         setTarget([doc]);
