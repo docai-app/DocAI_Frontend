@@ -60,9 +60,9 @@ export default function UploadFile(props: UploadFileProps) {
     }, [movingDest, showFolderByID]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        // Set the selected maximum file limit to 10 files:
-        if (event.target.files && event.target.files.length > 10) {
-            setAlert({ title: '最多只能上傳10個文檔', type: 'warning' });
+        // Set the selected maximum file limit to 50 files:
+        if (event.target.files && event.target.files.length > 50) {
+            setAlert({ title: '最多只能上傳50個文檔', type: 'warning' });
             return;
         } else if (event.target.files && event.target.files.length > 0) {
             setDocuments(event.target.files);
