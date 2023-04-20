@@ -24,7 +24,7 @@ function UploadContainer() {
             const errors: any = {};
             if (!values.tag_id) {
                 errors.tag_id = 'Required';
-                setAlert({ title: '請選擇批量文件的類型！', type: 'warning' });
+                setAlert({ title: '請選擇文件的類型！', type: 'warning' });
             }
             return errors;
         },

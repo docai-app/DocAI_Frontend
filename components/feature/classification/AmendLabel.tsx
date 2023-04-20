@@ -1,4 +1,3 @@
-// components/feature/classification/AmendLabel.tsx
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
@@ -114,7 +113,7 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                     }}
                                                 >
                                                     <option value="" disabled hidden>
-                                                        請選擇批量文件的類型
+                                                        請選擇文件的類型
                                                     </option>
                                                     {_map(_get(allLabelsData, 'tags'), (item) => {
                                                         return (
@@ -136,18 +135,6 @@ export default function AmendLabel(props: AmendLabelProps) {
                                                 若找不到相關標籤,可以建立新標籤
                                             </label>
                                             <div className="flex mt-1">
-                                                {/* <input
-                                                    id="type"
-                                                    name="type"
-                                                    type="string"
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                    onChange={async (e) => {
-                                                        addNewTagFormik.setFieldValue(
-                                                            'name',
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                /> */}
                                                 <button
                                                     type="submit"
                                                     className="min-w-fit ml-0 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
