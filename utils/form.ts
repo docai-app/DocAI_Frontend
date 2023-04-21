@@ -36,6 +36,8 @@ function findHasDataObject(object: any, matchedData: any = []): any[] {
                     // If matchData is object, push the matched data to object
                     matchedData[key] = object[key];
                 }
+            } else if (Array.isArray(object[key])) {
+                matchedData[key] = object[key];
             } else {
                 findHasDataObject(object[key], matchedData);
             }

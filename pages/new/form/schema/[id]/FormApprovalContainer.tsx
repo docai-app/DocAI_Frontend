@@ -192,6 +192,7 @@ function FormApprovalContainer() {
 
     useEffect(() => {
         if (preview) {
+            console.log(preview);
             setActionContent('正在生成預覽圖，請稍候。');
             setOpen(true);
             console.log('result: ', result);
