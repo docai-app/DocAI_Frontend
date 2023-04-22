@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { useFormik } from 'formik';
 import Router, { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../apis';
@@ -28,6 +29,7 @@ export default function DriveContainer() {
     const [page, setPage] = useState(1);
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [folders_items, setFoldersItems] = useState<any>([]);
+    const [newLabelName, setNewLabelName] = useState('');
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -61,6 +63,39 @@ export default function DriveContainer() {
         apiSetting.Tag.getAllTags(),
         { manual: false }
     );
+
+    const [
+        {
+            data: updateDocumentTagData
+        },
+        updateDocumentTag
+    ] = useAxios(apiSetting.Classification.updateDocumentTag([], ''), { manual: true });
+
+
+    const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
+        apiSetting.Tag.addNewTag(),
+        { manual: true }
+    );
+
+    const addNewLabelHandler = useCallback(async () => {
+        addNewLabel({ data: { name: newLabelName } });
+    }, [addNewLabel, newLabelName]);
+
+    useEffect(() => {
+        if (addNewLabelData && addNewLabelData.success) {
+            // setAlert({ title: '新增成功', type: 'success' });
+            setNewLabelName('');
+            confirmDocumentFormik.setFieldValue('tag_id', addNewLabelData.tag.id);
+            confirmDocumentFormik.handleSubmit()
+        } else if (addNewLabelData && !addNewLabelData.success) {
+            setAlert({
+                title: '新增失敗！',
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: 'error'
+            });
+        }
+    }, [addNewLabelData]);
+
 
     useEffect(() => {
         countDocumentsByDate();
@@ -143,6 +178,25 @@ export default function DriveContainer() {
         //     data: formData
         // });
     };
+
+    const confirmDocumentFormik = useFormik({
+        initialValues: {
+            document_id: null,
+            tag_id: ''
+        },
+        onSubmit: async (values) => {
+            const res = await updateDocumentTag({
+                data: {
+                    document_ids: documents_items,
+                    tag_id: values.tag_id
+                }
+            });
+            if (res.data.success === true) {
+                setAlert({ title: '更新成功', type: 'success' });
+                router.reload();
+            }
+        }
+    });
 
     const updateFolder = async (id: string, name: string) => {
         if (id) {
@@ -291,7 +345,11 @@ export default function DriveContainer() {
                 handleMoveItems,
                 handleDeleteItems,
                 getAllLabelsData,
-                search
+                search,
+                confirmDocumentFormik,
+                newLabelName,
+                setNewLabelName,
+                addNewLabelHandler
             }}
         />
     );

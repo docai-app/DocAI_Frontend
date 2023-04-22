@@ -12,4 +12,16 @@ export default class Classification {
         };
         return requestHeader;
     }
+    updateDocumentTag(document_ids: [], tag_id?: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: '/api/v1/classification',
+            method: 'PUT',
+            data: {
+                document_ids,
+                tag_id
+            }
+        };
+        return requestHeader;
+    }
 }

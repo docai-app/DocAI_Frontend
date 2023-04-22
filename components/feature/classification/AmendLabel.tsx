@@ -1,17 +1,18 @@
-import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
-import _find from 'lodash/find';
+import { Fragment, useRef, useState } from 'react';
 
 interface AmendLabelProps {
     open: boolean;
     setOpen: any;
     allLabelsData: object;
     confirmDocumentFormik: any;
-    addNewTagFormik: any;
-    setTagName: any;
+    isSubmit?: boolean;
+    addNewTagFormik?: any;
+    setTagName?: any;
     setOpenEditLabel: any;
 }
 
@@ -22,6 +23,7 @@ export default function AmendLabel(props: AmendLabelProps) {
         allLabelsData,
         confirmDocumentFormik,
         addNewTagFormik,
+        isSubmit,
         setTagName,
         setOpenEditLabel
     } = props;
@@ -30,8 +32,12 @@ export default function AmendLabel(props: AmendLabelProps) {
     const confirmDocument = () => {
         setOpen(false);
         // confirmDocumentFormik.handleSubmit();
+        if (tag_id == '') return
         confirmDocumentFormik.setFieldValue('tag_id', tag_id);
         setTagName(_find(_get(allLabelsData, 'tags'), { id: tag_id }).name);
+        if (isSubmit) {
+            confirmDocumentFormik.handleSubmit();
+        }
     };
     const addNewTag = () => {
         // addNewTagFormik.handleSubmit();
