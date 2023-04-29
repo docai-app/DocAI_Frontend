@@ -7,6 +7,7 @@ import {
     DocumentIcon,
     ExclamationTriangleIcon,
     FolderIcon,
+    PaperAirplaneIcon,
     PencilIcon,
     PlusIcon
 } from '@heroicons/react/24/outline';
@@ -18,6 +19,7 @@ import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
 import InputNameModal from '../../components/common/Widget/InputNameModal';
 import MyModal from '../../components/common/Widget/MyModal';
+import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import AmendLabel from '../../components/feature/classification/AmendLabel';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 import EditItems from '../../components/feature/drive/EditItems';
@@ -64,6 +66,8 @@ interface DriveViewProps {
     addNewLabelHandler?: any;
     newLabelName: string;
     setNewLabelName: any;
+    updateTag: boolean;
+    setUpdateTag: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -105,7 +109,9 @@ export default function DriveView(props: DriveViewProps) {
         confirmDocumentFormik,
         newLabelName,
         setNewLabelName,
-        addNewLabelHandler
+        addNewLabelHandler,
+        updateTag,
+        setUpdateTag
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
@@ -184,6 +190,15 @@ export default function DriveView(props: DriveViewProps) {
 
     return (
         <>
+            <SingleActionModel
+                open={updateTag}
+                setOpen={setUpdateTag}
+                title={'進行中......'}
+                content={'正在更新標籤...'}
+                icon={
+                    <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                }
+            />
             <AmendLabel
                 open={open}
                 setOpen={setOpen}

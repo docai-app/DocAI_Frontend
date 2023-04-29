@@ -30,6 +30,7 @@ export default function DriveContainer() {
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [folders_items, setFoldersItems] = useState<any>([]);
     const [newLabelName, setNewLabelName] = useState('');
+    const [updateTag, setUpdateTag] = useState(false)
 
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -185,15 +186,19 @@ export default function DriveContainer() {
             tag_id: ''
         },
         onSubmit: async (values) => {
+            setUpdateTag(true)
             const res = await updateDocumentTag({
                 data: {
                     document_ids: documents_items,
                     tag_id: values.tag_id
                 }
             });
+            setUpdateTag(false)
             if (res.data.success === true) {
                 setAlert({ title: '更新成功', type: 'success' });
                 router.reload();
+            } else {
+                setAlert({ title: '更新失敗', type: 'error' });
             }
         }
     });
@@ -349,7 +354,9 @@ export default function DriveContainer() {
                 confirmDocumentFormik,
                 newLabelName,
                 setNewLabelName,
-                addNewLabelHandler
+                addNewLabelHandler,
+                updateTag,
+                setUpdateTag
             }}
         />
     );

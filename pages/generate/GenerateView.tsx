@@ -3,6 +3,7 @@ import copy from 'copy-to-clipboard';
 import { useState } from 'react';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import GenerateLogRow from '../../components/feature/generate/TogRow';
 
 interface GenerateViewProps {
     document: any;
@@ -12,6 +13,7 @@ interface GenerateViewProps {
     generateContent: string;
     setGenerateContent: any;
     setAlert: any;
+    logs?: any
 }
 
 export default function GenerateView(props: GenerateViewProps) {
@@ -22,7 +24,8 @@ export default function GenerateView(props: GenerateViewProps) {
         setOpen,
         generateContent = '',
         setGenerateContent,
-        setAlert
+        setAlert,
+        logs
     } = props;
     const [content, setContent] = useState('');
 
@@ -322,6 +325,25 @@ export default function GenerateView(props: GenerateViewProps) {
                         </div>
                     </div>
                 </main>
+                <div className="max-w-7xl mx-auto pb-2">
+                    <div className=" rounded-lg shadow">
+                        <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
+                            <div>
+                                <h1>歷史記錄</h1>
+                            </div>
+                        </div>
+                        <div className=" divide-y">
+                            {logs && logs.length > 0 ? logs?.sort((a: any, b: any) => (b.created_at > a.created_at ? 1 : -1))
+                                ?.map((log: any, index: number) => (
+                                    <GenerateLogRow log={log} setAlert={setAlert} key={index} />
+                                )) :
+                                <div className="p-4">
+                                    <label className='text-sm text-gray-500'>沒有記錄</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );
