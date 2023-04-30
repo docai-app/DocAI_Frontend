@@ -32,7 +32,7 @@ export default function AmendLabel(props: AmendLabelProps) {
     const confirmDocument = () => {
         setOpen(false);
         // confirmDocumentFormik.handleSubmit();
-        if (tag_id == '') return
+        if (tag_id == '') return;
         confirmDocumentFormik.setFieldValue('tag_id', tag_id);
         setTagName(_find(_get(allLabelsData, 'tags'), { id: tag_id }).name);
         if (isSubmit) {

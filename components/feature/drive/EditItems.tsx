@@ -13,7 +13,16 @@ interface EditItemsProps {
 }
 
 export default function EditItems(props: EditItemsProps) {
-    const { moveItems, deleteItems, clearItems, searchItems, visibleSearchItems, updateTag, visibleUpdateTag, count } = props;
+    const {
+        moveItems,
+        deleteItems,
+        clearItems,
+        searchItems,
+        visibleSearchItems,
+        updateTag,
+        visibleUpdateTag,
+        count
+    } = props;
     return (
         <>
             {count > 0 && (

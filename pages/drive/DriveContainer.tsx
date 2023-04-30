@@ -65,13 +65,10 @@ export default function DriveContainer() {
         { manual: false }
     );
 
-    const [
-        {
-            data: updateDocumentTagData
-        },
-        updateDocumentTag
-    ] = useAxios(apiSetting.Classification.updateDocumentTag([], ''), { manual: true });
-
+    const [{ data: updateDocumentTagData }, updateDocumentTag] = useAxios(
+        apiSetting.Classification.updateDocumentTag([], ''),
+        { manual: true }
+    );
 
     const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
         apiSetting.Tag.addNewTag(),
@@ -87,7 +84,7 @@ export default function DriveContainer() {
             // setAlert({ title: '新增成功', type: 'success' });
             setNewLabelName('');
             confirmDocumentFormik.setFieldValue('tag_id', addNewLabelData.tag.id);
-            confirmDocumentFormik.handleSubmit()
+            confirmDocumentFormik.handleSubmit();
         } else if (addNewLabelData && !addNewLabelData.success) {
             setAlert({
                 title: '新增失敗！',
@@ -96,7 +93,6 @@ export default function DriveContainer() {
             });
         }
     }, [addNewLabelData]);
-
 
     useEffect(() => {
         countDocumentsByDate();
