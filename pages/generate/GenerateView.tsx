@@ -248,10 +248,10 @@ export default function GenerateView(props: GenerateViewProps) {
                                     <div className="flex flex-row items-center my-2">
                                         <label className="font-bold">你的想法:</label>
                                         <div className="ml-4 flex-1 text-sm flex items-center">
-                                            <input
+                                            <textarea
+                                                rows={5}
                                                 id="type"
                                                 name="path_name"
-                                                type="string"
                                                 placeholder={
                                                     '填寫內容...（例如：幫我根據這份文檔寫一封詳細的拒絕批准的繁體中文電子郵件。）'
                                                 }
