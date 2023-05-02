@@ -23,9 +23,9 @@ export default function GenerateLogRow(props: LogRowProps) {
                     <label className="text-sm text-gray-500"> · Created by {log?.email}</label>
                 </div>
             </div>
-            <div>
+            <div className="">
                 <a
-                    className=" cursor-pointer p-[0.25rem] ml-4 rounded bg-white text-black border-gray-300 border leading-none"
+                    className="cursor-pointer p-[0.5rem] ml-4 rounded bg-white text-black border-gray-300 border leading-none hover:border-transparent hover:bg-gray-300"
                     onClick={() => {
                         copy(log?.content);
                         setAlert({
@@ -34,7 +34,7 @@ export default function GenerateLogRow(props: LogRowProps) {
                         });
                     }}
                 >
-                    copy
+                    Copy
                 </a>
             </div>
         </div>
