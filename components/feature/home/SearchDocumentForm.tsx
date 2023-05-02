@@ -7,7 +7,7 @@ export default function SearchDocumentForm(props: any) {
     const [endDate, setEndDate] = useState('');
     return (
         <>
-            <div className="grid grid-cols-6 gap-4 mb-8 border-gray-200 rounded-md md:p-8 p-4 shadow-md">
+            <div className="grid grid-cols-6 gap-4 border-gray-200 rounded-md md:p-8 p-4 shadow-md">
                 <div className="col-span-6 sm:col-span-2">
                     <label
                         htmlFor="content"

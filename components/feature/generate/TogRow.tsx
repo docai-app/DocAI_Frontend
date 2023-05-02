@@ -12,14 +12,15 @@ export default function GenerateLogRow(props: LogRowProps) {
             <div className="flex-wrap">
                 <div>
                     <label className="text-sm">{log?.content}</label>
-                    <span
-                        className="inline-flex items-center ml-2 px-1 h-4 rounded-full text-xs font-medium bg-green-100 text-black"
-                    >
+                    <span className="inline-flex items-center ml-2 px-1 h-4 rounded-full text-xs font-medium bg-green-100 text-black">
                         Complete
                     </span>
                 </div>
                 <div>
-                    <label className="text-sm text-gray-500" >{moment(log?.created_at).toNow()}</label><label className="text-sm text-gray-500" >  ·  Created by {log?.email}</label>
+                    <label className="text-sm text-gray-500">
+                        {moment(log?.created_at).toNow()}
+                    </label>
+                    <label className="text-sm text-gray-500"> · Created by {log?.email}</label>
                 </div>
             </div>
             <div>
@@ -37,5 +38,5 @@ export default function GenerateLogRow(props: LogRowProps) {
                 </a>
             </div>
         </div>
-    )
+    );
 }

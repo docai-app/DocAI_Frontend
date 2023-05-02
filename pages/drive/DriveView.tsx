@@ -176,13 +176,13 @@ export default function DriveView(props: DriveViewProps) {
                     icon: ClockIcon,
                     amount:
                         countDocumentsByDateData?.documents_count -
-                            countDocumentsByDateData?.confirmed_count || 0
+                            countDocumentsByDateData?.unconfirmed_count || 0
                 },
                 {
                     name: '累計未分類的文檔',
                     href: '/classification/logs',
                     icon: ExclamationTriangleIcon,
-                    amount: countDocumentsByDateData?.unconfirmed_count || 0
+                    amount: countDocumentsByDateData?.total_unconfirmed_count || 0
                 }
             ]);
         }
@@ -195,9 +195,7 @@ export default function DriveView(props: DriveViewProps) {
                 setOpen={setUpdateTag}
                 title={'進行中......'}
                 content={'正在更新標籤...'}
-                icon={
-                    <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
-                }
+                icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <AmendLabel
                 open={open}
@@ -244,9 +242,9 @@ export default function DriveView(props: DriveViewProps) {
                 count={documents_items?.length + folders_items?.length}
             />
             <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto my-8 h-full flex justify-center items-center">
+                <div className="max-w-4xl mx-auto my-8 h-auto flex justify-center items-center">
                     <div className="w-full mx-auto text-center">
-                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-4">
+                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-2">
                             DocAI
                         </h2>
                         <SearchDocumentForm getAllLabelsData={getAllLabelsData} search={search} />

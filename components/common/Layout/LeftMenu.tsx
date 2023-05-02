@@ -308,7 +308,7 @@ export default function LeftMenu(props: any) {
                     <div className="flex-1 relative z-0 flex overflow-hidden">
                         <main className="flex-1 relative  overflow-y-auto focus:outline-none">
                             {/* Start main area*/}
-                            <div className="absolute inset-0 py-0 px-0 sm:px-6 sm:py-4 lg:px-8">
+                            <div className="absolute inset-0 py-0 px-0 sm:px-4 sm:py-8 lg:px-8 lg:py-4">
                                 <div className="h-full rounded-lg">{props.content}</div>
                             </div>
                             {/* End main area */}

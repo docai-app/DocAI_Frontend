@@ -14,7 +14,7 @@ function GenerateContainer() {
     const [document, setDocument] = useState<any>();
     const [generateContent, setGenerateContent] = useState('');
     const [open, setOpen] = useState(false);
-    const [logs, setLogs] = useState<any>([])
+    const [logs, setLogs] = useState<any>([]);
 
     const [{ data: getDocumentByIdData }, getDocumentById] = useAxios(
         apiSetting.Document.getDocumentById(`${router.query.document_id}`),
@@ -34,7 +34,7 @@ function GenerateContainer() {
     const handleQuery = useCallback(
         async (query: string, format: string, language: string, topic: string, style: string) => {
             // console.log("query", query);
-            if (!document) return
+            if (!document) return;
 
             setOpen(true);
             const res = await getGenerate(
@@ -51,9 +51,9 @@ function GenerateContainer() {
                     style: style,
                     created_at: moment().format(),
                     email: localStorage.getItem('email')
-                }
+                };
 
-                setLogs((arr: any) => [...arr, newLog])
+                setLogs((arr: any) => [...arr, newLog]);
                 setGenerateContent(res.data?.response?.content);
             } else {
                 setAlert({ title: '網絡發生錯誤，請稍後再試', type: 'error' });

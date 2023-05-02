@@ -13,7 +13,7 @@ interface GenerateViewProps {
     generateContent: string;
     setGenerateContent: any;
     setAlert: any;
-    logs?: any
+    logs?: any;
 }
 
 export default function GenerateView(props: GenerateViewProps) {
@@ -333,14 +333,19 @@ export default function GenerateView(props: GenerateViewProps) {
                             </div>
                         </div>
                         <div className=" divide-y">
-                            {logs && logs.length > 0 ? logs?.sort((a: any, b: any) => (b.created_at > a.created_at ? 1 : -1))
-                                ?.map((log: any, index: number) => (
-                                    <GenerateLogRow log={log} setAlert={setAlert} key={index} />
-                                )) :
+                            {logs && logs.length > 0 ? (
+                                logs
+                                    ?.sort((a: any, b: any) =>
+                                        b.created_at > a.created_at ? 1 : -1
+                                    )
+                                    ?.map((log: any, index: number) => (
+                                        <GenerateLogRow log={log} setAlert={setAlert} key={index} />
+                                    ))
+                            ) : (
                                 <div className="p-4">
-                                    <label className='text-sm text-gray-500'>沒有記錄</label>
+                                    <label className="text-sm text-gray-500">沒有記錄</label>
                                 </div>
-                            }
+                            )}
                         </div>
                     </div>
                 </div>
