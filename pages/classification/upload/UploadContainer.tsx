@@ -15,6 +15,8 @@ function UploadContainer() {
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
     const [target_folder_id, set_target_folder_id] = useState();
+    const [tagId, setTagId] = useState('')
+    const [needAutoUpload, setNeedAutoUpload] = useState(false)
     const formik = useFormik({
         initialValues: {
             document: []
@@ -27,15 +29,40 @@ function UploadContainer() {
             if (target_folder_id) {
                 formData.append('target_folder_id', target_folder_id);
             }
-            upload({
-                data: formData
-            });
+            console.log('tagId', tagId);
+            console.log('needAutoUpload', needAutoUpload);
+            if (needAutoUpload) {
+                if (tagId) {
+                    formData.append('tag_id', tagId);
+                } else {
+                    setAlert({ title: '請選擇類別', type: 'info' });
+                }
+                uploadByBatchTag({
+                    data: formData
+                })
+            } else {
+                upload({
+                    data: formData
+                });
+            }
+
+
         }
     });
     const [
         { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
         upload
     ] = useAxios(apiSetting.Storage.upload(), { manual: true });
+
+    const [
+        { data: uploadByBatchTagData, loading: uploadByBatchTagLoading, error: uploadByBatchTagError, response: uploadByBatchTagResponse },
+        uploadByBatchTag
+    ] = useAxios(apiSetting.Storage.uploadByBatchTag(), { manual: true });
+
+    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+        apiSetting.Tag.getAllTags(),
+        { manual: false }
+    );
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
@@ -46,6 +73,16 @@ function UploadContainer() {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadData]);
+    useEffect(() => {
+        if (uploadByBatchTagData && uploadByBatchTagData.success === true) {
+            setOpen(false);
+            setVisable(true);
+            // router.push('/classification/validate');
+        } else if (uploadByBatchTagData && uploadByBatchTagData.success === false) {
+            setOpen(false);
+            setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
+        }
+    }, [router, uploadByBatchTagData]);
     useEffect(() => {
         setOpen(uploadLoading);
     }, [uploadLoading]);
@@ -61,7 +98,7 @@ function UploadContainer() {
     };
     return (
         <>
-            <UploadView {...{ formik, setDocuments, open, setOpen, set_target_folder_id }} />
+            <UploadView {...{ formik, setDocuments, open, setOpen, set_target_folder_id, setTagId, getAllLabelsData, needAutoUpload, setNeedAutoUpload }} />
             <MyModal
                 visable={visable}
                 cancelClick={confirm}

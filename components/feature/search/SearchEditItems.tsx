@@ -1,15 +1,16 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PaperAirplaneIcon, TagIcon } from '@heroicons/react/24/outline';
 
 interface EditItemsProps {
     openItems?: any;
     searchItems?: any;
     clearItems?: any;
+    updateTag?: any;
     count: number;
 }
 
 export default function SearchEditItems(props: EditItemsProps) {
-    const { openItems, searchItems, clearItems, count } = props;
+    const { openItems, searchItems, clearItems, updateTag, count } = props;
     return (
         <>
             {count > 0 && (
@@ -29,6 +30,14 @@ export default function SearchEditItems(props: EditItemsProps) {
                             <MagnifyingGlassIcon className="w-4 m-1 " />
                             <label className="text-sm">智能查詢</label>
                         </div>
+                        <div
+                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                            onClick={updateTag}
+                        >
+                            <TagIcon className="w-4 m-1 " />
+                            <label className="text-sm">更新標籤</label>
+                        </div>
+
                     </div>
                     <div className="flex flex-0 mr-4">
                         <div

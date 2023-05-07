@@ -1,11 +1,13 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useState } from 'react';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import AmendLabel from '../../components/feature/classification/AmendLabel';
 import SearchEditItems from '../../components/feature/search/SearchEditItems';
 import SearchRow from '../../components/feature/search/SearchRow';
+import EditLabel from '../../components/feature/setting/label/EditLabel';
 
 interface SearchViewProps {
     searchDocumentFormik: any;
@@ -15,19 +17,35 @@ interface SearchViewProps {
     setOpen: any;
     documents_items: any;
     setDocumentsItems: any;
+    updateTag: any;
+    setUpdateTag: any,
+    getAllLabelsData: any;
+    confirmDocumentFormik: any;
+    newLabelName: string;
+    setNewLabelName: any;
+    addNewLabelHandler: any;
 }
 
 export default function SearchView(props: SearchViewProps) {
     const {
-        searchDocumentFormik = { handleChange: () => {} },
+        searchDocumentFormik = { handleChange: () => { } },
         documents = [],
         meta,
         open,
         setOpen,
         documents_items,
-        setDocumentsItems
+        setDocumentsItems,
+        updateTag,
+        setUpdateTag,
+        getAllLabelsData,
+        confirmDocumentFormik,
+        newLabelName,
+        setNewLabelName,
+        addNewLabelHandler,
     } = props;
     const [document, setDocument] = useState<any>();
+    const [openEditLabel, setOpenEditLabel] = useState(false);
+    const [openAmendLabel, setOpenAmendLabel] = useState(false);
     const setChecedkData = (checked: boolean, value: string) => {
         setDocumentsItems([value]);
         // const newData = checked
@@ -38,6 +56,32 @@ export default function SearchView(props: SearchViewProps) {
 
     return (
         <>
+            <SingleActionModel
+                open={updateTag}
+                setOpen={setUpdateTag}
+                title={'進行中......'}
+                content={'正在更新標籤...'}
+                icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
+            />
+            <AmendLabel
+                open={openAmendLabel}
+                setOpen={setOpenAmendLabel}
+                allLabelsData={getAllLabelsData}
+                confirmDocumentFormik={confirmDocumentFormik}
+                isSubmit={true}
+                setTagName={(name: string) => { }}
+                setOpenEditLabel={setOpenEditLabel}
+            />
+            <EditLabel
+                {...{
+                    open: openEditLabel,
+                    setOpen: setOpenEditLabel,
+                    tagTypes: null,
+                    newLabelName: '',
+                    setNewLabelName: null,
+                    addNewLabelHandler: null
+                }}
+            />
             <SearchEditItems
                 openItems={() => {
                     if (document) window.open(document?.storage_url, '_blank', 'noreferrer');
@@ -45,6 +89,9 @@ export default function SearchView(props: SearchViewProps) {
                 searchItems={() => {
                     if (document)
                         Router.push({ pathname: '/generate', query: { document_id: document.id } });
+                }}
+                updateTag={() => {
+                    setOpenAmendLabel(true);
                 }}
                 clearItems={() => {
                     setDocumentsItems([]);
@@ -128,13 +175,13 @@ export default function SearchView(props: SearchViewProps) {
                         searchDocumentFormik?.values?.date
                             ? { date: searchDocumentFormik?.values?.date }
                             : searchDocumentFormik?.values?.tag_id
-                            ? {
-                                  content: searchDocumentFormik?.values?.content,
-                                  tag_id: searchDocumentFormik?.values?.tag_id,
-                                  from: searchDocumentFormik?.values?.from,
-                                  to: searchDocumentFormik?.values?.to
-                              }
-                            : { content: searchDocumentFormik?.values?.content }
+                                ? {
+                                    content: searchDocumentFormik?.values?.content,
+                                    tag_id: searchDocumentFormik?.values?.tag_id,
+                                    from: searchDocumentFormik?.values?.from,
+                                    to: searchDocumentFormik?.values?.to
+                                }
+                                : { content: searchDocumentFormik?.values?.content }
                     }
                 />
             </div>

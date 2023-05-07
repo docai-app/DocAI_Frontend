@@ -1,7 +1,7 @@
 // components/common/Widget/UploadFile.tsx
 // Upload File Component
-import { ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { FolderIcon } from '@heroicons/react/20/solid';
+import { ChevronRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import useAxios from 'axios-hooks';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import Api from '../../../apis';
@@ -17,6 +17,10 @@ interface UploadFileProps {
     setDocuments: any;
     multiple?: boolean;
     set_target_folder_id?: any;
+    needAutoUpload?: boolean;
+    setNeedAutoUpload?: any;
+    getAllLabelsData?: any;
+    setTagId?: any;
 }
 
 const apiSetting = new Api();
@@ -29,7 +33,11 @@ export default function UploadFile(props: UploadFileProps) {
         multiple = false,
         formik,
         setDocuments,
-        set_target_folder_id
+        set_target_folder_id,
+        getAllLabelsData,
+        setTagId,
+        needAutoUpload,
+        setNeedAutoUpload
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
@@ -167,6 +175,41 @@ export default function UploadFile(props: UploadFileProps) {
                             >
                                 編輯
                             </a>
+                        </div>
+                    </div>
+                    <div className="mt-4 rounded-md border-2 border-gray-200 p-4 bg-white">
+                        <label className="text-md font-bold text-gray-900">批量上傳</label>
+                        <div className="flex flex-row justify-between mt-2">
+                            <div className="flex flex-row items-center">
+                                <input type={'checkbox'} name="needAutoUpload" onChange={(e) => {
+                                    setNeedAutoUpload(e.target.checked);
+                                }} />
+                                <label className='ml-2 text-md font-bold text-gray-900'>是否需要自動批量上傳?<label className='text-sm text-gray-500'>(需要統一標籤)</label></label>
+                            </div>
+
+                        </div>
+                        <div className={`${needAutoUpload ? 'my-2' : 'my-2 hidden'}`}>
+                            <label className='font-bold text-gray-900'>批量文件的類別</label>
+                            <select
+                                id="select_tag"
+                                name="location"
+                                className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                defaultValue=""
+                                onChange={(e) => {
+                                    setTagId(e.target.value);
+                                }}
+                            >
+                                <option value="" disabled>
+                                    請選擇類別
+                                </option>
+                                {getAllLabelsData?.tags.map((tag: any, index: number) => {
+                                    return (
+                                        <option key={index} value={tag.id}>
+                                            {tag.name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
                     </div>
                     <FolderTreeForSelect

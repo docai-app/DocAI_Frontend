@@ -16,6 +16,18 @@ export default class Storage {
         return requestHeader;
     }
 
+    uploadByBatchTag() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: '/api/v1/storage/upload/batch/tag',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        return requestHeader;
+    }
+
     uploadBulkWithSameTag() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

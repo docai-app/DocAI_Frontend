@@ -1,18 +1,22 @@
 import useAxios from 'axios-hooks';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Api from '../../apis/index';
+import useAlert from '../../hooks/useAlert';
 import SearchView from './SearchView';
 
 const apiSetting = new Api();
 
 function SearchContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [documents, setDocuments] = useState([]);
     const [meta, setMeta] = useState([]);
     const [open, setOpen] = useState(false);
     const [documents_items, setDocumentsItems] = useState<any>([]);
+    const [updateTag, setUpdateTag] = useState(false);
+    const [newLabelName, setNewLabelName] = useState('');
     const [
         {
             data: searchDocumentByContentData,
@@ -25,12 +29,27 @@ function SearchContainer() {
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
             : router.query.tag_id
-            ? apiSetting.Search.searchDocumentByTagContent()
-            : apiSetting.Search.searchDocumentByContent(),
+                ? apiSetting.Search.searchDocumentByTagContent()
+                : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
     );
+    const [{ data: updateDocumentTagData }, updateDocumentTag] = useAxios(
+        apiSetting.Classification.updateDocumentTag([], ''),
+        { manual: true }
+    );
+
+    const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
+        apiSetting.Tag.addNewTag(),
+        { manual: true }
+    );
+
+    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+        apiSetting.Tag.getAllTags(),
+        { manual: false }
+    );
+
     const searchDocumentFormik = useFormik({
         initialValues: {
             tag_id: '',
@@ -51,6 +70,49 @@ function SearchContainer() {
             }
         }
     });
+
+    const confirmDocumentFormik = useFormik({
+        initialValues: {
+            document_id: null,
+            tag_id: ''
+        },
+        onSubmit: async (values) => {
+            setUpdateTag(true);
+            const res = await updateDocumentTag({
+                data: {
+                    document_ids: documents_items,
+                    tag_id: values.tag_id
+                }
+            });
+            setUpdateTag(false);
+            if (res.data.success === true) {
+                setAlert({ title: '更新成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '更新失敗', type: 'error' });
+            }
+        }
+    });
+
+    useEffect(() => {
+        if (addNewLabelData && addNewLabelData.success) {
+            // setAlert({ title: '新增成功', type: 'success' });
+            setNewLabelName('');
+            confirmDocumentFormik.setFieldValue('tag_id', addNewLabelData.tag.id);
+            confirmDocumentFormik.handleSubmit();
+        } else if (addNewLabelData && !addNewLabelData.success) {
+            setAlert({
+                title: '新增失敗！',
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: 'error'
+            });
+        }
+    }, [addNewLabelData]);
+
+    const addNewLabelHandler = useCallback(async () => {
+        addNewLabel({ data: { name: newLabelName } });
+    }, [addNewLabel, newLabelName]);
+
     useEffect(() => {
         if (searchDocumentByContentData && searchDocumentByContentData.success === true) {
             setDocuments(searchDocumentByContentData.documents);
@@ -105,7 +167,14 @@ function SearchContainer() {
                     open,
                     setOpen,
                     documents_items,
-                    setDocumentsItems
+                    setDocumentsItems,
+                    updateTag,
+                    setUpdateTag,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler,
+                    confirmDocumentFormik,
+                    getAllLabelsData
                 }}
             />
         </>
