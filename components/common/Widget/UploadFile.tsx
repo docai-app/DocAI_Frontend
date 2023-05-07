@@ -181,15 +181,21 @@ export default function UploadFile(props: UploadFileProps) {
                         <label className="text-md font-bold text-gray-900">批量上傳</label>
                         <div className="flex flex-row justify-between mt-2">
                             <div className="flex flex-row items-center">
-                                <input type={'checkbox'} name="needAutoUpload" onChange={(e) => {
-                                    setNeedAutoUpload(e.target.checked);
-                                }} />
-                                <label className='ml-2 text-md font-bold text-gray-900'>是否需要自動批量上傳?<label className='text-sm text-gray-500'>(需要統一標籤)</label></label>
+                                <input
+                                    type={'checkbox'}
+                                    name="needAutoUpload"
+                                    onChange={(e) => {
+                                        setNeedAutoUpload(e.target.checked);
+                                    }}
+                                />
+                                <label className="ml-2 text-md font-bold text-gray-900">
+                                    是否需要自動批量上傳?
+                                    <label className="text-sm text-gray-500">(需要統一標籤)</label>
+                                </label>
                             </div>
-
                         </div>
                         <div className={`${needAutoUpload ? 'my-2' : 'my-2 hidden'}`}>
-                            <label className='font-bold text-gray-900'>批量文件的類別</label>
+                            <label className="font-bold text-gray-900">批量文件的類別</label>
                             <select
                                 id="select_tag"
                                 name="location"

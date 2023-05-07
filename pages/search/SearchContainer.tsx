@@ -29,8 +29,8 @@ function SearchContainer() {
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
             : router.query.tag_id
-                ? apiSetting.Search.searchDocumentByTagContent()
-                : apiSetting.Search.searchDocumentByContent(),
+            ? apiSetting.Search.searchDocumentByTagContent()
+            : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }

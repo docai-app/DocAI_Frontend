@@ -15,8 +15,8 @@ function UploadContainer() {
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
     const [target_folder_id, set_target_folder_id] = useState();
-    const [tagId, setTagId] = useState('')
-    const [needAutoUpload, setNeedAutoUpload] = useState(false)
+    const [tagId, setTagId] = useState('');
+    const [needAutoUpload, setNeedAutoUpload] = useState(false);
     const formik = useFormik({
         initialValues: {
             document: []
@@ -39,14 +39,12 @@ function UploadContainer() {
                 }
                 uploadByBatchTag({
                     data: formData
-                })
+                });
             } else {
                 upload({
                     data: formData
                 });
             }
-
-
         }
     });
     const [
@@ -55,7 +53,12 @@ function UploadContainer() {
     ] = useAxios(apiSetting.Storage.upload(), { manual: true });
 
     const [
-        { data: uploadByBatchTagData, loading: uploadByBatchTagLoading, error: uploadByBatchTagError, response: uploadByBatchTagResponse },
+        {
+            data: uploadByBatchTagData,
+            loading: uploadByBatchTagLoading,
+            error: uploadByBatchTagError,
+            response: uploadByBatchTagResponse
+        },
         uploadByBatchTag
     ] = useAxios(apiSetting.Storage.uploadByBatchTag(), { manual: true });
 
@@ -98,7 +101,19 @@ function UploadContainer() {
     };
     return (
         <>
-            <UploadView {...{ formik, setDocuments, open, setOpen, set_target_folder_id, setTagId, getAllLabelsData, needAutoUpload, setNeedAutoUpload }} />
+            <UploadView
+                {...{
+                    formik,
+                    setDocuments,
+                    open,
+                    setOpen,
+                    set_target_folder_id,
+                    setTagId,
+                    getAllLabelsData,
+                    needAutoUpload,
+                    setNeedAutoUpload
+                }}
+            />
             <MyModal
                 visable={visable}
                 cancelClick={confirm}

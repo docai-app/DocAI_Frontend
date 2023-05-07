@@ -14,7 +14,17 @@ interface UploadViewProps {
 }
 
 function UploadView(props: UploadViewProps) {
-    const { formik, setDocuments, open, setOpen, set_target_folder_id, setTagId, getAllLabelsData, needAutoUpload, setNeedAutoUpload } = props;
+    const {
+        formik,
+        setDocuments,
+        open,
+        setOpen,
+        set_target_folder_id,
+        setTagId,
+        getAllLabelsData,
+        needAutoUpload,
+        setNeedAutoUpload
+    } = props;
     return (
         <>
             <Uploading {...{ open, setOpen }} />
@@ -29,7 +39,15 @@ function UploadView(props: UploadViewProps) {
                     btnName="上傳文檔"
                     selectName="選擇文檔"
                     multiple={true}
-                    {...{ formik, setDocuments, set_target_folder_id, setTagId, getAllLabelsData, needAutoUpload, setNeedAutoUpload }}
+                    {...{
+                        formik,
+                        setDocuments,
+                        set_target_folder_id,
+                        setTagId,
+                        getAllLabelsData,
+                        needAutoUpload,
+                        setNeedAutoUpload
+                    }}
                 />
             </div>
         </>

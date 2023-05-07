@@ -37,7 +37,6 @@ export default function SearchEditItems(props: EditItemsProps) {
                             <TagIcon className="w-4 m-1 " />
                             <label className="text-sm">更新標籤</label>
                         </div>
-
                     </div>
                     <div className="flex flex-0 mr-4">
                         <div
