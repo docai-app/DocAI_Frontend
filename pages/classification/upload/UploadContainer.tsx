@@ -66,6 +66,7 @@ function UploadContainer() {
         apiSetting.Tag.getAllTags(),
         { manual: false }
     );
+
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
@@ -76,6 +77,7 @@ function UploadContainer() {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadData]);
+
     useEffect(() => {
         if (uploadByBatchTagData && uploadByBatchTagData.success === true) {
             setOpen(false);
@@ -86,9 +88,10 @@ function UploadContainer() {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
     }, [router, uploadByBatchTagData]);
+
     useEffect(() => {
-        setOpen(uploadLoading);
-    }, [uploadLoading]);
+        setOpen(uploadLoading || uploadByBatchTagLoading);
+    }, [uploadLoading, uploadByBatchTagLoading]);
 
     const [visable, setVisable] = useState(false);
     const nextUpload = () => {
