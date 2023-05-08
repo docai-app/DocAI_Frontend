@@ -270,12 +270,18 @@ export default function DriveContainer() {
     };
 
     useEffect(() => {
+        if (router.query.id) {
+            setPage(1)
+        }
+    }, [router.query.id])
+
+    useEffect(() => {
         if (router.asPath !== router.route) {
             queryId.current = router.query.id;
             queryName.current = router.query.name;
             if (queryId.current) {
-                setPage(1);
-                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
+                // setPage(1);
+                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString(), page));
             } else {
                 showAllItems(apiSetting.Drive.showAllRootItems(page));
             }
@@ -288,7 +294,6 @@ export default function DriveContainer() {
         if (!showAllItemsLoading && showAllItemsData) {
             setId(queryId.current?.toString() || null);
             setName(queryName.current?.toString() || null);
-            // console.log("showAllItemsData", showAllItemsData);
             if (page == 1) {
                 setAllFoldersItemsData(showAllItemsData.folders);
                 setAllItemsData(showAllItemsData.documents);

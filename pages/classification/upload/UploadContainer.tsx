@@ -34,12 +34,12 @@ function UploadContainer() {
             if (needAutoUpload) {
                 if (tagId) {
                     formData.append('tag_id', tagId);
+                    uploadByBatchTag({
+                        data: formData
+                    });
                 } else {
                     setAlert({ title: '請選擇類別', type: 'info' });
                 }
-                uploadByBatchTag({
-                    data: formData
-                });
             } else {
                 upload({
                     data: formData

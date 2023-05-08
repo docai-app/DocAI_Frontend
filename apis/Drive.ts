@@ -12,10 +12,10 @@ export default class Drive {
         };
         return requestHeader;
     }
-    showAllFolderItems(id: string) {
+    showAllFolderItems(id: string, page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
-            url: `/api/v1/drive/files/${id}`,
+            url: `/api/v1/drive/files/${id}?page=${page}`,
             method: 'GET'
         };
         return requestHeader;
