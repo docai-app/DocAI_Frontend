@@ -26,4 +26,28 @@ export default class Generate {
         };
         return requestHeader;
     }
+
+    queryByDocuments(
+        document_ids: [],
+        query: string,
+        format: string,
+        language: string,
+        topic: string,
+        style: string
+    ) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/ai/query/documents`,
+            method: 'POST',
+            data: {
+                document_ids,
+                query,
+                response_format: format,
+                language,
+                topic,
+                style
+            }
+        };
+        return requestHeader;
+    }
 }
