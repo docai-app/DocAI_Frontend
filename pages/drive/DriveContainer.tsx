@@ -271,9 +271,9 @@ export default function DriveContainer() {
 
     useEffect(() => {
         if (router.query.id) {
-            setPage(1)
+            setPage(1);
         }
-    }, [router.query.id])
+    }, [router.query.id]);
 
     useEffect(() => {
         if (router.asPath !== router.route) {

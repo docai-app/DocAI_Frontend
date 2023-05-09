@@ -18,33 +18,33 @@ function GenerateContainer() {
     const [open, setOpen] = useState(false);
     const [logs, setLogs] = useState<any>([]);
 
-    const [{ data: getDocumentByIdData }, getDocumentById] = useAxios(
-        '',
-        {
-            manual: true
-        }
-    );
+    const [{ data: getDocumentByIdData }, getDocumentById] = useAxios('', {
+        manual: true
+    });
 
     const [{ data: getGenerateData }, getGenerate] = useAxios('', { manual: true });
 
     useEffect(() => {
         if (router.query.document_ids) {
-            setDocumentsItems([])
-            console.log("router.query.document_ids", router.query.document_ids);
-            router.query.document_ids.toString().split(',').map(async (id) => {
-                axios.request(apiSetting.Document.getDocumentById(id)).then((res) => {
-                    if (res.data.success) {
-                        setDocumentsItems((arr: any) => [...arr, res.data.document])
-                    }
-                })
-            })
+            setDocumentsItems([]);
+            console.log('router.query.document_ids', router.query.document_ids);
+            router.query.document_ids
+                .toString()
+                .split(',')
+                .map(async (id) => {
+                    axios.request(apiSetting.Document.getDocumentById(id)).then((res) => {
+                        if (res.data.success) {
+                            setDocumentsItems((arr: any) => [...arr, res.data.document]);
+                        }
+                    });
+                });
         }
     }, [router.query.document_ids]);
 
     useEffect(() => {
         if (getDocumentByIdData && getDocumentByIdData.success === true) {
-            console.log("getDocumentByIdData", getDocumentByIdData);
-            setDocumentsItems((arr: any) => [...arr, getDocumentByIdData.document])
+            console.log('getDocumentByIdData', getDocumentByIdData);
+            setDocumentsItems((arr: any) => [...arr, getDocumentByIdData.document]);
         }
     }, [router, getDocumentByIdData]);
 
@@ -53,16 +53,25 @@ function GenerateContainer() {
             // console.log("query", query);
             if (documents_items && documents_items?.length <= 0) {
                 setAlert({ title: '請選擇文件', type: 'info' });
-                return
-            };
+                return;
+            }
 
             setOpen(true);
             // const res = await getGenerate(
             //     apiSetting.Generate.query(document.id, query, format, language, topic, style)
             // );
-            const document_ids = documents_items.map((item: any) => { return item.id })
+            const document_ids = documents_items.map((item: any) => {
+                return item.id;
+            });
             const res = await getGenerate(
-                apiSetting.Generate.queryByDocuments(document_ids, query, format, language, topic, style)
+                apiSetting.Generate.queryByDocuments(
+                    document_ids,
+                    query,
+                    format,
+                    language,
+                    topic,
+                    style
+                )
             );
             setOpen(false);
 
