@@ -88,7 +88,10 @@ export default function SearchView(props: SearchViewProps) {
                 }}
                 searchItems={() => {
                     if (document)
-                        Router.push({ pathname: '/generate', query: { document_id: document.id } });
+                        Router.push({
+                            pathname: '/generate',
+                            query: { document_ids: document.id }
+                        });
                 }}
                 updateTag={() => {
                     setOpenAmendLabel(true);

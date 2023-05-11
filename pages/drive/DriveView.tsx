@@ -221,12 +221,14 @@ export default function DriveView(props: DriveViewProps) {
                     setCurrent({ type: 'moveItems' });
                     setMode('move');
                 }}
-                visibleSearchItems={documents_items?.length == 1 && folders_items?.length == 0}
+                visibleSearchItems={documents_items?.length > 0 && folders_items?.length == 0}
                 searchItems={() => {
-                    if (documents_items && documents_items.length == 1)
+                    if (documents_items && documents_items.length > 0)
                         Router.push({
                             pathname: '/generate',
-                            query: { document_id: documents_items[0] }
+                            query: {
+                                document_ids: documents_items.join(',')
+                            }
                         });
                 }}
                 visibleUpdateTag={documents_items?.length > 0 && folders_items?.length == 0}

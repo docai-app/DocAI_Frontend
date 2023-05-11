@@ -1,4 +1,5 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import { PaperClipIcon } from '@heroicons/react/24/outline';
 import copy from 'copy-to-clipboard';
 import { useState } from 'react';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
@@ -6,7 +7,8 @@ import SingleActionModel from '../../components/common/Widget/SingleActionModel'
 import GenerateLogRow from '../../components/feature/generate/TogRow';
 
 interface GenerateViewProps {
-    document: any;
+    documents_items: any[];
+    setDocumentsItems: any;
     handleQuery: any;
     open: boolean;
     setOpen: any;
@@ -18,7 +20,8 @@ interface GenerateViewProps {
 
 export default function GenerateView(props: GenerateViewProps) {
     const {
-        document,
+        documents_items,
+        setDocumentsItems,
         handleQuery,
         open,
         setOpen,
@@ -107,6 +110,11 @@ export default function GenerateView(props: GenerateViewProps) {
             handleQuery(content, format.value, language, topic.value, style);
         }
     };
+
+    const deleteIds = (id: string) => {
+        // setDocumentsItems
+        setDocumentsItems(documents_items.filter((item: any) => item.id !== id));
+    };
     return (
         <>
             <SingleActionModel
@@ -131,7 +139,77 @@ export default function GenerateView(props: GenerateViewProps) {
                         <div className="flex justify-start md:items-start flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white h-60vh">
                             <div className="w-2/5 h-full p-4 left-side flex justify-start items-start object-contain object-center">
                                 <div className="w-full md:w-full h-full border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
-                                    {document?.storage_url?.split('.').pop() === 'pdf' ? (
+                                    {documents_items && documents_items.length === 1 ? (
+                                        <>
+                                            {documents_items[0].storage_url?.split('.').pop() ===
+                                                'pdf' ? (
+                                                <object
+                                                    className="object-center object-cover w-full h-full flex justify-center items-center"
+                                                    type="application/pdf"
+                                                    data={
+                                                        documents_items[0]?.storage_url +
+                                                        '#toolbar=0'
+                                                    }
+                                                    width="250"
+                                                >
+                                                    <img
+                                                        src={
+                                                            'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png'
+                                                        }
+                                                        alt="PDF file icon"
+                                                        className="w-1/2 h-1/2 object-contain object-center"
+                                                    />
+                                                </object>
+                                            ) : (
+                                                <img
+                                                    className="w-full h-full object-contain object-center lg:w-full lg:h-full"
+                                                    src={documents_items[0]?.storage_url}
+                                                    alt={documents_items[0]?.storage_url}
+                                                />
+                                            )}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="flex-1 border border-gray-200 divide-y  m-1 rounded-md">
+                                                {documents_items?.map(
+                                                    (document: any, index: number) => {
+                                                        return (
+                                                            <div
+                                                                key={index}
+                                                                className="flex flex-1 w-full my-2 p-2 flex-wrap items-center"
+                                                            >
+                                                                <div className="flex flex-1 items-center">
+                                                                    <PaperClipIcon className="w-5 m-1 flex-0" />
+                                                                    <label className="break-words break-all flex-1">
+                                                                        {document?.name}
+                                                                    </label>
+                                                                </div>
+                                                                <div className="flex flex-0 mx-1">
+                                                                    <a
+                                                                        className=" cursor-pointer text-sm  text-indigo-600 p-1"
+                                                                        href={document?.storage_url}
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                    >
+                                                                        查看
+                                                                    </a>
+                                                                    <a
+                                                                        className=" cursor-pointer text-sm  text-red-600 p-1"
+                                                                        onClick={() => {
+                                                                            deleteIds(document?.id);
+                                                                        }}
+                                                                    >
+                                                                        删除
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+                                    {/* {document?.storage_url?.split('.').pop() === 'pdf' ? (
                                         <object
                                             className="object-center object-cover w-full h-full flex justify-center items-center"
                                             type="application/pdf"
@@ -152,13 +230,17 @@ export default function GenerateView(props: GenerateViewProps) {
                                             src={document?.storage_url}
                                             alt={document?.storage_url}
                                         />
-                                    )}
+                                    )} */}
                                 </div>
                             </div>
                             <div className="p-4 w-3/5 right-side flex-1 flex flex-col overflow-auto h-full">
                                 <div className="flex flex-col">
                                     <p className="text-xl flex justify-start font-bold">
-                                        {document?.name}
+                                        {documents_items
+                                            ?.map((item: any) => {
+                                                return item.name;
+                                            })
+                                            ?.join(',')}
                                     </p>
                                     <label className="flex justify-start text-sm text-gray-500 ">
                                         根據文件內容生成你想要的內容
