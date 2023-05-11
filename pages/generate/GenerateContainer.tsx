@@ -1,4 +1,3 @@
-import axios from 'axios';
 import useAxios from 'axios-hooks';
 import moment from 'moment';
 import { useRouter } from 'next/router';
@@ -16,9 +15,10 @@ function GenerateContainer() {
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [generateContent, setGenerateContent] = useState('');
     const [open, setOpen] = useState(false);
+    const [modalDescription, setModalDescription] = useState({})
     const [logs, setLogs] = useState<any>([]);
 
-    const [{ data: getDocumentByIdData }, getDocumentById] = useAxios('', {
+    const [{ data: getCollectionDocumentsData }, getCollectionDocuments] = useAxios(apiSetting.Document.getCollectionDocuments(), {
         manual: true
     });
 
@@ -26,27 +26,29 @@ function GenerateContainer() {
 
     useEffect(() => {
         if (router.query.document_ids) {
+            setOpen(true)
+            setModalDescription({
+                title: '加載中......',
+                content: '正在加載文件...',
+            })
             setDocumentsItems([]);
-            console.log('router.query.document_ids', router.query.document_ids);
-            router.query.document_ids
-                .toString()
-                .split(',')
-                .map(async (id) => {
-                    axios.request(apiSetting.Document.getDocumentById(id)).then((res) => {
-                        if (res.data.success) {
-                            setDocumentsItems((arr: any) => [...arr, res.data.document]);
-                        }
-                    });
-                });
+            getCollectionDocuments({
+                params: {
+                    ids: router.query.document_ids.toString().split(',')
+                }
+            })
         }
     }, [router.query.document_ids]);
 
     useEffect(() => {
-        if (getDocumentByIdData && getDocumentByIdData.success === true) {
-            console.log('getDocumentByIdData', getDocumentByIdData);
-            setDocumentsItems((arr: any) => [...arr, getDocumentByIdData.document]);
+        if (getCollectionDocumentsData && getCollectionDocumentsData.success === true) {
+            setDocumentsItems(getCollectionDocumentsData.documents);
+            setOpen(false)
+        } else if (getCollectionDocumentsData && getCollectionDocumentsData.success === false) {
+            setAlert({ title: getCollectionDocumentsData.error, type: 'error' });
+            setOpen(false)
         }
-    }, [router, getDocumentByIdData]);
+    }, [router, getCollectionDocumentsData]);
 
     const handleQuery = useCallback(
         async (query: string, format: string, language: string, topic: string, style: string) => {
@@ -57,6 +59,10 @@ function GenerateContainer() {
             }
 
             setOpen(true);
+            setModalDescription({
+                title: '進行中......',
+                content: '正在生成內容...',
+            })
             // const res = await getGenerate(
             //     apiSetting.Generate.query(document.id, query, format, language, topic, style)
             // );
@@ -107,7 +113,8 @@ function GenerateContainer() {
                     generateContent,
                     setGenerateContent,
                     setAlert,
-                    logs
+                    logs,
+                    modalDescription
                 }}
             />
         </>

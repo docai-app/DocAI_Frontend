@@ -90,4 +90,13 @@ export default class Absence {
         };
         return requestHeader;
     }
+
+    getCollectionDocuments() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/collection`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }
