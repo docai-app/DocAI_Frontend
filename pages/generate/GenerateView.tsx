@@ -16,6 +16,7 @@ interface GenerateViewProps {
     setGenerateContent: any;
     setAlert: any;
     logs?: any;
+    modalDescription: any;
 }
 
 export default function GenerateView(props: GenerateViewProps) {
@@ -28,7 +29,8 @@ export default function GenerateView(props: GenerateViewProps) {
         generateContent = '',
         setGenerateContent,
         setAlert,
-        logs
+        logs,
+        modalDescription
     } = props;
     const [content, setContent] = useState('');
 
@@ -121,8 +123,8 @@ export default function GenerateView(props: GenerateViewProps) {
                 {...{
                     open,
                     setOpen,
-                    title: '進行中......',
-                    content: '正在生成內容...',
+                    title: modalDescription?.title,
+                    content: modalDescription?.content,
                     icon: (
                         <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                     )
