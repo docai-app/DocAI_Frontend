@@ -11,6 +11,12 @@ interface UploadViewProps {
     setTagId?: any;
     needAutoUpload: boolean;
     setNeedAutoUpload: any;
+    needs_deep_understanding?: boolean;
+    set_needs_deep_understanding?: any;
+    needs_approval?: boolean;
+    set_needs_approval?: any;
+    form_schema_id?: string;
+    set_form_schema_id?: any;
 }
 
 function UploadView(props: UploadViewProps) {
@@ -23,7 +29,13 @@ function UploadView(props: UploadViewProps) {
         setTagId,
         getAllLabelsData,
         needAutoUpload,
-        setNeedAutoUpload
+        setNeedAutoUpload,
+        needs_deep_understanding,
+        set_needs_deep_understanding,
+        needs_approval,
+        set_needs_approval,
+        form_schema_id,
+        set_form_schema_id
     } = props;
     return (
         <>
@@ -46,7 +58,13 @@ function UploadView(props: UploadViewProps) {
                         setTagId,
                         getAllLabelsData,
                         needAutoUpload,
-                        setNeedAutoUpload
+                        setNeedAutoUpload,
+                        needs_deep_understanding,
+                        set_needs_deep_understanding,
+                        needs_approval,
+                        set_needs_approval,
+                        form_schema_id,
+                        set_form_schema_id
                     }}
                 />
             </div>

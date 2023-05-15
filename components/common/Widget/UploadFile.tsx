@@ -21,6 +21,12 @@ interface UploadFileProps {
     setNeedAutoUpload?: any;
     getAllLabelsData?: any;
     setTagId?: any;
+    needs_deep_understanding?: boolean;
+    set_needs_deep_understanding?: any;
+    needs_approval?: boolean;
+    set_needs_approval?: any;
+    form_schema_id?: string;
+    set_form_schema_id?: any;
 }
 
 const apiSetting = new Api();
@@ -37,7 +43,13 @@ export default function UploadFile(props: UploadFileProps) {
         getAllLabelsData,
         setTagId,
         needAutoUpload,
-        setNeedAutoUpload
+        setNeedAutoUpload,
+        needs_deep_understanding,
+        set_needs_deep_understanding,
+        needs_approval,
+        set_needs_approval,
+        form_schema_id,
+        set_form_schema_id
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
@@ -48,6 +60,7 @@ export default function UploadFile(props: UploadFileProps) {
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
+    const [tagFunctions, setTagFunctions] = useState([])
 
     const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
     useEffect(() => {
@@ -95,6 +108,15 @@ export default function UploadFile(props: UploadFileProps) {
         setDocuments(fileListArr);
         setMyFiles(fileListArr);
     };
+    const checkHasFormUnderstanging = (tag_id: string, index: number) => {
+        const functions = getAllLabelsData.tags[index].functions
+        setTagFunctions(functions)
+        if (functions && functions.length > 0) {
+            set_form_schema_id(functions[0].id)
+        } else {
+            set_form_schema_id('')
+        }
+    }
 
     return (
         <main>
@@ -203,6 +225,7 @@ export default function UploadFile(props: UploadFileProps) {
                                 defaultValue=""
                                 onChange={(e) => {
                                     setTagId(e.target.value);
+                                    checkHasFormUnderstanging(e.target.value, e.target.selectedIndex - 1)
                                 }}
                             >
                                 <option value="" disabled>
@@ -216,6 +239,62 @@ export default function UploadFile(props: UploadFileProps) {
                                     );
                                 })}
                             </select>
+                        </div>
+                        <div className={`${needAutoUpload ? 'my-2' : 'my-2 hidden'}`}>
+                            <div className="flex flex-row justify-between mt-2">
+                                <div className="flex flex-row items-center">
+                                    <input
+                                        type={'checkbox'}
+                                        name="needAutoUpload"
+                                        onChange={(e) => {
+                                            set_needs_deep_understanding(e.target.checked);
+                                        }}
+                                    />
+                                    <label className="ml-2 text-md font-bold text-gray-900">
+                                        是否需要表格深度理解?
+                                        <label className="text-sm text-gray-500">(需要統一標籤)</label>
+                                    </label>
+                                </div>
+                            </div>
+                            <div className={`${needs_deep_understanding ? 'my-2' : 'my-2 hidden'}`}>
+                                <label className="font-bold text-gray-900">表格深度理解的模型</label>
+                                <select
+                                    id="select_tag_function"
+                                    name="location"
+                                    className="block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    defaultValue=""
+                                    onChange={(e) => {
+                                        set_form_schema_id(e.target.value);
+                                    }}
+                                >
+                                    {tagFunctions && tagFunctions.length == 0 &&
+                                        <option value="" disabled>
+                                            請選擇模型
+                                        </option>
+                                    }
+                                    {tagFunctions.map((tagFunction: any, index: number) => {
+                                        return (
+                                            <option key={index} value={tagFunction.id}>
+                                                {tagFunction.title}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                            <div className={`${needs_deep_understanding ? "flex flex-row justify-between mt-2" : 'flex-row justify-between hidden'}`}>
+                                <div className="flex flex-row items-center">
+                                    <input
+                                        type={'checkbox'}
+                                        name="needAutoUpload"
+                                        onChange={(e) => {
+                                            set_needs_approval(e.target.checked);
+                                        }}
+                                    />
+                                    <label className="ml-2 text-md font-bold text-gray-900">
+                                        是否需要進行審批?
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <FolderTreeForSelect

@@ -17,6 +17,9 @@ function UploadContainer() {
     const [target_folder_id, set_target_folder_id] = useState();
     const [tagId, setTagId] = useState('');
     const [needAutoUpload, setNeedAutoUpload] = useState(false);
+    const [needs_deep_understanding, set_needs_deep_understanding] = useState(false)
+    const [needs_approval, set_needs_approval] = useState(false)
+    const [form_schema_id, set_form_schema_id] = useState('')
     const formik = useFormik({
         initialValues: {
             document: []
@@ -29,17 +32,31 @@ function UploadContainer() {
             if (target_folder_id) {
                 formData.append('target_folder_id', target_folder_id);
             }
-            console.log('tagId', tagId);
-            console.log('needAutoUpload', needAutoUpload);
+            // console.log('tagId', tagId);
+            // console.log('needAutoUpload', needAutoUpload);
+            // console.log('needs_approval', needs_approval);
+            // console.log('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
+            // console.log('form_schema_id', form_schema_id);
+
             if (needAutoUpload) {
-                if (tagId) {
-                    formData.append('tag_id', tagId);
-                    uploadByBatchTag({
-                        data: formData
-                    });
-                } else {
-                    setAlert({ title: '請選擇類別', type: 'info' });
+                formData.append('tag_id', tagId);
+                formData.append('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
+
+                if (needs_deep_understanding) {
+                    formData.append('form_schema_id', form_schema_id);
+                    formData.append('needs_approval', JSON.stringify(needs_approval));
                 }
+                if (!tagId) {
+                    setAlert({ title: '請選擇類別', type: 'info' });
+                    return
+                }
+                if (needs_deep_understanding && !form_schema_id) {
+                    setAlert({ title: '請選擇表格深度理解的模型', type: 'info' });
+                    return
+                }
+                uploadByBatchTag({
+                    data: formData
+                });
             } else {
                 upload({
                     data: formData
@@ -93,6 +110,11 @@ function UploadContainer() {
         setOpen(uploadLoading || uploadByBatchTagLoading);
     }, [uploadLoading, uploadByBatchTagLoading]);
 
+    useEffect(() => {
+        console.log(getAllLabelsData);
+
+    }, [getAllLabelsData]);
+
     const [visable, setVisable] = useState(false);
     const nextUpload = () => {
         setVisable(false);
@@ -114,7 +136,13 @@ function UploadContainer() {
                     setTagId,
                     getAllLabelsData,
                     needAutoUpload,
-                    setNeedAutoUpload
+                    setNeedAutoUpload,
+                    needs_deep_understanding,
+                    set_needs_deep_understanding,
+                    needs_approval,
+                    set_needs_approval,
+                    form_schema_id,
+                    set_form_schema_id
                 }}
             />
             <MyModal
