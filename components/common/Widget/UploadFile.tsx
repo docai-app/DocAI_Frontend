@@ -227,7 +227,7 @@ export default function UploadFile(props: UploadFileProps) {
                                 defaultValue=""
                                 onChange={(e) => {
                                     setTagId(e.target.value);
-                                    checkHasFormUnderstanging(e.target.value, e.target.selectedIndex - 1)
+                                    // checkHasFormUnderstanging(e.target.value, e.target.selectedIndex - 1)
                                 }}
                             >
                                 <option value="" disabled>
