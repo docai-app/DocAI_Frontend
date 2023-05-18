@@ -17,6 +17,7 @@ interface UploadViewProps {
     set_needs_approval?: any;
     form_schema_id?: string;
     set_form_schema_id?: any;
+    schemasStatusReadyData?: any;
 }
 
 function UploadView(props: UploadViewProps) {
@@ -35,7 +36,8 @@ function UploadView(props: UploadViewProps) {
         needs_approval,
         set_needs_approval,
         form_schema_id,
-        set_form_schema_id
+        set_form_schema_id,
+        schemasStatusReadyData
     } = props;
     return (
         <>
@@ -64,7 +66,8 @@ function UploadView(props: UploadViewProps) {
                         needs_approval,
                         set_needs_approval,
                         form_schema_id,
-                        set_form_schema_id
+                        set_form_schema_id,
+                        schemasStatusReadyData
                     }}
                 />
             </div>

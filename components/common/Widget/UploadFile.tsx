@@ -27,6 +27,7 @@ interface UploadFileProps {
     set_needs_approval?: any;
     form_schema_id?: string;
     set_form_schema_id?: any;
+    schemasStatusReadyData?: any;
 }
 
 const apiSetting = new Api();
@@ -49,7 +50,8 @@ export default function UploadFile(props: UploadFileProps) {
         needs_approval,
         set_needs_approval,
         form_schema_id,
-        set_form_schema_id
+        set_form_schema_id,
+        schemasStatusReadyData
     } = props;
     const fileInput = useRef<HTMLInputElement>(null);
     const { setAlert } = useAlert();
@@ -267,15 +269,13 @@ export default function UploadFile(props: UploadFileProps) {
                                         set_form_schema_id(e.target.value);
                                     }}
                                 >
-                                    {tagFunctions && tagFunctions.length == 0 &&
-                                        <option value="" disabled>
-                                            請選擇模型
-                                        </option>
-                                    }
-                                    {tagFunctions.map((tagFunction: any, index: number) => {
+                                    <option value="" disabled>
+                                        請選擇模型
+                                    </option>
+                                    {schemasStatusReadyData?.form_schema?.map((schema: any, index: number) => {
                                         return (
-                                            <option key={index} value={tagFunction.id}>
-                                                {tagFunction.title}
+                                            <option key={index} value={schema.id}>
+                                                {schema.name}
                                             </option>
                                         );
                                     })}

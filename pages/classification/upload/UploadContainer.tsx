@@ -84,6 +84,13 @@ function UploadContainer() {
         { manual: false }
     );
 
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
     useEffect(() => {
         if (uploadData && uploadData.success === true) {
             setOpen(false);
@@ -110,10 +117,10 @@ function UploadContainer() {
         setOpen(uploadLoading || uploadByBatchTagLoading);
     }, [uploadLoading, uploadByBatchTagLoading]);
 
-    useEffect(() => {
-        console.log(getAllLabelsData);
+    // useEffect(() => {
+    //     console.log(getAllLabelsData);
 
-    }, [getAllLabelsData]);
+    // }, [getAllLabelsData]);
 
     const [visable, setVisable] = useState(false);
     const nextUpload = () => {
@@ -142,7 +149,8 @@ function UploadContainer() {
                     needs_approval,
                     set_needs_approval,
                     form_schema_id,
-                    set_form_schema_id
+                    set_form_schema_id,
+                    schemasStatusReadyData
                 }}
             />
             <MyModal
