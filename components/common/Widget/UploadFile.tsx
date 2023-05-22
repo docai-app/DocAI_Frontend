@@ -62,7 +62,7 @@ export default function UploadFile(props: UploadFileProps) {
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
-    const [tagFunctions, setTagFunctions] = useState([])
+    const [tagFunctions, setTagFunctions] = useState([]);
 
     const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
     useEffect(() => {
@@ -111,14 +111,14 @@ export default function UploadFile(props: UploadFileProps) {
         setMyFiles(fileListArr);
     };
     const checkHasFormUnderstanging = (tag_id: string, index: number) => {
-        const functions = getAllLabelsData.tags[index].functions
-        setTagFunctions(functions)
+        const functions = getAllLabelsData.tags[index].functions;
+        setTagFunctions(functions);
         if (functions && functions.length > 0) {
-            set_form_schema_id(functions[0].id)
+            set_form_schema_id(functions[0].id);
         } else {
-            set_form_schema_id('')
+            set_form_schema_id('');
         }
-    }
+    };
 
     return (
         <main>
@@ -254,12 +254,16 @@ export default function UploadFile(props: UploadFileProps) {
                                     />
                                     <label className="ml-2 text-md font-bold text-gray-900">
                                         是否需要表格深度理解?
-                                        <label className="text-sm text-gray-500">(需要統一標籤)</label>
+                                        <label className="text-sm text-gray-500">
+                                            (需要統一標籤)
+                                        </label>
                                     </label>
                                 </div>
                             </div>
                             <div className={`${needs_deep_understanding ? 'my-2' : 'my-2 hidden'}`}>
-                                <label className="font-bold text-gray-900">表格深度理解的模型</label>
+                                <label className="font-bold text-gray-900">
+                                    表格深度理解的模型
+                                </label>
                                 <select
                                     id="select_tag_function"
                                     name="location"
@@ -272,16 +276,24 @@ export default function UploadFile(props: UploadFileProps) {
                                     <option value="" disabled>
                                         請選擇模型
                                     </option>
-                                    {schemasStatusReadyData?.form_schema?.map((schema: any, index: number) => {
-                                        return (
-                                            <option key={index} value={schema.id}>
-                                                {schema.name}
-                                            </option>
-                                        );
-                                    })}
+                                    {schemasStatusReadyData?.form_schema?.map(
+                                        (schema: any, index: number) => {
+                                            return (
+                                                <option key={index} value={schema.id}>
+                                                    {schema.name}
+                                                </option>
+                                            );
+                                        }
+                                    )}
                                 </select>
                             </div>
-                            <div className={`${needs_deep_understanding ? "flex flex-row justify-between mt-2" : 'flex-row justify-between hidden'}`}>
+                            <div
+                                className={`${
+                                    needs_deep_understanding
+                                        ? 'flex flex-row justify-between mt-2'
+                                        : 'flex-row justify-between hidden'
+                                }`}
+                            >
                                 <div className="flex flex-row items-center">
                                     <input
                                         type={'checkbox'}

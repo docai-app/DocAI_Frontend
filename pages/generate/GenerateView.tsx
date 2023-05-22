@@ -144,7 +144,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                     {documents_items && documents_items.length === 1 ? (
                                         <>
                                             {documents_items[0].storage_url?.split('.').pop() ===
-                                                'pdf' ? (
+                                            'pdf' ? (
                                                 <object
                                                     className="object-center object-cover w-full h-full flex justify-center items-center"
                                                     type="application/pdf"

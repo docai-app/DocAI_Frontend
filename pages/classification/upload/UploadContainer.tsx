@@ -17,9 +17,9 @@ function UploadContainer() {
     const [target_folder_id, set_target_folder_id] = useState();
     const [tagId, setTagId] = useState('');
     const [needAutoUpload, setNeedAutoUpload] = useState(false);
-    const [needs_deep_understanding, set_needs_deep_understanding] = useState(false)
-    const [needs_approval, set_needs_approval] = useState(false)
-    const [form_schema_id, set_form_schema_id] = useState('')
+    const [needs_deep_understanding, set_needs_deep_understanding] = useState(false);
+    const [needs_approval, set_needs_approval] = useState(false);
+    const [form_schema_id, set_form_schema_id] = useState('');
     const formik = useFormik({
         initialValues: {
             document: []
@@ -40,7 +40,10 @@ function UploadContainer() {
 
             if (needAutoUpload) {
                 formData.append('tag_id', tagId);
-                formData.append('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
+                formData.append(
+                    'needs_deep_understanding',
+                    JSON.stringify(needs_deep_understanding)
+                );
 
                 if (needs_deep_understanding) {
                     formData.append('form_schema_id', form_schema_id);
@@ -48,11 +51,11 @@ function UploadContainer() {
                 }
                 if (!tagId) {
                     setAlert({ title: '請選擇類別', type: 'info' });
-                    return
+                    return;
                 }
                 if (needs_deep_understanding && !form_schema_id) {
                     setAlert({ title: '請選擇表格深度理解的模型', type: 'info' });
-                    return
+                    return;
                 }
                 uploadByBatchTag({
                     data: formData

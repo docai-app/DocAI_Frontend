@@ -15,38 +15,41 @@ function GenerateContainer() {
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [generateContent, setGenerateContent] = useState('');
     const [open, setOpen] = useState(false);
-    const [modalDescription, setModalDescription] = useState({})
+    const [modalDescription, setModalDescription] = useState({});
     const [logs, setLogs] = useState<any>([]);
 
-    const [{ data: getCollectionDocumentsData }, getCollectionDocuments] = useAxios(apiSetting.Document.getCollectionDocuments(), {
-        manual: true
-    });
+    const [{ data: getCollectionDocumentsData }, getCollectionDocuments] = useAxios(
+        apiSetting.Document.getCollectionDocuments(),
+        {
+            manual: true
+        }
+    );
 
     const [{ data: getGenerateData }, getGenerate] = useAxios('', { manual: true });
 
     useEffect(() => {
         if (router.query.document_ids) {
-            setOpen(true)
+            setOpen(true);
             setModalDescription({
                 title: '加載中......',
-                content: '正在加載文件...',
-            })
+                content: '正在加載文件...'
+            });
             setDocumentsItems([]);
             getCollectionDocuments({
                 params: {
                     ids: router.query.document_ids.toString().split(',')
                 }
-            })
+            });
         }
     }, [router.query.document_ids]);
 
     useEffect(() => {
         if (getCollectionDocumentsData && getCollectionDocumentsData.success === true) {
             setDocumentsItems(getCollectionDocumentsData.documents);
-            setOpen(false)
+            setOpen(false);
         } else if (getCollectionDocumentsData && getCollectionDocumentsData.success === false) {
             setAlert({ title: getCollectionDocumentsData.error, type: 'error' });
-            setOpen(false)
+            setOpen(false);
         }
     }, [router, getCollectionDocumentsData]);
 
@@ -61,8 +64,8 @@ function GenerateContainer() {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成內容...',
-            })
+                content: '正在生成內容...'
+            });
             // const res = await getGenerate(
             //     apiSetting.Generate.query(document.id, query, format, language, topic, style)
             // );
