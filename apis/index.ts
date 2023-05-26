@@ -9,6 +9,7 @@ import Folders from './Folders';
 import Form from './Form';
 import FormSchema from './FormSchema';
 import Generate from './Generate';
+import MiniApp from './MiniApp';
 import Project from './Project';
 import ProjectTask from './ProjectTask';
 import Search from './Search';
@@ -35,6 +36,7 @@ export default class Api {
     ProjectTask: ProjectTask;
     User: User;
     Generate: Generate;
+    MiniApp: MiniApp;
 
     constructor() {
         this.Storage = new Storage();
@@ -54,5 +56,6 @@ export default class Api {
         this.ProjectTask = new ProjectTask();
         this.User = new User();
         this.Generate = new Generate();
+        this.MiniApp = new MiniApp();
     }
 }

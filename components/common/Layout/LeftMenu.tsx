@@ -6,8 +6,7 @@ import {
     Bars3Icon,
     ChartBarSquareIcon,
     ClipboardIcon,
-    CloudArrowUpIcon,
-    FolderIcon,
+    CloudArrowUpIcon, CubeIcon, FolderIcon,
     ShieldCheckIcon,
     TableCellsIcon,
     TagIcon,
@@ -83,6 +82,14 @@ export default function LeftMenu(props: any) {
             icon: TableCellsIcon,
             current: router.pathname.indexOf('/new') != -1,
             iconForeground: 'text-red-700',
+            iconBackground: 'bg-red-50'
+        },
+        {
+            name: '資源應用程序',
+            href: '/miniapp',
+            icon: CubeIcon,
+            current: router.pathname.indexOf('/miniapp') != -1,
+            iconForeground: 'text-indigo-700',
             iconBackground: 'bg-red-50'
         }
     ];
