@@ -22,7 +22,7 @@ export default function MiniappRow(props: MiniappRowProps) {
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item?.folder?.name}</td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{moment(item?.created_at).format('YYYY-MM-DD HH:ss')}</td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <Link href={`/miniapp/${item?.id}`}>
+                    <Link href={`/miniapp/create?id=${item?.id}`}>
                         <a className="text-indigo-600 hover:text-indigo-900">編輯<span className="sr-only">, Lindsay Walton</span></a>
                     </Link>
                 </td>

@@ -1,4 +1,5 @@
 import { Transition } from '@headlessui/react';
+import { XCircleIcon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';
@@ -65,8 +66,14 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
             >
                 <div className="fixed h-[calc(100vh)] shadow-lg right-0 top-0 pt-10 bg-white w-[28rem] z-50">
                     <div className="w-full h-full flex flex-col">
-                        <h1 className="p-5 pt-10 font-bold text-3xl">選擇儲存路徑</h1>
-                        <div className="pr-5 overflow-auto">
+                        <div className='pt-10 px-10 py-2   flex flex-row items-center justify-between'>
+                            <h1 className="font-bold text-3xl text-center">選擇儲存路徑</h1>
+                            <XCircleIcon className='w-6 h-6'
+                                onClick={() => {
+                                    setMode('');
+                                }} />
+                        </div>
+                        <div className="pl-2 pr-5 overflow-auto">
                             <FolderTree
                                 expanded={true}
                                 movingDest={_movingDest}

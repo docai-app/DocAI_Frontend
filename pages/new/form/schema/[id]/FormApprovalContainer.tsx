@@ -10,7 +10,21 @@ import FormApprovalView from './FormApprovalView';
 
 const apiSetting = new Api();
 
-function FormApprovalContainer() {
+interface FormApprovalProps {
+    form_schema_id?: string;
+    miniapp_filename?: string;
+    miniapp_target_folder_id?: string;
+    form_miniapp?: boolean;
+}
+
+function FormApprovalContainer(props: FormApprovalProps) {
+    const {
+        form_schema_id,
+        miniapp_filename,
+        miniapp_target_folder_id,
+        form_miniapp
+    } = props;
+
     const router = useRouter();
     const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
@@ -35,7 +49,7 @@ function FormApprovalContainer() {
                     重新填寫
                 </a>
                 <a
-                    className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                    className=" cursor-pointer p-[0.75rem] ml-2 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
                     // type="submit"
                     onClick={() => {
                         setPreview(true);
@@ -118,7 +132,7 @@ function FormApprovalContainer() {
     });
 
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaById(`${router.query.id}`),
+        apiSetting.FormSchema.getFormsSchemaById(`${form_schema_id || router.query.id}`),
         { manual: true }
     );
 
@@ -150,9 +164,9 @@ function FormApprovalContainer() {
             console.log('matchedResult: ', matchedResult);
             confirmFormProjection({
                 data: {
-                    form_schema_id: router.query.id,
-                    filename: filename,
-                    target_folder_id: target_folder_id,
+                    form_schema_id: form_schema_id || router.query.id,
+                    filename: miniapp_filename || filename,
+                    target_folder_id: miniapp_target_folder_id || target_folder_id,
                     data: matchedResult
                 }
             });
@@ -201,7 +215,7 @@ function FormApprovalContainer() {
             console.log('matchedResult: ', matchedResult);
             previewFormProjection({
                 data: {
-                    form_schema_id: router.query.id,
+                    form_schema_id: form_schema_id || router.query.id,
                     data: matchedResult
                 }
             });
@@ -243,7 +257,8 @@ function FormApprovalContainer() {
                     setOpen,
                     visiable,
                     setVisiable,
-                    actionContent
+                    actionContent,
+                    form_miniapp
                 }}
             />
         </>

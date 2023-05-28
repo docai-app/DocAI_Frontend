@@ -21,4 +21,22 @@ export default class MiniApp {
         };
         return requestHeader;
     }
+
+    update(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/mini_apps/${id}`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
+
+    showMiniAppById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/mini_apps/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

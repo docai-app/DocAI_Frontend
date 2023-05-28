@@ -1,11 +1,11 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
+import 'animate.css';
 import axios from 'axios';
+import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect } from 'react';
-import { AlertProvider } from '../context/AlertContext';
 import AlertModel from '../components/common/Widget/AlertModel';
-import 'animate.css';
+import { AlertProvider } from '../context/AlertContext';
+import '../styles/globals.css';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;

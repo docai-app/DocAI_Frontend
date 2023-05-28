@@ -29,6 +29,7 @@ interface FormApprovalViewProps {
     visiable: boolean;
     setVisiable: any;
     actionContent: string;
+    form_miniapp?: boolean;
 }
 
 function FormApprovalView(props: FormApprovalViewProps) {
@@ -51,7 +52,8 @@ function FormApprovalView(props: FormApprovalViewProps) {
         setOpen,
         visiable,
         setVisiable,
-        actionContent
+        actionContent,
+        form_miniapp
     } = props;
 
     const [mode, setMode] = useState('');
@@ -86,9 +88,9 @@ function FormApprovalView(props: FormApprovalViewProps) {
                 <main>
                     <div className="max-w-7xl mx-auto py-0 sm:px-0 lg:px-0">
                         <div className="px-4 pb-8 sm:px-0">
-                            <div className="flex justify-center md:items-center flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white h-80vh">
+                            <div className="flex justify-center lg:items-center  lg:flex-row flex-col p-0 border-0 border-dashed border-gray-200 bg-white lg:h-80vh">
                                 <div className="h-full left-side flex-1 flex justify-center items-center object-contain object-center">
-                                    <div className="w-full md:w-full m-4 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
+                                    <div className="w-full lg:w-full m-4 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                         {formUrl.split('.').pop() === 'pdf' ? (
                                             <object
                                                 className="object-center object-cover w-full h-full flex justify-center items-center"
@@ -113,7 +115,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                         )}
                                     </div>
                                 </div>
-                                <div className="right-side flex-1 flex flex-col overflow-auto h-5/6 py-2 pl-2">
+                                <div className="right-side flex-1 flex flex-col lg:overflow-auto h-5/6 py-2 pl-2">
                                     <Form
                                         className="w-5/6"
                                         schema={formSchema}
@@ -137,7 +139,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                 />
                                 <label className="text-gray-500 r">我已核對所有資料</label>
                             </div>
-                            <div className="flex w-full items-center justify-center object-center bg-white ">
+                            <div className="flex w-full items-center justify-center object-center bg-white  flex-wrap">
                                 <Form
                                     schema={approvalSchema.current}
                                     uiSchema={approvalUiSchema.current}
@@ -146,23 +148,34 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                     formData={approval}
                                     onSubmit={onSubmit}
                                 />
-                                {formUrl && (
+                                <div className='flex gap-2 pt-0 items-center'>
+                                    {formUrl && (
+                                        <a
+                                            className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                                            href={formUrl}
+                                            download={formSchema.title + '.png'}
+                                        >
+                                            下載預覽
+                                        </a>
+                                    )}
                                     <a
-                                        className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
-                                        href={formUrl}
-                                        download={formSchema.title + '.png'}
+                                        className=" cursor-pointer p-[0.75rem] ml-2 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
+                                        onClick={() => {
+                                            if (form_miniapp) {
+                                                onConfirm({
+                                                    filename: '',
+                                                    target_folder_id: ''
+                                                });
+                                                setFilename('');
+                                            } else {
+                                                setVisiable(true);
+                                            }
+
+                                        }}
                                     >
-                                        下載預覽
+                                        提交
                                     </a>
-                                )}
-                                <a
-                                    className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
-                                    onClick={() => {
-                                        setVisiable(true);
-                                    }}
-                                >
-                                    提交
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>

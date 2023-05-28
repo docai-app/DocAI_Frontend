@@ -7,14 +7,31 @@ import MyModal from '../../../components/common/Widget/MyModal';
 import useAlert from '../../../hooks/useAlert';
 import UploadView from './UploadView';
 
+interface UploadContainerProps {
+    showUploadSet?: boolean;
+    app_function?: string;
+    miniapp_tag_id?: string;
+    miniapp_form_schema_id?: string;
+    miniapp_target_folder_id?: string;
+    form_miniapp?: boolean;
+}
+
 const apiSetting = new Api();
 
-function UploadContainer() {
+function UploadContainer(props: UploadContainerProps) {
+    const {
+        showUploadSet,
+        app_function,
+        miniapp_tag_id,
+        miniapp_form_schema_id,
+        miniapp_target_folder_id,
+        form_miniapp
+    } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
-    const [target_folder_id, set_target_folder_id] = useState();
+    const [target_folder_id, set_target_folder_id] = useState(miniapp_target_folder_id);
     const [tagId, setTagId] = useState('');
     const [needAutoUpload, setNeedAutoUpload] = useState(false);
     const [needs_deep_understanding, set_needs_deep_understanding] = useState(false);
@@ -38,7 +55,25 @@ function UploadContainer() {
             // console.log('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
             // console.log('form_schema_id', form_schema_id);
 
-            if (needAutoUpload) {
+            if ("upload_document" === app_function) {
+                if (miniapp_tag_id)
+                    formData.append('tag_id', miniapp_tag_id);
+                uploadByBatchTag({
+                    data: formData
+                });
+            } else if ("form_understanding" === app_function) {
+                if (miniapp_tag_id)
+                    formData.append('tag_id', miniapp_tag_id);
+                formData.append(
+                    'needs_deep_understanding',
+                    JSON.stringify(true)
+                );
+                if (miniapp_form_schema_id)
+                    formData.append('form_schema_id', miniapp_form_schema_id);
+                uploadByBatchTag({
+                    data: formData
+                });
+            } else if (needAutoUpload) {
                 formData.append('tag_id', tagId);
                 formData.append(
                     'needs_deep_understanding',
@@ -142,6 +177,7 @@ function UploadContainer() {
                     setDocuments,
                     open,
                     setOpen,
+                    target_folder_id,
                     set_target_folder_id,
                     setTagId,
                     getAllLabelsData,
@@ -153,13 +189,16 @@ function UploadContainer() {
                     set_needs_approval,
                     form_schema_id,
                     set_form_schema_id,
-                    schemasStatusReadyData
+                    schemasStatusReadyData,
+                    showUploadSet
                 }}
             />
             <MyModal
                 visable={visable}
-                cancelClick={confirm}
-                cancelText={'完成並進行智能分類'}
+                cancelClick={() => {
+                    form_miniapp ? nextUpload() : confirm()
+                }}
+                cancelText={form_miniapp ? '確認' : '完成並進行智能分類'}
                 confirmClick={nextUpload}
                 confirmText={'下一批'}
                 success={true}

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(req: NextRequest) {
     const authorization = req.cookies.authorization;
-    if (authorization) {
+    if (authorization || req.url.indexOf('/miniapp') != -1) {
         // to-do...
         // check if token valid
 
