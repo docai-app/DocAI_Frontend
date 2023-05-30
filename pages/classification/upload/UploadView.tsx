@@ -24,6 +24,7 @@ interface UploadViewProps {
     set_form_schema_id?: any;
     schemasStatusReadyData?: any;
     showUploadSet?: boolean;
+    form_miniapp?: boolean;
 }
 
 function UploadView(props: UploadViewProps) {
@@ -45,7 +46,8 @@ function UploadView(props: UploadViewProps) {
         form_schema_id,
         set_form_schema_id,
         schemasStatusReadyData,
-        showUploadSet = true
+        showUploadSet = true,
+        form_miniapp
     } = props;
     const [myfiles, setMyFiles] = useState<any>([]);
     return (
@@ -70,6 +72,7 @@ function UploadView(props: UploadViewProps) {
                             modeType={'move'}
                             target_folder_id={target_folder_id}
                             set_target_folder_id={set_target_folder_id}
+                            canEditPath={!form_miniapp}
                         />
                         {
                             showUploadSet &&

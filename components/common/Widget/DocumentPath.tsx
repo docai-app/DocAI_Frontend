@@ -10,6 +10,7 @@ interface DocumentPathProps {
     modeType: string;
     target_folder_id?: string;
     set_target_folder_id: any;
+    canEditPath?: boolean;
 }
 
 const apiSetting = new Api();
@@ -18,7 +19,8 @@ export default function DocumentPath(props: DocumentPathProps) {
     const {
         modeType,
         target_folder_id,
-        set_target_folder_id
+        set_target_folder_id,
+        canEditPath = true
     } = props;
 
     const [mode, setMode] = useState('');
@@ -70,15 +72,17 @@ export default function DocumentPath(props: DocumentPathProps) {
                             {documentPath && documentPath[documentPath.length - 1].name}
                         </div>
                     </div>
-                    <a
-                        className="text-indigo-600 underline cursor-pointer"
-                        onClick={() => {
-                            // setMode('move');
-                            setMode(modeType);
-                        }}
-                    >
-                        編輯
-                    </a>
+                    {canEditPath &&
+                        <a
+                            className="text-indigo-600 underline cursor-pointer"
+                            onClick={() => {
+                                // setMode('move');
+                                setMode(modeType);
+                            }}
+                        >
+                            編輯
+                        </a>
+                    }
                 </div>
             </div>
 

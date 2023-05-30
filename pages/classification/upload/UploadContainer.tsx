@@ -190,7 +190,8 @@ function UploadContainer(props: UploadContainerProps) {
                     form_schema_id,
                     set_form_schema_id,
                     schemasStatusReadyData,
-                    showUploadSet
+                    showUploadSet,
+                    form_miniapp
                 }}
             />
             <MyModal
