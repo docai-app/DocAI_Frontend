@@ -55,7 +55,6 @@ function GenerateContainer() {
 
     const handleQuery = useCallback(
         async (query: string, format: string, language: string, topic: string, style: string) => {
-            // console.log("query", query);
             if (documents_items && documents_items?.length <= 0) {
                 setAlert({ title: '請選擇文件', type: 'info' });
                 return;
@@ -66,38 +65,54 @@ function GenerateContainer() {
                 title: '進行中......',
                 content: '正在生成內容...'
             });
-            // const res = await getGenerate(
-            //     apiSetting.Generate.query(document.id, query, format, language, topic, style)
-            // );
+
             const document_ids = documents_items.map((item: any) => {
                 return item.id;
             });
-            const res = await getGenerate(
-                apiSetting.Generate.queryByDocuments(
-                    document_ids,
-                    query,
-                    format,
-                    language,
-                    topic,
-                    style
-                )
-            );
-            setOpen(false);
 
-            if (res.data?.success) {
-                const newLog = {
-                    content: res.data?.response?.content,
-                    format: format,
-                    language: language,
-                    topic: topic,
-                    style: style,
-                    created_at: moment().format(),
-                    email: localStorage.getItem('email')
-                };
+            const maxRetry = 2;
 
-                setLogs((arr: any) => [...arr, newLog]);
-                setGenerateContent(res.data?.response?.content);
-            } else {
+            const tryQuery: any = async (retryCount = 0) => {
+                try {
+                    const res = await getGenerate(
+                        apiSetting.Generate.queryByDocuments(
+                            document_ids,
+                            query,
+                            format,
+                            language,
+                            topic,
+                            style
+                        )
+                    );
+                    return res;
+                } catch (error) {
+                    if (retryCount >= maxRetry) throw error;
+                    return tryQuery(retryCount + 1);
+                }
+            };
+
+            try {
+                const res = await tryQuery();
+                setOpen(false);
+
+                if (res.data?.success) {
+                    const newLog = {
+                        content: res.data?.response?.content,
+                        format: format,
+                        language: language,
+                        topic: topic,
+                        style: style,
+                        created_at: moment().format(),
+                        email: localStorage.getItem('email')
+                    };
+
+                    setLogs((arr: any) => [...arr, newLog]);
+                    setGenerateContent(res.data?.response?.content);
+                } else {
+                    setAlert({ title: '網絡發生錯誤，請稍後再試', type: 'error' });
+                }
+            } catch (error) {
+                setOpen(false);
                 setAlert({ title: '網絡發生錯誤，請稍後再試', type: 'error' });
             }
         },
