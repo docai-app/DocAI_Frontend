@@ -1,4 +1,3 @@
-
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useRef } from 'react';
 
@@ -8,11 +7,7 @@ interface UploadOperateProps {
     setDocuments: any;
 }
 export default function UploadOperate(props: UploadOperateProps) {
-    const {
-        myfiles,
-        setMyFiles,
-        setDocuments
-    } = props;
+    const { myfiles, setMyFiles, setDocuments } = props;
 
     const fileInput = useRef<HTMLInputElement>(null);
 
@@ -40,13 +35,9 @@ export default function UploadOperate(props: UploadOperateProps) {
         <>
             <div className="flex p-2 mt-2 justify-between">
                 <label>
-                    已選擇 <label className="text-indigo-600">{myfiles?.length}</label>{' '}
-                    份文檔
+                    已選擇 <label className="text-indigo-600">{myfiles?.length}</label> 份文檔
                 </label>
-                <label
-                    className=" text-red-500 underline cursor-pointer"
-                    onClick={deleteAll}
-                >
+                <label className=" text-red-500 underline cursor-pointer" onClick={deleteAll}>
                     全部刪除
                 </label>
             </div>
@@ -106,5 +97,5 @@ export default function UploadOperate(props: UploadOperateProps) {
                     })}
             </div>
         </>
-    )
+    );
 }

@@ -261,10 +261,11 @@ function ApprovalView(props: any) {
                     <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTypeTabStatus('normal')}
-                            className={`p-4 cursor-pointer ${currentTypeTabStatus === 'normal'
-                                ? 'text-black border-b-2 border-black'
-                                : 'text-gray-400'
-                                } font-bold text-sm`}
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTabStatus === 'normal'
+                                    ? 'text-black border-b-2 border-black'
+                                    : 'text-gray-400'
+                            } font-bold text-sm`}
                         >
                             普通文件
                         </li>
@@ -273,10 +274,11 @@ function ApprovalView(props: any) {
                                 <li
                                     key={item.id}
                                     onClick={() => setCurrentTypeTabStatus(item.id)}
-                                    className={`p-4 cursor-pointer ${currentTypeTabStatus === item.id
-                                        ? 'text-black border-b-2 border-black'
-                                        : 'text-gray-400'
-                                        } font-bold text-sm`}
+                                    className={`p-4 cursor-pointer ${
+                                        currentTypeTabStatus === item.id
+                                            ? 'text-black border-b-2 border-black'
+                                            : 'text-gray-400'
+                                    } font-bold text-sm`}
                                 >
                                     {item.name}
                                 </li>
@@ -290,19 +292,21 @@ function ApprovalView(props: any) {
                     <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTabStatus('awaiting')}
-                            className={`p-4 cursor-pointer ${currentTabStatus === 'awaiting'
-                                ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                : 'text-gray-400'
-                                } font-bold text-sm`}
+                            className={`p-4 cursor-pointer ${
+                                currentTabStatus === 'awaiting'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
+                            } font-bold text-sm`}
                         >
                             待審批
                         </li>
                         <li
                             onClick={() => setCurrentTabStatus('approved')}
-                            className={`p-4 cursor-pointer ${currentTabStatus === 'approved' || currentTabStatus === 'rejected'
-                                ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                : 'text-gray-400'
-                                } font-bold text-sm`}
+                            className={`p-4 cursor-pointer ${
+                                currentTabStatus === 'approved' || currentTabStatus === 'rejected'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
+                            } font-bold text-sm`}
                         >
                             已審批
                         </li>
@@ -321,7 +325,7 @@ function ApprovalView(props: any) {
                                         onSwitch={onSwitch}
                                     />
                                     {currentTypeTabStatus != 'normal' &&
-                                        formSchema?.title === '請假表' ? (
+                                    formSchema?.title === '請假表' ? (
                                         <div className="ml-4">
                                             <MyDateDropdown
                                                 value={working_department}
@@ -332,14 +336,14 @@ function ApprovalView(props: any) {
                                     ) : null}
                                     {(currentTabStatus === 'approved' ||
                                         currentTabStatus === 'rejected') && (
-                                            <div className="ml-4">
-                                                <MyDateDropdown
-                                                    value={status}
-                                                    datas={statusDatas}
-                                                    onSwitch={onSwitchStatus}
-                                                />
-                                            </div>
-                                        )}
+                                        <div className="ml-4">
+                                            <MyDateDropdown
+                                                value={status}
+                                                datas={statusDatas}
+                                                onSwitch={onSwitchStatus}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
                                 {currentTypeTabStatus != 'normal' ? (
                                     <button
@@ -393,7 +397,7 @@ function ApprovalView(props: any) {
                                             } = item;
                                             // console.log(item.approval_user);
                                             // const { storage_url: formUrl = null } = item.document;
-                                            const formUrl = item.document?.storage_url
+                                            const formUrl = item.document?.storage_url;
                                             if (
                                                 item.form_data?.data == null &&
                                                 currentTypeTabStatus != 'normal'
@@ -436,7 +440,7 @@ function ApprovalView(props: any) {
                                                                         <div className="flex-1 text-left  text-sm">
                                                                             <label className="text-sm font-bold">
                                                                                 {element.value ===
-                                                                                    true
+                                                                                true
                                                                                     ? '✅'
                                                                                     : element.value}
                                                                             </label>
