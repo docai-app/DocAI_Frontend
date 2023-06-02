@@ -27,7 +27,7 @@ export default function MiniappView(props: MiniappViewProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => { }}
+                setOpen={() => {}}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
