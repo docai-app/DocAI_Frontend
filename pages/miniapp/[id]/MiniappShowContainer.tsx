@@ -8,9 +8,9 @@ const apiSetting = new Api();
 
 function MiniappShowContainer() {
     const router = useRouter();
-    const [data, setData] = useState()
+    const [data, setData] = useState();
     const [{ data: showMiniAppByIdData, loading: loading }, showMiniAppById] = useAxios(
-        apiSetting.MiniApp.showMiniAppById(router.query.id + ""),
+        apiSetting.MiniApp.showMiniAppById(router.query.id + ''),
         {
             manual: false
         }
@@ -18,11 +18,10 @@ function MiniappShowContainer() {
 
     useEffect(() => {
         if (showMiniAppByIdData && showMiniAppByIdData.success) {
-            setData(showMiniAppByIdData?.mini_app)
+            setData(showMiniAppByIdData?.mini_app);
             console.log(showMiniAppByIdData?.mini_app);
         }
-
-    }, [showMiniAppByIdData])
+    }, [showMiniAppByIdData]);
 
     return (
         <>
@@ -33,7 +32,7 @@ function MiniappShowContainer() {
                 }}
             />
         </>
-    )
+    );
 }
 
 export default MiniappShowContainer;

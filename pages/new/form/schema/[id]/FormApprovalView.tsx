@@ -148,7 +148,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                     formData={approval}
                                     onSubmit={onSubmit}
                                 />
-                                <div className='flex gap-2 pt-0 items-center'>
+                                <div className="flex gap-2 pt-0 items-center">
                                     {formUrl && (
                                         <a
                                             className=" cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50"
@@ -170,7 +170,6 @@ function FormApprovalView(props: FormApprovalViewProps) {
                                             } else {
                                                 setVisiable(true);
                                             }
-
                                         }}
                                     >
                                         提交

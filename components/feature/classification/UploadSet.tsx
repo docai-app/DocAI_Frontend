@@ -1,4 +1,3 @@
-
 interface UploadSetProps {
     needAutoUpload?: boolean;
     setNeedAutoUpload: any;
@@ -9,7 +8,6 @@ interface UploadSetProps {
     set_form_schema_id: any;
     getAllLabelsData: any;
     schemasStatusReadyData: any;
-
 }
 
 export default function UploadSet(props: UploadSetProps) {
@@ -22,8 +20,8 @@ export default function UploadSet(props: UploadSetProps) {
         setTagId,
         set_form_schema_id,
         getAllLabelsData,
-        schemasStatusReadyData,
-    } = props
+        schemasStatusReadyData
+    } = props;
     return (
         <>
             <div className="mt-4 rounded-md border-2 border-gray-200 p-4 bg-white">
@@ -78,16 +76,12 @@ export default function UploadSet(props: UploadSetProps) {
                             />
                             <label className="ml-2 text-md font-bold text-gray-900">
                                 是否需要表格深度理解?
-                                <label className="text-sm text-gray-500">
-                                    (需要統一標籤)
-                                </label>
+                                <label className="text-sm text-gray-500">(需要統一標籤)</label>
                             </label>
                         </div>
                     </div>
                     <div className={`${needs_deep_understanding ? 'my-2' : 'my-2 hidden'}`}>
-                        <label className="font-bold text-gray-900">
-                            表格深度理解的模型
-                        </label>
+                        <label className="font-bold text-gray-900">表格深度理解的模型</label>
                         <select
                             id="select_tag_function"
                             name="location"
@@ -112,10 +106,11 @@ export default function UploadSet(props: UploadSetProps) {
                         </select>
                     </div>
                     <div
-                        className={`${needs_deep_understanding
-                            ? 'flex flex-row justify-between mt-2'
-                            : 'flex-row justify-between hidden'
-                            }`}
+                        className={`${
+                            needs_deep_understanding
+                                ? 'flex flex-row justify-between mt-2'
+                                : 'flex-row justify-between hidden'
+                        }`}
                     >
                         <div className="flex flex-row items-center">
                             <input
@@ -133,5 +128,5 @@ export default function UploadSet(props: UploadSetProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }

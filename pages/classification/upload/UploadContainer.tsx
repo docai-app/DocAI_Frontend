@@ -55,19 +55,14 @@ function UploadContainer(props: UploadContainerProps) {
             // console.log('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
             // console.log('form_schema_id', form_schema_id);
 
-            if ("upload_document" === app_function) {
-                if (miniapp_tag_id)
-                    formData.append('tag_id', miniapp_tag_id);
+            if ('upload_document' === app_function) {
+                if (miniapp_tag_id) formData.append('tag_id', miniapp_tag_id);
                 uploadByBatchTag({
                     data: formData
                 });
-            } else if ("form_understanding" === app_function) {
-                if (miniapp_tag_id)
-                    formData.append('tag_id', miniapp_tag_id);
-                formData.append(
-                    'needs_deep_understanding',
-                    JSON.stringify(true)
-                );
+            } else if ('form_understanding' === app_function) {
+                if (miniapp_tag_id) formData.append('tag_id', miniapp_tag_id);
+                formData.append('needs_deep_understanding', JSON.stringify(true));
                 if (miniapp_form_schema_id)
                     formData.append('form_schema_id', miniapp_form_schema_id);
                 uploadByBatchTag({
@@ -197,7 +192,7 @@ function UploadContainer(props: UploadContainerProps) {
             <MyModal
                 visable={visable}
                 cancelClick={() => {
-                    form_miniapp ? nextUpload() : confirm()
+                    form_miniapp ? nextUpload() : confirm();
                 }}
                 cancelText={form_miniapp ? '確認' : '完成並進行智能分類'}
                 confirmClick={nextUpload}

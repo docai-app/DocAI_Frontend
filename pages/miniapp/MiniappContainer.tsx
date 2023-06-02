@@ -6,8 +6,8 @@ import MiniappView from './MiniappView';
 const apiSetting = new Api();
 
 function MiniappContainer() {
-    const [mini_apps, set_mini_apps] = useState([])
-    const [page, setPage] = useState(1)
+    const [mini_apps, set_mini_apps] = useState([]);
+    const [page, setPage] = useState(1);
     const [meta, setMeta] = useState();
 
     const [{ data: getMiniAppsData, loading: loading }, getMiniApps] = useAxios(
@@ -19,11 +19,10 @@ function MiniappContainer() {
 
     useEffect(() => {
         if (getMiniAppsData && getMiniAppsData.success) {
-            set_mini_apps(getMiniAppsData?.mini_apps)
+            set_mini_apps(getMiniAppsData?.mini_apps);
             setMeta(getMiniAppsData?.meta);
         }
-
-    }, [getMiniAppsData])
+    }, [getMiniAppsData]);
 
     return (
         <>
@@ -35,7 +34,7 @@ function MiniappContainer() {
                 }}
             />
         </>
-    )
+    );
 }
 
 export default MiniappContainer;

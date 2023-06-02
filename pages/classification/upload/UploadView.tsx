@@ -74,8 +74,7 @@ function UploadView(props: UploadViewProps) {
                             set_target_folder_id={set_target_folder_id}
                             canEditPath={!form_miniapp}
                         />
-                        {
-                            showUploadSet &&
+                        {showUploadSet && (
                             <UploadSet
                                 needAutoUpload={needAutoUpload}
                                 setNeedAutoUpload={setNeedAutoUpload}
@@ -87,11 +86,12 @@ function UploadView(props: UploadViewProps) {
                                 getAllLabelsData={getAllLabelsData}
                                 schemasStatusReadyData={schemasStatusReadyData}
                             />
-                        }
+                        )}
                         <UploadOperate
                             myfiles={myfiles}
                             setMyFiles={setMyFiles}
-                            setDocuments={setDocuments} />
+                            setDocuments={setDocuments}
+                        />
                     </div>
                 </div>
             </div>

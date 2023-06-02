@@ -18,12 +18,7 @@ interface FormApprovalProps {
 }
 
 function FormApprovalContainer(props: FormApprovalProps) {
-    const {
-        form_schema_id,
-        miniapp_filename,
-        miniapp_target_folder_id,
-        form_miniapp
-    } = props;
+    const { form_schema_id, miniapp_filename, miniapp_target_folder_id, form_miniapp } = props;
 
     const router = useRouter();
     const { setAlert } = useAlert();

@@ -9,10 +9,10 @@ const apiSetting = new Api();
 
 function MiniappContainer() {
     const { setAlert } = useAlert();
-    const router = useRouter()
-    const [miniAppData, setMiniAppData] = useState()
-    const [actionContent, setActionContent] = useState('')
-    const [open, setOpen] = useState(false)
+    const router = useRouter();
+    const [miniAppData, setMiniAppData] = useState();
+    const [actionContent, setActionContent] = useState('');
+    const [open, setOpen] = useState(false);
 
     const [{ data: getTagFunctionsData }, getTagFunctions] = useAxios(
         apiSetting.Tag.getTagFunctions(),
@@ -48,7 +48,7 @@ function MiniappContainer() {
     );
 
     const [{ data: showMiniAppByIdData, loading: loading }, showMiniAppById] = useAxios(
-        apiSetting.MiniApp.showMiniAppById(router.query.id + ""),
+        apiSetting.MiniApp.showMiniAppById(router.query.id + ''),
         {
             manual: true
         }
@@ -56,70 +56,77 @@ function MiniappContainer() {
 
     const updateMiniappHandler = useCallback(
         async (data) => {
-            setActionContent('正在保存數據...')
-            setOpen(true)
-            const { name, description, form_schema_id, function_name, tag_id, target_folder_id, needs_deep_understanding } = data
+            setActionContent('正在保存數據...');
+            setOpen(true);
+            const {
+                name,
+                description,
+                form_schema_id,
+                function_name,
+                tag_id,
+                target_folder_id,
+                needs_deep_understanding
+            } = data;
             const formData = {
-                'name': name,
-                'description': description,
-                'folder_id': target_folder_id,
-                'document_label_list': [tag_id],
-                'app_function_list': [function_name],
-                'meta': needs_deep_understanding && form_schema_id ? { 'form_schema_id': form_schema_id } : {},
-            }
+                name: name,
+                description: description,
+                folder_id: target_folder_id,
+                document_label_list: [tag_id],
+                app_function_list: [function_name],
+                meta:
+                    needs_deep_understanding && form_schema_id
+                        ? { form_schema_id: form_schema_id }
+                        : {}
+            };
             if (router.query.id) {
                 updateMiniApps({
                     data: formData
-                })
+                });
             } else {
                 createMiniApps({
                     data: formData
-                })
+                });
             }
-
         },
         [router, createMiniApps, updateMiniApps]
     );
 
     useEffect(() => {
         if (router.query.id) {
-            setOpen(true)
-            setActionContent('正在加载數據...')
-            showMiniAppById()
+            setOpen(true);
+            setActionContent('正在加载數據...');
+            showMiniAppById();
         }
-    }, [router])
+    }, [router]);
 
     useEffect(() => {
         if (showMiniAppByIdData && showMiniAppByIdData.success) {
-            setOpen(false)
-            setMiniAppData(showMiniAppByIdData?.mini_app)
+            setOpen(false);
+            setMiniAppData(showMiniAppByIdData?.mini_app);
         }
-
-    }, [showMiniAppByIdData])
+    }, [showMiniAppByIdData]);
 
     useEffect(() => {
         if (createMiniAppsData && createMiniAppsData.success) {
             // console.log(createMiniAppsData);
             setAlert({ title: '新增成功!', type: 'success' });
-            setOpen(false)
+            setOpen(false);
             router.reload();
         } else if (createMiniAppsData && !createMiniAppsData.success) {
-            setOpen(false)
+            setOpen(false);
             setAlert({ title: createMiniAppsData.error, type: 'error' });
         }
-
-    }, [createMiniAppsData])
+    }, [createMiniAppsData]);
 
     useEffect(() => {
         if (updateMiniAppsData && updateMiniAppsData.success) {
-            setOpen(false)
+            setOpen(false);
             setAlert({ title: '更新成功!', type: 'success' });
         } else if (updateMiniAppsData && !updateMiniAppsData.success) {
-            setOpen(false)
+            setOpen(false);
             setAlert({ title: updateMiniAppsData.error, type: 'error' });
         }
-
-    }, [updateMiniAppsData])
+    }, [updateMiniAppsData]);
 
     return (
         <>
@@ -136,7 +143,7 @@ function MiniappContainer() {
                 }}
             />
         </>
-    )
+    );
 }
 
 export default MiniappContainer;

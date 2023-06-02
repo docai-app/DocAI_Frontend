@@ -1,10 +1,10 @@
 import { FolderIcon } from '@heroicons/react/20/solid';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import useAxios from "axios-hooks";
-import { useEffect, useState } from "react";
-import Api from "../../../apis";
-import { Folder } from "./FolderTree";
-import FolderTreeForSelect from "./FolderTreeForSelect";
+import useAxios from 'axios-hooks';
+import { useEffect, useState } from 'react';
+import Api from '../../../apis';
+import { Folder } from './FolderTree';
+import FolderTreeForSelect from './FolderTreeForSelect';
 
 interface DocumentPathProps {
     modeType: string;
@@ -16,12 +16,7 @@ interface DocumentPathProps {
 const apiSetting = new Api();
 
 export default function DocumentPath(props: DocumentPathProps) {
-    const {
-        modeType,
-        target_folder_id,
-        set_target_folder_id,
-        canEditPath = true
-    } = props;
+    const { modeType, target_folder_id, set_target_folder_id, canEditPath = true } = props;
 
     const [mode, setMode] = useState('');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
@@ -72,7 +67,7 @@ export default function DocumentPath(props: DocumentPathProps) {
                             {documentPath && documentPath[documentPath.length - 1].name}
                         </div>
                     </div>
-                    {canEditPath &&
+                    {canEditPath && (
                         <a
                             className="text-indigo-600 underline cursor-pointer"
                             onClick={() => {
@@ -82,7 +77,7 @@ export default function DocumentPath(props: DocumentPathProps) {
                         >
                             編輯
                         </a>
-                    }
+                    )}
                 </div>
             </div>
 
@@ -96,5 +91,5 @@ export default function DocumentPath(props: DocumentPathProps) {
                 }}
             />
         </>
-    )
+    );
 }
