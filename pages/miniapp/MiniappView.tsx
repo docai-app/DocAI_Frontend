@@ -1,5 +1,7 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { useState } from 'react';
+import MiniappShareQRcodeModal from '../../components/common/Widget/MiniappShareQRcodeModal';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import MiniappRow from '../../components/feature/miniapp/MiniappRow';
@@ -12,7 +14,15 @@ interface MiniappViewProps {
 
 export default function MiniappView(props: MiniappViewProps) {
     const { mini_apps, meta, loading } = props;
-
+    const [miniappItem, setMiniappItem] = useState<any>();
+    const [visable, setVisible] = useState(false);
+    const share = (item: any) => {
+        setMiniappItem({
+            ...item,
+            link: window.origin + `/miniapp/${item?.id}`
+        });
+        setVisible(true);
+    };
     return (
         <>
             <SingleActionModel
@@ -78,7 +88,9 @@ export default function MiniappView(props: MiniappViewProps) {
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {mini_apps?.map((item: any, index: number) => {
-                                            return <MiniappRow key={index} item={item} />;
+                                            return (
+                                                <MiniappRow key={index} item={item} share={share} />
+                                            );
                                         })}
                                     </tbody>
                                 </table>
@@ -88,6 +100,14 @@ export default function MiniappView(props: MiniappViewProps) {
                     </div>
                 </div>
             </div>
+            <MiniappShareQRcodeModal
+                visable={visable}
+                name={miniappItem?.name}
+                link={miniappItem?.link}
+                cancelClick={() => {
+                    setVisible(false);
+                }}
+            />
         </>
     );
 }

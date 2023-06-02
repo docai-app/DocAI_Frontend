@@ -3,10 +3,11 @@ import Link from 'next/link';
 
 interface MiniappRowProps {
     item: any;
+    share?: any;
 }
 
 export default function MiniappRow(props: MiniappRowProps) {
-    const { item } = props;
+    const { item, share } = props;
     return (
         <>
             <tr>
@@ -25,6 +26,15 @@ export default function MiniappRow(props: MiniappRowProps) {
                     {moment(item?.created_at).format('YYYY-MM-DD HH:ss')}
                 </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                    <label
+                        className=" cursor-pointer text-indigo-600 hover:text-indigo-900"
+                        onClick={() => {
+                            share(item);
+                        }}
+                    >
+                        分享<span className="sr-only">, Lindsay Walton</span>
+                    </label>
+                    {'  | '}
                     <Link href={`/miniapp/create?id=${item?.id}`}>
                         <a className="text-indigo-600 hover:text-indigo-900">
                             編輯<span className="sr-only">, Lindsay Walton</span>
