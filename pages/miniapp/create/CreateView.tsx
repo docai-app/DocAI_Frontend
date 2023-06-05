@@ -203,11 +203,16 @@ export default function MiniappView(props: CreateViewProps) {
                                     </option>
                                     {getTagFunctionsData?.functions?.map(
                                         (func: any, index: number) => {
-                                            return (
-                                                <option key={index} value={func.name}>
-                                                    {func.title}
-                                                </option>
-                                            );
+                                            // If function name is normal_approval, then skip it. Because the normal_approval logic is not ready yet.
+                                            if (func.name == 'normal_approval') {
+                                                return;
+                                            } else {
+                                                return (
+                                                    <option key={index} value={func.name}>
+                                                        {func.title}
+                                                    </option>
+                                                );
+                                            }
                                         }
                                     )}
                                 </select>
