@@ -4,6 +4,7 @@ import SingleActionModel from '../../../../../components/common/Widget/SingleAct
 import HeadView from '../../../../../components/feature/search/HeadView';
 import { matchFormSchemaAndFormData } from '../../../../../utils/form';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Router from 'next/router';
 
 interface FormFilterViewProps {
     formSchema: any;
@@ -20,6 +21,7 @@ interface FormFilterViewProps {
     setLoadingOpen: (loadingOpen: boolean) => void;
     resultFormsData: any;
     showAllItemsHandler: () => void;
+    handlerDeleteDocument: any;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -37,10 +39,22 @@ function FormFilterView(props: FormFilterViewProps) {
         loadingOpen,
         setLoadingOpen,
         resultFormsData,
-        showAllItemsHandler
+        showAllItemsHandler,
+        handlerDeleteDocument
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
+
+    const editFormDocument = (datum: any) => {
+        if( !datum ) return
+        Router.push({pathname:  '/form/validate', query: {
+            document_id: datum?.document_id,
+            form_url: datum?.document?.storage_url,
+            form_id: datum?.id,
+            form_schema_id: datum?.form_schema_id,
+            result: JSON.stringify(datum?.data)
+        }})
+    }
 
     return (
         <>
@@ -167,6 +181,12 @@ function FormFilterView(props: FormFilterViewProps) {
                                                         >
                                                             文檔連結
                                                         </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                        >
+                                                            操作
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
@@ -272,6 +292,29 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         rel="noreferrer"
                                                                     >
                                                                         點擊開啟
+                                                                    </a>
+                                                                </td>
+                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
+                                                                    <a
+                                                                        className=" cursor-pointer text-blue-500 hover:text-blue-700 underline"
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                        onClick={()=>{
+                                                                            editFormDocument(datum)
+                                                                        }}
+                                                                    >
+                                                                        修改
+                                                                    </a>
+                                                                    {' | '}
+                                                                    <a
+                                                                        className="cursor-pointer text-red-500 hover:text-red-700 underline"
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                        onClick={()=>{
+                                                                            handlerDeleteDocument(datum?.id)
+                                                                        }}
+                                                                    >
+                                                                        刪除
                                                                     </a>
                                                                 </td>
                                                             </tr>

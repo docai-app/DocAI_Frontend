@@ -79,6 +79,20 @@ export default function DriveContainer() {
         addNewLabel({ data: { name: newLabelName } });
     }, [addNewLabel, newLabelName]);
 
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
+    const [{ data: deepUnderstandingDocumentData }, deepUnderstandingDocument] = useAxios(
+        apiSetting.Document.deepUnderstandingDocument(),
+        {
+            manual: true
+        }
+    );
+
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
             // setAlert({ title: '新增成功', type: 'success' });
@@ -204,6 +218,26 @@ export default function DriveContainer() {
             const res = await updateFolderName(apiSetting.Folders.updateFoldertNameById(id, name));
             if (res.data?.success) {
                 setAlert({ title: '更新成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
+
+    const handleDeepUnderstanding = async (form_schema_id: string, needs_approval: boolean) => {
+        if (form_schema_id) {
+            setUpdateTag(true)
+            const res = await deepUnderstandingDocument({
+                data: {
+                    document_ids: documents_items,
+                    form_schema_id: form_schema_id,
+                    needs_approval: needs_approval
+                }
+            });
+            setUpdateTag(false)
+            if (res.data?.success) {
+                setAlert({ title: '操作成功', type: 'success' });
                 router.reload();
             } else {
                 setAlert({ title: '發生錯誤', type: 'error' });
@@ -357,7 +391,9 @@ export default function DriveContainer() {
                 setNewLabelName,
                 addNewLabelHandler,
                 updateTag,
-                setUpdateTag
+                setUpdateTag,
+                schemasStatusReadyData,
+                handleDeepUnderstanding
             }}
         />
     );

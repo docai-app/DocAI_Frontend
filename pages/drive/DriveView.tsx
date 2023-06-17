@@ -26,6 +26,7 @@ import EditItems from '../../components/feature/drive/EditItems';
 import TableRow from '../../components/feature/drive/TableRow';
 import SearchDocumentForm from '../../components/feature/home/SearchDocumentForm';
 import EditLabel from '../../components/feature/setting/label/EditLabel';
+import DeepUnderstandingModal from '../../components/feature/drive/DeepUnderstandingModal';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -68,6 +69,8 @@ interface DriveViewProps {
     setNewLabelName: any;
     updateTag: boolean;
     setUpdateTag: any;
+    schemasStatusReadyData: any;
+    handleDeepUnderstanding: any;
 }
 
 export default function DriveView(props: DriveViewProps) {
@@ -111,13 +114,16 @@ export default function DriveView(props: DriveViewProps) {
         setNewLabelName,
         addNewLabelHandler,
         updateTag,
-        setUpdateTag
+        setUpdateTag,
+        schemasStatusReadyData,
+        handleDeepUnderstanding
     } = props;
 
     const shareWithInput = useRef<HTMLInputElement>(null);
     const newFolderNameInput = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [openEditLabel, setOpenEditLabel] = useState(false);
+    const [openDeepUnderstanding, setOpenDeepUnderstanding] = useState(false);
 
     const [cards, setCards] = useState<any[]>([
         { name: '今天已上傳的文檔', href: '/classification/logs', icon: CloudIcon, amount: 0 },
@@ -194,7 +200,7 @@ export default function DriveView(props: DriveViewProps) {
                 open={updateTag}
                 setOpen={setUpdateTag}
                 title={'進行中......'}
-                content={'正在更新標籤...'}
+                content={'正在更新...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <AmendLabel
@@ -240,6 +246,10 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 deleteItems={() => {
                     handleDeleteItems();
+                }}
+                visibleDeepUnderstanding={documents_items?.length > 0 && folders_items?.length == 0}
+                deepUnderstanding={() => {
+                    setOpenDeepUnderstanding(true);
                 }}
                 count={documents_items?.length + folders_items?.length}
             />
@@ -662,6 +672,19 @@ export default function DriveView(props: DriveViewProps) {
                 confirmClick={() => {
                     setVisableDelete(false);
                     deleteFolderOrDocumentHandler();
+                }}
+            />
+
+            <DeepUnderstandingModal
+                visable={openDeepUnderstanding}
+                schemasStatusReadyData={schemasStatusReadyData}
+                description={`選擇深度理解模型`}
+                cancelClick={() => {
+                    setOpenDeepUnderstanding(false);
+                }}
+                confirmClick={(form_schema_id: string, needs_approval: boolean) => {
+                    handleDeepUnderstanding(form_schema_id, needs_approval)
+                    setOpenDeepUnderstanding(false);
                 }}
             />
         </>

@@ -6,11 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../../apis';
 import { getDownloadFields, matchFormSchemaAndFormData } from '../../../../../utils/form';
 import FormFilterView from './FormFilterView';
+import useAlert from '../../../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
 export default function FormFilterContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [formSchema, setFormSchema] = useState({});
     const [selectedFilter, setSelectedFilter] = useState([]);
     const [selectedResult, setSelectedResult] = useState([]);
@@ -29,6 +31,13 @@ export default function FormFilterContainer() {
         { data: resultFormsData, loading: resultFormsLoading },
         showFormsByFilterAndFormSchemaId
     ] = useAxios(apiSetting.Form.showFormsByFilterAndFormSchemaId('', 1), {
+        manual: true
+    });
+
+    const [
+        { data: deleteFormByIdData, loading: deleteFormByIdLoading },
+        deleteFormById
+    ] = useAxios(apiSetting.Form.deleteFormById(''), {
         manual: true
     });
 
@@ -143,6 +152,13 @@ export default function FormFilterContainer() {
         setPage((page) => page + 1);
     }, []);
 
+    const handlerDeleteDocument = async (id: string) => {
+        if( id ){
+            setFormDatum(formDatum.filter((item: any)=>item.id !== id))
+            deleteFormById(apiSetting.Form.deleteFormById(id))
+        }
+    }
+
     return (
         <FormFilterView
             {...{
@@ -159,7 +175,8 @@ export default function FormFilterContainer() {
                 loadingOpen,
                 setLoadingOpen,
                 resultFormsData,
-                showAllItemsHandler
+                showAllItemsHandler,
+                handlerDeleteDocument
             }}
         />
     );

@@ -1,5 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { MagnifyingGlassIcon, PaperAirplaneIcon, TagIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PaperAirplaneIcon, TagIcon, ArchiveBoxArrowDownIcon } from '@heroicons/react/24/outline';
 
 interface EditItemsProps {
     openItems?: any;
@@ -7,10 +7,12 @@ interface EditItemsProps {
     clearItems?: any;
     updateTag?: any;
     count: number;
+    visibleDeepUnderstanding?: boolean;
+    deepUnderstanding?: any;
 }
 
 export default function SearchEditItems(props: EditItemsProps) {
-    const { openItems, searchItems, clearItems, updateTag, count } = props;
+    const { openItems, searchItems, clearItems, updateTag, count, visibleDeepUnderstanding, deepUnderstanding } = props;
     return (
         <>
             {count > 0 && (
@@ -37,6 +39,15 @@ export default function SearchEditItems(props: EditItemsProps) {
                             <TagIcon className="w-4 m-1 " />
                             <label className="text-sm">更新標籤</label>
                         </div>
+                        {visibleDeepUnderstanding && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={deepUnderstanding}
+                            >
+                                <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
+                                <label className="text-sm">深度理解</label>
+                            </div>
+                        )}
                     </div>
                     <div className="flex flex-0 mr-4">
                         <div

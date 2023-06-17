@@ -91,6 +91,15 @@ export default class Absence {
         return requestHeader;
     }
 
+    deepUnderstandingDocument() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/deep_understanding`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
     getCollectionDocuments() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

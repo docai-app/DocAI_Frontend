@@ -50,6 +50,20 @@ function SearchContainer() {
         { manual: false }
     );
 
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
+    const [{ data: deepUnderstandingDocumentData }, deepUnderstandingDocument] = useAxios(
+        apiSetting.Document.deepUnderstandingDocument(),
+        {
+            manual: true
+        }
+    );
+
     const searchDocumentFormik = useFormik({
         initialValues: {
             tag_id: '',
@@ -93,6 +107,26 @@ function SearchContainer() {
             }
         }
     });
+
+    const handleDeepUnderstanding = async (form_schema_id: string, needs_approval: boolean) => {
+        if (form_schema_id) {
+            setUpdateTag(true)
+            const res = await deepUnderstandingDocument({
+                data: {
+                    document_ids: documents_items,
+                    form_schema_id: form_schema_id,
+                    needs_approval: needs_approval
+                }
+            });
+            setUpdateTag(false)
+            if (res.data?.success) {
+                setAlert({ title: '操作成功', type: 'success' });
+                router.reload();
+            } else {
+                setAlert({ title: '發生錯誤', type: 'error' });
+            }
+        }
+    };
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
@@ -174,7 +208,9 @@ function SearchContainer() {
                     setNewLabelName,
                     addNewLabelHandler,
                     confirmDocumentFormik,
-                    getAllLabelsData
+                    getAllLabelsData,
+                    schemasStatusReadyData,
+                    handleDeepUnderstanding
                 }}
             />
         </>

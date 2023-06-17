@@ -8,6 +8,7 @@ import AmendLabel from '../../components/feature/classification/AmendLabel';
 import SearchEditItems from '../../components/feature/search/SearchEditItems';
 import SearchRow from '../../components/feature/search/SearchRow';
 import EditLabel from '../../components/feature/setting/label/EditLabel';
+import DeepUnderstandingModal from '../../components/feature/drive/DeepUnderstandingModal';
 
 interface SearchViewProps {
     searchDocumentFormik: any;
@@ -24,6 +25,8 @@ interface SearchViewProps {
     newLabelName: string;
     setNewLabelName: any;
     addNewLabelHandler: any;
+    schemasStatusReadyData?: any;
+    handleDeepUnderstanding?: any;
 }
 
 export default function SearchView(props: SearchViewProps) {
@@ -41,11 +44,14 @@ export default function SearchView(props: SearchViewProps) {
         confirmDocumentFormik,
         newLabelName,
         setNewLabelName,
-        addNewLabelHandler
+        addNewLabelHandler,
+        schemasStatusReadyData,
+        handleDeepUnderstanding
     } = props;
     const [document, setDocument] = useState<any>();
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [openAmendLabel, setOpenAmendLabel] = useState(false);
+    const [openDeepUnderstanding, setOpenDeepUnderstanding] = useState(false);
     const setChecedkData = (checked: boolean, value: string) => {
         setDocumentsItems([value]);
         // const newData = checked
@@ -60,7 +66,7 @@ export default function SearchView(props: SearchViewProps) {
                 open={updateTag}
                 setOpen={setUpdateTag}
                 title={'進行中......'}
-                content={'正在更新標籤...'}
+                content={'正在更新...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <AmendLabel
@@ -98,6 +104,10 @@ export default function SearchView(props: SearchViewProps) {
                 }}
                 clearItems={() => {
                     setDocumentsItems([]);
+                }}
+                visibleDeepUnderstanding={true}
+                deepUnderstanding={() => {
+                    setOpenDeepUnderstanding(true);
                 }}
                 count={documents_items?.length}
             />
@@ -186,6 +196,18 @@ export default function SearchView(props: SearchViewProps) {
                               }
                             : { content: searchDocumentFormik?.values?.content }
                     }
+                />
+                <DeepUnderstandingModal
+                    visable={openDeepUnderstanding}
+                    schemasStatusReadyData={schemasStatusReadyData}
+                    description={`選擇深度理解模型`}
+                    cancelClick={() => {
+                        setOpenDeepUnderstanding(false);
+                    }}
+                    confirmClick={(form_schema_id: string, needs_approval: boolean) => {
+                        handleDeepUnderstanding(form_schema_id, needs_approval)
+                        setOpenDeepUnderstanding(false);    
+                    }}
                 />
             </div>
         </>

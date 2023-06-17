@@ -31,6 +31,15 @@ export default class Form {
         return requestHeader;
     }
 
+    deleteFormById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/form/datum/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
+
     schemasStatusReady() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

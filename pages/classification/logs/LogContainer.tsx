@@ -40,6 +40,14 @@ function LogContainer() {
         }));
     }, [currentTabStatus, countDocumentsStatusByDateData]);
 
+    useEffect(()=>{
+        const interval = setInterval(() => {
+            countDocumentsStatusByDate()
+            console.log('This will load data');
+          }, 1000 * 10);
+          return () => clearInterval(interval);
+    },[])
+
     return (
         <>
             <LogView
