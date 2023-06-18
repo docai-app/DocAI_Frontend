@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import LogView from './LogView';
 import useAxios from 'axios-hooks';
-import Api from '../../../apis/index';
-import { useRouter } from 'next/router';
 import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Api from '../../../apis/index';
+import LogView from './LogView';
 
 const apiSetting = new Api();
 
@@ -40,13 +40,13 @@ function LogContainer() {
         }));
     }, [currentTabStatus, countDocumentsStatusByDateData]);
 
-    useEffect(()=>{
+    useEffect(() => {
         const interval = setInterval(() => {
-            countDocumentsStatusByDate()
+            countDocumentsStatusByDate();
             console.log('This will load data');
-          }, 1000 * 10);
-          return () => clearInterval(interval);
-    },[])
+        }, 1000 * 10);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <>

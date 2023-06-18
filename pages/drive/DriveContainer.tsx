@@ -227,7 +227,7 @@ export default function DriveContainer() {
 
     const handleDeepUnderstanding = async (form_schema_id: string, needs_approval: boolean) => {
         if (form_schema_id) {
-            setUpdateTag(true)
+            setUpdateTag(true);
             const res = await deepUnderstandingDocument({
                 data: {
                     document_ids: documents_items,
@@ -235,7 +235,7 @@ export default function DriveContainer() {
                     needs_approval: needs_approval
                 }
             });
-            setUpdateTag(false)
+            setUpdateTag(false);
             if (res.data?.success) {
                 setAlert({ title: '操作成功', type: 'success' });
                 router.reload();

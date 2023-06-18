@@ -1,5 +1,10 @@
 import { TrashIcon, XMarkIcon } from '@heroicons/react/20/solid';
-import { ArchiveBoxArrowDownIcon, ArrowRightCircleIcon, MagnifyingGlassIcon, TagIcon } from '@heroicons/react/24/outline';
+import {
+    ArchiveBoxArrowDownIcon,
+    ArrowRightCircleIcon,
+    MagnifyingGlassIcon,
+    TagIcon
+} from '@heroicons/react/24/outline';
 
 interface EditItemsProps {
     moveItems?: any;

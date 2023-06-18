@@ -7,8 +7,8 @@ const apiSetting = new Api();
 
 export default function DeepUnderstandingModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const [form_schema_id, set_form_schema_id] = useState('') 
-    const [needs_approval, set_needs_approval] = useState(false)
+    const [form_schema_id, set_form_schema_id] = useState('');
+    const [needs_approval, set_needs_approval] = useState(false);
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
             <Dialog
@@ -57,7 +57,9 @@ export default function DeepUnderstandingModal(props: any) {
                             <div className="w-full mt-4">
                                 <div className="w-full text-left">
                                     <div className="items-start al">
-                                        <label className="font-bold text-gray-900">表格深度理解的模型</label>
+                                        <label className="font-bold text-gray-900">
+                                            表格深度理解的模型
+                                        </label>
                                         <select
                                             id="select_tag_function"
                                             name="location"
@@ -82,9 +84,7 @@ export default function DeepUnderstandingModal(props: any) {
                                         </select>
                                     </div>
                                 </div>
-                                <div
-                                    className={'flex flex-row justify-between mt-2'}
-                                >
+                                <div className={'flex flex-row justify-between mt-2'}>
                                     <div className="flex flex-row items-center">
                                         <input
                                             type={'checkbox'}

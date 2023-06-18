@@ -22,11 +22,11 @@ import MyModal from '../../components/common/Widget/MyModal';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import AmendLabel from '../../components/feature/classification/AmendLabel';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
+import DeepUnderstandingModal from '../../components/feature/drive/DeepUnderstandingModal';
 import EditItems from '../../components/feature/drive/EditItems';
 import TableRow from '../../components/feature/drive/TableRow';
 import SearchDocumentForm from '../../components/feature/home/SearchDocumentForm';
 import EditLabel from '../../components/feature/setting/label/EditLabel';
-import DeepUnderstandingModal from '../../components/feature/drive/DeepUnderstandingModal';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -683,7 +683,7 @@ export default function DriveView(props: DriveViewProps) {
                     setOpenDeepUnderstanding(false);
                 }}
                 confirmClick={(form_schema_id: string, needs_approval: boolean) => {
-                    handleDeepUnderstanding(form_schema_id, needs_approval)
+                    handleDeepUnderstanding(form_schema_id, needs_approval);
                     setOpenDeepUnderstanding(false);
                 }}
             />

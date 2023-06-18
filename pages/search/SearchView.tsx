@@ -205,8 +205,8 @@ export default function SearchView(props: SearchViewProps) {
                         setOpenDeepUnderstanding(false);
                     }}
                     confirmClick={(form_schema_id: string, needs_approval: boolean) => {
-                        handleDeepUnderstanding(form_schema_id, needs_approval)
-                        setOpenDeepUnderstanding(false);    
+                        handleDeepUnderstanding(form_schema_id, needs_approval);
+                        setOpenDeepUnderstanding(false);
                     }}
                 />
             </div>

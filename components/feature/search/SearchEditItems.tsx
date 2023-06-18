@@ -1,5 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { MagnifyingGlassIcon, PaperAirplaneIcon, TagIcon, ArchiveBoxArrowDownIcon } from '@heroicons/react/24/outline';
+import {
+    MagnifyingGlassIcon,
+    PaperAirplaneIcon,
+    TagIcon,
+    ArchiveBoxArrowDownIcon
+} from '@heroicons/react/24/outline';
 
 interface EditItemsProps {
     openItems?: any;
@@ -12,7 +17,15 @@ interface EditItemsProps {
 }
 
 export default function SearchEditItems(props: EditItemsProps) {
-    const { openItems, searchItems, clearItems, updateTag, count, visibleDeepUnderstanding, deepUnderstanding } = props;
+    const {
+        openItems,
+        searchItems,
+        clearItems,
+        updateTag,
+        count,
+        visibleDeepUnderstanding,
+        deepUnderstanding
+    } = props;
     return (
         <>
             {count > 0 && (

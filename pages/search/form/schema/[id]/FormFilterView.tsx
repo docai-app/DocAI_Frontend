@@ -46,15 +46,18 @@ function FormFilterView(props: FormFilterViewProps) {
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
 
     const editFormDocument = (datum: any) => {
-        if( !datum ) return
-        Router.push({pathname:  '/form/validate', query: {
-            document_id: datum?.document_id,
-            form_url: datum?.document?.storage_url,
-            form_id: datum?.id,
-            form_schema_id: datum?.form_schema_id,
-            result: JSON.stringify(datum?.data)
-        }})
-    }
+        if (!datum) return;
+        Router.push({
+            pathname: '/form/validate',
+            query: {
+                document_id: datum?.document_id,
+                form_url: datum?.document?.storage_url,
+                form_id: datum?.id,
+                form_schema_id: datum?.form_schema_id,
+                result: JSON.stringify(datum?.data)
+            }
+        });
+    };
 
     return (
         <>
@@ -299,8 +302,8 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         className=" cursor-pointer text-blue-500 hover:text-blue-700 underline"
                                                                         target="_blank"
                                                                         rel="noreferrer"
-                                                                        onClick={()=>{
-                                                                            editFormDocument(datum)
+                                                                        onClick={() => {
+                                                                            editFormDocument(datum);
                                                                         }}
                                                                     >
                                                                         修改
@@ -310,8 +313,10 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         className="cursor-pointer text-red-500 hover:text-red-700 underline"
                                                                         target="_blank"
                                                                         rel="noreferrer"
-                                                                        onClick={()=>{
-                                                                            handlerDeleteDocument(datum?.id)
+                                                                        onClick={() => {
+                                                                            handlerDeleteDocument(
+                                                                                datum?.id
+                                                                            );
                                                                         }}
                                                                     >
                                                                         刪除

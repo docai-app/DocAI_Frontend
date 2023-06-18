@@ -34,12 +34,12 @@ export default function FormFilterContainer() {
         manual: true
     });
 
-    const [
-        { data: deleteFormByIdData, loading: deleteFormByIdLoading },
-        deleteFormById
-    ] = useAxios(apiSetting.Form.deleteFormById(''), {
-        manual: true
-    });
+    const [{ data: deleteFormByIdData, loading: deleteFormByIdLoading }, deleteFormById] = useAxios(
+        apiSetting.Form.deleteFormById(''),
+        {
+            manual: true
+        }
+    );
 
     useEffect(() => {
         if (router && router.query.id) {
@@ -153,11 +153,11 @@ export default function FormFilterContainer() {
     }, []);
 
     const handlerDeleteDocument = async (id: string) => {
-        if( id ){
-            setFormDatum(formDatum.filter((item: any)=>item.id !== id))
-            deleteFormById(apiSetting.Form.deleteFormById(id))
+        if (id) {
+            setFormDatum(formDatum.filter((item: any) => item.id !== id));
+            deleteFormById(apiSetting.Form.deleteFormById(id));
         }
-    }
+    };
 
     return (
         <FormFilterView
