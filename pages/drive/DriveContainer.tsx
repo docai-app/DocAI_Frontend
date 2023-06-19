@@ -230,7 +230,7 @@ export default function DriveContainer() {
             setUpdateTag(true);
             const res = await deepUnderstandingDocument({
                 data: {
-                    document_ids: documents_items,
+                    document_items: documents_items,
                     form_schema_id: form_schema_id,
                     needs_approval: needs_approval
                 }
