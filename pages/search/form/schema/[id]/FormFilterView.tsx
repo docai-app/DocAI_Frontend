@@ -1,10 +1,12 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import Router from 'next/router';
+import { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import FormFilterDropdown from '../../../../../components/common/Widget/FormFilterDropdown';
+import MyModal from '../../../../../components/common/Widget/MyModal';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
 import HeadView from '../../../../../components/feature/search/HeadView';
 import { matchFormSchemaAndFormData } from '../../../../../utils/form';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Router from 'next/router';
 
 interface FormFilterViewProps {
     formSchema: any;
@@ -44,7 +46,8 @@ function FormFilterView(props: FormFilterViewProps) {
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
-
+    const [visableDelete, setVisibleDelete] = useState(false)
+    const [datumId, setDatumId] = useState('')
     const editFormDocument = (datum: any) => {
         if (!datum) return;
         Router.push({
@@ -97,7 +100,7 @@ function FormFilterView(props: FormFilterViewProps) {
                         <div className="flex flex-row mt-4 mb-4 flex-wrap">
                             {selectedFilter.map((filter, index) => {
                                 return (
-                                    <div className="mx-2" key={index}>
+                                    <div className="m-2" key={index}>
                                         <label className="mr-2">
                                             {formSchema.form_schema.properties[`${filter}`].title}:
                                         </label>
@@ -118,7 +121,7 @@ function FormFilterView(props: FormFilterViewProps) {
                             })}
                             {selectedFilter.length > 0 ? (
                                 <button
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md mx-2"
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-4 rounded-md m-2"
                                     onClick={() => onSearch()}
                                 >
                                     搜尋
@@ -126,7 +129,7 @@ function FormFilterView(props: FormFilterViewProps) {
                             ) : null}
                             {selectedResult.length > 0 ? (
                                 <button
-                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md mx-2"
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-4 rounded-md m-2"
                                     onClick={() => handleDownload()}
                                 >
                                     下載
@@ -213,14 +216,14 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                 {typeof datum.data[
                                                                                     `${result}`
                                                                                 ] === 'object' &&
-                                                                                datum.data[
+                                                                                    datum.data[
                                                                                     `${result}`
-                                                                                ] ? (
+                                                                                    ] ? (
                                                                                     <div className="flex flex-col">
                                                                                         {Object.keys(
                                                                                             datum
                                                                                                 .data[
-                                                                                                `${result}`
+                                                                                            `${result}`
                                                                                             ]
                                                                                         ).map(
                                                                                             (
@@ -241,16 +244,15 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                                     >
                                                                                                         <div className="flex-1">
                                                                                                             <label>
-                                                                                                                {`${
-                                                                                                                    itemList.find(
-                                                                                                                        (
-                                                                                                                            element
-                                                                                                                        ) =>
-                                                                                                                            element.keyName ===
-                                                                                                                            item
-                                                                                                                    )
-                                                                                                                        .title
-                                                                                                                }: `}
+                                                                                                                {`${itemList.find(
+                                                                                                                    (
+                                                                                                                        element
+                                                                                                                    ) =>
+                                                                                                                        element.keyName ===
+                                                                                                                        item
+                                                                                                                )
+                                                                                                                    .title
+                                                                                                                    }: `}
                                                                                                             </label>
                                                                                                         </div>
                                                                                                         <div className="flex flex-row">
@@ -260,14 +262,14 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                                             ][
                                                                                                                 `${item}`
                                                                                                             ] ==
-                                                                                                            true
+                                                                                                                true
                                                                                                                 ? '✅'
                                                                                                                 : datum
-                                                                                                                      .data[
-                                                                                                                      `${result}`
-                                                                                                                  ][
-                                                                                                                      `${item}`
-                                                                                                                  ]}
+                                                                                                                    .data[
+                                                                                                                `${result}`
+                                                                                                                ][
+                                                                                                                `${item}`
+                                                                                                                ]}
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 ) : null;
@@ -276,7 +278,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                     </div>
                                                                                 ) : (
                                                                                     datum.data[
-                                                                                        `${result}`
+                                                                                    `${result}`
                                                                                     ]
                                                                                 )}
                                                                             </td>
@@ -314,9 +316,8 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         target="_blank"
                                                                         rel="noreferrer"
                                                                         onClick={() => {
-                                                                            handlerDeleteDocument(
-                                                                                datum?.id
-                                                                            );
+                                                                            setDatumId(datum?.id)
+                                                                            setVisibleDelete(true)
                                                                         }}
                                                                     >
                                                                         刪除
@@ -347,6 +348,16 @@ function FormFilterView(props: FormFilterViewProps) {
                     </div>
                 </div>
             </div>
+            <MyModal
+                visable={visableDelete}
+                description={'確定刪除?'}
+                confirmClick={() => {
+                    setVisibleDelete(false)
+                    handlerDeleteDocument(datumId);
+                }}
+                cancelClick={() => {
+                    setVisibleDelete(false)
+                }} />
         </>
     );
 }

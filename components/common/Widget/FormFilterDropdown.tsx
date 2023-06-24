@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Menu, Popover, Transition } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { FieldProps, WidgetProps, withTheme } from '@rjsf/core';
 import { Fragment, useRef } from 'react';
-import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');

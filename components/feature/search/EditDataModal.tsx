@@ -3,9 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import { Fragment, useRef, useState } from 'react';
-import MyDateDropdown from '../../common/Widget/MyDateDropdown';
 import EditDataFilterModal from './EditDataFilterModal';
-import EditDataResultModal from './EditDataResultModal';
 
 interface EditDataModalProps {
     formSchema: any;
@@ -38,7 +36,7 @@ export default function EditDataModal(props: EditDataModalProps) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -186,6 +184,7 @@ export default function EditDataModal(props: EditDataModalProps) {
                 </Dialog>
             </Transition.Root>
             <EditDataFilterModal
+                title={'選擇過濾器'}
                 formSchema={formSchema}
                 visable={visableFilter}
                 cancelClick={() => {
@@ -195,6 +194,7 @@ export default function EditDataModal(props: EditDataModalProps) {
                 filterData={selectedFilter}
             />
             <EditDataFilterModal
+                title={'顯示結果'}
                 formSchema={formSchema}
                 visable={visableResult}
                 cancelClick={() => {
