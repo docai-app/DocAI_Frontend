@@ -46,8 +46,8 @@ function FormFilterView(props: FormFilterViewProps) {
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
-    const [visableDelete, setVisibleDelete] = useState(false)
-    const [datumId, setDatumId] = useState('')
+    const [visableDelete, setVisibleDelete] = useState(false);
+    const [datumId, setDatumId] = useState('');
     const editFormDocument = (datum: any) => {
         if (!datum) return;
         Router.push({
@@ -216,14 +216,14 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                 {typeof datum.data[
                                                                                     `${result}`
                                                                                 ] === 'object' &&
-                                                                                    datum.data[
+                                                                                datum.data[
                                                                                     `${result}`
-                                                                                    ] ? (
+                                                                                ] ? (
                                                                                     <div className="flex flex-col">
                                                                                         {Object.keys(
                                                                                             datum
                                                                                                 .data[
-                                                                                            `${result}`
+                                                                                                `${result}`
                                                                                             ]
                                                                                         ).map(
                                                                                             (
@@ -244,15 +244,16 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                                     >
                                                                                                         <div className="flex-1">
                                                                                                             <label>
-                                                                                                                {`${itemList.find(
-                                                                                                                    (
-                                                                                                                        element
-                                                                                                                    ) =>
-                                                                                                                        element.keyName ===
-                                                                                                                        item
-                                                                                                                )
-                                                                                                                    .title
-                                                                                                                    }: `}
+                                                                                                                {`${
+                                                                                                                    itemList.find(
+                                                                                                                        (
+                                                                                                                            element
+                                                                                                                        ) =>
+                                                                                                                            element.keyName ===
+                                                                                                                            item
+                                                                                                                    )
+                                                                                                                        .title
+                                                                                                                }: `}
                                                                                                             </label>
                                                                                                         </div>
                                                                                                         <div className="flex flex-row">
@@ -262,14 +263,14 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                                             ][
                                                                                                                 `${item}`
                                                                                                             ] ==
-                                                                                                                true
+                                                                                                            true
                                                                                                                 ? '✅'
                                                                                                                 : datum
-                                                                                                                    .data[
-                                                                                                                `${result}`
-                                                                                                                ][
-                                                                                                                `${item}`
-                                                                                                                ]}
+                                                                                                                      .data[
+                                                                                                                      `${result}`
+                                                                                                                  ][
+                                                                                                                      `${item}`
+                                                                                                                  ]}
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 ) : null;
@@ -278,7 +279,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                                     </div>
                                                                                 ) : (
                                                                                     datum.data[
-                                                                                    `${result}`
+                                                                                        `${result}`
                                                                                     ]
                                                                                 )}
                                                                             </td>
@@ -316,8 +317,8 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                         target="_blank"
                                                                         rel="noreferrer"
                                                                         onClick={() => {
-                                                                            setDatumId(datum?.id)
-                                                                            setVisibleDelete(true)
+                                                                            setDatumId(datum?.id);
+                                                                            setVisibleDelete(true);
                                                                         }}
                                                                     >
                                                                         刪除
@@ -352,12 +353,13 @@ function FormFilterView(props: FormFilterViewProps) {
                 visable={visableDelete}
                 description={'確定刪除?'}
                 confirmClick={() => {
-                    setVisibleDelete(false)
+                    setVisibleDelete(false);
                     handlerDeleteDocument(datumId);
                 }}
                 cancelClick={() => {
-                    setVisibleDelete(false)
-                }} />
+                    setVisibleDelete(false);
+                }}
+            />
         </>
     );
 }

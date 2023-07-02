@@ -17,7 +17,7 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
     const { title, formSchema = {}, visable, cancelClick, filterData = [], setFilterData } = props;
     const cancelButtonRef = useRef(null);
     const [selectData, setSelectData] = useState<any>([]);
-    const [data_schema, set_data_schema] = useState([])
+    const [data_schema, set_data_schema] = useState([]);
 
     useEffect(() => {
         if (filterData) {
@@ -34,14 +34,14 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
             });
             setFilterData(newFields);
 
-            const tmp: any = []
+            const tmp: any = [];
             _.keys(formSchema.data_schema).map((item) => {
                 tmp.push({
                     name: item,
                     checked: false
-                })
-            })
-            set_data_schema(tmp)
+                });
+            });
+            set_data_schema(tmp);
         }
     }, [formSchema]);
 
@@ -64,7 +64,7 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
                 as="div"
                 className="fixed z-10 inset-0 overflow-y-auto"
                 initialFocus={cancelButtonRef}
-                onClose={() => { }}
+                onClose={() => {}}
             >
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
@@ -167,70 +167,78 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
                                     </div>
                                     <div className="flex w-3/4">
                                         <div className=" flex-col text-left">
-                                            <div >
+                                            <div>
                                                 <input
                                                     type={'checkbox'}
                                                     name={'all'}
                                                     defaultChecked={false}
                                                     onChange={(e) => {
-                                                        const tmp: any = _.map(data_schema, function (item: any) {
-                                                            return {
-                                                                checked: e.target.checked,
-                                                                name: item?.name
+                                                        const tmp: any = _.map(
+                                                            data_schema,
+                                                            function (item: any) {
+                                                                return {
+                                                                    checked: e.target.checked,
+                                                                    name: item?.name
+                                                                };
                                                             }
-                                                        })
-                                                        set_data_schema(tmp)
+                                                        );
+                                                        set_data_schema(tmp);
                                                         if (e.target.checked) {
-                                                            setSelectData(_.keys(formSchema.data_schema));
+                                                            setSelectData(
+                                                                _.keys(formSchema.data_schema)
+                                                            );
                                                         } else {
-                                                            setSelectData([])
+                                                            setSelectData([]);
                                                         }
                                                     }}
                                                 />
                                                 <label className="ml-2 text-blue-500">全選</label>
                                             </div>
-                                            {data_schema?.map(
-                                                (item: any, index: number) => {
-                                                    return (
-                                                        <div key={index}>
-                                                            <input
-                                                                type={'checkbox'}
-                                                                name={item.name}
-                                                                checked={item.checked}
-                                                                onChange={(e) => {
-                                                                    const tmp: any = _.map(data_schema, function (o: any) {
+                                            {data_schema?.map((item: any, index: number) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <input
+                                                            type={'checkbox'}
+                                                            name={item.name}
+                                                            checked={item.checked}
+                                                            onChange={(e) => {
+                                                                const tmp: any = _.map(
+                                                                    data_schema,
+                                                                    function (o: any) {
                                                                         if (o.name === item.name) {
-                                                                            o.checked = e.target.checked
+                                                                            o.checked =
+                                                                                e.target.checked;
                                                                         }
-                                                                        return o
-                                                                    })
-                                                                    set_data_schema(tmp)
-
-                                                                    if (e.target.checked) {
-                                                                        setSelectData([
-                                                                            ...selectData,
-                                                                            item.name
-                                                                        ]);
-                                                                    } else {
-                                                                        setSelectData(
-                                                                            selectData.filter(
-                                                                                (data: any) =>
-                                                                                    data !== item.name
-                                                                            )
-                                                                        );
+                                                                        return o;
                                                                     }
-                                                                }}
-                                                            />
-                                                            <label className="ml-2">
-                                                                {
-                                                                    formSchema.form_schema
-                                                                        .properties[`${item.name}`].title
+                                                                );
+                                                                set_data_schema(tmp);
+
+                                                                if (e.target.checked) {
+                                                                    setSelectData([
+                                                                        ...selectData,
+                                                                        item.name
+                                                                    ]);
+                                                                } else {
+                                                                    setSelectData(
+                                                                        selectData.filter(
+                                                                            (data: any) =>
+                                                                                data !== item.name
+                                                                        )
+                                                                    );
                                                                 }
-                                                            </label>
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
+                                                            }}
+                                                        />
+                                                        <label className="ml-2">
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${item.name}`
+                                                                ].title
+                                                            }
+                                                        </label>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 </div>
