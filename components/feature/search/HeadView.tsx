@@ -33,7 +33,7 @@ export default function HeadView(props: HeadViewProps) {
                         }}
                     >
                         <PlusIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
-                        新增
+                        篩選
                     </button>
                 </div>
             </div>

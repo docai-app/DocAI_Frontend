@@ -1,12 +1,12 @@
 import useAxios from 'axios-hooks';
-import _ from 'lodash';
 import { Parser } from 'json2csv';
+import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../../apis';
+import useAlert from '../../../../../hooks/useAlert';
 import { getDownloadFields, matchFormSchemaAndFormData } from '../../../../../utils/form';
 import FormFilterView from './FormFilterView';
-import useAlert from '../../../../../hooks/useAlert';
 
 const apiSetting = new Api();
 
@@ -20,6 +20,7 @@ export default function FormFilterContainer() {
     const [filterData, setFilterData] = useState({});
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [page, setPage] = useState(1);
+    const [modalDescription, setModalDescription] = useState({});
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -40,6 +41,8 @@ export default function FormFilterContainer() {
             manual: true
         }
     );
+
+    const [{ data: generateChartData, loading: generateChartLoading }, generateChart] = useAxios('', { manual: true });
 
     useEffect(() => {
         if (router && router.query.id) {
@@ -87,6 +90,10 @@ export default function FormFilterContainer() {
 
     useEffect(() => {
         setLoadingOpen(resultFormsLoading);
+        setModalDescription({
+            title: '進行中......',
+            content: '正在獲取資料'
+        });
     }, [resultFormsLoading]);
 
     useEffect(() => {
@@ -159,6 +166,33 @@ export default function FormFilterContainer() {
         }
     };
 
+    const handlerGenerateChart = async (query: string, form_data_ids: []) => {
+        console.log('query', query);
+        console.log('form_data_ids', form_data_ids);
+
+        if (query) {
+            setLoadingOpen(true)
+            setModalDescription({
+                title: '進行中......',
+                content: '正在生成內容...'
+            });
+            const res = await generateChart(
+                apiSetting.Form.generateChart(
+                    form_data_ids,
+                    query
+                )
+            );
+            if (res.data.success) {
+                router.push({ pathname: '/search/form/schema/htmlcode', query: { content: JSON.stringify(res.data.chart) } })
+            } else {
+                setAlert({ title: res.data.chart, type: 'error' });
+            }
+            setLoadingOpen(false)
+            console.log(res.data);
+
+        }
+    };
+
     return (
         <FormFilterView
             {...{
@@ -176,7 +210,9 @@ export default function FormFilterContainer() {
                 setLoadingOpen,
                 resultFormsData,
                 showAllItemsHandler,
-                handlerDeleteDocument
+                handlerDeleteDocument,
+                modalDescription,
+                handlerGenerateChart
             }}
         />
     );

@@ -1,10 +1,15 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import _ from 'lodash';
 import Router from 'next/router';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import FormFilterDropdown from '../../../../../components/common/Widget/FormFilterDropdown';
+import GenerateChartModal from '../../../../../components/common/Widget/GenerateChartModal';
+import HtmlCodeModal from '../../../../../components/common/Widget/HtmlCodeModal';
 import MyModal from '../../../../../components/common/Widget/MyModal';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
+import EditItems from '../../../../../components/feature/drive/EditItems';
+import FormFilterTableRow from '../../../../../components/feature/search/FormFilterTableRow';
 import HeadView from '../../../../../components/feature/search/HeadView';
 import { matchFormSchemaAndFormData } from '../../../../../utils/form';
 
@@ -24,6 +29,8 @@ interface FormFilterViewProps {
     resultFormsData: any;
     showAllItemsHandler: () => void;
     handlerDeleteDocument: any;
+    modalDescription?: any;
+    handlerGenerateChart: any;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -42,11 +49,17 @@ function FormFilterView(props: FormFilterViewProps) {
         setLoadingOpen,
         resultFormsData,
         showAllItemsHandler,
-        handlerDeleteDocument
+        handlerDeleteDocument,
+        modalDescription,
+        handlerGenerateChart
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
     const [visableDelete, setVisibleDelete] = useState(false);
+    const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
+    const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
+    const [form_data_ids, set_form_data_ids] = useState<any>([])
+
     const [datumId, setDatumId] = useState('');
     const editFormDocument = (datum: any) => {
         if (!datum) return;
@@ -61,6 +74,16 @@ function FormFilterView(props: FormFilterViewProps) {
             }
         });
     };
+    const setChecedkData = (checked: boolean, value: string) => {
+        const newData = checked
+            ? [...form_data_ids, value]
+            : form_data_ids.filter((_value: string) => _value !== value);
+        set_form_data_ids(newData);
+    };
+
+    const clearCheckedData = () => {
+        set_form_data_ids([]);
+    };
 
     return (
         <>
@@ -68,8 +91,8 @@ function FormFilterView(props: FormFilterViewProps) {
                 open={loadingOpen}
                 setOpen={setLoadingOpen}
                 {...{
-                    title: '正在獲取資料',
-                    content: '',
+                    title: modalDescription?.title,
+                    content: modalDescription?.content,
                     icon: (
                         <MagnifyingGlassIcon
                             className="h-6 w-6 text-green-600"
@@ -77,6 +100,17 @@ function FormFilterView(props: FormFilterViewProps) {
                         />
                     )
                 }}
+            />
+            <EditItems
+                visibleMoveItem={false}
+                visibleGenerateChart={true}
+                generateChart={() => {
+                    setVisibleGenerateChart(true)
+                }}
+                clearItems={() => {
+                    clearCheckedData();
+                }}
+                count={form_data_ids?.length}
             />
             <div className="mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto px-4 sm:px-6 lg:px-8">
@@ -164,6 +198,12 @@ function FormFilterView(props: FormFilterViewProps) {
                                                             scope="col"
                                                             className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                         >
+
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                        >
                                                             編號
                                                         </th>
                                                         {selectedResult.map((result, index) => {
@@ -198,133 +238,18 @@ function FormFilterView(props: FormFilterViewProps) {
                                                 <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
                                                     {formDatum.map((datum, index) => {
                                                         return (
-                                                            <tr
+                                                            <FormFilterTableRow
                                                                 key={index}
-                                                                className="divide-x divide-gray-200"
-                                                            >
-                                                                {/* Add the index to the data */}
-                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                                                    {index + 1}
-                                                                </td>
-                                                                {selectedResult.map(
-                                                                    (result, index) => {
-                                                                        return (
-                                                                            <td
-                                                                                key={index}
-                                                                                className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
-                                                                            >
-                                                                                {typeof datum.data[
-                                                                                    `${result}`
-                                                                                ] === 'object' &&
-                                                                                datum.data[
-                                                                                    `${result}`
-                                                                                ] ? (
-                                                                                    <div className="flex flex-col">
-                                                                                        {Object.keys(
-                                                                                            datum
-                                                                                                .data[
-                                                                                                `${result}`
-                                                                                            ]
-                                                                                        ).map(
-                                                                                            (
-                                                                                                item: any,
-                                                                                                index: number
-                                                                                            ) => {
-                                                                                                return datum
-                                                                                                    .data[
-                                                                                                    `${result}`
-                                                                                                ][
-                                                                                                    `${item}`
-                                                                                                ] ? (
-                                                                                                    <div
-                                                                                                        className="flex flex-row text-sm"
-                                                                                                        key={
-                                                                                                            index
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <div className="flex-1">
-                                                                                                            <label>
-                                                                                                                {`${
-                                                                                                                    itemList.find(
-                                                                                                                        (
-                                                                                                                            element
-                                                                                                                        ) =>
-                                                                                                                            element.keyName ===
-                                                                                                                            item
-                                                                                                                    )
-                                                                                                                        .title
-                                                                                                                }: `}
-                                                                                                            </label>
-                                                                                                        </div>
-                                                                                                        <div className="flex flex-row">
-                                                                                                            {datum
-                                                                                                                .data[
-                                                                                                                `${result}`
-                                                                                                            ][
-                                                                                                                `${item}`
-                                                                                                            ] ==
-                                                                                                            true
-                                                                                                                ? '✅'
-                                                                                                                : datum
-                                                                                                                      .data[
-                                                                                                                      `${result}`
-                                                                                                                  ][
-                                                                                                                      `${item}`
-                                                                                                                  ]}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                ) : null;
-                                                                                            }
-                                                                                        )}
-                                                                                    </div>
-                                                                                ) : (
-                                                                                    datum.data[
-                                                                                        `${result}`
-                                                                                    ]
-                                                                                )}
-                                                                            </td>
-                                                                        );
-                                                                    }
-                                                                )}
-                                                                {/* Add the storage_url to the data and open it in a new tab */}
-                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                                                    <a
-                                                                        href={
-                                                                            datum.document
-                                                                                ?.storage_url || '#'
-                                                                        }
-                                                                        className="text-blue-500 hover:text-blue-700 underline"
-                                                                        target="_blank"
-                                                                        rel="noreferrer"
-                                                                    >
-                                                                        點擊開啟
-                                                                    </a>
-                                                                </td>
-                                                                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
-                                                                    <a
-                                                                        className=" cursor-pointer text-blue-500 hover:text-blue-700 underline"
-                                                                        target="_blank"
-                                                                        rel="noreferrer"
-                                                                        onClick={() => {
-                                                                            editFormDocument(datum);
-                                                                        }}
-                                                                    >
-                                                                        修改
-                                                                    </a>
-                                                                    {' | '}
-                                                                    <a
-                                                                        className="cursor-pointer text-red-500 hover:text-red-700 underline"
-                                                                        target="_blank"
-                                                                        rel="noreferrer"
-                                                                        onClick={() => {
-                                                                            setDatumId(datum?.id);
-                                                                            setVisibleDelete(true);
-                                                                        }}
-                                                                    >
-                                                                        刪除
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
+                                                                index={index}
+                                                                datum={datum}
+                                                                itemList={itemList}
+                                                                selectedResult={selectedResult}
+                                                                editFormDocument={editFormDocument}
+                                                                setDatumId={setDatumId}
+                                                                setVisibleDelete={setVisibleDelete}
+                                                                setChecedkData={setChecedkData}
+                                                                checked={_.includes(form_data_ids, datum.id)}
+                                                            />
                                                         );
                                                     })}
                                                 </tbody>
@@ -333,14 +258,14 @@ function FormFilterView(props: FormFilterViewProps) {
                                     ) : (
                                         <div className="py-4">
                                             <p className="text-gray-500 text-sm">
-                                                請點擊右上角 "+ 新增" 來選顯示欄位
+                                                請點擊右上角 "+ 篩選" 來選顯示欄位
                                             </p>
                                         </div>
                                     )
                                 ) : (
                                     <div className="py-4">
                                         <p className="text-gray-500 text-sm">
-                                            請點擊右上角 "+ 新增" 來選顯示欄位
+                                            請點擊右上角 "+ 篩選" 來選顯示欄位
                                         </p>
                                     </div>
                                 )}
@@ -358,6 +283,27 @@ function FormFilterView(props: FormFilterViewProps) {
                 }}
                 cancelClick={() => {
                     setVisibleDelete(false);
+                }}
+            />
+
+            <GenerateChartModal
+                visable={visableGenerateChart}
+                confirmClick={(query: string) => {
+                    setVisibleGenerateChart(false);
+                    console.log(query);
+                    handlerGenerateChart(query, form_data_ids)
+
+                }}
+                cancelClick={() => {
+                    setVisibleGenerateChart(false);
+                }}
+            />
+
+            <HtmlCodeModal
+                visable={visableHtmlCode}
+                description={'chart'}
+                cancelClick={() => {
+                    setVisibleHtmlCode(false);
                 }}
             />
         </>
