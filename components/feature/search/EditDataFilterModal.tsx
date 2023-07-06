@@ -35,12 +35,15 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
             setFilterData(newFields);
 
             const tmp: any = [];
+            const tmpFilterData: any = [];
             _.keys(formSchema.data_schema).map((item) => {
                 tmp.push({
                     name: item,
-                    checked: false
+                    checked: true
                 });
+                tmpFilterData.push(item);
             });
+            setFilterData(tmpFilterData);
             set_data_schema(tmp);
         }
     }, [formSchema]);

@@ -6,6 +6,7 @@ import { useEffect, useLayoutEffect } from 'react';
 import AlertModel from '../components/common/Widget/AlertModel';
 import { AlertProvider } from '../context/AlertContext';
 import '../styles/globals.css';
+import { Helmet } from 'react-helmet';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
@@ -30,6 +31,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, [router]);
     return (
         <AlertProvider>
+            <Helmet>
+                {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+            </Helmet>
             <Component {...pageProps} />
             <AlertModel />
         </AlertProvider>

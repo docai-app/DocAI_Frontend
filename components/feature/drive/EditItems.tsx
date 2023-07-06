@@ -2,6 +2,7 @@ import { TrashIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import {
     ArchiveBoxArrowDownIcon,
     ArrowRightCircleIcon,
+    ChartBarIcon,
     MagnifyingGlassIcon,
     TagIcon
 } from '@heroicons/react/24/outline';
@@ -14,9 +15,12 @@ interface EditItemsProps {
     visibleSearchItems?: boolean;
     updateTag?: any;
     visibleUpdateTag?: boolean;
+    visibleMoveItem?: boolean;
     count: number;
     visibleDeepUnderstanding?: boolean;
     deepUnderstanding?: any;
+    visibleGenerateChart?: boolean;
+    generateChart?: any;
 }
 
 export default function EditItems(props: EditItemsProps) {
@@ -28,9 +32,12 @@ export default function EditItems(props: EditItemsProps) {
         visibleSearchItems,
         updateTag,
         visibleUpdateTag,
+        visibleMoveItem = true,
         count,
         visibleDeepUnderstanding,
-        deepUnderstanding
+        deepUnderstanding,
+        visibleGenerateChart,
+        generateChart
     } = props;
     return (
         <>
@@ -44,13 +51,15 @@ export default function EditItems(props: EditItemsProps) {
                             <TrashIcon className="w-4 m-1" />
                             <label className="text-sm">刪除</label>
                         </div>
-                        <div
-                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
-                            onClick={moveItems}
-                        >
-                            <ArrowRightCircleIcon className="w-4 m-1 " />
-                            <label className="text-sm">移動至</label>
-                        </div>
+                        {visibleMoveItem && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={moveItems}
+                            >
+                                <ArrowRightCircleIcon className="w-4 m-1 " />
+                                <label className="text-sm">移動至</label>
+                            </div>
+                        )}
                         {visibleUpdateTag && (
                             <div
                                 className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
@@ -76,6 +85,15 @@ export default function EditItems(props: EditItemsProps) {
                             >
                                 <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
                                 <label className="text-sm">深度理解</label>
+                            </div>
+                        )}
+                        {visibleGenerateChart && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={generateChart}
+                            >
+                                <ChartBarIcon className="w-4 m-1 " />
+                                <label className="text-sm">生成圖表</label>
                             </div>
                         )}
                     </div>
