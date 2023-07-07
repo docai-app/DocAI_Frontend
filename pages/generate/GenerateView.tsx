@@ -1,9 +1,12 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import copy from 'copy-to-clipboard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Folder } from '../../components/common/Widget/FolderTree';
+import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
+import SaveDocumentModal from '../../components/feature/generate/SaveDocumentModal';
 import GenerateLogRow from '../../components/feature/generate/TogRow';
 
 interface GenerateViewProps {
@@ -17,6 +20,7 @@ interface GenerateViewProps {
     setAlert: any;
     logs?: any;
     modalDescription: any;
+    handleUploadGeneratedData: any;
 }
 
 export default function GenerateView(props: GenerateViewProps) {
@@ -30,9 +34,30 @@ export default function GenerateView(props: GenerateViewProps) {
         setGenerateContent,
         setAlert,
         logs,
-        modalDescription
+        modalDescription,
+        handleUploadGeneratedData
     } = props;
     const [content, setContent] = useState('');
+
+    const [visable, setVisible] = useState(false)
+    const [mode, setMode] = useState('');
+    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [data, setData] = useState({
+        filename: '',
+        target_folder_id: '',
+        content: ''
+    })
+
+    useEffect(() => {
+        if (movingDest?.id) {
+            setVisible(true);
+            console.log(movingDest);
+            setData({
+                ...data,
+                target_folder_id: movingDest?.id
+            })
+        }
+    }, [movingDest]);
 
     const formats = [
         {
@@ -144,7 +169,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                     {documents_items && documents_items.length === 1 ? (
                                         <>
                                             {documents_items[0].storage_url?.split('.').pop() ===
-                                            'pdf' ? (
+                                                'pdf' ? (
                                                 <object
                                                     className="object-center object-cover w-full h-full flex justify-center items-center"
                                                     type="application/pdf"
@@ -390,6 +415,9 @@ export default function GenerateView(props: GenerateViewProps) {
                                             <GenerateLogRow
                                                 log={log}
                                                 setAlert={setAlert}
+                                                setVisible={setVisible}
+                                                data={data}
+                                                setData={setData}
                                                 key={index}
                                             />
                                         ))
@@ -441,6 +469,32 @@ export default function GenerateView(props: GenerateViewProps) {
                     </div>
                 </div>
             </div>
+
+            <SaveDocumentModal
+                visable={visable}
+                movingDest={movingDest}
+                setMovingDest={setMovingDest}
+                setMode={setMode}
+                data={data}
+                setData={setData}
+                cancelClick={() => {
+                    setVisible(false)
+                }}
+                confirmClick={() => {
+                    handleUploadGeneratedData(data)
+                    setVisible(false)
+                }}
+            />
+
+            <FolderTreeForSelect
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: ''
+                }}
+            />
         </>
     );
 }
