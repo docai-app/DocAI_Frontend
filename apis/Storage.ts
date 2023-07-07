@@ -51,4 +51,25 @@ export default class Storage {
         };
         return requestHeader;
     }
+
+    uploadGeneratedContent(
+        filename: string,
+        target_folder_id: any,
+        content: string
+    ) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: '/api/v1/storage/upload/generated_content',
+            method: 'POST',
+            data: {
+                filename,
+                target_folder_id,
+                content
+            }
+            // headers: {
+            //     'Content-Type': 'multipart/form-data'
+            // }
+        };
+        return requestHeader;
+    }
 }

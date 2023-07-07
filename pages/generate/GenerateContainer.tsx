@@ -26,6 +26,7 @@ function GenerateContainer() {
     );
 
     const [{ data: getGenerateData }, getGenerate] = useAxios('', { manual: true });
+    const [{ data: uploadGeneratedContentData }, uploadGeneratedContent] = useAxios('', { manual: true });
 
     useEffect(() => {
         if (router.query.document_ids) {
@@ -119,6 +120,35 @@ function GenerateContainer() {
         [router, documents_items]
     );
 
+
+    const handleUploadGeneratedData = useCallback(
+        async (data: any) => {
+            console.log(data);
+            setOpen(true);
+            setModalDescription({
+                title: '進行中......',
+                content: '正在儲存內容...'
+            });
+            const formData = new FormData();
+            formData.append('filename', data.filename);
+            formData.append('target_folder_id', data.target_folder_id);
+            formData.append('content', data.content);
+            const res = await uploadGeneratedContent(
+                apiSetting.Storage.uploadGeneratedContent(
+                    data.filename,
+                    data.target_folder_id,
+                    data.content
+                ))
+            if (res.data?.success) {
+                setAlert({ title: '儲存成功', type: 'success' });
+            } else {
+                setAlert({ title: res.data?.error, type: 'error' });
+            }
+            setOpen(false);
+
+
+        }, [router]
+    )
     return (
         <>
             <GenerateView
@@ -132,7 +162,8 @@ function GenerateContainer() {
                     setGenerateContent,
                     setAlert,
                     logs,
-                    modalDescription
+                    modalDescription,
+                    handleUploadGeneratedData
                 }}
             />
         </>
