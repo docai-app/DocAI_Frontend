@@ -52,11 +52,7 @@ export default class Storage {
         return requestHeader;
     }
 
-    uploadGeneratedContent(
-        filename: string,
-        target_folder_id: any,
-        content: string
-    ) {
+    uploadGeneratedContent(filename: string, target_folder_id: any, content: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: '/api/v1/storage/upload/generated_content',

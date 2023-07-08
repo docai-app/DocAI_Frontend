@@ -75,10 +75,7 @@ export default class Form {
         return requestHeader;
     }
 
-    generateChart(
-        form_data_ids: [],
-        query: string,
-    ) {
+    generateChart(form_data_ids: [], query: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/form/datum/generate/chart`,

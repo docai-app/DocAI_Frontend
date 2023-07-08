@@ -1,23 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { toPng } from 'html-to-image';
 import { Fragment, useRef } from 'react';
 import useAlert from '../../../hooks/useAlert';
 
 export default function HtmlCodeModal(props: any) {
     const { setAlert } = useAlert();
     const cancelButtonRef = useRef(null);
-    const downloadQRCode = async () => {
-        const qrcode = document.getElementById('qr-code');
-        if (qrcode) {
-            const png = await toPng(qrcode);
-            const link = document.createElement('a');
-            link.download = 'qr-code.png';
-            link.href = png;
-            link.click();
-        }
-    };
-
     const htmlText = `<html>
     <head>
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -47,7 +35,7 @@ export default function HtmlCodeModal(props: any) {
         </script>
     </body>
     </html>
-    `
+    `;
     // const htmlText2 = '<div>A simple HTML string</div>';
     // const parser = new DOMParser();
     // const htmlDoc = parser.parseFromString(htmlText, 'text/html');
@@ -103,7 +91,6 @@ export default function HtmlCodeModal(props: any) {
                                         id="qr-code"
                                         className="w-full flex flex-col items-center p-4"
                                     >
-
                                         {/* {HtmlViewer(htmlText)} */}
                                         {/* <p className="text-md text-gray-500">
                                             {htmlDoc}
@@ -120,9 +107,7 @@ export default function HtmlCodeModal(props: any) {
                                     <button
                                         type="button"
                                         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => {
-
-                                        }}
+                                        onClick={() => { }}
                                     >
                                         {'Download QR Code'}
                                     </button>

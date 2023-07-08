@@ -25,7 +25,7 @@ export default function SaveDocumentModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -98,7 +98,7 @@ export default function SaveDocumentModal(props: any) {
                                                     props.setData({
                                                         ...props.data,
                                                         filename: e.target.value
-                                                    })
+                                                    });
                                                 }}
                                             />
                                         </div>
@@ -114,8 +114,7 @@ export default function SaveDocumentModal(props: any) {
                                         </div>
                                         <div className="flex flex-1">
                                             <label className="flex flex-1">
-                                                {props?.movingDest?.name ||
-                                                    'Root'}
+                                                {props?.movingDest?.name || 'Root'}
                                             </label>
                                             <a
                                                 className="cursor-pointer underline flex flex-0 text-blue-500"

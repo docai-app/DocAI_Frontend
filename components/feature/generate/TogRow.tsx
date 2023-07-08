@@ -46,14 +46,13 @@ export default function GenerateLogRow(props: LogRowProps) {
                         setData({
                             ...data,
                             content: log?.content
-                        })
-                        setVisible(true)
+                        });
+                        setVisible(true);
                     }}
                 >
                     儲存
                 </a>
             </div>
-
         </div>
     );
 }

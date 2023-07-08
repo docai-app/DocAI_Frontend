@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useEffect, useState } from 'react';
 
 interface TableRowProps {
     index: number;
@@ -22,18 +21,16 @@ export default function FormFilterTableRow(props: TableRowProps) {
         setDatumId,
         setVisibleDelete,
         setChecedkData,
-        checked,
+        checked
     } = props;
 
     const [visable, setVisable] = useState(false);
-
 
     useEffect(() => {
         if (!checked) {
             setVisable(false);
         }
     }, [checked]);
-
 
     const onMouseEnter = () => {
         if (checked) return;
@@ -76,92 +73,49 @@ export default function FormFilterTableRow(props: TableRowProps) {
                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                     {index + 1}
                 </td>
-                {selectedResult?.map(
-                    (result: any, index: number) => {
-                        return (
-                            <td
-                                key={index}
-                                className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
-                            >
-                                {typeof datum.data[
-                                    `${result}`
-                                ] === 'object' &&
-                                    datum.data[
-                                    `${result}`
-                                    ] ? (
-                                    <div className="flex flex-col">
-                                        {Object.keys(
-                                            datum
-                                                .data[
-                                            `${result}`
-                                            ]
-                                        ).map(
-                                            (
-                                                item: any,
-                                                index: number
-                                            ) => {
-                                                return datum
-                                                    .data[
-                                                    `${result}`
-                                                ][
-                                                    `${item}`
-                                                ] ? (
-                                                    <div
-                                                        className="flex flex-row text-sm"
-                                                        key={
-                                                            index
-                                                        }
-                                                    >
-                                                        <div className="flex-1">
-                                                            <label>
-                                                                {`${itemList.find(
-                                                                    (
-                                                                        element: any
-                                                                    ) =>
-                                                                        element.keyName ===
-                                                                        item
-                                                                )
-                                                                    .title
-                                                                    }: `}
-                                                            </label>
-                                                        </div>
-                                                        <div className="flex flex-row">
-                                                            {datum
-                                                                .data[
-                                                                `${result}`
-                                                            ][
-                                                                `${item}`
-                                                            ] ==
-                                                                true
-                                                                ? '✅'
-                                                                : datum
-                                                                    .data[
-                                                                `${result}`
-                                                                ][
-                                                                `${item}`
-                                                                ]}
-                                                        </div>
+                {selectedResult?.map((result: any, index: number) => {
+                    return (
+                        <td
+                            key={index}
+                            className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
+                        >
+                            {typeof datum.data[`${result}`] === 'object' &&
+                            datum.data[`${result}`] ? (
+                                <div className="flex flex-col">
+                                    {Object.keys(datum.data[`${result}`]).map(
+                                        (item: any, index: number) => {
+                                            return datum.data[`${result}`][`${item}`] ? (
+                                                <div className="flex flex-row text-sm" key={index}>
+                                                    <div className="flex-1">
+                                                        <label>
+                                                            {`${
+                                                                itemList.find(
+                                                                    (element: any) =>
+                                                                        element.keyName === item
+                                                                ).title
+                                                            }: `}
+                                                        </label>
                                                     </div>
-                                                ) : null;
-                                            }
-                                        )}
-                                    </div>
-                                ) : (
-                                    datum.data[
-                                    `${result}`
-                                    ]
-                                )}
-                            </td>
-                        );
-                    }
-                )}
+                                                    <div className="flex flex-row">
+                                                        {datum.data[`${result}`][`${item}`] == true
+                                                            ? '✅'
+                                                            : datum.data[`${result}`][`${item}`]}
+                                                    </div>
+                                                </div>
+                                            ) : null;
+                                        }
+                                    )}
+                                </div>
+                            ) : (
+                                datum.data[`${result}`]
+                            )}
+                        </td>
+                    );
+                })}
                 {/* Add the storage_url to the data and open it in a new tab */}
                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                     <a
-                        href={
-                            datum.document
-                                ?.storage_url || '#'
-                        }
+                        href={datum.document?.storage_url || '#'}
                         className="text-blue-500 hover:text-blue-700 underline"
                         target="_blank"
                         rel="noreferrer"
@@ -195,5 +149,5 @@ export default function FormFilterTableRow(props: TableRowProps) {
                 </td>
             </tr>
         </>
-    )
+    );
 }

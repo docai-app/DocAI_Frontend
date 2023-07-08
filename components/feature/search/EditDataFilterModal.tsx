@@ -41,7 +41,7 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
                     name: item,
                     checked: true
                 });
-                tmpFilterData.push(item)
+                tmpFilterData.push(item);
             });
             setFilterData(tmpFilterData);
             set_data_schema(tmp);
@@ -67,7 +67,7 @@ export default function EditDataFilterModal(props: EditDataFilterModalProps) {
                 as="div"
                 className="fixed z-10 inset-0 overflow-y-auto"
                 initialFocus={cancelButtonRef}
-                onClose={() => { }}
+                onClose={() => {}}
             >
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child

@@ -51,8 +51,7 @@ export default function EditItems(props: EditItemsProps) {
                             <TrashIcon className="w-4 m-1" />
                             <label className="text-sm">刪除</label>
                         </div>
-                        {
-                            visibleMoveItem &&
+                        {visibleMoveItem && (
                             <div
                                 className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
                                 onClick={moveItems}
@@ -60,7 +59,7 @@ export default function EditItems(props: EditItemsProps) {
                                 <ArrowRightCircleIcon className="w-4 m-1 " />
                                 <label className="text-sm">移動至</label>
                             </div>
-                        }
+                        )}
                         {visibleUpdateTag && (
                             <div
                                 className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"

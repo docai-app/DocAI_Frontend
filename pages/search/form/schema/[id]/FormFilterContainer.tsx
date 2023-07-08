@@ -21,6 +21,7 @@ export default function FormFilterContainer() {
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [modalDescription, setModalDescription] = useState({});
+    const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -42,7 +43,10 @@ export default function FormFilterContainer() {
         }
     );
 
-    const [{ data: generateChartData, loading: generateChartLoading }, generateChart] = useAxios('', { manual: true });
+    const [{ data: generateChartData, loading: generateChartLoading }, generateChart] = useAxios(
+        '',
+        { manual: true }
+    );
 
     useEffect(() => {
         if (router && router.query.id) {
@@ -171,25 +175,24 @@ export default function FormFilterContainer() {
         console.log('form_data_ids', form_data_ids);
 
         if (query) {
-            setLoadingOpen(true)
+            setLoadingOpen(true);
             setModalDescription({
                 title: '進行中......',
                 content: '正在生成內容...'
             });
-            const res = await generateChart(
-                apiSetting.Form.generateChart(
-                    form_data_ids,
-                    query
-                )
-            );
+            const res = await generateChart(apiSetting.Form.generateChart(form_data_ids, query));
             if (res.data.success) {
-                router.push({ pathname: '/search/form/schema/htmlcode', query: { content: JSON.stringify(res.data.chart) } })
+                // setVisibleHtmlCode(true)
+                router.push({
+                    pathname: '/search/form/schema/htmlcode',
+                    // query: { content: JSON.stringify(res.data.chart) }
+                    query: { content: res.data.chart }
+                });
             } else {
                 setAlert({ title: res.data.chart, type: 'error' });
             }
-            setLoadingOpen(false)
+            setLoadingOpen(false);
             console.log(res.data);
-
         }
     };
 
@@ -212,7 +215,9 @@ export default function FormFilterContainer() {
                 showAllItemsHandler,
                 handlerDeleteDocument,
                 modalDescription,
-                handlerGenerateChart
+                handlerGenerateChart,
+                visableHtmlCode,
+                setVisibleHtmlCode
             }}
         />
     );

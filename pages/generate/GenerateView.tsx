@@ -39,14 +39,14 @@ export default function GenerateView(props: GenerateViewProps) {
     } = props;
     const [content, setContent] = useState('');
 
-    const [visable, setVisible] = useState(false)
+    const [visable, setVisible] = useState(false);
     const [mode, setMode] = useState('');
     const [movingDest, setMovingDest] = useState<Folder | null>(null);
     const [data, setData] = useState({
         filename: '',
         target_folder_id: '',
         content: ''
-    })
+    });
 
     useEffect(() => {
         if (movingDest?.id) {
@@ -55,7 +55,7 @@ export default function GenerateView(props: GenerateViewProps) {
             setData({
                 ...data,
                 target_folder_id: movingDest?.id
-            })
+            });
         }
     }, [movingDest]);
 
@@ -169,7 +169,7 @@ export default function GenerateView(props: GenerateViewProps) {
                                     {documents_items && documents_items.length === 1 ? (
                                         <>
                                             {documents_items[0].storage_url?.split('.').pop() ===
-                                                'pdf' ? (
+                                            'pdf' ? (
                                                 <object
                                                     className="object-center object-cover w-full h-full flex justify-center items-center"
                                                     type="application/pdf"
@@ -478,11 +478,11 @@ export default function GenerateView(props: GenerateViewProps) {
                 data={data}
                 setData={setData}
                 cancelClick={() => {
-                    setVisible(false)
+                    setVisible(false);
                 }}
                 confirmClick={() => {
-                    handleUploadGeneratedData(data)
-                    setVisible(false)
+                    handleUploadGeneratedData(data);
+                    setVisible(false);
                 }}
             />
 

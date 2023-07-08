@@ -31,6 +31,8 @@ interface FormFilterViewProps {
     handlerDeleteDocument: any;
     modalDescription?: any;
     handlerGenerateChart: any;
+    visableHtmlCode: boolean;
+    setVisibleHtmlCode: any;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -51,14 +53,16 @@ function FormFilterView(props: FormFilterViewProps) {
         showAllItemsHandler,
         handlerDeleteDocument,
         modalDescription,
-        handlerGenerateChart
+        handlerGenerateChart,
+        visableHtmlCode,
+        setVisibleHtmlCode
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
-    const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
-    const [form_data_ids, set_form_data_ids] = useState<any>([])
+    // const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
+    const [form_data_ids, set_form_data_ids] = useState<any>([]);
 
     const [datumId, setDatumId] = useState('');
     const editFormDocument = (datum: any) => {
@@ -105,7 +109,7 @@ function FormFilterView(props: FormFilterViewProps) {
                 visibleMoveItem={false}
                 visibleGenerateChart={true}
                 generateChart={() => {
-                    setVisibleGenerateChart(true)
+                    setVisibleGenerateChart(true);
                 }}
                 clearItems={() => {
                     clearCheckedData();
@@ -197,9 +201,7 @@ function FormFilterView(props: FormFilterViewProps) {
                                                         <th
                                                             scope="col"
                                                             className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                        >
-
-                                                        </th>
+                                                        ></th>
                                                         <th
                                                             scope="col"
                                                             className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
@@ -248,7 +250,10 @@ function FormFilterView(props: FormFilterViewProps) {
                                                                 setDatumId={setDatumId}
                                                                 setVisibleDelete={setVisibleDelete}
                                                                 setChecedkData={setChecedkData}
-                                                                checked={_.includes(form_data_ids, datum.id)}
+                                                                checked={_.includes(
+                                                                    form_data_ids,
+                                                                    datum.id
+                                                                )}
                                                             />
                                                         );
                                                     })}
@@ -291,8 +296,7 @@ function FormFilterView(props: FormFilterViewProps) {
                 confirmClick={(query: string) => {
                     setVisibleGenerateChart(false);
                     console.log(query);
-                    handlerGenerateChart(query, form_data_ids)
-
+                    handlerGenerateChart(query, form_data_ids);
                 }}
                 cancelClick={() => {
                     setVisibleGenerateChart(false);
@@ -300,7 +304,7 @@ function FormFilterView(props: FormFilterViewProps) {
             />
 
             <HtmlCodeModal
-                visable={visableHtmlCode}
+                visable={false}
                 description={'chart'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);

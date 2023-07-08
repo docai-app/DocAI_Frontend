@@ -26,7 +26,9 @@ function GenerateContainer() {
     );
 
     const [{ data: getGenerateData }, getGenerate] = useAxios('', { manual: true });
-    const [{ data: uploadGeneratedContentData }, uploadGeneratedContent] = useAxios('', { manual: true });
+    const [{ data: uploadGeneratedContentData }, uploadGeneratedContent] = useAxios('', {
+        manual: true
+    });
 
     useEffect(() => {
         if (router.query.document_ids) {
@@ -120,7 +122,6 @@ function GenerateContainer() {
         [router, documents_items]
     );
 
-
     const handleUploadGeneratedData = useCallback(
         async (data: any) => {
             console.log(data);
@@ -138,17 +139,17 @@ function GenerateContainer() {
                     data.filename,
                     data.target_folder_id,
                     data.content
-                ))
+                )
+            );
             if (res.data?.success) {
                 setAlert({ title: '儲存成功', type: 'success' });
             } else {
                 setAlert({ title: res.data?.error, type: 'error' });
             }
             setOpen(false);
-
-
-        }, [router]
-    )
+        },
+        [router]
+    );
     return (
         <>
             <GenerateView
