@@ -21,6 +21,7 @@ export default function FormFilterContainer() {
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [modalDescription, setModalDescription] = useState({});
+    const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -212,7 +213,9 @@ export default function FormFilterContainer() {
                 showAllItemsHandler,
                 handlerDeleteDocument,
                 modalDescription,
-                handlerGenerateChart
+                handlerGenerateChart,
+                visableHtmlCode,
+                setVisibleHtmlCode
             }}
         />
     );

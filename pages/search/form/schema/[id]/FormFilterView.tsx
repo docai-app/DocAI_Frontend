@@ -31,6 +31,8 @@ interface FormFilterViewProps {
     handlerDeleteDocument: any;
     modalDescription?: any;
     handlerGenerateChart: any;
+    visableHtmlCode: boolean;
+    setVisibleHtmlCode: any;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -51,13 +53,15 @@ function FormFilterView(props: FormFilterViewProps) {
         showAllItemsHandler,
         handlerDeleteDocument,
         modalDescription,
-        handlerGenerateChart
+        handlerGenerateChart,
+        visableHtmlCode,
+        setVisibleHtmlCode
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
-    const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
+    // const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);
 
     const [datumId, setDatumId] = useState('');
@@ -301,7 +305,7 @@ function FormFilterView(props: FormFilterViewProps) {
             />
 
             <HtmlCodeModal
-                visable={visableHtmlCode}
+                visable={false}
                 description={'chart'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);

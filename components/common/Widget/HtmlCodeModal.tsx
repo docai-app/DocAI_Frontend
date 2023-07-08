@@ -1,23 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { toPng } from 'html-to-image';
 import { Fragment, useRef } from 'react';
 import useAlert from '../../../hooks/useAlert';
 
 export default function HtmlCodeModal(props: any) {
     const { setAlert } = useAlert();
     const cancelButtonRef = useRef(null);
-    const downloadQRCode = async () => {
-        const qrcode = document.getElementById('qr-code');
-        if (qrcode) {
-            const png = await toPng(qrcode);
-            const link = document.createElement('a');
-            link.download = 'qr-code.png';
-            link.href = png;
-            link.click();
-        }
-    };
-
     const htmlText = `<html>
     <head>
         <script src="https://code.highcharts.com/highcharts.js"></script>
