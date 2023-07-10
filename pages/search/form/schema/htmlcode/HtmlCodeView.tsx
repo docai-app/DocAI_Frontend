@@ -1,38 +1,40 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
+import parse from 'html-react-parser';
+import { Helmet } from 'react-helmet';
 
-interface HtmlCodeViewrops {
+interface HtmlCodeViewProps {
     content: string;
 }
 
-function HtmlCodeView(props: HtmlCodeViewrops) {
-    const { content } = props;
-
-    const containerRef = useRef(null);
-
+const HtmlCodeView: React.FC<HtmlCodeViewProps> = ({ content }) => {
     useEffect(() => {
         if (content) {
-            const parser = new DOMParser();
-            console.log('content', content);
-            const htmlDoc = parser.parseFromString(content, 'text/html');
-            const v = htmlDoc.getElementById("container");
-            console.log('v', v);
+            const domParser = new DOMParser();
+            const doc = domParser.parseFromString(content, 'text/html');
+            const scripts = doc.getElementsByTagName('script');
 
-            // console.log(htmlDoc.body)
-            // const container = containerRef.current;
-            // document.getElementById("containers").innerHTML = htmlDoc.body
-            // const fragment = htmlDoc.createDocumentFragment();
-            // fragment.appendChild(htmlDoc.body);
-            // if (container) {
-            //     container.appendChild(fragment);
-            // }
+            // Run each script found in the HTML
+            for (let i = 0; i < scripts.length; i++) {
+                const newScript = document.createElement('script');
+                newScript.innerHTML = scripts[i].innerHTML;
+                document.body.appendChild(newScript);
+            }
         }
     }, [content]);
 
+    // Parse only the body content
+    const bodyContent = /<body>([\s\S]*?)<\/body>/g.exec(content);
+    const parsedContent = bodyContent && bodyContent.length > 1 ? bodyContent[1] : '';
+
     return (
-        <>
-            {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
-            <div ref={containerRef} id="containers"></div>
-        </>
+        <div>
+            <Helmet>
+                {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+            </Helmet>
+            {parse(parsedContent)}
+        </div>
     );
-}
+};
+
 export default HtmlCodeView;
