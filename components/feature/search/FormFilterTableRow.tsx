@@ -75,40 +75,127 @@ export default function FormFilterTableRow(props: TableRowProps) {
                 </td>
                 {selectedResult?.map((result: any, index: number) => {
                     return (
+                        // <td
+                        //     key={index}
+                        //     className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
+                        // >
+                        //     {typeof datum.data[`${result}`] === 'object' &&
+                        //     datum.data[`${result}`] ? (
+                        //         <div className="flex flex-col">
+                        //             {Object.keys(datum.data[`${result}`]).map(
+                        //                 (item: any, index: number) => {
+                        //                     return datum.data[`${result}`][`${item}`] ? (
+                        //                         <div className="flex flex-row text-sm" key={index}>
+                        //                             <div className="flex-1">
+                        //                                 <label>
+                        //                                     {`${
+                        //                                         itemList.find(
+                        //                                             (element: any) =>
+                        //                                                 element.keyName === item
+                        //                                         ).title
+                        //                                     }: `}
+                        //                                 </label>
+                        //                             </div>
+                        //                             <div className="flex flex-row">
+                        //                                 {datum.data[`${result}`][`${item}`] == true
+                        //                                     ? '✅'
+                        //                                     : datum.data[`${result}`][`${item}`]}
+                        //                             </div>
+                        //                         </div>
+                        //                     ) : null;
+                        //                 }
+                        //             )}
+                        //         </div>
+                        //     ) : (
+                        //         datum.data[`${result}`]
+                        //     )}
+                        // </td>
                         <td
                             key={index}
                             className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"
                         >
-                            {typeof datum.data[`${result}`] === 'object' &&
-                            datum.data[`${result}`] ? (
-                                <div className="flex flex-col">
-                                    {Object.keys(datum.data[`${result}`]).map(
-                                        (item: any, index: number) => {
-                                            return datum.data[`${result}`][`${item}`] ? (
-                                                <div className="flex flex-row text-sm" key={index}>
-                                                    <div className="flex-1">
-                                                        <label>
-                                                            {`${
-                                                                itemList.find(
-                                                                    (element: any) =>
-                                                                        element.keyName === item
-                                                                ).title
-                                                            }: `}
-                                                        </label>
-                                                    </div>
-                                                    <div className="flex flex-row">
-                                                        {datum.data[`${result}`][`${item}`] == true
-                                                            ? '✅'
-                                                            : datum.data[`${result}`][`${item}`]}
-                                                    </div>
-                                                </div>
-                                            ) : null;
-                                        }
-                                    )}
-                                </div>
-                            ) : (
-                                datum.data[`${result}`]
-                            )}
+                            {(() => {
+                                const dataValue = datum.data[`${result}`];
+                                const isObject =
+                                    typeof dataValue === 'object' &&
+                                    dataValue !== null &&
+                                    !Array.isArray(dataValue);
+                                const isArray = Array.isArray(dataValue);
+                                const isString = typeof dataValue === 'string';
+
+                                if (isObject) {
+                                    return (
+                                        <div className="flex flex-col">
+                                            {Object.keys(dataValue).map(
+                                                (item: any, index: number) => {
+                                                    const itemValue = dataValue[item];
+                                                    return itemValue ? (
+                                                        <div
+                                                            className="flex flex-row text-sm"
+                                                            key={index}
+                                                        >
+                                                            <div className="flex-1">
+                                                                <label>
+                                                                    {`${
+                                                                        itemList.find(
+                                                                            (element: any) =>
+                                                                                element.keyName ===
+                                                                                item
+                                                                        ).title
+                                                                    }: `}
+                                                                </label>
+                                                            </div>
+                                                            <div className="flex flex-row">
+                                                                {itemValue === true
+                                                                    ? '✅'
+                                                                    : itemValue}
+                                                            </div>
+                                                        </div>
+                                                    ) : null;
+                                                }
+                                            )}
+                                        </div>
+                                    );
+                                } else if (isArray && dataValue.length > 0) {
+                                    return (
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead>
+                                                <tr>
+                                                    {Object.keys(dataValue[0]).map((key) => (
+                                                        <th
+                                                            key={key}
+                                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                        >
+                                                            {key}
+                                                        </th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {dataValue.map((item: any, index: number) => (
+                                                    <tr key={index}>
+                                                        {Object.values(item).map(
+                                                            (value: any, i: number) => (
+                                                                <td
+                                                                    key={i}
+                                                                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                                                >
+                                                                    {value}
+                                                                </td>
+                                                            )
+                                                        )}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    );
+                                } else if (isString) {
+                                    return dataValue;
+                                }
+
+                                // Optionally, you can render a placeholder for non-object/string/array data.
+                                // return 'N/A';
+                            })()}
                         </td>
                     );
                 })}
