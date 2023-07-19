@@ -17,6 +17,13 @@ const HtmlCodeView: React.FC<HtmlCodeViewProps> = ({ content }) => {
             for (let i = 0; i < scripts.length; i++) {
                 const newScript = document.createElement('script');
                 newScript.innerHTML = scripts[i].innerHTML;
+                console.log(scripts[i]);
+
+                // Add error handling here
+                newScript.onerror = (event) => {
+                    // Handle the error, e.g. log it or show an error message to the user
+                    console.error(event);
+                };
                 document.body.appendChild(newScript);
             }
         }

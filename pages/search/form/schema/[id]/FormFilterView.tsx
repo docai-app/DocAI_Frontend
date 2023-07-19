@@ -33,6 +33,8 @@ interface FormFilterViewProps {
     handlerGenerateChart: any;
     visableHtmlCode: boolean;
     setVisibleHtmlCode: any;
+    chart: any;
+    setChart: (chart: any) => void;
 }
 
 function FormFilterView(props: FormFilterViewProps) {
@@ -55,7 +57,9 @@ function FormFilterView(props: FormFilterViewProps) {
         modalDescription,
         handlerGenerateChart,
         visableHtmlCode,
-        setVisibleHtmlCode
+        setVisibleHtmlCode,
+        chart,
+        setChart
     } = props;
 
     const itemList = matchFormSchemaAndFormData(formSchema.form_schema, formDatum);
@@ -305,11 +309,12 @@ function FormFilterView(props: FormFilterViewProps) {
             />
 
             <HtmlCodeModal
-                visable={false}
-                description={'chart'}
+                visable={visableHtmlCode}
+                description={'智能圖表'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
                 }}
+                chart={chart}
             />
         </>
     );

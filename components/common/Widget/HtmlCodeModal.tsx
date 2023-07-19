@@ -1,44 +1,42 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useRef } from 'react';
-import useAlert from '../../../hooks/useAlert';
+import { Fragment, useEffect, useRef } from 'react';
+import { toPng } from 'html-to-image';
+import parse from 'html-react-parser';
+import { Helmet } from 'react-helmet';
 
 export default function HtmlCodeModal(props: any) {
-    const { setAlert } = useAlert();
     const cancelButtonRef = useRef(null);
-    const htmlText = `<html>
-    <head>
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-    </head>
-    <body>
-        <div id="container" style="width:100%; height:500px;"></div>
-        <script>
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Leave Summary by Department'
-                },
-                series: [{
-                    name: 'Number of Leaves',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'MGM',
-                        y: 1
-                    }, {
-                        name: 'CPG20',
-                        y: 1
-                    }]
-                }]
-            });
-        </script>
-    </body>
-    </html>
-    `;
-    // const htmlText2 = '<div>A simple HTML string</div>';
-    // const parser = new DOMParser();
-    // const htmlDoc = parser.parseFromString(htmlText, 'text/html');
+    const downloadChart = async () => {
+        const qrcode = document.getElementById('chart');
+        if (qrcode) {
+            const png = await toPng(qrcode);
+            const link = document.createElement('a');
+            link.download = 'chart.png';
+            link.href = png;
+            link.click();
+        }
+    };
+
+    useEffect(() => {
+        console.log('htmlText: ', props.chart);
+        if (props.chart) {
+            const domParser = new DOMParser();
+            const doc = domParser.parseFromString(props.chart, 'text/html');
+            const scripts = doc.getElementsByTagName('script');
+
+            // Run each script found in the HTML
+            for (let i = 0; i < scripts.length; i++) {
+                const newScript = document.createElement('script');
+                newScript.innerHTML = scripts[i].innerHTML;
+                document.body.appendChild(newScript);
+            }
+        }
+    }, [props.chart]);
+
+    // Parse only the body content
+    const bodyContent = /<body>([\s\S]*?)<\/body>/g.exec(props.chart);
+    const parsedContent = bodyContent && bodyContent.length > 1 ? bodyContent[1] : '';
 
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
@@ -77,7 +75,7 @@ export default function HtmlCodeModal(props: any) {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                        <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-6">
                             <div className="sm:flex sm:items-center justify-center">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
@@ -88,28 +86,23 @@ export default function HtmlCodeModal(props: any) {
                             <div className="w-full mt-4">
                                 <div className="w-full">
                                     <div
-                                        id="qr-code"
+                                        id="chart"
                                         className="w-full flex flex-col items-center p-4"
                                     >
-                                        {/* {HtmlViewer(htmlText)} */}
-                                        {/* <p className="text-md text-gray-500">
-                                            {htmlDoc}
-                                        </p> */}
-                                        {/* <div
-                                            dangerouslySetInnerHTML={{
-                                                __html: htmlText
-                                            }}
-                                            className={`text-xl text-red-500'
-                                            }`}
-                                        ></div> */}
-                                        <div dangerouslySetInnerHTML={{ __html: htmlText }} />
+                                        <Helmet>
+                                            {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                                            <script src="https://code.highcharts.com/highcharts.js"></script>
+                                        </Helmet>
+                                        {parse(parsedContent)}
                                     </div>
                                     <button
                                         type="button"
                                         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            downloadChart();
+                                        }}
                                     >
-                                        {'Download QR Code'}
+                                        {'下載圖表'}
                                     </button>
                                 </div>
                             </div>

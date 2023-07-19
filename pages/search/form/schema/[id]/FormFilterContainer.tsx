@@ -22,6 +22,7 @@ export default function FormFilterContainer() {
     const [page, setPage] = useState(1);
     const [modalDescription, setModalDescription] = useState({});
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
+    const [chart, setChart] = useState({});
     const [{ data: formSchemaData, loading: formSchemaLoading }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(''),
         {
@@ -182,10 +183,12 @@ export default function FormFilterContainer() {
             });
             const res = await generateChart(apiSetting.Form.generateChart(form_data_ids, query));
             if (res.data.success) {
-                router.push({
-                    pathname: '/search/form/schema/htmlcode',
-                    query: { content: JSON.stringify(res.data.chart) }
-                });
+                setVisibleHtmlCode(true);
+                setChart(res.data.chart);
+                // router.push({
+                //     pathname: '/search/form/schema/htmlcode',
+                //     query: { content: JSON.stringify(res.data.chart) }
+                // });
             } else {
                 setAlert({ title: res.data.chart, type: 'error' });
             }
@@ -215,7 +218,9 @@ export default function FormFilterContainer() {
                 modalDescription,
                 handlerGenerateChart,
                 visableHtmlCode,
-                setVisibleHtmlCode
+                setVisibleHtmlCode,
+                chart,
+                setChart
             }}
         />
     );
