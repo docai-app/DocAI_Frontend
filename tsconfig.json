@@ -18,6 +18,12 @@
             "react": ["./node_modules/@types/react"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "cypress/support/e2e.js",
+        "cypress/support/commands.js"
+    ],
     "exclude": ["node_modules"]
 }
