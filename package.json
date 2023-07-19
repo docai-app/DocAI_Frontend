@@ -7,7 +7,8 @@
         "start": "next start -p 8080",
         "lint": "next lint",
         "format": "prettier --single-quote --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "cypress:open": "cypress open"
     },
     "dependencies": {
         "@headlessui/react": "^1.5.0",
@@ -50,6 +51,7 @@
         "@types/react": "17.0.39",
         "@types/react-pdf": "^5.0.9",
         "autoprefixer": "^10.4.2",
+        "cypress": "^12.17.1",
         "eslint": "8.10.0",
         "eslint-config-next": "12.1.0",
         "husky": "^8.0.0",
