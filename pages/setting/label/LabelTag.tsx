@@ -1,9 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import LabelView from './LableView';
-import useAxios from 'axios-hooks';
-import axios from 'axios';
 import { EyeIcon } from '@heroicons/react/24/outline';
-import React from 'react';
 import _ from 'lodash';
 
 export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, onEdit }: any) {
@@ -19,7 +14,8 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, o
                 <td className="flex flex-row justify-center">
                     <a
                         className="w-10 cursor-pointer h-full items-center justify-center text-center"
-                        href={`/classification/${label?.id}?name=${label?.name}`}
+                        // href={`/classification/${label?.id}?name=${label?.name}`}
+                        href={`/search?content=&tag_id=${label?.id}&from=&to=`}
                     >
                         <EyeIcon className="p-2 text-indigo-500 " />
                     </a>
