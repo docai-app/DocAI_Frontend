@@ -1,6 +1,7 @@
 // index.js
 import Absence from './Absence';
 import Authorization from './Authorization';
+import Chatbot from './Chatbot';
 import Classification from './Classification';
 import Document from './Document';
 import DocumentApproval from './DocumentApproval';
@@ -37,6 +38,7 @@ export default class Api {
     User: User;
     Generate: Generate;
     MiniApp: MiniApp;
+    Chatbot: Chatbot;
 
     constructor() {
         this.Storage = new Storage();
@@ -57,5 +59,6 @@ export default class Api {
         this.User = new User();
         this.Generate = new Generate();
         this.MiniApp = new MiniApp();
+        this.Chatbot = new Chatbot();
     }
 }
