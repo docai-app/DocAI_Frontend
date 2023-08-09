@@ -1,0 +1,162 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ValidateContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\form\validate\ValidateContainer.tsx</td><td class="">92.68%</td><td class="">99%</td><td class="">205</td><td class="">190</td><td class="">15</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { FieldProps, WidgetProps } from &#x27;@rjsf/core&#x27;;
+import axios from &#x27;axios&#x27;;
+import useAxios from &#x27;axios-hooks&#x27;;
+import { useFormik } from &#x27;formik&#x27;;
+import _get from &#x27;lodash/get&#x27;;
+import { useRouter } from &#x27;next/router&#x27;;
+import { useEffect, useRef, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../../apis/index&#x27;;
+import useAlert from &#x27;../../../hooks/useAlert&#x27;;
+import ValidateView from &#x27;./ValidateView&#x27;;
+
+const apiSetting = new Api();
+
+function ValidateContainer() {
+    const router = useRouter();
+    const { setAlert } = useAlert();
+    const [formUrl, setFormUrl] = useState(&#x27;&#x27;);
+    const [formId, setFormId] = useState(&#x27;&#x27;);
+    const [formSchemaId, setFormSchemaId] = useState(&#x27;&#x27;);
+    const [result, setResult] = useState({});
+    const [formSchema, setFormSchema] = useState({});
+    const widgets = useRef({
+        TextWidget: (props: WidgetProps) =&gt; (
+            &lt;label&gt;
+                &lt;h3 className=&quot;font-bold&quot;&gt;{`${props.label}${props.required ? &#x27;*&#x27; : &#x27;&#x27;}`}&lt;/h3&gt;
+                &lt;input
+                    type=&quot;text&quot;
+                    value={props.value || &#x27;&#x27;}
+                    className=&quot;mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full&quot;
+                    onChange={(e) =&gt; {
+                        props.onChange(e.target.value);
+                    }}
+                /&gt;
+            &lt;/label&gt;
+        ),
+        CheckboxWidget: (props: WidgetProps) =&gt; (
+            &lt;label className=&quot;flex flex-row items-center&quot;&gt;
+                &lt;input
+                    className=&quot;rounded-md p-2 checked:text-slate-500 focus:ring-3 focus:ring-offset-0 focus:ring-slate-300 shadow&quot;
+                    type=&quot;checkbox&quot;
+                    checked={props.value || false}
+                    onChange={(e) =&gt; {
+                        props.onChange(e.target.checked);
+                    }}
+                /&gt;
+                &lt;div className=&quot;ml-1&quot;&gt;{props.label}&lt;/div&gt;
+            &lt;/label&gt;
+        )
+    });
+
+    const fields = useRef({
+        TitleField: (props: FieldProps) =&gt; (
+            &lt;div&gt;
+                &lt;h3 className=&quot;text-xl font-bold mb-2&quot;&gt;{props.title}&lt;/h3&gt;
+            &lt;/div&gt;
+        )
+    });
+
+    const uiSchema = useRef({
+        &#x27;ui:submitButtonOptions&#x27;: {
+            submitText: &#x27;提交&#x27;,
+            props: {
+                className: &#x27;leading-none p-3 bg-blue-500 cursor-pointer text-white rounded&#x27;
+            }
+        }
+    });
+
+    const absenceFormFormik = useFormik({
+        initialValues: {
+            data: result
+        },
+        onSubmit: async (values) =&gt; {
+            updateFormData({
+                data: {
+                    data: values.data
+                }
+            });
+        }
+    });
+
+    const [
+        { data: getFormsSchemaByIdData, loading: getFormsSchemaByIdDataLoading },
+        getFormsSchemaById
+    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(_get(router, &#x27;query.form_schema_id&#x27;)), {
+        manual: true
+    });
+
+    const [
+        {
+            data: updateFormDataData,
+            loading: updateFormDataLoading,
+            error: updateFormDataError,
+            response: updateFormDataResponse
+        },
+        updateFormData
+    ] = useAxios(apiSetting.Form.updateFormData(formId), {
+        manual: true
+    });
+
+    useEffect(() =&gt; {
+        if (router.query.form_url &amp;&amp; router.query.result) {
+            setFormUrl(`${router.query.form_url}`);
+            setResult(JSON.parse(`${router.query.result}`));
+            setFormId(`${router.query.form_id}`);
+            setFormSchemaId(`${router.query.form_schema_id}`);
+            console.log(&#x27;form_schema_id: &#x27;, `${router.query.form_schema_id}`);
+            getFormsSchemaById();
+        }
+    }, [router]);
+
+    useEffect(() =&gt; {
+        if (getFormsSchemaByIdData &amp;&amp; getFormsSchemaByIdData.success === true) {
+            setFormSchema(getFormsSchemaByIdData?.form_schema?.form_schema);
+        }
+    }, [getFormsSchemaByIdData]);
+
+    useEffect(() =&gt; {
+        if (updateFormDataData &amp;&amp; updateFormDataData.success === true) {
+            setAlert({ title: &#x27;資料提交成功！&#x27;, type: &#x27;success&#x27; });
+            // router.push(&#x27;/&#x27;);
+            router.back();
+        }
+    }, [router, updateFormDataData]);
+
+    return (
+        &lt;&gt;
+            &lt;ValidateView
+                {...{
+                    formUrl,
+                    result,
+                    setResult,
+                    formSchema,
+                    uiSchema,
+                    widgets,
+                    fields,
+                    absenceFormFormik,
+                    getFormsSchemaByIdDataLoading
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+
+export default ValidateContainer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:33,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:35,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:16,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:18,&quot;text&quot;:&quot;updateFormDataData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:12,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:38,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:61,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:26,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:50,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:112,&quot;character&quot;:63,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:8,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:117,&quot;character&quot;:12,&quot;text&quot;:&quot;updateFormDataData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:117,&quot;character&quot;:34,&quot;text&quot;:&quot;updateFormDataData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:117,&quot;character&quot;:53,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\form\\validate\\ValidateContainer.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:16,&quot;text&quot;:&quot;updateFormDataData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

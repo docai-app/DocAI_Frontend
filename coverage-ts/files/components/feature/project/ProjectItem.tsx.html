@@ -1,0 +1,59 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ProjectItem.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\project\ProjectItem.tsx</td><td class="">66.67%</td><td class="">99%</td><td class="">45</td><td class="">30</td><td class="">15</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { ChevronDownIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import ProjectRow from &#x27;./ProjectRow&#x27;;
+
+interface ProjectItemProps {
+    projects: any;
+    setVisiable: any;
+    setProject: any;
+}
+
+export default function ProjectItem(props: ProjectItemProps) {
+    const { projects, setVisiable, setProject } = props;
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;mt-4 rounded-lg shadow&quot;&gt;
+                &lt;div className=&quot; rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center&quot;&gt;
+                    &lt;div&gt;
+                        &lt;h1&gt;項目名稱&lt;/h1&gt;
+                    &lt;/div&gt;
+                    &lt;button
+                        type=&quot;button&quot;
+                        className=&quot;hidden relative  items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;
+                    &gt;
+                        &lt;ChevronDownIcon className=&quot;h-4 &quot; /&gt;
+                    &lt;/button&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot; divide-y&quot;&gt;
+                    {projects?.map((project: any, index: number) =&gt; {
+                        return (
+                            &lt;ProjectRow
+                                key={index}
+                                project={project}
+                                setVisiable={setVisiable}
+                                setProject={setProject}
+                            /&gt;
+                        );
+                    })}
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:4,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:5,&quot;character&quot;:4,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:4,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:12,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:22,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:35,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:21,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:31,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:36,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:32,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:41,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:32,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:45,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:32,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectItem.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:44,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

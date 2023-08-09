@@ -1,0 +1,235 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ProjectView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\project\ProjectView.tsx</td><td class="">84.02%</td><td class="">99%</td><td class="">244</td><td class="">205</td><td class="">39</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { PlusIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import { Theme as Bootstrap4Theme } from &#x27;@rjsf/bootstrap-4&#x27;;
+import { withTheme } from &#x27;@rjsf/core&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import { Folder } from &#x27;../../components/common/Widget/FolderTree&#x27;;
+import FolderTreeForSelect from &#x27;../../components/common/Widget/FolderTreeForSelect&#x27;;
+import MyDateDropdown from &#x27;../../components/common/Widget/MyDateDropdown&#x27;;
+import PaginationView from &#x27;../../components/common/Widget/PaginationView&#x27;;
+import EditProjectModal from &#x27;../../components/feature/project/EditProjectModal&#x27;;
+import ProjectItem from &#x27;../../components/feature/project/ProjectItem&#x27;;
+
+const Form = withTheme(Bootstrap4Theme);
+
+interface ProjectViewProps {
+    id: string | string[] | null | undefined;
+    name: string | string[] | null | undefined;
+    showAllItemsData: any;
+    projects: any;
+    meta: any;
+    currentStatus: string;
+    setCurrentStatus: any;
+    addNewProjectHeadler: any;
+    updateProjectHandler: any;
+}
+
+function ProjectView(props: ProjectViewProps) {
+    const {
+        id = null,
+        name = &#x27;Root&#x27;,
+        showAllItemsData = null,
+        projects = null,
+        meta,
+        currentStatus,
+        setCurrentStatus,
+        addNewProjectHeadler,
+        updateProjectHandler
+    } = props;
+    const [visiable, setVisiable] = useState(false);
+    const [mode, setMode] = useState(&#x27;&#x27;);
+    const [movingDest, setMovingDest] = useState&lt;Folder | null&gt;(null);
+    const dates = [
+        {
+            name: &#x27;最近三天&#x27;,
+            value: &#x27;3&#x27;
+        },
+        {
+            name: &#x27;最近一周&#x27;,
+            value: &#x27;7&#x27;
+        },
+        {
+            name: &#x27;最近一個月&#x27;,
+            value: &#x27;30&#x27;
+        },
+        {
+            name: &#x27;最近三個月&#x27;,
+            value: &#x27;90&#x27;
+        },
+        {
+            name: &#x27;最近半年&#x27;,
+            value: &#x27;180&#x27;
+        }
+    ];
+    const statusDatas = [
+        {
+            name: &#x27;全部&#x27;,
+            value: &#x27;all&#x27;
+        },
+        {
+            name: &#x27;未完成&#x27;,
+            value: &#x27;unfinish&#x27;
+        },
+        {
+            name: &#x27;完成&#x27;,
+            value: &#x27;finish&#x27;
+        }
+    ];
+    const [date, setDate] = useState(dates[0].name);
+    const [status, setStatus] = useState(statusDatas[0].name);
+    const onSwitchStatus = (status: any) =&gt; {
+        setStatus(status.name);
+        setCurrentStatus(status.value);
+    };
+    const onSwitchDates = (status: any) =&gt; {
+        setDate(status.name);
+        // setCurrentTabStatus(status.value);
+    };
+
+    const [project, setProject] = useState({
+        id: null,
+        name: &#x27;&#x27;,
+        description: &#x27;&#x27;,
+        deadline_at: &#x27;&#x27;
+    });
+
+    function init() {
+        // setMovingDest(null);
+        setProject({
+            id: null,
+            name: &#x27;&#x27;,
+            description: &#x27;&#x27;,
+            deadline_at: &#x27;&#x27;
+        });
+    }
+
+    useEffect(() =&gt; {
+        if (movingDest?.id) {
+            setVisiable(true);
+            console.log(movingDest);
+        }
+    }, [movingDest]);
+
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8&quot;&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto px-4 sm:px-6 lg:px-8&quot;&gt;
+                    &lt;div className=&quot;max-w-4xl mx-auto text-center&quot;&gt;
+                        &lt;h2 className=&quot;text-3xl font-extrabold text-gray-900 sm:text-4xl&quot;&gt;
+                            項目管理
+                        &lt;/h2&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;mt-4 hidden&quot;&gt;
+                    &lt;div&gt;
+                        &lt;MyDateDropdown
+                            value={status}
+                            datas={statusDatas}
+                            onSwitch={onSwitchStatus}
+                        /&gt;
+                        &lt;MyDateDropdown value={date} datas={dates} onSwitch={onSwitchDates} /&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;mt-2 rounded-lg shadow&quot;&gt;
+                        &lt;div className=&quot; rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center&quot;&gt;
+                            &lt;div&gt;
+                                &lt;h1&gt;收件箱(10)&lt;/h1&gt;
+                            &lt;/div&gt;
+                            &lt;button
+                                type=&quot;button&quot;
+                                className=&quot;relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;
+                            &gt;
+                                &lt;PlusIcon className=&quot;h-4&quot; /&gt;
+                                &lt;span&gt;新增&lt;/span&gt;
+                            &lt;/button&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot; divide-y&quot;&gt;
+                            {/* &lt;ProjectRow
+                                project={null}
+                                setVisiable={setVisiable}
+                                updateProjectHandler={updateProjectHandler}
+                            /&gt; */}
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;mt-4 pb-4&quot;&gt;
+                    &lt;div className=&quot;flex flex-row justify-between items-center border-b py-2&quot;&gt;
+                        &lt;h1&gt;項目&lt;/h1&gt;
+                        &lt;button
+                            type=&quot;button&quot;
+                            className=&quot;relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;
+                            onClick={() =&gt; {
+                                init();
+                                setVisiable(true);
+                            }}
+                        &gt;
+                            &lt;PlusIcon className=&quot;h-4&quot; /&gt;
+                            &lt;span&gt;新增&lt;/span&gt;
+                        &lt;/button&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;my-2&quot;&gt;
+                        &lt;MyDateDropdown
+                            value={status}
+                            datas={statusDatas}
+                            onSwitch={onSwitchStatus}
+                        /&gt;
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                        &lt;ProjectItem
+                            projects={projects}
+                            setVisiable={setVisiable}
+                            setProject={setProject}
+                        /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;PaginationView meta={meta} pathname={&#x27;/project&#x27;} params={null} /&gt;
+            &lt;/div&gt;
+            &lt;EditProjectModal
+                visable={visiable}
+                setMode={setMode}
+                movingDest={movingDest}
+                project={project}
+                setProject={setProject}
+                cancelClick={() =&gt; {
+                    setVisiable(false);
+                }}
+                confirmClick={(data: any) =&gt; {
+                    // console.log(data);
+                    // console.log(&quot;movingDest: &quot;, movingDest);
+                    setVisiable(false);
+                    data.folder_id = data?.folder?.id;
+                    data.parent_id = movingDest?.id;
+                    if (data?.id) updateProjectHandler(data);
+                    else addNewProjectHeadler(data);
+                    init();
+                }}
+            /&gt;
+            &lt;FolderTreeForSelect
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: &#x27;&#x27;
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+export default ProjectView;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:4,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:4,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:4,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:4,&quot;text&quot;:&quot;setCurrentStatus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:4,&quot;text&quot;:&quot;addNewProjectHeadler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:4,&quot;text&quot;:&quot;updateProjectHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:8,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:8,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:8,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:8,&quot;text&quot;:&quot;setCurrentStatus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:8,&quot;text&quot;:&quot;addNewProjectHeadler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:8,&quot;text&quot;:&quot;updateProjectHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:78,&quot;character&quot;:28,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:18,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:25,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:80,&quot;character&quot;:8,&quot;text&quot;:&quot;setCurrentStatus&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:80,&quot;character&quot;:25,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:80,&quot;character&quot;:32,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:82,&quot;character&quot;:27,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:16,&quot;text&quot;:&quot;status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:23,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:28,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:38,&quot;text&quot;:&quot;projects&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:182,&quot;character&quot;:32,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:182,&quot;character&quot;:38,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:31,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:25,&quot;text&quot;:&quot;folder_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:37,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:43,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:51,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:25,&quot;text&quot;:&quot;parent_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:24,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:30,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:34,&quot;text&quot;:&quot;updateProjectHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:55,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:200,&quot;character&quot;:25,&quot;text&quot;:&quot;addNewProjectHeadler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\ProjectView.tsx&quot;,&quot;line&quot;:200,&quot;character&quot;:46,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

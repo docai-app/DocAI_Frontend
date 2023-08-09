@@ -1,0 +1,79 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>ProjectRow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\project\ProjectRow.tsx</td><td class="">72.29%</td><td class="">99%</td><td class="">83</td><td class="">60</td><td class="">23</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import {
+    CalendarIcon,
+    ClipboardDocumentListIcon,
+    CogIcon,
+    UserCircleIcon
+} from &#x27;@heroicons/react/24/outline&#x27;;
+import moment from &#x27;moment&#x27;;
+import Link from &#x27;next/link&#x27;;
+import Progress from &#x27;../../common/Widget/Progress&#x27;;
+
+interface ProjectRowProps {
+    project: any;
+    setVisiable: any;
+    setProject: any;
+}
+
+export default function ProjectRow(props: ProjectRowProps) {
+    const { project, setProject, setVisiable } = props;
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;flex items-center justify-between&quot;&gt;
+                &lt;div className=&quot;flex flex-1 flex-col&quot;&gt;
+                    &lt;div className=&quot;flex flex-row px-2 py-0 items-center cursor-pointer justify-between&quot;&gt;
+                        &lt;div className=&quot;flex flex-1 flex-row items-center&quot;&gt;
+                            &lt;ClipboardDocumentListIcon className=&quot;w-4 m-2&quot; /&gt;
+                            &lt;Link href={`/project/${project?.id}`}&gt;
+                                &lt;a className=&quot; text-sm hover:underline&quot;&gt;{project?.name}&lt;/a&gt;
+                            &lt;/Link&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;flex w-1/6&quot;&gt;
+                            &lt;Progress value={project?.progress} /&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;flex px-2 items-center justify-between&quot;&gt;
+                        &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                            &lt;UserCircleIcon className=&quot;w-4 m-1 text-gray-400&quot; /&gt;
+                            &lt;label className=&quot;text-xs text-gray-400&quot;&gt;
+                                {project?.user?.nickname}
+                            &lt;/label&gt;
+                            &lt;div className=&quot;flex flex-row text-xs ml-4 text-gray-400 items-center&quot;&gt;
+                                &lt;CalendarIcon className=&quot;w-4 m-1 text-gray-400&quot; /&gt;
+                                {project?.deadline_at &amp;&amp;
+                                    moment(project?.deadline_at).format(&#x27;YYYY-MM-DD&#x27;)}
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+
+                        &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                            &lt;CogIcon
+                                className=&quot;w-4&quot;
+                                onClick={() =&gt; {
+                                    setVisiable(true);
+                                    setProject(project);
+                                }}
+                            /&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:4,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:4,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:4,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:12,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:21,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:33,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:52,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:61,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:73,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:82,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:38,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:45,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:54,&quot;text&quot;:&quot;progress&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:33,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:42,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:48,&quot;text&quot;:&quot;nickname&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:33,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:42,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:43,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:52,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:36,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:36,&quot;text&quot;:&quot;setProject&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\ProjectRow.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:47,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

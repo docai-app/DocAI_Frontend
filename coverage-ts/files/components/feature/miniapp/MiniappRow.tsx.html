@@ -1,0 +1,65 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>MiniappRow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\miniapp\MiniappRow.tsx</td><td class="">71.64%</td><td class="">99%</td><td class="">67</td><td class="">48</td><td class="">19</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import moment from &#x27;moment&#x27;;
+import Link from &#x27;next/link&#x27;;
+
+interface MiniappRowProps {
+    item: any;
+    share?: any;
+}
+
+export default function MiniappRow(props: MiniappRowProps) {
+    const { item, share } = props;
+    return (
+        &lt;&gt;
+            &lt;tr&gt;
+                &lt;td className=&quot;whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0&quot;&gt;
+                    &lt;Link href={`/miniapp/${item?.id}`}&gt;
+                        &lt;a className=&quot;text-indigo-500&quot;&gt;{item?.name}&lt;/a&gt;
+                    &lt;/Link&gt;
+                &lt;/td&gt;
+                &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                    {item?.description}
+                &lt;/td&gt;
+                &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                    {item?.folder?.name}
+                &lt;/td&gt;
+                &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                    {moment(item?.created_at).format(&#x27;YYYY-MM-DD HH:ss&#x27;)}
+                &lt;/td&gt;
+                &lt;td className=&quot;relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0&quot;&gt;
+                    &lt;label
+                        className=&quot; cursor-pointer text-indigo-600 hover:text-indigo-900&quot;
+                        onClick={() =&gt; {
+                            share(item);
+                        }}
+                    &gt;
+                        分享&lt;span className=&quot;sr-only&quot;&gt;, Lindsay Walton&lt;/span&gt;
+                    &lt;/label&gt;
+                    {&#x27;  | &#x27;}
+                    &lt;Link href={`/miniapp/create?id=${item?.id}`}&gt;
+                        &lt;a className=&quot;text-indigo-600 hover:text-indigo-900&quot;&gt;
+                            編輯&lt;span className=&quot;sr-only&quot;&gt;, Lindsay Walton&lt;/span&gt;
+                        &lt;/a&gt;
+                    &lt;/Link&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:4,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:5,&quot;character&quot;:4,&quot;text&quot;:&quot;share&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:12,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:18,&quot;text&quot;:&quot;share&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:44,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:50,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:56,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:62,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:21,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:27,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:21,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:27,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:35,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:28,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:34,&quot;text&quot;:&quot;created_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:28,&quot;text&quot;:&quot;share&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:34,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:54,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\miniapp\\MiniappRow.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:60,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

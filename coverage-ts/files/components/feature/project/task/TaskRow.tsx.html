@@ -1,0 +1,151 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TaskRow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\project\task\TaskRow.tsx</td><td class="">77.98%</td><td class="">99%</td><td class="">168</td><td class="">131</td><td class="">37</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { CalendarIcon, CheckCircleIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import { ChevronDownIcon, ChevronUpIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import moment from &#x27;moment&#x27;;
+import { useCallback, useEffect, useRef, useState } from &#x27;react&#x27;;
+import Dropdowns from &#x27;./Dropdowns&#x27;;
+
+interface TaskRowProps {
+    task: any;
+    completeTask: any;
+    updateTask: any;
+    removeTask: any;
+}
+
+export default function TaskRow(props: TaskRowProps) {
+    const { task, completeTask, updateTask, removeTask } = props;
+    const [visiable, setVisiable] = useState(false);
+    const [overflow, setOverflow] = useState(false);
+    const content = useRef&lt;HTMLDivElement&gt;(null);
+
+    function useWinSize() {
+        const [size, setSize] = useState({
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        });
+
+        const onResize = useCallback(() =&gt; {
+            setSize({
+                width: document.documentElement.clientWidth,
+                height: document.documentElement.clientHeight
+            });
+        }, []);
+        useEffect(() =&gt; {
+            window.addEventListener(&#x27;resize&#x27;, onResize);
+            return () =&gt; {
+                window.removeEventListener(&#x27;resize&#x27;, onResize);
+            };
+        }, []);
+
+        return size;
+    }
+
+    const size = useWinSize();
+
+    useEffect(() =&gt; {
+        if (content.current) {
+            setOverflow(content.current.scrollWidth &gt; content.current.clientWidth);
+        }
+    }, [size]);
+
+    const completed = () =&gt; {
+        task.is_completed = !task.is_completed;
+        completeTask({
+            id: task?.id,
+            is_completed: task.is_completed
+        });
+    };
+
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;flex flex-row px-4 py-2 items-start cursor-pointer   w-full &quot;&gt;
+                &lt;div className=&quot;  flex-row items-start&quot;&gt;
+                    {task?.is_completed ? (
+                        &lt;CheckCircleIcon
+                            className=&quot;w-5 h-5 mt-1 text-gray-500&quot;
+                            onClick={completed}
+                        /&gt;
+                    ) : (
+                        &lt;input
+                            type={&#x27;radio&#x27;}
+                            className=&quot; w-5 h-5  mt-1 cursor-pointer &quot;
+                            onClick={completed}
+                        /&gt;
+                    )}
+                &lt;/div&gt;
+                &lt;div
+                    ref={content}
+                    className={
+                        visiable
+                            ? `ml-2 break-words break-all`
+                            : `ml-2  overflow-hidden text-ellipsis whitespace-nowrap `
+                    }
+                    onClick={() =&gt; {
+                        setVisiable(!visiable);
+                    }}
+                &gt;
+                    &lt;span
+                        className={`text-md ml-2  break-words break-all ${
+                            task?.is_completed ? &#x27;line-through text-gray-500 &#x27; : &#x27;text-black&#x27;
+                        }`}
+                    &gt;
+                        {task?.title}
+                    &lt;/span&gt;
+                    &lt;br /&gt;
+                    &lt;span className=&quot;text-sm ml-6  text-gray-400 &quot;&gt;{task?.description}&lt;/span&gt;
+                    {task?.deadline_at &amp;&amp; (
+                        &lt;div className=&quot;flex flex-row ml-6&quot;&gt;
+                            &lt;CalendarIcon className=&quot;w-4 text-yellow-400&quot; /&gt;
+                            &lt;p className=&quot;text-sm ml-2   text-yellow-400 &quot;&gt;
+                                {moment(task?.deadline_at).format(&#x27;YYYY-MM-DD&#x27;)}
+                            &lt;/p&gt;
+                        &lt;/div&gt;
+                    )}
+                &lt;/div&gt;
+                &lt;div className=&quot; flex flex-1 ml-2 items-end justify-end &quot;&gt;
+                    {visiable &amp;&amp; overflow ? (
+                        &lt;ChevronUpIcon
+                            className=&quot;w-5 h-5 mx-2 text-gray-500 &quot;
+                            onClick={() =&gt; {
+                                setVisiable(!visiable);
+                            }}
+                        /&gt;
+                    ) : overflow ? (
+                        &lt;ChevronDownIcon
+                            className=&quot;w-5 h-5 mx-2 text-gray-500 &quot;
+                            onClick={() =&gt; {
+                                setVisiable(!visiable);
+                            }}
+                        /&gt;
+                    ) : null}
+                    &lt;Dropdowns
+                        type={&#x27;type&#x27;}
+                        is_completed={task?.is_completed}
+                        rename={updateTask}
+                        remove={removeTask}
+                        move={() =&gt; {
+                            alert(&#x27;未做&#x27;);
+                        }}
+                    /&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:4,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:4,&quot;text&quot;:&quot;completeTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:4,&quot;text&quot;:&quot;updateTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:4,&quot;text&quot;:&quot;removeTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:12,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:18,&quot;text&quot;:&quot;completeTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:32,&quot;text&quot;:&quot;updateTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:44,&quot;text&quot;:&quot;removeTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:8,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:13,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:29,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:34,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:8,&quot;text&quot;:&quot;completeTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:12,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:16,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:22,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:12,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:26,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:31,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:21,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:61,&quot;character&quot;:27,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:28,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:87,&quot;character&quot;:34,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:25,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:31,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:68,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:74,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:21,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:94,&quot;character&quot;:27,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:40,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:46,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:38,&quot;text&quot;:&quot;task&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:44,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:24,&quot;text&quot;:&quot;rename&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:32,&quot;text&quot;:&quot;updateTask&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:123,&quot;character&quot;:24,&quot;text&quot;:&quot;remove&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\project\\task\\TaskRow.tsx&quot;,&quot;line&quot;:123,&quot;character&quot;:32,&quot;text&quot;:&quot;removeTask&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

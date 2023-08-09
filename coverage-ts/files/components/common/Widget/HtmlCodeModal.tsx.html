@@ -1,0 +1,133 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>HtmlCodeModal.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\common\Widget\HtmlCodeModal.tsx</td><td class="">89.82%</td><td class="">99%</td><td class="">167</td><td class="">150</td><td class="">17</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">/* This example requires Tailwind CSS v2.0+ */
+import { Dialog, Transition } from &#x27;@headlessui/react&#x27;;
+import { Fragment, useEffect, useRef } from &#x27;react&#x27;;
+import { toPng } from &#x27;html-to-image&#x27;;
+import parse from &#x27;html-react-parser&#x27;;
+import { Helmet } from &#x27;react-helmet&#x27;;
+
+export default function HtmlCodeModal(props: any) {
+    const cancelButtonRef = useRef(null);
+    const downloadChart = async () =&gt; {
+        const qrcode = document.getElementById(&#x27;chart&#x27;);
+        if (qrcode) {
+            const png = await toPng(qrcode);
+            const link = document.createElement(&#x27;a&#x27;);
+            link.download = &#x27;chart.png&#x27;;
+            link.href = png;
+            link.click();
+        }
+    };
+
+    useEffect(() =&gt; {
+        console.log(&#x27;htmlText: &#x27;, props.chart);
+        if (props.chart) {
+            const domParser = new DOMParser();
+            const doc = domParser.parseFromString(props.chart, &#x27;text/html&#x27;);
+            const scripts = doc.getElementsByTagName(&#x27;script&#x27;);
+
+            // Run each script found in the HTML
+            for (let i = 0; i &lt; scripts.length; i++) {
+                const newScript = document.createElement(&#x27;script&#x27;);
+                newScript.innerHTML = scripts[i].innerHTML;
+                document.body.appendChild(newScript);
+            }
+        }
+    }, [props.chart]);
+
+    // Parse only the body content
+    const bodyContent = /&lt;body&gt;([\s\S]*?)&lt;\/body&gt;/g.exec(props.chart);
+    const parsedContent = bodyContent &amp;&amp; bodyContent.length &gt; 1 ? bodyContent[1] : &#x27;&#x27;;
+
+    return (
+        &lt;Transition.Root show={props.visable || false} as={Fragment}&gt;
+            &lt;Dialog
+                as=&quot;div&quot;
+                className=&quot;fixed z-10 inset-0 overflow-y-auto&quot;
+                initialFocus={cancelButtonRef}
+                onClose={props.cancelClick}
+            &gt;
+                &lt;div className=&quot;flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0&quot;&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0&quot;
+                        enterTo=&quot;opacity-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100&quot;
+                        leaveTo=&quot;opacity-0&quot;
+                    &gt;
+                        &lt;Dialog.Overlay className=&quot;fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity&quot; /&gt;
+                    &lt;/Transition.Child&gt;
+
+                    {/* This element is to trick the browser into centering the modal contents. */}
+                    &lt;span
+                        className=&quot;hidden sm:inline-block sm:align-middle sm:h-screen&quot;
+                        aria-hidden=&quot;true&quot;
+                    &gt;
+                        &amp;#8203;
+                    &lt;/span&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                        enterTo=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leaveTo=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                    &gt;
+                        &lt;div className=&quot;relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-6&quot;&gt;
+                            &lt;div className=&quot;sm:flex sm:items-center justify-center&quot;&gt;
+                                &lt;div className=&quot;mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left&quot;&gt;
+                                    &lt;div className=&quot;mt-2&quot;&gt;
+                                        &lt;p className=&quot;text-sm text-gray-500&quot;&gt;{props.description}&lt;/p&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;w-full mt-4&quot;&gt;
+                                &lt;div className=&quot;w-full&quot;&gt;
+                                    &lt;div
+                                        id=&quot;chart&quot;
+                                        className=&quot;w-full flex flex-col items-center p-4&quot;
+                                    &gt;
+                                        &lt;Helmet&gt;
+                                            {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                                            &lt;script src=&quot;https://code.highcharts.com/highcharts.js&quot;&gt;&lt;/script&gt;
+                                        &lt;/Helmet&gt;
+                                        {parse(parsedContent)}
+                                    &lt;/div&gt;
+                                    &lt;button
+                                        type=&quot;button&quot;
+                                        className=&quot;w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm&quot;
+                                        onClick={() =&gt; {
+                                            downloadChart();
+                                        }}
+                                    &gt;
+                                        {&#x27;下載圖表&#x27;}
+                                    &lt;/button&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/Transition.Child&gt;
+                &lt;/div&gt;
+            &lt;/Dialog&gt;
+        &lt;/Transition.Root&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:38,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:34,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:40,&quot;text&quot;:&quot;chart&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:12,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:18,&quot;text&quot;:&quot;chart&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:50,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:56,&quot;text&quot;:&quot;chart&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:8,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:14,&quot;text&quot;:&quot;chart&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:57,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:63,&quot;text&quot;:&quot;chart&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:31,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:37,&quot;text&quot;:&quot;visable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:25,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:31,&quot;text&quot;:&quot;cancelClick&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:78,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\HtmlCodeModal.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:84,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

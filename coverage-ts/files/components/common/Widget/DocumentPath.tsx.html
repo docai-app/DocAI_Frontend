@@ -1,0 +1,113 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>DocumentPath.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\common\Widget\DocumentPath.tsx</td><td class="">89.92%</td><td class="">99%</td><td class="">129</td><td class="">116</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { FolderIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import { ChevronRightIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import useAxios from &#x27;axios-hooks&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../../apis&#x27;;
+import { Folder } from &#x27;./FolderTree&#x27;;
+import FolderTreeForSelect from &#x27;./FolderTreeForSelect&#x27;;
+
+interface DocumentPathProps {
+    modeType: string;
+    target_folder_id?: string;
+    set_target_folder_id: any;
+    canEditPath?: boolean;
+}
+
+const apiSetting = new Api();
+
+export default function DocumentPath(props: DocumentPathProps) {
+    const { modeType, target_folder_id, set_target_folder_id, canEditPath = true } = props;
+
+    const [mode, setMode] = useState(&#x27;&#x27;);
+    const [movingDest, setMovingDest] = useState&lt;Folder | null&gt;(null);
+    const [documentPath, setDocumentPath] = useState&lt;{ id: string | null; name: string }[]&gt;([
+        { id: null, name: &#x27;Root&#x27; }
+    ]);
+
+    const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
+
+    useEffect(() =&gt; {
+        if (showFolderByIDData?.success) {
+            setDocumentPath([
+                { id: null, name: &#x27;Root&#x27; },
+                ...showFolderByIDData.ancestors.slice().reverse(),
+                showFolderByIDData.folder
+            ]);
+        }
+    }, [showFolderByIDData]);
+
+    useEffect(() =&gt; {
+        if (movingDest?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
+            set_target_folder_id(movingDest?.id);
+        }
+    }, [movingDest, showFolderByID]);
+
+    useEffect(() =&gt; {
+        if (target_folder_id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(target_folder_id));
+        }
+    }, [target_folder_id]);
+
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;mt-4 rounded-md border-2 border-gray-200 p-4 bg-white&quot;&gt;
+                &lt;label className=&quot;text-md font-bold text-gray-900&quot;&gt;儲存路徑&lt;/label&gt;
+                &lt;div className=&quot;flex flex-row justify-between mt-2&quot;&gt;
+                    &lt;div className=&quot;flex flex-row&quot;&gt;
+                        &lt;FolderIcon className=&quot;h-6 text-blue-200&quot; /&gt;
+                        {documentPath &amp;&amp;
+                            documentPath.slice(0, documentPath.length - 1).map((folder) =&gt; (
+                                &lt;div key={folder.id} className=&quot;flex flex-row items-center&quot;&gt;
+                                    {folder.name}{&#x27; &#x27;}
+                                    &lt;ChevronRightIcon className=&quot;text-gray-400 text-sm h-5&quot; /&gt;
+                                &lt;/div&gt;
+                            ))}
+                        &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                            {documentPath &amp;&amp; documentPath[documentPath.length - 1].name}
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    {canEditPath &amp;&amp; (
+                        &lt;a
+                            className=&quot;text-indigo-600 underline cursor-pointer&quot;
+                            onClick={() =&gt; {
+                                // setMode(&#x27;move&#x27;);
+                                setMode(modeType);
+                            }}
+                        &gt;
+                            編輯
+                        &lt;/a&gt;
+                    )}
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;FolderTreeForSelect
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: &#x27;&#x27;
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:4,&quot;text&quot;:&quot;set_target_folder_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:40,&quot;text&quot;:&quot;set_target_folder_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:19,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:12,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:32,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:19,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:38,&quot;text&quot;:&quot;ancestors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:48,&quot;text&quot;:&quot;slice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:56,&quot;text&quot;:&quot;reverse&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:16,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:35,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:8,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\DocumentPath.tsx&quot;,&quot;line&quot;:41,&quot;character&quot;:12,&quot;text&quot;:&quot;set_target_folder_id&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

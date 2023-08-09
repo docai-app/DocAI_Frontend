@@ -1,0 +1,90 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>UploadContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\classification\upload\bulk\UploadContainer.tsx</td><td class="">87.50%</td><td class="">99%</td><td class="">104</td><td class="">91</td><td class="">13</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { useState, useEffect } from &#x27;react&#x27;;
+import UploadView from &#x27;./UploadView&#x27;;
+import { useFormik } from &#x27;formik&#x27;;
+import useAxios from &#x27;axios-hooks&#x27;;
+import Api from &#x27;../../../../apis/index&#x27;;
+import { useRouter } from &#x27;next/router&#x27;;
+import axios from &#x27;axios&#x27;;
+import useAlert from &#x27;../../../../hooks/useAlert&#x27;;
+
+const apiSetting = new Api();
+
+function UploadContainer() {
+    const router = useRouter();
+    const { setAlert } = useAlert();
+    const [open, setOpen] = useState(false);
+    const [documents, setDocuments] = useState([]);
+    const [tags, setTags] = useState([]);
+    const formik = useFormik({
+        initialValues: {
+            document: [],
+            tag_id: &#x27;&#x27;
+        },
+        validate: (values) =&gt; {
+            const errors: any = {};
+            if (!values.tag_id) {
+                errors.tag_id = &#x27;Required&#x27;;
+                setAlert({ title: &#x27;請選擇文件的類型！&#x27;, type: &#x27;warning&#x27; });
+            }
+            return errors;
+        },
+        onSubmit: (values) =&gt; {
+            const formData = new FormData();
+            for (const i of documents) {
+                formData.append(&#x27;document[]&#x27;, i);
+            }
+            formData.append(&#x27;tag_id&#x27;, values.tag_id);
+            uploadBulkWithSameTag({
+                data: formData
+            });
+            setOpen(true);
+        }
+    });
+    const [{ data: uploadData }, uploadBulkWithSameTag] = useAxios(
+        apiSetting.Storage.uploadBulkWithSameTag(),
+        { manual: true }
+    );
+    const [{ data: allTagsData }, getAllTags] = useAxios(apiSetting.Tag.getAllTags(), {
+        manual: false
+    });
+
+    useEffect(() =&gt; {
+        setTags(allTagsData);
+    }, [allTagsData]);
+
+    useEffect(() =&gt; {
+        if (uploadData &amp;&amp; uploadData.success === true) {
+            setOpen(false);
+            setAlert({ title: &#x27;上傳成功！&#x27;, type: &#x27;success&#x27; });
+            router.push(&#x27;/classification&#x27;);
+        } else if (uploadData &amp;&amp; uploadData.success === false) {
+            setOpen(false);
+            setAlert({ title: &#x27;Upload failed! Please try again!&#x27;, type: &#x27;error&#x27; });
+        }
+    }, [router, uploadData]);
+    return (
+        &lt;&gt;
+            &lt;UploadView {...{ formik, setDocuments, tags, open, setOpen }} /&gt;
+        &lt;/&gt;
+    );
+}
+
+export default UploadContainer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:18,&quot;text&quot;:&quot;errors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:16,&quot;text&quot;:&quot;errors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:23,&quot;text&quot;:&quot;tag_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:19,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:19,&quot;text&quot;:&quot;allTagsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:8,&quot;text&quot;:&quot;allTagsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:12,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:26,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:37,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:19,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:33,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:44,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\classification\\upload\\bulk\\UploadContainer.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:16,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,418 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>DriveContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\drive\DriveContainer.tsx</td><td class="">83.99%</td><td class="">99%</td><td class="">631</td><td class="">530</td><td class="">101</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import useAxios from &#x27;axios-hooks&#x27;;
+import { useFormik } from &#x27;formik&#x27;;
+import Router, { useRouter } from &#x27;next/router&#x27;;
+import { useCallback, useEffect, useRef, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../apis&#x27;;
+import { Folder } from &#x27;../../components/common/Widget/FolderTree&#x27;;
+import useAlert from &#x27;../../hooks/useAlert&#x27;;
+import DriveView from &#x27;./DriveView&#x27;;
+
+const apiSetting = new Api();
+
+export default function DriveContainer() {
+    const router = useRouter();
+    const { setAlert } = useAlert();
+    const queryId = useRef(router.query.id);
+    const queryName = useRef(router.query.name);
+    const [id, setId] = useState&lt;string | null&gt;(null);
+    const [name, setName] = useState&lt;string | null&gt;(null);
+    const [mode, setMode] = useState&lt;&#x27;view&#x27; | &#x27;move&#x27; | &#x27;share&#x27; | &#x27;newFolder&#x27;&gt;(&#x27;view&#x27;);
+    const [target, setTarget] = useState&lt;any[]&gt;([]);
+    const [shareWith, setShareWith] = useState&lt;any[]&gt;([]);
+    const [newFolderName, setNewFolderName] = useState&lt;string | null&gt;(null);
+    const [movingDest, setMovingDest] = useState&lt;Folder | null&gt;(null);
+    const [visableDelete, setVisableDelete] = useState(false);
+    const [visableRename, setVisableRename] = useState(false);
+    const [current, setCurrent] = useState&lt;any&gt;();
+    const [allItemsData, setAllItemsData] = useState&lt;any&gt;([]);
+    const [allFoldersItemsData, setAllFoldersItemsData] = useState&lt;any&gt;([]);
+    const [page, setPage] = useState(1);
+    const [documents_items, setDocumentsItems] = useState&lt;any&gt;([]);
+    const [folders_items, setFoldersItems] = useState&lt;any&gt;([]);
+    const [newLabelName, setNewLabelName] = useState(&#x27;&#x27;);
+    const [updateTag, setUpdateTag] = useState(false);
+
+    const [
+        { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
+        showAllItems
+    ] = useAxios({}, { manual: true });
+    const [{ data: updateDocumentByIdData }, updateDocumentById] = useAxios({}, { manual: true });
+    const [{ data: shareFolderPermissionData }, shareFolderPermission] = useAxios(
+        {},
+        { manual: true }
+    );
+    const [{ data: createFolderData }, createFolder] = useAxios({}, { manual: true });
+
+    const [{ data: countDocumentsByDateData }, countDocumentsByDate] = useAxios(
+        apiSetting.Statistics.countDocumentsByDate(
+            new Date().toLocaleString(&#x27;fr-CA&#x27;, { timeZone: &#x27;Asia/Taipei&#x27; }).split(&#x27; &#x27;)[0]
+        ),
+        { manual: true }
+    );
+
+    const [{ data: deleteDocumentByIdData }, deleteDocumentById] = useAxios({}, { manual: true });
+    const [{ data: deleteFolderByIdData }, deleteFolderById] = useAxios({}, { manual: true });
+
+    const [{ data: updateFolderNameData }, updateFolderName] = useAxios({}, { manual: true });
+
+    const [{ data: moveItemsToSpecificFolderData }, moveItemsToSpecificFolder] = useAxios(
+        apiSetting.Drive.moveItemsToSpecificFolder(),
+        { manual: true }
+    );
+
+    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+        apiSetting.Tag.getAllTags(),
+        { manual: false }
+    );
+
+    const [{ data: updateDocumentTagData }, updateDocumentTag] = useAxios(
+        apiSetting.Classification.updateDocumentTag([], &#x27;&#x27;),
+        { manual: true }
+    );
+
+    const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
+        apiSetting.Tag.addNewTag(),
+        { manual: true }
+    );
+
+    const addNewLabelHandler = useCallback(async () =&gt; {
+        addNewLabel({ data: { name: newLabelName } });
+    }, [addNewLabel, newLabelName]);
+
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
+    const [{ data: deepUnderstandingDocumentData }, deepUnderstandingDocument] = useAxios(
+        apiSetting.Document.deepUnderstandingDocument(),
+        {
+            manual: true
+        }
+    );
+
+    useEffect(() =&gt; {
+        if (addNewLabelData &amp;&amp; addNewLabelData.success) {
+            // setAlert({ title: &#x27;新增成功&#x27;, type: &#x27;success&#x27; });
+            setNewLabelName(&#x27;&#x27;);
+            confirmDocumentFormik.setFieldValue(&#x27;tag_id&#x27;, addNewLabelData.tag.id);
+            confirmDocumentFormik.handleSubmit();
+        } else if (addNewLabelData &amp;&amp; !addNewLabelData.success) {
+            setAlert({
+                title: &#x27;新增失敗！&#x27;,
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: &#x27;error&#x27;
+            });
+        }
+    }, [addNewLabelData]);
+
+    useEffect(() =&gt; {
+        countDocumentsByDate();
+    }, [countDocumentsByDate]);
+
+    const handleShare = useCallback(
+        async (id: string, user_email: string) =&gt; {
+            const res = await shareFolderPermission(
+                apiSetting.Drive.shareFolderPermission(id, user_email)
+            );
+            if (res.data?.success) {
+                setAlert({ title: &#x27;共用成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        },
+        [router, shareFolderPermission]
+    );
+
+    const handleNewFolder = useCallback(
+        async (name: string) =&gt; {
+            const res = await createFolder(
+                apiSetting.Folders.createFolder(name, queryId.current?.toString() || &#x27;&#x27;)
+            );
+            if (res.data?.success) {
+                setAlert({ title: &#x27;資料夾新增成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        },
+        [router, createFolder, queryId]
+    );
+
+    const updateDocument = async (id: string, name: string) =&gt; {
+        if (id) {
+            const res = await updateDocumentById(
+                apiSetting.Document.updateDocumentNameById(id, name)
+            );
+            if (res.data?.success) {
+                setAlert({ title: &#x27;更新成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    const handleMoveItems = async (target_folder_id: string | null) =&gt; {
+        if (target_folder_id != null) {
+            const formData = new FormData();
+            for (const i of documents_items) {
+                formData.append(&#x27;document_items[]&#x27;, i);
+            }
+            for (const i of folders_items) {
+                formData.append(&#x27;folder_items[]&#x27;, i);
+            }
+            if (target_folder_id) {
+                formData.append(&#x27;target_folder_id&#x27;, target_folder_id);
+            }
+            if (router.query.id) {
+                formData.append(&#x27;current_folder_id&#x27;, router.query.id + &#x27;&#x27;);
+            }
+            moveItemsToSpecificFolder({
+                data: formData
+            });
+        }
+    };
+
+    const handleDeleteItems = async () =&gt; {
+        const formData = new FormData();
+        for (const i of documents_items) {
+            formData.append(&#x27;document_items[]&#x27;, i);
+        }
+        for (const i of folders_items) {
+            formData.append(&#x27;folder_items[]&#x27;, i);
+        }
+        // moveItemsToSpecificFolder({
+        //     data: formData
+        // });
+    };
+
+    const confirmDocumentFormik = useFormik({
+        initialValues: {
+            document_id: null,
+            tag_id: &#x27;&#x27;
+        },
+        onSubmit: async (values) =&gt; {
+            setUpdateTag(true);
+            const res = await updateDocumentTag({
+                data: {
+                    document_ids: documents_items,
+                    tag_id: values.tag_id
+                }
+            });
+            setUpdateTag(false);
+            if (res.data.success === true) {
+                setAlert({ title: &#x27;更新成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;更新失敗&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    });
+
+    const updateFolder = async (id: string, name: string) =&gt; {
+        if (id) {
+            const res = await updateFolderName(apiSetting.Folders.updateFoldertNameById(id, name));
+            if (res.data?.success) {
+                setAlert({ title: &#x27;更新成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    const handleDeepUnderstanding = async (form_schema_id: string, needs_approval: boolean) =&gt; {
+        if (form_schema_id) {
+            setUpdateTag(true);
+            const res = await deepUnderstandingDocument({
+                data: {
+                    document_items: documents_items,
+                    form_schema_id: form_schema_id,
+                    needs_approval: needs_approval
+                }
+            });
+            setUpdateTag(false);
+            if (res.data?.success) {
+                setAlert({ title: &#x27;操作成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    const updateFolderOrDocumentHandler = useCallback(async () =&gt; {
+        if (current?.type === &#x27;folders&#x27;) updateFolder(current?.id, current?.name);
+        else updateDocument(current?.id, current?.name);
+    }, [current]);
+
+    const deleteDocument = async (id: string) =&gt; {
+        if (id) {
+            const res = await deleteDocumentById(apiSetting.Document.deleteDocumentById(id));
+            if (res.data?.success) {
+                setAlert({ title: &#x27;刪除成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    const deleteFolder = async (id: string) =&gt; {
+        if (id) {
+            const res = await deleteFolderById(apiSetting.Folders.deleteFolderById(id));
+            if (res.data?.success) {
+                setAlert({ title: &#x27;刪除成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    const deleteFolderOrDocumentHandler = useCallback(async () =&gt; {
+        if (current?.type === &#x27;folders&#x27;) deleteFolder(current?.id);
+        else deleteDocument(current?.id);
+    }, [current]);
+
+    const showAllItemsHandler = useCallback(async () =&gt; {
+        setPage((page) =&gt; page + 1);
+    }, []);
+
+    const search = async (tag_id: string, content: string, startDate: string, endDate: string) =&gt; {
+        if (tag_id == &#x27;&#x27;) {
+            setAlert({ title: &#x27;請選擇類別&#x27;, type: &#x27;info&#x27; });
+            return;
+        }
+        if (startDate &gt; endDate) {
+            setAlert({ title: &#x27;起始日期不能大於結束日期&#x27;, type: &#x27;info&#x27; });
+            return;
+        }
+        Router.push({
+            pathname: &#x27;/search&#x27;,
+            query: {
+                content: content,
+                tag_id: tag_id,
+                from: startDate,
+                to: endDate
+            }
+        });
+    };
+
+    useEffect(() =&gt; {
+        if (router.query.id) {
+            setPage(1);
+        }
+    }, [router.query.id]);
+
+    useEffect(() =&gt; {
+        if (router.asPath !== router.route) {
+            queryId.current = router.query.id;
+            queryName.current = router.query.name;
+            if (queryId.current) {
+                // setPage(1);
+                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString(), page));
+            } else {
+                showAllItems(apiSetting.Drive.showAllRootItems(page));
+            }
+        } else if (router.asPath == &#x27;/&#x27;) {
+            showAllItems(apiSetting.Drive.showAllRootItems(page));
+        }
+    }, [router, showAllItems, page]);
+
+    useEffect(() =&gt; {
+        if (!showAllItemsLoading &amp;&amp; showAllItemsData) {
+            setId(queryId.current?.toString() || null);
+            setName(queryName.current?.toString() || null);
+            if (page == 1) {
+                setAllFoldersItemsData(showAllItemsData.folders);
+                setAllItemsData(showAllItemsData.documents);
+            } else {
+                setAllItemsData(allItemsData.concat(showAllItemsData.documents));
+            }
+        }
+    }, [showAllItemsLoading, showAllItemsData]);
+
+    useEffect(() =&gt; {
+        if (moveItemsToSpecificFolderData) {
+            if (moveItemsToSpecificFolderData?.success) {
+                setAlert({ title: &#x27;移動成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;沒有權限&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    }, [moveItemsToSpecificFolderData]);
+
+    return (
+        &lt;DriveView
+            {...{
+                id,
+                name,
+                showAllItemsData,
+                showAllItemsLoading,
+                mode,
+                setMode,
+                target,
+                setTarget,
+                movingDest,
+                setMovingDest,
+                shareWith,
+                setShareWith,
+                handleShare,
+                newFolderName,
+                handleNewFolder,
+                countDocumentsByDateData,
+                current,
+                setCurrent,
+                visableRename,
+                setVisableRename,
+                updateFolderOrDocumentHandler,
+                visableDelete,
+                setVisableDelete,
+                deleteFolderOrDocumentHandler,
+                allItemsData,
+                allFoldersItemsData,
+                showAllItemsHandler,
+                documents_items,
+                setDocumentsItems,
+                folders_items,
+                setFoldersItems,
+                handleMoveItems,
+                handleDeleteItems,
+                getAllLabelsData,
+                search,
+                confirmDocumentFormik,
+                newLabelName,
+                setNewLabelName,
+                addNewLabelHandler,
+                updateTag,
+                setUpdateTag,
+                schemasStatusReadyData,
+                handleDeepUnderstanding
+            }}
+        /&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:11,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:11,&quot;text&quot;:&quot;allItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:11,&quot;text&quot;:&quot;allFoldersItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:11,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:30,&quot;character&quot;:11,&quot;text&quot;:&quot;folders_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:16,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:19,&quot;text&quot;:&quot;updateDocumentByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:19,&quot;text&quot;:&quot;shareFolderPermissionData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:43,&quot;character&quot;:19,&quot;text&quot;:&quot;createFolderData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:19,&quot;text&quot;:&quot;countDocumentsByDateData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:19,&quot;text&quot;:&quot;deleteDocumentByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:19,&quot;text&quot;:&quot;deleteFolderByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:19,&quot;text&quot;:&quot;updateFolderNameData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:19,&quot;text&quot;:&quot;moveItemsToSpecificFolderData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:19,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:67,&quot;character&quot;:19,&quot;text&quot;:&quot;updateDocumentTagData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:19,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:19,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:19,&quot;text&quot;:&quot;deepUnderstandingDocumentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:12,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:31,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:47,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:58,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:74,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:78,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:19,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:39,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:55,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:31,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:47,&quot;text&quot;:&quot;errors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:54,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:8,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:23,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:28,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:164,&quot;character&quot;:23,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:164,&quot;character&quot;:28,&quot;text&quot;:&quot;folders_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:181,&quot;character&quot;:19,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:181,&quot;character&quot;:24,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:184,&quot;character&quot;:19,&quot;text&quot;:&quot;i&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:184,&quot;character&quot;:24,&quot;text&quot;:&quot;folders_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:201,&quot;character&quot;:20,&quot;text&quot;:&quot;document_ids&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:201,&quot;character&quot;:34,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:206,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:206,&quot;character&quot;:25,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:218,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:218,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:232,&quot;character&quot;:20,&quot;text&quot;:&quot;document_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:232,&quot;character&quot;:36,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:238,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:238,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:12,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:21,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:54,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:63,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:67,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:248,&quot;character&quot;:76,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:249,&quot;character&quot;:28,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:249,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:249,&quot;character&quot;:41,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:249,&quot;character&quot;:50,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:250,&quot;character&quot;:8,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:255,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:255,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:277,&quot;character&quot;:12,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:277,&quot;character&quot;:21,&quot;text&quot;:&quot;type&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:277,&quot;character&quot;:54,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:277,&quot;character&quot;:63,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:278,&quot;character&quot;:28,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:278,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:279,&quot;character&quot;:8,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:327,&quot;character&quot;:36,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:331,&quot;character&quot;:39,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:331,&quot;character&quot;:56,&quot;text&quot;:&quot;folders&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:332,&quot;character&quot;:32,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:332,&quot;character&quot;:49,&quot;text&quot;:&quot;documents&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:334,&quot;character&quot;:32,&quot;text&quot;:&quot;allItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:334,&quot;character&quot;:45,&quot;text&quot;:&quot;concat&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:334,&quot;character&quot;:52,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:334,&quot;character&quot;:69,&quot;text&quot;:&quot;documents&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:337,&quot;character&quot;:29,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:340,&quot;character&quot;:12,&quot;text&quot;:&quot;moveItemsToSpecificFolderData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:341,&quot;character&quot;:16,&quot;text&quot;:&quot;moveItemsToSpecificFolderData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:341,&quot;character&quot;:47,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:348,&quot;character&quot;:8,&quot;text&quot;:&quot;moveItemsToSpecificFolderData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:355,&quot;character&quot;:16,&quot;text&quot;:&quot;showAllItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:368,&quot;character&quot;:16,&quot;text&quot;:&quot;countDocumentsByDateData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:369,&quot;character&quot;:16,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:377,&quot;character&quot;:16,&quot;text&quot;:&quot;allItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:378,&quot;character&quot;:16,&quot;text&quot;:&quot;allFoldersItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:380,&quot;character&quot;:16,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:382,&quot;character&quot;:16,&quot;text&quot;:&quot;folders_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:386,&quot;character&quot;:16,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\drive\\DriveContainer.tsx&quot;,&quot;line&quot;:394,&quot;character&quot;:16,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

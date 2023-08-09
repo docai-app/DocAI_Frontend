@@ -1,0 +1,238 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>SearchContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\search\SearchContainer.tsx</td><td class="">87.06%</td><td class="">99%</td><td class="">309</td><td class="">269</td><td class="">40</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import useAxios from &#x27;axios-hooks&#x27;;
+import { useFormik } from &#x27;formik&#x27;;
+import { useRouter } from &#x27;next/router&#x27;;
+import { useCallback, useEffect, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../apis/index&#x27;;
+import useAlert from &#x27;../../hooks/useAlert&#x27;;
+import SearchView from &#x27;./SearchView&#x27;;
+
+const apiSetting = new Api();
+
+function SearchContainer() {
+    const router = useRouter();
+    const { setAlert } = useAlert();
+    const [documents, setDocuments] = useState([]);
+    const [meta, setMeta] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [documents_items, setDocumentsItems] = useState&lt;any&gt;([]);
+    const [updateTag, setUpdateTag] = useState(false);
+    const [newLabelName, setNewLabelName] = useState(&#x27;&#x27;);
+    const [
+        {
+            data: searchDocumentByContentData,
+            loading: searchDocumentByContentLoading,
+            error: searchDocumentByContentError,
+            response: searchDocumentByContentResponse
+        },
+        searchDocumentByContent
+    ] = useAxios(
+        router.query.date
+            ? apiSetting.Search.searchDocumentByDate()
+            : router.query.tag_id
+            ? apiSetting.Search.searchDocumentByTagContent()
+            : apiSetting.Search.searchDocumentByContent(),
+        {
+            manual: true
+        }
+    );
+    const [{ data: updateDocumentTagData }, updateDocumentTag] = useAxios(
+        apiSetting.Classification.updateDocumentTag([], &#x27;&#x27;),
+        { manual: true }
+    );
+
+    const [{ data: addNewLabelData, error: addNewLabelError }, addNewLabel] = useAxios(
+        apiSetting.Tag.addNewTag(),
+        { manual: true }
+    );
+
+    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+        apiSetting.Tag.getAllTags(),
+        { manual: false }
+    );
+
+    const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
+        apiSetting.Form.schemasStatusReady(),
+        {
+            manual: false
+        }
+    );
+
+    const [{ data: deepUnderstandingDocumentData }, deepUnderstandingDocument] = useAxios(
+        apiSetting.Document.deepUnderstandingDocument(),
+        {
+            manual: true
+        }
+    );
+
+    const searchDocumentFormik = useFormik({
+        initialValues: {
+            tag_id: &#x27;&#x27;,
+            content: &#x27;&#x27;,
+            date: &#x27;&#x27;,
+            from: &#x27;&#x27;,
+            to: &#x27;&#x27;,
+            page: 1
+        },
+        onSubmit: async (values) =&gt; {
+            const res = await searchDocumentByContent({
+                params: {
+                    ...values
+                }
+            });
+            if (res.data) {
+                setOpen(false);
+            }
+        }
+    });
+
+    const confirmDocumentFormik = useFormik({
+        initialValues: {
+            document_id: null,
+            tag_id: &#x27;&#x27;
+        },
+        onSubmit: async (values) =&gt; {
+            setUpdateTag(true);
+            const res = await updateDocumentTag({
+                data: {
+                    document_ids: documents_items,
+                    tag_id: values.tag_id
+                }
+            });
+            setUpdateTag(false);
+            if (res.data.success === true) {
+                setAlert({ title: &#x27;更新成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;更新失敗&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    });
+
+    const handleDeepUnderstanding = async (form_schema_id: string, needs_approval: boolean) =&gt; {
+        if (form_schema_id) {
+            setUpdateTag(true);
+            const res = await deepUnderstandingDocument({
+                data: {
+                    document_ids: documents_items,
+                    form_schema_id: form_schema_id,
+                    needs_approval: needs_approval
+                }
+            });
+            setUpdateTag(false);
+            if (res.data?.success) {
+                setAlert({ title: &#x27;操作成功&#x27;, type: &#x27;success&#x27; });
+                router.reload();
+            } else {
+                setAlert({ title: &#x27;發生錯誤&#x27;, type: &#x27;error&#x27; });
+            }
+        }
+    };
+
+    useEffect(() =&gt; {
+        if (addNewLabelData &amp;&amp; addNewLabelData.success) {
+            // setAlert({ title: &#x27;新增成功&#x27;, type: &#x27;success&#x27; });
+            setNewLabelName(&#x27;&#x27;);
+            confirmDocumentFormik.setFieldValue(&#x27;tag_id&#x27;, addNewLabelData.tag.id);
+            confirmDocumentFormik.handleSubmit();
+        } else if (addNewLabelData &amp;&amp; !addNewLabelData.success) {
+            setAlert({
+                title: &#x27;新增失敗！&#x27;,
+                content: `原因：${addNewLabelData.errors.name[0]}`,
+                type: &#x27;error&#x27;
+            });
+        }
+    }, [addNewLabelData]);
+
+    const addNewLabelHandler = useCallback(async () =&gt; {
+        addNewLabel({ data: { name: newLabelName } });
+    }, [addNewLabel, newLabelName]);
+
+    useEffect(() =&gt; {
+        if (searchDocumentByContentData &amp;&amp; searchDocumentByContentData.success === true) {
+            setDocuments(searchDocumentByContentData.documents);
+            setMeta(searchDocumentByContentData.meta);
+            setOpen(false);
+        }
+    }, [searchDocumentByContentData]);
+    useEffect(() =&gt; {
+        setOpen(searchDocumentByContentLoading);
+    }, [searchDocumentByContentLoading]);
+
+    useEffect(() =&gt; {
+        if (router.query.date) {
+            searchDocumentFormik.setValues({
+                date: router.query.date + &#x27;&#x27;,
+                content: &#x27;&#x27;,
+                tag_id: &#x27;&#x27;,
+                from: &#x27;&#x27;,
+                to: &#x27;&#x27;,
+                page: parseInt(router.query.page + &#x27;&#x27;) || 1
+            });
+            searchDocumentFormik.handleSubmit();
+        } else if (router.query.tag_id) {
+            searchDocumentFormik.setValues({
+                content: router.query.content + &#x27;&#x27;,
+                date: &#x27;&#x27;,
+                tag_id: router.query.tag_id + &#x27;&#x27;,
+                from: router.query.from + &#x27;&#x27;,
+                to: router.query.to + &#x27;&#x27;,
+                page: parseInt(router.query.page + &#x27;&#x27;) || 1
+            });
+            searchDocumentFormik.handleSubmit();
+        } else {
+            searchDocumentFormik.setValues({
+                content: router.query.content + &#x27;&#x27;,
+                date: &#x27;&#x27;,
+                tag_id: &#x27;&#x27;,
+                from: &#x27;&#x27;,
+                to: &#x27;&#x27;,
+                page: parseInt(router.query.page + &#x27;&#x27;) || 1
+            });
+            searchDocumentFormik.handleSubmit();
+        }
+    }, [router]);
+    return (
+        &lt;&gt;
+            &lt;SearchView
+                {...{
+                    searchDocumentFormik,
+                    documents,
+                    meta,
+                    open,
+                    setOpen,
+                    documents_items,
+                    setDocumentsItems,
+                    updateTag,
+                    setUpdateTag,
+                    newLabelName,
+                    setNewLabelName,
+                    addNewLabelHandler,
+                    confirmDocumentFormik,
+                    getAllLabelsData,
+                    schemasStatusReadyData,
+                    handleDeepUnderstanding
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+
+export default SearchContainer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:11,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:18,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:19,&quot;text&quot;:&quot;updateDocumentTagData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:19,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:19,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:19,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:19,&quot;text&quot;:&quot;deepUnderstandingDocumentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:20,&quot;text&quot;:&quot;document_ids&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:34,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:101,&quot;character&quot;:25,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:20,&quot;text&quot;:&quot;document_ids&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:115,&quot;character&quot;:34,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:20,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:26,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:12,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:31,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:47,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:58,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:74,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:78,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:19,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:39,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:55,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:31,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:47,&quot;text&quot;:&quot;errors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:54,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:143,&quot;character&quot;:8,&quot;text&quot;:&quot;addNewLabelData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:12,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:43,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:71,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:25,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:53,&quot;text&quot;:&quot;documents&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:20,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:152,&quot;character&quot;:48,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:8,&quot;text&quot;:&quot;searchDocumentByContentData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:202,&quot;character&quot;:20,&quot;text&quot;:&quot;documents_items&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:20,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\search\\SearchContainer.tsx&quot;,&quot;line&quot;:211,&quot;character&quot;:20,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

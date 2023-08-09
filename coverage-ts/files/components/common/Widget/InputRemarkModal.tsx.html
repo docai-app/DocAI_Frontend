@@ -1,0 +1,214 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>InputRemarkModal.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\common\Widget\InputRemarkModal.tsx</td><td class="">87.20%</td><td class="">99%</td><td class="">250</td><td class="">218</td><td class="">32</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">/* This example requires Tailwind CSS v2.0+ */
+import { ChangeEvent, Fragment, useRef, useState } from &#x27;react&#x27;;
+import { Dialog, Transition } from &#x27;@headlessui/react&#x27;;
+import { CheckIcon, ExclamationTriangleIcon, EyeIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import React from &#x27;react&#x27;;
+
+export default function InputRemarkModal(props: any) {
+    const cancelButtonRef = useRef(null);
+    const fileInput = useRef&lt;HTMLInputElement&gt;(null);
+    const [data, setData] = useState({
+        approval: props.approval,
+        signature: &#x27;&#x27;,
+        remark: &#x27;&#x27;
+    });
+    const [myFile, setMyFile] = useState&lt;any&gt;();
+    const handleChange = (event: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; {
+        if (event.target.files &amp;&amp; event.target.files.length &gt; 0) {
+            props.setDocuments(event.target.files);
+            setMyFile(event.target.files[0]);
+        }
+    };
+    return (
+        &lt;Transition.Root show={props.visable || false} as={Fragment}&gt;
+            &lt;Dialog
+                as=&quot;div&quot;
+                className=&quot;fixed z-10 inset-0 overflow-y-auto&quot;
+                initialFocus={cancelButtonRef}
+                onClose={props.cancelClick}
+            &gt;
+                &lt;div className=&quot;flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0&quot;&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0&quot;
+                        enterTo=&quot;opacity-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100&quot;
+                        leaveTo=&quot;opacity-0&quot;
+                    &gt;
+                        &lt;Dialog.Overlay className=&quot;fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity&quot; /&gt;
+                    &lt;/Transition.Child&gt;
+
+                    {/* This element is to trick the browser into centering the modal contents. */}
+                    &lt;span
+                        className=&quot;hidden sm:inline-block sm:align-middle sm:h-screen&quot;
+                        aria-hidden=&quot;true&quot;
+                    &gt;
+                        &amp;#8203;
+                    &lt;/span&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                        enterTo=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leaveTo=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                    &gt;
+                        &lt;div className=&quot;relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6&quot;&gt;
+                            &lt;div className=&quot;sm:flex sm:items-center justify-center&quot;&gt;
+                                {/* {
+                  &lt;div className=&quot;mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10&quot;&gt;
+                      &lt;EyeIcon className=&quot;h-6 w-6 text-blue-600&quot; aria-hidden=&quot;true&quot; /&gt;
+                    &lt;/div&gt;
+                } */}
+
+                                &lt;div className=&quot;mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left&quot;&gt;
+                                    &lt;div className=&quot;flex flex-row justify-center items-center&quot;&gt;
+                                        &lt;div className=&quot;mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10&quot;&gt;
+                                            &lt;EyeIcon
+                                                className=&quot;h-6 w-6 text-blue-600&quot;
+                                                aria-hidden=&quot;true&quot;
+                                            /&gt;
+                                        &lt;/div&gt;
+                                        &lt;Dialog.Title
+                                            as=&quot;h3&quot;
+                                            className=&quot;flex flex-row ml-2 text-md leading-6 font-medium text-gray-900&quot;
+                                        &gt;
+                                            請填寫資料審批
+                                        &lt;/Dialog.Title&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;mt-2&quot;&gt;
+                                        {/* &lt;p  className=&quot;text-sm text-gray-500&quot;&gt;
+                      {props.description}
+                    &lt;/p&gt; */}
+                                        &lt;span
+                                            dangerouslySetInnerHTML={{
+                                                __html:
+                                                    props.approval === &#x27;approved&#x27;
+                                                        ? &#x27;你批准了這份文檔&#x27;
+                                                        : &#x27;你拒絕了這份文檔&#x27;
+                                            }}
+                                            className={`text-xl ${
+                                                props.approval === &#x27;approved&#x27;
+                                                    ? &#x27;text-green-500&#x27;
+                                                    : &#x27;text-red-500&#x27;
+                                            }`}
+                                        &gt;&lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;w-full mt-4&quot;&gt;
+                                &lt;div className=&quot;w-full&quot;&gt;
+                                    &lt;label className=&quot;text-sm text-left&quot;&gt;簽名:&lt;/label&gt;
+                                    &lt;input
+                                        type={&#x27;text&#x27;}
+                                        name=&quot;signature&quot;
+                                        className=&quot;w-3/4 ml-4 rounded-md&quot;
+                                        onChange={(e) =&gt;
+                                            setData({
+                                                ...data,
+                                                approval: props.approval,
+                                                signature: e.target.value
+                                            })
+                                        }
+                                    &gt;&lt;/input&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;w-full mt-2&quot;&gt;
+                                    &lt;label className=&quot;text-sm&quot;&gt;備註:&lt;/label&gt;
+                                    &lt;input
+                                        type={&#x27;text&#x27;}
+                                        name=&quot;remark&quot;
+                                        className=&quot;w-3/4 ml-4 rounded-md&quot;
+                                        onChange={(e) =&gt;
+                                            setData({
+                                                ...data,
+                                                approval: props.approval,
+                                                remark: e.target.value
+                                            })
+                                        }
+                                    &gt;&lt;/input&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;mt-4 w-full items-center justify-center flex&quot;&gt;
+                                {myFile &amp;&amp; (
+                                    &lt;img src={URL.createObjectURL(myFile)} className=&quot;h-20&quot; /&gt;
+                                )}
+                                &lt;label className=&quot;cursor-pointer underline ml-4 bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500&quot;&gt;
+                                    &lt;span&gt;上傳簽名圖片&lt;/span&gt;
+                                    &lt;input
+                                        name=&quot;file-upload&quot;
+                                        type=&quot;file&quot;
+                                        className=&quot;sr-only&quot;
+                                        accept=&quot;image/*&quot;
+                                        multiple={false}
+                                        onChange={(e) =&gt; {
+                                            handleChange(e);
+                                        }}
+                                        ref={fileInput}
+                                    /&gt;
+                                &lt;/label&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;mt-4 w-full items-center justify-center flex&quot;&gt;
+                                {props.uploadLoading &amp;&amp; (
+                                    &lt;label className=&quot; text-red-500&quot;&gt;圖片上傳中...&lt;/label&gt;
+                                )}
+                            &lt;/div&gt;
+                            &lt;div className=&quot;mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center&quot;&gt;
+                                &lt;button
+                                    type=&quot;button&quot;
+                                    className=&quot;w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm&quot;
+                                    onClick={() =&gt; {
+                                        props.confirmClick(data);
+                                        setData({
+                                            ...data,
+                                            signature: &#x27;&#x27;,
+                                            remark: &#x27;&#x27;
+                                        });
+                                    }}
+                                &gt;
+                                    {props.confirmText || &#x27;確認&#x27;}
+                                &lt;/button&gt;
+
+                                &lt;button
+                                    type=&quot;button&quot;
+                                    className=&quot;mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-base font-medium text-white hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:white sm:mt-0 sm:w-auto sm:text-sm&quot;
+                                    onClick={() =&gt; {
+                                        props.cancelClick();
+                                        setData({
+                                            ...data,
+                                            signature: &#x27;&#x27;,
+                                            remark: &#x27;&#x27;
+                                        });
+                                    }}
+                                    ref={cancelButtonRef}
+                                &gt;
+                                    {props.cancelText || &#x27;取消&#x27;}
+                                &lt;/button&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/Transition.Child&gt;
+                &lt;/div&gt;
+            &lt;/Dialog&gt;
+        &lt;/Transition.Root&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:41,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:8,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:18,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:24,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:11,&quot;text&quot;:&quot;myFile&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:12,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:18,&quot;text&quot;:&quot;setDocuments&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:31,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:37,&quot;text&quot;:&quot;visable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:25,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:31,&quot;text&quot;:&quot;cancelClick&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:52,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:88,&quot;character&quot;:58,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:48,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:93,&quot;character&quot;:54,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:48,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:58,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:64,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:48,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:58,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:64,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:33,&quot;text&quot;:&quot;myFile&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:33,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:153,&quot;character&quot;:39,&quot;text&quot;:&quot;uploadLoading&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:162,&quot;character&quot;:40,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:162,&quot;character&quot;:46,&quot;text&quot;:&quot;confirmClick&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:37,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:43,&quot;text&quot;:&quot;confirmText&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:40,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:46,&quot;text&quot;:&quot;cancelClick&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:37,&quot;text&quot;:&quot;props&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\InputRemarkModal.tsx&quot;,&quot;line&quot;:186,&quot;character&quot;:43,&quot;text&quot;:&quot;cancelText&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

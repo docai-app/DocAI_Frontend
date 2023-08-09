@@ -1,0 +1,67 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>HtmlCodeContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">pages\search\form\schema\htmlcode\HtmlCodeContainer.tsx</td><td class="">100.00%</td><td class="">99%</td><td class="">32</td><td class="">32</td><td class="">0</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { useRouter } from &#x27;next/router&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import HtmlCodeView from &#x27;./HtmlCodeView&#x27;;
+
+export default function HtmlCodeContainer() {
+    const htmlText = `
+    &lt;html&gt;\n  &lt;head&gt;\n    &lt;script src=\&quot;https://code.highcharts.com/highcharts.js\&quot;&gt;&lt;/script&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div id=\&quot;container\&quot; style=\&quot;width:100%; height:500px;\&quot;&gt;&lt;/div&gt;\n  &lt;/body&gt;\n\n  &lt;script&gt;\n    document.addEventListener(\&quot;DOMContentLoaded\&quot;, function () {\n      // Reference data\n      var data = [\n        { Department: \&quot;TSB5\&quot;, \&quot;Number of Leaves\&quot;: 2 },\n        { Department: \&quot;CUN\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;TSB28\&quot;, \&quot;Number of Leaves\&quot;: 2 },\n        { Department: \&quot;MGM\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;CPG20\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;GLP\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;OFF\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;FTY\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;HZM\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;SML\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;TPA\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;TSB5\&quot;, \&quot;Number of Leaves\&quot;: 1 },\n        { Department: \&quot;BGA\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;CPG\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;CUN\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;FTY\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;GLP\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;HZM\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;MGM\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;OFF\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;SML\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;TFT\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;TPA\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;YAO\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;TSB28\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n        { Department: \&quot;CPG20\&quot;, \&quot;Number of Leaves\&quot;: 0 },\n      ];\n\n      // Prepare the data for charting\n      var chartData = data.map(function (entry) {\n        return [entry.Department, entry[\&quot;Number of Leaves\&quot;]];\n      });\n\n      // Configure the chart\n      Highcharts.chart(\&quot;container\&quot;, {\n        chart: {\n          type: \&quot;column\&quot;,\n        },\n        title: {\n          text: \&quot;Number of Leaves by Department\&quot;,\n        },\n        xAxis: {\n          type: \&quot;category\&quot;,\n        },\n        yAxis: {\n          min: 0,\n          title: {\n            text: \&quot;Number of Leaves\&quot;,\n          },\n        },\n        legend: {\n          enabled: false,\n        },\n        tooltip: {\n          pointFormat: \&quot;Number of Leaves: &lt;b&gt;{point.y}&lt;/b&gt;\&quot;,\n        },\n        series: [\n          {\n            name: \&quot;Number of Leaves\&quot;,\n            data: chartData,\n            dataLabels: {\n              enabled: true,\n              color: \&quot;#FFFFFF\&quot;,\n              align: \&quot;center\&quot;,\n              format: \&quot;{point.y}\&quot;, // Display the value on top of each column\n              y: 15, // Adjust the position of the data label\n              style: {\n                fontSize: \&quot;13px\&quot;,\n                fontFamily: \&quot;Verdana, sans-serif\&quot;,\n                textOutline: \&quot;1px 1px contrast\&quot;,\n              },\n            },\n          },\n        ],\n      });\n    });\n  &lt;/script&gt;\n&lt;/html&gt;
+    `;
+    const htmlText2 = `&lt;html&gt;
+    &lt;head&gt;
+        &lt;script src=&quot;https://code.highcharts.com/highcharts.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;container&quot; style=&quot;width:100%; height:500px;&quot;&gt;&lt;/div&gt;
+        &lt;script&gt;
+            Highcharts.chart(&#x27;container&#x27;, {
+                chart: {
+                    type: &#x27;pie&#x27;
+                },
+                title: {
+                    text: &#x27;Leave Summary by Department&#x27;
+                },
+                series: [{
+                    name: &#x27;Number of Leaves&#x27;,
+                    colorByPoint: true,
+                    data: [{
+                        name: &#x27;MGM&#x27;,
+                        y: 1
+                    }, {
+                        name: &#x27;CPG20&#x27;,
+                        y: 1
+                    }]
+                }]
+            });
+        &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    `;
+    const router = useRouter();
+    const [content, setContent] = useState(&#x27;&#x27;);
+    useEffect(() =&gt; {
+        if (router.query.content) {
+            console.log(router.query.content.toString());
+            setContent(JSON.parse(router.query.content.toString()));
+        }
+    }, [router]);
+    if (content != &#x27;&#x27;) return &lt;HtmlCodeView content={content} /&gt;;
+    else return &lt;&gt;&lt;/&gt;;
+}
+</textarea><pre id="annotations" style="display:none">[]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

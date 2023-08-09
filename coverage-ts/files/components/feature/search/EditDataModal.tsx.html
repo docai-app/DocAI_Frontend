@@ -1,0 +1,226 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>EditDataModal.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\search\EditDataModal.tsx</td><td class="">91.59%</td><td class="">99%</td><td class="">226</td><td class="">207</td><td class="">19</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">/* This example requires Tailwind CSS v2.0+ */
+import { Dialog, Transition } from &#x27;@headlessui/react&#x27;;
+import { XMarkIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import _ from &#x27;lodash&#x27;;
+import { Fragment, useRef, useState } from &#x27;react&#x27;;
+import EditDataFilterModal from &#x27;./EditDataFilterModal&#x27;;
+
+interface EditDataModalProps {
+    formSchema: any;
+    visable: boolean;
+    cancelClick: () =&gt; void;
+    selectedFilter: any[];
+    setSelectedFilter: (selectedFilter: never[]) =&gt; void;
+    selectedResult: any[];
+    setSelectedResult: (selectedResult: never[]) =&gt; void;
+}
+
+export default function EditDataModal(props: EditDataModalProps) {
+    const {
+        formSchema,
+        selectedFilter,
+        setSelectedFilter,
+        visable,
+        cancelClick,
+        selectedResult,
+        setSelectedResult
+    } = props;
+    const cancelButtonRef = useRef(null);
+    const [visableFilter, setVisiableFilter] = useState(false);
+    const [visableResult, setVisiableResult] = useState(false);
+
+    return (
+        &lt;&gt;
+            &lt;Transition.Root show={visable || false} as={Fragment}&gt;
+                &lt;Dialog
+                    as=&quot;div&quot;
+                    className=&quot;fixed z-10 inset-0 overflow-y-auto&quot;
+                    initialFocus={cancelButtonRef}
+                    onClose={() =&gt; {}}
+                &gt;
+                    &lt;div className=&quot;flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0&quot;&gt;
+                        &lt;Transition.Child
+                            as={Fragment}
+                            enter=&quot;ease-out duration-300&quot;
+                            enterFrom=&quot;opacity-0&quot;
+                            enterTo=&quot;opacity-100&quot;
+                            leave=&quot;ease-in duration-200&quot;
+                            leaveFrom=&quot;opacity-100&quot;
+                            leaveTo=&quot;opacity-0&quot;
+                        &gt;
+                            &lt;Dialog.Overlay className=&quot;fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity&quot; /&gt;
+                        &lt;/Transition.Child&gt;
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        &lt;span
+                            className=&quot;hidden sm:inline-block sm:align-middle sm:h-screen&quot;
+                            aria-hidden=&quot;true&quot;
+                        &gt;
+                            &amp;#8203;
+                        &lt;/span&gt;
+                        &lt;Transition.Child
+                            as={Fragment}
+                            enter=&quot;ease-out duration-300&quot;
+                            enterFrom=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                            enterTo=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                            leave=&quot;ease-in duration-200&quot;
+                            leaveFrom=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                            leaveTo=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                        &gt;
+                            &lt;div className=&quot;relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center   shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6&quot;&gt;
+                                &lt;div className=&quot;flex flex-row justify-between&quot;&gt;
+                                    &lt;XMarkIcon
+                                        className=&quot;w-6 cursor-pointer&quot;
+                                        onClick={props.cancelClick}
+                                    /&gt;
+                                    &lt;label&gt;添加數據搜尋條件&lt;/label&gt;
+                                    &lt;button
+                                        type=&quot;button&quot;
+                                        className=&quot;h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;
+                                        onClick={props.cancelClick}
+                                    &gt;
+                                        完成
+                                    &lt;/button&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;w-full mt-4&quot;&gt;
+                                    &lt;div className=&quot;w-full flex flex-row&quot;&gt;
+                                        &lt;div className=&quot;w-1/4 flex justify-left items-center &quot;&gt;
+                                            &lt;label
+                                                htmlFor=&quot;new-type&quot;
+                                                className=&quot;block text-sm font-medium text-gray-700&quot;
+                                            &gt;
+                                                目前文檔名稱:
+                                            &lt;/label&gt;
+                                        &lt;/div&gt;
+                                        &lt;div className=&quot;flex w-1/2&quot;&gt;
+                                            &lt;input
+                                                name=&quot;type&quot;
+                                                type=&quot;string&quot;
+                                                // value={formSchema.name}
+                                                value={_.get(formSchema, &#x27;name&#x27;, &#x27;&#x27;)}
+                                                className=&quot;appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm&quot;
+                                                readOnly
+                                                disabled
+                                            /&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;w-full flex flex-row my-2&quot;&gt;
+                                        &lt;div className=&quot;w-1/4 flex justify-left   &quot;&gt;
+                                            &lt;label
+                                                htmlFor=&quot;new-type&quot;
+                                                className=&quot;block text-sm font-medium text-gray-700&quot;
+                                            &gt;
+                                                選擇過濾器:
+                                            &lt;/label&gt;
+                                        &lt;/div&gt;
+                                        &lt;div className=&quot;flex w-3/4&quot;&gt;
+                                            &lt;div className=&quot;flex flex-1 flex-wrap&quot;&gt;
+                                                {selectedFilter.map((data: any, index: number) =&gt; {
+                                                    return (
+                                                        &lt;label
+                                                            key={index}
+                                                            className=&quot;px-4 py-1 rounded-md border m-1&quot;
+                                                        &gt;
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${data}`
+                                                                ].title
+                                                            }
+                                                        &lt;/label&gt;
+                                                    );
+                                                })}
+                                            &lt;/div&gt;
+                                            &lt;a
+                                                className=&quot;flex flex-0 cursor-pointer underline text-blue-500&quot;
+                                                onClick={() =&gt; {
+                                                    setVisiableFilter(true);
+                                                }}
+                                            &gt;
+                                                編輯
+                                            &lt;/a&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+
+                                    &lt;div className=&quot;w-full flex flex-row my-2&quot;&gt;
+                                        &lt;div className=&quot;w-1/4 flex justify-left  &quot;&gt;
+                                            &lt;label
+                                                htmlFor=&quot;new-type&quot;
+                                                className=&quot;block text-sm font-medium text-gray-700&quot;
+                                            &gt;
+                                                顯示結果:
+                                            &lt;/label&gt;
+                                        &lt;/div&gt;
+                                        &lt;div className=&quot;flex w-3/4&quot;&gt;
+                                            &lt;div className=&quot;flex flex-1 flex-wrap&quot;&gt;
+                                                {selectedResult.map((data: any, index: number) =&gt; {
+                                                    return (
+                                                        &lt;label
+                                                            key={index}
+                                                            className=&quot;px-4 py-1 rounded-md border m-1&quot;
+                                                        &gt;
+                                                            {
+                                                                formSchema.form_schema.properties[
+                                                                    `${data}`
+                                                                ].title
+                                                            }
+                                                        &lt;/label&gt;
+                                                    );
+                                                })}
+                                            &lt;/div&gt;
+                                            &lt;a
+                                                className=&quot;flex flex-0 cursor-pointer underline text-blue-500&quot;
+                                                onClick={() =&gt; {
+                                                    setVisiableResult(true);
+                                                }}
+                                            &gt;
+                                                編輯
+                                            &lt;/a&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/Transition.Child&gt;
+                    &lt;/div&gt;
+                &lt;/Dialog&gt;
+            &lt;/Transition.Root&gt;
+            &lt;EditDataFilterModal
+                title={&#x27;選擇過濾器&#x27;}
+                formSchema={formSchema}
+                visable={visableFilter}
+                cancelClick={() =&gt; {
+                    setVisiableFilter(false);
+                }}
+                setFilterData={setSelectedFilter}
+                filterData={selectedFilter}
+            /&gt;
+            &lt;EditDataFilterModal
+                title={&#x27;顯示結果&#x27;}
+                formSchema={formSchema}
+                visable={visableResult}
+                cancelClick={() =&gt; {
+                    setVisiableResult(false);
+                }}
+                setFilterData={setSelectedResult}
+                filterData={selectedResult}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:4,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:8,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:61,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:117,&quot;character&quot;:69,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:64,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:75,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:87,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:71,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:66,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:69,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:64,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:75,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:161,&quot;character&quot;:87,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:162,&quot;character&quot;:71,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:163,&quot;character&quot;:66,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:16,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:187,&quot;character&quot;:28,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:16,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\search\\EditDataModal.tsx&quot;,&quot;line&quot;:197,&quot;character&quot;:28,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  
