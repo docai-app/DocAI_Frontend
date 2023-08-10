@@ -19,7 +19,7 @@ export default function DocumentPath(props: DocumentPathProps) {
     const { modeType, target_folder_id, set_target_folder_id, canEditPath = true } = props;
 
     const [mode, setMode] = useState('');
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
@@ -37,11 +37,11 @@ export default function DocumentPath(props: DocumentPathProps) {
     }, [showFolderByIDData]);
 
     useEffect(() => {
-        if (movingDest?.id) {
-            showFolderByID(apiSetting.Folders.showFolderByID(movingDest?.id));
-            set_target_folder_id(movingDest?.id);
+        if (dest?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(dest?.id));
+            set_target_folder_id(dest?.id);
         }
-    }, [movingDest, showFolderByID]);
+    }, [dest, showFolderByID]);
 
     useEffect(() => {
         if (target_folder_id) {
@@ -85,8 +85,8 @@ export default function DocumentPath(props: DocumentPathProps) {
                 {...{
                     mode,
                     setMode,
-                    movingDest,
-                    setMovingDest,
+                    dest,
+                    setDest,
                     targetId: ''
                 }}
             />

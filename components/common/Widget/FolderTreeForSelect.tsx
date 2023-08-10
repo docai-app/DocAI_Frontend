@@ -5,29 +5,29 @@ import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
 import Api from '../../../apis';
 import FolderTree, { Folder } from './FolderTree';
 
-interface FolderTreeForSelectgProps {
+interface FolderTreeForSelectProps {
     mode: 'view' | 'move' | string;
     setMode: any;
     // folderPath: Folder | null;
     // setFolderPath: Dispatch<SetStateAction<Folder | null>>;
-    movingDest: Folder | null;
-    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
+    dest: Folder | null;
+    setDest: Dispatch<SetStateAction<Folder | null>>;
     targetId: string | null;
 }
 
 const apiSetting = new Api();
-export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
-    const { mode, setMode, movingDest, setMovingDest, targetId } = props;
+export default function FolderTreeForSelect(props: FolderTreeForSelectProps) {
+    const { mode, setMode, dest, setDest, targetId } = props;
 
-    const [_movingDest, _setMovingDest] = useState<Folder | null>(null);
+    const [_dest, _setDest] = useState<Folder | null>(null);
 
     const router = useRouter();
     const handleMove = (document_id: string | null, folder: Folder) => {
-        setMovingDest(folder);
+        setDest(folder);
         setMode('view');
     };
     useEffect(() => {
-        _setMovingDest(null);
+        _setDest(null);
     }, []);
     // const handleMove = useCallback(
     //     async (document_id: string | null, folder: Folder) => {
@@ -76,17 +76,13 @@ export default function FolderTreeForSelect(props: FolderTreeForSelectgProps) {
                             />
                         </div>
                         <div className="pl-2 pr-5 overflow-auto">
-                            <FolderTree
-                                expanded={true}
-                                movingDest={_movingDest}
-                                setMovingDest={_setMovingDest}
-                            />
+                            <FolderTree expanded={true} dest={_dest} setDest={_setDest} />
                         </div>
-                        {_movingDest != null && (
+                        {_dest != null && (
                             <div className="py-5 px-5 flex">
                                 <button
                                     className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
-                                    onClick={() => handleMove(targetId, _movingDest)}
+                                    onClick={() => handleMove(targetId, _dest)}
                                 >
                                     確認
                                 </button>

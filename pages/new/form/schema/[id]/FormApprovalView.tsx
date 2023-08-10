@@ -57,13 +57,13 @@ function FormApprovalView(props: FormApprovalViewProps) {
     } = props;
 
     const [mode, setMode] = useState('');
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const [filename, setFilename] = useState('');
     useEffect(() => {
-        if (movingDest?.id) {
+        if (dest?.id) {
             setVisiable(true);
         }
-    }, [movingDest]);
+    }, [dest]);
     return (
         <>
             <SingleActionModel
@@ -183,7 +183,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
             <EditNewProjectModal
                 visable={visiable}
                 setMode={setMode}
-                movingDest={movingDest}
+                dest={dest}
                 filename={filename}
                 setFilename={setFilename}
                 cancelClick={() => {
@@ -193,7 +193,7 @@ function FormApprovalView(props: FormApprovalViewProps) {
                     setVisiable(false);
                     onConfirm({
                         filename: filename,
-                        target_folder_id: movingDest?.id
+                        target_folder_id: dest?.id
                     });
                     setFilename('');
                 }}
@@ -202,8 +202,8 @@ function FormApprovalView(props: FormApprovalViewProps) {
                 {...{
                     mode,
                     setMode,
-                    movingDest,
-                    setMovingDest,
+                    dest,
+                    setDest,
                     targetId: ''
                 }}
             />

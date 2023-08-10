@@ -9,8 +9,8 @@ import FolderTree, { Folder } from './FolderTree';
 interface FolderTreeForMovingProps {
     mode: 'view' | 'move' | string;
     setMode: any;
-    movingDest: Folder | null;
-    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
+    dest: Folder | null;
+    setDest: Dispatch<SetStateAction<Folder | null>>;
     targetId: string | null;
     current: any;
     handleMoveItems?: any;
@@ -18,7 +18,7 @@ interface FolderTreeForMovingProps {
 
 const apiSetting = new Api();
 export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
-    const { mode, setMode, movingDest, setMovingDest, targetId, current, handleMoveItems } = props;
+    const { mode, setMode, dest, setDest, targetId, current, handleMoveItems } = props;
     const { setAlert } = useAlert();
     const router = useRouter();
     const handleMove = useCallback(
@@ -85,22 +85,18 @@ export default function FolderTreeForMoving(props: FolderTreeForMovingProps) {
                     <div className="w-full h-full flex flex-col">
                         <h1 className="p-5 pt-10 font-bold text-3xl">選擇移動目的地</h1>
                         <div className="pr-5 overflow-auto">
-                            <FolderTree
-                                expanded={true}
-                                movingDest={movingDest}
-                                setMovingDest={setMovingDest}
-                            />
+                            <FolderTree expanded={true} dest={dest} setDest={setDest} />
                         </div>
-                        {movingDest != null && (
+                        {dest != null && (
                             <div className="py-5 px-5 flex">
                                 <button
                                     className="ml-auto px-3 py-2 bg-green-600 text-white rounded-md"
                                     onClick={() => {
                                         current?.type == 'moveItems'
-                                            ? handleMoveItems(movingDest.id)
+                                            ? handleMoveItems(dest.id)
                                             : current?.type == 'folders'
-                                            ? handleMoveFolder(targetId, movingDest.id)
-                                            : handleMove(targetId, movingDest.id);
+                                            ? handleMoveFolder(targetId, dest.id)
+                                            : handleMove(targetId, dest.id);
                                     }}
                                 >
                                     移動
