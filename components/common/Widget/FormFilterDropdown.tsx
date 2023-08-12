@@ -3,7 +3,7 @@ import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { FieldProps, WidgetProps, withTheme } from '@rjsf/core';
-import { Fragment, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
@@ -26,6 +26,12 @@ const Form = withTheme(Bootstrap4Theme);
 
 export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     const { formSchema, formData, title = '', filterKey, filterData = {}, setFilterData } = props;
+    const [showTitle, setShowTitle] = useState('')
+    useEffect(() => {
+        if (title) {
+            setShowTitle(title)
+        }
+    }, [title])
 
     const uiSchema = useRef({
         'ui:submitButtonOptions': {
@@ -39,7 +45,7 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     const fields = useRef({
         TitleField: (props: FieldProps) => (
             <div>
-                <h3 className="text-xl font-bold mb-2">{title}</h3>
+                <h3 className="text-xl font-bold mb-2">{showTitle}</h3>
             </div>
         )
     });
@@ -74,11 +80,11 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     });
 
     return (
-        <Popover className="relative inline-block text-left z-10 mr-4">
+        <Popover className="relative inline-block text-left z-0 mr-4 hover:z-10">
             {({ close }) => (
                 <>
                     <Popover.Button className="inline-flex text-sm items-center justify-center w-full rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-white text-gray-500 font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500">
-                        <span className="mr-2">{title}</span>
+                        <span className="mr-2">{showTitle}</span>
                         <ChevronDownIcon
                             className="h-5 w-5 ml-0 text-gray-500"
                             aria-hidden="true"
@@ -104,6 +110,7 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
                                     widgets={widgets.current}
                                     fields={fields.current}
                                     onSubmit={(res) => {
+                                        setShowTitle(res.formData)
                                         Object.keys(res.formData).forEach((key) => {
                                             if (res.formData[key] === '') {
                                                 res.formData[key] = null;
