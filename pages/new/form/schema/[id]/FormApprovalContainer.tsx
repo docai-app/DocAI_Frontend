@@ -128,7 +128,9 @@ function FormApprovalContainer(props: FormApprovalProps) {
 
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
         apiSetting.FormSchema.getFormsSchemaById(`${form_schema_id || router.query.id}`),
-        { manual: true }
+        {
+            manual: true
+        }
     );
 
     const [
@@ -173,6 +175,7 @@ function FormApprovalContainer(props: FormApprovalProps) {
         if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
             setFormUrl(getFormsSchemaByIdData.form_schema.projection_image_url);
             setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
+            setResult(getFormsSchemaByIdData.form_schema.data_schema);
         }
     }, [getFormsSchemaByIdData]);
 
