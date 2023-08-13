@@ -36,3 +36,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# coverage-ts
+/coverage-ts
+./coverage-ts
