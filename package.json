@@ -8,7 +8,8 @@
         "lint": "next lint",
         "format": "prettier --single-quote --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
         "prepare": "husky install",
-        "cypress:open": "cypress open"
+        "cypress:open": "cypress open",
+        "ts-coverage": "typescript-coverage-report"
     },
     "dependencies": {
         "@headlessui/react": "^1.5.0",
@@ -33,7 +34,6 @@
         "heroicons": "^1.0.6",
         "html-react-parser": "^4.0.0",
         "html-to-image": "^1.11.11",
-        "husky": "^8.0.1",
         "json2csv": "^5.0.7",
         "moment": "^2.29.4",
         "next": "12.1.0",
@@ -44,9 +44,11 @@
         "react-helmet": "^6.1.0",
         "react-infinite-scroll-component": "^6.1.0",
         "react-pdf": "^5.7.1",
+        "typescript-coverage-report": "^0.8.0",
         "yup": "^0.32.11"
     },
     "devDependencies": {
+        "@cypress/code-coverage": "^3.11.0",
         "@types/node": "17.0.21",
         "@types/react": "17.0.39",
         "@types/react-pdf": "^5.0.9",
@@ -54,10 +56,14 @@
         "cypress": "^12.17.1",
         "eslint": "8.10.0",
         "eslint-config-next": "12.1.0",
-        "husky": "^8.0.0",
+        "husky": "^8.0.3",
+        "pinst": "^3.0.0",
         "postcss": "^8.4.8",
         "prettier": "2.6.2",
         "tailwindcss": "^3.0.23",
         "typescript": "4.6.2"
+    },
+    "typeCoverage": {
+        "atLeast": 90
     }
 }

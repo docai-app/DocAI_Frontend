@@ -1,0 +1,183 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TaskContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages\project\[id]\TaskContainer.tsx</td><td class="">64.26%</td><td class="">99%</td><td class="">249</td><td class="">160</td><td class="">89</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import useAxios from &#x27;axios-hooks&#x27;;
+import _ from &#x27;lodash&#x27;;
+import { useRouter } from &#x27;next/router&#x27;;
+import { useCallback, useEffect, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../../apis&#x27;;
+import TaskView from &#x27;./TaskView&#x27;;
+
+const apiSetting = new Api();
+
+export default function TaskContainer() {
+    const router = useRouter();
+    const [project, setProject] = useState&lt;any&gt;();
+    const [tasks, setTasks] = useState&lt;any&gt;([]);
+    const [documentPath, setDocumentPath] = useState&lt;{ id: string | null; name: string }[]&gt;([
+        { id: null, name: &#x27;Root&#x27; }
+    ]);
+
+    const [
+        { data: showProjectByIdData, loading: showProjectByIdLoading, error: showrojectByIdError },
+        showProjectById
+    ] = useAxios(apiSetting.Project.getProjectById(router.query.id + &#x27;&#x27;), { manual: false });
+
+    const [
+        {
+            data: showProjectTaskByIdData,
+            loading: showProjectTaskByIdLoading,
+            error: showProjectTaskByIdError
+        },
+        showProjectTaskById
+    ] = useAxios(apiSetting.Project.getProjectTasksById(router.query.id + &#x27;&#x27;), { manual: false });
+
+    const [
+        { data: addNewTaskData, loading: addNewTaskLoading, error: addNewTaskError },
+        addNewTask
+    ] = useAxios(apiSetting.ProjectTask.addNewProjectTask(), { manual: true });
+
+    const [
+        { data: updateTaskData, loading: updateTaskLoading, error: updateTaskError },
+        updateTask
+    ] = useAxios(apiSetting.ProjectTask.updateProjectTaskById(&#x27;&#x27;), { manual: true });
+
+    const [
+        { data: removeTaskData, loading: removeTaskLoading, error: removeTaskError },
+        removeTask
+    ] = useAxios(apiSetting.ProjectTask.deleteProjectTaskById(&#x27;&#x27;), { manual: true });
+
+    const [{ data: showFolderByIDData }, showFolderByID] = useAxios({}, { manual: true });
+
+    const addNewTaskHandler = useCallback(
+        async (data) =&gt; {
+            const { title, description, deadline_at } = data;
+
+            addNewTask({
+                data: {
+                    project_id: router.query.id,
+                    title: title,
+                    description: description,
+                    deadline_at: deadline_at
+                }
+            });
+        },
+        [router, addNewTask]
+    );
+
+    const updateTaskHandler = useCallback(
+        async (data) =&gt; {
+            const { id, title, description, is_completed, deadline_at } = data;
+            // console.log(data);
+
+            updateTask({
+                ...apiSetting.ProjectTask.updateProjectTaskById(id),
+                data: {
+                    title: title,
+                    description: description,
+                    is_completed: is_completed,
+                    deadline_at: deadline_at
+                }
+            });
+        },
+        [updateTask]
+    );
+
+    const removeTaskHandler = useCallback(
+        async (task_id) =&gt; {
+            if (task_id) removeTask(apiSetting.ProjectTask.deleteProjectTaskById(task_id));
+        },
+        [removeTask]
+    );
+
+    //更新本地数据
+    const updateLocalData = () =&gt; {
+        const newTasks = [...tasks];
+        setTasks(newTasks);
+        console.log(newTasks);
+    };
+
+    useEffect(() =&gt; {
+        if (showProjectByIdData &amp;&amp; showProjectByIdData.success) {
+            setProject(showProjectByIdData.project);
+        }
+    }, [showProjectByIdData]);
+
+    useEffect(() =&gt; {
+        if (showProjectTaskByIdData &amp;&amp; showProjectTaskByIdData.success) {
+            const count = _.filter(showProjectTaskByIdData.project_tasks, function (p) {
+                return p[&#x27;is_completed&#x27;] === true;
+            }).length;
+            if (project)
+                project.progress = Math.round(
+                    (count / (showProjectTaskByIdData.project_tasks.length || 1).toFixed(0)) * 100
+                );
+            setTasks(showProjectTaskByIdData.project_tasks);
+        }
+    }, [showProjectTaskByIdData]);
+
+    useEffect(() =&gt; {
+        if (addNewTaskData &amp;&amp; addNewTaskData.success) {
+            showProjectTaskById();
+        }
+    }, [addNewTaskData]);
+
+    useEffect(() =&gt; {
+        if (updateTaskData &amp;&amp; updateTaskData.success) {
+            showProjectTaskById();
+        }
+    }, [updateTaskData]);
+
+    useEffect(() =&gt; {
+        if (removeTaskData &amp;&amp; removeTaskData.success) {
+            showProjectTaskById();
+        }
+    }, [removeTaskData]);
+
+    useEffect(() =&gt; {
+        if (project &amp;&amp; project.folder?.id) {
+            showFolderByID(apiSetting.Folders.showFolderByID(project.folder?.id));
+        } else {
+            setDocumentPath([{ id: null, name: &#x27;Root&#x27; }]);
+        }
+    }, [project]);
+
+    useEffect(() =&gt; {
+        if (showFolderByIDData?.success) {
+            setDocumentPath([
+                { id: null, name: &#x27;Root&#x27; },
+                ...showFolderByIDData.ancestors.slice().reverse(),
+                showFolderByIDData.folder
+            ]);
+        }
+    }, [showFolderByIDData]);
+
+    return (
+        &lt;TaskView
+            {...{
+                project,
+                tasks,
+                documentPath,
+                updateLocalData,
+                addNewTaskHandler,
+                updateTaskHandler,
+                removeTaskHandler
+            }}
+        /&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:11,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:11,&quot;text&quot;:&quot;tasks&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:16,&quot;text&quot;:&quot;showProjectByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:18,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:16,&quot;text&quot;:&quot;addNewTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:16,&quot;text&quot;:&quot;updateTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:42,&quot;character&quot;:16,&quot;text&quot;:&quot;removeTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:19,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:15,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:20,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:27,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:40,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:20,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:27,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:20,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:33,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:20,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:33,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:65,&quot;character&quot;:15,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:20,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:24,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:31,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:44,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:66,&quot;character&quot;:58,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:20,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:27,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:20,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:33,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:20,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:74,&quot;character&quot;:34,&quot;text&quot;:&quot;is_completed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:20,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:75,&quot;character&quot;:33,&quot;text&quot;:&quot;deadline_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:15,&quot;text&quot;:&quot;task_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:16,&quot;text&quot;:&quot;task_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:91,&quot;character&quot;:29,&quot;text&quot;:&quot;tasks&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:12,&quot;text&quot;:&quot;showProjectByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:35,&quot;text&quot;:&quot;showProjectByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:55,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:23,&quot;text&quot;:&quot;showProjectByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:98,&quot;character&quot;:43,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:8,&quot;text&quot;:&quot;showProjectByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:12,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:39,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:103,&quot;character&quot;:63,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:35,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:59,&quot;text&quot;:&quot;project_tasks&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:104,&quot;character&quot;:84,&quot;text&quot;:&quot;p&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:23,&quot;text&quot;:&quot;p&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:107,&quot;character&quot;:16,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:16,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:108,&quot;character&quot;:24,&quot;text&quot;:&quot;progress&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:30,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:54,&quot;text&quot;:&quot;project_tasks&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:68,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:109,&quot;character&quot;:81,&quot;text&quot;:&quot;toFixed&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:21,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:45,&quot;text&quot;:&quot;project_tasks&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:8,&quot;text&quot;:&quot;showProjectTaskByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:12,&quot;text&quot;:&quot;addNewTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:30,&quot;text&quot;:&quot;addNewTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:116,&quot;character&quot;:45,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:8,&quot;text&quot;:&quot;addNewTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:12,&quot;text&quot;:&quot;updateTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:30,&quot;text&quot;:&quot;updateTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:45,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:8,&quot;text&quot;:&quot;updateTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:128,&quot;character&quot;:12,&quot;text&quot;:&quot;removeTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:128,&quot;character&quot;:30,&quot;text&quot;:&quot;removeTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:128,&quot;character&quot;:45,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:8,&quot;text&quot;:&quot;removeTaskData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:12,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:23,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:31,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:39,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:61,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:69,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:77,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:139,&quot;character&quot;:8,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:12,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:32,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:19,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:38,&quot;text&quot;:&quot;ancestors&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:48,&quot;text&quot;:&quot;slice&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:56,&quot;text&quot;:&quot;reverse&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:16,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:35,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:8,&quot;text&quot;:&quot;showFolderByIDData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:16,&quot;text&quot;:&quot;project&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages\\project\\[id]\\TaskContainer.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:16,&quot;text&quot;:&quot;tasks&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

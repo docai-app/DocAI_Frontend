@@ -1,0 +1,104 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>OGView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\common\Widget\OGView.tsx</td><td class="">94.74%</td><td class="">99%</td><td class="">95</td><td class="">90</td><td class="">5</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { ChevronRightIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import { FolderIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import Link from &#x27;next/link&#x27;;
+import { Image } from &#x27;react-bootstrap&#x27;;
+import useAlert from &#x27;../../../hooks/useAlert&#x27;;
+
+interface OGProps {
+    title: string;
+    description: string;
+    url: string;
+    documentPath: { id: string | null; name: string }[];
+}
+export default function OGView(props: OGProps) {
+    const { setAlert } = useAlert();
+    return (
+        &lt;&gt;
+            &lt;p className=&#x27;border-l-4 pl-2 border-l-gray-500 text-sm&quot;&#x27;&gt;文檔放在這裡&lt;/p&gt;
+            &lt;Link href={props.url}&gt;
+                &lt;div className=&quot;w-full border border-gray-200 p-2 mt-2 flex flex-row cursor-pointer&quot;&gt;
+                    &lt;div className=&quot; flex flex-1 w-full description&quot;&gt;
+                        &lt;p className=&quot;line_1&quot;&gt;{props?.title}&lt;/p&gt;
+                        &lt;p className=&quot; line_2 text-gray-400 text-sm min-h-[30px] &quot;&gt;
+                            {props?.description || &#x27;暫無描述...&#x27;}
+                        &lt;/p&gt;
+                        &lt;div className=&quot; overflow-hidden text-ellipsis whitespace-nowrap hidden&quot;&gt;
+                            {props?.url}
+                        &lt;/div&gt;
+                        &lt;div className=&quot; overflow-hidden text-ellipsis whitespace-nowrap flex flex-row &quot;&gt;
+                            &lt;FolderIcon className=&quot;h-5 text-blue-200&quot; /&gt;
+                            &lt;div className=&quot;flex flex-row&quot;&gt;
+                                {props?.documentPath &amp;&amp;
+                                    props?.documentPath
+                                        .slice(0, props?.documentPath.length - 1)
+                                        .map((folder: any) =&gt; (
+                                            &lt;div
+                                                key={folder.id}
+                                                className=&quot;flex flex-row items-center text-sm &quot;
+                                            &gt;
+                                                {folder.name}{&#x27; &#x27;}
+                                                &lt;ChevronRightIcon className=&quot;text-gray-400 text-sm h-4&quot; /&gt;
+                                            &lt;/div&gt;
+                                        ))}
+                                &lt;div className=&quot;flex flex-row items-center text-sm &quot;&gt;
+                                    {props?.documentPath &amp;&amp;
+                                        props?.documentPath[props?.documentPath.length - 1].name}
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;flex flex-0   &quot;&gt;
+                        &lt;Image
+                            thumbnail={true}
+                            width={80}
+                            src=&quot;https://png.pngtree.com/element_our/20190529/ourmid/pngtree-link-icon-image_1198606.jpg&quot;
+                        /&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/Link&gt;
+            &lt;style jsx&gt;
+                {`
+                    .description {
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                    }
+                    .line_1 {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1; //多行在这里修改数字即可
+                        overflow: hidden;
+                        -webkit-box-orient: vertical;
+                    }
+                    .line_2 {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2; //多行在这里修改数字即可
+                        overflow: hidden;
+                        -webkit-box-orient: vertical;
+                    }
+                `}
+            &lt;/style&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\common\\Widget\\OGView.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:46,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\OGView.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:53,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\OGView.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:60,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\OGView.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:49,&quot;text&quot;:&quot;folder&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\common\\Widget\\OGView.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:56,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,213 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TableRow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components\feature\drive\TableRow.tsx</td><td class="">69.55%</td><td class="">99%</td><td class="">266</td><td class="">185</td><td class="">81</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { DocumentIcon, FolderIcon, ShareIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import Link from &#x27;next/link&#x27;;
+import { Dispatch, SetStateAction, useEffect, useState } from &#x27;react&#x27;;
+import Dropdowns from &#x27;./Dropdowns&#x27;;
+
+interface TableRowProps {
+    doc: any;
+    type: string;
+    setMode: Dispatch&lt;SetStateAction&lt;&#x27;view&#x27; | &#x27;move&#x27; | &#x27;share&#x27; | &#x27;newFolder&#x27;&gt;&gt;;
+    setTarget: any;
+    setVisableDelete?: any;
+    setVisableRename: any;
+    setCurrent?: any;
+    setChecedkData?: any;
+    checked?: boolean;
+}
+export default function TableRow(props: TableRowProps) {
+    const {
+        doc,
+        type,
+        setMode,
+        setTarget,
+        setVisableDelete,
+        setVisableRename,
+        setCurrent,
+        setChecedkData,
+        checked
+    } = props;
+    const [visable, setVisable] = useState(false);
+    const updated_at = new Date(doc.updated_at);
+    const now = new Date();
+    let date = &#x27;&#x27;;
+    if (updated_at.getFullYear() === now.getFullYear()) {
+        if (updated_at.getMonth() === now.getMonth() &amp;&amp; updated_at.getDate() === now.getDate())
+            date = `${
+                updated_at.getHours() &lt; 10
+                    ? &#x27;0&#x27; + updated_at.getHours().toString()
+                    : updated_at.getHours()
+            }:${
+                updated_at.getMinutes() &lt; 10
+                    ? &#x27;0&#x27; + updated_at.getMinutes().toString()
+                    : updated_at.getMinutes()
+            }`;
+        else
+            date = `${
+                updated_at.getMonth() &lt; 9
+                    ? &#x27;0&#x27; + (updated_at.getMonth() + 1).toString()
+                    : updated_at.getMonth() + 1
+            }/${
+                updated_at.getDate() &lt; 10
+                    ? &#x27;0&#x27; + updated_at.getDate().toString()
+                    : updated_at.getDate()
+            }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${
+            updated_at.getMonth() &lt; 9
+                ? &#x27;0&#x27; + (updated_at.getMonth() + 1).toString()
+                : updated_at.getMonth() + 1
+        }/${
+            updated_at.getDate() &lt; 10 ? &#x27;0&#x27; + updated_at.getDate().toString() : updated_at.getDate()
+        }`;
+    }
+    const url = doc.storage_url || `/drive/${doc.id}`;
+    const onMouseEnter = () =&gt; {
+        if (checked) return;
+        setVisable(true);
+    };
+    const onMouseLeave = () =&gt; {
+        if (checked) return;
+        setVisable(false);
+    };
+    const check = (e: any) =&gt; {
+        setChecedkData(type, e.target.checked, e.target.value);
+    };
+
+    useEffect(() =&gt; {
+        if (!checked) {
+            setVisable(false);
+        }
+    }, [checked]);
+
+    return (
+        &lt;div
+            key={doc.id}
+            className={`flex hover:bg-gray-100`}
+            onMouseEnter={() =&gt; {
+                onMouseEnter();
+            }}
+            onMouseLeave={() =&gt; {
+                onMouseLeave();
+            }}
+        &gt;
+            &lt;div className=&quot; mx-2 w-10 items-center flex justify-center&quot;&gt;
+                {visable &amp;&amp; (
+                    &lt;input
+                        type={&#x27;checkbox&#x27;}
+                        value={doc.id}
+                        className=&quot;&quot;
+                        onChange={(e) =&gt; {
+                            check(e);
+                        }}
+                    /&gt;
+                )}
+            &lt;/div&gt;
+            &lt;div className=&quot;px-2 py-3 flex flex-row items-center&quot;&gt;
+                {type === &#x27;documents&#x27; ? (
+                    &lt;DocumentIcon className=&quot;ml-auto h-6 text-gray-200&quot; /&gt;
+                ) : (
+                    &lt;FolderIcon className=&quot;ml-auto h-6 text-blue-200&quot; /&gt;
+                )}
+            &lt;/div&gt;
+            &lt;div className=&quot;px-2 py-4 text-left w-5/12&quot;&gt;
+                {type === &#x27;folders&#x27; ? (
+                    &lt;Link href={`${url}?name=${doc.name}`}&gt;
+                        &lt;a className=&quot;hover:underline&quot;&gt;{doc.name}&lt;/a&gt;
+                    &lt;/Link&gt;
+                ) : (
+                    &lt;a href={url} target=&quot;_blank&quot; rel=&quot;noreferrer&quot; className=&quot;hover:underline&quot;&gt;
+                        {doc.name}
+                    &lt;/a&gt;
+                )}
+            &lt;/div&gt;
+            &lt;div className=&quot;px-2 py-4 flex justify-end gap-2 w-2/12 flex-wrap&quot;&gt;
+                {type !== &#x27;folders&#x27; &amp;&amp;
+                    (doc?.is_classified === false &amp;&amp; doc?.labels?.length == 0 ? (
+                        &lt;span className=&quot;inline-flex items-center px-2.5 h-6 rounded-full text-xs font-medium bg-red-100 text-red-800&quot;&gt;
+                            未分類
+                        &lt;/span&gt;
+                    ) : (
+                        doc?.labels?.map((label: any, index: number) =&gt; {
+                            return (
+                                &lt;span
+                                    key={index}
+                                    className=&quot;inline-flex items-center px-2.5 h-6 rounded-full text-xs font-medium bg-green-100 text-black&quot;
+                                &gt;
+                                    {label?.name}
+                                &lt;/span&gt;
+                            );
+                        })
+                    ))}
+            &lt;/div&gt;
+            &lt;div className=&quot;px-2 py-4 flex justify-end gap-2 w-2/12&quot;&gt;
+                {type === &#x27;folders&#x27; &amp;&amp; (
+                    &lt;ShareIcon
+                        className=&quot;h-5 text-gray-300 hover:text-gray-500 cursor-pointer&quot;
+                        onClick={() =&gt; {
+                            setMode(&#x27;share&#x27;);
+                            setTarget([doc]);
+                        }}
+                    /&gt;
+                )}
+                &lt;Dropdowns
+                    type={type}
+                    url={url}
+                    name={doc?.name}
+                    rename={() =&gt; {
+                        setVisableRename(true);
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        });
+                    }}
+                    download={() =&gt; {}}
+                    move={() =&gt; {
+                        setMode(&#x27;move&#x27;);
+                        setTarget([doc]);
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        });
+                    }}
+                    remove={() =&gt; {
+                        setVisableDelete(true);
+                        setCurrent({
+                            id: doc?.id,
+                            name: doc?.name,
+                            type: type
+                        });
+                    }}
+                /&gt;
+                {/* &lt;DocumentSquare2StackIcon
+                    className=&quot;h-5 text-gray-300 hover:text-gray-500 cursor-pointer&quot;
+                    onClick={() =&gt; {
+                        setMode(&#x27;move&#x27;);
+                        setTarget([doc]);
+                    }}
+                /&gt; */}
+            &lt;/div&gt;
+            &lt;div className=&quot;pr-6 py-4 text-right w-2/12&quot;&gt;{date}&lt;/div&gt;
+            &lt;div className=&quot;pr-6 py-4 text-right w-2/12&quot;&gt;{doc?.user?.nickname}&lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:4,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:4,&quot;text&quot;:&quot;setTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:4,&quot;text&quot;:&quot;setVisableDelete&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:4,&quot;text&quot;:&quot;setVisableRename&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:4,&quot;text&quot;:&quot;setCurrent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:4,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:8,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:8,&quot;text&quot;:&quot;setTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:8,&quot;text&quot;:&quot;setVisableDelete&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:8,&quot;text&quot;:&quot;setVisableRename&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:8,&quot;text&quot;:&quot;setCurrent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:8,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:32,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:36,&quot;text&quot;:&quot;updated_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:10,&quot;text&quot;:&quot;url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:16,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:20,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:45,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:62,&quot;character&quot;:49,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:19,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:8,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:29,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:31,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:38,&quot;text&quot;:&quot;checked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:47,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:49,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:56,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:17,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:21,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:31,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:35,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:35,&quot;text&quot;:&quot;url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:47,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:113,&quot;character&quot;:51,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:56,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:60,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:118,&quot;character&quot;:25,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:118,&quot;character&quot;:29,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:21,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:26,&quot;text&quot;:&quot;is_classified&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:53,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:58,&quot;text&quot;:&quot;labels&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:66,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:129,&quot;character&quot;:24,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:129,&quot;character&quot;:29,&quot;text&quot;:&quot;labels&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:129,&quot;character&quot;:37,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:129,&quot;character&quot;:42,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:37,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:135,&quot;character&quot;:44,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:28,&quot;text&quot;:&quot;setTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:39,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:26,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:154,&quot;character&quot;:31,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:156,&quot;character&quot;:24,&quot;text&quot;:&quot;setVisableRename&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:157,&quot;character&quot;:24,&quot;text&quot;:&quot;setCurrent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:158,&quot;character&quot;:28,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:158,&quot;character&quot;:32,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:158,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:159,&quot;character&quot;:28,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:159,&quot;character&quot;:34,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:159,&quot;character&quot;:39,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:24,&quot;text&quot;:&quot;setTarget&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:166,&quot;character&quot;:35,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:167,&quot;character&quot;:24,&quot;text&quot;:&quot;setCurrent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:28,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:32,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:28,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:34,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:39,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:174,&quot;character&quot;:24,&quot;text&quot;:&quot;setVisableDelete&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:175,&quot;character&quot;:24,&quot;text&quot;:&quot;setCurrent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:28,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:32,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:37,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:28,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:34,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:177,&quot;character&quot;:39,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:58,&quot;text&quot;:&quot;doc&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:63,&quot;text&quot;:&quot;user&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components\\feature\\drive\\TableRow.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:69,&quot;text&quot;:&quot;nickname&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,90 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>form.ts</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="..\..\assets\source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="..\..\assets\source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="..\..\index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">utils\form.ts</td><td class="">49.54%</td><td class="">99%</td><td class="">109</td><td class="">54</td><td class="">55</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">function findHasPropertiesObject(object: any, matchedData: any = []): any[] {
+    if (typeof object === &#x27;object&#x27;) {
+        for (const key in object) {
+            if (object[key].hasOwnProperty(&#x27;properties&#x27;)) {
+                findHasPropertiesObject(object[key].properties, matchedData);
+            } else {
+                // If matchData is array, push the matched data to array
+                if (Array.isArray(matchedData)) {
+                    matchedData.push({
+                        keyName: key,
+                        title: object[key].title,
+                        value: &#x27;&#x27;
+                    });
+                } else {
+                    // If matchData is object, push the matched data to object
+                    matchedData[key] = &#x27;&#x27;;
+                }
+            }
+        }
+    }
+    return matchedData;
+}
+
+function findHasDataObject(object: any, matchedData: any = []): any[] {
+    if (typeof object === &#x27;object&#x27;) {
+        for (const key in object) {
+            if (typeof object[key] !== &#x27;object&#x27;) {
+                // If matchData is array, push the matched data to array
+                if (Array.isArray(matchedData)) {
+                    matchedData.forEach((element: any) =&gt; {
+                        if (element.keyName === key) {
+                            element.value = object[key];
+                        }
+                    });
+                } else {
+                    // If matchData is object, push the matched data to object
+                    matchedData[key] = object[key];
+                }
+            } else if (Array.isArray(object[key])) {
+                matchedData[key] = object[key];
+            } else {
+                findHasDataObject(object[key], matchedData);
+            }
+        }
+    }
+    return matchedData;
+}
+
+export function getDownloadFields(metchedData: any[] = []) {
+    const fields: any[] = [];
+    metchedData.forEach((element) =&gt; {
+        fields.push({
+            label: element.title,
+            value: element.keyName
+        });
+    });
+    return fields;
+}
+
+export function matchFormSchemaAndFormData(form_schema: any = {}, form_data: any = {}): any[] {
+    let metchedData: any[] = [];
+    metchedData = findHasPropertiesObject(form_schema.properties, metchedData);
+    metchedData = findHasDataObject(form_data, metchedData);
+    return metchedData;
+}
+
+export function matchAndFillFormDataByFormSchema(form_schema: any = {}, form_data: any = {}): any {
+    let metchedData: any = {};
+    metchedData = findHasPropertiesObject(form_schema.properties, metchedData);
+    metchedData = findHasDataObject(form_data, metchedData);
+    return metchedData;
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:0,&quot;character&quot;:33,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:0,&quot;character&quot;:46,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:1,&quot;character&quot;:15,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:2,&quot;character&quot;:26,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:3,&quot;character&quot;:16,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:4,&quot;character&quot;:40,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:4,&quot;character&quot;:52,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:4,&quot;character&quot;:64,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:7,&quot;character&quot;:34,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:24,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:31,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:10,&quot;character&quot;:43,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:15,&quot;character&quot;:20,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:23,&quot;character&quot;:27,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:23,&quot;character&quot;:40,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:24,&quot;character&quot;:15,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:25,&quot;character&quot;:26,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:26,&quot;character&quot;:23,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:28,&quot;character&quot;:34,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:29,&quot;character&quot;:41,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:30,&quot;character&quot;:28,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:30,&quot;character&quot;:36,&quot;text&quot;:&quot;keyName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:31,&quot;character&quot;:28,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:31,&quot;character&quot;:36,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:31,&quot;character&quot;:44,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:20,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:36,&quot;character&quot;:39,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:38,&quot;character&quot;:37,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:39,&quot;character&quot;:16,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:39,&quot;character&quot;:35,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:41,&quot;character&quot;:34,&quot;text&quot;:&quot;object&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:41,&quot;character&quot;:47,&quot;text&quot;:&quot;matchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:50,&quot;character&quot;:25,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:52,&quot;character&quot;:12,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:52,&quot;character&quot;:19,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:52,&quot;character&quot;:27,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:53,&quot;character&quot;:12,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:53,&quot;character&quot;:19,&quot;text&quot;:&quot;element&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:53,&quot;character&quot;:27,&quot;text&quot;:&quot;keyName&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:43,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:59,&quot;character&quot;:66,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:42,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:61,&quot;character&quot;:54,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:62,&quot;character&quot;:36,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:66,&quot;character&quot;:49,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:66,&quot;character&quot;:72,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:67,&quot;character&quot;:8,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:4,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:42,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:54,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:68,&quot;character&quot;:66,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:4,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:36,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:69,&quot;character&quot;:47,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;utils\\form.ts&quot;,&quot;line&quot;:70,&quot;character&quot;:11,&quot;text&quot;:&quot;metchedData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Thu, 03 Aug 2023 09:19:42 GMT</p>
+    </body>
+  </html>
+  
