@@ -87,7 +87,7 @@ export default function FormFilterContainer() {
     }, [selectedFilter]);
 
     useEffect(() => {
-        console.log('resultFormsData: ', resultFormsData);
+        // console.log('resultFormsData: ', resultFormsData);
         if (resultFormsData && resultFormsData.success) {
             setFormDatum(formDatum.concat(resultFormsData.form_datum));
         }
@@ -172,8 +172,8 @@ export default function FormFilterContainer() {
     };
 
     const handlerGenerateChart = async (query: string, form_data_ids: []) => {
-        console.log('query', query);
-        console.log('form_data_ids', form_data_ids);
+        // console.log('query', query);
+        // console.log('form_data_ids', form_data_ids);
 
         if (query) {
             setLoadingOpen(true);
@@ -193,7 +193,7 @@ export default function FormFilterContainer() {
                 setAlert({ title: res.data.chart, type: 'error' });
             }
             setLoadingOpen(false);
-            console.log(res.data);
+            // console.log(res.data);
         }
     };
 

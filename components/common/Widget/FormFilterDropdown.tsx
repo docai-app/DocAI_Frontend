@@ -3,6 +3,7 @@ import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { FieldProps, WidgetProps, withTheme } from '@rjsf/core';
+import _ from 'lodash';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 function classNames(...classes: string[]) {
@@ -110,7 +111,7 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
                                     widgets={widgets.current}
                                     fields={fields.current}
                                     onSubmit={(res) => {
-                                        setShowTitle(res.formData)
+                                        _.isString(res.formData) &&  setShowTitle(res.formData)
                                         Object.keys(res.formData).forEach((key) => {
                                             if (res.formData[key] === '') {
                                                 res.formData[key] = null;
