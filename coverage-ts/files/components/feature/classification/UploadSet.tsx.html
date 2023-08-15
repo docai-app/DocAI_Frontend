@@ -1,0 +1,150 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>UploadSet.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components/feature/classification/UploadSet.tsx</td><td class="">79.17%</td><td class="">90%</td><td class="">168</td><td class="">133</td><td class="">35</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">interface UploadSetProps {
+    needAutoUpload?: boolean;
+    setNeedAutoUpload: any;
+    needs_deep_understanding?: boolean;
+    set_needs_deep_understanding: any;
+    set_needs_approval: any;
+    setTagId: any;
+    set_form_schema_id: any;
+    getAllLabelsData: any;
+    schemasStatusReadyData: any;
+}
+
+export default function UploadSet(props: UploadSetProps) {
+    const {
+        needAutoUpload,
+        setNeedAutoUpload,
+        needs_deep_understanding,
+        set_needs_deep_understanding,
+        set_needs_approval,
+        setTagId,
+        set_form_schema_id,
+        getAllLabelsData,
+        schemasStatusReadyData
+    } = props;
+    return (
+        &lt;&gt;
+            &lt;div className=&quot;mt-4 rounded-md border-2 border-gray-200 p-4 bg-white&quot;&gt;
+                &lt;label className=&quot;text-md font-bold text-gray-900&quot;&gt;批量上傳&lt;/label&gt;
+                &lt;div className=&quot;flex flex-row justify-between mt-2&quot;&gt;
+                    &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                        &lt;input
+                            type={&#x27;checkbox&#x27;}
+                            name=&quot;needAutoUpload&quot;
+                            onChange={(e) =&gt; {
+                                setNeedAutoUpload(e.target.checked);
+                            }}
+                        /&gt;
+                        &lt;label className=&quot;ml-2 text-md font-bold text-gray-900&quot;&gt;
+                            是否需要自動批量上傳?
+                            &lt;label className=&quot;text-sm text-gray-500&quot;&gt;(需要統一標籤)&lt;/label&gt;
+                        &lt;/label&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className={`${needAutoUpload ? &#x27;my-2&#x27; : &#x27;my-2 hidden&#x27;}`}&gt;
+                    &lt;label className=&quot;font-bold text-gray-900&quot;&gt;批量文件的類別&lt;/label&gt;
+                    &lt;select
+                        id=&quot;select_tag&quot;
+                        name=&quot;location&quot;
+                        className=&quot;block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6&quot;
+                        defaultValue=&quot;&quot;
+                        onChange={(e) =&gt; {
+                            setTagId(e.target.value);
+                        }}
+                    &gt;
+                        &lt;option value=&quot;&quot; disabled&gt;
+                            請選擇類別
+                        &lt;/option&gt;
+                        {getAllLabelsData?.tags.map((tag: any, index: number) =&gt; {
+                            return (
+                                &lt;option key={index} value={tag.id}&gt;
+                                    {tag.name}
+                                &lt;/option&gt;
+                            );
+                        })}
+                    &lt;/select&gt;
+                &lt;/div&gt;
+                &lt;div className={`${needAutoUpload ? &#x27;my-2&#x27; : &#x27;my-2 hidden&#x27;}`}&gt;
+                    &lt;div className=&quot;flex flex-row justify-between mt-2&quot;&gt;
+                        &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                            &lt;input
+                                type={&#x27;checkbox&#x27;}
+                                name=&quot;needAutoUpload&quot;
+                                onChange={(e) =&gt; {
+                                    set_needs_deep_understanding(e.target.checked);
+                                }}
+                            /&gt;
+                            &lt;label className=&quot;ml-2 text-md font-bold text-gray-900&quot;&gt;
+                                是否需要表格深度理解?
+                                &lt;label className=&quot;text-sm text-gray-500&quot;&gt;(需要統一標籤)&lt;/label&gt;
+                            &lt;/label&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div className={`${needs_deep_understanding ? &#x27;my-2&#x27; : &#x27;my-2 hidden&#x27;}`}&gt;
+                        &lt;label className=&quot;font-bold text-gray-900&quot;&gt;表格深度理解的模型&lt;/label&gt;
+                        &lt;select
+                            id=&quot;select_tag_function&quot;
+                            name=&quot;location&quot;
+                            className=&quot;block w-full rounded-md border-0 py-2 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6&quot;
+                            defaultValue=&quot;&quot;
+                            onChange={(e) =&gt; {
+                                set_form_schema_id(e.target.value);
+                            }}
+                        &gt;
+                            &lt;option value=&quot;&quot; disabled&gt;
+                                請選擇模型
+                            &lt;/option&gt;
+                            {schemasStatusReadyData?.form_schema?.map(
+                                (schema: any, index: number) =&gt; {
+                                    return (
+                                        &lt;option key={index} value={schema.id}&gt;
+                                            {schema.name}
+                                        &lt;/option&gt;
+                                    );
+                                }
+                            )}
+                        &lt;/select&gt;
+                    &lt;/div&gt;
+                    &lt;div
+                        className={`${
+                            needs_deep_understanding
+                                ? &#x27;flex flex-row justify-between mt-2&#x27;
+                                : &#x27;flex-row justify-between hidden&#x27;
+                        }`}
+                    &gt;
+                        &lt;div className=&quot;flex flex-row items-center&quot;&gt;
+                            &lt;input
+                                type={&#x27;checkbox&#x27;}
+                                name=&quot;needAutoUpload&quot;
+                                onChange={(e) =&gt; {
+                                    set_needs_approval(e.target.checked);
+                                }}
+                            /&gt;
+                            &lt;label className=&quot;ml-2 text-md font-bold text-gray-900&quot;&gt;
+                                是否需要進行審批?
+                            &lt;/label&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:2,&quot;character&quot;:4,&quot;text&quot;:&quot;setNeedAutoUpload&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:4,&quot;text&quot;:&quot;set_needs_deep_understanding&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:5,&quot;character&quot;:4,&quot;text&quot;:&quot;set_needs_approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:4,&quot;text&quot;:&quot;setTagId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:4,&quot;text&quot;:&quot;set_form_schema_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:4,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:4,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:8,&quot;text&quot;:&quot;setNeedAutoUpload&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:8,&quot;text&quot;:&quot;set_needs_deep_understanding&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:8,&quot;text&quot;:&quot;set_needs_approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:8,&quot;text&quot;:&quot;setTagId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:8,&quot;text&quot;:&quot;set_form_schema_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:8,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:8,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:32,&quot;text&quot;:&quot;setNeedAutoUpload&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:28,&quot;text&quot;:&quot;setTagId&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:25,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:43,&quot;text&quot;:&quot;tags&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:48,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:57,&quot;character&quot;:53,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:59,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:59,&quot;character&quot;:63,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:37,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:41,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:36,&quot;text&quot;:&quot;set_needs_deep_understanding&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:32,&quot;text&quot;:&quot;set_form_schema_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:29,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:53,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:96,&quot;character&quot;:66,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:97,&quot;character&quot;:33,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:67,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:74,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:45,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:52,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/classification/UploadSet.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:36,&quot;text&quot;:&quot;set_needs_approval&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

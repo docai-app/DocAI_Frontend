@@ -1,0 +1,64 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>DocumentPreview.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components/common/Widget/DocumentPreview.tsx</td><td class="">68.12%</td><td class="">90%</td><td class="">69</td><td class="">47</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">function DocumentPreview({ document }: { document: any }) {
+    return (
+        &lt;div key={document.id} className=&quot;group relative&quot;&gt;
+            &lt;div className=&quot;w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none&quot;&gt;
+                {document.storage_url?.split(/[#?]/)[0].split(&#x27;.&#x27;).pop().trim() === &#x27;pdf&#x27; ? (
+                    &lt;object
+                        className=&quot;w-full h-full object-center object-cover lg:w-full lg:h-full flex justify-center items-center&quot;
+                        type=&quot;application/pdf&quot;
+                        data={document.storage_url + &#x27;#toolbar=0&#x27;}
+                        width=&quot;250&quot;
+                        height=&quot;200&quot;
+                    &gt;
+                        &lt;img
+                            src={
+                                &#x27;https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png&#x27;
+                            }
+                            alt=&quot;PDF file icon&quot;
+                            className=&quot;w-1/2 h-1/2 object-contain object-center&quot;
+                        /&gt;
+                    &lt;/object&gt;
+                ) : (
+                    &lt;img
+                        src={document.storage_url}
+                        alt={document.name}
+                        className=&quot;w-full h-full object-contain object-center lg:w-full lg:h-full&quot;
+                    /&gt;
+                )}
+            &lt;/div&gt;
+            &lt;div className=&quot;mt-4 flex justify-between overflow-hidden&quot;&gt;
+                &lt;div&gt;
+                    &lt;h3 className=&quot;text-sm text-gray-700&quot;&gt;
+                        &lt;a href={document.storage_url} target=&quot;_blank&quot; rel=&quot;noreferrer&quot;&gt;
+                            &lt;span aria-hidden=&quot;true&quot; className=&quot;absolute inset-0&quot; /&gt;
+                            &lt;p&gt;文件名稱：{document.name}&lt;/p&gt;
+                            &lt;p&gt;
+                                上傳日期：
+                                {new Date(document.created_at).toISOString().split(&#x27;T&#x27;)[0]}
+                            &lt;/p&gt;
+                        &lt;/a&gt;
+                    &lt;/h3&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+export default DocumentPreview;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:0,&quot;character&quot;:27,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:0,&quot;character&quot;:41,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:2,&quot;character&quot;:18,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:2,&quot;character&quot;:27,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:17,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:26,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:39,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:56,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:67,&quot;text&quot;:&quot;pop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:73,&quot;text&quot;:&quot;trim&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:30,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:8,&quot;character&quot;:39,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:29,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:38,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:29,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:38,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:33,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:42,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:37,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:46,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:42,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/DocumentPreview.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:51,&quot;text&quot;:&quot;created_at&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

@@ -1,0 +1,73 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>TagView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/classification/[tag]/TagView.tsx</td><td class="">88.24%</td><td class="">90%</td><td class="">51</td><td class="">45</td><td class="">6</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import _get from &#x27;lodash/get&#x27;;
+import _map from &#x27;lodash/map&#x27;;
+import SingleActionModel from &#x27;../../../components/common/Widget/SingleActionModel&#x27;;
+import { MagnifyingGlassIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import DocumentPreview from &#x27;../../../components/common/Widget/DocumentPreview&#x27;;
+
+interface LabelViewProps {
+    documents: Array&lt;any&gt;;
+    tagName: string;
+    open: boolean;
+    setOpen: any;
+}
+
+export default function TagView(props: LabelViewProps) {
+    const { documents = [], tagName = &#x27;&#x27;, open, setOpen } = props;
+    return (
+        &lt;&gt;
+            &lt;SingleActionModel
+                {...{
+                    open,
+                    setOpen,
+                    title: &#x27;正在搜尋......&#x27;,
+                    content: &#x27;文檔搜尋中，請稍候。&#x27;,
+                    icon: (
+                        &lt;MagnifyingGlassIcon
+                            className=&quot;h-6 w-6 text-green-600&quot;
+                            aria-hidden=&quot;true&quot;
+                        /&gt;
+                    )
+                }}
+            /&gt;
+            {/* &lt;div className=&quot;bg-indigo-700&quot;&gt;
+                &lt;div className=&quot;max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8&quot;&gt;
+                    &lt;h2 className=&quot;text-3xl font-extrabold text-white sm:text-4xl&quot;&gt;
+                        &lt;span className=&quot;block&quot;&gt;DocAI&lt;/span&gt;
+                        &lt;span className=&quot;block&quot;&gt;查找屬於&quot;{tagName}&quot;的文件&lt;/span&gt;
+                    &lt;/h2&gt;
+                &lt;/div&gt;
+            &lt;/div&gt; */}
+            &lt;div&gt;
+                &lt;p className=&quot; text-black text-xl font-bold&quot;&gt;
+                    與 &quot;{tagName}&quot; 相關的文檔共有 {documents?.length} 份
+                &lt;/p&gt;
+            &lt;/div&gt;
+
+            &lt;div className=&quot;px-16&quot;&gt;
+                &lt;div className=&quot;mt-8 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8&quot;&gt;
+                    {documents.map((document, idx) =&gt; (
+                        &lt;DocumentPreview document={document} key={idx} /&gt;
+                    ))}
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:4,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:48,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:20,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:36,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:41,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/classification/[tag]/TagView.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:51,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

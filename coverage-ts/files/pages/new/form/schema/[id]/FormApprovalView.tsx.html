@@ -1,0 +1,231 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>FormApprovalView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/new/form/schema/[id]/FormApprovalView.tsx</td><td class="">76.92%</td><td class="">90%</td><td class="">247</td><td class="">190</td><td class="">57</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { PaperAirplaneIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import { Theme as Bootstrap4Theme } from &#x27;@rjsf/bootstrap-4&#x27;;
+import { withTheme } from &#x27;@rjsf/core&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import { Folder } from &#x27;../../../../../components/common/Widget/FolderTree&#x27;;
+import FolderTreeForSelect from &#x27;../../../../../components/common/Widget/FolderTreeForSelect&#x27;;
+import SingleActionModel from &#x27;../../../../../components/common/Widget/SingleActionModel&#x27;;
+import EditNewProjectModal from &#x27;../../../../../components/feature/new/form/EditNewProjectModal&#x27;;
+
+const Form = withTheme(Bootstrap4Theme);
+
+interface FormApprovalViewProps {
+    formUrl: string;
+    result: any;
+    setResult: any;
+    approval: any;
+    formSchema: any;
+    approvalSchema: { current: any };
+    uiSchema: { current: any };
+    approvalUiSchema: { current: any };
+    widgets: any;
+    fields: any;
+    onSubmit: any;
+    onConfirm: any;
+    setPreview: any;
+    previewFormProjectionLoading: boolean;
+    open: boolean;
+    setOpen: any;
+    visiable: boolean;
+    setVisiable: any;
+    actionContent: string;
+    form_miniapp?: boolean;
+}
+
+function FormApprovalView(props: FormApprovalViewProps) {
+    const {
+        formUrl = &#x27;&#x27;,
+        result = {},
+        setResult,
+        approval = {},
+        formSchema = {},
+        approvalSchema = { current: {} },
+        uiSchema = { current: {} },
+        approvalUiSchema = { current: {} },
+        widgets = {},
+        fields = {},
+        onSubmit,
+        onConfirm,
+        setPreview,
+        previewFormProjectionLoading,
+        open,
+        setOpen,
+        visiable,
+        setVisiable,
+        actionContent,
+        form_miniapp
+    } = props;
+
+    const [mode, setMode] = useState(&#x27;&#x27;);
+    const [movingDest, setMovingDest] = useState&lt;Folder | null&gt;(null);
+    const [filename, setFilename] = useState(&#x27;&#x27;);
+    useEffect(() =&gt; {
+        if (movingDest?.id) {
+            setVisiable(true);
+        }
+    }, [movingDest]);
+    return (
+        &lt;&gt;
+            &lt;SingleActionModel
+                {...{
+                    open,
+                    setOpen,
+                    title: &#x27;進行中......&#x27;,
+                    content: actionContent,
+                    icon: (
+                        &lt;PaperAirplaneIcon className=&quot;h-6 w-6 text-green-600&quot; aria-hidden=&quot;true&quot; /&gt;
+                    )
+                }}
+            /&gt;
+            &lt;div className=&quot;min-h-full&quot;&gt;
+                &lt;header className=&quot;bg-white&quot;&gt;
+                    &lt;div className=&quot;max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8&quot;&gt;
+                        &lt;h1 className=&quot;text-3xl font-bold text-gray-900&quot;&gt;
+                            填寫表格({formSchema.title} )
+                        &lt;/h1&gt;
+                    &lt;/div&gt;
+                &lt;/header&gt;
+                &lt;main&gt;
+                    &lt;div className=&quot;max-w-7xl mx-auto py-0 sm:px-0 lg:px-0&quot;&gt;
+                        &lt;div className=&quot;px-4 pb-8 sm:px-0&quot;&gt;
+                            &lt;div className=&quot;flex justify-center lg:items-center  lg:flex-row flex-col p-0 border-0 border-dashed border-gray-200 bg-white lg:h-80vh&quot;&gt;
+                                &lt;div className=&quot;h-full left-side flex-1 flex justify-center items-center object-contain object-center&quot;&gt;
+                                    &lt;div className=&quot;w-full lg:w-full m-4 h-5/6 border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover&quot;&gt;
+                                        {formUrl.split(&#x27;.&#x27;).pop() === &#x27;pdf&#x27; ? (
+                                            &lt;object
+                                                className=&quot;object-center object-cover w-full h-full flex justify-center items-center&quot;
+                                                type=&quot;application/pdf&quot;
+                                                data={formUrl + &#x27;#toolbar=0&#x27;}
+                                                width=&quot;250&quot;
+                                            &gt;
+                                                &lt;img
+                                                    src={
+                                                        &#x27;https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png&#x27;
+                                                    }
+                                                    alt=&quot;PDF file icon&quot;
+                                                    className=&quot;w-1/2 h-1/2 object-contain object-center&quot;
+                                                /&gt;
+                                            &lt;/object&gt;
+                                        ) : (
+                                            &lt;img
+                                                className=&quot;w-full h-full object-contain object-center lg:w-full lg:h-full&quot;
+                                                src={formUrl}
+                                                alt={formUrl}
+                                            /&gt;
+                                        )}
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                                &lt;div className=&quot;right-side flex-1 flex flex-col lg:overflow-auto h-5/6 py-2 pl-2&quot;&gt;
+                                    &lt;Form
+                                        className=&quot;w-5/6&quot;
+                                        schema={formSchema}
+                                        uiSchema={uiSchema.current}
+                                        widgets={widgets.current}
+                                        fields={fields.current}
+                                        formData={result}
+                                        onChange={(data: any) =&gt; {
+                                            setResult(data.formData);
+                                            setPreview(false);
+                                        }}
+                                    /&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;flex w-full pb-4  text-center items-center justify-center object-center bg-white &quot;&gt;
+                                &lt;input
+                                    className=&quot;rounded-md checked:text-slate-500 &quot;
+                                    type=&quot;checkbox&quot;
+                                    checked={true}
+                                    disabled={true}
+                                /&gt;
+                                &lt;label className=&quot;text-gray-500 r&quot;&gt;我已核對所有資料&lt;/label&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;flex w-full items-center justify-center object-center bg-white  flex-wrap&quot;&gt;
+                                &lt;Form
+                                    schema={approvalSchema.current}
+                                    uiSchema={approvalUiSchema.current}
+                                    widgets={widgets.current}
+                                    fields={fields.current}
+                                    formData={approval}
+                                    onSubmit={onSubmit}
+                                /&gt;
+                                &lt;div className=&quot;flex gap-2 pt-0 items-center&quot;&gt;
+                                    {formUrl &amp;&amp; (
+                                        &lt;a
+                                            className=&quot; cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50&quot;
+                                            href={formUrl}
+                                            download={formSchema.title + &#x27;.png&#x27;}
+                                        &gt;
+                                            下載預覽
+                                        &lt;/a&gt;
+                                    )}
+                                    &lt;a
+                                        className=&quot; cursor-pointer p-[0.75rem] ml-2 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50&quot;
+                                        onClick={() =&gt; {
+                                            if (form_miniapp) {
+                                                onConfirm({
+                                                    filename: &#x27;&#x27;,
+                                                    target_folder_id: &#x27;&#x27;
+                                                });
+                                                setFilename(&#x27;&#x27;);
+                                            } else {
+                                                setVisiable(true);
+                                            }
+                                        }}
+                                    &gt;
+                                        提交
+                                    &lt;/a&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/main&gt;
+            &lt;/div&gt;
+            &lt;EditNewProjectModal
+                visable={visiable}
+                setMode={setMode}
+                movingDest={movingDest}
+                filename={filename}
+                setFilename={setFilename}
+                cancelClick={() =&gt; {
+                    setVisiable(false);
+                }}
+                confirmClick={(data: any) =&gt; {
+                    setVisiable(false);
+                    onConfirm({
+                        filename: filename,
+                        target_folder_id: movingDest?.id
+                    });
+                    setFilename(&#x27;&#x27;);
+                }}
+            /&gt;
+            &lt;FolderTreeForSelect
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: &#x27;&#x27;
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+export default FormApprovalView;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:4,&quot;text&quot;:&quot;result&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:4,&quot;text&quot;:&quot;setResult&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:4,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:4,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:22,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:16,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:24,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:4,&quot;text&quot;:&quot;widgets&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:4,&quot;text&quot;:&quot;fields&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:4,&quot;text&quot;:&quot;onSubmit&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:4,&quot;text&quot;:&quot;onConfirm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:4,&quot;text&quot;:&quot;setPreview&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:4,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:4,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:8,&quot;text&quot;:&quot;result&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:38,&quot;character&quot;:8,&quot;text&quot;:&quot;setResult&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:39,&quot;character&quot;:8,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:40,&quot;character&quot;:8,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:8,&quot;text&quot;:&quot;widgets&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:8,&quot;text&quot;:&quot;fields&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:46,&quot;character&quot;:8,&quot;text&quot;:&quot;onSubmit&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:8,&quot;text&quot;:&quot;onConfirm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:8,&quot;text&quot;:&quot;setPreview&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:8,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:8,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:63,&quot;character&quot;:12,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:71,&quot;character&quot;:20,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:34,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:83,&quot;character&quot;:45,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:121,&quot;character&quot;:59,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:49,&quot;text&quot;:&quot;widgets&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:122,&quot;character&quot;:57,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:123,&quot;character&quot;:48,&quot;text&quot;:&quot;fields&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:123,&quot;character&quot;:55,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:40,&quot;text&quot;:&quot;formData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:50,&quot;text&quot;:&quot;result&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:125,&quot;character&quot;:51,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:44,&quot;text&quot;:&quot;setResult&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:54,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:126,&quot;character&quot;:59,&quot;text&quot;:&quot;formData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:127,&quot;character&quot;:44,&quot;text&quot;:&quot;setPreview&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:143,&quot;character&quot;:59,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:144,&quot;character&quot;:63,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:45,&quot;text&quot;:&quot;widgets&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:145,&quot;character&quot;:53,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:44,&quot;text&quot;:&quot;fields&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:146,&quot;character&quot;:51,&quot;text&quot;:&quot;current&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:36,&quot;text&quot;:&quot;formData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:147,&quot;character&quot;:46,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:54,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:155,&quot;character&quot;:65,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:164,&quot;character&quot;:48,&quot;text&quot;:&quot;onConfirm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:48,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:189,&quot;character&quot;:20,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:31,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:20,&quot;text&quot;:&quot;setVisiable&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/new/form/schema/[id]/FormApprovalView.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:20,&quot;text&quot;:&quot;onConfirm&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

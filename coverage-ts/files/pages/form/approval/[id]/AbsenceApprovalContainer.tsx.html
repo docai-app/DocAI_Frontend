@@ -1,0 +1,255 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AbsenceApprovalContainer.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/form/approval/[id]/AbsenceApprovalContainer.tsx</td><td class="">83.65%</td><td class="">90%</td><td class="">318</td><td class="">266</td><td class="">52</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { useCallback, useEffect, useRef, useState } from &#x27;react&#x27;;
+import AbsenceApprovalView from &#x27;./AbsenceApprovalView&#x27;;
+import useAxios from &#x27;axios-hooks&#x27;;
+import Api from &#x27;../../../../apis/index&#x27;;
+import { useRouter } from &#x27;next/router&#x27;;
+import _get from &#x27;lodash/get&#x27;;
+import { FieldProps, WidgetProps } from &#x27;@rjsf/core&#x27;;
+import axios from &#x27;axios&#x27;;
+import useAlert from &#x27;../../../../hooks/useAlert&#x27;;
+
+const apiSetting = new Api();
+
+function AbsenceApprovalContainer() {
+    const router = useRouter();
+    const { setAlert } = useAlert();
+    const [formUrl, setFormUrl] = useState(&#x27;&#x27;);
+    const [result, setResult] = useState();
+    const [approval, setApproval] = useState({});
+    const [formSchema, setFormSchema] = useState({});
+    const [visable, setVisable] = useState(false);
+    const [extraData, setExtraData] = useState({});
+    const [documents, setDocuments] = useState([]);
+    const [signature_image_url, set_signature_image_url] = useState(&#x27;&#x27;);
+
+    const approvalButtonContainer = useCallback(
+        () =&gt; (
+            &lt;div className=&quot;flex gap-2&quot;&gt;
+                &lt;a
+                    className=&quot; cursor-pointer p-[0.75rem] rounded bg-red-600 text-white leading-none focus:ring-4 focus:ring-red-600/50&quot;
+                    // type=&quot;submit&quot;
+                    onClick={() =&gt; {
+                        setVisable(true);
+                        setApproval(&#x27;rejected&#x27;);
+                        // props.onChange(&#x27;rejected&#x27;);
+                    }}
+                &gt;
+                    拒絕
+                &lt;/a&gt;
+                &lt;a
+                    className=&quot; cursor-pointer p-[0.75rem] ml-4 rounded bg-green-600 text-white leading-none focus:ring-4 focus:ring-green-600/50&quot;
+                    // type=&quot;submit&quot;
+                    onClick={() =&gt; {
+                        setVisable(true);
+                        setApproval(&#x27;approved&#x27;);
+                        // props.onChange(&#x27;approved&#x27;);
+                    }}
+                &gt;
+                    批准並簽名
+                &lt;/a&gt;
+            &lt;/div&gt;
+        ),
+        []
+    );
+
+    const widgets = useRef({
+        TextWidget: (props: WidgetProps) =&gt; (
+            &lt;label&gt;
+                &lt;h3 className=&quot;font-bold&quot;&gt;{`${props.label}${props.required ? &#x27;*&#x27; : &#x27;&#x27;}`}&lt;/h3&gt;
+                &lt;input
+                    type=&quot;text&quot;
+                    value={props.value || &#x27;&#x27;}
+                    className=&quot;mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300 w-full&quot;
+                    onChange={(e) =&gt; {
+                        props.onChange(e.target.value);
+                    }}
+                /&gt;
+            &lt;/label&gt;
+        ),
+        CheckboxWidget: (props: WidgetProps) =&gt; (
+            &lt;label className=&quot;flex flex-row items-center&quot;&gt;
+                &lt;input
+                    className=&quot;rounded-md p-2 checked:text-slate-500 focus:ring-3 focus:ring-offset-0 focus:ring-slate-300 shadow&quot;
+                    type=&quot;checkbox&quot;
+                    checked={props.value || false}
+                    onChange={(e) =&gt; {
+                        props.onChange(e.target.checked);
+                    }}
+                /&gt;
+                &lt;div className=&quot;ml-1&quot;&gt;{props.label}&lt;/div&gt;
+            &lt;/label&gt;
+        )
+    });
+
+    const fields = useRef({
+        TitleField: (props: FieldProps) =&gt; (
+            &lt;div&gt;
+                &lt;h3 className=&quot;text-xl font-bold mb-2&quot;&gt;{props.title}&lt;/h3&gt;
+            &lt;/div&gt;
+        )
+    });
+
+    const approvalSchema = useRef({
+        type: &#x27;object&#x27;,
+        properties: {
+            approval: {
+                title: &#x27;&#x27;,
+                type: &#x27;string&#x27;
+            }
+        }
+    });
+    const uiSchema = useRef({
+        &#x27;ui:submitButtonOptions&#x27;: {
+            norender: true
+        }
+    });
+    const approvalUiSchema = useRef({
+        &#x27;ui:submitButtonOptions&#x27;: {
+            norender: true
+        },
+        approval: {
+            &#x27;ui:widget&#x27;: approvalButtonContainer
+        }
+    });
+
+    const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
+        apiSetting.FormSchema.getFormsSchemaById(`${router.query.form_schema_id}`),
+        { manual: true }
+    );
+
+    const [{ data: getAbsenceFormByApprovalIdData }, getAbsenceFormByApprovalId] = useAxios(&#x27;&#x27;, {
+        manual: true
+    });
+
+    const [{ data: updateFormApprovalStatusData }, updateFormApprovalStatus] = useAxios(
+        apiSetting.DocumentApproval.updateFormApprovalStatus(_get(router, &#x27;query.id&#x27;)),
+        {
+            manual: true
+        }
+    );
+
+    const [
+        { data: uploadData, loading: uploadLoading, error: uploadError, response: uploadResponse },
+        upload
+    ] = useAxios(apiSetting.Storage.uploadDirectly(), { manual: true });
+
+    const onSubmit = useCallback(
+        async (formData: any) =&gt; {
+            const { approval, remark, signature } = formData;
+            if (router.query.id) {
+                updateFormApprovalStatus({
+                    data: {
+                        approval_status: approval,
+                        remark: remark,
+                        signature: signature,
+                        signature_image_url: signature_image_url
+                    }
+                });
+            }
+            setDocuments([]);
+            set_signature_image_url(&#x27;&#x27;);
+        },
+        [router, signature_image_url, updateFormApprovalStatus]
+    );
+
+    useEffect(() =&gt; {
+        if (documents &amp;&amp; documents.length &gt; 0) {
+            const formData = new FormData();
+            for (const i of documents) {
+                formData.append(&#x27;file&#x27;, i);
+            }
+            upload({
+                data: formData
+            });
+        }
+    }, [documents]);
+
+    useEffect(() =&gt; {
+        if (uploadData &amp;&amp; uploadData.success === true) {
+            set_signature_image_url(uploadData.file_url);
+        } else if (uploadData &amp;&amp; uploadData.success === false) {
+            setAlert({ title: &#x27;Upload failed! Please try again!&#x27;, type: &#x27;error&#x27; });
+        }
+    }, [router, uploadData]);
+
+    useEffect(() =&gt; {
+        axios.defaults.headers.common[&#x27;authorization&#x27;] =
+            localStorage.getItem(&#x27;authorization&#x27;) || &#x27;&#x27;;
+        getFormsSchemaById();
+    }, [getFormsSchemaById]);
+
+    useEffect(() =&gt; {
+        if (router.query.id &amp;&amp; router.query.form_schema_id) {
+            getAbsenceFormByApprovalId(
+                apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
+            );
+            getFormsSchemaById();
+        }
+    }, [router, getAbsenceFormByApprovalId]);
+
+    useEffect(() =&gt; {
+        if (getAbsenceFormByApprovalIdData &amp;&amp; getAbsenceFormByApprovalIdData.success === true) {
+            setFormUrl(getAbsenceFormByApprovalIdData.absence_form.document.storage_url);
+            setResult(getAbsenceFormByApprovalIdData.absence_form.form_data.data);
+            setApproval({ remark: getAbsenceFormByApprovalIdData.absence_form?.remark || &#x27;&#x27; });
+        }
+    }, [getAbsenceFormByApprovalIdData]);
+
+    useEffect(() =&gt; {
+        if (getFormsSchemaByIdData &amp;&amp; getFormsSchemaByIdData.success === true) {
+            setFormSchema(getFormsSchemaByIdData.form_schema.form_schema);
+        }
+    }, [getFormsSchemaByIdData]);
+
+    useEffect(() =&gt; {
+        if (updateFormApprovalStatusData &amp;&amp; updateFormApprovalStatusData.success === true) {
+            setAlert({ title: &#x27;審批成功！&#x27;, type: &#x27;success&#x27; });
+            router.push(`/form/approval`);
+        }
+    }, [router, updateFormApprovalStatusData]);
+
+    return (
+        &lt;&gt;
+            &lt;AbsenceApprovalView
+                {...{
+                    formUrl,
+                    result,
+                    approval,
+                    formSchema,
+                    approvalSchema,
+                    uiSchema,
+                    approvalUiSchema,
+                    widgets,
+                    fields,
+                    onSubmit,
+                    visable,
+                    setVisable,
+                    extraData,
+                    setExtraData,
+                    setDocuments,
+                    uploadLoading
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+
+export default AbsenceApprovalContainer;
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:33,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:35,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:114,&quot;character&quot;:19,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:119,&quot;character&quot;:19,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:123,&quot;character&quot;:19,&quot;text&quot;:&quot;updateFormApprovalStatusData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:131,&quot;character&quot;:16,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:15,&quot;text&quot;:&quot;formData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:20,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:30,&quot;text&quot;:&quot;remark&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:137,&quot;character&quot;:38,&quot;text&quot;:&quot;signature&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:141,&quot;character&quot;:24,&quot;text&quot;:&quot;approval_status&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:141,&quot;character&quot;:41,&quot;text&quot;:&quot;approval&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:24,&quot;text&quot;:&quot;remark&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:32,&quot;text&quot;:&quot;remark&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:143,&quot;character&quot;:24,&quot;text&quot;:&quot;signature&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:143,&quot;character&quot;:35,&quot;text&quot;:&quot;signature&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:167,&quot;character&quot;:12,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:167,&quot;character&quot;:26,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:167,&quot;character&quot;:37,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:36,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:168,&quot;character&quot;:47,&quot;text&quot;:&quot;file_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:19,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:33,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:169,&quot;character&quot;:44,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:172,&quot;character&quot;:16,&quot;text&quot;:&quot;uploadData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:190,&quot;character&quot;:12,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:190,&quot;character&quot;:46,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:190,&quot;character&quot;:77,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:23,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:54,&quot;text&quot;:&quot;absence_form&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:67,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:191,&quot;character&quot;:76,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:22,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:53,&quot;text&quot;:&quot;absence_form&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:66,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:76,&quot;text&quot;:&quot;data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:26,&quot;text&quot;:&quot;remark&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:34,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:65,&quot;text&quot;:&quot;absence_form&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:79,&quot;text&quot;:&quot;remark&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:195,&quot;character&quot;:8,&quot;text&quot;:&quot;getAbsenceFormByApprovalIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:12,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:38,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:198,&quot;character&quot;:61,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:26,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:49,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:199,&quot;character&quot;:61,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:201,&quot;character&quot;:8,&quot;text&quot;:&quot;getFormsSchemaByIdData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:204,&quot;character&quot;:12,&quot;text&quot;:&quot;updateFormApprovalStatusData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:204,&quot;character&quot;:44,&quot;text&quot;:&quot;updateFormApprovalStatusData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:204,&quot;character&quot;:73,&quot;text&quot;:&quot;success&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/form/approval/[id]/AbsenceApprovalContainer.tsx&quot;,&quot;line&quot;:208,&quot;character&quot;:16,&quot;text&quot;:&quot;updateFormApprovalStatusData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

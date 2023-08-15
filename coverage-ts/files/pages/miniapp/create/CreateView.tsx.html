@@ -1,0 +1,290 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>CreateView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/miniapp/create/CreateView.tsx</td><td class="">83.52%</td><td class="">90%</td><td class="">352</td><td class="">294</td><td class="">58</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { PaperAirplaneIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import _ from &#x27;lodash&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../../apis&#x27;;
+import DocumentPath from &#x27;../../../components/common/Widget/DocumentPath&#x27;;
+import SingleActionModel from &#x27;../../../components/common/Widget/SingleActionModel&#x27;;
+import useAlert from &#x27;../../../hooks/useAlert&#x27;;
+
+interface CreateViewProps {
+    getTagFunctionsData: any;
+    getAllLabelsData: any;
+    schemasStatusReadyData: any;
+    updateMiniappHandler: any;
+    open: boolean;
+    setOpen: any;
+    miniAppData?: any;
+    actionContent: string;
+}
+const apiSetting = new Api();
+
+export default function MiniappView(props: CreateViewProps) {
+    const {
+        getTagFunctionsData,
+        getAllLabelsData,
+        schemasStatusReadyData,
+        updateMiniappHandler,
+        open,
+        setOpen,
+        miniAppData,
+        actionContent
+    } = props;
+
+    const { setAlert } = useAlert();
+    const [title, setTitle] = useState(&#x27;新增資源應用程序&#x27;);
+
+    const [name, setName] = useState(&#x27;&#x27;);
+    const [description, setDescription] = useState(&#x27;&#x27;);
+    const [form_schema_id, set_form_schema_id] = useState(&#x27;&#x27;);
+    const [function_name, set_function_name] = useState(&#x27;&#x27;);
+    const [tag_id, set_tag_id] = useState(&#x27;&#x27;);
+    const [target_folder_id, set_target_folder_id] = useState(&#x27;&#x27;);
+    const [needs_deep_understanding, set_needs_deep_understanding] = useState(false);
+
+    useEffect(() =&gt; {
+        if (miniAppData) {
+            setTitle(&#x27;更新資源應用程序&#x27;);
+
+            setName(miniAppData?.name);
+            setDescription(miniAppData?.description);
+            set_tag_id(miniAppData?.document_label_list[0]);
+            set_target_folder_id(miniAppData?.folder_id);
+            set_function_name(miniAppData?.app_function_list[0]);
+            set_needs_deep_understanding(showFormSchema(miniAppData?.app_function_list[0]));
+            set_form_schema_id(miniAppData?.meta?.form_schema_id);
+        }
+    }, [miniAppData]);
+
+    const selectTagFunction = (name: string) =&gt; {
+        // const targetFun = _.find(getTagFunctionsData?.functions, function (func) {
+        //     return func.id == id
+        // })
+        set_function_name(name);
+        set_needs_deep_understanding(showFormSchema(name));
+    };
+    const showFormSchema = (name: string) =&gt; {
+        return &#x27;form_understanding&#x27; === name || &#x27;form_filling&#x27; == name;
+    };
+
+    const validate = () =&gt; {
+        if (_.isEmpty(name)) {
+            setAlert({ title: &#x27;請填寫名稱&#x27;, type: &#x27;info&#x27; });
+            return false;
+        }
+        if (_.isEmpty(description)) {
+            setAlert({ title: &#x27;請填寫描述&#x27;, type: &#x27;info&#x27; });
+            return false;
+        }
+        if (_.isEmpty(target_folder_id)) {
+            setAlert({ title: &#x27;請選擇儲存路徑&#x27;, type: &#x27;info&#x27; });
+            return false;
+        }
+        if (needs_deep_understanding &amp;&amp; _.isEmpty(form_schema_id)) {
+            setAlert({ title: &#x27;請選擇表格深度理解的模型&#x27;, type: &#x27;info&#x27; });
+            return false;
+        }
+        return true;
+    };
+
+    const confirm = () =&gt; {
+        if (validate())
+            updateMiniappHandler({
+                name: name,
+                description: description,
+                form_schema_id: form_schema_id,
+                function_name: function_name,
+                tag_id: tag_id,
+                target_folder_id: target_folder_id,
+                needs_deep_understanding: needs_deep_understanding
+            });
+    };
+
+    return (
+        &lt;&gt;
+            &lt;SingleActionModel
+                open={open}
+                setOpen={setOpen}
+                title={&#x27;進行中......&#x27;}
+                content={actionContent}
+                icon={&lt;PaperAirplaneIcon className=&quot;h-6 w-6 text-green-600&quot; aria-hidden=&quot;true&quot; /&gt;}
+            /&gt;
+            &lt;div className=&quot;mx-auto max-w-7xl&quot;&gt;
+                &lt;div className=&quot;mx-auto max-w-7xl pb-12&quot;&gt;
+                    &lt;h2 className=&quot;text-2xl font-semibold leading-7 text-gray-900&quot;&gt;{title}&lt;/h2&gt;
+                    &lt;p className=&quot;mt-1 text-sm leading-6 text-gray-600&quot;&gt;
+                        快速構建可供使用的功能應用程序。
+                    &lt;/p&gt;
+                    &lt;div className=&quot;mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6&quot;&gt;
+                        &lt;div className=&quot;sm:col-span-6&quot;&gt;
+                            &lt;label className=&quot;block text-sm font-medium leading-6 text-gray-900&quot;&gt;
+                                名稱
+                            &lt;/label&gt;
+                            &lt;div className=&quot;mt-2&quot;&gt;
+                                &lt;input
+                                    id=&quot;name&quot;
+                                    type=&quot;text&quot;
+                                    name=&quot;name&quot;
+                                    defaultValue={name}
+                                    className=&quot;block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6&quot;
+                                    placeholder=&quot;應用程序名稱&quot;
+                                    onChange={(e) =&gt; {
+                                        setName(e.target.value);
+                                    }}
+                                /&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;col-span-full&quot;&gt;
+                            &lt;label className=&quot;block text-sm font-medium leading-6 text-gray-900&quot;&gt;
+                                描述
+                            &lt;/label&gt;
+                            &lt;div className=&quot;mt-2&quot;&gt;
+                                &lt;textarea
+                                    id=&quot;description&quot;
+                                    name=&quot;description&quot;
+                                    defaultValue={description}
+                                    className=&quot;block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6&quot;
+                                    placeholder=&quot;應用程序描述&quot;
+                                    onChange={(e) =&gt; {
+                                        setDescription(e.target.value);
+                                    }}
+                                &gt;&lt;/textarea&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;col-span-full&quot;&gt;
+                            &lt;DocumentPath
+                                modeType={&#x27;move&#x27;}
+                                target_folder_id={target_folder_id}
+                                set_target_folder_id={set_target_folder_id}
+                            /&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;sm:col-span-6&quot;&gt;
+                            &lt;label className=&quot;block text-sm font-medium leading-6 text-gray-900&quot;&gt;
+                                文件類別
+                            &lt;/label&gt;
+                            &lt;div className=&quot;mt-2&quot;&gt;
+                                &lt;select
+                                    id=&quot;tag&quot;
+                                    name=&quot;tag&quot;
+                                    className=&quot;block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600&quot;
+                                    value={tag_id}
+                                    onChange={(e) =&gt; {
+                                        set_tag_id(e.target.value);
+                                    }}
+                                &gt;
+                                    &lt;option value=&quot;&quot; disabled&gt;
+                                        請選擇類別
+                                    &lt;/option&gt;
+                                    {getAllLabelsData?.tags.map((tag: any, index: number) =&gt; {
+                                        return (
+                                            &lt;option key={index} value={tag.id}&gt;
+                                                {tag.name}
+                                            &lt;/option&gt;
+                                        );
+                                    })}
+                                &lt;/select&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;sm:col-span-6&quot;&gt;
+                            &lt;label className=&quot;block text-sm font-medium leading-6 text-gray-900&quot;&gt;
+                                應用程序功能
+                            &lt;/label&gt;
+                            &lt;div className=&quot;mt-2&quot;&gt;
+                                &lt;select
+                                    id=&quot;functions&quot;
+                                    name=&quot;functions&quot;
+                                    className=&quot;block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600&quot;
+                                    value={function_name}
+                                    onChange={(e) =&gt; {
+                                        selectTagFunction(e.target.value);
+                                    }}
+                                &gt;
+                                    &lt;option value=&quot;&quot; disabled&gt;
+                                        請選擇應用程序功能
+                                    &lt;/option&gt;
+                                    {getTagFunctionsData?.functions?.map(
+                                        (func: any, index: number) =&gt; {
+                                            // If function name is normal_approval, then skip it. Because the normal_approval logic is not ready yet.
+                                            if (func.name == &#x27;normal_approval&#x27;) {
+                                                return;
+                                            } else {
+                                                return (
+                                                    &lt;option key={index} value={func.name}&gt;
+                                                        {func.title}
+                                                    &lt;/option&gt;
+                                                );
+                                            }
+                                        }
+                                    )}
+                                &lt;/select&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div
+                            className={`${
+                                needs_deep_understanding
+                                    ? &#x27;sm:col-span-6 my-2&#x27;
+                                    : &#x27;sm:col-span-6 my-2 hidden&#x27;
+                            }`}
+                        &gt;
+                            &lt;label className=&quot;block text-sm font-medium leading-6 text-gray-900&quot;&gt;
+                                表格深度理解的模型
+                            &lt;/label&gt;
+                            &lt;div className=&quot;mt-2&quot;&gt;
+                                &lt;select
+                                    id=&quot;select_tag_function&quot;
+                                    name=&quot;select_tag_function&quot;
+                                    className=&quot;block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600&quot;
+                                    value={form_schema_id}
+                                    onChange={(e) =&gt; {
+                                        set_form_schema_id(e.target.value);
+                                    }}
+                                &gt;
+                                    &lt;option value=&quot;&quot; disabled&gt;
+                                        請選擇模型
+                                    &lt;/option&gt;
+                                    {schemasStatusReadyData?.form_schema?.map(
+                                        (schema: any, index: number) =&gt; {
+                                            return (
+                                                &lt;option key={index} value={schema.id}&gt;
+                                                    {schema.name}
+                                                &lt;/option&gt;
+                                            );
+                                        }
+                                    )}
+                                &lt;/select&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+
+                        &lt;div className=&quot;sm:col-span-6 flex justify-end&quot;&gt;
+                            &lt;button
+                                className=&quot; cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600&quot;
+                                onClick={() =&gt; {
+                                    confirm();
+                                }}
+                            &gt;
+                                確認
+                            &lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:4,&quot;text&quot;:&quot;getTagFunctionsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:4,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:11,&quot;character&quot;:4,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:4,&quot;text&quot;:&quot;updateMiniappHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:4,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:15,&quot;character&quot;:4,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:8,&quot;text&quot;:&quot;getTagFunctionsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:8,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:8,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:8,&quot;text&quot;:&quot;updateMiniappHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:8,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:8,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:44,&quot;character&quot;:12,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:20,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:33,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:27,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:40,&quot;text&quot;:&quot;description&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:23,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:49,&quot;character&quot;:36,&quot;text&quot;:&quot;document_label_list&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:33,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:50,&quot;character&quot;:46,&quot;text&quot;:&quot;folder_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:30,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:43,&quot;text&quot;:&quot;app_function_list&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:56,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:52,&quot;character&quot;:69,&quot;text&quot;:&quot;app_function_list&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:31,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:44,&quot;text&quot;:&quot;meta&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:53,&quot;character&quot;:50,&quot;text&quot;:&quot;form_schema_id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:55,&quot;character&quot;:8,&quot;text&quot;:&quot;miniAppData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:12,&quot;text&quot;:&quot;updateMiniappHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:16,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:25,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:37,&quot;text&quot;:&quot;getAllLabelsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:55,&quot;text&quot;:&quot;tags&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:60,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:65,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:178,&quot;character&quot;:71,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:178,&quot;character&quot;:75,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:179,&quot;character&quot;:49,&quot;text&quot;:&quot;tag&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:179,&quot;character&quot;:53,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:37,&quot;text&quot;:&quot;getTagFunctionsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:58,&quot;text&quot;:&quot;functions&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:203,&quot;character&quot;:69,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:204,&quot;character&quot;:41,&quot;text&quot;:&quot;func&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:206,&quot;character&quot;:48,&quot;text&quot;:&quot;func&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:206,&quot;character&quot;:53,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:79,&quot;text&quot;:&quot;func&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:84,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:211,&quot;character&quot;:57,&quot;text&quot;:&quot;func&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:211,&quot;character&quot;:62,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:243,&quot;character&quot;:37,&quot;text&quot;:&quot;schemasStatusReadyData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:243,&quot;character&quot;:61,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:243,&quot;character&quot;:74,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:244,&quot;character&quot;:41,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:246,&quot;character&quot;:75,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:246,&quot;character&quot;:82,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:247,&quot;character&quot;:53,&quot;text&quot;:&quot;schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/miniapp/create/CreateView.tsx&quot;,&quot;line&quot;:247,&quot;character&quot;:60,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

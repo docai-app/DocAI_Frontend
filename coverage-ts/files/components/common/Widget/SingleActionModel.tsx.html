@@ -1,0 +1,95 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>SingleActionModel.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">components/common/Widget/SingleActionModel.tsx</td><td class="">97.98%</td><td class="">90%</td><td class="">99</td><td class="">97</td><td class="">2</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">// components/common/Widget/SingleActionModel.tsx
+import { Fragment, ReactElement, useState } from &#x27;react&#x27;;
+import { Dialog, Transition } from &#x27;@headlessui/react&#x27;;
+import { CheckIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+
+interface SingleActionModelProps {
+    open: boolean;
+    setOpen: any;
+    title: string | undefined | null;
+    content: string | undefined | null;
+    icon: ReactElement | undefined | null;
+}
+
+export default function SingleActionModel(props: SingleActionModelProps) {
+    const {
+        open = false,
+        setOpen,
+        title = &#x27;&#x27;,
+        content = &#x27;&#x27;,
+        icon = &lt;CheckIcon className=&quot;h-6 w-6 text-green-600&quot; aria-hidden=&quot;true&quot; /&gt;
+    } = props;
+    return (
+        &lt;Transition.Root show={open} as={Fragment}&gt;
+            &lt;Dialog as=&quot;div&quot; className=&quot;fixed z-10 inset-0 overflow-y-auto&quot; onClose={setOpen}&gt;
+                &lt;div className=&quot;flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0&quot;&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0&quot;
+                        enterTo=&quot;opacity-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100&quot;
+                        leaveTo=&quot;opacity-0&quot;
+                    &gt;
+                        &lt;Dialog.Overlay className=&quot;fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity&quot; /&gt;
+                    &lt;/Transition.Child&gt;
+
+                    {/* This element is to trick the browser into centering the modal contents. */}
+                    &lt;span
+                        className=&quot;hidden sm:inline-block sm:align-middle sm:h-screen&quot;
+                        aria-hidden=&quot;true&quot;
+                    &gt;
+                        &amp;#8203;
+                    &lt;/span&gt;
+                    &lt;Transition.Child
+                        as={Fragment}
+                        enter=&quot;ease-out duration-300&quot;
+                        enterFrom=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                        enterTo=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leave=&quot;ease-in duration-200&quot;
+                        leaveFrom=&quot;opacity-100 translate-y-0 sm:scale-100&quot;
+                        leaveTo=&quot;opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95&quot;
+                    &gt;
+                        &lt;div className=&quot;relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6&quot;&gt;
+                            &lt;div&gt;
+                                &lt;div className=&quot;mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100&quot;&gt;
+                                    {icon}
+                                &lt;/div&gt;
+                                &lt;div className=&quot;mt-3 text-center sm:mt-5&quot;&gt;
+                                    &lt;Dialog.Title
+                                        as=&quot;h3&quot;
+                                        className=&quot;text-lg leading-6 font-medium text-gray-900&quot;
+                                    &gt;
+                                        {title}
+                                    &lt;/Dialog.Title&gt;
+                                    &lt;div className=&quot;mt-2&quot;&gt;
+                                        &lt;p className=&quot;text-sm text-gray-500&quot;&gt;{content}&lt;/p&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/Transition.Child&gt;
+                &lt;/div&gt;
+            &lt;/Dialog&gt;
+        &lt;/Transition.Root&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/common/Widget/SingleActionModel.tsx&quot;,&quot;line&quot;:7,&quot;character&quot;:4,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/SingleActionModel.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:8,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  
