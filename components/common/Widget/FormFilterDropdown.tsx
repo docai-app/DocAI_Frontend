@@ -111,7 +111,7 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
                                     widgets={widgets.current}
                                     fields={fields.current}
                                     onSubmit={(res) => {
-                                        setShowTitle(res.formData);
+                                        _.isString(res.formData) && setShowTitle(res.formData);
                                         Object.keys(res.formData).forEach((key) => {
                                             if (res.formData[key] === '') {
                                                 res.formData[key] = null;
