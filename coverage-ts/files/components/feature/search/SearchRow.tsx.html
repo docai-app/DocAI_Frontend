@@ -1,0 +1,110 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>SearchRow.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components/feature/search/SearchRow.tsx</td><td class="">64.86%</td><td class="">90%</td><td class="">111</td><td class="">72</td><td class="">39</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { useEffect, useState } from &#x27;react&#x27;;
+
+interface SearchRowProps {
+    document?: any;
+    setChecedkData?: any;
+    checked: boolean;
+    setDocument?: any;
+}
+export default function SearchRow(props: SearchRowProps) {
+    const { document, setChecedkData, checked, setDocument } = props;
+
+    const [visable, setVisable] = useState(false);
+
+    useEffect(() =&gt; {
+        if (!checked) setVisable(false);
+    }, [checked]);
+
+    const onMouseEnter = () =&gt; {
+        if (checked) return;
+        setVisable(true);
+    };
+    const onMouseLeave = () =&gt; {
+        if (checked) return;
+        setVisable(false);
+    };
+    const check = (e: any) =&gt; {
+        setChecedkData(e.target.checked, e.target.value);
+        setDocument(document);
+    };
+
+    return (
+        &lt;&gt;
+            &lt;div
+                key={document.id}
+                className={`group relative flex flex-col justify-start items-center p-4 rounded-md hover:bg-gray-100 ${
+                    checked &amp;&amp; &#x27;bg-gray-100&#x27;
+                }`}
+                onMouseEnter={() =&gt; {
+                    onMouseEnter();
+                }}
+                onMouseLeave={() =&gt; {
+                    onMouseLeave();
+                }}
+            &gt;
+                {(visable || checked) &amp;&amp; (
+                    &lt;input
+                        type={&#x27;radio&#x27;}
+                        value={document.id}
+                        name=&quot;document&quot;
+                        className=&quot; absolute top-2 right-2&quot;
+                        onChange={(e) =&gt; {
+                            check(e);
+                        }}
+                    /&gt;
+                )}
+                &lt;div className=&quot;w-3/4 h-60 rounded-md overflow-hidden group-hover:opacity-75&quot;&gt;
+                    {document.storage_url.split(/[#?]/)[0].split(&#x27;.&#x27;).pop().trim() === &#x27;pdf&#x27; ? (
+                        &lt;object
+                            className=&quot;w-full h-full object-center object-contain&quot;
+                            type=&quot;application/pdf&quot;
+                            data={document.storage_url + &#x27;#toolbar=0&#x27;}
+                        &gt;
+                            &lt;img
+                                src={
+                                    &#x27;https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png&#x27;
+                                }
+                                alt=&quot;PDF file icon&quot;
+                                className=&quot;w-full h-full object-contain object-center&quot;
+                            /&gt;
+                        &lt;/object&gt;
+                    ) : (
+                        &lt;img
+                            src={document.storage_url}
+                            alt={document.name}
+                            className=&quot;w-full h-full object-contain object-center&quot;
+                        /&gt;
+                    )}
+                &lt;/div&gt;
+                &lt;div className=&quot;mt-2 flex justify-center items-center&quot;&gt;
+                    &lt;a href={document.storage_url} className=&quot;text-center&quot;&gt;
+                        &lt;p className=&quot;relative text-gray-900 text-center text-sm&quot;&gt;
+                            {document.name}
+                        &lt;/p&gt;
+                        &lt;p className=&quot;relative text-gray-400  text-center text-xs&quot;&gt;
+                            {document.created_at.split(&#x27;T&#x27;)[0]}
+                        &lt;/p&gt;
+                    &lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:4,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:4,&quot;character&quot;:4,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:6,&quot;character&quot;:4,&quot;text&quot;:&quot;setDocument&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:12,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:22,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:47,&quot;text&quot;:&quot;setDocument&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:19,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:8,&quot;text&quot;:&quot;setChecedkData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:23,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:25,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:32,&quot;text&quot;:&quot;checked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:41,&quot;text&quot;:&quot;e&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:43,&quot;text&quot;:&quot;target&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:50,&quot;text&quot;:&quot;value&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:8,&quot;text&quot;:&quot;setDocument&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:20,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:21,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:30,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:31,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:47,&quot;character&quot;:40,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:21,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:30,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:42,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:59,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:70,&quot;text&quot;:&quot;pop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:56,&quot;character&quot;:76,&quot;text&quot;:&quot;trim&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:34,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:60,&quot;character&quot;:43,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:33,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:72,&quot;character&quot;:42,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:33,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:73,&quot;character&quot;:42,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:29,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:79,&quot;character&quot;:38,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:29,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:81,&quot;character&quot;:38,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:29,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:38,&quot;text&quot;:&quot;created_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/search/SearchRow.tsx&quot;,&quot;line&quot;:84,&quot;character&quot;:49,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

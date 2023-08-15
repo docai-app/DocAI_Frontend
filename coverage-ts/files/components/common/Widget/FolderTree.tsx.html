@@ -1,0 +1,142 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>FolderTree.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="positive"><td class="">components/common/Widget/FolderTree.tsx</td><td class="">97.14%</td><td class="">90%</td><td class="">175</td><td class="">170</td><td class="">5</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import {
+    ChevronDownIcon,
+    ChevronRightIcon,
+    FolderIcon,
+    FolderOpenIcon
+} from &#x27;@heroicons/react/20/solid&#x27;;
+import useAxios from &#x27;axios-hooks&#x27;;
+import { Dispatch, SetStateAction, useEffect, useState } from &#x27;react&#x27;;
+import Api from &#x27;../../../apis&#x27;;
+
+export interface Folder {
+    id: string;
+    name: string;
+    folders?: Folder[];
+    movingDest: Folder | null;
+    setMovingDest: Dispatch&lt;SetStateAction&lt;Folder | null&gt;&gt;;
+    expanded: boolean;
+}
+
+interface FolderTreeProps {
+    movingDest: Folder | null;
+    setMovingDest: Dispatch&lt;SetStateAction&lt;Folder | null&gt;&gt;;
+    folders?: Folder[];
+    expanded: boolean;
+}
+
+const apiSetting = new Api();
+
+function Folder(props: Folder) {
+    const [folder, setFolder] = useState(props);
+    const [expanded, setExpanded] = useState(props.expanded);
+    const [
+        { data: showAllFolderItemsData, loading: showAllFolderItemsLoading },
+        showAllFolderItems
+    ] = useAxios({}, { manual: true });
+
+    useEffect(() =&gt; {
+        if (expanded) {
+            if (folder.id !== &#x27;&#x27;)
+                showAllFolderItems(apiSetting.Drive.showAllFolderItems(folder.id));
+            else showAllFolderItems(apiSetting.Drive.showAllRootItems());
+        }
+    }, [expanded, folder.id, showAllFolderItems]);
+
+    useEffect(() =&gt; {
+        if (showAllFolderItemsData) {
+            setFolder((p) =&gt; ({
+                ...p,
+                folders: showAllFolderItemsData.folders
+            }));
+        }
+    }, [showAllFolderItemsData]);
+
+    return (
+        &lt;div className=&quot;pl-5&quot;&gt;
+            &lt;div
+                className={`flex items-center pl-5 relative text-gray-400 rounded-lg cursor-pointer${
+                    folder.id === props.movingDest?.id ? &#x27; bg-indigo-100&#x27; : &#x27;&#x27;
+                }`}
+            &gt;
+                {expanded ? (
+                    !(!showAllFolderItemsLoading &amp;&amp; folder.folders?.length === 0) &amp;&amp; (
+                        &lt;ChevronDownIcon
+                            onClick={() =&gt; setExpanded(!expanded)}
+                            className=&quot;h-5 -left-0 cursor-pointer absolute&quot;
+                        /&gt;
+                    )
+                ) : (
+                    &lt;ChevronRightIcon
+                        onClick={() =&gt; setExpanded(!expanded)}
+                        className=&quot;h-5 -left-0 cursor-pointer absolute&quot;
+                    /&gt;
+                )}
+                {expanded ? &lt;FolderOpenIcon className=&quot;h-5&quot; /&gt; : &lt;FolderIcon className=&quot;h-5&quot; /&gt;}
+                &lt;h3
+                    className=&quot;ml-2 py-2 flex-grow text-black&quot;
+                    onClick={() =&gt; folder.setMovingDest(folder)}
+                &gt;
+                    {folder.name}
+                &lt;/h3&gt;
+            &lt;/div&gt;
+            {expanded &amp;&amp; folder.folders &amp;&amp; (
+                &lt;FolderTree
+                    movingDest={props.movingDest}
+                    setMovingDest={props.setMovingDest}
+                    folders={folder.folders}
+                    expanded={false}
+                /&gt;
+            )}
+        &lt;/div&gt;
+    );
+}
+
+export default function FolderTree(props: FolderTreeProps) {
+    const [folders, setFolders] = useState(props.folders);
+    return (
+        &lt;div&gt;
+            {folders ? (
+                folders.map((folder) =&gt; {
+                    return (
+                        &lt;Folder
+                            key={folder.id}
+                            {...{
+                                ...folder,
+                                movingDest: props.movingDest,
+                                setMovingDest: props.setMovingDest,
+                                expanded: props.expanded
+                            }}
+                        /&gt;
+                    );
+                })
+            ) : (
+                &lt;Folder
+                    key=&quot;root&quot;
+                    movingDest={props.movingDest}
+                    setMovingDest={props.setMovingDest}
+                    expanded={props.expanded}
+                    name=&quot;Root&quot;
+                    id=&quot;&quot;
+                /&gt;
+            )}
+        &lt;/div&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/common/Widget/FolderTree.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:16,&quot;text&quot;:&quot;showAllFolderItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/FolderTree.tsx&quot;,&quot;line&quot;:45,&quot;character&quot;:12,&quot;text&quot;:&quot;showAllFolderItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/FolderTree.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:25,&quot;text&quot;:&quot;showAllFolderItemsData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/FolderTree.tsx&quot;,&quot;line&quot;:48,&quot;character&quot;:48,&quot;text&quot;:&quot;folders&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/common/Widget/FolderTree.tsx&quot;,&quot;line&quot;:51,&quot;character&quot;:8,&quot;text&quot;:&quot;showAllFolderItemsData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

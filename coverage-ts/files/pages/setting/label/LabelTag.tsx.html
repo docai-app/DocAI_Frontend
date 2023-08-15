@@ -1,0 +1,121 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>LabelTag.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/setting/label/LabelTag.tsx</td><td class="">63.93%</td><td class="">90%</td><td class="">61</td><td class="">39</td><td class="">22</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { EyeIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import _ from &#x27;lodash&#x27;;
+
+export default function LabelTag({ label, updateLabelNameByIdHandler, unCheck, onEdit }: any) {
+    return (
+        &lt;&gt;
+            &lt;tr&gt;
+                &lt;td className=&quot;pt-1&quot;&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr key={label?.id} className=&quot;rounded-md bg-white border border-gray-200&quot;&gt;
+                &lt;td className=&quot;pl-4&quot;&gt;{label?.name}&lt;/td&gt;
+                {/* &lt;td className=&quot;&quot;&gt;{&#x27;普通文檔&#x27;}&lt;/td&gt; */}
+                &lt;td className=&quot;&quot;&gt;{_.join(_.map(label?.functions, &#x27;title&#x27;), &#x27;, &#x27;)}&lt;/td&gt;
+                &lt;td className=&quot;flex flex-row justify-center&quot;&gt;
+                    &lt;a
+                        className=&quot;w-10 cursor-pointer h-full items-center justify-center text-center&quot;
+                        // href={`/classification/${label?.id}?name=${label?.name}`}
+                        href={`/search?content=&amp;tag_id=${label?.id}&amp;from=&amp;to=`}
+                    &gt;
+                        &lt;EyeIcon className=&quot;p-2 text-indigo-500 &quot; /&gt;
+                    &lt;/a&gt;
+                    &lt;a
+                        className=&quot; cursor-pointer p-3 leading-none text-indigo-500 &quot;
+                        onClick={() =&gt; {
+                            onEdit(label);
+                        }}
+                    &gt;
+                        編輯
+                    &lt;/a&gt;
+                    {label &amp;&amp; !label?.is_checked &amp;&amp; (
+                        &lt;button
+                            className=&quot; my-1 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md&quot;
+                            onClick={() =&gt; {
+                                updateLabelNameByIdHandler(label.id, label?.name, true);
+                            }}
+                        &gt;
+                            加到名單
+                        &lt;/button&gt;
+                    )}
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/&gt;
+        // &lt;form
+        //     onSubmit={(e) =&gt; {
+        //         e.preventDefault();
+        //         const formData = new FormData(e.currentTarget);
+        //         const newName = formData.get(&#x27;name&#x27;);
+        //         if (newName !== label?.name) {
+        //             updateLabelNameByIdHandler(label?.id, newName);
+        //         }
+        //         setReadOnly(true);
+        //     }}
+        //     key={label?.id}
+        //     className=&quot;flex  flex-row  max-w-2xl&quot;
+        // &gt;
+        //     &lt;div className=&quot;flex flex-row  w-4/5 rounded-md bg-white border border-gray-200&quot;&gt;
+        //         &lt;input
+        //             ref={inputRef}
+        //             type=&quot;text&quot;
+        //             name=&quot;name&quot;
+        //             defaultValue={label?.name}
+        //             readOnly={readOnly}
+        //             className=&quot;flex-1 p-2 border-0   shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300&quot;
+        //         /&gt;
+        //         {readOnly ? (
+        //             &lt;div className=&quot;flex-0 flex flex-row items-center&quot;&gt;
+        //                 &lt;a
+        //                     className=&quot;w-10 cursor-pointer h-full items-center justify-center text-center&quot;
+        //                     href={`/classification/${label?.id}?name=${label?.name}`}
+        //                 &gt;
+        //                     &lt;EyeIcon className=&quot;p-2 text-indigo-500 &quot; /&gt;
+        //                 &lt;/a&gt;
+
+        //                 &lt;a
+        //                     className=&quot; cursor-pointer p-3 leading-none text-indigo-500 &quot;
+        //                     onClick={() =&gt; {
+        //                         if (inputRef.current) inputRef.current.focus();
+        //                         setReadOnly(false);
+        //                     }}
+        //                 &gt;
+        //                     編輯
+        //                 &lt;/a&gt;
+        //             &lt;/div&gt;
+        //         ) : (
+        //             &lt;button
+        //                 className=&quot;p-3 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-tr-md rounded-br-md&quot;
+        //                 type=&quot;submit&quot;
+        //             &gt;
+        //                 確認
+        //             &lt;/button&gt;
+        //         )}
+        //     &lt;/div&gt;
+        //     {unCheck &amp;&amp; (
+        //         &lt;button
+        //             className=&quot;ml-4 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md&quot;
+        //             type=&quot;submit&quot;
+        //         &gt;
+        //             加到名單
+        //         &lt;/button&gt;
+        //     )}
+        // &lt;/form&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:35,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:42,&quot;text&quot;:&quot;updateLabelNameByIdHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:70,&quot;text&quot;:&quot;unCheck&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:3,&quot;character&quot;:79,&quot;text&quot;:&quot;onEdit&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:21,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:9,&quot;character&quot;:28,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:38,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:10,&quot;character&quot;:45,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:47,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:12,&quot;character&quot;:54,&quot;text&quot;:&quot;functions&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:57,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:17,&quot;character&quot;:64,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:28,&quot;text&quot;:&quot;onEdit&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:35,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:21,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:31,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:38,&quot;text&quot;:&quot;is_checked&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:32,&quot;text&quot;:&quot;updateLabelNameByIdHandler&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:59,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:65,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:69,&quot;text&quot;:&quot;label&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/setting/label/LabelTag.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:76,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

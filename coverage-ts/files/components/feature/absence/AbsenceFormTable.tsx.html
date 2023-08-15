@@ -1,0 +1,148 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>AbsenceFormTable.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">components/feature/absence/AbsenceFormTable.tsx</td><td class="">78.48%</td><td class="">90%</td><td class="">158</td><td class="">124</td><td class="">34</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import React, { useCallback, useEffect } from &#x27;react&#x27;;
+import _get from &#x27;lodash/get&#x27;;
+import _findKey from &#x27;lodash/findKey&#x27;;
+
+const people = [
+    {
+        name: &#x27;Lindsay Walton&#x27;,
+        title: &#x27;Front-end Developer&#x27;,
+        email: &#x27;lindsay.walton@example.com&#x27;,
+        role: &#x27;Member&#x27;
+    }
+];
+
+interface AbsenceFormsProps {
+    form_data: any;
+}
+
+interface AbsenceFormTableProps {
+    absenceForms: AbsenceFormsProps;
+}
+
+export default function AbsenceFormTable(props: AbsenceFormTableProps) {
+    const { absenceForms } = props;
+    const getTypeOfAbsence = useCallback((typeOfAbsence: any, formSchema: any) =&gt; {
+        for (const key in typeOfAbsence) {
+            if (typeOfAbsence[key] === true) {
+                return formSchema.form_schema.form_schema.properties.type_of_absence.properties[key]
+                    .title;
+            }
+        }
+    }, []);
+    const getTypeOfLeave = useCallback((typeOfLeave: any, formSchema: any) =&gt; {
+        for (const key in typeOfLeave) {
+            if (typeOfLeave[key] === true) {
+                return formSchema.form_schema.properties.type_of_leave.properties[key].title;
+            }
+        }
+    }, []);
+
+    return (
+        &lt;div className=&quot;px-4 sm:px-6 lg:px-8&quot;&gt;
+            &lt;div className=&quot;sm:flex sm:items-center&quot;&gt;
+                &lt;div className=&quot;sm:flex-auto&quot;&gt;
+                    &lt;h1 className=&quot;text-xl font-semibold text-gray-900&quot;&gt;請假表&lt;/h1&gt;
+                    &lt;p className=&quot;mt-2 text-sm text-gray-700&quot;&gt;
+                        系統根據您所選擇的日期來查詢所有員工的請假表，包括他們的姓名、請假理由、請假類型和假期類型。
+                    &lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div className=&quot;mt-8 flex flex-col&quot;&gt;
+                &lt;div className=&quot;-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8&quot;&gt;
+                    &lt;div className=&quot;inline-block min-w-full py-2 align-middle md:px-6 lg:px-8&quot;&gt;
+                        &lt;div className=&quot;overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg&quot;&gt;
+                            &lt;table className=&quot;min-w-full divide-y divide-gray-300&quot;&gt;
+                                &lt;thead className=&quot;bg-gray-50&quot;&gt;
+                                    &lt;tr&gt;
+                                        &lt;th
+                                            scope=&quot;col&quot;
+                                            className=&quot;py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6&quot;
+                                        &gt;
+                                            員工姓名
+                                        &lt;/th&gt;
+                                        &lt;th
+                                            scope=&quot;col&quot;
+                                            className=&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900&quot;
+                                        &gt;
+                                            請假理由
+                                        &lt;/th&gt;
+                                        &lt;th
+                                            scope=&quot;col&quot;
+                                            className=&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900&quot;
+                                        &gt;
+                                            請假類型
+                                        &lt;/th&gt;
+                                        &lt;th
+                                            scope=&quot;col&quot;
+                                            className=&quot;px-3 py-3.5 text-left text-sm font-semibold text-gray-900&quot;
+                                        &gt;
+                                            假期類型
+                                        &lt;/th&gt;
+                                        &lt;th
+                                            scope=&quot;col&quot;
+                                            className=&quot;relative py-3.5 pl-3 pr-4 sm:pr-6&quot;
+                                        &gt;
+                                            &lt;span className=&quot;sr-only&quot;&gt;下載&lt;/span&gt;
+                                        &lt;/th&gt;
+                                    &lt;/tr&gt;
+                                &lt;/thead&gt;
+                                &lt;tbody className=&quot;divide-y divide-gray-200 bg-white&quot;&gt;
+                                    {absenceForms.form_data.map((absenceForm: any) =&gt; (
+                                        &lt;tr key={absenceForm.id}&gt;
+                                            &lt;td className=&quot;whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6&quot;&gt;
+                                                {_get(absenceForm, &#x27;data.employee_name&#x27;)}
+                                            &lt;/td&gt;
+                                            &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                                                {_get(absenceForm, &#x27;data.reason_of_absence&#x27;)}
+                                            &lt;/td&gt;
+                                            &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                                                {getTypeOfAbsence(
+                                                    _get(absenceForm, &#x27;data.type_of_absence&#x27;),
+                                                    _get(absenceForm, &#x27;form_schema&#x27;)
+                                                )}
+                                            &lt;/td&gt;
+                                            &lt;td className=&quot;whitespace-nowrap px-3 py-4 text-sm text-gray-500&quot;&gt;
+                                                {getTypeOfLeave(
+                                                    _get(absenceForm, &#x27;data.type_of_leave&#x27;),
+                                                    _get(absenceForm, &#x27;form_schema&#x27;)
+                                                )}
+                                            &lt;/td&gt;
+                                            &lt;td className=&quot;relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6&quot;&gt;
+                                                &lt;a
+                                                    href={_get(absenceForm, &#x27;document.storage_url&#x27;)}
+                                                    className=&quot;text-indigo-600 hover:text-indigo-900&quot;
+                                                    target=&quot;_blank&quot;
+                                                    rel=&quot;noreferrer&quot;
+                                                &gt;
+                                                    下載
+                                                &lt;/a&gt;
+                                            &lt;/td&gt;
+                                        &lt;/tr&gt;
+                                    ))}
+                                &lt;/tbody&gt;
+                            &lt;/table&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:4,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:42,&quot;text&quot;:&quot;typeOfAbsence&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:23,&quot;character&quot;:62,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:24,&quot;character&quot;:26,&quot;text&quot;:&quot;typeOfAbsence&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:25,&quot;character&quot;:16,&quot;text&quot;:&quot;typeOfAbsence&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:23,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:34,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:46,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:58,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:69,&quot;text&quot;:&quot;type_of_absence&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:26,&quot;character&quot;:85,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:27,&quot;character&quot;:21,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:40,&quot;text&quot;:&quot;typeOfLeave&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:58,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:32,&quot;character&quot;:26,&quot;text&quot;:&quot;typeOfLeave&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:16,&quot;text&quot;:&quot;typeOfLeave&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:23,&quot;text&quot;:&quot;formSchema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:34,&quot;text&quot;:&quot;form_schema&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:46,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:57,&quot;text&quot;:&quot;type_of_leave&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:71,&quot;text&quot;:&quot;properties&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:87,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:50,&quot;text&quot;:&quot;form_data&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:60,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:89,&quot;character&quot;:65,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:49,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:90,&quot;character&quot;:61,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:92,&quot;character&quot;:54,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:95,&quot;character&quot;:54,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:99,&quot;character&quot;:57,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:100,&quot;character&quot;:57,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:105,&quot;character&quot;:57,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:106,&quot;character&quot;:57,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;components/feature/absence/AbsenceFormTable.tsx&quot;,&quot;line&quot;:111,&quot;character&quot;:63,&quot;text&quot;:&quot;absenceForm&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

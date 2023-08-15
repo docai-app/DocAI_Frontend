@@ -1,0 +1,518 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>GenerateView.tsx</title>
+      <link href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" type="text/css" rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/mode/javascript/javascript.min.js" type="text/javascript" charset="utf-8"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.2/codemirror.min.css" type="text/css" rel="stylesheet">
+<script src="../../../assets/source-file.js" type="text/javascript" charset="utf-8"></script>
+<link href="../../../assets/source-file.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <div style="margin-top:3em" class="ui container"><h1 class="ui header"><a href="../../../index.html">TypeScript coverage report</a></h1><table style="margin-top:2em" class="ui celled table"><thead class=""><tr class=""><th class="">Filename</th><th class="">Percent</th><th class="">Threshold</th><th class="">Total</th><th class="">Covered</th><th class="">Uncovered</th></tr></thead><tbody class=""><tr class="negative"><td class="">pages/generate/GenerateView.tsx</td><td class="">88.04%</td><td class="">90%</td><td class="">552</td><td class="">486</td><td class="">66</td></tr></tbody></table><textarea id="editor" readonly="" style="margin-top:3em">import { PaperAirplaneIcon } from &#x27;@heroicons/react/20/solid&#x27;;
+import { PaperClipIcon } from &#x27;@heroicons/react/24/outline&#x27;;
+import copy from &#x27;copy-to-clipboard&#x27;;
+import { useEffect, useState } from &#x27;react&#x27;;
+import { Folder } from &#x27;../../components/common/Widget/FolderTree&#x27;;
+import FolderTreeForSelect from &#x27;../../components/common/Widget/FolderTreeForSelect&#x27;;
+import MyDateDropdown from &#x27;../../components/common/Widget/MyDateDropdown&#x27;;
+import SingleActionModel from &#x27;../../components/common/Widget/SingleActionModel&#x27;;
+import SaveDocumentModal from &#x27;../../components/feature/generate/SaveDocumentModal&#x27;;
+import GenerateLogRow from &#x27;../../components/feature/generate/TogRow&#x27;;
+
+interface GenerateViewProps {
+    documents_items: any[];
+    setDocumentsItems: any;
+    handleQuery: any;
+    open: boolean;
+    setOpen: any;
+    generateContent: string;
+    setGenerateContent: any;
+    setAlert: any;
+    logs?: any;
+    modalDescription: any;
+    handleUploadGeneratedData: any;
+}
+
+export default function GenerateView(props: GenerateViewProps) {
+    const {
+        documents_items,
+        setDocumentsItems,
+        handleQuery,
+        open,
+        setOpen,
+        generateContent = &#x27;&#x27;,
+        setGenerateContent,
+        setAlert,
+        logs,
+        modalDescription,
+        handleUploadGeneratedData
+    } = props;
+    const [content, setContent] = useState(&#x27;&#x27;);
+
+    const [visable, setVisible] = useState(false);
+    const [mode, setMode] = useState(&#x27;&#x27;);
+    const [movingDest, setMovingDest] = useState&lt;Folder | null&gt;(null);
+    const [data, setData] = useState({
+        filename: &#x27;&#x27;,
+        target_folder_id: &#x27;&#x27;,
+        content: &#x27;&#x27;
+    });
+
+    useEffect(() =&gt; {
+        if (movingDest?.id) {
+            setVisible(true);
+            console.log(movingDest);
+            setData({
+                ...data,
+                target_folder_id: movingDest?.id
+            });
+        }
+    }, [movingDest]);
+
+    const formats = [
+        {
+            name: &#x27;郵件&#x27;,
+            value: &#x27;email&#x27;
+        },
+        {
+            name: &#x27;即時通訊&#x27;,
+            value: &#x27;instant message&#x27;
+        },
+        {
+            name: &#x27;信函&#x27;,
+            value: &#x27;letter&#x27;
+        }
+    ];
+    const topics = [
+        {
+            name: &#x27;人力資源&#x27;,
+            value: &#x27;human resource&#x27;
+        },
+        {
+            name: &#x27;客戶服務&#x27;,
+            value: &#x27;customer service&#x27;
+        },
+        {
+            name: &#x27;技術服務&#x27;,
+            value: &#x27;technical service&#x27;
+        },
+        {
+            name: &#x27;行政事務&#x27;,
+            value: &#x27;administrative affairs&#x27;
+        }
+    ];
+    const languages = [
+        {
+            name: &#x27;中文(繁體)&#x27;,
+            value: &#x27;Traditional Chinese 🇭🇰&#x27;
+        },
+        {
+            name: &#x27;中文(简体)&#x27;,
+            value: &#x27;Simplified Chinese 🇨🇳&#x27;
+        },
+        {
+            name: &#x27;English&#x27;,
+            value: &#x27;English 🇺🇸&#x27;
+        }
+    ];
+
+    const styles = [
+        {
+            name: &#x27;正式&#x27;,
+            value: &#x27;formal&#x27;
+        },
+        {
+            name: &#x27;輕鬆&#x27;,
+            value: &#x27;casual&#x27;
+        }
+    ];
+
+    const [format, setFormat] = useState(formats[0]);
+    const [language, setLanguage] = useState(languages[0].value);
+    const [topic, setTopic] = useState(topics[0]);
+    const [style, setStyle] = useState(styles[0].value);
+
+    const onSwitchFormat = (item: any) =&gt; {
+        setFormat(item);
+    };
+
+    const onSwitchTopic = (item: any) =&gt; {
+        setTopic(item);
+    };
+
+    const submit = () =&gt; {
+        if (content == &#x27;&#x27;) {
+            setAlert({ title: &#x27;請填寫內容&#x27;, type: &#x27;info&#x27; });
+        } else {
+            handleQuery(content, format.value, language, topic.value, style);
+        }
+    };
+
+    const deleteIds = (id: string) =&gt; {
+        // setDocumentsItems
+        setDocumentsItems(documents_items.filter((item: any) =&gt; item.id !== id));
+    };
+    return (
+        &lt;&gt;
+            &lt;SingleActionModel
+                {...{
+                    open,
+                    setOpen,
+                    title: modalDescription?.title,
+                    content: modalDescription?.content,
+                    icon: (
+                        &lt;PaperAirplaneIcon className=&quot;h-6 w-6 text-green-600&quot; aria-hidden=&quot;true&quot; /&gt;
+                    )
+                }}
+            /&gt;
+            &lt;div className=&quot;min-h-full&quot;&gt;
+                &lt;header className=&quot;bg-white&quot;&gt;
+                    &lt;div className=&quot;max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8&quot;&gt;
+                        &lt;h1 className=&quot;text-3xl font-bold text-gray-900&quot;&gt;智能生成內容&lt;/h1&gt;
+                    &lt;/div&gt;
+                &lt;/header&gt;
+                &lt;div className=&quot;max-w-7xl mx-auto py-0 px-4&quot;&gt;
+                    &lt;div className=&quot;px-4 pb-4 sm:px-0&quot;&gt;
+                        &lt;div className=&quot;flex justify-start md:items-start flex-col md:flex-row p-0 border-0 border-dashed border-gray-200 bg-white h-60vh&quot;&gt;
+                            &lt;div className=&quot;w-2/5 h-full p-4 left-side flex justify-start items-start object-contain object-center&quot;&gt;
+                                &lt;div className=&quot;w-full md:w-full h-full border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover&quot;&gt;
+                                    {documents_items &amp;&amp; documents_items.length === 1 ? (
+                                        &lt;&gt;
+                                            {documents_items[0].storage_url?.split(&#x27;.&#x27;).pop() ===
+                                            &#x27;pdf&#x27; ? (
+                                                &lt;object
+                                                    className=&quot;object-center object-cover w-full h-full flex justify-center items-center&quot;
+                                                    type=&quot;application/pdf&quot;
+                                                    data={
+                                                        documents_items[0]?.storage_url +
+                                                        &#x27;#toolbar=0&#x27;
+                                                    }
+                                                    width=&quot;250&quot;
+                                                &gt;
+                                                    &lt;img
+                                                        src={
+                                                            &#x27;https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png&#x27;
+                                                        }
+                                                        alt=&quot;PDF file icon&quot;
+                                                        className=&quot;w-1/2 h-1/2 object-contain object-center&quot;
+                                                    /&gt;
+                                                &lt;/object&gt;
+                                            ) : (
+                                                &lt;img
+                                                    className=&quot;w-full h-full object-contain object-center lg:w-full lg:h-full&quot;
+                                                    src={documents_items[0]?.storage_url}
+                                                    alt={documents_items[0]?.storage_url}
+                                                /&gt;
+                                            )}
+                                        &lt;/&gt;
+                                    ) : (
+                                        &lt;&gt;
+                                            &lt;div className=&quot;flex-1 border border-gray-200 divide-y  m-1 rounded-md&quot;&gt;
+                                                {documents_items?.map(
+                                                    (document: any, index: number) =&gt; {
+                                                        return (
+                                                            &lt;div
+                                                                key={index}
+                                                                className=&quot;flex flex-1 w-full my-2 p-2 flex-wrap items-center&quot;
+                                                            &gt;
+                                                                &lt;div className=&quot;flex flex-1 items-center&quot;&gt;
+                                                                    &lt;PaperClipIcon className=&quot;w-5 m-1 flex-0&quot; /&gt;
+                                                                    &lt;label className=&quot;break-words break-all flex-1&quot;&gt;
+                                                                        {document?.name}
+                                                                    &lt;/label&gt;
+                                                                &lt;/div&gt;
+                                                                &lt;div className=&quot;flex flex-0 mx-1&quot;&gt;
+                                                                    &lt;a
+                                                                        className=&quot; cursor-pointer text-sm  text-indigo-600 p-1&quot;
+                                                                        href={document?.storage_url}
+                                                                        target=&quot;_blank&quot;
+                                                                        rel=&quot;noreferrer&quot;
+                                                                    &gt;
+                                                                        查看
+                                                                    &lt;/a&gt;
+                                                                    &lt;a
+                                                                        className=&quot; cursor-pointer text-sm  text-red-600 p-1&quot;
+                                                                        onClick={() =&gt; {
+                                                                            deleteIds(document?.id);
+                                                                        }}
+                                                                    &gt;
+                                                                        删除
+                                                                    &lt;/a&gt;
+                                                                &lt;/div&gt;
+                                                            &lt;/div&gt;
+                                                        );
+                                                    }
+                                                )}
+                                            &lt;/div&gt;
+                                        &lt;/&gt;
+                                    )}
+                                    {/* {document?.storage_url?.split(&#x27;.&#x27;).pop() === &#x27;pdf&#x27; ? (
+                                        &lt;object
+                                            className=&quot;object-center object-cover w-full h-full flex justify-center items-center&quot;
+                                            type=&quot;application/pdf&quot;
+                                            data={document?.storage_url + &#x27;#toolbar=0&#x27;}
+                                            width=&quot;250&quot;
+                                        &gt;
+                                            &lt;img
+                                                src={
+                                                    &#x27;https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/833px-PDF_file_icon.svg.png&#x27;
+                                                }
+                                                alt=&quot;PDF file icon&quot;
+                                                className=&quot;w-1/2 h-1/2 object-contain object-center&quot;
+                                            /&gt;
+                                        &lt;/object&gt;
+                                    ) : (
+                                        &lt;img
+                                            className=&quot;w-full h-full object-contain object-center lg:w-full lg:h-full&quot;
+                                            src={document?.storage_url}
+                                            alt={document?.storage_url}
+                                        /&gt;
+                                    )} */}
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot;p-4 w-3/5 right-side flex-1 flex flex-col overflow-auto h-full&quot;&gt;
+                                &lt;div className=&quot;flex flex-col&quot;&gt;
+                                    &lt;p className=&quot;text-xl flex justify-start font-bold&quot;&gt;
+                                        {documents_items
+                                            ?.map((item: any) =&gt; {
+                                                return item.name;
+                                            })
+                                            ?.join(&#x27;,&#x27;)}
+                                    &lt;/p&gt;
+                                    &lt;label className=&quot;flex justify-start text-sm text-gray-500 &quot;&gt;
+                                        根據文件內容生成你想要的內容
+                                    &lt;/label&gt;
+                                    &lt;div className=&quot;flex flex-row items-center my-2&quot;&gt;
+                                        &lt;label className=&quot;font-bold&quot;&gt;文本格式:&lt;/label&gt;
+                                        &lt;div className=&quot;ml-4&quot;&gt;
+                                            &lt;MyDateDropdown
+                                                value={format.name}
+                                                datas={formats}
+                                                onSwitch={onSwitchFormat}
+                                            /&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;flex flex-row items-center my-2&quot;&gt;
+                                        &lt;label className=&quot;font-bold&quot;&gt;
+                                            語言:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                        &lt;/label&gt;
+                                        &lt;div className=&quot;ml-4&quot;&gt;
+                                            &lt;div className=&quot;space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10&quot;&gt;
+                                                {languages.map((item) =&gt; (
+                                                    &lt;div
+                                                        key={item.name}
+                                                        className=&quot;flex items-center&quot;
+                                                    &gt;
+                                                        &lt;input
+                                                            id={item.name}
+                                                            name=&quot;language&quot;
+                                                            type=&quot;radio&quot;
+                                                            defaultChecked={item.value == language}
+                                                            className=&quot;focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300&quot;
+                                                            onChange={(e) =&gt; {
+                                                                setLanguage(item.value);
+                                                            }}
+                                                        /&gt;
+                                                        &lt;label
+                                                            htmlFor={item.name}
+                                                            className=&quot;ml-3 block text-sm font-medium text-gray-700&quot;
+                                                        &gt;
+                                                            {item.name}
+                                                        &lt;/label&gt;
+                                                    &lt;/div&gt;
+                                                ))}
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;flex flex-row items-center my-2&quot;&gt;
+                                        &lt;label className=&quot;font-bold&quot;&gt;主題選擇:&lt;/label&gt;
+                                        &lt;div className=&quot;ml-4&quot;&gt;
+                                            &lt;MyDateDropdown
+                                                value={topic.name}
+                                                datas={topics}
+                                                onSwitch={onSwitchTopic}
+                                                zindex={&#x27;z-10&#x27;}
+                                            /&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;flex flex-row items-center my-2&quot;&gt;
+                                        &lt;label className=&quot;font-bold&quot;&gt;回復風格:&lt;/label&gt;
+                                        &lt;div className=&quot;ml-4&quot;&gt;
+                                            &lt;div className=&quot;space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10&quot;&gt;
+                                                {styles.map((item) =&gt; (
+                                                    &lt;div
+                                                        key={item.name}
+                                                        className=&quot;flex items-center&quot;
+                                                    &gt;
+                                                        &lt;input
+                                                            id={item.name}
+                                                            name=&quot;style&quot;
+                                                            type=&quot;radio&quot;
+                                                            defaultChecked={item.value == style}
+                                                            className=&quot;focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300&quot;
+                                                            onChange={(e) =&gt; {
+                                                                setStyle(item.value);
+                                                            }}
+                                                        /&gt;
+                                                        &lt;label
+                                                            htmlFor={item.name}
+                                                            className=&quot;ml-3 block text-sm font-medium text-gray-700&quot;
+                                                        &gt;
+                                                            {item.name}
+                                                        &lt;/label&gt;
+                                                    &lt;/div&gt;
+                                                ))}
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+
+                                    &lt;div className=&quot;flex flex-row items-center my-2&quot;&gt;
+                                        &lt;label className=&quot;font-bold&quot;&gt;你的想法:&lt;/label&gt;
+                                        &lt;div className=&quot;ml-4 flex-1 text-sm flex items-center&quot;&gt;
+                                            &lt;textarea
+                                                rows={5}
+                                                id=&quot;type&quot;
+                                                name=&quot;path_name&quot;
+                                                placeholder={
+                                                    &#x27;填寫內容...（例如：幫我根據這份文檔寫一封詳細的拒絕批准的繁體中文電子郵件。）&#x27;
+                                                }
+                                                value={content}
+                                                onChange={(e) =&gt; {
+                                                    setContent(e.target.value);
+                                                }}
+                                                className=&quot;appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm&quot;
+                                            /&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div className=&quot;mt-2 text-sm flex items-center justify-end&quot;&gt;
+                                        &lt;a
+                                            className=&quot; cursor-pointer&quot;
+                                            onClick={() =&gt; {
+                                                setContent(&#x27;&#x27;);
+                                            }}
+                                        &gt;
+                                            清空
+                                        &lt;/a&gt;
+                                        &lt;a
+                                            className=&quot; cursor-pointer p-[0.75rem] ml-4 rounded bg-indigo-600 text-white leading-none focus:ring-4 focus:ring-indigo-500&quot;
+                                            onClick={() =&gt; {
+                                                submit();
+                                            }}
+                                        &gt;
+                                            生成
+                                        &lt;/a&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div className=&quot;flex flex-row justify-center p-4&quot;&gt;
+                    &lt;div className=&quot;w-2/5 mx-auto mb-4 px-4&quot;&gt;
+                        &lt;div className=&quot; rounded-lg shadow&quot;&gt;
+                            &lt;div className=&quot; rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center&quot;&gt;
+                                &lt;div&gt;
+                                    &lt;h1&gt;歷史記錄&lt;/h1&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div className=&quot; divide-y&quot;&gt;
+                                {logs &amp;&amp; logs.length &gt; 0 ? (
+                                    logs
+                                        ?.sort((a: any, b: any) =&gt;
+                                            b.created_at &gt; a.created_at ? 1 : -1
+                                        )
+                                        ?.map((log: any, index: number) =&gt; (
+                                            &lt;GenerateLogRow
+                                                log={log}
+                                                setAlert={setAlert}
+                                                setVisible={setVisible}
+                                                data={data}
+                                                setData={setData}
+                                                key={index}
+                                            /&gt;
+                                        ))
+                                ) : (
+                                    &lt;div className=&quot;p-4&quot;&gt;
+                                        &lt;label className=&quot;text-sm text-gray-500&quot;&gt;沒有記錄&lt;/label&gt;
+                                    &lt;/div&gt;
+                                )}
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div className=&quot;w-3/5 mx-auto px-4&quot;&gt;
+                        &lt;label className=&quot;font-bold flex justify-start&quot;&gt;生成的內容&lt;/label&gt;
+                        &lt;div className=&quot;mt-2 text-sm flex items-center&quot;&gt;
+                            &lt;textarea
+                                id=&quot;type&quot;
+                                name=&quot;path_name&quot;
+                                placeholder={&#x27;&#x27;}
+                                value={generateContent}
+                                onChange={(e) =&gt; {
+                                    setGenerateContent(e.target.value);
+                                }}
+                                className=&quot;appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm&quot;
+                                rows={(generateContent.match(/\n/g) || []).length + 5}
+                            /&gt;
+                        &lt;/div&gt;
+                        &lt;div className=&quot;mt-2 text-sm flex items-center justify-end&quot;&gt;
+                            &lt;a
+                                className=&quot; cursor-pointer&quot;
+                                onClick={() =&gt; {
+                                    setGenerateContent(&#x27;&#x27;);
+                                }}
+                            &gt;
+                                清空
+                            &lt;/a&gt;
+                            &lt;a
+                                className=&quot; cursor-pointer p-[0.75rem] ml-4 rounded bg-indigo-600 text-white leading-none focus:ring-4 focus:ring-indigo-500&quot;
+                                onClick={() =&gt; {
+                                    copy(generateContent);
+                                    setAlert({
+                                        title: &#x27;已複製到粘貼板&#x27;,
+                                        type: &#x27;success&#x27;
+                                    });
+                                }}
+                            &gt;
+                                複製生成的內容
+                            &lt;/a&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;SaveDocumentModal
+                visable={visable}
+                movingDest={movingDest}
+                setMovingDest={setMovingDest}
+                setMode={setMode}
+                data={data}
+                setData={setData}
+                cancelClick={() =&gt; {
+                    setVisible(false);
+                }}
+                confirmClick={() =&gt; {
+                    handleUploadGeneratedData(data);
+                    setVisible(false);
+                }}
+            /&gt;
+
+            &lt;FolderTreeForSelect
+                {...{
+                    mode,
+                    setMode,
+                    movingDest,
+                    setMovingDest,
+                    targetId: &#x27;&#x27;
+                }}
+            /&gt;
+        &lt;/&gt;
+    );
+}
+</textarea><pre id="annotations" style="display:none">[{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:13,&quot;character&quot;:4,&quot;text&quot;:&quot;setDocumentsItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:14,&quot;character&quot;:4,&quot;text&quot;:&quot;handleQuery&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:16,&quot;character&quot;:4,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:18,&quot;character&quot;:4,&quot;text&quot;:&quot;setGenerateContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:19,&quot;character&quot;:4,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:20,&quot;character&quot;:4,&quot;text&quot;:&quot;logs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:21,&quot;character&quot;:4,&quot;text&quot;:&quot;modalDescription&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:22,&quot;character&quot;:4,&quot;text&quot;:&quot;handleUploadGeneratedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:28,&quot;character&quot;:8,&quot;text&quot;:&quot;setDocumentsItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:29,&quot;character&quot;:8,&quot;text&quot;:&quot;handleQuery&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:31,&quot;character&quot;:8,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:33,&quot;character&quot;:8,&quot;text&quot;:&quot;setGenerateContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:34,&quot;character&quot;:8,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:35,&quot;character&quot;:8,&quot;text&quot;:&quot;logs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:36,&quot;character&quot;:8,&quot;text&quot;:&quot;modalDescription&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:37,&quot;character&quot;:8,&quot;text&quot;:&quot;handleUploadGeneratedData&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:124,&quot;character&quot;:28,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:128,&quot;character&quot;:27,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:134,&quot;character&quot;:12,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:136,&quot;character&quot;:12,&quot;text&quot;:&quot;handleQuery&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:8,&quot;text&quot;:&quot;setDocumentsItems&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:50,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:64,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:142,&quot;character&quot;:69,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:149,&quot;character&quot;:20,&quot;text&quot;:&quot;setOpen&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:27,&quot;text&quot;:&quot;modalDescription&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:150,&quot;character&quot;:45,&quot;text&quot;:&quot;title&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:29,&quot;text&quot;:&quot;modalDescription&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:151,&quot;character&quot;:47,&quot;text&quot;:&quot;content&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:64,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:77,&quot;text&quot;:&quot;split&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:170,&quot;character&quot;:88,&quot;text&quot;:&quot;pop&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:176,&quot;character&quot;:76,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:192,&quot;character&quot;:77,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:193,&quot;character&quot;:77,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:201,&quot;character&quot;:53,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:73,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:210,&quot;character&quot;:83,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:78,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:216,&quot;character&quot;:88,&quot;text&quot;:&quot;storage_url&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:225,&quot;character&quot;:86,&quot;text&quot;:&quot;document&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:225,&quot;character&quot;:96,&quot;text&quot;:&quot;id&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:266,&quot;character&quot;:51,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:55,&quot;text&quot;:&quot;item&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:267,&quot;character&quot;:60,&quot;text&quot;:&quot;name&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:408,&quot;character&quot;:33,&quot;text&quot;:&quot;logs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:408,&quot;character&quot;:41,&quot;text&quot;:&quot;logs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:408,&quot;character&quot;:46,&quot;text&quot;:&quot;length&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:409,&quot;character&quot;:36,&quot;text&quot;:&quot;logs&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:410,&quot;character&quot;:42,&quot;text&quot;:&quot;sort&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:410,&quot;character&quot;:48,&quot;text&quot;:&quot;a&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:410,&quot;character&quot;:56,&quot;text&quot;:&quot;b&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:411,&quot;character&quot;:44,&quot;text&quot;:&quot;b&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:411,&quot;character&quot;:46,&quot;text&quot;:&quot;created_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:411,&quot;character&quot;:59,&quot;text&quot;:&quot;a&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:411,&quot;character&quot;:61,&quot;text&quot;:&quot;created_at&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:413,&quot;character&quot;:42,&quot;text&quot;:&quot;map&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:413,&quot;character&quot;:47,&quot;text&quot;:&quot;log&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:415,&quot;character&quot;:48,&quot;text&quot;:&quot;log&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:415,&quot;character&quot;:53,&quot;text&quot;:&quot;log&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:416,&quot;character&quot;:48,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:416,&quot;character&quot;:58,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:440,&quot;character&quot;:36,&quot;text&quot;:&quot;setGenerateContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:450,&quot;character&quot;:36,&quot;text&quot;:&quot;setGenerateContent&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:459,&quot;character&quot;:36,&quot;text&quot;:&quot;setAlert&quot;,&quot;kind&quot;:1},{&quot;file&quot;:&quot;pages/generate/GenerateView.tsx&quot;,&quot;line&quot;:483,&quot;character&quot;:20,&quot;text&quot;:&quot;handleUploadGeneratedData&quot;,&quot;kind&quot;:1}]</pre></div>
+    <p class="footer-text">TypeScript Coverage Report generated by <a href="https://github.com/plantain-00/type-coverage">type-coverage</a> and <a href="https://github.com/alexcanessa/typescript-coverage-report">typescript-coverage-report</a> at Sun, 13 Aug 2023 09:27:06 GMT</p>
+    </body>
+  </html>
+  

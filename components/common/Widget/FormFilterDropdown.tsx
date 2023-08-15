@@ -27,12 +27,12 @@ const Form = withTheme(Bootstrap4Theme);
 
 export default function FormFilterDropdown(props: FormFilterDropdownProps) {
     const { formSchema, formData, title = '', filterKey, filterData = {}, setFilterData } = props;
-    const [showTitle, setShowTitle] = useState('')
+    const [showTitle, setShowTitle] = useState('');
     useEffect(() => {
         if (title) {
-            setShowTitle(title)
+            setShowTitle(title);
         }
-    }, [title])
+    }, [title]);
 
     const uiSchema = useRef({
         'ui:submitButtonOptions': {
@@ -111,7 +111,7 @@ export default function FormFilterDropdown(props: FormFilterDropdownProps) {
                                     widgets={widgets.current}
                                     fields={fields.current}
                                     onSubmit={(res) => {
-                                        _.isString(res.formData) &&  setShowTitle(res.formData)
+                                        setShowTitle(res.formData);
                                         Object.keys(res.formData).forEach((key) => {
                                             if (res.formData[key] === '') {
                                                 res.formData[key] = null;
