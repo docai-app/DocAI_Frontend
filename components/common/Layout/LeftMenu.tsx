@@ -5,6 +5,7 @@ import {
     ArrowRightOnRectangleIcon,
     Bars3Icon,
     ChartBarSquareIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
     ClipboardIcon,
     CloudArrowUpIcon,
     CubeIcon,
@@ -93,6 +94,14 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/miniapp') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-red-50'
+        },
+        {
+            name: '智能助手',
+            href: '/chatbot',
+            icon: ChatBubbleOvalLeftEllipsisIcon,
+            current: router.pathname.indexOf('/chatbot') != -1,
+            iconForeground: 'text-green-700',
+            iconBackground: 'bg-green-50'
         }
     ];
 
