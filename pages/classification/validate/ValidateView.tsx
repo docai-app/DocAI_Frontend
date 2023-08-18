@@ -24,8 +24,8 @@ interface ValidateViewProps {
     allLabelsData: object;
     mode: 'view' | 'move';
     setMode: Dispatch<SetStateAction<'view' | 'move'>>;
-    movingDest: Folder | null;
-    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
+    dest: Folder | null;
+    setDest: Dispatch<SetStateAction<Folder | null>>;
     documentPath: { id: string | null; name: string }[];
     visable: boolean;
     setVisable: any;
@@ -55,8 +55,8 @@ function ValidateView(props: ValidateViewProps) {
         allLabelsData,
         mode,
         setMode,
-        movingDest,
-        setMovingDest,
+        dest,
+        setDest,
         documentPath,
         visable,
         setVisable,
@@ -413,8 +413,8 @@ function ValidateView(props: ValidateViewProps) {
                     {...{
                         mode,
                         setMode,
-                        movingDest,
-                        setMovingDest,
+                        dest,
+                        setDest,
                         targetId: latestPredictionData?.prediction?.document?.id,
                         current: { type: 'document' }
                     }}

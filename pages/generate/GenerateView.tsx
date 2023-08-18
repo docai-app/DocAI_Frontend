@@ -41,7 +41,7 @@ export default function GenerateView(props: GenerateViewProps) {
 
     const [visable, setVisible] = useState(false);
     const [mode, setMode] = useState('');
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const [data, setData] = useState({
         filename: '',
         target_folder_id: '',
@@ -49,15 +49,15 @@ export default function GenerateView(props: GenerateViewProps) {
     });
 
     useEffect(() => {
-        if (movingDest?.id) {
+        if (dest?.id) {
             setVisible(true);
-            console.log(movingDest);
+            console.log(dest);
             setData({
                 ...data,
-                target_folder_id: movingDest?.id
+                target_folder_id: dest?.id
             });
         }
-    }, [movingDest]);
+    }, [dest]);
 
     const formats = [
         {
@@ -472,8 +472,8 @@ export default function GenerateView(props: GenerateViewProps) {
 
             <SaveDocumentModal
                 visable={visable}
-                movingDest={movingDest}
-                setMovingDest={setMovingDest}
+                dest={dest}
+                setDest={setDest}
                 setMode={setMode}
                 data={data}
                 setData={setData}
@@ -490,8 +490,8 @@ export default function GenerateView(props: GenerateViewProps) {
                 {...{
                     mode,
                     setMode,
-                    movingDest,
-                    setMovingDest,
+                    dest,
+                    setDest,
                     targetId: ''
                 }}
             />

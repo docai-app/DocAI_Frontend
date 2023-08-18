@@ -24,6 +24,10 @@ const nextConfig = {
         });
 
         return config;
+    },
+    i18n: {
+        locales: ['zh-Hant'],
+        defaultLocale: 'zh-Hant'
     }
 };
 

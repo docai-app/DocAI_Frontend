@@ -15,7 +15,7 @@ function ShowContainer() {
     const router = useRouter();
     const { setAlert } = useAlert();
     const [mode, setMode] = useState<'view' | 'move'>('view');
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const [documentPath, setDocumentPath] = useState<{ id: string | null; name: string }[]>([
         { id: null, name: 'Root' }
     ]);
@@ -227,8 +227,8 @@ function ShowContainer() {
                     allLabelsData,
                     mode,
                     setMode,
-                    movingDest,
-                    setMovingDest,
+                    dest,
+                    setDest,
                     documentPath,
                     visable,
                     setVisable,

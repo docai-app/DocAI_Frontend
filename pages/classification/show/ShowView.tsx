@@ -29,8 +29,8 @@ interface ShowViewProps {
     allLabelsData: object;
     mode: 'view' | 'move';
     setMode: Dispatch<SetStateAction<'view' | 'move'>>;
-    movingDest: Folder | null;
-    setMovingDest: Dispatch<SetStateAction<Folder | null>>;
+    dest: Folder | null;
+    setDest: Dispatch<SetStateAction<Folder | null>>;
     documentPath: { id: string | null; name: string }[];
     visable: boolean;
     setVisable: any;
@@ -55,8 +55,8 @@ function ValidateView(props: ShowViewProps) {
         allLabelsData,
         mode,
         setMode,
-        movingDest,
-        setMovingDest,
+        dest,
+        setDest,
         documentPath,
         visable,
         setVisable,

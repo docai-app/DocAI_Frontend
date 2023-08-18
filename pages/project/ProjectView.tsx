@@ -37,7 +37,7 @@ function ProjectView(props: ProjectViewProps) {
     } = props;
     const [visiable, setVisiable] = useState(false);
     const [mode, setMode] = useState('');
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const dates = [
         {
             name: '最近三天',
@@ -93,7 +93,7 @@ function ProjectView(props: ProjectViewProps) {
     });
 
     function init() {
-        // setMovingDest(null);
+        // setDest(null);
         setProject({
             id: null,
             name: '',
@@ -103,11 +103,11 @@ function ProjectView(props: ProjectViewProps) {
     }
 
     useEffect(() => {
-        if (movingDest?.id) {
+        if (dest?.id) {
             setVisiable(true);
-            console.log(movingDest);
+            console.log(dest);
         }
-    }, [movingDest]);
+    }, [dest]);
 
     return (
         <>
@@ -185,7 +185,7 @@ function ProjectView(props: ProjectViewProps) {
             <EditProjectModal
                 visable={visiable}
                 setMode={setMode}
-                movingDest={movingDest}
+                dest={dest}
                 project={project}
                 setProject={setProject}
                 cancelClick={() => {
@@ -193,10 +193,10 @@ function ProjectView(props: ProjectViewProps) {
                 }}
                 confirmClick={(data: any) => {
                     // console.log(data);
-                    // console.log("movingDest: ", movingDest);
+                    // console.log("dest: ", dest);
                     setVisiable(false);
                     data.folder_id = data?.folder?.id;
-                    data.parent_id = movingDest?.id;
+                    data.parent_id = dest?.id;
                     if (data?.id) updateProjectHandler(data);
                     else addNewProjectHeadler(data);
                     init();
@@ -206,8 +206,8 @@ function ProjectView(props: ProjectViewProps) {
                 {...{
                     mode,
                     setMode,
-                    movingDest,
-                    setMovingDest,
+                    dest,
+                    setDest,
                     targetId: ''
                 }}
             />

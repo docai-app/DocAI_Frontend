@@ -20,7 +20,7 @@ export default function DriveContainer() {
     const [target, setTarget] = useState<any[]>([]);
     const [shareWith, setShareWith] = useState<any[]>([]);
     const [newFolderName, setNewFolderName] = useState<string | null>(null);
-    const [movingDest, setMovingDest] = useState<Folder | null>(null);
+    const [dest, setDest] = useState<Folder | null>(null);
     const [visableDelete, setVisableDelete] = useState(false);
     const [visableRename, setVisableRename] = useState(false);
     const [current, setCurrent] = useState<any>();
@@ -359,8 +359,8 @@ export default function DriveContainer() {
                 setMode,
                 target,
                 setTarget,
-                movingDest,
-                setMovingDest,
+                dest,
+                setDest,
                 shareWith,
                 setShareWith,
                 handleShare,

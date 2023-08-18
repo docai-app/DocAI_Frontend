@@ -114,7 +114,7 @@ export default function SaveDocumentModal(props: any) {
                                         </div>
                                         <div className="flex flex-1">
                                             <label className="flex flex-1">
-                                                {props?.movingDest?.name || 'Root'}
+                                                {props?.dest?.name || 'Root'}
                                             </label>
                                             <a
                                                 className="cursor-pointer underline flex flex-0 text-blue-500"
