@@ -13,7 +13,7 @@ export default class Chatbot {
         };
         return requestHeader;
     }
-    createChatbot(name: string, description: string, source: { folder_id: string[] }) {
+    createChatbot(name: string, description: string, source: { folder_id: string[] }, chain_features: []) {
         const requestHeader: AxiosRequestConfig = {
             baseURL,
             url: '/api/v1/chatbots',
@@ -21,7 +21,30 @@ export default class Chatbot {
             data: {
                 name,
                 description,
-                source
+                source,
+                chain_features
+            }
+        };
+        return requestHeader;
+    }
+    getChatbotById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/chatbots/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+    updateChatbotById(id: string, name: string, description: string, source: { folder_id: string[] }, chain_features: []) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/chatbots/${id}`,
+            method: 'PUT',
+            data: {
+                name,
+                description,
+                source,
+                chain_features
             }
         };
         return requestHeader;
