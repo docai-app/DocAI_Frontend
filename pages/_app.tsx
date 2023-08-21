@@ -1,3 +1,5 @@
+// File Path: src/pages/_app.tsx
+
 import 'animate.css';
 import axios from 'axios';
 import type { AppProps } from 'next/app';
