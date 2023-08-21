@@ -15,7 +15,7 @@ interface CreateViewProps {
     handleCreate: any;
     chain_feature_ids?: any;
     set_chain_feature_ids?: any;
-    open: boolean,
+    open: boolean;
     setOpen: any;
     actionContent: string;
 }
@@ -66,7 +66,7 @@ function CreateView(props: CreateViewProps) {
                                         setChatbot({
                                             ...chatbot,
                                             name: e.target.value
-                                        })
+                                        });
                                     }}
                                 />
                             </div>
@@ -86,7 +86,7 @@ function CreateView(props: CreateViewProps) {
                                         setChatbot({
                                             ...chatbot,
                                             description: e.target.value
-                                        })
+                                        });
                                     }}
                                 ></textarea>
                             </div>
@@ -97,7 +97,9 @@ function CreateView(props: CreateViewProps) {
                             </label>
                             <div className="flex justify-between p-3 mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6">
                                 <div className="flex flex-wrap gap-2 ">
-                                    <label>已選擇 {chain_feature_ids?.length} 個Chain Feature</label>
+                                    <label>
+                                        已選擇 {chain_feature_ids?.length} 個Chain Feature
+                                    </label>
                                 </div>
                                 <button
                                     onClick={() => setChainFeatureIsOpen(!chainFeatureIsOpen)}

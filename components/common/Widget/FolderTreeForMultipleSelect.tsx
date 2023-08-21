@@ -29,9 +29,9 @@ export default function FolderTreeForMultipleSelect(props: FolderTreeForMultiple
 
     useEffect(() => {
         if (multipleDest) {
-            _setMultipleDest(multipleDest)
+            _setMultipleDest(multipleDest);
         }
-    }, [multipleDest])
+    }, [multipleDest]);
     return (
         <Transition show={isOpen}>
             <Transition.Child

@@ -16,18 +16,16 @@ interface ChainFeatureSelectProps {
 
 const apiSetting = new Api();
 export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
-    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids,
-        set_chain_feature_ids } = props;
+    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids, set_chain_feature_ids } = props;
     const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const router = useRouter();
-    const [chain_features, set_chain_features] = useState<any>([])
+    const [chain_features, set_chain_features] = useState<any>([]);
 
     useEffect(() => {
         getAllChainFeatureDatas().then((res) => {
-            set_chain_features(res)
-        })
-    }, [])
-
+            set_chain_features(res);
+        });
+    }, []);
 
     const isSelected = useCallback(
         (chain_feature_id: string) => {
@@ -47,22 +45,17 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
                 set_chain_feature_ids((prev: any) => [...prev, chain_feature_id]);
             } else {
                 set_chain_feature_ids(
-                    chain_feature_ids.filter(
-                        (value: any) =>
-                            value !==
-                            chain_feature_id
-                    )
+                    chain_feature_ids.filter((value: any) => value !== chain_feature_id)
                 );
-
             }
         },
         [chain_feature_ids]
     );
 
-
-    const handleConfirm = useCallback((folders: any) => {
-        setIsOpen(false);
-    },
+    const handleConfirm = useCallback(
+        (folders: any) => {
+            setIsOpen(false);
+        },
         [router]
     );
     return (
@@ -107,14 +100,16 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
                         <div className="pl-2 pr-5 pb-5 overflow-auto">
                             {chain_features?.map((item: any, index: number) => {
                                 return (
-                                    <div key={index}
-                                        className={` border p-2 mt-1 cursor-pointer ${!isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
-                                            }`}
-                                        onClick={() => handleChainFeatureClick(item?.fields?.id
-                                        )}>
+                                    <div
+                                        key={index}
+                                        className={` border p-2 mt-1 cursor-pointer ${
+                                            !isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
+                                        }`}
+                                        onClick={() => handleChainFeatureClick(item?.fields?.id)}
+                                    >
                                         {item.fields.name}
                                     </div>
-                                )
+                                );
                             })}
                         </div>
                         {_multipleDest != null && (

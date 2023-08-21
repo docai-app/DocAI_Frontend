@@ -13,7 +13,9 @@ const base = Airtable.base('appLD2vnww3WcuOVl');
 const table = base('Chain Feature Database');
 
 export async function getAllChainFeatureDatas() {
-    const records = await table._selectRecords({ sort: [{ field: 'updated_at', direction: 'desc' }] }).all();
+    const records = await table
+        ._selectRecords({ sort: [{ field: 'updated_at', direction: 'desc' }] })
+        .all();
     return records;
 }
 
