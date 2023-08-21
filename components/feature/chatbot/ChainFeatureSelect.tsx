@@ -1,37 +1,63 @@
 import { Transition } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/20/solid';
+import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction, useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis';
-import FolderTree, { Folder } from './FolderTree';
+import { getAllChainFeatureDatas } from '../../../apis/AirtableChainFeature';
 
-interface FolderTreeForMultipleSelectProps {
+interface ChainFeatureSelectProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    setMultipleDest: Dispatch<SetStateAction<Folder[]>>;
-    multipleDest: Folder[];
+    setMultipleDest?: any;
+    chain_feature_ids?: any;
+    set_chain_feature_ids?: any;
 }
 
 const apiSetting = new Api();
-export default function FolderTreeForMultipleSelect(props: FolderTreeForMultipleSelectProps) {
-    const { isOpen, setIsOpen, multipleDest, setMultipleDest } = props;
-
-    const [_multipleDest, _setMultipleDest] = useState<Folder[]>([]);
-
+export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
+    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids, set_chain_feature_ids } = props;
+    const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const router = useRouter();
+    const [chain_features, set_chain_features] = useState<any>([]);
+
+    useEffect(() => {
+        getAllChainFeatureDatas().then((res) => {
+            set_chain_features(res);
+        });
+    }, []);
+
+    const isSelected = useCallback(
+        (chain_feature_id: string) => {
+            const index = _.findIndex(chain_feature_ids, function (value: any) {
+                return chain_feature_id == value;
+            });
+            return index == -1;
+        },
+        [props]
+    );
+
+    const handleChainFeatureClick = useCallback(
+        (chain_feature_id: any) => {
+            console.log(chain_feature_ids);
+
+            if (isSelected(chain_feature_id)) {
+                set_chain_feature_ids((prev: any) => [...prev, chain_feature_id]);
+            } else {
+                set_chain_feature_ids(
+                    chain_feature_ids.filter((value: any) => value !== chain_feature_id)
+                );
+            }
+        },
+        [chain_feature_ids]
+    );
+
     const handleConfirm = useCallback(
-        (folders: Folder[]) => {
-            setMultipleDest(folders);
+        (folders: any) => {
             setIsOpen(false);
         },
         [router]
     );
-
-    useEffect(() => {
-        if (multipleDest) {
-            _setMultipleDest(multipleDest);
-        }
-    }, [multipleDest]);
     return (
         <Transition show={isOpen}>
             <Transition.Child
@@ -63,7 +89,7 @@ export default function FolderTreeForMultipleSelect(props: FolderTreeForMultiple
                 <div className="fixed h-[calc(100vh)] shadow-lg right-0 top-0 pt-16 bg-white w-[28rem] z-50">
                     <div className="w-full h-full flex flex-col py-8">
                         <div className="px-8 py-2 flex flex-row items-center justify-between">
-                            <h1 className="font-bold text-3xl text-center">選擇多個文件夾</h1>
+                            <h1 className="font-bold text-3xl text-center">選擇Chain Feature</h1>
                             <XCircleIcon
                                 className="w-6 h-6"
                                 onClick={() => {
@@ -71,13 +97,20 @@ export default function FolderTreeForMultipleSelect(props: FolderTreeForMultiple
                                 }}
                             />
                         </div>
-                        <div className="pl-2 pr-5 overflow-auto">
-                            <FolderTree
-                                expanded={true}
-                                multiple={true}
-                                multipleDest={_multipleDest}
-                                setMultipleDest={_setMultipleDest}
-                            />
+                        <div className="pl-2 pr-5 pb-5 overflow-auto">
+                            {chain_features?.map((item: any, index: number) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className={` border p-2 mt-1 cursor-pointer ${
+                                            !isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
+                                        }`}
+                                        onClick={() => handleChainFeatureClick(item?.fields?.id)}
+                                    >
+                                        {item.fields.name}
+                                    </div>
+                                );
+                            })}
                         </div>
                         {_multipleDest != null && (
                             <div className="px-5 flex">
