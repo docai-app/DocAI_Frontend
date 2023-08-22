@@ -8,8 +8,7 @@
         "lint": "next lint",
         "format": "prettier --single-quote --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
         "prepare": "husky install",
-        "cypress:open": "cypress open",
-        "ts-coverage": "typescript-coverage-report"
+        "cypress:open": "cypress open"
     },
     "dependencies": {
         "@headlessui/react": "^1.5.0",
@@ -53,10 +52,11 @@
         "@types/react-pdf": "^5.0.9",
         "autoprefixer": "^10.4.2",
         "babel-plugin-istanbul": "^6.1.1",
-        "cypress": "^12.17.1",
+        "cypress": "^12.17.4",
         "eslint": "8.10.0",
         "eslint-config-next": "12.1.0",
         "husky": "^8.0.3",
+        "istanbul-lib-coverage": "^3.2.0",
         "nyc": "^15.1.0",
         "pinst": "^3.0.0",
         "postcss": "^8.4.8",
