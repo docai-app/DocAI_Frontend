@@ -40,7 +40,7 @@ function ClassificationView(props: ClassificationViewProps) {
                                     role="list"
                                     className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                                 >
-                                    {_map(_get(getTagByTaggingData, 'tags'), (label) => {
+                                    {_map(_get(getTagByTaggingData, 'tags'), (label: any) => {
                                         return (
                                             <a
                                                 href={

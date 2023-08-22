@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import AbsenceApprovalView from './AbsenceApprovalView';
 import useAxios from 'axios-hooks';
 import Api from '../../../../apis/index';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import _get from 'lodash/get';
 import { FieldProps, WidgetProps } from '@rjsf/core';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import useAlert from '../../../../hooks/useAlert';
 const apiSetting = new Api();
 
 function AbsenceApprovalContainer() {
-    const router = useRouter();
+    const router: any = useRouter();
     const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
     const [result, setResult] = useState();
@@ -113,8 +113,10 @@ function AbsenceApprovalContainer() {
     });
 
     const [{ data: getFormsSchemaByIdData }, getFormsSchemaById] = useAxios(
-        apiSetting.FormSchema.getFormsSchemaById(`${router.query.form_schema_id}`),
-        { manual: true }
+        apiSetting.FormSchema.getFormsSchemaById(`${router?.query?.form_schema_id}`),
+        {
+            manual: true
+        }
     );
 
     const [{ data: getAbsenceFormByApprovalIdData }, getAbsenceFormByApprovalId] = useAxios('', {
@@ -162,6 +164,7 @@ function AbsenceApprovalContainer() {
                 data: formData
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [documents]);
 
     useEffect(() => {
@@ -170,6 +173,7 @@ function AbsenceApprovalContainer() {
         } else if (uploadData && uploadData.success === false) {
             setAlert({ title: 'Upload failed! Please try again!', type: 'error' });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, uploadData]);
 
     useEffect(() => {
@@ -179,12 +183,13 @@ function AbsenceApprovalContainer() {
     }, [getFormsSchemaById]);
 
     useEffect(() => {
-        if (router.query.id && router.query.form_schema_id) {
+        if (router?.query?.id && router?.query?.form_schema_id) {
             getAbsenceFormByApprovalId(
                 apiSetting.Absence.getAbsenceFormByApprovalApprovalID(router.query.id.toString())
             );
             getFormsSchemaById();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, getAbsenceFormByApprovalId]);
 
     useEffect(() => {
@@ -206,6 +211,7 @@ function AbsenceApprovalContainer() {
             setAlert({ title: '審批成功！', type: 'success' });
             router.push(`/form/approval`);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, updateFormApprovalStatusData]);
 
     return (

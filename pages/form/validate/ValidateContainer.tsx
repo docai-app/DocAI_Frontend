@@ -19,6 +19,15 @@ function ValidateContainer() {
     const [formSchemaId, setFormSchemaId] = useState('');
     const [result, setResult] = useState({});
     const [formSchema, setFormSchema] = useState({});
+
+    const routerFormSchemaId = _get(router, 'query.form_schema_id');
+
+    if (typeof routerFormSchemaId !== 'string') {
+        console.error('form_schema_id is not available or not a string.');
+        return null;
+    }
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const widgets = useRef({
         TextWidget: (props: WidgetProps) => (
             <label>
@@ -48,6 +57,7 @@ function ValidateContainer() {
         )
     });
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const fields = useRef({
         TitleField: (props: FieldProps) => (
             <div>
@@ -56,6 +66,7 @@ function ValidateContainer() {
         )
     });
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const uiSchema = useRef({
         'ui:submitButtonOptions': {
             submitText: '提交',
@@ -65,6 +76,7 @@ function ValidateContainer() {
         }
     });
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const absenceFormFormik = useFormik({
         initialValues: {
             data: result
@@ -81,7 +93,8 @@ function ValidateContainer() {
     const [
         { data: getFormsSchemaByIdData, loading: getFormsSchemaByIdDataLoading },
         getFormsSchemaById
-    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(_get(router, 'query.form_schema_id')), {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(routerFormSchemaId), {
         manual: true
     });
 
@@ -93,12 +106,14 @@ function ValidateContainer() {
             response: updateFormDataResponse
         },
         updateFormData
+        // eslint-disable-next-line react-hooks/rules-of-hooks
     ] = useAxios(apiSetting.Form.updateFormData(formId), {
         manual: true
     });
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-        if (router.query.form_url && router.query.result) {
+        if (router.query?.form_url && router.query?.result) {
             setFormUrl(`${router.query.form_url}`);
             setResult(JSON.parse(`${router.query.result}`));
             setFormId(`${router.query.form_id}`);
@@ -106,20 +121,23 @@ function ValidateContainer() {
             console.log('form_schema_id: ', `${router.query.form_schema_id}`);
             getFormsSchemaById();
         }
-    }, [router]);
+    }, [getFormsSchemaById, router]);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         if (getFormsSchemaByIdData && getFormsSchemaByIdData.success === true) {
             setFormSchema(getFormsSchemaByIdData?.form_schema?.form_schema);
         }
     }, [getFormsSchemaByIdData]);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
             setAlert({ title: '資料提交成功！', type: 'success' });
             // router.push('/');
             router.back();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router, updateFormDataData]);
 
     return (

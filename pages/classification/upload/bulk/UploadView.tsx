@@ -43,7 +43,7 @@ function UploadView(props: UploadViewProps) {
                                 <option value="" selected disabled hidden>
                                     請選擇文件的類型
                                 </option>
-                                {_map(_get(tags, 'tags'), (item) => {
+                                {_map(_get(tags, 'tags'), (item: any) => {
                                     return (
                                         <option key={item.id} value={item.id}>
                                             {item.name}

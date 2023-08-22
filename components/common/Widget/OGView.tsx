@@ -15,6 +15,7 @@ export default function OGView(props: OGProps) {
     return (
         <>
             <p className='border-l-4 pl-2 border-l-gray-500 text-sm"'>文檔放在這裡</p>
+            {/* eslint-disable-next-line @next/next/link-passhref */}
             <Link href={props.url}>
                 <div className="w-full border border-gray-200 p-2 mt-2 flex flex-row cursor-pointer">
                     <div className=" flex flex-1 w-full description">
@@ -47,8 +48,9 @@ export default function OGView(props: OGProps) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-0   ">
+                    <div className="flex flex-0">
                         <Image
+                            alt="OG Image"
                             thumbnail={true}
                             width={80}
                             src="https://png.pngtree.com/element_our/20190529/ourmid/pngtree-link-icon-image_1198606.jpg"
@@ -56,7 +58,7 @@ export default function OGView(props: OGProps) {
                     </div>
                 </div>
             </Link>
-            <style jsx>
+            <style>
                 {`
                     .description {
                         overflow: hidden;

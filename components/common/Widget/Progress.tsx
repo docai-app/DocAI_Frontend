@@ -10,7 +10,7 @@ export default function Progress(props: any) {
                 </label>
             </div>
 
-            <style jsx>
+            <style>
                 {`
                     progress::-webkit-progress-value {
                         background: #504aed;

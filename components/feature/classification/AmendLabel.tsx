@@ -8,7 +8,7 @@ import { Fragment, useRef, useState } from 'react';
 interface AmendLabelProps {
     open: boolean;
     setOpen: any;
-    allLabelsData: object;
+    allLabelsData: any;
     confirmDocumentFormik: any;
     isSubmit?: boolean;
     addNewTagFormik?: any;
