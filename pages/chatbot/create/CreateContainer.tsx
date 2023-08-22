@@ -30,6 +30,7 @@ function CreateContainer() {
             setActionContent('正在加載數據');
             getChatbot();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [router]);
 
     useEffect(() => {

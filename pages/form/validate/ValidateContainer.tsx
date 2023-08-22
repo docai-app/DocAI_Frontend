@@ -12,20 +12,13 @@ import ValidateView from './ValidateView';
 const apiSetting = new Api();
 
 function ValidateContainer() {
-    const router = useRouter();
+    const router: any = useRouter();
     const { setAlert } = useAlert();
     const [formUrl, setFormUrl] = useState('');
     const [formId, setFormId] = useState('');
     const [formSchemaId, setFormSchemaId] = useState('');
     const [result, setResult] = useState({});
     const [formSchema, setFormSchema] = useState({});
-
-    const routerFormSchemaId = _get(router, 'query.form_schema_id');
-
-    if (typeof routerFormSchemaId !== 'string') {
-        console.error('form_schema_id is not available or not a string.');
-        return null;
-    }
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const widgets = useRef({
@@ -94,7 +87,7 @@ function ValidateContainer() {
         { data: getFormsSchemaByIdData, loading: getFormsSchemaByIdDataLoading },
         getFormsSchemaById
         // eslint-disable-next-line react-hooks/rules-of-hooks
-    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(routerFormSchemaId), {
+    ] = useAxios(apiSetting.FormSchema.getFormsSchemaById(_get(router, 'query.form_schema_id')), {
         manual: true
     });
 
