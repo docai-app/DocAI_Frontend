@@ -65,6 +65,7 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAllLabels, addNewLabelData]);
 
     useEffect(() => {
@@ -78,6 +79,7 @@ export default function LabelContainer() {
                 type: 'error'
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getAllLabels, updateLabelNameByIdData]);
 
     const updateTagFunctionsHandler = useCallback(
