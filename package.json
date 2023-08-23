@@ -8,7 +8,7 @@
         "lint": "next lint",
         "format": "prettier --single-quote --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
         "prepare": "husky install",
-        "cypress:open": "cypress open"
+        "cypress:open": "cypress open ODE_ENV=test cypress open"
     },
     "dependencies": {
         "@headlessui/react": "^1.5.0",
