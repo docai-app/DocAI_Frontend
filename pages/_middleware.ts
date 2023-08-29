@@ -3,9 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
     const authorization = req.cookies.authorization;
     if (authorization || req.url.indexOf('/miniapp') != -1) {
-        // to-do...
-        // check if token valid
-
         return NextResponse.next();
     }
     return NextResponse.rewrite(new URL('/login', req.url).toString());

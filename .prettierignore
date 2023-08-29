@@ -3,3 +3,4 @@
 out
 .serverless_nextjs/**/*
 .serverless/**/*
+.vercel/**/*

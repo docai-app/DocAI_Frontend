@@ -26,7 +26,6 @@ export default function LoginContainer() {
             const remember = formData.get('remember');
             const res = await signIn(apiSetting.Authorization.signIn(email, password));
             if (res.data.success) {
-                //if (res.headers.authorization) {
                 const token = res.headers.authorization;
                 localStorage.setItem('authorization', token);
                 localStorage.setItem('email', email);
