@@ -1,4 +1,5 @@
 import { FolderIcon } from '@heroicons/react/20/solid';
+import copy from 'copy-to-clipboard';
 import moment from 'moment';
 import Link from 'next/link';
 
@@ -13,6 +14,11 @@ interface ChatbotRowProps {
 export default function ChatbotRow(props: ChatbotRowProps) {
     const { item } = props;
     const { chatbot, folders } = item;
+
+    const copyLink = () => {
+        copy(process.env.NEXT_PUBLIC_CHATBOT_URL + `/${chatbot.id}?token=${window.localStorage?.getItem('authorization') || ''}`)
+    }
+
     return (
         <>
             <tr>
@@ -50,6 +56,10 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                             編輯<span className="sr-only">, Lindsay Walton</span>
                         </a>
                     </Link>
+                    {" | "}
+                    <a className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={copyLink}>
+                        複製連結
+                    </a>
                 </td>
             </tr>
         </>
