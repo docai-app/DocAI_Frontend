@@ -16,8 +16,11 @@ export default function ChatbotRow(props: ChatbotRowProps) {
     const { chatbot, folders } = item;
 
     const copyLink = () => {
-        copy(process.env.NEXT_PUBLIC_CHATBOT_URL + `/${chatbot.id}?token=${window.localStorage?.getItem('authorization') || ''}`)
-    }
+        copy(
+            process.env.NEXT_PUBLIC_CHATBOT_URL +
+                `/${chatbot.id}?token=${window.localStorage?.getItem('authorization') || ''}`
+        );
+    };
 
     return (
         <>
@@ -56,8 +59,11 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                             編輯<span className="sr-only">, Lindsay Walton</span>
                         </a>
                     </Link>
-                    {" | "}
-                    <a className="text-indigo-600 hover:text-indigo-900 cursor-pointer" onClick={copyLink}>
+                    {' | '}
+                    <a
+                        className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
+                        onClick={copyLink}
+                    >
                         複製連結
                     </a>
                 </td>
