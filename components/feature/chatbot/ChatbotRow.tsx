@@ -2,6 +2,7 @@ import { FolderIcon } from '@heroicons/react/20/solid';
 import copy from 'copy-to-clipboard';
 import moment from 'moment';
 import Link from 'next/link';
+import { encrypt } from '../../../utils/util_crypto';
 
 interface ChatbotRowProps {
     item: {
@@ -16,9 +17,10 @@ export default function ChatbotRow(props: ChatbotRowProps) {
     const { chatbot, folders } = item;
 
     const copyLink = () => {
+        const encryptedText = encrypt(window.localStorage?.getItem('authorization') || '');
         copy(
             process.env.NEXT_PUBLIC_CHATBOT_URL +
-                `/${chatbot.id}?token=${window.localStorage?.getItem('authorization') || ''}`
+            `/${chatbot.id}?token=${encryptedText}`
         );
     };
 
