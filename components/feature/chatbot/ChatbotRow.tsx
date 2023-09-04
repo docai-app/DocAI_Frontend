@@ -18,10 +18,7 @@ export default function ChatbotRow(props: ChatbotRowProps) {
 
     const copyLink = () => {
         const encryptedText = encrypt(window.localStorage?.getItem('authorization') || '');
-        copy(
-            process.env.NEXT_PUBLIC_CHATBOT_URL +
-            `/${chatbot.id}?token=${encryptedText}`
-        );
+        copy(process.env.NEXT_PUBLIC_CHATBOT_URL + `/${chatbot.id}?token=${encryptedText}`);
     };
 
     return (
