@@ -12,11 +12,12 @@ interface ChainFeatureSelectProps {
     setMultipleDest?: any;
     chain_feature_ids?: any;
     set_chain_feature_ids?: any;
+    handleSave?: any;
 }
 
 const apiSetting = new Api();
 export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
-    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids, set_chain_feature_ids } = props;
+    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids, set_chain_feature_ids, handleSave } = props;
     const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const router = useRouter();
     const [chain_features, set_chain_features] = useState<any>([]);
@@ -39,7 +40,7 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
 
     const handleChainFeatureClick = useCallback(
         (chain_feature_id: any) => {
-            console.log(chain_feature_ids);
+            // console.log(chain_feature_ids);
 
             if (isSelected(chain_feature_id)) {
                 set_chain_feature_ids((prev: any) => [...prev, chain_feature_id]);
@@ -55,8 +56,11 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
     const handleConfirm = useCallback(
         (folders: any) => {
             setIsOpen(false);
+            if (handleSave) {
+                handleSave(chain_feature_ids)
+            }
         },
-        [router]
+        [router, chain_feature_ids]
     );
     return (
         <Transition show={isOpen}>
@@ -102,9 +106,8 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
                                 return (
                                     <div
                                         key={index}
-                                        className={` border p-2 mt-1 cursor-pointer ${
-                                            !isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
-                                        }`}
+                                        className={` border p-2 mt-1 cursor-pointer ${!isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
+                                            }`}
                                         onClick={() => handleChainFeatureClick(item?.fields?.id)}
                                     >
                                         {item.fields.name}

@@ -1,12 +1,27 @@
 // File Path: pages/chatbot/ChatbotView.tsx
 
 import Link from 'next/link';
-import { Chatbot } from './ChatbotContainer';
+import { useState } from 'react';
+import MiniappShareQRcodeModal from '../../components/common/Widget/MiniappShareQRcodeModal';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import ChatbotRow from '../../components/feature/chatbot/ChatbotRow';
+import { encrypt } from '../../utils/util_crypto';
+import { Chatbot } from './ChatbotContainer';
 
 function ChatbotView(props: { chatbots: Chatbot[]; meta: any }) {
     const { chatbots, meta } = props;
+    const [miniappItem, setMiniappItem] = useState<any>();
+    const [visable, setVisible] = useState(false);
+    const share = (item: any) => {
+        const encryptedText = encrypt(window.localStorage?.getItem('authorization') || '');
+        const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `/${item.id}?token=${encryptedText}`
+
+        setMiniappItem({
+            ...item,
+            link: link
+        });
+        setVisible(true);
+    };
     return (
         <div className="mx-auto max-w-7xl">
             <div className="px-4 sm:px-6 lg:px-8">
@@ -62,7 +77,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any }) {
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {chatbots?.map((item: any, index: number) => {
-                                        return <ChatbotRow key={index} item={item} />;
+                                        return <ChatbotRow key={index} item={item} share={share} />;
                                     })}
                                 </tbody>
                             </table>
@@ -71,6 +86,15 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any }) {
                     </div>
                 </div>
             </div>
+            <MiniappShareQRcodeModal
+                visable={visable}
+                title={'掃描QR-code來訪問智能助手'}
+                name={miniappItem?.name}
+                link={miniappItem?.link}
+                cancelClick={() => {
+                    setVisible(false);
+                }}
+            />
         </div>
     );
 }

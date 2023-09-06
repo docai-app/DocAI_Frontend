@@ -75,4 +75,13 @@ export default class Tag {
         };
         return requestHeader;
     }
+
+    updateTagFeatures(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/${id}/features`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

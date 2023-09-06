@@ -27,7 +27,7 @@ export default function MiniappView(props: MiniappViewProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => {}}
+                setOpen={() => { }}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
@@ -102,6 +102,7 @@ export default function MiniappView(props: MiniappViewProps) {
             </div>
             <MiniappShareQRcodeModal
                 visable={visable}
+                title={'掃描QR-code來訪問資源應用程序'}
                 name={miniappItem?.name}
                 link={miniappItem?.link}
                 cancelClick={() => {

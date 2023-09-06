@@ -14,7 +14,7 @@ export default function LabelContainer() {
         apiSetting.Tag.addNewTag(),
         { manual: true }
     );
-    const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
+    const [{ data: getAllLabelsData, loading: loading, error: getAllLabelsError }, getAllLabels] = useAxios(
         apiSetting.Tag.getAllTags(),
         { manual: true }
     );
@@ -28,6 +28,9 @@ export default function LabelContainer() {
 
     const [{ data: deleteTagFunctionsData, error: deleteTagFunctionsError }, deleteTagFunctions] =
         useAxios(apiSetting.Tag.deleteTagFunctions(), { manual: true });
+
+    const [{ data: updateTagFeaturesData }, updateTagFeatures] =
+        useAxios(apiSetting.Tag.updateTagFeatures(''), { manual: true });
 
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },
@@ -92,6 +95,16 @@ export default function LabelContainer() {
         [updateTagFunctions]
     );
 
+    const updateTagFeatureHandler = useCallback(
+        async (tag_id: string, chain_feature_ids: []) => {
+            updateTagFeatures({
+                ...apiSetting.Tag.updateTagFeatures(tag_id),
+                data: { chain_features: chain_feature_ids }
+            });
+        },
+        [updateTagFeatures]
+    );
+
     const deleteTagFunctionsHandler = useCallback(
         async (tag_id: string, function_id: string) => {
             if (function_id)
@@ -105,6 +118,7 @@ export default function LabelContainer() {
     return (
         <LabelView
             {...{
+                loading,
                 getAllLabelsData,
                 addNewLabelHandler,
                 addNewLabelData,
@@ -113,7 +127,8 @@ export default function LabelContainer() {
                 updateLabelNameByIdHandler,
                 tagTypes,
                 updateTagFunctionsHandler,
-                deleteTagFunctionsHandler
+                deleteTagFunctionsHandler,
+                updateTagFeatureHandler
             }}
         />
     );

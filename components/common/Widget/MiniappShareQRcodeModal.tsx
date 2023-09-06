@@ -75,7 +75,7 @@ export default function MiniappShareQRcodeModal(props: any) {
                                         <QRCode value={props.link} size={200} />
                                         <p className="text-md my-2">{props.name}</p>
                                         <p className="text-md text-gray-500">
-                                            掃描QR-code來訪問資源應用程序
+                                            {props?.title}
                                         </p>
                                     </div>
                                     <button

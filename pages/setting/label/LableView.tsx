@@ -1,9 +1,13 @@
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
+import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
+import ChainFeatureSelect from '../../../components/feature/chatbot/ChainFeatureSelect';
 import EditLabel from '../../../components/feature/setting/label/EditLabel';
 import LabelTag from './LabelTag';
 
 interface LabelProps {
+    loading: boolean;
     addNewLabelHandler: any;
     addNewLabelData: any;
     getAllLabelsData: {
@@ -21,9 +25,11 @@ interface LabelProps {
     tagTypes: any;
     updateTagFunctionsHandler: any;
     deleteTagFunctionsHandler: any;
+    updateTagFeatureHandler: any;
 }
 export default function LabelView(props: LabelProps) {
     const {
+        loading,
         getAllLabelsData,
         addNewLabelHandler,
         newLabelName,
@@ -31,12 +37,27 @@ export default function LabelView(props: LabelProps) {
         updateLabelNameByIdHandler,
         tagTypes,
         updateTagFunctionsHandler,
-        deleteTagFunctionsHandler
+        deleteTagFunctionsHandler,
+        updateTagFeatureHandler
     } = props;
     const [sortedLabels, setSortedLabels] = useState<any[]>([]);
     const [sortedUnCheckLabels, setSortedUnCheckLabels] = useState<any[]>([]);
     const [open, setOpen] = useState(false);
     const [tag, setTag] = useState('');
+
+    const [label, setLabel] = useState<any>();
+    const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
+    const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
+    const handleSave = (chain_feature_ids: any) => {
+        updateTagFeatureHandler(label?.id, chain_feature_ids)
+    }
+
+    useEffect(() => {
+        if (label) {
+            set_chain_feature_ids(label?.meta?.chain_features || []);
+        }
+    }, [label])
+
     useEffect(() => {
         if (getAllLabelsData) {
             setSortedLabels(
@@ -54,6 +75,14 @@ export default function LabelView(props: LabelProps) {
     }, [getAllLabelsData]);
     return (
         <>
+            <SingleActionModel
+                open={loading}
+                setOpen={() => { }}
+                title={'進行中......'}
+                content={'正在加载数据...'}
+                icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
+            />
+
             <EditLabel
                 {...{
                     open,
@@ -107,6 +136,10 @@ export default function LabelView(props: LabelProps) {
                                                         updateLabelNameByIdHandler={
                                                             updateLabelNameByIdHandler
                                                         }
+                                                        setLabel={(label: any) => {
+                                                            setLabel(label);
+                                                            setChainFeatureIsOpen(true);
+                                                        }}
                                                     />
                                                 ))}
                                             </tbody>
@@ -155,6 +188,15 @@ export default function LabelView(props: LabelProps) {
                     </div>
                 </main>
             </div>
+            <ChainFeatureSelect
+                {...{
+                    isOpen: chainFeatureIsOpen,
+                    setIsOpen: setChainFeatureIsOpen,
+                    chain_feature_ids,
+                    set_chain_feature_ids,
+                    handleSave
+                }}
+            />
         </>
     );
 }
