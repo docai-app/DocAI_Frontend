@@ -90,6 +90,12 @@ export default function LabelContainer() {
             if (function_id)
                 updateTagFunctions({
                     data: { tag_id: tag_id, function_id: function_id }
+                }).then((res) => {
+                    if (res.data.success) {
+                        setAlert({ title: '更新成功', type: 'success' });
+                    } else {
+                        setAlert({ title: '更新失敗', type: 'error' });
+                    }
                 });
         },
         [updateTagFunctions]
@@ -100,6 +106,12 @@ export default function LabelContainer() {
             updateTagFeatures({
                 ...apiSetting.Tag.updateTagFeatures(tag_id),
                 data: { chain_features: chain_feature_ids }
+            }).then((res) => {
+                if (res.data.success) {
+                    setAlert({ title: '更新成功', type: 'success' });
+                } else {
+                    setAlert({ title: '更新失敗', type: 'error' });
+                }
             });
         },
         [updateTagFeatures]
