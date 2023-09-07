@@ -380,7 +380,9 @@ export default function DriveView(props: DriveViewProps) {
                             </div>
                         </div>
                         <div className="w-full">
-                            {allItemsData && allItemsData.length != 0 ? (
+                            {(allItemsData || allFoldersItemsData) &&
+                            [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
+                                0 ? (
                                 <InfiniteScroll
                                     dataLength={allItemsData?.length} //This is important field to render the next data
                                     next={showAllItemsHandler}
