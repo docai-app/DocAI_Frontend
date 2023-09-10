@@ -24,8 +24,8 @@ function SearchFormView(props: SearchFormViewProps) {
                             return (
                                 <Link href={`/search/form/schema/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
-                                        <DocumentMagnifyingGlassIcon className="h-20" />
-                                        <p>{item.name}</p>
+                                        <DocumentMagnifyingGlassIcon className="w-20 h-20" />
+                                        <p className='w-20'>{item.name}</p>
                                     </a>
                                 </Link>
                             );

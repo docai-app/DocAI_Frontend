@@ -1,6 +1,7 @@
 import { FolderIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
+import moment from 'moment';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMultipleSelect from '../../../components/common/Widget/FolderTreeForMultipleSelect';
@@ -151,6 +152,41 @@ function CreateView(props: CreateViewProps) {
                                 target_folder_id={target_folder_id}
                                 set_target_folder_id={set_target_folder_id}
                             /> */}
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                是否公開使用
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type={'checkbox'}
+                                    defaultChecked={chatbot?.is_public}
+                                    onClick={() => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            is_public: !chatbot?.is_public
+                                        });
+                                    }}
+                                />公開使用
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                過期日期
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type={'date'}
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    value={moment(chatbot?.expired_at).format('YYYY-MM-DD')}
+                                    onChange={(e) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            expired_at: e.target.value
+                                        });
+                                    }}
+                                />
+                            </div>
                         </div>
                         <div className="sm:col-span-6 flex justify-end">
                             <button

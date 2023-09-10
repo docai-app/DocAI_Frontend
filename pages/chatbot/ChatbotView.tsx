@@ -65,7 +65,19 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any }) {
                                             scope="col"
                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                         >
+                                            是否公開
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                        >
                                             建立日期
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                        >
+                                            過期日期
                                         </th>
                                         <th
                                             scope="col"

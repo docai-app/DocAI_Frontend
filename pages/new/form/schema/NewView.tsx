@@ -23,8 +23,8 @@ export default function NewView(props: NewViewProps) {
                             return (
                                 <Link href={`/new/form/schema/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
-                                        <TableCellsIcon className="h-20" />
-                                        <p>{item.name}</p>
+                                        <TableCellsIcon className="w-20 h-20" />
+                                        <p className='w-20'>{item.name}</p>
                                     </a>
                                 </Link>
                             );

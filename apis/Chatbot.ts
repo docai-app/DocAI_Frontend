@@ -16,6 +16,8 @@ export default class Chatbot {
     createChatbot(
         name: string,
         description: string,
+        is_public: boolean,
+        expired_at: string,
         source: { folder_id: string[] },
         chain_features: []
     ) {
@@ -26,6 +28,8 @@ export default class Chatbot {
             data: {
                 name,
                 description,
+                is_public,
+                expired_at,
                 source,
                 chain_features
             }
@@ -44,6 +48,8 @@ export default class Chatbot {
         id: string,
         name: string,
         description: string,
+        is_public: boolean,
+        expired_at: string,
         source: { folder_id: string[] },
         chain_features: []
     ) {
@@ -54,6 +60,8 @@ export default class Chatbot {
             data: {
                 name,
                 description,
+                is_public,
+                expired_at,
                 source,
                 chain_features
             }

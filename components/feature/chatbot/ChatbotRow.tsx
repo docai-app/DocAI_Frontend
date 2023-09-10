@@ -41,7 +41,13 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     ))}
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    {chatbot?.is_public ? '公開' : ''}
+                </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     {moment(chatbot?.created_at).format('YYYY-MM-DD HH:ss')}
+                </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    {chatbot?.expired_at && moment(chatbot?.expired_at).format('YYYY-MM-DD')}
                 </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                     <label

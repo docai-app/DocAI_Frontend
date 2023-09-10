@@ -54,6 +54,8 @@ function CreateContainer() {
                 apiSetting.Chatbot.createChatbot(
                     chatbot?.name,
                     chatbot?.description,
+                    chatbot?.is_public,
+                    chatbot?.expired_at,
                     {
                         folder_id: multipleDest.map((f) => f.id)
                     },
@@ -72,6 +74,8 @@ function CreateContainer() {
                     router.query.id?.toString(),
                     chatbot?.name,
                     chatbot?.description,
+                    chatbot?.is_public,
+                    chatbot?.expired_at,
                     {
                         folder_id: multipleDest.map((f) => f.id)
                     },
@@ -84,17 +88,17 @@ function CreateContainer() {
 
     useEffect(() => {
         if (getChatbotData && getChatbotData.success) {
-            console.log(getChatbotData);
+            // console.log(getChatbotData);
             setChatbot(getChatbotData?.chatbot);
             setMultipleDest(getChatbotData?.folders || []);
             set_chain_feature_ids(getChatbotData.chatbot?.meta?.chain_features || []);
         }
-    }, [getChatbotData]);
+    }, [router, getChatbotData]);
 
     useEffect(() => {
         if (updateChatboxData && updateChatboxData.success) {
             router.push('/chatbot');
-            console.log('updateChatboxData', updateChatboxData);
+            // console.log('updateChatboxData', updateChatboxData);
         }
     }, [updateChatboxData]);
 
