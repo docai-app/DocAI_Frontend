@@ -14,10 +14,8 @@ export default function LabelContainer() {
         apiSetting.Tag.addNewTag(),
         { manual: true }
     );
-    const [{ data: getAllLabelsData, loading: loading, error: getAllLabelsError }, getAllLabels] = useAxios(
-        apiSetting.Tag.getAllTags(),
-        { manual: true }
-    );
+    const [{ data: getAllLabelsData, loading: loading, error: getAllLabelsError }, getAllLabels] =
+        useAxios(apiSetting.Tag.getAllTags(), { manual: true });
     const [{ data: tagTypes, error: getAllTagFunctionsError }, getAllTagFunctions] = useAxios(
         apiSetting.Tag.getTagFunctions(),
         { manual: false }
@@ -29,8 +27,10 @@ export default function LabelContainer() {
     const [{ data: deleteTagFunctionsData, error: deleteTagFunctionsError }, deleteTagFunctions] =
         useAxios(apiSetting.Tag.deleteTagFunctions(), { manual: true });
 
-    const [{ data: updateTagFeaturesData }, updateTagFeatures] =
-        useAxios(apiSetting.Tag.updateTagFeatures(''), { manual: true });
+    const [{ data: updateTagFeaturesData }, updateTagFeatures] = useAxios(
+        apiSetting.Tag.updateTagFeatures(''),
+        { manual: true }
+    );
 
     const [
         { data: updateLabelNameByIdData, error: updateLabelNameByIdError },

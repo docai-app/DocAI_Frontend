@@ -1,7 +1,13 @@
 import { EyeIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 
-export default function LabelTag({ label, updateLabelNameByIdHandler, setLabel, unCheck, onEdit }: any) {
+export default function LabelTag({
+    label,
+    updateLabelNameByIdHandler,
+    setLabel,
+    unCheck,
+    onEdit
+}: any) {
     return (
         <>
             <tr>
@@ -32,7 +38,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, setLabel, 
                     >
                         編輯
                     </a>
-                    {label && label?.is_checked &&
+                    {label && label?.is_checked && (
                         <>
                             {'|'}
                             <a
@@ -44,7 +50,7 @@ export default function LabelTag({ label, updateLabelNameByIdHandler, setLabel, 
                                 選擇Features
                             </a>
                         </>
-                    }
+                    )}
                     {label && !label?.is_checked && (
                         <button
                             className=" my-1 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"
