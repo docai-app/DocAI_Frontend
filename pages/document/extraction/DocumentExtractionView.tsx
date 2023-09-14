@@ -1,12 +1,13 @@
-import { TableCellsIcon } from '@heroicons/react/24/outline';
+import { DocumentMagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-interface NewViewProps {
-    forms: any[];
+interface DocumentExtractionViewProps {
+    labels: any[];
 }
 
-export default function NewView(props: NewViewProps) {
-    const { forms = [] } = props;
+function DocumentExtractionView(props: DocumentExtractionViewProps) {
+    const { labels = [] } = props;
+
     return (
         <>
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
@@ -14,16 +15,16 @@ export default function NewView(props: NewViewProps) {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                         <div className="max-w-4xl mx-auto text-center">
                             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                                填寫表格
+                                文檔數據提取
                             </h2>
                         </div>
                     </div>
                     <div className="flex float-row flex-wrap">
-                        {forms.map((item, index) => {
+                        {labels?.map((item, index) => {
                             return (
-                                <Link href={`/new/form/schema/${item.id}`} key={index}>
+                                <Link href={`/document/extraction/${item.id}`} key={index}>
                                     <a className="p-8 hover:bg-gray-100  items-center text-center">
-                                        <TableCellsIcon className="w-20 h-20" />
+                                        <DocumentMagnifyingGlassIcon className="w-20 h-20" />
                                         <p className="w-20">{item.name}</p>
                                     </a>
                                 </Link>
@@ -35,3 +36,4 @@ export default function NewView(props: NewViewProps) {
         </>
     );
 }
+export default DocumentExtractionView;

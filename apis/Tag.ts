@@ -13,6 +13,15 @@ export default class Tag {
         return requestHeader;
     }
 
+    getTagById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/tags/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
     getTagByTagging() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

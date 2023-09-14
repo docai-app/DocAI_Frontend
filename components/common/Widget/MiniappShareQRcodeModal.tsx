@@ -74,9 +74,7 @@ export default function MiniappShareQRcodeModal(props: any) {
                                     >
                                         <QRCode value={props.link} size={200} />
                                         <p className="text-md my-2">{props.name}</p>
-                                        <p className="text-md text-gray-500">
-                                            {props?.title}
-                                        </p>
+                                        <p className="text-md text-gray-500">{props?.title}</p>
                                     </div>
                                     <button
                                         type="button"

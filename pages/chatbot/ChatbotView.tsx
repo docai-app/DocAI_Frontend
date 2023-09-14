@@ -14,7 +14,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any }) {
     const [visable, setVisible] = useState(false);
     const share = (item: any) => {
         const encryptedText = encrypt(window.localStorage?.getItem('authorization') || '');
-        const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `/${item.id}?token=${encryptedText}`
+        const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `/${item.id}?token=${encryptedText}`;
 
         setMiniappItem({
             ...item,

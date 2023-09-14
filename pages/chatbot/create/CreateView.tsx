@@ -167,7 +167,8 @@ function CreateView(props: CreateViewProps) {
                                             is_public: !chatbot?.is_public
                                         });
                                     }}
-                                />公開使用
+                                />
+                                公開使用
                             </div>
                         </div>
                         <div className="col-span-full">

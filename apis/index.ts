@@ -14,6 +14,7 @@ import MiniApp from './MiniApp';
 import Project from './Project';
 import ProjectTask from './ProjectTask';
 import Search from './Search';
+import SmartExtractionSchemas from './SmartExtractionSchemas';
 import Statistics from './Statistics';
 import Storage from './Storage';
 import Tag from './Tag';
@@ -39,6 +40,7 @@ export default class Api {
     Generate: Generate;
     MiniApp: MiniApp;
     Chatbot: Chatbot;
+    SmartExtractionSchemas: SmartExtractionSchemas;
 
     constructor() {
         this.Storage = new Storage();
@@ -60,5 +62,6 @@ export default class Api {
         this.Generate = new Generate();
         this.MiniApp = new MiniApp();
         this.Chatbot = new Chatbot();
+        this.SmartExtractionSchemas = new SmartExtractionSchemas();
     }
 }

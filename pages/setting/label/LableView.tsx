@@ -49,14 +49,14 @@ export default function LabelView(props: LabelProps) {
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
     const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
     const handleSave = (chain_feature_ids: any) => {
-        updateTagFeatureHandler(label?.id, chain_feature_ids)
-    }
+        updateTagFeatureHandler(label?.id, chain_feature_ids);
+    };
 
     useEffect(() => {
         if (label) {
             set_chain_feature_ids(label?.meta?.chain_features || []);
         }
-    }, [label])
+    }, [label]);
 
     useEffect(() => {
         if (getAllLabelsData) {
@@ -77,7 +77,7 @@ export default function LabelView(props: LabelProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => { }}
+                setOpen={() => {}}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}

@@ -17,7 +17,14 @@ interface ChainFeatureSelectProps {
 
 const apiSetting = new Api();
 export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
-    const { isOpen, setIsOpen, setMultipleDest, chain_feature_ids, set_chain_feature_ids, handleSave } = props;
+    const {
+        isOpen,
+        setIsOpen,
+        setMultipleDest,
+        chain_feature_ids,
+        set_chain_feature_ids,
+        handleSave
+    } = props;
     const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const router = useRouter();
     const [chain_features, set_chain_features] = useState<any>([]);
@@ -57,7 +64,7 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
         (folders: any) => {
             setIsOpen(false);
             if (handleSave) {
-                handleSave(chain_feature_ids)
+                handleSave(chain_feature_ids);
             }
         },
         [router, chain_feature_ids]
@@ -106,8 +113,9 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
                                 return (
                                     <div
                                         key={index}
-                                        className={` border p-2 mt-1 cursor-pointer ${!isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
-                                            }`}
+                                        className={` border p-2 mt-1 cursor-pointer ${
+                                            !isSelected(item?.fields?.id) ? ' bg-indigo-100' : ''
+                                        }`}
                                         onClick={() => handleChainFeatureClick(item?.fields?.id)}
                                     >
                                         {item.fields.name}

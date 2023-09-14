@@ -57,6 +57,17 @@ export function getDownloadFields(metchedData: any[] = []) {
     return fields;
 }
 
+export function getDownloadFieldsFormSmartExtraSchema(metchedData: any[] = []) {
+    const fields: any[] = [];
+    metchedData.forEach((element) => {
+        fields.push({
+            label: element.query,
+            value: element.key
+        });
+    });
+    return fields;
+}
+
 export function matchFormSchemaAndFormData(form_schema: any = {}, form_data: any = {}): any[] {
     let metchedData: any[] = [];
     metchedData = findHasPropertiesObject(form_schema.properties, metchedData);

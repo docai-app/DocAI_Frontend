@@ -17,7 +17,8 @@ export default function MyDateDropdown(props: any) {
             as="div"
             className={classNames(
                 props.zindex ? props.zindex : 'z-50',
-                'relative inline-block text-left mr-4'
+                'relative inline-block text-left mr-4',
+                props.style
             )}
         >
             <div className="z-10">

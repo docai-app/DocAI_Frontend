@@ -64,6 +64,14 @@ export default function LeftMenu(props: any) {
             iconBackground: 'bg-blue-50'
         },
         {
+            name: '文檔數據提取',
+            href: '/document/extraction',
+            icon: ShieldCheckIcon,
+            current: router.pathname.indexOf('/extraction') != -1,
+            iconForeground: 'text-blue-700',
+            iconBackground: 'bg-blue-50'
+        },
+        {
             name: '項目管理',
             href: '/project',
             icon: ChartBarSquareIcon,
