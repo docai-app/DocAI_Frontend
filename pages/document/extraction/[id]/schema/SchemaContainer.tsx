@@ -2,13 +2,16 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../../apis';
+import useAlert from '../../../../../hooks/useAlert';
 import SchemaView from './SchemaView';
 
 const apiSetting = new Api();
 
 export default function SchemaContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert()
     const [open, setOpen] = useState(false);
+    const [actionContent, setActionContent] = useState('')
     const [extractSchema, setExtractSchema] = useState({
         name: '',
         description: '',
@@ -37,6 +40,7 @@ export default function SchemaContainer() {
     });
 
     useEffect(() => {
+        setActionContent('正在加載數據')
         if (router && router.query.id) {
             setExtractSchema({
                 ...extractSchema,
@@ -57,23 +61,33 @@ export default function SchemaContainer() {
     }, [loading]);
 
     useEffect(() => {
+        setOpen(updateLoading);
+    }, [updateLoading]);
+
+    useEffect(() => {
+        setOpen(getLoading);
+    }, [getLoading]);
+
+    useEffect(() => {
         if (createSmartExtractionSchemasData && createSmartExtractionSchemasData.success) {
+            setAlert({ title: '創建成功', type: 'success' })
+        } else if (createSmartExtractionSchemasData && !createSmartExtractionSchemasData.success) {
+            setAlert({ title: '創建失敗', type: 'error' })
+            console.log(createSmartExtractionSchemasData);
         }
     }, [createSmartExtractionSchemasData]);
 
     useEffect(() => {
-        console.log('updateSmartExtractionSchemasByIdData', updateSmartExtractionSchemasByIdData);
-
         if (updateSmartExtractionSchemasByIdData && updateSmartExtractionSchemasByIdData.success) {
+            setAlert({ title: '保存成功', type: 'success' })
+        } else if (updateSmartExtractionSchemasByIdData && !updateSmartExtractionSchemasByIdData.success) {
+            setAlert({ title: '保存失敗', type: 'error' })
+            console.log(updateSmartExtractionSchemasByIdData);
         }
     }, [updateSmartExtractionSchemasByIdData]);
 
     useEffect(() => {
         if (getSmartExtractionSchemasByIdData && getSmartExtractionSchemasByIdData.success) {
-            console.log(
-                'getSmartExtractionSchemasByIdData',
-                getSmartExtractionSchemasByIdData.smart_extraction_schema
-            );
             setExtractSchema({
                 name: getSmartExtractionSchemasByIdData.smart_extraction_schema?.name,
                 description: getSmartExtractionSchemasByIdData.smart_extraction_schema?.description,
@@ -90,9 +104,9 @@ export default function SchemaContainer() {
             data_schema[s.key] = '';
         });
         extractSchema.data_schema = data_schema;
-        console.log('data_schema', data_schema);
-        console.log(extractSchema);
-
+        // console.log('data_schema', data_schema);
+        // console.log(extractSchema);
+        setActionContent('正在保存數據,等待時間較長，請耐心等候...')
         if (router && router.query.schema_id) {
             updateSmartExtractionSchemasById({
                 ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
@@ -114,7 +128,8 @@ export default function SchemaContainer() {
                 setOpen,
                 extractSchema,
                 setExtractSchema,
-                handleSave
+                handleSave,
+                actionContent
             }}
         />
     );

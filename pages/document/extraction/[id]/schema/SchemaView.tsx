@@ -16,11 +16,28 @@ interface SchemaViewProps {
     };
     setExtractSchema: any;
     handleSave: any;
+    actionContent: string;
 }
 
 function SchemaView(props: SchemaViewProps) {
-    const { open, setOpen, extractSchema, setExtractSchema, handleSave } = props;
+    const { open, setOpen, extractSchema, setExtractSchema, handleSave, actionContent } = props;
     const [visable, setVisable] = useState(false);
+    const [currectExtraScheam, setCurrectExtraSchema] = useState()
+    const [currectPosition, setCurrectPosition] = useState(-1)
+
+    const editExtraSchema = (position: number) => {
+        setVisable(true)
+        setCurrectPosition(position)
+        setCurrectExtraSchema(extractSchema?.schema[position])
+    }
+
+    const removeExtraSchema = (position: number) => {
+        extractSchema?.schema.splice(position, 1)
+        setExtractSchema({
+            ...extractSchema,
+            schema: extractSchema?.schema
+        });
+    }
 
     return (
         <>
@@ -28,10 +45,10 @@ function SchemaView(props: SchemaViewProps) {
                 open={open}
                 setOpen={setOpen}
                 title={'正在進行...'}
-                content={'正在保存數據,等待時間較長，請耐心等候...'}
+                content={actionContent}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-7xl p-4">
                 <div className="mx-auto max-w-7xl pb-12">
                     <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯Schema</h2>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">{extractSchema?.description}</p> */}
@@ -124,7 +141,13 @@ function SchemaView(props: SchemaViewProps) {
                                         {extractSchema?.schema?.map(
                                             (schema: any, index: number) => {
                                                 return (
-                                                    <ExtractSchemaRow schema={schema} key={index} />
+                                                    <ExtractSchemaRow
+                                                        key={index}
+                                                        position={index}
+                                                        schema={schema}
+                                                        edit={editExtraSchema}
+                                                        remove={removeExtraSchema}
+                                                    />
                                                 );
                                             }
                                         )}
@@ -148,13 +171,17 @@ function SchemaView(props: SchemaViewProps) {
             </div>
             <EditSchemaDataModal
                 visable={visable}
+                extractSchema={currectExtraScheam}
                 cancelClick={() => {
                     setVisable(false);
                 }}
                 confirmClick={(data: any) => {
-                    // setVisable(false)
-                    // console.log(data);
-                    extractSchema?.schema?.push(data);
+                    if (currectPosition > -1) {
+                        extractSchema?.schema.splice(currectPosition, 1, data)
+                        setVisable(false)
+                    } else {
+                        extractSchema?.schema?.push(data);
+                    }
                     setExtractSchema({
                         ...extractSchema,
                         schema: extractSchema?.schema

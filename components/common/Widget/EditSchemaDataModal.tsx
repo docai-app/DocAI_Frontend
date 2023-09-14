@@ -1,11 +1,14 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useRef, useState } from 'react';
+import _ from 'lodash';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import MyDateDropdown from './MyDateDropdown';
 
 export default function EditSchemaDataModal(props: any) {
     const cancelButtonRef = useRef(null);
+    const [validate, setValidate] = useState(true)
     const [title, setTitle] = useState('');
+
     const [data, setData] = useState({
         key: '',
         data_type: '',
@@ -13,18 +16,33 @@ export default function EditSchemaDataModal(props: any) {
     });
     const data_types = [
         {
-            name: 'String',
+            name: '數值',
             value: 'string'
         },
         {
-            name: 'Date',
+            name: '日期',
             value: 'date'
         },
         {
-            name: 'Number',
+            name: '數字',
             value: 'number'
         }
     ];
+    function findNameByValue(value: string) {
+        if (_.isEmpty(value)) return ''
+        const dataType = data_types.find(item => item.value === value);
+        return dataType ? dataType.name : '';
+    }
+    useEffect(() => {
+
+        if (props?.extractSchema) {
+            setData(
+                props?.extractSchema
+            )
+            setTitle(findNameByValue(props?.extractSchema?.data_type));
+        }
+    }, [props?.extractSchema])
+
     const onSwitch = (data_type: any) => {
         setData({
             ...data,
@@ -32,6 +50,13 @@ export default function EditSchemaDataModal(props: any) {
         });
         setTitle(data_type.name);
     };
+
+    const validateInput = (input: string) => {
+        const pattern = /^[A-Za-z_]+$/;
+        const validate = pattern.test(input)
+        setValidate(validate)
+        return validate;
+    }
 
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
@@ -87,19 +112,26 @@ export default function EditSchemaDataModal(props: any) {
                                             name="signature"
                                             className="w-full rounded-md"
                                             placeholder="name"
+                                            defaultValue={data?.key}
                                             onChange={(e) => {
-                                                setData({
-                                                    ...data,
-                                                    key: e.target.value
-                                                });
+                                                if (validateInput(e.target.value))
+                                                    setData({
+                                                        ...data,
+                                                        key: e.target.value
+                                                    });
                                             }}
                                         ></input>
-                                        <label className="flex justify-start text-sm text-gray-500">
-                                            只可以輸入英文字母,不可以輸入中文,除了底線"_"外
+                                    </div>
+                                </div>
+                                <div className="flex items-start">
+                                    <label className="text-sm w-1/4"> {''}</label>
+                                    <div className="w-3/4 ml-4 ">
+                                        <label className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'}`}>
+                                            *只可以輸入英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
                                     </div>
                                 </div>
-                                <div className="flex items-center mt-2">
+                                <div className="flex items-center mt-4">
                                     <label className="text-sm w-1/4"> Data Type:</label>
                                     <div className="w-3/4 ml-4 ">
                                         <MyDateDropdown
@@ -119,6 +151,7 @@ export default function EditSchemaDataModal(props: any) {
                                             name="signature"
                                             className="w-full rounded-md"
                                             placeholder="員工姓名"
+                                            defaultValue={data?.query}
                                             onChange={(e) => {
                                                 setData({
                                                     ...data,

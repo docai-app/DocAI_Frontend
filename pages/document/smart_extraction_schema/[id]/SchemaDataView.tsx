@@ -108,8 +108,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
                     </div>
                     <header className="shadow bg-white">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8   ">
-                            <h1 className="text-3xl font-bold text-gray-900">{formSchema?.name}</h1>
-                            <h5 className="text-md   text-gray-500 sm:text-xl">
+                            <h1 className="text-2xl font-bold text-gray-900">{formSchema?.name}</h1>
+                            <h5 className="text-md text-gray-500 sm:text-md">
                                 {formSchema?.description}
                             </h5>
                         </div>
