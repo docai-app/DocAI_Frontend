@@ -9,6 +9,7 @@ import MyModal from '../../../../components/common/Widget/MyModal';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import SchemaFormFilterTableRow from '../../../../components/feature/document/extraction/SchemaFormFilterTableRow';
 import EditItems from '../../../../components/feature/drive/EditItems';
+import useAlert from '../../../../hooks/useAlert';
 
 interface SchemaDataViewProps {
     label: any;
@@ -55,10 +56,28 @@ function SchemaDataView(props: SchemaDataViewProps) {
         chart
     } = props;
     const router = useRouter();
+    const { setAlert } = useAlert()
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);
     const [datumId, setDatumId] = useState('');
+
+    const editFormDocument = (datum: any) => {
+        if (!datum) return;
+        console.log(datum);
+        setAlert({ title: '未做', type: 'info' })
+        // router.push({
+        //     pathname: '/form/validate',
+        //     query: {
+        //         document_id: datum?.document_id,
+        //         form_url: datum?.document?.storage_url,
+        //         form_id: datum?.id,
+        //         form_schema_id: datum?.form_schema_id,
+        //         result: JSON.stringify(datum?.data)
+        //     }
+        // });
+    };
+
     const setChecedkData = (checked: boolean, value: string) => {
         const newData = checked
             ? [...form_data_ids, value]
@@ -198,7 +217,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6 hidden"
                                             >
                                                 操作
                                             </th>
@@ -213,7 +232,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                                     index={index}
                                                     datum={datum}
                                                     selectedResult={selectedResult}
-                                                    editFormDocument={null}
+                                                    editFormDocument={editFormDocument}
                                                     setDatumId={setDatumId}
                                                     setVisibleDelete={setVisibleDelete}
                                                     setChecedkData={setChecedkData}

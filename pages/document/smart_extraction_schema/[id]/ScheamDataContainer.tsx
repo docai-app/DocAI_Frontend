@@ -112,7 +112,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -164,6 +164,7 @@ export default function ScheamDataContainer() {
     const handlerGenerateChart = async (query: string, form_data_ids: []) => {
         console.log('query', query);
         console.log('form_data_ids', form_data_ids);
+        setAlert({ 'title': '未做', type: 'info' })
 
         // if (query) {
         //     setLoadingOpen(true);
@@ -175,15 +176,11 @@ export default function ScheamDataContainer() {
         //     if (res.data.success) {
         //         setVisibleHtmlCode(true);
         //         setChart(res.data.chart);
-        //         // router.push({
-        //         //     pathname: '/search/form/schema/htmlcode',
-        //         //     query: { content: JSON.stringify(res.data.chart) }
-        //         // });
         //     } else {
+        //         console.log(res.data);
         //         setAlert({ title: res.data.chart, type: 'error' });
         //     }
         //     setLoadingOpen(false);
-        //     // console.log(res.data);
         // }
     };
 
