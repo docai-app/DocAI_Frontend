@@ -92,7 +92,7 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                         點擊開啟
                     </a>
                 </td>
-                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6 hidden">
+                <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                     <a
                         className=" cursor-pointer text-blue-500 hover:text-blue-700 underline"
                         target="_blank"

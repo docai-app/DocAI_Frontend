@@ -5,10 +5,10 @@ import axios from 'axios';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect, useLayoutEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import AlertModel from '../components/common/Widget/AlertModel';
 import { AlertProvider } from '../context/AlertContext';
 import '../styles/globals.css';
-import { Helmet } from 'react-helmet';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;

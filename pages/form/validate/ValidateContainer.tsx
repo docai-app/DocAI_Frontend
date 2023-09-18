@@ -1,5 +1,4 @@
 import { FieldProps, WidgetProps } from '@rjsf/core';
-import axios from 'axios';
 import useAxios from 'axios-hooks';
 import { useFormik } from 'formik';
 import _get from 'lodash/get';

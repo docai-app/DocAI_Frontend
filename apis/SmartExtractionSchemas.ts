@@ -48,4 +48,40 @@ export default class SmartExtractionSchemas {
         };
         return requestHeader;
     }
+
+    searchSmartExtractionSchemasDataById(id: string, page = 1) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/document_smart_extraction_datum/${id}/search?page=${page}`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    getSmartExtractionSchemasFormDataById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/document_smart_extraction_datum/${id}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    updateSmartExtractionSchemasFormDataById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/document_smart_extraction_datum/${id}/data`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
+
+    deleteSmartExtractionSchemasFormDataById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/document_smart_extraction_datum/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
 }

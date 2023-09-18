@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import { Parser } from 'json2csv';
+import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
@@ -17,13 +18,14 @@ export default function ScheamDataContainer() {
     const [selectedFilter, setSelectedFilter] = useState<any>([]);
     const [selectedResult, setSelectedResult] = useState([]);
     const [formDatum, setFormDatum] = useState([]);
-    const [filterData, setFilterData] = useState({});
+    const [filterData, setFilterData] = useState<any>({});
     const [loadingOpen, setLoadingOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [modalDescription, setModalDescription] = useState({});
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
+    const [hasMore, setHasMore] = useState(false)
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -34,6 +36,11 @@ export default function ScheamDataContainer() {
 
     const [{ data: resultFormsData, loading }, getSmartExtractionSchemasDataById] = useAxios(
         apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasDataById(''),
+        { manual: true }
+    );
+
+    const [{ data: searchData, loading: searching }, searchSmartExtractionSchemasDataById] = useAxios(
+        apiSetting.SmartExtractionSchemas.searchSmartExtractionSchemasDataById(''),
         { manual: true }
     );
 
@@ -53,7 +60,7 @@ export default function ScheamDataContainer() {
     );
 
     const [{ data: deleteFormByIdData, loading: deleteFormByIdLoading }, deleteFormById] = useAxios(
-        apiSetting.Form.deleteFormById(''),
+        apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(''),
         {
             manual: true
         }
@@ -67,6 +74,15 @@ export default function ScheamDataContainer() {
                 content: '正在獲取資料'
             });
     }, [loading]);
+
+    useEffect(() => {
+        setOpen(searching);
+        if (searching)
+            setModalDescription({
+                title: '進行中......',
+                content: '正在獲取資料'
+            });
+    }, [searching]);
 
     useEffect(() => {
         if (router && router.query.id) {
@@ -91,7 +107,7 @@ export default function ScheamDataContainer() {
 
     useEffect(() => {
         if (getSmartExtractionSchemasByIdData && getSmartExtractionSchemasByIdData.success) {
-            console.log('getSmartExtractionSchemasByIdData', getSmartExtractionSchemasByIdData);
+            // console.log('getSmartExtractionSchemasByIdData', getSmartExtractionSchemasByIdData);
             setSelectedResult(getSmartExtractionSchemasByIdData.smart_extraction_schema?.schema);
             setFormSchema(getSmartExtractionSchemasByIdData.smart_extraction_schema);
             setSelectedFilter(getSmartExtractionSchemasByIdData.smart_extraction_schema?.schema);
@@ -100,11 +116,21 @@ export default function ScheamDataContainer() {
 
     useEffect(() => {
         if (resultFormsData && resultFormsData.success) {
-            console.log('getSmartExtractionSchemasDataByIdData', resultFormsData);
+            // console.log('getSmartExtractionSchemasDataByIdData', resultFormsData);
             if (page == 1) setFormDatum(resultFormsData.document_smart_extraction_datum);
             else setFormDatum(formDatum.concat(resultFormsData.document_smart_extraction_datum));
+            setHasMore(resultFormsData?.meta?.next_page != null)
         }
     }, [resultFormsData]);
+
+    useEffect(() => {
+        if (searchData && searchData.success) {
+            // console.log('searchData', searchData.document_smart_extraction_datum);
+            if (page == 1) setFormDatum(searchData.document_smart_extraction_datum);
+            else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
+            setHasMore(false)
+        }
+    }, [searchData]);
 
     useEffect(() => {
         if (getTagByIdData && getTagByIdData.success) {
@@ -119,8 +145,33 @@ export default function ScheamDataContainer() {
     }, []);
 
     const onSearch = () => {
-        console.log('filterData', filterData);
-        setAlert({ title: '未做', type: 'info' });
+        // console.log('filterData', filterData);
+        const filter: any = {}
+        _.keys(filterData).map((key: any) => {
+            if (filterData[key]) {
+                filter[key] = filterData[key].toString().trim()
+            }
+        })
+        setPage(1)
+        // console.log('filter', filter);
+        if (_.isEmpty(filter)) {
+            getSmartExtractionSchemasDataById({
+                ...apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasDataById(
+                    router.query.id as string,
+                    1
+                )
+            });
+        } else {
+            searchSmartExtractionSchemasDataById({
+                ...apiSetting.SmartExtractionSchemas.searchSmartExtractionSchemasDataById(
+                    router.query.id as string,
+                    1
+                ),
+                data: {
+                    filter: filter
+                }
+            });
+        }
     };
     const handleDownload = () => {
         const downloadFormData: Array<any> = [];
@@ -140,10 +191,6 @@ export default function ScheamDataContainer() {
                 value: 'storage_url'
             });
         });
-        console.log('fields', fields);
-
-        console.log('downloadFormData', downloadFormData);
-
         const json2csvParser = new Parser({ fields });
         const csv = json2csvParser.parse(downloadFormData);
         const link = document.createElement('a');
@@ -157,7 +204,7 @@ export default function ScheamDataContainer() {
     const handlerDeleteDocument = async (id: string) => {
         if (id) {
             setFormDatum(formDatum.filter((item: any) => item.id !== id));
-            deleteFormById(apiSetting.Form.deleteFormById(id));
+            deleteFormById(apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(id));
         }
     };
 
@@ -205,7 +252,8 @@ export default function ScheamDataContainer() {
                 handlerGenerateChart,
                 visableHtmlCode,
                 setVisibleHtmlCode,
-                chart
+                chart,
+                hasMore
             }}
         />
     );

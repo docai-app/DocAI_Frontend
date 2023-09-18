@@ -31,6 +31,7 @@ interface SchemaDataViewProps {
     visableHtmlCode: boolean;
     setVisibleHtmlCode: any;
     chart: any;
+    hasMore: boolean;
 }
 
 function SchemaDataView(props: SchemaDataViewProps) {
@@ -53,7 +54,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
         handlerGenerateChart,
         visableHtmlCode,
         setVisibleHtmlCode,
-        chart
+        chart,
+        hasMore
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert()
@@ -65,17 +67,17 @@ function SchemaDataView(props: SchemaDataViewProps) {
     const editFormDocument = (datum: any) => {
         if (!datum) return;
         console.log(datum);
-        setAlert({ title: '未做', type: 'info' })
-        // router.push({
-        //     pathname: '/form/validate',
-        //     query: {
-        //         document_id: datum?.document_id,
-        //         form_url: datum?.document?.storage_url,
-        //         form_id: datum?.id,
-        //         form_schema_id: datum?.form_schema_id,
-        //         result: JSON.stringify(datum?.data)
-        //     }
-        // });
+        // setAlert({ title: '未做', type: 'info' })
+        router.push({
+            pathname: '/document/validate',
+            query: {
+                document_id: datum?.document_id,
+                form_url: datum?.document?.storage_url,
+                form_id: datum?.id,
+                smart_extraction_schema_id: datum?.smart_extraction_schema_id,
+                result: JSON.stringify(datum?.data)
+            }
+        });
     };
 
     const setChecedkData = (checked: boolean, value: string) => {
@@ -139,7 +141,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 <div className="m-2 flex items-center" key={index}>
                                     <label className="mr-2">{filter?.query}:</label>
                                     <input
-                                        type={filter?.data_type == 'date' ? 'date' : 'text'}
+                                        // type={filter?.data_type == 'date' ? 'date' : 'text'}
+                                        type={'text'}
                                         className="mt-1 border p-2 rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300  "
                                         onChange={(e) => {
                                             setFilterData({
@@ -173,7 +176,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                             <InfiniteScroll
                                 dataLength={formDatum?.length} //This is important field to render the next data
                                 next={showAllItemsHandler}
-                                hasMore={resultFormsData?.meta?.next_page != null}
+                                hasMore={hasMore}
                                 height={'auto'}
                                 style={{ maxHeight: '80vh' }}
                                 loader={
@@ -217,7 +220,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6 hidden"
+                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                             >
                                                 操作
                                             </th>
