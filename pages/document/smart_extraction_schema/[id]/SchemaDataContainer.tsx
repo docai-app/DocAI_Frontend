@@ -25,7 +25,7 @@ export default function ScheamDataContainer() {
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
-    const [hasMore, setHasMore] = useState(false)
+    const [hasMore, setHasMore] = useState(false);
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -39,10 +39,10 @@ export default function ScheamDataContainer() {
         { manual: true }
     );
 
-    const [{ data: searchData, loading: searching }, searchSmartExtractionSchemasDataById] = useAxios(
-        apiSetting.SmartExtractionSchemas.searchSmartExtractionSchemasDataById(''),
-        { manual: true }
-    );
+    const [{ data: searchData, loading: searching }, searchSmartExtractionSchemasDataById] =
+        useAxios(apiSetting.SmartExtractionSchemas.searchSmartExtractionSchemasDataById(''), {
+            manual: true
+        });
 
     const [
         {
@@ -119,7 +119,7 @@ export default function ScheamDataContainer() {
             // console.log('getSmartExtractionSchemasDataByIdData', resultFormsData);
             if (page == 1) setFormDatum(resultFormsData.document_smart_extraction_datum);
             else setFormDatum(formDatum.concat(resultFormsData.document_smart_extraction_datum));
-            setHasMore(resultFormsData?.meta?.next_page != null)
+            setHasMore(resultFormsData?.meta?.next_page != null);
         }
     }, [resultFormsData]);
 
@@ -128,7 +128,7 @@ export default function ScheamDataContainer() {
             // console.log('searchData', searchData.document_smart_extraction_datum);
             if (page == 1) setFormDatum(searchData.document_smart_extraction_datum);
             else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
-            setHasMore(false)
+            setHasMore(false);
         }
     }, [searchData]);
 
@@ -138,7 +138,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -146,13 +146,13 @@ export default function ScheamDataContainer() {
 
     const onSearch = () => {
         // console.log('filterData', filterData);
-        const filter: any = {}
+        const filter: any = {};
         _.keys(filterData).map((key: any) => {
             if (filterData[key]) {
-                filter[key] = filterData[key].toString().trim()
+                filter[key] = filterData[key].toString().trim();
             }
-        })
-        setPage(1)
+        });
+        setPage(1);
         // console.log('filter', filter);
         if (_.isEmpty(filter)) {
             getSmartExtractionSchemasDataById({
@@ -204,14 +204,16 @@ export default function ScheamDataContainer() {
     const handlerDeleteDocument = async (id: string) => {
         if (id) {
             setFormDatum(formDatum.filter((item: any) => item.id !== id));
-            deleteFormById(apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(id));
+            deleteFormById(
+                apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(id)
+            );
         }
     };
 
     const handlerGenerateChart = async (query: string, form_data_ids: []) => {
         console.log('query', query);
         console.log('form_data_ids', form_data_ids);
-        setAlert({ 'title': '未做', type: 'info' })
+        setAlert({ title: '未做', type: 'info' });
 
         // if (query) {
         //     setLoadingOpen(true);

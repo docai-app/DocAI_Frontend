@@ -14,22 +14,29 @@ function ValidateContainer() {
     const [formUrl, setFormUrl] = useState('');
     const [formId, setFormId] = useState('');
     const [formSchema, setFormSchema] = useState([]);
-    const [data, setData] = useState({})
-    const [open, setOpen] = useState(false)
+    const [data, setData] = useState({});
+    const [open, setOpen] = useState(false);
 
-    const [
-        { data: getSmartExtractionSchemasByIdData },
-        getSmartExtractionSchemasById
-    ] = useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasById(_get(router, 'query.smart_extraction_schema_id')), {
-        manual: true
-    });
+    const [{ data: getSmartExtractionSchemasByIdData }, getSmartExtractionSchemasById] = useAxios(
+        apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasById(
+            _get(router, 'query.smart_extraction_schema_id')
+        ),
+        {
+            manual: true
+        }
+    );
 
     const [
         { data: getSmartExtractionSchemasFormDataByIdData, loading },
         getSmartExtractionSchemasFormDataById
-    ] = useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasFormDataById(_get(router, 'query.form_id')), {
-        manual: true
-    });
+    ] = useAxios(
+        apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasFormDataById(
+            _get(router, 'query.form_id')
+        ),
+        {
+            manual: true
+        }
+    );
 
     const [
         {
@@ -39,36 +46,47 @@ function ValidateContainer() {
             response: updateFormDataResponse
         },
         updateFormData
-    ] = useAxios(apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasFormDataById(_get(router, 'query.form_id')), {
-        manual: true
-    });
+    ] = useAxios(
+        apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasFormDataById(
+            _get(router, 'query.form_id')
+        ),
+        {
+            manual: true
+        }
+    );
 
     useEffect(() => {
-        setOpen(updateFormDataLoading)
-    }, [updateFormDataLoading])
+        setOpen(updateFormDataLoading);
+    }, [updateFormDataLoading]);
 
     useEffect(() => {
         if (router.query?.form_url && router.query?.result) {
             setFormUrl(`${router.query.form_url}`);
             setFormId(`${router.query.form_id}`);
             getSmartExtractionSchemasFormDataById();
-            getSmartExtractionSchemasById()
+            getSmartExtractionSchemasById();
         }
     }, [getSmartExtractionSchemasFormDataById, router]);
 
-
     useEffect(() => {
-        if (getSmartExtractionSchemasFormDataByIdData && getSmartExtractionSchemasFormDataByIdData.success === true) {
-            setData(getSmartExtractionSchemasFormDataByIdData?.document_smart_extraction_datum?.data);
+        if (
+            getSmartExtractionSchemasFormDataByIdData &&
+            getSmartExtractionSchemasFormDataByIdData.success === true
+        ) {
+            setData(
+                getSmartExtractionSchemasFormDataByIdData?.document_smart_extraction_datum?.data
+            );
         }
     }, [getSmartExtractionSchemasFormDataByIdData]);
 
     useEffect(() => {
-        if (getSmartExtractionSchemasByIdData && getSmartExtractionSchemasByIdData.success === true) {
+        if (
+            getSmartExtractionSchemasByIdData &&
+            getSmartExtractionSchemasByIdData.success === true
+        ) {
             setFormSchema(getSmartExtractionSchemasByIdData?.smart_extraction_schema?.schema);
         }
     }, [getSmartExtractionSchemasByIdData]);
-
 
     useEffect(() => {
         if (updateFormDataData && updateFormDataData.success === true) {
@@ -82,8 +100,8 @@ function ValidateContainer() {
             data: {
                 data: data
             }
-        })
-    }
+        });
+    };
 
     return (
         <>

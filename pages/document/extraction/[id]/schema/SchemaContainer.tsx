@@ -9,9 +9,9 @@ const apiSetting = new Api();
 
 export default function SchemaContainer() {
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
-    const [actionContent, setActionContent] = useState('')
+    const [actionContent, setActionContent] = useState('');
     const [extractSchema, setExtractSchema] = useState({
         name: '',
         description: '',
@@ -40,7 +40,7 @@ export default function SchemaContainer() {
     });
 
     useEffect(() => {
-        setActionContent('正在加載數據')
+        setActionContent('正在加載數據');
         if (router && router.query.id) {
             setExtractSchema({
                 ...extractSchema,
@@ -70,18 +70,21 @@ export default function SchemaContainer() {
 
     useEffect(() => {
         if (createSmartExtractionSchemasData && createSmartExtractionSchemasData.success) {
-            setAlert({ title: '創建成功', type: 'success' })
+            setAlert({ title: '創建成功', type: 'success' });
         } else if (createSmartExtractionSchemasData && !createSmartExtractionSchemasData.success) {
-            setAlert({ title: '創建失敗', type: 'error' })
+            setAlert({ title: '創建失敗', type: 'error' });
             console.log(createSmartExtractionSchemasData);
         }
     }, [createSmartExtractionSchemasData]);
 
     useEffect(() => {
         if (updateSmartExtractionSchemasByIdData && updateSmartExtractionSchemasByIdData.success) {
-            setAlert({ title: '保存成功', type: 'success' })
-        } else if (updateSmartExtractionSchemasByIdData && !updateSmartExtractionSchemasByIdData.success) {
-            setAlert({ title: '保存失敗', type: 'error' })
+            setAlert({ title: '保存成功', type: 'success' });
+        } else if (
+            updateSmartExtractionSchemasByIdData &&
+            !updateSmartExtractionSchemasByIdData.success
+        ) {
+            setAlert({ title: '保存失敗', type: 'error' });
             console.log(updateSmartExtractionSchemasByIdData);
         }
     }, [updateSmartExtractionSchemasByIdData]);
@@ -106,7 +109,7 @@ export default function SchemaContainer() {
         extractSchema.data_schema = data_schema;
         // console.log('data_schema', data_schema);
         // console.log(extractSchema);
-        setActionContent('正在保存數據,等待時間較長，請耐心等候...')
+        setActionContent('正在保存數據,等待時間較長，請耐心等候...');
         if (router && router.query.schema_id) {
             updateSmartExtractionSchemasById({
                 ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(

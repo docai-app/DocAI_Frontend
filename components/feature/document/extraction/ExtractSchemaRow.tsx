@@ -23,8 +23,8 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
         }
     ];
     function findNameByValue(value: string) {
-        if (_.isEmpty(value)) return ''
-        const dataType = data_types.find(item => item.value === value);
+        if (_.isEmpty(value)) return '';
+        const dataType = data_types.find((item) => item.value === value);
         return dataType ? dataType.name : '';
     }
     return (
@@ -42,11 +42,21 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                 </td>
 
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a className="text-indigo-600 cursor-pointer hover:text-indigo-900" onClick={() => { edit(position) }}>
+                    <a
+                        className="text-indigo-600 cursor-pointer hover:text-indigo-900"
+                        onClick={() => {
+                            edit(position);
+                        }}
+                    >
                         編輯
                     </a>
-                    {" | "}
-                    <a className="text-red-600 cursor-pointer hover:text-indigo-900" onClick={() => { remove(position) }}>
+                    {' | '}
+                    <a
+                        className="text-red-600 cursor-pointer hover:text-indigo-900"
+                        onClick={() => {
+                            remove(position);
+                        }}
+                    >
                         刪除
                     </a>
                 </td>

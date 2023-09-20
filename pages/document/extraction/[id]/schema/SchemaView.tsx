@@ -22,22 +22,22 @@ interface SchemaViewProps {
 function SchemaView(props: SchemaViewProps) {
     const { open, setOpen, extractSchema, setExtractSchema, handleSave, actionContent } = props;
     const [visable, setVisable] = useState(false);
-    const [currectExtraScheam, setCurrectExtraSchema] = useState()
-    const [currectPosition, setCurrectPosition] = useState(-1)
+    const [currectExtraScheam, setCurrectExtraSchema] = useState();
+    const [currectPosition, setCurrectPosition] = useState(-1);
 
     const editExtraSchema = (position: number) => {
-        setVisable(true)
-        setCurrectPosition(position)
-        setCurrectExtraSchema(extractSchema?.schema[position])
-    }
+        setVisable(true);
+        setCurrectPosition(position);
+        setCurrectExtraSchema(extractSchema?.schema[position]);
+    };
 
     const removeExtraSchema = (position: number) => {
-        extractSchema?.schema.splice(position, 1)
+        extractSchema?.schema.splice(position, 1);
         setExtractSchema({
             ...extractSchema,
             schema: extractSchema?.schema
         });
-    }
+    };
 
     return (
         <>
@@ -99,7 +99,7 @@ function SchemaView(props: SchemaViewProps) {
                                 <a
                                     className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => {
-                                        setCurrectPosition(-1)
+                                        setCurrectPosition(-1);
                                         setVisable(true);
                                     }}
                                 >
@@ -178,8 +178,8 @@ function SchemaView(props: SchemaViewProps) {
                 }}
                 confirmClick={(data: any) => {
                     if (currectPosition > -1) {
-                        extractSchema?.schema.splice(currectPosition, 1, data)
-                        setVisable(false)
+                        extractSchema?.schema.splice(currectPosition, 1, data);
+                        setVisable(false);
                     } else {
                         extractSchema?.schema?.push(data);
                     }

@@ -58,7 +58,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
         hasMore
     } = props;
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);

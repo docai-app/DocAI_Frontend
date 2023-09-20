@@ -6,7 +6,7 @@ import MyDateDropdown from './MyDateDropdown';
 
 export default function EditSchemaDataModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const [validate, setValidate] = useState(true)
+    const [validate, setValidate] = useState(true);
     const [title, setTitle] = useState('');
 
     const [data, setData] = useState({
@@ -29,19 +29,16 @@ export default function EditSchemaDataModal(props: any) {
         }
     ];
     function findNameByValue(value: string) {
-        if (_.isEmpty(value)) return ''
-        const dataType = data_types.find(item => item.value === value);
+        if (_.isEmpty(value)) return '';
+        const dataType = data_types.find((item) => item.value === value);
         return dataType ? dataType.name : '';
     }
     useEffect(() => {
-
         if (props?.extractSchema) {
-            setData(
-                props?.extractSchema
-            )
+            setData(props?.extractSchema);
             setTitle(findNameByValue(props?.extractSchema?.data_type));
         }
-    }, [props?.extractSchema])
+    }, [props?.extractSchema]);
 
     const onSwitch = (data_type: any) => {
         setData({
@@ -53,10 +50,10 @@ export default function EditSchemaDataModal(props: any) {
 
     const validateInput = (input: string) => {
         const pattern = /^[A-Za-z_]+$/;
-        const validate = pattern.test(input)
-        setValidate(validate)
+        const validate = pattern.test(input);
+        setValidate(validate);
         return validate;
-    }
+    };
 
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
@@ -126,7 +123,11 @@ export default function EditSchemaDataModal(props: any) {
                                 <div className="flex items-start">
                                     <label className="text-sm w-1/4"> {''}</label>
                                     <div className="w-3/4 ml-4 ">
-                                        <label className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'}`}>
+                                        <label
+                                            className={`flex justify-start text-sm ${
+                                                validate ? 'text-gray-400 ' : 'text-red-500'
+                                            }`}
+                                        >
                                             *只可以輸入英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
                                     </div>

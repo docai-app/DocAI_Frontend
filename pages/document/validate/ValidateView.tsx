@@ -82,7 +82,9 @@ function ValidateView(props: ValidateViewProps) {
                                         {formSchema?.map((filter: any, index: number) => {
                                             return (
                                                 <div className="m-2 flex items-center" key={index}>
-                                                    <label className="w-1/4 text-right pr-2">{filter?.query}:</label>
+                                                    <label className="w-1/4 text-right pr-2">
+                                                        {filter?.query}:
+                                                    </label>
                                                     <textarea
                                                         // type={filter?.data_type == 'date' ? 'date' : 'text'}
                                                         // type={'text'}
@@ -92,13 +94,13 @@ function ValidateView(props: ValidateViewProps) {
                                                             setData({
                                                                 ...data,
                                                                 [filter.key]: e.target.value
-                                                            })
+                                                            });
                                                         }}
                                                     />
                                                 </div>
                                             );
                                         })}
-                                        <div className='flex justify-center my-4'>
+                                        <div className="flex justify-center my-4">
                                             <button
                                                 className="bg-blue-600 hover:bg-blue-700 text-white rounded px-6 py-2 self-end mt-auto"
                                                 onClick={handleConfirm}
