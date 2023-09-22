@@ -19,6 +19,7 @@ export default function SchemaContainer() {
         schema: [],
         data_schema: {}
     });
+    const [visableAdd, setVisableAdd] = useState(true)
 
     const [
         { data: getSmartExtractionSchemasByIdData, loading: getLoading },
@@ -48,6 +49,7 @@ export default function SchemaContainer() {
             });
         }
         if (router && router.query.schema_id) {
+            setVisableAdd(false)
             getSmartExtractionSchemasById({
                 ...apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasById(
                     router.query.schema_id as string
@@ -132,7 +134,8 @@ export default function SchemaContainer() {
                 extractSchema,
                 setExtractSchema,
                 handleSave,
-                actionContent
+                actionContent,
+                visableAdd
             }}
         />
     );
