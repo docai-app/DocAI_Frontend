@@ -21,7 +21,15 @@ interface SchemaViewProps {
 }
 
 function SchemaView(props: SchemaViewProps) {
-    const { open, setOpen, extractSchema, setExtractSchema, handleSave, actionContent, visableAdd = true } = props;
+    const {
+        open,
+        setOpen,
+        extractSchema,
+        setExtractSchema,
+        handleSave,
+        actionContent,
+        visableAdd = true
+    } = props;
     const [visable, setVisable] = useState(false);
     const [currectExtraScheam, setCurrectExtraSchema] = useState();
     const [currectPosition, setCurrectPosition] = useState(-1);
@@ -96,7 +104,7 @@ function SchemaView(props: SchemaViewProps) {
                             </div>
                         </div>
                         <div className="col-span-full">
-                            {visableAdd &&
+                            {visableAdd && (
                                 <div className="flex justify-end">
                                     <a
                                         className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -108,7 +116,7 @@ function SchemaView(props: SchemaViewProps) {
                                         +
                                     </a>
                                 </div>
-                            }
+                            )}
                             <div className="inline-block min-w-full py-0 align-middle sm:px-6 lg:px-8">
                                 <table className="min-w-full divide-y divide-gray-300">
                                     <thead>

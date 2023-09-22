@@ -41,7 +41,7 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                     {schema?.query}
                 </td>
 
-                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                {/* <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                     <a
                         className="text-indigo-600 cursor-pointer hover:text-indigo-900"
                         onClick={() => {
@@ -59,7 +59,7 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                     >
                         刪除
                     </a>
-                </td>
+                </td> */}
             </tr>
         </>
     );
