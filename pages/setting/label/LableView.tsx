@@ -77,7 +77,7 @@ export default function LabelView(props: LabelProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => {}}
+                setOpen={() => { }}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
@@ -190,6 +190,7 @@ export default function LabelView(props: LabelProps) {
             </div>
             <ChainFeatureSelect
                 {...{
+                    chain_features: [],
                     isOpen: chainFeatureIsOpen,
                     setIsOpen: setChainFeatureIsOpen,
                     chain_feature_ids,

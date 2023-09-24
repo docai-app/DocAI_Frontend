@@ -159,6 +159,7 @@ function SchemaView(props: SchemaViewProps) {
                                                         schema={schema}
                                                         edit={editExtraSchema}
                                                         remove={removeExtraSchema}
+                                                        visableAdd={visableAdd}
                                                     />
                                                 );
                                             }

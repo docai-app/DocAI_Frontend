@@ -19,6 +19,7 @@ interface CreateViewProps {
     open: boolean;
     setOpen: any;
     actionContent: string;
+    chain_features: [];
 }
 
 function CreateView(props: CreateViewProps) {
@@ -32,7 +33,8 @@ function CreateView(props: CreateViewProps) {
         set_chain_feature_ids,
         open,
         setOpen,
-        actionContent
+        actionContent,
+        chain_features
     } = props;
     const [folderTreeIsOpen, setFolderTreeIsOpen] = useState(false);
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
@@ -212,6 +214,7 @@ function CreateView(props: CreateViewProps) {
             />
             <ChainFeatureSelect
                 {...{
+                    chain_features: chain_features,
                     isOpen: chainFeatureIsOpen,
                     setIsOpen: setChainFeatureIsOpen,
                     chain_feature_ids,

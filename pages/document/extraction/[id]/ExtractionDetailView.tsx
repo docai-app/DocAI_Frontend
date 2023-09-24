@@ -1,9 +1,13 @@
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PaginationView from '../../../../components/common/Widget/PaginationView';
+import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import SchemaRow from '../../../../components/feature/document/extraction/SchemaRow';
 
 interface ExtractionDetailViewProps {
+    open: boolean;
+    setOpen: any;
     label: any;
     currentTypeTab: string;
     setCurrentTypeTab: any;
@@ -12,11 +16,30 @@ interface ExtractionDetailViewProps {
 }
 
 function ExtractionDetailView(props: ExtractionDetailViewProps) {
-    const { label, currentTypeTab, setCurrentTypeTab, smart_extraction_schemas, meta } = props;
+    const {
+        open,
+        setOpen,
+        label,
+        currentTypeTab,
+        setCurrentTypeTab,
+        smart_extraction_schemas,
+        meta
+    } = props;
     const router = useRouter();
 
     return (
         <>
+            <SingleActionModel
+                {...{
+                    open,
+                    setOpen,
+                    title: '正在進行中...',
+                    content: '正在加載數據',
+                    icon: (
+                        <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    )
+                }}
+            />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

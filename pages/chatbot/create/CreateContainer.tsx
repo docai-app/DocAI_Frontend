@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis';
+import { getAllChainFeatureDatas } from '../../../apis/AirtableChainFeature';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import CreateView from './CreateView';
 
@@ -19,6 +20,7 @@ function CreateContainer() {
     const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
     const [chatbot, setChatbot] = useState<any>({});
     const [actionContent, setActionContent] = useState('');
+    const [chain_features, set_chain_features] = useState<any>([]);
 
     const [{ data: getChatbotData, loading: loading }, getChatbot] = useAxios(
         apiSetting.Chatbot.getChatbotById(router.query.id?.toString() || ''),
@@ -44,6 +46,12 @@ function CreateContainer() {
     useEffect(() => {
         setOpen(submitting);
     }, [submitting]);
+
+    useEffect(() => {
+        getAllChainFeatureDatas().then((res) => {
+            set_chain_features(res);
+        });
+    }, []);
 
     const handleCreate = useCallback(async () => {
         if (router.query.id) {
@@ -114,7 +122,8 @@ function CreateContainer() {
                 set_chain_feature_ids,
                 open,
                 setOpen,
-                actionContent
+                actionContent,
+                chain_features
             }}
         />
     );

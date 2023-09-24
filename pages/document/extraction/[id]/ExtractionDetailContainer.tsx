@@ -8,6 +8,7 @@ const apiSetting = new Api();
 
 export default function ExtractionDetailContainer() {
     const router = useRouter();
+    const [open, setOpen] = useState(false);
     const [label, setLabel] = useState();
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
@@ -44,8 +45,12 @@ export default function ExtractionDetailContainer() {
     }, [router]);
 
     useEffect(() => {
+        setOpen(loading);
+    }, [loading]);
+
+    useEffect(() => {
         if (getAllSmartExtractionSchemasData && getAllSmartExtractionSchemasData.success) {
-            console.log('getAllSmartExtractionSchemasData', getAllSmartExtractionSchemasData);
+            // console.log('getAllSmartExtractionSchemasData', getAllSmartExtractionSchemasData);
             set_smart_extraction_schemas(getAllSmartExtractionSchemasData.smart_extraction_schema);
             setMeta(getAllSmartExtractionSchemasData.meta);
         }
@@ -62,6 +67,8 @@ export default function ExtractionDetailContainer() {
     return (
         <ExtractionDetailView
             {...{
+                open,
+                setOpen,
                 label,
                 currentTypeTab,
                 setCurrentTypeTab,

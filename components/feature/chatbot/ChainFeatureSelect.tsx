@@ -2,14 +2,13 @@ import { Transition } from '@headlessui/react';
 import { XCircleIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
-import { Dispatch, Fragment, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { Dispatch, Fragment, SetStateAction, useCallback, useState } from 'react';
 import Api from '../../../apis';
-import { getAllChainFeatureDatas } from '../../../apis/AirtableChainFeature';
 
 interface ChainFeatureSelectProps {
+    chain_features: [];
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    setMultipleDest?: any;
     chain_feature_ids?: any;
     set_chain_feature_ids?: any;
     handleSave?: any;
@@ -18,22 +17,15 @@ interface ChainFeatureSelectProps {
 const apiSetting = new Api();
 export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
     const {
+        chain_features,
         isOpen,
         setIsOpen,
-        setMultipleDest,
         chain_feature_ids,
         set_chain_feature_ids,
         handleSave
     } = props;
     const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const router = useRouter();
-    const [chain_features, set_chain_features] = useState<any>([]);
-
-    useEffect(() => {
-        getAllChainFeatureDatas().then((res) => {
-            set_chain_features(res);
-        });
-    }, []);
 
     const isSelected = useCallback(
         (chain_feature_id: string) => {

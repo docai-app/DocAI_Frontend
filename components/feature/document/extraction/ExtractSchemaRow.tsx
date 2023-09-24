@@ -4,10 +4,11 @@ interface ChatbotRowProps {
     schema: any;
     edit: any;
     remove: any;
+    visableAdd: boolean;
 }
 
 export default function ExtractSchemaRow(props: ChatbotRowProps) {
-    const { position, schema, edit, remove } = props;
+    const { position, schema, edit, remove, visableAdd } = props;
     const data_types = [
         {
             name: '數值',
@@ -41,25 +42,29 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                     {schema?.query}
                 </td>
 
-                {/* <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a
-                        className="text-indigo-600 cursor-pointer hover:text-indigo-900"
-                        onClick={() => {
-                            edit(position);
-                        }}
-                    >
-                        編輯
-                    </a>
-                    {' | '}
-                    <a
-                        className="text-red-600 cursor-pointer hover:text-indigo-900"
-                        onClick={() => {
-                            remove(position);
-                        }}
-                    >
-                        刪除
-                    </a>
-                </td> */}
+                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                    {visableAdd && (
+                        <>
+                            <a
+                                className="text-indigo-600 cursor-pointer hover:text-indigo-900"
+                                onClick={() => {
+                                    edit(position);
+                                }}
+                            >
+                                編輯
+                            </a>
+                            {' | '}
+                            <a
+                                className="text-red-600 cursor-pointer hover:text-indigo-900"
+                                onClick={() => {
+                                    remove(position);
+                                }}
+                            >
+                                刪除
+                            </a>
+                        </>
+                    )}
+                </td>
             </tr>
         </>
     );
