@@ -12,6 +12,7 @@ export default function EditTaskModal(props: any) {
         id: null,
         title: '',
         description: '',
+        user: '',
         deadline_at: ''
     });
 
@@ -26,6 +27,7 @@ export default function EditTaskModal(props: any) {
                 id: props.task.id,
                 title: props.task.title,
                 description: props.task.description,
+                user: props.task.user,
                 deadline_at: props.task.deadline_at
             });
         } else {
@@ -33,6 +35,7 @@ export default function EditTaskModal(props: any) {
                 ...data,
                 id: null,
                 title: '',
+                user: '',
                 description: ''
             });
         }
@@ -44,7 +47,8 @@ export default function EditTaskModal(props: any) {
             ...data,
             id: null,
             title: '',
-            description: ''
+            description: '',
+            user: ''
         });
         props.confirmClick(data);
     };
@@ -118,7 +122,7 @@ export default function EditTaskModal(props: any) {
                                             <input
                                                 id="type"
                                                 name="type"
-                                                type="string"
+                                                type="text"
                                                 autoFocus
                                                 ref={refTitle}
                                                 placeholder="任務名稱"
@@ -155,6 +159,33 @@ export default function EditTaskModal(props: any) {
                                                     setData({
                                                         ...data,
                                                         description: e.target.value
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full flex flex-row m-2">
+                                        <div className="w-1/4 flex justify-left items-center ">
+                                            <label
+                                                htmlFor="new-type"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                負責人:
+                                            </label>
+                                        </div>
+                                        <div className="flex w-1/2">
+                                            <input
+                                                id="user"
+                                                name="user"
+                                                type="string"
+                                                placeholder="@負責人"
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                value={data?.user}
+                                                onChange={async (e) => {
+                                                    setData({
+                                                        ...data,
+                                                        user: e.target.value
                                                     });
                                                 }}
                                             />

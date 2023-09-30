@@ -1,5 +1,5 @@
-import { CalendarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { CalendarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import moment from 'moment';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdowns from './Dropdowns';
@@ -57,17 +57,17 @@ export default function TaskRow(props: TaskRowProps) {
 
     return (
         <>
-            <div className="flex flex-row px-4 py-2 items-start cursor-pointer   w-full ">
+            <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
                 <div className="  flex-row items-start">
                     {task?.is_completed ? (
                         <CheckCircleIcon
-                            className="w-5 h-5 mt-1 text-gray-500"
+                            className="w-4 h-4 mt-1 text-gray-500"
                             onClick={completed}
                         />
                     ) : (
                         <input
                             type={'radio'}
-                            className=" w-5 h-5  mt-1 cursor-pointer "
+                            className=" w-4 h-4  mt-1 cursor-pointer "
                             onClick={completed}
                         />
                     )}
@@ -91,15 +91,19 @@ export default function TaskRow(props: TaskRowProps) {
                         {task?.title}
                     </span>
                     <br />
-                    <span className="text-sm ml-6  text-gray-400 ">{task?.description}</span>
-                    {task?.deadline_at && (
-                        <div className="flex flex-row ml-6">
-                            <CalendarIcon className="w-4 text-yellow-400" />
-                            <p className="text-sm ml-2   text-yellow-400 ">
-                                {moment(task?.deadline_at).format('YYYY-MM-DD')}
-                            </p>
-                        </div>
-                    )}
+                    <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
+                    <div className="flex flex-row ml-2 items-center">
+                        <label className=" text-blue-500">{task?.user}</label>
+
+                        {task?.deadline_at && (
+                            <div className="flex flex-row ml-4">
+                                <CalendarIcon className="w-4 text-yellow-400" />
+                                <p className="text-sm ml-2   text-yellow-400 ">
+                                    {moment(task?.deadline_at).format('YYYY-MM-DD')}
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className=" flex flex-1 ml-2 items-end justify-end ">
                     {visiable && overflow ? (

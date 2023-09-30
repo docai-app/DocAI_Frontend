@@ -14,7 +14,7 @@ export default function ProjectItem(props: ProjectItemProps) {
             <div className="mt-4 rounded-lg shadow">
                 <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
                     <div>
-                        <h1>項目名稱</h1>
+                        <h1>工作流名稱</h1>
                     </div>
                     <button
                         type="button"

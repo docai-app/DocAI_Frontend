@@ -13,6 +13,7 @@ import Generate from './Generate';
 import MiniApp from './MiniApp';
 import Project from './Project';
 import ProjectTask from './ProjectTask';
+import ProjectWorkflow from './ProjectWorkflow';
 import Search from './Search';
 import SmartExtractionSchemas from './SmartExtractionSchemas';
 import Statistics from './Statistics';
@@ -36,6 +37,7 @@ export default class Api {
     Folders: Folders;
     Project: Project;
     ProjectTask: ProjectTask;
+    ProjectWorkflow: ProjectWorkflow;
     User: User;
     Generate: Generate;
     MiniApp: MiniApp;
@@ -58,6 +60,7 @@ export default class Api {
         this.Folders = new Folders();
         this.Project = new Project();
         this.ProjectTask = new ProjectTask();
+        this.ProjectWorkflow = new ProjectWorkflow();
         this.User = new User();
         this.Generate = new Generate();
         this.MiniApp = new MiniApp();

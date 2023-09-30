@@ -19,6 +19,7 @@ export default function ProjectContainer() {
     const [projects, setProjects] = useState();
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
+    const [open, setOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState('');
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
@@ -40,6 +41,9 @@ export default function ProjectContainer() {
         updateProject
     ] = useAxios(apiSetting.Project.updateProjectById(''), { manual: true });
 
+    useEffect(() => {
+        setOpen(showAllProjectsLoading);
+    }, [showAllProjectsLoading]);
     const addNewProjectHeadler = useCallback(
         async (data) => {
             const { name, description, deadline_at, parent_id } = data;
@@ -153,7 +157,9 @@ export default function ProjectContainer() {
                 currentStatus,
                 setCurrentStatus,
                 addNewProjectHeadler,
-                updateProjectHandler
+                updateProjectHandler,
+                open,
+                setOpen
             }}
         />
     );
