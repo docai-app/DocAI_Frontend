@@ -43,4 +43,14 @@ export default class Drive {
         };
         return requestHeader;
     }
+    downloadItemsByIDs(data: any) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/drive/download_zip`,
+            method: 'POST',
+            data,
+            responseType: 'blob'
+        };
+        return requestHeader;
+    }
 }

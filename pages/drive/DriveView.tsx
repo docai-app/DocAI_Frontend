@@ -61,6 +61,7 @@ interface DriveViewProps {
     setFoldersItems: any;
     handleMoveItems: any;
     handleDeleteItems: any;
+    handleDownloadItemsAndFolders: any;
     getAllLabelsData: any;
     search: any;
     confirmDocumentFormik?: any;
@@ -107,6 +108,7 @@ export default function DriveView(props: DriveViewProps) {
         setFoldersItems,
         handleMoveItems,
         handleDeleteItems,
+        handleDownloadItemsAndFolders,
         getAllLabelsData,
         search,
         confirmDocumentFormik,
@@ -246,6 +248,9 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 deleteItems={() => {
                     handleDeleteItems();
+                }}
+                downloadItems={() => {
+                    handleDownloadItemsAndFolders();
                 }}
                 visibleDeepUnderstanding={documents_items?.length > 0 && folders_items?.length == 0}
                 deepUnderstanding={() => {

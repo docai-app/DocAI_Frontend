@@ -6,6 +6,7 @@ import Api from '../../apis';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import useAlert from '../../hooks/useAlert';
 import DriveView from './DriveView';
+import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -189,6 +190,21 @@ export default function DriveContainer() {
         //     data: formData
         // });
     };
+
+    const handleDownloadItemsAndFolders = useCallback(async () => {
+        const data = {
+            folder_ids: folders_items,
+            document_ids: documents_items
+        };
+        const res = await axios.request(apiSetting.Drive.downloadItemsByIDs(data));
+        try {
+            const dataURL = URL.createObjectURL(res.data);
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = 'documents.zip';
+            a.click();
+        } catch {}
+    }, [folders_items, documents_items]);
 
     const confirmDocumentFormik = useFormik({
         initialValues: {
@@ -384,6 +400,7 @@ export default function DriveContainer() {
                 setFoldersItems,
                 handleMoveItems,
                 handleDeleteItems,
+                handleDownloadItemsAndFolders,
                 getAllLabelsData,
                 search,
                 confirmDocumentFormik,
