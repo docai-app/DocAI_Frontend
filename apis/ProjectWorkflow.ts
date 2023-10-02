@@ -31,8 +31,6 @@ export default class ProjectWorkflow {
         return requestHeader;
     }
 
-
-
     updateProjectWorkflowById(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

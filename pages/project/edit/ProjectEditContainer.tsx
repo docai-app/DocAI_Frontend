@@ -18,38 +18,35 @@ export default function ProjectEditContainer() {
         name: '',
         description: '',
         meta: {}
-    })
+    });
 
     const [
         { data: addNewProjectData, loading: addNewProjectLoading, error: addNewProjectError },
         addNewProject
     ] = useAxios(apiSetting.ProjectWorkflow.addProjectWorkflow(), { manual: true });
 
-    const [
-        { data: getProjectWorkflowByIdData, loading },
-        getProjectWorkflowById
-    ] = useAxios(apiSetting.ProjectWorkflow.getProjectWorkflowById(''), { manual: true });
+    const [{ data: getProjectWorkflowByIdData, loading }, getProjectWorkflowById] = useAxios(
+        apiSetting.ProjectWorkflow.getProjectWorkflowById(''),
+        { manual: true }
+    );
 
-
-    const [
-        { data: updateProjectData, loading: updateProjectLoading },
-        updateProjectWorkflowById
-    ] = useAxios(apiSetting.ProjectWorkflow.updateProjectWorkflowById(''), { manual: true });
-
+    const [{ data: updateProjectData, loading: updateProjectLoading }, updateProjectWorkflowById] =
+        useAxios(apiSetting.ProjectWorkflow.updateProjectWorkflowById(''), { manual: true });
 
     useEffect(() => {
         if (router && router.query.id) {
-            getProjectWorkflowById({ ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.id as string) })
+            getProjectWorkflowById({
+                ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.id as string)
+            });
         }
-    }, [router])
+    }, [router]);
 
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {
             console.log('getProjectWorkflowByIdData', getProjectWorkflowByIdData);
-            setProject(getProjectWorkflowByIdData.doc)
-
+            setProject(getProjectWorkflowByIdData.doc);
         }
-    }, [getProjectWorkflowByIdData])
+    }, [getProjectWorkflowByIdData]);
 
     const addNewProjectHeadler = useCallback(
         async (data) => {
@@ -68,9 +65,8 @@ export default function ProjectEditContainer() {
     useEffect(() => {
         if (addNewProjectData) {
             console.log('addNewProjectData', addNewProjectData);
-
         }
-    }, [addNewProjectData])
+    }, [addNewProjectData]);
 
     const updateProjectHandler = useCallback(
         async (data) => {

@@ -19,7 +19,8 @@ interface ProjectViewProps {
 }
 
 function ProjectEditView(props: ProjectViewProps) {
-    const { project, setProject, addNewProjectHeadler, updateProjectHandler, open, setOpen } = props;
+    const { project, setProject, addNewProjectHeadler, updateProjectHandler, open, setOpen } =
+        props;
 
     const [target_folder_id, set_target_folder_id] = useState('');
     const [mode, setMode] = useState<'add' | 'edit' | ''>('');
@@ -52,9 +53,8 @@ function ProjectEditView(props: ProjectViewProps) {
     };
 
     const handleSave = () => {
-        addNewProjectHeadler(project)
+        addNewProjectHeadler(project);
     };
-
 
     return (
         <>
@@ -106,7 +106,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                     setProject({
                                         ...project,
                                         name: e.target.value
-                                    })
+                                    });
                                 }}
                             />
                         </div>
@@ -123,7 +123,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                             ...project.meta,
                                             description: e.target.value
                                         }
-                                    })
+                                    });
                                 }}
                             />
                         </div>
@@ -175,7 +175,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                     >
                                         <TaskRow
                                             task={task}
-                                            completeTask={() => { }}
+                                            completeTask={() => {}}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={removeTask}
                                         />
