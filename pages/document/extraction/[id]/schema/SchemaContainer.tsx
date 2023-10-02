@@ -114,9 +114,12 @@ export default function SchemaContainer() {
         // console.log(extractSchema);
         setActionContent('正在保存數據,等待時間較長，請耐心等候...');
         if (router && router.query.schema_id) {
-            const isSame = _.isEqual(getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema, data_schema)
+            const isSame = _.isEqual(
+                getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
+                data_schema
+            );
             if (isSame) {
-                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema')
+                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
                 // console.log(_extractSchema);
                 updateSmartExtractionSchemasById({
                     ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
@@ -124,7 +127,6 @@ export default function SchemaContainer() {
                     ),
                     data: _extractSchema
                 });
-
             } else {
                 updateSmartExtractionSchemasById({
                     ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(

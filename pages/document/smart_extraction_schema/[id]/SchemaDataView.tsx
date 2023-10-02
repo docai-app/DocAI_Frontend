@@ -116,7 +116,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 clearItems={() => {
                     clearCheckedData();
                 }}
-                count={form_data_ids?.length}
+                // count={form_data_ids?.length}
+                count={0}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,15 +128,26 @@ function SchemaDataView(props: SchemaDataViewProps) {
                             </h2>
                         </div>
                     </div>
-                    <header className="shadow bg-white">
+                    <header className="shadow bg-white flex justify-between items-center">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8   ">
                             <h1 className="text-2xl font-bold text-gray-900">{formSchema?.name}</h1>
                             <h5 className="text-md text-gray-500 sm:text-md">
                                 {formSchema?.description}
                             </h5>
                         </div>
+                        <div >
+                            {formDatum && formDatum.length > 0 &&
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md m-2"
+                                    onClick={() => setVisibleGenerateChart(true)}
+                                >
+                                    智能生成圖表
+                                </button>
+                            }
+                        </div>
+
                     </header>
-                    <div className="flex flex-row mt-4 mb-4 flex-wrap">
+                    <div className="flex flex-row mt-4 mb-4 flex-wrap items-center">
                         {selectedFilter?.map((filter: any, index: number) => {
                             return (
                                 <div className="m-2 flex items-center" key={index}>
@@ -154,22 +166,24 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 </div>
                             );
                         })}
-                        {selectedFilter?.length > 0 ? (
-                            <button
-                                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-4 rounded-md m-2"
-                                onClick={() => onSearch()}
-                            >
-                                搜尋
-                            </button>
-                        ) : null}
-                        {selectedResult?.length > 0 ? (
-                            <button
-                                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-4 rounded-md m-2"
-                                onClick={() => handleDownload()}
-                            >
-                                下載
-                            </button>
-                        ) : null}
+                        <div>
+                            {selectedFilter?.length > 0 ? (
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md m-2"
+                                    onClick={() => onSearch()}
+                                >
+                                    搜尋
+                                </button>
+                            ) : null}
+                            {selectedResult?.length > 0 ? (
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md m-2"
+                                    onClick={() => handleDownload()}
+                                >
+                                    下載
+                                </button>
+                            ) : null}
+                        </div>
                     </div>
                     <div className="flex w-full items-center justify-center text-center py-2">
                         <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">

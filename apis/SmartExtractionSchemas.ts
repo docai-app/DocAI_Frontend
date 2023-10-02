@@ -84,4 +84,17 @@ export default class SmartExtractionSchemas {
         };
         return requestHeader;
     }
+
+    generateChart(smart_extraction_schema_id: string, query: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/generate/chart`,
+            method: 'POST',
+            data: {
+                query,
+                smart_extraction_schema_id
+            }
+        };
+        return requestHeader;
+    }
 }
