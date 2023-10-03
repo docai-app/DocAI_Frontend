@@ -1,5 +1,5 @@
 import withLayout from '../../../components/hocs/withLayout';
 import SimpleLayout from '../../../components/layout/SimpleLayout';
-import TaskContainer from './TaskContainer';
+import ProjectDetailContainer from './ProjectDetailContainer';
 
-export default withLayout(TaskContainer, SimpleLayout);
+export default withLayout(ProjectDetailContainer, SimpleLayout);

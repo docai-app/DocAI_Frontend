@@ -10,10 +10,12 @@ export default function EditTaskModal(props: any) {
     const { setAlert } = useAlert();
     const [data, setData] = useState({
         id: null,
-        title: '',
-        description: '',
-        user: '',
-        deadline_at: ''
+        name: '',
+        meta: {
+            description: ''
+        },
+        deadline: '',
+        assignee_id: 18
     });
 
     useEffect(() => {
@@ -25,30 +27,32 @@ export default function EditTaskModal(props: any) {
             setData({
                 ...data,
                 id: props.task.id,
-                title: props.task.title,
-                description: props.task.description,
-                user: props.task.user,
-                deadline_at: props.task.deadline_at
+                name: props.task.name,
+                meta: props.task.meta,
+                deadline: props.task.deadline
             });
         } else {
             setData({
                 ...data,
                 id: null,
-                title: '',
-                user: '',
-                description: ''
+                name: '',
+                meta: {
+                    description: ''
+                }
             });
         }
     }, [props]);
 
     const validate = () => {
-        if (!data.title) return setAlert({ title: '請輸入名稱', type: 'info' });
+        if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
         setData({
             ...data,
             id: null,
-            title: '',
-            description: '',
-            user: ''
+            name: '',
+            meta: {
+                description: ''
+            },
+            deadline: ''
         });
         props.confirmClick(data);
     };
@@ -127,11 +131,11 @@ export default function EditTaskModal(props: any) {
                                                 ref={refTitle}
                                                 placeholder="任務名稱"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                value={data?.title}
+                                                defaultValue={data?.name}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        title: e.target.value
+                                                        name: e.target.value
                                                     });
                                                 }}
                                             />
@@ -154,11 +158,14 @@ export default function EditTaskModal(props: any) {
                                                 type="string"
                                                 placeholder="任務描述"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                value={data?.description}
+                                                defaultValue={data?.meta?.description}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        description: e.target.value
+                                                        meta: {
+                                                            ...data.meta,
+                                                            description: e.target.value
+                                                        }
                                                     });
                                                 }}
                                             />
@@ -181,13 +188,7 @@ export default function EditTaskModal(props: any) {
                                                 type="string"
                                                 placeholder="@負責人"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                value={data?.user}
-                                                onChange={async (e) => {
-                                                    setData({
-                                                        ...data,
-                                                        user: e.target.value
-                                                    });
-                                                }}
+                                                defaultValue={'18'}
                                             />
                                         </div>
                                     </div>
@@ -206,14 +207,14 @@ export default function EditTaskModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
-                                                value={moment(data?.deadline_at).format(
+                                                defaultValue={moment(data?.deadline).format(
                                                     'YYYY-MM-DD'
                                                 )}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        deadline_at: e.target.value
+                                                        deadline: e.target.value
                                                     });
                                                 }}
                                             />

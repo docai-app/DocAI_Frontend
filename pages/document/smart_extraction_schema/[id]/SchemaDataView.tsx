@@ -135,17 +135,16 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 {formSchema?.description}
                             </h5>
                         </div>
-                        <div >
-                            {formDatum && formDatum.length > 0 &&
+                        <div>
+                            {formDatum && formDatum.length > 0 && (
                                 <button
                                     className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md m-2"
                                     onClick={() => setVisibleGenerateChart(true)}
                                 >
                                     智能生成圖表
                                 </button>
-                            }
+                            )}
                         </div>
-
                     </header>
                     <div className="flex flex-row mt-4 mb-4 flex-wrap items-center">
                         {selectedFilter?.map((filter: any, index: number) => {

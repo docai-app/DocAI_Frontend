@@ -1,12 +1,7 @@
-import {
-    CalendarIcon,
-    ClipboardDocumentListIcon,
-    CogIcon,
-    UserCircleIcon
-} from '@heroicons/react/24/outline';
+import { ClipboardDocumentListIcon, PencilSquareIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import moment from 'moment';
 import Link from 'next/link';
-import Progress from '../../common/Widget/Progress';
+import Router from 'next/router';
 
 interface ProjectRowProps {
     project: any;
@@ -27,9 +22,9 @@ export default function ProjectRow(props: ProjectRowProps) {
                                 <a className=" text-sm hover:underline">{project?.name}</a>
                             </Link>
                         </div>
-                        <div className="flex w-1/6">
+                        {/* <div className="flex w-1/6 hidden">
                             <Progress value={project?.progress} />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex px-2 items-center justify-between">
                         <div className="flex flex-row items-center">
@@ -38,18 +33,22 @@ export default function ProjectRow(props: ProjectRowProps) {
                                 {project?.user?.nickname}
                             </label>
                             <div className="flex flex-row text-xs ml-4 text-gray-400 items-center">
-                                <CalendarIcon className="w-4 m-1 text-gray-400" />
-                                {project?.deadline_at &&
-                                    moment(project?.deadline_at).format('YYYY-MM-DD')}
+                                更新時間:
+                                {project?.updated_at &&
+                                    moment(project?.updated_at).format('YYYY-MM-DD HH:mm')}
                             </div>
                         </div>
 
                         <div className="flex flex-row items-center">
-                            <CogIcon
-                                className="w-4"
+                            <PencilSquareIcon
+                                className="w-4 cursor-pointer"
                                 onClick={() => {
-                                    setVisiable(true);
-                                    setProject(project);
+                                    Router.push({
+                                        pathname: '/project/edit',
+                                        query: { id: project.id }
+                                    });
+                                    // setVisiable(true);
+                                    // setProject(project);
                                 }}
                             />
                         </div>

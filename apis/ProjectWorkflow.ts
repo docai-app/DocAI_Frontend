@@ -31,8 +31,6 @@ export default class ProjectWorkflow {
         return requestHeader;
     }
 
-
-
     updateProjectWorkflowById(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
@@ -42,11 +40,38 @@ export default class ProjectWorkflow {
         return requestHeader;
     }
 
-    addProjectWorkflowStepById(id: string) {
+    getAllProjectWorkflowStep() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/project_workflow_steps`,
+            method: 'get'
+        };
+        return requestHeader;
+    }
+
+    addProjectWorkflowStepById() {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/project_workflow_steps`,
             method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    updateProjectWorkflowStepById(id: any) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/project_workflow_steps/${id}`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
+
+    deleteProjectWorkflowStepById(id: any) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/project_workflow_steps/${id}`,
+            method: 'DELETE'
         };
         return requestHeader;
     }

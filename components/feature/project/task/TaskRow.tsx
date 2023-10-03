@@ -58,7 +58,7 @@ export default function TaskRow(props: TaskRowProps) {
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
-                <div className="  flex-row items-start">
+                <div className="  flex-row items-center">
                     {task?.is_completed ? (
                         <CheckCircleIcon
                             className="w-4 h-4 mt-1 text-gray-500"
@@ -88,18 +88,17 @@ export default function TaskRow(props: TaskRowProps) {
                             task?.is_completed ? 'line-through text-gray-500 ' : 'text-black'
                         }`}
                     >
-                        {task?.title}
+                        {task?.name}
                     </span>
                     <br />
-                    <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
+                    <span className="text-sm ml-2  text-gray-400 ">{task?.meta?.description}</span>
                     <div className="flex flex-row ml-2 items-center">
-                        <label className=" text-blue-500">{task?.user}</label>
-
-                        {task?.deadline_at && (
+                        <label className=" text-blue-500">@{task?.assignee_id}</label>
+                        {task?.deadline && (
                             <div className="flex flex-row ml-4">
                                 <CalendarIcon className="w-4 text-yellow-400" />
                                 <p className="text-sm ml-2   text-yellow-400 ">
-                                    {moment(task?.deadline_at).format('YYYY-MM-DD')}
+                                    {moment(task?.deadline).format('YYYY-MM-DD')}
                                 </p>
                             </div>
                         )}

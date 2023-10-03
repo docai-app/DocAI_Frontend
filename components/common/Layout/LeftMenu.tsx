@@ -72,7 +72,7 @@ export default function LeftMenu(props: any) {
             iconBackground: 'bg-blue-50'
         },
         {
-            name: '項目管理',
+            name: '待辦事項與工作流',
             href: '/project',
             icon: ChartBarSquareIcon,
             current: router.pathname.indexOf('/project') != -1,

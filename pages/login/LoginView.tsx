@@ -72,7 +72,7 @@ export default function LoginView(props: LoginViewProps) {
                         )}
                     </div>
                 </div>
-                <div className='w-1/2 hidden sm:block'>
+                <div className="w-1/2 hidden sm:block">
                     <div className="w-full h-full flex  flex-col justify-center relative bg-black">
                         <div className="absolute w-full flex flex-col justify-center items-center z-50 animate__animated animate__bounce animate__fadeInUp duration-300">
                             <p className="flex justify-center items-center mx-auto text-9xl font-bold text-white z-50">
