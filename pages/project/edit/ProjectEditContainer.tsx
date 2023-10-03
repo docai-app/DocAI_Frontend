@@ -50,7 +50,6 @@ export default function ProjectEditContainer() {
         deleteProjectWorkflowStepById
     ] = useAxios(apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(''), { manual: true });
 
-
     useEffect(() => {
         setOpen(loading);
     }, [loading]);
@@ -172,9 +171,9 @@ export default function ProjectEditContainer() {
 
     useEffect(() => {
         if (addNewProjectData && addNewProjectData.success) {
-            setAlert({ title: '添加成功', type: 'success' });
+            setAlert({ title: '保存成功', type: 'success' });
         } else if (addNewProjectData && !addNewProjectData.success) {
-            setAlert({ title: '添加失败， 请重试', type: 'success' });
+            setAlert({ title: '保存失败， 請重試', type: 'success' });
         }
     }, [addNewProjectData]);
 
@@ -182,7 +181,7 @@ export default function ProjectEditContainer() {
         if (updateProjectData && updateProjectData.success) {
             setAlert({ title: '修改成功', type: 'success' });
         } else if (updateProjectData && !updateProjectData.success) {
-            setAlert({ title: '修改失败， 请重试', type: 'success' });
+            setAlert({ title: '修改失敗， 請重試', type: 'success' });
         }
     }, [updateProjectData]);
 

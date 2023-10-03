@@ -31,7 +31,6 @@ function ProjectEditView(props: ProjectViewProps) {
         deleteProjectStepHandler,
         handleSave
     } = props;
-
     const [target_folder_id, set_target_folder_id] = useState('');
     const [mode, setMode] = useState<'add' | 'edit' | ''>('');
     const [currentTask, setCurrentTask] = useState<any>(null);
@@ -72,10 +71,6 @@ function ProjectEditView(props: ProjectViewProps) {
     const handleBack = () => {
         Router.push({ pathname: '/project' })
     };
-
-    // const handleSave = () => {
-    //     addProjectHeadler(project, tasks);
-    // };
 
     return (
         <>
