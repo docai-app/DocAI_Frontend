@@ -207,7 +207,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                     >
                                         <TaskRow
                                             task={task}
-                                            completeTask={() => {}}
+                                            completeTask={() => { }}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
                                         />
@@ -215,7 +215,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                             (project?.is_process_workflow ? (
                                                 <ArrowLongDownIcon className="  h-6 text-gray-500  " />
                                             ) : (
-                                                <div className="h-6 w-0.5 bg-gray-500"></div>
+                                                <div className="h-6 w-0.5"></div>
                                             ))}
                                     </div>
                                 );

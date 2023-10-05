@@ -1,17 +1,18 @@
+import { ArrowLongDownIcon } from '@heroicons/react/24/outline';
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
-import EditStepView from './EditStepView';
-import StepRow from './StepRow';
+import TaskRow from '../task/TaskRow';
 
 interface StepsListViewProps {
     tasks: any;
     setTasks: any;
+    showArrow?: boolean;
 }
 const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
-    const { tasks, setTasks } = props;
+    const { tasks, setTasks, showArrow = true } = props;
     const router = useRouter();
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
@@ -86,21 +87,41 @@ export default function StepsListView(props: StepsListViewProps) {
         <>
             <div className="flex flex-row w-full">
                 <div
-                    className={` h-fit border rounded-md ${visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
-                        }`}
+                    // className={` h-fit border rounded-md ${visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
+                    //     }`}
+                    className={` h-fit   rounded-md w-full`}
                 >
                     {tasks?.map((task: any, index: number) => {
                         return (
                             <div
                                 key={index}
                                 className="flex flex-col justify-center items-center"
-                                onClick={() => {
-                                    setCurrentTask(task);
-                                    setCurrectPosition(index);
-                                    setVisibleEditStep(true);
-                                }}
+                            // onClick={() => {
+                            //     setCurrentTask(task);
+                            //     setCurrectPosition(index);
+                            //     setVisibleEditStep(true);
+                            // }}
                             >
-                                <StepRow
+                                <TaskRow
+                                    task={task}
+                                    completeTask={() => {
+                                        task.status = "completed"
+                                        tasks.splice(index, 1, task);
+                                        updateLocalData();
+                                        updateProjectStepHandler(task);
+                                    }}
+                                    visiableMore={false}
+                                    updateTask={() => updateTask(task, index)}
+                                    removeTask={() => removeTask(task, index)}
+                                />
+
+                                {index != tasks.length - 1 && showArrow &&
+                                    (task?.is_process_workflow ? (
+                                        <ArrowLongDownIcon className="  h-6 text-gray-500  " />
+                                    ) : (
+                                        <div className="h-6 w-0.5"></div>
+                                    ))}
+                                {/* <StepRow
                                     task={task}
                                     currentTask={currentTask}
                                     completeTask={() => { }}
@@ -110,12 +131,12 @@ export default function StepsListView(props: StepsListViewProps) {
                                         updateProjectStepHandler(task);
                                     }}
                                     removeTask={() => removeTask(task, index)}
-                                />
+                                /> */}
                             </div>
                         );
                     })}
                 </div>
-                {visibleEditStep && currentTask && (
+                {/* {visibleEditStep && currentTask && (
                     <EditStepView
                         step={currentTask}
                         setStep={setCurrentTask}
@@ -127,7 +148,7 @@ export default function StepsListView(props: StepsListViewProps) {
                         }}
                         removeTask={() => removeTask(currentTask, currectPosition)}
                     />
-                )}
+                )} */}
             </div>
         </>
     );

@@ -106,21 +106,19 @@ function ProjectView(props: ProjectViewProps) {
                         <ul className="flex flex-row -my-px">
                             <li
                                 onClick={() => setCurrentTypeTab('tasks')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'tasks'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
-                                } font-bold text-sm`}
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
+                                    } font-bold text-sm`}
                             >
                                 待辦事項
                             </li>
                             <li
                                 onClick={() => setCurrentTypeTab('project_workflow')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'project_workflow'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
-                                } font-bold text-sm`}
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'project_workflow'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
+                                    } font-bold text-sm`}
                             >
                                 工作流
                             </li>
@@ -145,13 +143,13 @@ function ProjectView(props: ProjectViewProps) {
                         />
                     </div>
                     {currentTypeTab == 'tasks' && (
-                        <div className="mt-4 rounded-lg">
-                            <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
+                        <div className="mt-0 rounded-lg">
+                            {/* <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
                                 <div>
                                     <h1>待辦事項</h1>
                                 </div>
-                            </div>
-                            <StepsListView tasks={tasks} setTasks={setTasks} />
+                            </div> */}
+                            <StepsListView tasks={tasks} setTasks={setTasks} showArrow={false} />
                         </div>
                     )}
                     {currentTypeTab == 'project_workflow' && (

@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { CalendarIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon } from '@heroicons/react/24/outline';
 import moment from 'moment';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdowns from './Dropdowns';
@@ -9,14 +9,18 @@ interface TaskRowProps {
     completeTask: any;
     updateTask: any;
     removeTask: any;
+    visiableMore?: boolean;
 }
 
 export default function TaskRow(props: TaskRowProps) {
-    const { task, completeTask, updateTask, removeTask } = props;
+    const { task, completeTask, updateTask, removeTask, visiableMore = true } = props;
     const [visiable, setVisiable] = useState(false);
     const [overflow, setOverflow] = useState(false);
     const content = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        setVisiable(visiableMore)
+    }, [visiableMore])
     function useWinSize() {
         const [size, setSize] = useState({
             width: document.documentElement.clientWidth,
@@ -48,29 +52,32 @@ export default function TaskRow(props: TaskRowProps) {
     }, [size]);
 
     const completed = () => {
-        task.is_completed = !task.is_completed;
-        completeTask({
-            id: task?.id,
-            is_completed: task.is_completed
-        });
+        // task.is_completed = !task.is_completed;
+        // completeTask({
+        //     id: task?.id,
+        //     is_completed: task.is_completed
+        // });
     };
 
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
-                <div className="  flex-row items-center">
-                    {task?.is_completed ? (
-                        <CheckCircleIcon
-                            className="w-4 h-4 mt-1 text-gray-500"
-                            onClick={completed}
-                        />
-                    ) : (
+                <div className=" flex-row items-center">
+                    {task?.status == 'completed' &&
                         <input
                             type={'radio'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
-                            onClick={completed}
+                            defaultChecked={true}
+
                         />
-                    )}
+                    }
+                    {task?.status == 'pending' &&
+                        <input
+                            type={'radio'}
+                            className=" w-4 h-4  mt-1 cursor-pointer "
+                            onClick={completeTask}
+                        />
+                    }
                 </div>
                 <div
                     ref={content}
@@ -84,9 +91,7 @@ export default function TaskRow(props: TaskRowProps) {
                     }}
                 >
                     <span
-                        className={`text-md ml-2  break-words break-all ${
-                            task?.is_completed ? 'line-through text-gray-500 ' : 'text-black'
-                        }`}
+                        className={`text-md ml-2  break-words break-all  text-black `}
                     >
                         {task?.name}
                     </span>
@@ -120,15 +125,17 @@ export default function TaskRow(props: TaskRowProps) {
                             }}
                         />
                     ) : null}
-                    <Dropdowns
-                        type={'type'}
-                        is_completed={task?.is_completed}
-                        rename={updateTask}
-                        remove={removeTask}
-                        move={() => {
-                            alert('未做');
-                        }}
-                    />
+                    {visiableMore &&
+                        <Dropdowns
+                            type={'type'}
+                            is_completed={task?.is_completed}
+                            rename={updateTask}
+                            remove={removeTask}
+                            move={() => {
+                                alert('未做');
+                            }}
+                        />
+                    }
                 </div>
             </div>
         </>
