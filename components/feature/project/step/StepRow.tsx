@@ -1,5 +1,6 @@
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
+import StatusLabelView from './StatusLabelView';
 
 interface TaskRowProps {
     task: any;
@@ -44,14 +45,23 @@ export default function StepRow(props: TaskRowProps) {
         setVisable(false);
     };
 
+    const handleStepStatus = () => {
+        // console.log(task);
+        if (task.status == 'completed') {
+            task.status = "pending"
+        } else if (task.status == 'pending') {
+            task.status = "completed"
+        }
+        updateTask(task)
+    }
+
     return (
         <>
             <div
-                className={`flex flex-row px-4 h-10 items-center justify-between cursor-pointer  border-b  w-full hover:bg-gray-100 ${
-                    currentTask && currentTask.id == task.id
-                        ? 'bg-blue-100 border-l-4 border-l-blue-500'
-                        : ''
-                } `}
+                className={`flex flex-row px-4 h-10 items-center justify-between cursor-pointer  border-b  w-full hover:bg-gray-100 ${currentTask && currentTask.id == task.id
+                    ? 'bg-blue-100 border-l-4 border-l-blue-500'
+                    : ''
+                    } `}
                 onMouseEnter={() => {
                     onMouseEnter();
                 }}
@@ -62,7 +72,12 @@ export default function StepRow(props: TaskRowProps) {
                 <div className="flex  flex-row items-center flex-1">
                     <div className="w-4">
                         {visable && (
-                            <input type={'checkbox'} className=" w-3 h-3 cursor-pointer " />
+                            <input
+                                type={'checkbox'}
+                                className=" w-3 h-3 cursor-pointer "
+                                onClick={() => {
+                                    handleStepStatus()
+                                }} />
                         )}
                     </div>
                     {isEdit ? (
@@ -70,7 +85,7 @@ export default function StepRow(props: TaskRowProps) {
                             className="text-sm border-0 p-2 mx-2 w-full"
                             type={'text'}
                             defaultValue={task?.name}
-                            onChange={() => {}}
+                            onChange={() => { }}
                             onBlur={() => {
                                 setIsEdit(false);
                             }}
@@ -89,6 +104,7 @@ export default function StepRow(props: TaskRowProps) {
                 <div className="flex flex-row items-center">
                     {/* <span className='text-xs mx-2 hover:bg-blue-400 text-blue-900 bg-blue-300 px-1 py-0 rounded-sm'>{task?.name}</span> */}
                     {/* <Dropdowns /> */}
+                    <StatusLabelView status={task?.status} />
                     <UserCircleIcon className="mx-2 w-6 h-6 hover:text-gray-500" />
                 </div>
             </div>

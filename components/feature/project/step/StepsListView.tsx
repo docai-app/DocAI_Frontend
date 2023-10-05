@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
 import EditStepView from './EditStepView';
 import StepRow from './StepRow';
@@ -29,20 +29,28 @@ export default function StepsListView(props: StepsListViewProps) {
 
     const updateProjectStepHandler = useCallback(
         async (data) => {
-            // console.log(data);
-            const { id, name, meta, deadline } = data;
+            console.log(data);
+            const { id, name, meta, deadline, status } = data;
             updateProjectWorkflowStepById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
                 data: {
                     name: name,
                     description: meta.description,
                     deadline: deadline,
-                    assignee_id: 18
+                    assignee_id: 18,
+                    status: status
                 }
             });
         },
         [updateProjectWorkflowStepById]
     );
+
+    useEffect(() => {
+        if (updateProjectWorkflowStepByIdData) {
+            console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
+
+        }
+    }, [updateProjectWorkflowStepByIdData])
 
     const deleteProjectStepHandler = useCallback(
         async (data) => {
@@ -78,9 +86,8 @@ export default function StepsListView(props: StepsListViewProps) {
         <>
             <div className="flex flex-row w-full">
                 <div
-                    className={` h-fit border rounded-md ${
-                        visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
-                    }`}
+                    className={` h-fit border rounded-md ${visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
+                        }`}
                 >
                     {tasks?.map((task: any, index: number) => {
                         return (
@@ -96,8 +103,12 @@ export default function StepsListView(props: StepsListViewProps) {
                                 <StepRow
                                     task={task}
                                     currentTask={currentTask}
-                                    completeTask={() => {}}
-                                    updateTask={() => updateTask(task, index)}
+                                    completeTask={() => { }}
+                                    updateTask={(task: any) => {
+                                        tasks.splice(index, 1, task);
+                                        updateLocalData();
+                                        updateProjectStepHandler(task);
+                                    }}
                                     removeTask={() => removeTask(task, index)}
                                 />
                             </div>

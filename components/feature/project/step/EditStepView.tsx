@@ -1,8 +1,8 @@
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import _ from 'lodash';
 import moment from 'moment';
 import { useState } from 'react';
 import MyModal from '../../../common/Widget/MyModal';
+import StatusLabelView from './StatusLabelView';
 
 interface EditStepProps {
     step: any;
@@ -20,39 +20,7 @@ export default function EditStepView(props: EditStepProps) {
     //         setTask(step)
     //     }
     // }, [step])
-    const statusDatas = [
-        {
-            name: '待辦',
-            value: 'pending'
-        },
-        {
-            name: '進行中',
-            value: 'running'
-        },
-        {
-            name: '完成',
-            value: 'completed'
-        },
-        {
-            name: '失敗',
-            value: 'failed'
-        }
-    ];
     const [isEdit, setIsEdit] = useState(false);
-    const [status, setStatus] = useState(statusDatas[0].name);
-    const onSwitchStatus = (status: any) => {
-        setStatus(status.name);
-        // setCurrentStatus(status.value);
-    };
-
-    const showStatusName = (value: string) => {
-        if (_.isEmpty(value)) return '';
-        const data: any = _.find(statusDatas, function (s) {
-            return (s.value = value);
-        });
-        return data.name;
-    };
-
     return (
         <>
             <div className="w-1/3 px-4 items-center">
@@ -96,9 +64,9 @@ export default function EditStepView(props: EditStepProps) {
                     </div>
                 </div>
                 <div className="my-2">
-                    <label className="px-2 py-1 text-sm text-white rounded-md bg-gray-500">
-                        {showStatusName(step?.status)}
-                    </label>
+                    <div className="flex flex-row items-center">
+                        <StatusLabelView status={step?.status} />
+                    </div>
                 </div>
                 <div className="my-2">
                     <label className="text-sm text-gray-700">負責人: 我</label>
