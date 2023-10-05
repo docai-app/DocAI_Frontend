@@ -163,7 +163,7 @@ export default function ProjectEditContainer() {
             // console.log(data);
             const { id } = data;
             deleteProjectWorkflowStepById({
-                ...apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(id),
+                ...apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(id)
             });
         },
         [project, deleteProjectWorkflowStepById]

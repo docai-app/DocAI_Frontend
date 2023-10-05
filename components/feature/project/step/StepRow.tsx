@@ -1,4 +1,3 @@
-
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
@@ -37,7 +36,7 @@ export default function StepRow(props: TaskRowProps) {
     };
 
     const [visable, setVisable] = useState(false);
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false);
     const onMouseEnter = () => {
         setVisable(true);
     };
@@ -47,36 +46,38 @@ export default function StepRow(props: TaskRowProps) {
 
     return (
         <>
-            <div className={`flex flex-row px-4 h-10 items-center justify-between cursor-pointer  border-b  w-full hover:bg-gray-100 ${currentTask && currentTask.id == task.id ? 'bg-blue-100 border-l-4 border-l-blue-500' : ''} `}
+            <div
+                className={`flex flex-row px-4 h-10 items-center justify-between cursor-pointer  border-b  w-full hover:bg-gray-100 ${
+                    currentTask && currentTask.id == task.id
+                        ? 'bg-blue-100 border-l-4 border-l-blue-500'
+                        : ''
+                } `}
                 onMouseEnter={() => {
                     onMouseEnter();
                 }}
                 onMouseLeave={() => {
                     onMouseLeave();
-                }}>
+                }}
+            >
                 <div className="flex  flex-row items-center flex-1">
-                    <div className='w-4'>
-                        {visable &&
-                            <input
-                                type={'checkbox'}
-                                className=" w-3 h-3 cursor-pointer "
-                            />
-                        }
+                    <div className="w-4">
+                        {visable && (
+                            <input type={'checkbox'} className=" w-3 h-3 cursor-pointer " />
+                        )}
                     </div>
-                    {isEdit ?
+                    {isEdit ? (
                         <input
-                            className='text-sm border-0 p-2 mx-2 w-full'
+                            className="text-sm border-0 p-2 mx-2 w-full"
                             type={'text'}
                             defaultValue={task?.name}
-                            onChange={() => {
-
-                            }}
+                            onChange={() => {}}
                             onBlur={() => {
-                                setIsEdit(false)
+                                setIsEdit(false);
                             }}
-                        /> :
-                        <span className='text-sm mx-2 hover:underline'>{task?.name}</span>
-                    }
+                        />
+                    ) : (
+                        <span className="text-sm mx-2 hover:underline">{task?.name}</span>
+                    )}
                     {/* {visable && !isEdit &&
                         <div className=' rounded-sm p-1 hover:bg-gray-200'
                             onClick={() => {
@@ -85,10 +86,10 @@ export default function StepRow(props: TaskRowProps) {
                         </div>
                     } */}
                 </div>
-                <div className='flex flex-row items-center'>
+                <div className="flex flex-row items-center">
                     {/* <span className='text-xs mx-2 hover:bg-blue-400 text-blue-900 bg-blue-300 px-1 py-0 rounded-sm'>{task?.name}</span> */}
                     {/* <Dropdowns /> */}
-                    <UserCircleIcon className='mx-2 w-6 h-6 hover:text-gray-500' />
+                    <UserCircleIcon className="mx-2 w-6 h-6 hover:text-gray-500" />
                 </div>
             </div>
         </>

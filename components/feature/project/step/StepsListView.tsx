@@ -1,9 +1,9 @@
-import useAxios from "axios-hooks";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
-import Api from "../../../../apis";
-import EditStepView from "./EditStepView";
-import StepRow from "./StepRow";
+import useAxios from 'axios-hooks';
+import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
+import Api from '../../../../apis';
+import EditStepView from './EditStepView';
+import StepRow from './StepRow';
 
 interface StepsListViewProps {
     tasks: any;
@@ -11,14 +11,11 @@ interface StepsListViewProps {
 }
 const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
-    const {
-        tasks,
-        setTasks
-    } = props
-    const router = useRouter()
+    const { tasks, setTasks } = props;
+    const router = useRouter();
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
-    const [visibleEditStep, setVisibleEditStep] = useState(false)
+    const [visibleEditStep, setVisibleEditStep] = useState(false);
 
     const [
         { data: updateProjectWorkflowStepByIdData, loading: updateProjectWorkflowStepByIdLoading },
@@ -29,7 +26,6 @@ export default function StepsListView(props: StepsListViewProps) {
         { data: deleteProjectWorkflowStepByIdData, loading: deleteProjectWorkflowStepByIdLoading },
         deleteProjectWorkflowStepById
     ] = useAxios(apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(''), { manual: true });
-
 
     const updateProjectStepHandler = useCallback(
         async (data) => {
@@ -53,7 +49,7 @@ export default function StepsListView(props: StepsListViewProps) {
             // console.log(data);
             const { id } = data;
             deleteProjectWorkflowStepById({
-                ...apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(id),
+                ...apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(id)
             });
         },
         [deleteProjectWorkflowStepById]
@@ -74,29 +70,33 @@ export default function StepsListView(props: StepsListViewProps) {
         updateLocalData();
         console.log(task);
         if (task.id) {
-            deleteProjectStepHandler(task)
+            deleteProjectStepHandler(task);
         }
     };
 
     return (
         <>
-            <div className='flex flex-row w-full'>
-                <div className={` h-fit border rounded-md ${visibleEditStep && currentTask ? 'w-2/3' : 'w-full'}`}>
+            <div className="flex flex-row w-full">
+                <div
+                    className={` h-fit border rounded-md ${
+                        visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
+                    }`}
+                >
                     {tasks?.map((task: any, index: number) => {
                         return (
                             <div
                                 key={index}
                                 className="flex flex-col justify-center items-center"
                                 onClick={() => {
-                                    setCurrentTask(task)
-                                    setCurrectPosition(index)
-                                    setVisibleEditStep(true)
+                                    setCurrentTask(task);
+                                    setCurrectPosition(index);
+                                    setVisibleEditStep(true);
                                 }}
                             >
                                 <StepRow
                                     task={task}
                                     currentTask={currentTask}
-                                    completeTask={() => { }}
+                                    completeTask={() => {}}
                                     updateTask={() => updateTask(task, index)}
                                     removeTask={() => removeTask(task, index)}
                                 />
@@ -104,7 +104,7 @@ export default function StepsListView(props: StepsListViewProps) {
                         );
                     })}
                 </div>
-                {visibleEditStep && currentTask &&
+                {visibleEditStep && currentTask && (
                     <EditStepView
                         step={currentTask}
                         setStep={setCurrentTask}
@@ -116,8 +116,8 @@ export default function StepsListView(props: StepsListViewProps) {
                         }}
                         removeTask={() => removeTask(currentTask, currectPosition)}
                     />
-                }
+                )}
             </div>
         </>
-    )
+    );
 }

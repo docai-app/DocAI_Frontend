@@ -1,4 +1,8 @@
-import { ClipboardDocumentListIcon, PencilSquareIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import {
+    ClipboardDocumentListIcon,
+    PencilSquareIcon,
+    UserCircleIcon
+} from '@heroicons/react/24/outline';
 import moment from 'moment';
 import Link from 'next/link';
 import Router from 'next/router';

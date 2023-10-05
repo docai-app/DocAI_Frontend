@@ -9,33 +9,33 @@ const apiSetting = new Api();
 export default function ProjectDetailContainer() {
     const router = useRouter();
     const [project, setProject] = useState<any>();
-    const [tasks, setTasks] = useState<any>([])
-    const [open, setOpen] = useState(false)
+    const [tasks, setTasks] = useState<any>([]);
+    const [open, setOpen] = useState(false);
 
-    const [
-        { data: getProjectWorkflowByIdData, loading },
-        getProjectWorkflowById
-    ] = useAxios(apiSetting.ProjectWorkflow.getProjectWorkflowById(''), { manual: false });
+    const [{ data: getProjectWorkflowByIdData, loading }, getProjectWorkflowById] = useAxios(
+        apiSetting.ProjectWorkflow.getProjectWorkflowById(''),
+        { manual: false }
+    );
 
     useEffect(() => {
-        setOpen(loading)
-    }, [loading])
+        setOpen(loading);
+    }, [loading]);
     useEffect(() => {
         if (router && router.query.id) {
             getProjectWorkflowById({
                 ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.id as string)
-            })
+            });
         }
-    }, [router])
+    }, [router]);
 
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {
             console.log(getProjectWorkflowByIdData.doc);
 
-            setProject(getProjectWorkflowByIdData.doc)
-            setTasks(getProjectWorkflowByIdData.doc.steps)
+            setProject(getProjectWorkflowByIdData.doc);
+            setTasks(getProjectWorkflowByIdData.doc.steps);
         }
-    }, [getProjectWorkflowByIdData])
+    }, [getProjectWorkflowByIdData]);
 
     return (
         <ProjectDetailView

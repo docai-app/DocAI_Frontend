@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ');
@@ -34,19 +34,18 @@ export default function Dropdowns(props: DropdownsProps) {
     ];
     const [status, setStatus] = useState(statusDatas[0].name);
     return (
-        <div >
+        <div>
             <select
                 defaultValue={'failed'}
                 className="py-0 pr-6 text-center bg-gray-300 text-xs border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                onChange={async (e) => {
-                }}
+                onChange={async (e) => {}}
             >
                 {statusDatas.map((item, index) => {
                     return (
-                        <option key={index} value={item.value} className="text-xs" >
+                        <option key={index} value={item.value} className="text-xs">
                             {item.name}
                         </option>
-                    )
+                    );
                 })}
             </select>
         </div>

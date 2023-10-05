@@ -113,9 +113,7 @@ export default function ProjectContainer() {
         if (addProjectWorkflowStepByIdData && addProjectWorkflowStepByIdData.success) {
             setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.doc]);
         }
-
-    }, [addProjectWorkflowStepByIdData])
-
+    }, [addProjectWorkflowStepByIdData]);
 
     return (
         <ProjectView

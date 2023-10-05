@@ -52,9 +52,8 @@ function ProjectEditView(props: ProjectViewProps) {
         updateLocalData();
         console.log(task);
         if (task.id) {
-            deleteProjectStepHandler(task)
+            deleteProjectStepHandler(task);
         }
-
     };
 
     const updateLocalData = () => {
@@ -69,7 +68,7 @@ function ProjectEditView(props: ProjectViewProps) {
     };
 
     const handleBack = () => {
-        Router.push({ pathname: '/project' })
+        Router.push({ pathname: '/project' });
     };
 
     return (
@@ -208,7 +207,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                     >
                                         <TaskRow
                                             task={task}
-                                            completeTask={() => { }}
+                                            completeTask={() => {}}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
                                         />

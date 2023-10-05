@@ -12,13 +12,7 @@ interface ProjectDetailViewProps {
 }
 
 function ProjectDetailView(props: ProjectDetailViewProps) {
-    const {
-        project = null,
-        tasks,
-        setTasks,
-        open,
-        setOpen
-    } = props;
+    const { project = null, tasks, setTasks, open, setOpen } = props;
     const route = useRouter();
     return (
         <>
@@ -45,11 +39,10 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                         </h5>
                     </div>
                 </header>
-                <div className='my-2'>
+                <div className="my-2">
                     <StepsListView tasks={tasks} setTasks={setTasks} />
                 </div>
             </div>
-
         </>
     );
 }
