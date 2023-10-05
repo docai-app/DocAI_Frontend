@@ -51,7 +51,6 @@ export default function ProjectEditContainer() {
     const addNewProjectHeadler = useCallback(
         async (data) => {
             const { name, meta } = data;
-            // console.log(parent_id);
             addNewProject({
                 data: {
                     name: name,
@@ -71,7 +70,6 @@ export default function ProjectEditContainer() {
     const updateProjectHandler = useCallback(
         async (data) => {
             const { name, meta } = data;
-            // console.log(parent_id);
             addNewProject({
                 data: {
                     name: name,

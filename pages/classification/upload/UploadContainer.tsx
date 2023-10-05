@@ -49,11 +49,6 @@ function UploadContainer(props: UploadContainerProps) {
             if (target_folder_id) {
                 formData.append('target_folder_id', target_folder_id);
             }
-            // console.log('tagId', tagId);
-            // console.log('needAutoUpload', needAutoUpload);
-            // console.log('needs_approval', needs_approval);
-            // console.log('needs_deep_understanding', JSON.stringify(needs_deep_understanding));
-            // console.log('form_schema_id', form_schema_id);
 
             if ('upload_document' === app_function) {
                 if (miniapp_tag_id) formData.append('tag_id', miniapp_tag_id);

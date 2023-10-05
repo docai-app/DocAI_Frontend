@@ -39,7 +39,6 @@ export default function LabelContainer() {
 
     const addNewLabelHandler = useCallback(async () => {
         addNewLabel({ data: { name: newLabelName } });
-        // console.log('newLabelName', newLabelName);
     }, [addNewLabel, newLabelName]);
 
     const updateLabelNameByIdHandler = useCallback(

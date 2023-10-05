@@ -241,7 +241,6 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
                                         {formDatum?.map((datum: any, index: number) => {
-                                            // console.log(datum);
                                             return (
                                                 <SchemaFormFilterTableRow
                                                     key={index}
