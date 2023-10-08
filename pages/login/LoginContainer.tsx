@@ -1,8 +1,8 @@
 import useAxios from 'axios-hooks';
-import { FormEventHandler, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { FormEventHandler, useCallback, useEffect } from 'react';
 import Api from '../../apis';
 import LoginView from './LoginView';
-import { useRouter } from 'next/router';
 
 const apiSetting = new Api();
 

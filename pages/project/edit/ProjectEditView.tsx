@@ -1,7 +1,8 @@
 import { ArrowLongDownIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import Router from 'next/router';
-import { useState } from 'react';
+import _ from 'lodash';
+import Router, { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Api from '../../../apis';
 import DocumentPath from '../../../components/common/Widget/DocumentPath';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
@@ -12,29 +13,66 @@ const apiSetting = new Api();
 interface ProjectViewProps {
     project: any;
     setProject: any;
-    addNewProjectHeadler: any;
-    updateProjectHandler: any;
+    users: [];
     open: boolean;
     setOpen: any;
+    addProjectStepHandler: any;
+    updateProjectStepHandler: any;
+    deleteProjectStepHandler: any;
+    handleSave: any;
 }
 
 function ProjectEditView(props: ProjectViewProps) {
-    const { project, setProject, addNewProjectHeadler, updateProjectHandler, open, setOpen } =
-        props;
-
+    const {
+        open,
+        setOpen,
+        project,
+        setProject,
+        users,
+        addProjectStepHandler,
+        updateProjectStepHandler,
+        deleteProjectStepHandler,
+        handleSave
+    } = props;
+    const router = useRouter();
     const [target_folder_id, set_target_folder_id] = useState('');
     const [mode, setMode] = useState<'add' | 'edit' | ''>('');
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
     const [tasks, setTasks] = useState<any>([]);
+
+    useEffect(() => {
+        if (project && project.folder_id) {
+            set_target_folder_id(project.folder_id);
+        }
+        if (project && project.steps) {
+            setTasks(project.steps);
+        }
+        if (router && router.query.template) {
+            const newTasks = _.map(project?.steps, function (step) {
+                return {
+                    assignee_id: step.assignee_id,
+                    deadline: step.deadline,
+                    description: step.description,
+                    name: step.name,
+                    status: 'pending'
+                };
+            });
+            setTasks(newTasks);
+        }
+    }, [router, project]);
     const methods = [
         { id: 'undepend', title: '不依賴' },
         { id: 'depend', title: '依賴' }
     ];
 
-    const removeTask = (position: number) => {
+    const removeTask = (task: any, position: number) => {
         tasks.splice(position, 1);
         updateLocalData();
+        console.log(task);
+        if (task.id) {
+            deleteProjectStepHandler(task);
+        }
     };
 
     const updateLocalData = () => {
@@ -50,10 +88,6 @@ function ProjectEditView(props: ProjectViewProps) {
 
     const handleBack = () => {
         Router.back();
-    };
-
-    const handleSave = () => {
-        addNewProjectHeadler(project);
     };
 
     return (
@@ -88,13 +122,13 @@ function ProjectEditView(props: ProjectViewProps) {
                     <button
                         type="button"
                         className="rounded-md bg-blue-500 text-white py-2 px-4 shadow text-sm"
-                        onClick={handleSave}
+                        onClick={() => handleSave(project, tasks)}
                     >
                         發佈
                     </button>
                 </div>
                 <div className="w-full items-center flex justify-center  mt-4">
-                    <div className="w-3/4">
+                    <div className="w-full">
                         <div className="my-2">
                             <label>名稱: </label>
                             <input
@@ -115,14 +149,11 @@ function ProjectEditView(props: ProjectViewProps) {
                             <textarea
                                 className="block w-full rounded-md border-0 py-2 pl-4   text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 placeholder="描述..."
-                                defaultValue={project?.meta?.description}
+                                defaultValue={project?.description}
                                 onChange={(e) => {
                                     setProject({
                                         ...project,
-                                        meta: {
-                                            ...project.meta,
-                                            description: e.target.value
-                                        }
+                                        description: e.target.value
                                     });
                                 }}
                             />
@@ -130,28 +161,50 @@ function ProjectEditView(props: ProjectViewProps) {
                         <DocumentPath
                             modeType={'move'}
                             target_folder_id={target_folder_id}
-                            set_target_folder_id={set_target_folder_id}
+                            set_target_folder_id={(folder_id: string) => {
+                                setProject({
+                                    ...project,
+                                    folder_id: folder_id
+                                });
+                            }}
                         />
                         <div className="my-2">
                             <label>任務關係:</label>
-                            <div className=" mt-2 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
-                                {methods.map((method) => (
-                                    <div key={method.id} className="flex items-center">
-                                        <input
-                                            id={method.id}
-                                            name="method"
-                                            type="radio"
-                                            defaultChecked={method.id === 'undepend'}
-                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                        />
-                                        <label
-                                            htmlFor={method.id}
-                                            className="ml-3 block text-sm font-medium text-gray-700"
-                                        >
-                                            {method.title}
-                                        </label>
-                                    </div>
-                                ))}
+                            <div className=" mt-2 flex flex-row">
+                                <div className="flex items-center">
+                                    <input
+                                        name="is_process_workflow"
+                                        type="radio"
+                                        defaultChecked={project?.is_process_workflow == false}
+                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                        onChange={(e) => {
+                                            setProject({
+                                                ...project,
+                                                is_process_workflow: false
+                                            });
+                                        }}
+                                    />
+                                    <label className="ml-2 block text-sm font-medium text-gray-700">
+                                        不依賴
+                                    </label>
+                                </div>
+                                <div className="flex items-center ml-5 hidden">
+                                    <input
+                                        name="is_process_workflow"
+                                        type="radio"
+                                        defaultChecked={project?.is_process_workflow == true}
+                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                        onChange={(e) => {
+                                            setProject({
+                                                ...project,
+                                                is_process_workflow: true
+                                            });
+                                        }}
+                                    />
+                                    <label className="ml-2 block text-sm font-medium text-gray-700">
+                                        依賴
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div className="my-2 flex justify-end">
@@ -175,14 +228,17 @@ function ProjectEditView(props: ProjectViewProps) {
                                     >
                                         <TaskRow
                                             task={task}
+                                            users={users}
                                             completeTask={() => {}}
                                             updateTask={() => updateTask(task, index)}
-                                            removeTask={removeTask}
+                                            removeTask={() => removeTask(task, index)}
                                         />
-                                        {index != tasks.length - 1 && (
-                                            // <div className='h-6 w-0.5 bg-gray-500'></div>
-                                            <ArrowLongDownIcon className="  h-6 text-gray-500  " />
-                                        )}
+                                        {index != tasks.length - 1 &&
+                                            (project?.is_process_workflow ? (
+                                                <ArrowLongDownIcon className="  h-6 text-gray-500  " />
+                                            ) : (
+                                                <div className="h-6 w-0.5"></div>
+                                            ))}
                                     </div>
                                 );
                             })}
@@ -193,6 +249,7 @@ function ProjectEditView(props: ProjectViewProps) {
             <EditTaskModal
                 visable={mode != ''}
                 task={currentTask}
+                users={users}
                 cancelClick={() => {
                     setMode('');
                     setCurrentTask(null);
@@ -204,6 +261,10 @@ function ProjectEditView(props: ProjectViewProps) {
                     else if (mode == 'edit') {
                         tasks.splice(currectPosition, 1, data);
                         updateLocalData();
+                    }
+                    if (project && project.id) {
+                        if (mode == 'add') addProjectStepHandler(data);
+                        else updateProjectStepHandler(data);
                     }
                 }}
             />
