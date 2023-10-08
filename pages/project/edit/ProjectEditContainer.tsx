@@ -12,7 +12,7 @@ export default function ProjectEditContainer() {
     const { setAlert } = useAlert();
     const [meta, setMeta] = useState();
     const [open, setOpen] = useState(false);
-    const [users, setUsers] = useState<any>([])
+    const [users, setUsers] = useState<any>([]);
     const [project, setProject] = useState({
         id: '',
         name: '',
@@ -52,11 +52,9 @@ export default function ProjectEditContainer() {
         deleteProjectWorkflowStepById
     ] = useAxios(apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(''), { manual: true });
 
-    const [
-        { data: getAllUsersData },
-        getAllUsers
-    ] = useAxios(apiSetting.User.getAllUsers(), { manual: true });
-
+    const [{ data: getAllUsersData }, getAllUsers] = useAxios(apiSetting.User.getAllUsers(), {
+        manual: true
+    });
 
     useEffect(() => {
         setOpen(loading);
@@ -77,10 +75,10 @@ export default function ProjectEditContainer() {
             });
         }
         if (router && router.query.template) {
-            const template = JSON.parse(router.query.template as string)
-            setProject(template)
+            const template = JSON.parse(router.query.template as string);
+            setProject(template);
         }
-        getAllUsers()
+        getAllUsers();
         // if (router && router.query.select_id) {
         //     getProjectWorkflowById({
         //         ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.select_id as string)
@@ -90,7 +88,7 @@ export default function ProjectEditContainer() {
 
     useEffect(() => {
         if (getAllUsersData && getAllUsersData.success) {
-            setUsers(getAllUsersData.users)
+            setUsers(getAllUsersData.users);
         }
     }, [getAllUsersData]);
 
@@ -165,7 +163,7 @@ export default function ProjectEditContainer() {
                     name: name,
                     deadline: deadline,
                     description: description,
-                    assignee_id: assignee_id,
+                    assignee_id: assignee_id
                 }
             });
         },
@@ -204,7 +202,7 @@ export default function ProjectEditContainer() {
         if (addNewProjectData && addNewProjectData.success) {
             // console.log('addNewProjectData', addNewProjectData);
             setAlert({ title: '保存成功', type: 'success' });
-            router.back()
+            router.back();
         } else if (addNewProjectData && !addNewProjectData.success) {
             setAlert({ title: '保存失败， 請重試', type: 'success' });
         }

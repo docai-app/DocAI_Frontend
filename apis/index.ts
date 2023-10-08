@@ -68,6 +68,6 @@ export default class Api {
         this.MiniApp = new MiniApp();
         this.Chatbot = new Chatbot();
         this.SmartExtractionSchemas = new SmartExtractionSchemas();
-        this.Prompt = new Prompt()
+        this.Prompt = new Prompt();
     }
 }

@@ -15,20 +15,15 @@ interface ProjectViewProps {
 }
 const apiSetting = new Api();
 function ProjectSelectView(props: ProjectViewProps) {
-    const {
-        projects = null,
-        meta,
-        open,
-        setOpen
-    } = props;
-    const { setAlert } = useAlert()
-    const [visible, setVisible] = useState(false)
-    const [selectId, setSelectId] = useState(-1)
-    const [isTemplate, setIsTemplate] = useState(false)
-    const [template, setTemplate] = useState()
+    const { projects = null, meta, open, setOpen } = props;
+    const { setAlert } = useAlert();
+    const [visible, setVisible] = useState(false);
+    const [selectId, setSelectId] = useState(-1);
+    const [isTemplate, setIsTemplate] = useState(false);
+    const [template, setTemplate] = useState();
     const [current, setCurrent] = useState({
         name: ''
-    })
+    });
 
     const [{ data: getPromptByIdData, loading }, getPromptById] = useAxios(
         apiSetting.Prompt.getPromptById('102'),
@@ -49,7 +44,7 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
 }
 3.Just do, no talk
 4. only output the JSON
-    `
+    `;
 
     const [{ data: getLLData, loading: getLLMDataLoading }, getLL] = useAxios(
         apiSetting.Prompt.doc_ai_llm('', ''),
@@ -61,29 +56,37 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
     useEffect(() => {
         if (getLLData && getLLData.success) {
             // console.log('getLLData', getLLData.data.response);
-            Router.push({ pathname: '/project/edit', query: { is_template: isTemplate, template: JSON.stringify(getLLData.data.response) } });
+            Router.push({
+                pathname: '/project/edit',
+                query: {
+                    is_template: isTemplate,
+                    template: JSON.stringify(getLLData.data.response)
+                }
+            });
         }
-    }, [getLLData])
+    }, [getLLData]);
 
     useEffect(() => {
-        setOpen(getLLMDataLoading)
+        setOpen(getLLMDataLoading);
         return () => {
-            setOpen(false)
-        }
-    }, [getLLMDataLoading])
-
+            setOpen(false);
+        };
+    }, [getLLMDataLoading]);
 
     const handleClickAdd = () => {
         if (selectId == -1) {
-            setVisible(true)
+            setVisible(true);
         } else {
-            Router.push({ pathname: '/project/edit', query: { is_template: isTemplate, template: JSON.stringify(template) } });
+            Router.push({
+                pathname: '/project/edit',
+                query: { is_template: isTemplate, template: JSON.stringify(template) }
+            });
         }
     };
 
     const handleClickProject = (id: any) => {
-        setSelectId(id)
-    }
+        setSelectId(id);
+    };
     return (
         <>
             <SingleActionModel
@@ -102,8 +105,8 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                     </div>
                 </div>
                 <div className="mt-4 pb-4">
-                    <div className='flex justify-between items-center'>
-                        <label className='text-xl'>選擇新增工作流方式</label>
+                    <div className="flex justify-between items-center">
+                        <label className="text-xl">選擇新增工作流方式</label>
                         <button
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -115,7 +118,7 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                         </button>
                     </div>
                 </div>
-                <div className='my-2'>
+                <div className="my-2">
                     <div className="flex flex-row items-center my-2">
                         <input
                             type={'radio'}
@@ -123,12 +126,12 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                             defaultChecked
                             name="project"
                             onChange={(e) => {
-                                setIsTemplate(false)
-                                handleClickProject(e.target.value)
+                                setIsTemplate(false);
+                                handleClickProject(e.target.value);
                             }}
                         />
-                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
-                            <label className='flex flex-1'>電腦根據目標創建工作流</label>
+                        <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
+                            <label className="flex flex-1">電腦根據目標創建工作流</label>
                         </div>
                     </div>
                     <div className="flex flex-row items-center my-2">
@@ -137,12 +140,12 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                             value={0}
                             name="project"
                             onChange={(e) => {
-                                setIsTemplate(false)
-                                handleClickProject(e.target.value)
+                                setIsTemplate(false);
+                                handleClickProject(e.target.value);
                             }}
                         />
-                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
-                            <label className='flex flex-1'> 空白工作流</label>
+                        <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
+                            <label className="flex flex-1"> 空白工作流</label>
                         </div>
                     </div>
                     <div className="flex flex-row items-center my-2">
@@ -151,12 +154,12 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                             value={0}
                             name="project"
                             onChange={(e) => {
-                                setIsTemplate(true)
-                                handleClickProject(e.target.value)
+                                setIsTemplate(true);
+                                handleClickProject(e.target.value);
                             }}
                         />
-                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
-                            <label className='flex flex-1'> 新工作流範本 </label>
+                        <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
+                            <label className="flex flex-1"> 新工作流範本 </label>
                         </div>
                     </div>
                     {projects?.map((project: any, index: number) => {
@@ -167,16 +170,21 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                                     type={'radio'}
                                     name="project"
                                     onChange={(e) => {
-                                        setTemplate(project)
-                                        handleClickProject(e.target.value)
+                                        setTemplate(project);
+                                        handleClickProject(e.target.value);
                                     }}
                                 />
-                                <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
-                                    <label className='flex flex-1'>{project?.name}</label>
-                                    <a href={`/project/${project?.id}`} className='text-blue-500 underline'>查看</a>
+                                <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
+                                    <label className="flex flex-1">{project?.name}</label>
+                                    <a
+                                        href={`/project/${project?.id}`}
+                                        className="text-blue-500 underline"
+                                    >
+                                        查看
+                                    </a>
                                 </div>
                             </div>
-                        )
+                        );
                     })}
                 </div>
             </div>
@@ -192,15 +200,16 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                 }}
                 confirmClick={() => {
                     if (!current.name) {
-                        setAlert({ 'title': '請輸入目標', type: 'info' })
-                        return
+                        setAlert({ title: '請輸入目標', type: 'info' });
+                        return;
                     }
                     setVisible(false);
                     getLL({
                         ...apiSetting.Prompt.doc_ai_llm(
                             prompt.replaceAll('{{Objectives}}', current.name),
-                            'gpt-3.5-turbo-16k')
-                    })
+                            'gpt-3.5-turbo-16k'
+                        )
+                    });
                 }}
             />
         </>

@@ -67,7 +67,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
     const editFormDocument = (datum: any) => {
         if (!datum) return;
         console.log(datum);
-        // setAlert({ title: '未做', type: 'info' })
+        // setAlert({ title: '新功能開發中，敬請期待！', type: 'info' })
         router.push({
             pathname: '/document/validate',
             query: {

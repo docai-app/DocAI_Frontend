@@ -45,7 +45,7 @@ export default function ProjectSelectContainer() {
                 projects,
                 meta,
                 open,
-                setOpen,
+                setOpen
             }}
         />
     );

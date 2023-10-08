@@ -24,7 +24,6 @@ export default function ChainFeatureDetail(props: ViewProps) {
     const renderHeader = () => {
         return (
             <div className="w-full  relative items-center">
-
                 <label className=" absolute right-0" onClick={back}>
                     {'關閉'}
                 </label>
@@ -42,7 +41,7 @@ export default function ChainFeatureDetail(props: ViewProps) {
             const message = event.data;
             switch (message.type) {
                 case 'output':
-                    setContent(message.content)
+                    setContent(message.content);
                     break;
                 case 'finish':
                     setOpen(false);
@@ -69,7 +68,11 @@ export default function ChainFeatureDetail(props: ViewProps) {
                 maxHeight={maxHeight}
                 header={renderHeader()}
             >
-                <IframeView content={selectDocument} type="document" aiadmin_link={`${process.env.NEXT_PUBLIC_AIADMIN_SERVER}/chainfeature/${chain_feature_id}?showChatbot=true`} />
+                <IframeView
+                    content={selectDocument}
+                    type="document"
+                    aiadmin_link={`${process.env.NEXT_PUBLIC_AIADMIN_SERVER}/chainfeature/${chain_feature_id}?showChatbot=true`}
+                />
             </BottomSheet>
         </>
     );

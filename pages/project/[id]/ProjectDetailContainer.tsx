@@ -17,11 +17,9 @@ export default function ProjectDetailContainer() {
         { manual: true }
     );
 
-    const [
-        { data: getAllUsersData },
-        getAllUsers
-    ] = useAxios(apiSetting.User.getAllUsers(), { manual: true });
-
+    const [{ data: getAllUsersData }, getAllUsers] = useAxios(apiSetting.User.getAllUsers(), {
+        manual: true
+    });
 
     useEffect(() => {
         setOpen(loading);
@@ -34,7 +32,6 @@ export default function ProjectDetailContainer() {
             });
         }
     }, [router]);
-
 
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {

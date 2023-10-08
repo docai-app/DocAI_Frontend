@@ -17,18 +17,18 @@ interface ProjectDetailViewProps {
 function ProjectDetailView(props: ProjectDetailViewProps) {
     const { project = null, tasks, setTasks, open, setOpen } = props;
     const route = useRouter();
-    const [progress, setProgress] = useState(0)
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         if (project && project.steps && project.steps.length > 0) {
             const count = _.countBy(project.steps, function (step) {
-                return step.status == 'completed'
-            }).true
+                return step.status == 'completed';
+            }).true;
             if (count) {
-                setProgress(_.floor(_.divide(count, project.steps.length) * 100, 2))
+                setProgress(_.floor(_.divide(count, project.steps.length) * 100, 2));
             }
         }
-    }, [project])
+    }, [project]);
     return (
         <>
             <SingleActionModel
@@ -49,9 +49,7 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                 <header className="shadow bg-white flex flex-col justify-between items-center">
                     <div className="w-full   py-6 px-4 sm:px-6 lg:px-8   ">
                         <h1 className="text-2xl font-bold text-gray-900">{project?.name}</h1>
-                        <h5 className="text-md text-gray-500 sm:text-md">
-                            {project?.description}
-                        </h5>
+                        <h5 className="text-md text-gray-500 sm:text-md">{project?.description}</h5>
                     </div>
                     <Progress value={progress} />
                 </header>

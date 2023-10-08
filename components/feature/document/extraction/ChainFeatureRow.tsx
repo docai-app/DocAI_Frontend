@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 interface RowProps {
     chain_feature_id: any;
@@ -11,10 +11,10 @@ export default function ChainFeatureRow(props: RowProps) {
 
     const getChainFeature = (id: number) => {
         const chain_feature = _.find(chain_features, function (chain_feature: any) {
-            return chain_feature?.fields?.id == id
-        })
-        return chain_feature?.fields
-    }
+            return chain_feature?.fields?.id == id;
+        });
+        return chain_feature?.fields;
+    };
     return (
         <>
             <tr>
@@ -25,9 +25,9 @@ export default function ChainFeatureRow(props: RowProps) {
                     {getChainFeature(chain_feature_id)?.description}
                 </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a className="text-red-500 hover:text-red-600 cursor-pointer"
-                        onClick={remove}
-                    >刪除</a>
+                    <a className="text-red-500 hover:text-red-600 cursor-pointer" onClick={remove}>
+                        刪除
+                    </a>
                 </td>
             </tr>
         </>

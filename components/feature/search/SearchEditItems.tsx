@@ -1,6 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import {
-    ArchiveBoxArrowDownIcon, MagnifyingGlassIcon,
+    ArchiveBoxArrowDownIcon,
+    MagnifyingGlassIcon,
     PaperAirplaneIcon,
     TagIcon
 } from '@heroicons/react/24/outline';

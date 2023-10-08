@@ -15,7 +15,7 @@ export default function ExtractionDetailContainer() {
     const [label, setLabel] = useState();
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
-    const [chain_features, set_chain_features] = useState<any>([])
+    const [chain_features, set_chain_features] = useState<any>([]);
     const [smart_extraction_schemas, set_smart_extraction_schemas] = useState<any>([]);
     //数据提取，填表，推荐功能
     const [currentTypeTab, setCurrentTypeTab] = useState<
@@ -56,8 +56,8 @@ export default function ExtractionDetailContainer() {
                 ...apiSetting.Tag.getTagById(router.query.id as string)
             });
             getAllChainFeatureDatas().then((datas) => {
-                set_chain_features(datas)
-            })
+                set_chain_features(datas);
+            });
         }
     }, [router]);
 
@@ -79,7 +79,7 @@ export default function ExtractionDetailContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const updateTagFeatureHandler = useCallback(
         async (tag_id: string, chain_feature_ids: []) => {

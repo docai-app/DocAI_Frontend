@@ -78,13 +78,13 @@ export default function DocumentExtractionRow(props: RowProps) {
                                 setChainFeatureIsOpen(true);
                             }}
                             from_filling={() => {
-                                setAlert({ title: '未做' });
+                                setAlert({ title: '新功能開發中，敬請期待！' });
                             }}
                             approval={() => {
-                                setAlert({ title: '未做' });
+                                setAlert({ title: '新功能開發中，敬請期待！' });
                             }}
                             add_approval={() => {
-                                setAlert({ title: '未做' });
+                                setAlert({ title: '新功能開發中，敬請期待！' });
                             }}
                         />
                     </div>

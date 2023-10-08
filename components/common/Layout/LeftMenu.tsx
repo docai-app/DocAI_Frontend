@@ -4,8 +4,18 @@ import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
     ArrowRightOnRectangleIcon,
     Bars3Icon,
-    ChartBarSquareIcon,
-    ChatBubbleOvalLeftEllipsisIcon, CloudArrowUpIcon, FolderIcon, ShieldCheckIcon, XMarkIcon
+    ClipboardDocumentListIcon,
+    MagnifyingGlassIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
+    CloudArrowUpIcon,
+    FolderIcon,
+    ShieldCheckIcon,
+    XMarkIcon,
+    CubeIcon,
+    ClipboardIcon,
+    TagIcon,
+    UserCircleIcon,
+    TableCellsIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -30,78 +40,78 @@ export default function LeftMenu(props: any) {
             iconForeground: 'text-teal-700',
             iconBackground: 'bg-teal-50'
         },
-        // {
-        //     name: '智能文檔處理',
-        //     href: '/classification/logs',
-        //     icon: ClipboardIcon,
-        //     current: router.pathname.indexOf('logs') != -1,
-        //     iconForeground: 'text-red-700',
-        //     iconBackground: 'bg-red-50'
-        // },
-        // {
-        //     name: '標簽管理',
-        //     href: '/setting/label',
-        //     icon: TagIcon,
-        //     current: router.pathname.indexOf('setting') != -1,
-        //     iconForeground: 'text-violet-700',
-        //     iconBackground: 'bg-violet-50'
-        // },
-        // {
-        //     name: '文件審批',
-        //     href: '/form/approval',
-        //     icon: ShieldCheckIcon,
-        //     current: router.pathname.indexOf('/approval') != -1,
-        //     iconForeground: 'text-blue-700',
-        //     iconBackground: 'bg-blue-50'
-        // },
-        // {
-        //     name: '文檔數據提取',
-        //     href: '/document/extraction',
-        //     icon: ShieldCheckIcon,
-        //     current: router.pathname.indexOf('/extraction') != -1,
-        //     iconForeground: 'text-blue-700',
-        //     iconBackground: 'bg-blue-50'
-        // },
         {
-            name: '數據分析',
-            href: '/analysis',
-            icon: ChartBarSquareIcon,
-            current: router.pathname.indexOf('/analysis') != -1,
+            name: '智能文檔處理',
+            href: '/classification/logs',
+            icon: ClipboardIcon,
+            current: router.pathname.indexOf('logs') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
         },
         {
+            name: '標簽管理',
+            href: '/setting/label',
+            icon: TagIcon,
+            current: router.pathname.indexOf('setting') != -1,
+            iconForeground: 'text-violet-700',
+            iconBackground: 'bg-violet-50'
+        },
+        {
+            name: '文件審批',
+            href: '/form/approval',
+            icon: ShieldCheckIcon,
+            current: router.pathname.indexOf('/approval') != -1,
+            iconForeground: 'text-blue-700',
+            iconBackground: 'bg-blue-50'
+        },
+        {
+            name: '文檔數據提取',
+            href: '/document/extraction',
+            icon: ArrowRightOnRectangleIcon,
+            current: router.pathname.indexOf('/extraction') != -1,
+            iconForeground: 'text-green-700',
+            iconBackground: 'bg-green-50'
+        },
+        // {
+        //     name: '數據分析',
+        //     href: '/analysis',
+        //     icon: ChartBarSquareIcon,
+        //     current: router.pathname.indexOf('/analysis') != -1,
+        //     iconForeground: 'text-red-700',
+        //     iconBackground: 'bg-red-50'
+        // },
+        {
             name: '待辦事項與工作流',
             href: '/project',
-            icon: ShieldCheckIcon,
+            icon: ClipboardDocumentListIcon,
             current: router.pathname.indexOf('/project') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-indigo-50'
         },
-        // {
-        //     name: '數據搜尋',
-        //     href: '/search/form/schema',
-        //     icon: UserCircleIcon,
-        //     current: router.pathname.indexOf('/search') != -1,
-        //     iconForeground: 'text-indigo-700',
-        //     iconBackground: 'bg-indigo-50'
-        // },
-        // {
-        //     name: '填寫表格',
-        //     href: '/new/form/schema',
-        //     icon: TableCellsIcon,
-        //     current: router.pathname.indexOf('/new') != -1,
-        //     iconForeground: 'text-red-700',
-        //     iconBackground: 'bg-red-50'
-        // },
-        // {
-        //     name: '資源應用程序',
-        //     href: '/miniapp',
-        //     icon: CubeIcon,
-        //     current: router.pathname.indexOf('/miniapp') != -1,
-        //     iconForeground: 'text-indigo-700',
-        //     iconBackground: 'bg-red-50'
-        // },
+        {
+            name: '數據搜尋',
+            href: '/search/form/schema',
+            icon: MagnifyingGlassIcon,
+            current: router.pathname.indexOf('/search') != -1,
+            iconForeground: 'text-purple-700',
+            iconBackground: 'bg-purple-50'
+        },
+        {
+            name: '填寫表格',
+            href: '/new/form/schema',
+            icon: TableCellsIcon,
+            current: router.pathname.indexOf('/new') != -1,
+            iconForeground: 'text-red-700',
+            iconBackground: 'bg-red-50'
+        },
+        {
+            name: '資源應用程序',
+            href: '/miniapp',
+            icon: CubeIcon,
+            current: router.pathname.indexOf('/miniapp') != -1,
+            iconForeground: 'text-indigo-700',
+            iconBackground: 'bg-red-50'
+        },
         {
             name: '智能助手',
             href: '/chatbot',

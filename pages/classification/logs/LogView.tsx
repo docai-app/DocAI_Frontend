@@ -20,13 +20,16 @@ function LogView(props: any) {
         <>
             <div className=" container mx-auto md:px-4 lg:px-6 pb-10">
                 <div className="flex items-center  border-b  justify-between mb-4 border-gray-300  ">
-                    <label className=' px-4 py-2 rounded-md cursor-pointer'
+                    <label
+                        className=" px-4 py-2 rounded-md cursor-pointer"
                         onClick={() => {
-                            Router.back()
+                            Router.back();
                         }}
-                    >{'<'} 返回</label>
-                    <label className='text-2xl font-bold'>智能文檔處理</label>
-                    <label className='text-xl font-bold'>{''}</label>
+                    >
+                        {'<'} 返回
+                    </label>
+                    <label className="text-2xl font-bold">智能文檔處理</label>
+                    <label className="text-xl font-bold">{''}</label>
                     {/* <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTabStatus('all')}
@@ -73,22 +76,22 @@ function LogView(props: any) {
                                                     </label>
                                                     {item.uploaded_count !=
                                                         item.confirmed_count && (
-                                                            <Link
-                                                                href={`/classification/validate?date=${item.date}`}
-                                                            >
-                                                                <a className="p-2 text-sm underline text-indigo-500">
-                                                                    繼續處理
-                                                                </a>
-                                                            </Link>
-                                                        )}
+                                                        <Link
+                                                            href={`/classification/validate?date=${item.date}`}
+                                                        >
+                                                            <a className="p-2 text-sm underline text-indigo-500">
+                                                                繼續處理
+                                                            </a>
+                                                        </Link>
+                                                    )}
                                                     {item.uploaded_count ==
                                                         item.confirmed_count && (
-                                                            <Link href={'/classification/show'}>
-                                                                <a className="p-2 text-sm underline text-indigo-500">
-                                                                    查看
-                                                                </a>
-                                                            </Link>
-                                                        )}
+                                                        <Link href={'/classification/show'}>
+                                                            <a className="p-2 text-sm underline text-indigo-500">
+                                                                查看
+                                                            </a>
+                                                        </Link>
+                                                    )}
                                                 </div>
 
                                                 {item.estimated_time > 0 && (

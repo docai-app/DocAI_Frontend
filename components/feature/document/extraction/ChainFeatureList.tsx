@@ -1,6 +1,6 @@
-import { useState } from "react";
-import MyModal from "../../../common/Widget/MyModal";
-import ChainFeatureRow from "./ChainFeatureRow";
+import { useState } from 'react';
+import MyModal from '../../../common/Widget/MyModal';
+import ChainFeatureRow from './ChainFeatureRow';
 
 interface Props {
     label: any;
@@ -12,14 +12,14 @@ interface Props {
 
 export default function ChainFeatureList(props: Props) {
     const { label, chain_features, chain_feature_ids, set_chain_feature_ids, handleSave } = props;
-    const [visableDelete, setVisableDelete] = useState(false)
-    const [currentPosition, setCurrentPosition] = useState(0)
+    const [visableDelete, setVisableDelete] = useState(false);
+    const [currentPosition, setCurrentPosition] = useState(0);
     const removeChainFeature = () => {
-        chain_feature_ids?.splice(currentPosition, 1)
+        chain_feature_ids?.splice(currentPosition, 1);
         const newTasks = [...chain_feature_ids];
         set_chain_feature_ids(newTasks);
-        handleSave(chain_feature_ids)
-    }
+        handleSave(chain_feature_ids);
+    };
     return (
         <>
             <div className="inline-block min-w-full py-0 align-middle sm:px-6 lg:px-8">
@@ -54,11 +54,11 @@ export default function ChainFeatureList(props: Props) {
                                     chain_features={chain_features}
                                     chain_feature_id={chain_feature_id}
                                     remove={() => {
-                                        setCurrentPosition(index)
-                                        setVisableDelete(true)
+                                        setCurrentPosition(index);
+                                        setVisableDelete(true);
                                     }}
                                 />
-                            )
+                            );
                         })}
                     </tbody>
                 </table>
@@ -71,7 +71,7 @@ export default function ChainFeatureList(props: Props) {
                 }}
                 confirmClick={() => {
                     setVisableDelete(false);
-                    removeChainFeature()
+                    removeChainFeature();
                 }}
             />
         </>

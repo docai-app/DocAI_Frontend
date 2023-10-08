@@ -1,5 +1,5 @@
-import PaginationView from "../../../common/Widget/PaginationView";
-import SchemaRow from "./SchemaRow";
+import PaginationView from '../../../common/Widget/PaginationView';
+import SchemaRow from './SchemaRow';
 
 interface Props {
     label: any;
@@ -45,7 +45,7 @@ export default function SchemaList(props: Props) {
                                 scope="col"
                                 className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                             >
-                                <span >操作</span>
+                                <span>操作</span>
                             </th>
                         </tr>
                     </thead>
@@ -55,7 +55,11 @@ export default function SchemaList(props: Props) {
                         })}
                     </tbody>
                 </table>
-                <PaginationView meta={meta} pathname={`/document/extraction/${label?.id}`} params={null} />
+                <PaginationView
+                    meta={meta}
+                    pathname={`/document/extraction/${label?.id}`}
+                    params={null}
+                />
             </div>
         </>
     );

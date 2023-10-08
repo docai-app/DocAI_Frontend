@@ -28,7 +28,7 @@ function ChatbotContainer() {
     const [page, setPage] = useState(1);
     const [chatbots, setChatbots] = useState<Chatbot[]>([]);
     const [meta, setMeta] = useState<any>();
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
 
     const [
         { data: showAllChatbotsData, loading: showAllChatbotsLoading, error: showAllChatbotsError },
@@ -36,7 +36,7 @@ function ChatbotContainer() {
     ] = useAxios({}, { manual: true });
 
     useEffect(() => {
-        setOpen(true)
+        setOpen(true);
         getAllChatbots(apiSetting.Chatbot.showAllChatbots(page));
     }, [page]);
 
@@ -50,10 +50,10 @@ function ChatbotContainer() {
         if (showAllChatbotsData?.success) {
             setChatbots(showAllChatbotsData.chatbots);
             setMeta(showAllChatbotsData.meta);
-            setOpen(false)
+            setOpen(false);
         } else if (showAllChatbotsData && !showAllChatbotsData?.success) {
-            setAlert({ title: showAllChatbotsData.error, type: 'error' })
-            setOpen(false)
+            setAlert({ title: showAllChatbotsData.error, type: 'error' });
+            setOpen(false);
         }
     }, [showAllChatbotsData]);
 

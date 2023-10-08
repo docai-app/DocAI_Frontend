@@ -38,7 +38,7 @@ export default function LabelTag({
                         className=" cursor-pointer p-3 leading-none text-indigo-500 "
                         onClick={() => {
                             // onEdit(label);
-                            Router.push({ pathname: `/document/extraction/${label?.id}` })
+                            Router.push({ pathname: `/document/extraction/${label?.id}` });
                         }}
                     >
                         編輯

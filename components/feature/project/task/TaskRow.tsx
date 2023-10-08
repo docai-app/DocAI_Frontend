@@ -16,14 +16,22 @@ interface TaskRowProps {
 }
 
 export default function TaskRow(props: TaskRowProps) {
-    const { task, users, completeTask, updateTask, removeTask, visiableMore = true, showProjectName = false } = props;
+    const {
+        task,
+        users,
+        completeTask,
+        updateTask,
+        removeTask,
+        visiableMore = true,
+        showProjectName = false
+    } = props;
     const [visiable, setVisiable] = useState(false);
     const [overflow, setOverflow] = useState(false);
     const content = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setVisiable(visiableMore)
-    }, [visiableMore])
+        setVisiable(visiableMore);
+    }, [visiableMore]);
     function useWinSize() {
         const [size, setSize] = useState({
             width: document.documentElement.clientWidth,
@@ -55,39 +63,39 @@ export default function TaskRow(props: TaskRowProps) {
     }, [size]);
 
     const getAssigneeName = () => {
-        if (task?.assignee?.nickname) return task?.assignee?.nickname
+        if (task?.assignee?.nickname) return task?.assignee?.nickname;
         const assignee = _.find(users, function (user: any) {
-            return user.id == task?.assignee_id
-        })
-        return assignee?.nickname
-    }
+            return user.id == task?.assignee_id;
+        });
+        return assignee?.nickname;
+    };
 
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
                 <div className=" flex-row items-center">
-                    {task?.status == 'completed' &&
+                    {task?.status == 'completed' && (
                         <input
                             type={'checkbox'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
                             defaultChecked={true}
                             disabled={true}
                         />
-                    }
-                    {task?.status == 'pending' &&
+                    )}
+                    {task?.status == 'pending' && (
                         <input
                             type={'radio'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
                             onClick={completeTask}
                         />
-                    }
-                    {(task?.status == '' || task?.status == null) &&
+                    )}
+                    {(task?.status == '' || task?.status == null) && (
                         <input
                             type={'radio'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
                             disabled={true}
                         />
-                    }
+                    )}
                 </div>
                 <div
                     ref={content}
@@ -100,17 +108,17 @@ export default function TaskRow(props: TaskRowProps) {
                         setVisiable(!visiable);
                     }}
                 >
-                    <span
-                        className={`text-md ml-2  break-words break-all  text-black `}
-                    >
+                    <span className={`text-md ml-2  break-words break-all  text-black `}>
                         {task?.name}
                     </span>
-                    {showProjectName &&
+                    {showProjectName && (
                         <>
                             <br />
-                            <span className="text-sm font-bold ml-2 ">({task?.project_workflow?.name})</span>
+                            <span className="text-sm font-bold ml-2 ">
+                                ({task?.project_workflow?.name})
+                            </span>
                         </>
-                    }
+                    )}
                     <br />
                     <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
                     <div className="flex flex-row ml-2 items-center">
@@ -141,17 +149,17 @@ export default function TaskRow(props: TaskRowProps) {
                             }}
                         />
                     ) : null}
-                    {visiableMore &&
+                    {visiableMore && (
                         <Dropdowns
                             type={'type'}
                             is_completed={task?.is_completed}
                             rename={updateTask}
                             remove={removeTask}
                             move={() => {
-                                alert('未做');
+                                alert('新功能開發中，敬請期待！');
                             }}
                         />
-                    }
+                    )}
                 </div>
             </div>
         </>

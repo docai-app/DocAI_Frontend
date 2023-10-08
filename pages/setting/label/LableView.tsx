@@ -78,7 +78,7 @@ export default function LabelView(props: LabelProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => { }}
+                setOpen={() => {}}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
@@ -105,15 +105,17 @@ export default function LabelView(props: LabelProps) {
                         <div className="py-0">
                             {sortedLabels && (
                                 <>
-
                                     <div className="flex items-center  border-b  justify-between mb-4 border-gray-300  ">
-                                        <label className=' px-4 py-2 rounded-md cursor-pointer'
+                                        <label
+                                            className=" px-4 py-2 rounded-md cursor-pointer"
                                             onClick={() => {
-                                                Router.back()
+                                                Router.back();
                                             }}
-                                        >{'<'} 返回</label>
-                                        <label className='text-2xl font-bold'>標籤管理</label>
-                                        <label className='text-xl font-bold'>{''}</label>
+                                        >
+                                            {'<'} 返回
+                                        </label>
+                                        <label className="text-2xl font-bold">標籤管理</label>
+                                        <label className="text-xl font-bold">{''}</label>
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
                                         <table className="border-collapse ">
@@ -185,8 +187,8 @@ export default function LabelView(props: LabelProps) {
                             )}
                         </div>
                     </div>
-                </main >
-            </div >
+                </main>
+            </div>
             <ChainFeatureSelect
                 {...{
                     chain_features: [],

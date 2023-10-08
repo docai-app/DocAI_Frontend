@@ -17,7 +17,7 @@ const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
     const { tasks, setTasks, showArrow = true, showProjectName = false, users } = props;
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
 
@@ -66,11 +66,14 @@ export default function StepsListView(props: StepsListViewProps) {
     useEffect(() => {
         if (updateProjectWorkflowStepByIdData && updateProjectWorkflowStepByIdData.success) {
             console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
-        } else if (updateProjectWorkflowStepByIdData && !updateProjectWorkflowStepByIdData.success) {
-            setAlert({ title: '更新失敗，請重試', type: 'error' })
+        } else if (
+            updateProjectWorkflowStepByIdData &&
+            !updateProjectWorkflowStepByIdData.success
+        ) {
+            setAlert({ title: '更新失敗，請重試', type: 'error' });
             console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
         }
-    }, [updateProjectWorkflowStepByIdData])
+    }, [updateProjectWorkflowStepByIdData]);
 
     const deleteProjectStepHandler = useCallback(
         async (data) => {
@@ -115,17 +118,17 @@ export default function StepsListView(props: StepsListViewProps) {
                             <div
                                 key={index}
                                 className="flex flex-col justify-center items-center"
-                            // onClick={() => {
-                            //     setCurrentTask(task);
-                            //     setCurrectPosition(index);
-                            //     setVisibleEditStep(true);
-                            // }}
+                                // onClick={() => {
+                                //     setCurrentTask(task);
+                                //     setCurrectPosition(index);
+                                //     setVisibleEditStep(true);
+                                // }}
                             >
                                 <TaskRow
                                     task={task}
                                     users={users}
                                     completeTask={() => {
-                                        task.status = "completed"
+                                        task.status = 'completed';
                                         tasks.splice(index, 1, task);
                                         updateLocalData();
                                         updateProjectStepStatusHandler(task);
@@ -136,7 +139,8 @@ export default function StepsListView(props: StepsListViewProps) {
                                     removeTask={() => removeTask(task, index)}
                                 />
 
-                                {index != tasks.length - 1 && showArrow &&
+                                {index != tasks.length - 1 &&
+                                    showArrow &&
                                     (task?.is_process_workflow ? (
                                         <ArrowLongDownIcon className="  h-6 text-gray-500  " />
                                     ) : (

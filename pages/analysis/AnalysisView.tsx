@@ -8,11 +8,8 @@ interface ViewProps {
 }
 
 export default function AnalysisView(props: ViewProps) {
-    const {
-        open,
-        setOpen,
-    } = props;
-    const router = useRouter()
+    const { open, setOpen } = props;
+    const router = useRouter();
 
     return (
         <>
@@ -25,11 +22,10 @@ export default function AnalysisView(props: ViewProps) {
             />
 
             <div className="px-16 flex flex-col h-full">
-                <div className='flex flex-1 flex-col overflow-y-auto '>
+                <div className="flex flex-1 flex-col overflow-y-auto ">
                     <div className="mt-8 mb-8  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                        未做
+                        新功能開發中，敬請期待！
                     </div>
-
                 </div>
             </div>
         </>

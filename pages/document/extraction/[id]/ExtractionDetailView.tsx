@@ -37,7 +37,7 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
 
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
     const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
-    const [name, setName] = useState('')
+    const [name, setName] = useState('');
     const handleSave = (chain_feature_ids: any) => {
         updateTagFeatureHandler(label?.id, chain_feature_ids);
         console.log('chain_feature_ids', chain_feature_ids);
@@ -46,7 +46,7 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
     useEffect(() => {
         if (label) {
             set_chain_feature_ids(label?.meta?.chain_features || []);
-            setName(label.name)
+            setName(label.name);
         }
     }, [label]);
 
@@ -72,18 +72,18 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                             </h2>
                         </div>
                     </div>
-                    <div className='my-2'>
-                        <div className='my-2 flex flex-row items-center'>
-                            <label className='flex-0'>名稱:</label>
+                    <div className="my-2">
+                        <div className="my-2 flex flex-row items-center">
+                            <label className="flex-0">名稱:</label>
                             <input
                                 className="block flex-1 mx-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 defaultValue={label?.name}
                                 onChange={(e) => {
-                                    setName(e.target.value)
+                                    setName(e.target.value);
                                 }}
                             />
                         </div>
-                        <div className='flex justify-end'>
+                        <div className="flex justify-end">
                             <button
                                 className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={(e) => {
@@ -99,10 +99,11 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                             <ul className="flex flex-row -my-px">
                                 <li
                                     onClick={() => setCurrentTypeTab('extraction')}
-                                    className={`p-4 cursor-pointer ${currentTypeTab === 'extraction'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
-                                        } font-bold text-sm`}
+                                    className={`p-4 cursor-pointer ${
+                                        currentTypeTab === 'extraction'
+                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                            : 'text-gray-400'
+                                    } font-bold text-sm`}
                                 >
                                     標籤填表與數據
                                 </li>
@@ -119,18 +120,19 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 </li> */}
                                 <li
                                     onClick={() => setCurrentTypeTab('chain_feature')}
-                                    className={`p-4 cursor-pointer ${currentTypeTab === 'chain_feature' ||
+                                    className={`p-4 cursor-pointer ${
+                                        currentTypeTab === 'chain_feature' ||
                                         currentTypeTab === 'chain_feature'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
-                                        } font-bold text-sm`}
+                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                            : 'text-gray-400'
+                                    } font-bold text-sm`}
                                 >
                                     推薦功能
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    {currentTypeTab === 'extraction' &&
+                    {currentTypeTab === 'extraction' && (
                         <div className="my-2">
                             <div className="flex justify-end">
                                 <Link href={`/document/extraction/${router.query.id}/schema`}>
@@ -145,14 +147,14 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 meta={meta}
                             />
                         </div>
-                    }
-                    {currentTypeTab === 'chain_feature' &&
-                        <div className='my-2'>
+                    )}
+                    {currentTypeTab === 'chain_feature' && (
+                        <div className="my-2">
                             <div className="flex justify-end">
                                 <button
                                     className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => {
-                                        setChainFeatureIsOpen(true)
+                                        setChainFeatureIsOpen(true);
                                     }}
                                 >
                                     新增Chain featrue
@@ -166,7 +168,7 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 handleSave={handleSave}
                             />
                         </div>
-                    }
+                    )}
                 </div>
             </div>
             <ChainFeatureSelect

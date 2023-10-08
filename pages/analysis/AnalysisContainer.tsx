@@ -16,7 +16,7 @@ function AnalysisContainer() {
             <AnalysisView
                 {...{
                     open,
-                    setOpen,
+                    setOpen
                 }}
             />
         </>

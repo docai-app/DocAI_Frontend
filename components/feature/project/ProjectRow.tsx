@@ -1,7 +1,4 @@
-import {
-    ClipboardDocumentListIcon,
-    PencilSquareIcon
-} from '@heroicons/react/24/outline';
+import { ClipboardDocumentListIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import moment from 'moment';
 import Link from 'next/link';
@@ -17,18 +14,18 @@ interface ProjectRowProps {
 
 export default function ProjectRow(props: ProjectRowProps) {
     const { project, setProject, setVisiable } = props;
-    const [progress, setProgress] = useState(0)
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
         if (project && project.steps && project.steps.length > 0) {
             const count = _.countBy(project.steps, function (step) {
-                return step.status == 'completed'
-            }).true
+                return step.status == 'completed';
+            }).true;
             if (count) {
-                setProgress(_.floor(_.divide(count, project.steps.length) * 100, 2))
+                setProgress(_.floor(_.divide(count, project.steps.length) * 100, 2));
             }
         }
-    }, [project])
+    }, [project]);
     return (
         <>
             <div className="flex items-center justify-between">
@@ -48,7 +45,7 @@ export default function ProjectRow(props: ProjectRowProps) {
 
                     <div className="flex px-2 ml-4 my-1 items-center hidden">
                         <div className="flex flex-row items-center">
-                            <label className='text-sm text-gray-500' > {project?.description}</label>
+                            <label className="text-sm text-gray-500"> {project?.description}</label>
                         </div>
                     </div>
                     <div className="flex px-2 my-1 items-center justify-between">
