@@ -14,12 +14,19 @@ export default function ProjectDetailContainer() {
 
     const [{ data: getProjectWorkflowByIdData, loading }, getProjectWorkflowById] = useAxios(
         apiSetting.ProjectWorkflow.getProjectWorkflowById(''),
-        { manual: false }
+        { manual: true }
     );
+
+    const [
+        { data: getAllUsersData },
+        getAllUsers
+    ] = useAxios(apiSetting.User.getAllUsers(), { manual: true });
+
 
     useEffect(() => {
         setOpen(loading);
     }, [loading]);
+
     useEffect(() => {
         if (router && router.query.id) {
             getProjectWorkflowById({
@@ -28,12 +35,12 @@ export default function ProjectDetailContainer() {
         }
     }, [router]);
 
+
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {
-            console.log(getProjectWorkflowByIdData.doc);
-
-            setProject(getProjectWorkflowByIdData.doc);
-            setTasks(getProjectWorkflowByIdData.doc.steps);
+            // console.log(getProjectWorkflowByIdData);
+            setProject(getProjectWorkflowByIdData.project_workflow);
+            setTasks(getProjectWorkflowByIdData.project_workflow.steps);
         }
     }, [getProjectWorkflowByIdData]);
 

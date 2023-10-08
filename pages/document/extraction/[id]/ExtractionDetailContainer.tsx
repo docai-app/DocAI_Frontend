@@ -1,17 +1,21 @@
 import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
+import { getAllChainFeatureDatas } from '../../../../apis/AirtableChainFeature';
+import useAlert from '../../../../hooks/useAlert';
 import ExtractionDetailView from './ExtractionDetailView';
 
 const apiSetting = new Api();
 
 export default function ExtractionDetailContainer() {
     const router = useRouter();
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [label, setLabel] = useState();
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
+    const [chain_features, set_chain_features] = useState<any>([])
     const [smart_extraction_schemas, set_smart_extraction_schemas] = useState<any>([]);
     //数据提取，填表，推荐功能
     const [currentTypeTab, setCurrentTypeTab] = useState<
@@ -30,6 +34,16 @@ export default function ExtractionDetailContainer() {
             manual: true
         });
 
+    const [{ data: updateTagFeaturesData }, updateTagFeatures] = useAxios(
+        apiSetting.Tag.updateTagFeatures(''),
+        { manual: true }
+    );
+
+    const [{ data: updateTagNameData }, updateTagName] = useAxios(
+        apiSetting.Tag.updateTagNameById(''),
+        { manual: true }
+    );
+
     useEffect(() => {
         if (router && router.query.id) {
             getAllSmartExtractionSchemas({
@@ -41,6 +55,9 @@ export default function ExtractionDetailContainer() {
             getTagById({
                 ...apiSetting.Tag.getTagById(router.query.id as string)
             });
+            getAllChainFeatureDatas().then((datas) => {
+                set_chain_features(datas)
+            })
         }
     }, [router]);
 
@@ -62,7 +79,39 @@ export default function ExtractionDetailContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
+
+    const updateTagFeatureHandler = useCallback(
+        async (tag_id: string, chain_feature_ids: []) => {
+            updateTagFeatures({
+                ...apiSetting.Tag.updateTagFeatures(tag_id),
+                data: { chain_features: chain_feature_ids }
+            }).then((res) => {
+                if (res.data.success) {
+                    setAlert({ title: '更新成功', type: 'success' });
+                } else {
+                    setAlert({ title: '更新失敗', type: 'error' });
+                }
+            });
+        },
+        [updateTagFeatures]
+    );
+
+    const updateTagNameHandler = useCallback(
+        async (tag_id: string, tag_name: string) => {
+            updateTagName({
+                ...apiSetting.Tag.updateTagNameById(tag_id),
+                data: { name: tag_name }
+            }).then((res) => {
+                if (res.data.success) {
+                    setAlert({ title: '更新成功', type: 'success' });
+                } else {
+                    setAlert({ title: '更新失敗', type: 'error' });
+                }
+            });
+        },
+        [updateTagName]
+    );
 
     return (
         <ExtractionDetailView
@@ -73,7 +122,10 @@ export default function ExtractionDetailContainer() {
                 currentTypeTab,
                 setCurrentTypeTab,
                 smart_extraction_schemas,
-                meta
+                meta,
+                chain_features,
+                updateTagFeatureHandler,
+                updateTagNameHandler
             }}
         />
     );

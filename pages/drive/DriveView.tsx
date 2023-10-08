@@ -24,8 +24,8 @@ import AmendLabel from '../../components/feature/classification/AmendLabel';
 import BreadCrumb from '../../components/feature/drive/BreadCrumb';
 import DeepUnderstandingModal from '../../components/feature/drive/DeepUnderstandingModal';
 import EditItems from '../../components/feature/drive/EditItems';
+import SearchLabelDocumentForm from '../../components/feature/drive/SearchLabelDocumentForm';
 import TableRow from '../../components/feature/drive/TableRow';
-import SearchDocumentForm from '../../components/feature/home/SearchDocumentForm';
 import EditLabel from '../../components/feature/setting/label/EditLabel';
 
 interface DriveViewProps {
@@ -80,15 +80,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => {},
+        setMode = () => { },
         target = [],
-        setTarget = () => {},
+        setTarget = () => { },
         dest = null,
-        setDest = () => {},
+        setDest = () => { },
         shareWith = [],
-        setShareWith = () => {},
-        handleShare = async () => {},
-        handleNewFolder = async () => {},
+        setShareWith = () => { },
+        handleShare = async () => { },
+        handleNewFolder = async () => { },
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -182,7 +182,7 @@ export default function DriveView(props: DriveViewProps) {
                     icon: ClockIcon,
                     amount:
                         countDocumentsByDateData?.documents_count -
-                            countDocumentsByDateData?.unconfirmed_count || 0
+                        countDocumentsByDateData?.unconfirmed_count || 0
                 },
                 {
                     name: '累計未分類的文檔',
@@ -209,7 +209,7 @@ export default function DriveView(props: DriveViewProps) {
                 allLabelsData={getAllLabelsData}
                 confirmDocumentFormik={confirmDocumentFormik}
                 isSubmit={true}
-                setTagName={(name: string) => {}}
+                setTagName={(name: string) => { }}
                 setOpenEditLabel={setOpenEditLabel}
             />
             <EditLabel
@@ -253,16 +253,16 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 count={documents_items?.length + folders_items?.length}
             />
-            <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto my-8 h-auto flex justify-center items-center">
+            <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8 flex-1 flex flex-col ">
+                <div className="max-w-4xl mx-auto my-6 h-auto flex justify-center items-center">
                     <div className="w-full mx-auto text-center">
-                        <h2 className="text-8xl font-extrabold text-gray-900 sm:text-8xl mb-2">
+                        <h2 className="text-6xl font-extrabold text-gray-900 sm:text-6xl mb-2">
                             DocAI
                         </h2>
-                        <SearchDocumentForm getAllLabelsData={getAllLabelsData} search={search} />
+                        {/* <SearchDocumentForm getAllLabelsData={getAllLabelsData} search={search} /> */}
                     </div>
                 </div>
-                <div className="mx-auto max-w-6xl">
+                <div className="mx-auto max-w-6xl hidden">
                     <h2 className="text-lg font-medium leading-6 text-gray-900">上傳概況</h2>
                     <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
                         {/* Card */}
@@ -307,8 +307,15 @@ export default function DriveView(props: DriveViewProps) {
                         ))}
                     </div>
                 </div>
-                <div className="py-8 flex flex-col gap-4 max-h-80vh">
-                    <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
+                <div className="py-8 flex flex-col gap-4 max-h-80vh ">
+                    <div className='flex justify-between'>
+                        <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
+                        <button className=' bg-indigo-600 border px-4 py-2 text-white rounded-md'
+                            onClick={() => {
+                                Router.push('/classification/logs')
+                            }}
+                        >智能文檔處理</button>
+                    </div>
                     <div className="flex flex-row gap-2 justify-between">
                         {showAllItemsData == null ? (
                             <div className="animate-pulse flex flex-row justify-center items-center gap-2">
@@ -341,14 +348,13 @@ export default function DriveView(props: DriveViewProps) {
                                 leaveFrom="transform scale-100 opacity-100"
                                 leaveTo="transform scale-95 opacity-0"
                             >
-                                <Menu.Items className="absolute z-20 left-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="absolute z-20 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="p-1">
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -363,7 +369,7 @@ export default function DriveView(props: DriveViewProps) {
                             </Transition>
                         </Menu>
                     </div>
-                    <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5">
+                    <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5 relative">
                         <div className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full">
                             <div className="w-full flex ">
                                 <div className=" w-6 items-center flex justify-center"></div>
@@ -381,7 +387,7 @@ export default function DriveView(props: DriveViewProps) {
                         </div>
                         <div className="w-full">
                             {(allItemsData || allFoldersItemsData) &&
-                            [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
+                                [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
                                 0 ? (
                                 <InfiniteScroll
                                     dataLength={allItemsData?.length} //This is important field to render the next data
@@ -439,8 +445,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                        ? '載入中...'
-                                        : showAllItemsData?.error || 'Error'}
+                                            ? '載入中...'
+                                            : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -469,10 +475,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                showAllItemsData?.documents &&
-                                showAllItemsData?.success &&
-                                (showAllItemsData.folders.length > 0 ||
-                                    showAllItemsData.documents.length > 0) ? (
+                                    showAllItemsData?.documents &&
+                                    showAllItemsData?.success &&
+                                    (showAllItemsData.folders.length > 0 ||
+                                        showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -512,16 +518,19 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                ? '載入中...'
-                                                : showAllItemsData?.error || 'Error'}
+                                                    ? '載入中...'
+                                                    : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
+
+                        <SearchLabelDocumentForm getAllLabelsData={getAllLabelsData} search={search} />
                     </div>
                 </div>
             </div>
+
             <FolderTreeForMoving
                 {...{
                     mode,

@@ -1,11 +1,9 @@
-import Api from '../../apis';
+import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
-import _ from 'lodash';
-import _get from 'lodash/get';
+import { useEffect, useState } from 'react';
+import Api from '../../apis';
 import useAlert from '../../hooks/useAlert';
 import ChatbotView from './ChatbotView';
-import useAxios from 'axios-hooks';
-import { useEffect, useState } from 'react';
 
 const apiSetting = new Api();
 
@@ -30,6 +28,7 @@ function ChatbotContainer() {
     const [page, setPage] = useState(1);
     const [chatbots, setChatbots] = useState<Chatbot[]>([]);
     const [meta, setMeta] = useState<any>();
+    const [open, setOpen] = useState(false)
 
     const [
         { data: showAllChatbotsData, loading: showAllChatbotsLoading, error: showAllChatbotsError },
@@ -37,6 +36,7 @@ function ChatbotContainer() {
     ] = useAxios({}, { manual: true });
 
     useEffect(() => {
+        setOpen(true)
         getAllChatbots(apiSetting.Chatbot.showAllChatbots(page));
     }, [page]);
 
@@ -50,10 +50,14 @@ function ChatbotContainer() {
         if (showAllChatbotsData?.success) {
             setChatbots(showAllChatbotsData.chatbots);
             setMeta(showAllChatbotsData.meta);
+            setOpen(false)
+        } else if (showAllChatbotsData && !showAllChatbotsData?.success) {
+            setAlert({ title: showAllChatbotsData.error, type: 'error' })
+            setOpen(false)
         }
     }, [showAllChatbotsData]);
 
-    return <ChatbotView {...{ chatbots, meta }} />;
+    return <ChatbotView {...{ chatbots, meta, open, setOpen }} />;
 }
 
 export default ChatbotContainer;

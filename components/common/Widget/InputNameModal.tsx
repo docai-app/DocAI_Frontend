@@ -51,7 +51,7 @@ export default function InputNameModal(props: any) {
                             </div>
                             <div className="w-full mt-4">
                                 <div className="w-full">
-                                    <label className="text-sm text-left">名稱:</label>
+                                    <label className="text-sm text-left">{props.name || '名稱'}:</label>
                                     <input
                                         type={'text'}
                                         name="signature"

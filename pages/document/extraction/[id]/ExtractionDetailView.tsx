@@ -1,9 +1,11 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import PaginationView from '../../../../components/common/Widget/PaginationView';
+import { useEffect, useState } from 'react';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
-import SchemaRow from '../../../../components/feature/document/extraction/SchemaRow';
+import ChainFeatureSelect from '../../../../components/feature/chatbot/ChainFeatureSelect';
+import ChainFeatureList from '../../../../components/feature/document/extraction/ChainFeatureList';
+import SchemaList from '../../../../components/feature/document/extraction/SchemasList';
 
 interface ExtractionDetailViewProps {
     open: boolean;
@@ -13,6 +15,9 @@ interface ExtractionDetailViewProps {
     setCurrentTypeTab: any;
     smart_extraction_schemas: [];
     meta: any;
+    chain_features: [];
+    updateTagFeatureHandler?: any;
+    updateTagNameHandler?: any;
 }
 
 function ExtractionDetailView(props: ExtractionDetailViewProps) {
@@ -23,9 +28,27 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
         currentTypeTab,
         setCurrentTypeTab,
         smart_extraction_schemas,
-        meta
+        meta,
+        chain_features,
+        updateTagFeatureHandler,
+        updateTagNameHandler
     } = props;
     const router = useRouter();
+
+    const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
+    const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
+    const [name, setName] = useState('')
+    const handleSave = (chain_feature_ids: any) => {
+        updateTagFeatureHandler(label?.id, chain_feature_ids);
+        console.log('chain_feature_ids', chain_feature_ids);
+    };
+
+    useEffect(() => {
+        if (label) {
+            set_chain_feature_ids(label?.meta?.chain_features || []);
+            setName(label.name)
+        }
+    }, [label]);
 
     return (
         <>
@@ -45,8 +68,30 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                         <div className="max-w-4xl mx-auto text-center">
                             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                                {label?.name}
+                                編輯標籤
                             </h2>
+                        </div>
+                    </div>
+                    <div className='my-2'>
+                        <div className='my-2 flex flex-row items-center'>
+                            <label className='flex-0'>名稱:</label>
+                            <input
+                                className="block flex-1 mx-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                defaultValue={label?.name}
+                                onChange={(e) => {
+                                    setName(e.target.value)
+                                }}
+                            />
+                        </div>
+                        <div className='flex justify-end'>
+                            <button
+                                className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={(e) => {
+                                    updateTagNameHandler(label.id, name);
+                                }}
+                            >
+                                保存
+                            </button>
                         </div>
                     </div>
                     <div className="flex float-row flex-wrap">
@@ -54,15 +99,14 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                             <ul className="flex flex-row -my-px">
                                 <li
                                     onClick={() => setCurrentTypeTab('extraction')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'extraction'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'extraction'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
-                                    數據提取
+                                    標籤填表與數據
                                 </li>
-                                <li
+                                {/* <li
                                     onClick={() => setCurrentTypeTab('form_filling')}
                                     className={`p-4 cursor-pointer ${
                                         currentTypeTab === 'form_filling' ||
@@ -72,72 +116,67 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                     } font-bold text-sm`}
                                 >
                                     填表
-                                </li>
+                                </li> */}
                                 <li
                                     onClick={() => setCurrentTypeTab('chain_feature')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'chain_feature' ||
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'chain_feature' ||
                                         currentTypeTab === 'chain_feature'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
                                     推薦功能
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div className="my-2">
-                        <div className="flex justify-end">
-                            <Link href={`/document/extraction/${router.query.id}/schema`}>
-                                <a className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    新增Schema
-                                </a>
-                            </Link>
+                    {currentTypeTab === 'extraction' &&
+                        <div className="my-2">
+                            <div className="flex justify-end">
+                                <Link href={`/document/extraction/${router.query.id}/schema`}>
+                                    <a className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                        新增Schema
+                                    </a>
+                                </Link>
+                            </div>
+                            <SchemaList
+                                label={label}
+                                smart_extraction_schemas={smart_extraction_schemas}
+                                meta={meta}
+                            />
                         </div>
-                        <div className="inline-block min-w-full py-0 align-middle sm:px-6 lg:px-8">
-                            <table className="min-w-full divide-y divide-gray-300">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                                        >
-                                            名稱
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                        >
-                                            描述
-                                        </th>
-
-                                        <th
-                                            scope="col"
-                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                        >
-                                            創建時間
-                                        </th>
-
-                                        <th
-                                            scope="col"
-                                            className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                        >
-                                            <span className="sr-only">Edit</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    {smart_extraction_schemas?.map((schema: any, index: number) => {
-                                        return <SchemaRow schema={schema} key={index} />;
-                                    })}
-                                </tbody>
-                            </table>
-                            <PaginationView meta={meta} pathname={'/chatbot'} params={null} />
+                    }
+                    {currentTypeTab === 'chain_feature' &&
+                        <div className='my-2'>
+                            <div className="flex justify-end">
+                                <button
+                                    className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={() => {
+                                        setChainFeatureIsOpen(true)
+                                    }}
+                                >
+                                    新增Chain featrue
+                                </button>
+                            </div>
+                            <ChainFeatureList
+                                label={label}
+                                chain_features={chain_features}
+                                chain_feature_ids={chain_feature_ids}
+                                set_chain_feature_ids={set_chain_feature_ids}
+                                handleSave={handleSave}
+                            />
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
+            <ChainFeatureSelect
+                chain_features={chain_features}
+                isOpen={chainFeatureIsOpen}
+                setIsOpen={setChainFeatureIsOpen}
+                chain_feature_ids={chain_feature_ids}
+                set_chain_feature_ids={set_chain_feature_ids}
+                handleSave={handleSave}
+            />
         </>
     );
 }

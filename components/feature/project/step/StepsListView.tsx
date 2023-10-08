@@ -3,20 +3,23 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
+import useAlert from '../../../../hooks/useAlert';
 import TaskRow from '../task/TaskRow';
 
 interface StepsListViewProps {
     tasks: any;
     setTasks: any;
     showArrow?: boolean;
+    showProjectName?: boolean;
+    users?: [];
 }
 const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
-    const { tasks, setTasks, showArrow = true } = props;
+    const { tasks, setTasks, showArrow = true, showProjectName = false, users } = props;
     const router = useRouter();
+    const { setAlert } = useAlert()
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
-    const [visibleEditStep, setVisibleEditStep] = useState(false);
 
     const [
         { data: updateProjectWorkflowStepByIdData, loading: updateProjectWorkflowStepByIdLoading },
@@ -38,7 +41,21 @@ export default function StepsListView(props: StepsListViewProps) {
                     name: name,
                     description: meta.description,
                     deadline: deadline,
-                    assignee_id: 18,
+                    assignee_id: '',
+                    status: status
+                }
+            });
+        },
+        [updateProjectWorkflowStepById]
+    );
+
+    const updateProjectStepStatusHandler = useCallback(
+        async (data) => {
+            // console.log(data);
+            const { id, status } = data;
+            updateProjectWorkflowStepById({
+                ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
+                data: {
                     status: status
                 }
             });
@@ -47,9 +64,11 @@ export default function StepsListView(props: StepsListViewProps) {
     );
 
     useEffect(() => {
-        if (updateProjectWorkflowStepByIdData) {
+        if (updateProjectWorkflowStepByIdData && updateProjectWorkflowStepByIdData.success) {
             console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
-
+        } else if (updateProjectWorkflowStepByIdData && !updateProjectWorkflowStepByIdData.success) {
+            setAlert({ title: '更新失敗，請重試', type: 'error' })
+            console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
         }
     }, [updateProjectWorkflowStepByIdData])
 
@@ -77,7 +96,7 @@ export default function StepsListView(props: StepsListViewProps) {
     const removeTask = (task: any, position: number) => {
         tasks.splice(position, 1);
         updateLocalData();
-        console.log(task);
+        // console.log(task);
         if (task.id) {
             deleteProjectStepHandler(task);
         }
@@ -104,13 +123,15 @@ export default function StepsListView(props: StepsListViewProps) {
                             >
                                 <TaskRow
                                     task={task}
+                                    users={users}
                                     completeTask={() => {
                                         task.status = "completed"
                                         tasks.splice(index, 1, task);
                                         updateLocalData();
-                                        updateProjectStepHandler(task);
+                                        updateProjectStepStatusHandler(task);
                                     }}
                                     visiableMore={false}
+                                    showProjectName={showProjectName}
                                     updateTask={() => updateTask(task, index)}
                                     removeTask={() => removeTask(task, index)}
                                 />

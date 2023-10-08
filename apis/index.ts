@@ -14,6 +14,7 @@ import MiniApp from './MiniApp';
 import Project from './Project';
 import ProjectTask from './ProjectTask';
 import ProjectWorkflow from './ProjectWorkflow';
+import Prompt from './Prompt';
 import Search from './Search';
 import SmartExtractionSchemas from './SmartExtractionSchemas';
 import Statistics from './Statistics';
@@ -43,6 +44,7 @@ export default class Api {
     MiniApp: MiniApp;
     Chatbot: Chatbot;
     SmartExtractionSchemas: SmartExtractionSchemas;
+    Prompt: Prompt;
 
     constructor() {
         this.Storage = new Storage();
@@ -66,5 +68,6 @@ export default class Api {
         this.MiniApp = new MiniApp();
         this.Chatbot = new Chatbot();
         this.SmartExtractionSchemas = new SmartExtractionSchemas();
+        this.Prompt = new Prompt()
     }
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
+import PaginationView from '../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import ProjectItem from '../../components/feature/project/ProjectItem';
 import StepsListView from '../../components/feature/project/step/StepsListView';
@@ -14,6 +15,7 @@ interface ProjectViewProps {
     id: string | string[] | null | undefined;
     projects: any;
     meta: any;
+    metaSteps: any;
     currentStatus: string;
     setCurrentStatus: any;
     open: boolean;
@@ -28,6 +30,7 @@ function ProjectView(props: ProjectViewProps) {
         id = null,
         projects = null,
         meta,
+        metaSteps,
         setCurrentStatus,
         open,
         setOpen,
@@ -73,7 +76,7 @@ function ProjectView(props: ProjectViewProps) {
         if (currentTypeTab == 'tasks') {
             setMode('add');
         } else {
-            Router.push({ pathname: '/project/edit' });
+            Router.push({ pathname: '/project/select' });
         }
     };
 
@@ -149,7 +152,13 @@ function ProjectView(props: ProjectViewProps) {
                                     <h1>待辦事項</h1>
                                 </div>
                             </div> */}
-                            <StepsListView tasks={tasks} setTasks={setTasks} showArrow={false} />
+                            <StepsListView
+                                tasks={tasks}
+                                setTasks={setTasks}
+                                showArrow={false}
+                                showProjectName={true}
+                            />
+                            <PaginationView meta={metaSteps} pathname={'/project'} params={null} />
                         </div>
                     )}
                     {currentTypeTab == 'project_workflow' && (
@@ -159,6 +168,7 @@ function ProjectView(props: ProjectViewProps) {
                                 setVisiable={setVisiable}
                                 setProject={setProject}
                             />
+                            <PaginationView meta={meta} pathname={'/project'} params={null} />
                         </div>
                     )}
                 </div>

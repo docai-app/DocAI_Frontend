@@ -1,19 +1,22 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import { CalendarIcon } from '@heroicons/react/24/outline';
+import _ from 'lodash';
 import moment from 'moment';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Dropdowns from './Dropdowns';
 
 interface TaskRowProps {
     task: any;
+    users?: [];
     completeTask: any;
     updateTask: any;
     removeTask: any;
     visiableMore?: boolean;
+    showProjectName?: boolean;
 }
 
 export default function TaskRow(props: TaskRowProps) {
-    const { task, completeTask, updateTask, removeTask, visiableMore = true } = props;
+    const { task, users, completeTask, updateTask, removeTask, visiableMore = true, showProjectName = false } = props;
     const [visiable, setVisiable] = useState(false);
     const [overflow, setOverflow] = useState(false);
     const content = useRef<HTMLDivElement>(null);
@@ -51,13 +54,13 @@ export default function TaskRow(props: TaskRowProps) {
         }
     }, [size]);
 
-    const completed = () => {
-        // task.is_completed = !task.is_completed;
-        // completeTask({
-        //     id: task?.id,
-        //     is_completed: task.is_completed
-        // });
-    };
+    const getAssigneeName = () => {
+        if (task?.assignee?.nickname) return task?.assignee?.nickname
+        const assignee = _.find(users, function (user: any) {
+            return user.id == task?.assignee_id
+        })
+        return assignee?.nickname
+    }
 
     return (
         <>
@@ -65,10 +68,10 @@ export default function TaskRow(props: TaskRowProps) {
                 <div className=" flex-row items-center">
                     {task?.status == 'completed' &&
                         <input
-                            type={'radio'}
+                            type={'checkbox'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
                             defaultChecked={true}
-
+                            disabled={true}
                         />
                     }
                     {task?.status == 'pending' &&
@@ -76,6 +79,13 @@ export default function TaskRow(props: TaskRowProps) {
                             type={'radio'}
                             className=" w-4 h-4  mt-1 cursor-pointer "
                             onClick={completeTask}
+                        />
+                    }
+                    {(task?.status == '' || task?.status == null) &&
+                        <input
+                            type={'radio'}
+                            className=" w-4 h-4  mt-1 cursor-pointer "
+                            disabled={true}
                         />
                     }
                 </div>
@@ -95,10 +105,16 @@ export default function TaskRow(props: TaskRowProps) {
                     >
                         {task?.name}
                     </span>
+                    {showProjectName &&
+                        <>
+                            <br />
+                            <span className="text-sm font-bold ml-2 ">({task?.project_workflow?.name})</span>
+                        </>
+                    }
                     <br />
-                    <span className="text-sm ml-2  text-gray-400 ">{task?.meta?.description}</span>
+                    <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
                     <div className="flex flex-row ml-2 items-center">
-                        <label className=" text-blue-500">@{task?.assignee_id}</label>
+                        <label className=" text-blue-500">@{getAssigneeName()}</label>
                         {task?.deadline && (
                             <div className="flex flex-row ml-4">
                                 <CalendarIcon className="w-4 text-yellow-400" />

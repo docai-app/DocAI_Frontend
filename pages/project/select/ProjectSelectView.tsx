@@ -1,0 +1,209 @@
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import useAxios from 'axios-hooks';
+import Router from 'next/router';
+import { useEffect, useState } from 'react';
+import Api from '../../../apis';
+import InputNameModal from '../../../components/common/Widget/InputNameModal';
+import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
+import useAlert from '../../../hooks/useAlert';
+
+interface ProjectViewProps {
+    projects: any;
+    meta: any;
+    open: boolean;
+    setOpen: any;
+}
+const apiSetting = new Api();
+function ProjectSelectView(props: ProjectViewProps) {
+    const {
+        projects = null,
+        meta,
+        open,
+        setOpen
+    } = props;
+    const { setAlert } = useAlert()
+    const [visible, setVisible] = useState(false)
+    const [selectId, setSelectId] = useState(-1)
+    const [isTemplate, setIsTemplate] = useState(false)
+    const [template, setTemplate] = useState()
+    const [current, setCurrent] = useState({
+        name: ''
+    })
+
+    const [{ data: getPromptByIdData, loading }, getPromptById] = useAxios(
+        apiSetting.Prompt.getPromptById('102'),
+        { manual: true }
+    );
+
+    const prompt = `
+System:
+you are a great project manager and a life coach and can help people to achieve their goals by creating a todo list for them
+Prompt:
+Please observe the user's {{Objectives}} and deduct all the steps necessary required and turn it into a todo list with tasks so that when the user finish all the tasks, it will finish the objectives.
+1.  There can be more than one task
+2. Please output it in the following JSON format.  The JSON includes the name and description of the todo list and the steps will store all the tasks name, description and deadline.
+{
+"name":,
+"description":,
+"steps":["name":,"description":,""deadline:""]
+}
+3.Just do, no talk
+4. only output the JSON
+    `
+
+    const [{ data: getLLData, loading: getLLMDataLoading }, getLL] = useAxios(
+        apiSetting.Prompt.doc_ai_llm('', ''),
+        {
+            manual: true
+        }
+    );
+
+    useEffect(() => {
+        if (getLLData && getLLData.success) {
+            // console.log('getLLData', getLLData.data.response);
+            Router.push({ pathname: '/project/edit', query: { is_template: isTemplate, template: JSON.stringify(getLLData.data.response) } });
+        }
+    }, [getLLData])
+
+    useEffect(() => {
+        setOpen(getLLMDataLoading)
+        return () => {
+            setOpen(false)
+        }
+    }, [getLLMDataLoading])
+
+
+    const handleClickAdd = () => {
+        if (selectId == -1) {
+            setVisible(true)
+        } else {
+            Router.push({ pathname: '/project/edit', query: { is_template: isTemplate, template: JSON.stringify(template) } });
+        }
+    };
+
+    const handleClickProject = (id: any) => {
+        setSelectId(id)
+    }
+    return (
+        <>
+            <SingleActionModel
+                open={open}
+                setOpen={setOpen}
+                title={'進行中......'}
+                content={'正在加載數據...'}
+                icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
+            />
+            <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                            新增工作流
+                        </h2>
+                    </div>
+                </div>
+                <div className="mt-4 pb-4">
+                    <div className='flex justify-between items-center'>
+                        <label className='text-xl'>選擇新增工作流方式</label>
+                        <button
+                            type="button"
+                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={() => {
+                                handleClickAdd();
+                            }}
+                        >
+                            <span>下一步</span>
+                        </button>
+                    </div>
+                </div>
+                <div className='my-2'>
+                    <div className="flex flex-row items-center my-2">
+                        <input
+                            type={'radio'}
+                            value={-1}
+                            defaultChecked
+                            name="project"
+                            onChange={(e) => {
+                                setIsTemplate(false)
+                                handleClickProject(e.target.value)
+                            }}
+                        />
+                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
+                            <label className='flex flex-1'>電腦根據目標創建工作流</label>
+                        </div>
+                    </div>
+                    <div className="flex flex-row items-center my-2">
+                        <input
+                            type={'radio'}
+                            value={0}
+                            name="project"
+                            onChange={(e) => {
+                                setIsTemplate(false)
+                                handleClickProject(e.target.value)
+                            }}
+                        />
+                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
+                            <label className='flex flex-1'> 空白工作流</label>
+                        </div>
+                    </div>
+                    <div className="flex flex-row items-center my-2">
+                        <input
+                            type={'radio'}
+                            value={0}
+                            name="project"
+                            onChange={(e) => {
+                                setIsTemplate(true)
+                                handleClickProject(e.target.value)
+                            }}
+                        />
+                        <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
+                            <label className='flex flex-1'> 新工作流範本 </label>
+                        </div>
+                    </div>
+                    {projects?.map((project: any, index: number) => {
+                        return (
+                            <div key={index} className="flex flex-row items-center my-2">
+                                <input
+                                    value={project.id}
+                                    type={'radio'}
+                                    name="project"
+                                    onChange={(e) => {
+                                        setTemplate(project)
+                                        handleClickProject(e.target.value)
+                                    }}
+                                />
+                                <div className='flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full'>
+                                    <label className='flex flex-1'>{project?.name}</label>
+                                    <a href={`/project/${project?.id}`} className='text-blue-500 underline'>查看</a>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+
+            <InputNameModal
+                visable={visible}
+                setCurrent={setCurrent}
+                current={current}
+                name={'目標'}
+                description={`輸入您的目標`}
+                cancelClick={() => {
+                    setVisible(false);
+                }}
+                confirmClick={() => {
+                    if (!current.name) {
+                        setAlert({ 'title': '請輸入目標', type: 'info' })
+                        return
+                    }
+                    setVisible(false);
+                    getLL({
+                        ...apiSetting.Prompt.doc_ai_llm(
+                            prompt.replaceAll('{{Objectives}}', current.name),
+                            'gpt-3.5-turbo-16k')
+                    })
+                }}
+            />
+        </>
+    );
+}
+export default ProjectSelectView;

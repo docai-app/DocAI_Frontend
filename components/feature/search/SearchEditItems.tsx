@@ -1,9 +1,8 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import {
-    MagnifyingGlassIcon,
+    ArchiveBoxArrowDownIcon, MagnifyingGlassIcon,
     PaperAirplaneIcon,
-    TagIcon,
-    ArchiveBoxArrowDownIcon
+    TagIcon
 } from '@heroicons/react/24/outline';
 
 interface EditItemsProps {

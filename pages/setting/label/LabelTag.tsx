@@ -1,5 +1,6 @@
 import { EyeIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
+import Router from 'next/router';
 
 export default function LabelTag({
     label,
@@ -22,7 +23,10 @@ export default function LabelTag({
                         {label?.name}
                     </a>
                 </td>
-                <td className="">{_.join(_.map(label?.functions, 'title'), ', ')}</td>
+                <td className="">
+                    {_.join(_.map(label?.functions, 'title'), ', ')}
+                    、推薦功能({label?.meta?.chain_features?.length || 0})
+                </td>
                 <td className="flex flex-row justify-center items-center">
                     <a
                         className="w-10 cursor-pointer h-full items-center justify-center text-center hidden"
@@ -33,12 +37,13 @@ export default function LabelTag({
                     <a
                         className=" cursor-pointer p-3 leading-none text-indigo-500 "
                         onClick={() => {
-                            onEdit(label);
+                            // onEdit(label);
+                            Router.push({ pathname: `/document/extraction/${label?.id}` })
                         }}
                     >
                         編輯
                     </a>
-                    {label && label?.is_checked && (
+                    {/* {label && label?.is_checked && (
                         <>
                             {'|'}
                             <a
@@ -50,7 +55,7 @@ export default function LabelTag({
                                 選擇Features
                             </a>
                         </>
-                    )}
+                    )} */}
                     {label && !label?.is_checked && (
                         <button
                             className=" my-1 p-2 bg-indigo-600 hover:bg-indigo-900 leading-none text-white rounded-md"

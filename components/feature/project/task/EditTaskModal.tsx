@@ -11,11 +11,9 @@ export default function EditTaskModal(props: any) {
     const [data, setData] = useState({
         id: null,
         name: '',
-        meta: {
-            description: ''
-        },
+        description: '',
         deadline: '',
-        assignee_id: 18
+        assignee_id: ''
     });
 
     useEffect(() => {
@@ -28,17 +26,18 @@ export default function EditTaskModal(props: any) {
                 ...data,
                 id: props.task.id,
                 name: props.task.name,
-                meta: props.task.meta,
-                deadline: props.task.deadline
+                description: props.task.description,
+                deadline: props.task.deadline,
+                assignee_id: props.task.assignee_id
             });
         } else {
             setData({
                 ...data,
                 id: null,
                 name: '',
-                meta: {
-                    description: ''
-                }
+                description: '',
+                deadline: '',
+                assignee_id: ''
             });
         }
     }, [props]);
@@ -49,10 +48,9 @@ export default function EditTaskModal(props: any) {
             ...data,
             id: null,
             name: '',
-            meta: {
-                description: ''
-            },
-            deadline: ''
+            description: '',
+            deadline: '',
+            assignee_id: ''
         });
         props.confirmClick(data);
     };
@@ -64,7 +62,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -158,14 +156,11 @@ export default function EditTaskModal(props: any) {
                                                 type="string"
                                                 placeholder="任務描述"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                defaultValue={data?.meta?.description}
+                                                defaultValue={data?.description}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        meta: {
-                                                            ...data.meta,
-                                                            description: e.target.value
-                                                        }
+                                                        description: e.target.value
                                                     });
                                                 }}
                                             />
@@ -182,14 +177,34 @@ export default function EditTaskModal(props: any) {
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">
-                                            <input
-                                                id="user"
-                                                name="user"
-                                                type="string"
-                                                placeholder="@負責人"
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                defaultValue={'18'}
-                                            />
+                                            <select
+                                                className="w-full border rounded-md  "
+                                                defaultValue={data?.assignee_id}
+                                                onChange={(e) => {
+                                                    setData({
+                                                        ...data,
+                                                        assignee_id: e.target.value
+                                                    });
+                                                }}
+                                            >
+                                                <option
+                                                    value={''}
+                                                    className="w-full border rounded-md text-gray-500 "
+                                                >
+                                                    請選擇負責人
+                                                </option>
+                                                {props.users?.map((user: any, index: number) => {
+                                                    return (
+                                                        <option
+                                                            key={index}
+                                                            className="w-full border rounded-md  "
+                                                            value={user.id}
+                                                        >
+                                                            {user.nickname}
+                                                        </option>
+                                                    )
+                                                })}
+                                            </select>
                                         </div>
                                     </div>
 

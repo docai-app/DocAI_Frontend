@@ -18,6 +18,9 @@ export default function ProjectContainer() {
     const [tasks, setTasks] = useState<any>([]);
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
+
+    const [metaSteps, setMetaSteps] = useState();
+
     const [open, setOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState('');
     const [
@@ -33,7 +36,7 @@ export default function ProjectContainer() {
     const [
         { data: getAllProjectWorkflowStepData, loading: getAllProjectWorkflowStepLoading },
         getAllProjectWorkflowStep
-    ] = useAxios(apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(), { manual: true });
+    ] = useAxios(apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(page), { manual: true });
 
     const [
         { data: addProjectWorkflowStepByIdData, loading: addProjectWorkflowStepByIdLoading },
@@ -48,7 +51,7 @@ export default function ProjectContainer() {
         getAllWorkflow();
         getAllProjectWorkflowStep({
             params: {
-                assignee_id: 18
+                status: 'pending'
             }
         });
     }, [router]);
@@ -76,14 +79,17 @@ export default function ProjectContainer() {
 
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
-            setProjects(getAllWorkflowData.doc);
+            console.log('getAllWorkflowData', getAllWorkflowData);
+            setProjects(getAllWorkflowData.project_workflows);
+            setMeta(getAllWorkflowData.meta)
         }
     }, [getAllWorkflowData]);
 
     useEffect(() => {
         if (getAllProjectWorkflowStepData && getAllProjectWorkflowStepData.success) {
-            // console.log(getAllProjectWorkflowStepData);
-            setTasks(getAllProjectWorkflowStepData.doc);
+            console.log(getAllProjectWorkflowStepData);
+            setTasks(getAllProjectWorkflowStepData.project_workflow_steps);
+            setMetaSteps(getAllProjectWorkflowStepData.meta)
         }
     }, [getAllProjectWorkflowStepData]);
 
@@ -97,13 +103,12 @@ export default function ProjectContainer() {
         async (data) => {
             // console.log(data);
             // console.log(project?.id);
-            const { name, meta, deadline } = data;
+            const { name, description, deadline } = data;
             addProjectWorkflowStepById({
                 data: {
                     name: name,
                     deadline: deadline,
-                    description: meta.description,
-                    assignee_id: 18
+                    description: description
                 }
             });
         },
@@ -123,6 +128,7 @@ export default function ProjectContainer() {
                 showAllItemsData,
                 projects,
                 meta,
+                metaSteps,
                 currentStatus,
                 setCurrentStatus,
                 open,

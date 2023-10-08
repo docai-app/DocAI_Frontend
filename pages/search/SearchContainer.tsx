@@ -17,6 +17,7 @@ function SearchContainer() {
     const [documents_items, setDocumentsItems] = useState<any>([]);
     const [updateTag, setUpdateTag] = useState(false);
     const [newLabelName, setNewLabelName] = useState('');
+    const [label, setLabel] = useState<any>()
     const [
         {
             data: searchDocumentByContentData,
@@ -29,8 +30,8 @@ function SearchContainer() {
         router.query.date
             ? apiSetting.Search.searchDocumentByDate()
             : router.query.tag_id
-            ? apiSetting.Search.searchDocumentByTagContent()
-            : apiSetting.Search.searchDocumentByContent(),
+                ? apiSetting.Search.searchDocumentByTagContent()
+                : apiSetting.Search.searchDocumentByContent(),
         {
             manual: true
         }
@@ -47,7 +48,12 @@ function SearchContainer() {
 
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
         apiSetting.Tag.getAllTags(),
-        { manual: false }
+        { manual: true }
+    );
+
+    const [{ data: getLabelByIdData, }, getLabelById] = useAxios(
+        apiSetting.Tag.getTagById(''),
+        { manual: true }
     );
 
     const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
@@ -149,6 +155,8 @@ function SearchContainer() {
 
     useEffect(() => {
         if (searchDocumentByContentData && searchDocumentByContentData.success === true) {
+            console.log('searchDocumentByContentData', searchDocumentByContentData);
+
             setDocuments(searchDocumentByContentData.documents);
             setMeta(searchDocumentByContentData.meta);
             setOpen(false);
@@ -157,6 +165,13 @@ function SearchContainer() {
     useEffect(() => {
         setOpen(searchDocumentByContentLoading);
     }, [searchDocumentByContentLoading]);
+
+    useEffect(() => {
+        if (getLabelByIdData && getLabelByIdData.success === true) {
+            console.log('getLabelByIdData', getLabelByIdData);
+            setLabel(getLabelByIdData.tag)
+        }
+    }, [getLabelByIdData]);
 
     useEffect(() => {
         if (router.query.date) {
@@ -179,6 +194,10 @@ function SearchContainer() {
                 page: parseInt(router.query.page + '') || 1
             });
             searchDocumentFormik.handleSubmit();
+
+            getLabelById({
+                ...apiSetting.Tag.getTagById(router.query.tag_id as string)
+            })
         } else {
             searchDocumentFormik.setValues({
                 content: router.query.content + '',
@@ -195,6 +214,7 @@ function SearchContainer() {
         <>
             <SearchView
                 {...{
+                    label,
                     searchDocumentFormik,
                     documents,
                     meta,

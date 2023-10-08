@@ -1,6 +1,7 @@
 import { ArrowLongDownIcon, PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import Router from 'next/router';
+import _ from 'lodash';
+import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Api from '../../../apis';
 import DocumentPath from '../../../components/common/Widget/DocumentPath';
@@ -12,6 +13,7 @@ const apiSetting = new Api();
 interface ProjectViewProps {
     project: any;
     setProject: any;
+    users: [];
     open: boolean;
     setOpen: any;
     addProjectStepHandler: any;
@@ -26,11 +28,13 @@ function ProjectEditView(props: ProjectViewProps) {
         setOpen,
         project,
         setProject,
+        users,
         addProjectStepHandler,
         updateProjectStepHandler,
         deleteProjectStepHandler,
         handleSave
     } = props;
+    const router = useRouter()
     const [target_folder_id, set_target_folder_id] = useState('');
     const [mode, setMode] = useState<'add' | 'edit' | ''>('');
     const [currentTask, setCurrentTask] = useState<any>(null);
@@ -38,10 +42,25 @@ function ProjectEditView(props: ProjectViewProps) {
     const [tasks, setTasks] = useState<any>([]);
 
     useEffect(() => {
+        if (project && project.folder_id) {
+            set_target_folder_id(project.folder_id);
+        }
         if (project && project.steps) {
             setTasks(project.steps);
         }
-    }, [project]);
+        if (router && router.query.template) {
+            const newTasks = _.map(project?.steps, function (step) {
+                return {
+                    assignee_id: step.assignee_id,
+                    deadline: step.deadline,
+                    description: step.description,
+                    name: step.name,
+                    status: 'pending'
+                }
+            })
+            setTasks(newTasks);
+        }
+    }, [router, project]);
     const methods = [
         { id: 'undepend', title: '不依賴' },
         { id: 'depend', title: '依賴' }
@@ -68,7 +87,7 @@ function ProjectEditView(props: ProjectViewProps) {
     };
 
     const handleBack = () => {
-        Router.push({ pathname: '/project' });
+        Router.back()
     };
 
     return (
@@ -130,14 +149,12 @@ function ProjectEditView(props: ProjectViewProps) {
                             <textarea
                                 className="block w-full rounded-md border-0 py-2 pl-4   text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 placeholder="描述..."
-                                defaultValue={project?.meta?.description}
+                                defaultValue={project?.description}
                                 onChange={(e) => {
                                     setProject({
                                         ...project,
-                                        meta: {
-                                            ...project.meta,
-                                            description: e.target.value
-                                        }
+                                        description: e.target.value
+
                                     });
                                 }}
                             />
@@ -145,7 +162,12 @@ function ProjectEditView(props: ProjectViewProps) {
                         <DocumentPath
                             modeType={'move'}
                             target_folder_id={target_folder_id}
-                            set_target_folder_id={set_target_folder_id}
+                            set_target_folder_id={(folder_id: string) => {
+                                setProject({
+                                    ...project,
+                                    folder_id: folder_id
+                                });
+                            }}
                         />
                         <div className="my-2">
                             <label>任務關係:</label>
@@ -167,7 +189,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                         不依賴
                                     </label>
                                 </div>
-                                <div className="flex items-center ml-5">
+                                <div className="flex items-center ml-5 hidden">
                                     <input
                                         name="is_process_workflow"
                                         type="radio"
@@ -207,6 +229,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                     >
                                         <TaskRow
                                             task={task}
+                                            users={users}
                                             completeTask={() => { }}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
@@ -227,6 +250,7 @@ function ProjectEditView(props: ProjectViewProps) {
             <EditTaskModal
                 visable={mode != ''}
                 task={currentTask}
+                users={users}
                 cancelClick={() => {
                     setMode('');
                     setCurrentTask(null);

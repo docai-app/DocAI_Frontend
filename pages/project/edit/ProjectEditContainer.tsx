@@ -12,18 +12,20 @@ export default function ProjectEditContainer() {
     const { setAlert } = useAlert();
     const [meta, setMeta] = useState();
     const [open, setOpen] = useState(false);
+    const [users, setUsers] = useState<any>([])
     const [project, setProject] = useState({
-        id: 0,
+        id: '',
         name: '',
         description: '',
         meta: {},
         steps: [],
         status: 'draft',
-        is_process_workflow: false
+        is_process_workflow: false,
+        folder_id: ''
     });
 
     const [
-        { data: addNewProjectData, loading: addNewProjectLoading, error: addNewProjectError },
+        { data: addNewProjectData, loading: addProjectLoading, error: addNewProjectError },
         addNewProject
     ] = useAxios(apiSetting.ProjectWorkflow.addProjectWorkflow(), { manual: true });
 
@@ -50,9 +52,19 @@ export default function ProjectEditContainer() {
         deleteProjectWorkflowStepById
     ] = useAxios(apiSetting.ProjectWorkflow.deleteProjectWorkflowStepById(''), { manual: true });
 
+    const [
+        { data: getAllUsersData },
+        getAllUsers
+    ] = useAxios(apiSetting.User.getAllUsers(), { manual: true });
+
+
     useEffect(() => {
         setOpen(loading);
     }, [loading]);
+
+    useEffect(() => {
+        setOpen(addProjectLoading);
+    }, [addProjectLoading]);
 
     useEffect(() => {
         setOpen(updateProjectLoading);
@@ -64,12 +76,28 @@ export default function ProjectEditContainer() {
                 ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.id as string)
             });
         }
+        if (router && router.query.template) {
+            const template = JSON.parse(router.query.template as string)
+            setProject(template)
+        }
+        getAllUsers()
+        // if (router && router.query.select_id) {
+        //     getProjectWorkflowById({
+        //         ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.select_id as string)
+        //     });
+        // }
     }, [router]);
+
+    useEffect(() => {
+        if (getAllUsersData && getAllUsersData.success) {
+            setUsers(getAllUsersData.users)
+        }
+    }, [getAllUsersData]);
 
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {
             console.log('getProjectWorkflowByIdData', getProjectWorkflowByIdData);
-            setProject(getProjectWorkflowByIdData.doc);
+            setProject(getProjectWorkflowByIdData.project_workflow);
         }
     }, [getProjectWorkflowByIdData]);
 
@@ -81,31 +109,34 @@ export default function ProjectEditContainer() {
 
     const addProjectHeadler = useCallback(
         async (data, tasks) => {
-            // console.log(data, tasks);
-            const { name, meta, is_process_workflow } = data;
+            console.log(data, tasks);
+            const { name, description, is_process_workflow, folder_id } = data;
             // console.log(parent_id);
             addNewProject({
                 data: {
                     name: name,
-                    description: meta?.description,
+                    description: description,
                     steps: tasks,
-                    is_process_workflow: is_process_workflow
+                    is_process_workflow: is_process_workflow,
+                    folder_id: folder_id,
+                    is_template: router.query.is_template || false
                 }
             });
         },
-        [addNewProject]
+        [router, addNewProject]
     );
 
     const updateProjectHandler = useCallback(
         async (id, data) => {
-            const { name, meta, steps, is_process_workflow } = data;
+            const { name, description, steps, is_process_workflow, folder_id } = data;
             console.log(data);
             updateProjectWorkflowById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowById(id),
                 data: {
                     name: name,
-                    description: meta?.description,
-                    is_process_workflow: is_process_workflow
+                    description: description,
+                    is_process_workflow: is_process_workflow,
+                    folder_id: folder_id
                 }
             });
         },
@@ -127,14 +158,14 @@ export default function ProjectEditContainer() {
         async (data) => {
             // console.log(data);
             // console.log(project?.id);
-            const { name, meta, deadline } = data;
+            const { name, description, deadline, assignee_id } = data;
             addProjectWorkflowStepById({
                 data: {
                     project_workflow_id: project?.id,
                     name: name,
                     deadline: deadline,
-                    description: meta.description,
-                    assignee_id: 18
+                    description: description,
+                    assignee_id: assignee_id,
                 }
             });
         },
@@ -144,14 +175,14 @@ export default function ProjectEditContainer() {
     const updateProjectStepHandler = useCallback(
         async (data) => {
             // console.log(data);
-            const { id, name, meta, deadline } = data;
+            const { id, name, description, deadline, assignee_id } = data;
             updateProjectWorkflowStepById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
                 data: {
                     name: name,
-                    description: meta.description,
+                    description: description,
                     deadline: deadline,
-                    assignee_id: 18
+                    assignee_id: assignee_id
                 }
             });
         },
@@ -171,7 +202,9 @@ export default function ProjectEditContainer() {
 
     useEffect(() => {
         if (addNewProjectData && addNewProjectData.success) {
+            // console.log('addNewProjectData', addNewProjectData);
             setAlert({ title: '保存成功', type: 'success' });
+            router.back()
         } else if (addNewProjectData && !addNewProjectData.success) {
             setAlert({ title: '保存失败， 請重試', type: 'success' });
         }
@@ -185,11 +218,11 @@ export default function ProjectEditContainer() {
         }
     }, [updateProjectData]);
 
-    useEffect(() => {
-        if (addProjectWorkflowStepByIdData) {
-            console.log('addProjectWorkflowStepByIdData', addProjectWorkflowStepByIdData);
-        }
-    }, [addProjectWorkflowStepByIdData]);
+    // useEffect(() => {
+    //     if (addProjectWorkflowStepByIdData) {
+    //         console.log('addProjectWorkflowStepByIdData', addProjectWorkflowStepByIdData);
+    //     }
+    // }, [addProjectWorkflowStepByIdData]);
 
     return (
         <ProjectEditView
@@ -198,6 +231,7 @@ export default function ProjectEditContainer() {
                 setOpen,
                 project,
                 setProject,
+                users,
                 addProjectStepHandler,
                 updateProjectStepHandler,
                 deleteProjectStepHandler,

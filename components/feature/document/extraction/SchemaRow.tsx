@@ -19,6 +19,9 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     {schema?.description}
                 </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    數據提取
+                </td>
 
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     {moment(schema?.created_at).format('YYYY-MM-DD HH:ss')}
