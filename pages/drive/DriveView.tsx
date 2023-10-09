@@ -308,7 +308,7 @@ export default function DriveView(props: DriveViewProps) {
                         ))}
                     </div>
                 </div>
-                <div className="py-8 flex flex-col gap-4 max-h-80vh ">
+                <div className="py-8 flex flex-col gap-4 max-h-80vh pb-[200px]">
                     <div className="flex justify-between">
                         <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
                         <button

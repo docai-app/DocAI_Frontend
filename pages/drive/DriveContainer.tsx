@@ -62,7 +62,7 @@ export default function DriveContainer() {
 
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
         apiSetting.Tag.getAllTags(),
-        { manual: false }
+        { manual: true }
     );
 
     const [{ data: updateDocumentTagData }, updateDocumentTag] = useAxios(
@@ -82,7 +82,7 @@ export default function DriveContainer() {
     const [{ data: schemasStatusReadyData }, schemasStatusReady] = useAxios(
         apiSetting.Form.schemasStatusReady(),
         {
-            manual: false
+            manual: true
         }
     );
 
@@ -92,6 +92,10 @@ export default function DriveContainer() {
             manual: true
         }
     );
+
+    useEffect(() => {
+        getAllLabels()
+    }, [router]);
 
     useEffect(() => {
         if (addNewLabelData && addNewLabelData.success) {
