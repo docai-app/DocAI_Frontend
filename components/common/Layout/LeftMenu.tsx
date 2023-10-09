@@ -4,17 +4,18 @@ import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
     ArrowRightOnRectangleIcon,
     Bars3Icon,
-    ChartBarSquareIcon,
+    ClipboardDocumentListIcon,
+    MagnifyingGlassIcon,
     ChatBubbleOvalLeftEllipsisIcon,
-    ClipboardIcon,
     CloudArrowUpIcon,
-    CubeIcon,
     FolderIcon,
     ShieldCheckIcon,
-    TableCellsIcon,
+    XMarkIcon,
+    CubeIcon,
+    ClipboardIcon,
     TagIcon,
     UserCircleIcon,
-    XMarkIcon
+    TableCellsIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -66,26 +67,34 @@ export default function LeftMenu(props: any) {
         {
             name: '文檔數據提取',
             href: '/document/extraction',
-            icon: ShieldCheckIcon,
+            icon: ArrowRightOnRectangleIcon,
             current: router.pathname.indexOf('/extraction') != -1,
-            iconForeground: 'text-blue-700',
-            iconBackground: 'bg-blue-50'
+            iconForeground: 'text-green-700',
+            iconBackground: 'bg-green-50'
         },
+        // {
+        //     name: '數據分析',
+        //     href: '/analysis',
+        //     icon: ChartBarSquareIcon,
+        //     current: router.pathname.indexOf('/analysis') != -1,
+        //     iconForeground: 'text-red-700',
+        //     iconBackground: 'bg-red-50'
+        // },
         {
-            name: '項目管理',
+            name: '待辦事項與工作流',
             href: '/project',
-            icon: ChartBarSquareIcon,
+            icon: ClipboardDocumentListIcon,
             current: router.pathname.indexOf('/project') != -1,
-            iconForeground: 'text-red-700',
-            iconBackground: 'bg-red-50'
+            iconForeground: 'text-indigo-700',
+            iconBackground: 'bg-indigo-50'
         },
         {
             name: '數據搜尋',
             href: '/search/form/schema',
-            icon: UserCircleIcon,
+            icon: MagnifyingGlassIcon,
             current: router.pathname.indexOf('/search') != -1,
-            iconForeground: 'text-indigo-700',
-            iconBackground: 'bg-indigo-50'
+            iconForeground: 'text-purple-700',
+            iconBackground: 'bg-purple-50'
         },
         {
             name: '填寫表格',

@@ -19,6 +19,26 @@ export async function getAllChainFeatureDatas() {
     return records;
 }
 
+export async function getAllChainFeatureByIdsDatas(ids?: any[]) {
+    let fiters = '';
+    ids?.forEach((id, index) => {
+        fiters += 'id = "' + id + '"';
+        if (index !== ids.length - 1) fiters += ',';
+    });
+
+    if (ids && ids.length > 0) {
+        const records = await table
+            ._selectRecords({
+                filterByFormula: 'OR(' + fiters + ')',
+                sort: [{ field: 'updated_at', direction: 'desc' }]
+            })
+            .all();
+        return records;
+    } else {
+        return [];
+    }
+}
+
 export async function findChainFeatureById(id: string) {
     if (!id) return null;
     const records = await table.find(id);

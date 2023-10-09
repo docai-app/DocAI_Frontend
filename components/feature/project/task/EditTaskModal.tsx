@@ -10,9 +10,10 @@ export default function EditTaskModal(props: any) {
     const { setAlert } = useAlert();
     const [data, setData] = useState({
         id: null,
-        title: '',
+        name: '',
         description: '',
-        deadline_at: ''
+        deadline: '',
+        assignee_id: ''
     });
 
     useEffect(() => {
@@ -24,27 +25,32 @@ export default function EditTaskModal(props: any) {
             setData({
                 ...data,
                 id: props.task.id,
-                title: props.task.title,
+                name: props.task.name,
                 description: props.task.description,
-                deadline_at: props.task.deadline_at
+                deadline: props.task.deadline,
+                assignee_id: props.task.assignee_id
             });
         } else {
             setData({
                 ...data,
                 id: null,
-                title: '',
-                description: ''
+                name: '',
+                description: '',
+                deadline: '',
+                assignee_id: ''
             });
         }
     }, [props]);
 
     const validate = () => {
-        if (!data.title) return setAlert({ title: '請輸入名稱', type: 'info' });
+        if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
         setData({
             ...data,
             id: null,
-            title: '',
-            description: ''
+            name: '',
+            description: '',
+            deadline: '',
+            assignee_id: ''
         });
         props.confirmClick(data);
     };
@@ -118,16 +124,16 @@ export default function EditTaskModal(props: any) {
                                             <input
                                                 id="type"
                                                 name="type"
-                                                type="string"
+                                                type="text"
                                                 autoFocus
                                                 ref={refTitle}
                                                 placeholder="任務名稱"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                value={data?.title}
+                                                defaultValue={data?.name}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        title: e.target.value
+                                                        name: e.target.value
                                                     });
                                                 }}
                                             />
@@ -150,7 +156,7 @@ export default function EditTaskModal(props: any) {
                                                 type="string"
                                                 placeholder="任務描述"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                value={data?.description}
+                                                defaultValue={data?.description}
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
@@ -158,6 +164,47 @@ export default function EditTaskModal(props: any) {
                                                     });
                                                 }}
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full flex flex-row m-2">
+                                        <div className="w-1/4 flex justify-left items-center ">
+                                            <label
+                                                htmlFor="new-type"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                負責人:
+                                            </label>
+                                        </div>
+                                        <div className="flex w-1/2">
+                                            <select
+                                                className="w-full border rounded-md  "
+                                                defaultValue={data?.assignee_id}
+                                                onChange={(e) => {
+                                                    setData({
+                                                        ...data,
+                                                        assignee_id: e.target.value
+                                                    });
+                                                }}
+                                            >
+                                                <option
+                                                    value={''}
+                                                    className="w-full border rounded-md text-gray-500 "
+                                                >
+                                                    請選擇負責人
+                                                </option>
+                                                {props.users?.map((user: any, index: number) => {
+                                                    return (
+                                                        <option
+                                                            key={index}
+                                                            className="w-full border rounded-md  "
+                                                            value={user.id}
+                                                        >
+                                                            {user.nickname}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
                                         </div>
                                     </div>
 
@@ -175,14 +222,14 @@ export default function EditTaskModal(props: any) {
                                                 id="type"
                                                 name="type"
                                                 type="date"
-                                                value={moment(data?.deadline_at).format(
+                                                defaultValue={moment(data?.deadline).format(
                                                     'YYYY-MM-DD'
                                                 )}
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 onChange={async (e) => {
                                                     setData({
                                                         ...data,
-                                                        deadline_at: e.target.value
+                                                        deadline: e.target.value
                                                     });
                                                 }}
                                             />

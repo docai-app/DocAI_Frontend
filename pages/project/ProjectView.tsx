@@ -1,65 +1,46 @@
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
-import { withTheme } from '@rjsf/core';
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import PaginationView from '../../components/common/Widget/PaginationView';
-import EditProjectModal from '../../components/feature/project/EditProjectModal';
+import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import ProjectItem from '../../components/feature/project/ProjectItem';
-
-const Form = withTheme(Bootstrap4Theme);
+import StepsListView from '../../components/feature/project/step/StepsListView';
+import EditTaskModal from '../../components/feature/project/task/EditTaskModal';
 
 interface ProjectViewProps {
     id: string | string[] | null | undefined;
-    name: string | string[] | null | undefined;
-    showAllItemsData: any;
     projects: any;
     meta: any;
+    metaSteps: any;
     currentStatus: string;
     setCurrentStatus: any;
-    addNewProjectHeadler: any;
-    updateProjectHandler: any;
+    open: boolean;
+    setOpen: any;
+    tasks: [];
+    setTasks: any;
+    addProjectStepHandler: any;
 }
 
 function ProjectView(props: ProjectViewProps) {
     const {
         id = null,
-        name = 'Root',
-        showAllItemsData = null,
         projects = null,
         meta,
-        currentStatus,
+        metaSteps,
         setCurrentStatus,
-        addNewProjectHeadler,
-        updateProjectHandler
+        open,
+        setOpen,
+        tasks,
+        setTasks,
+        addProjectStepHandler
     } = props;
     const [visiable, setVisiable] = useState(false);
-    const [mode, setMode] = useState('');
     const [dest, setDest] = useState<Folder | null>(null);
-    const dates = [
-        {
-            name: '最近三天',
-            value: '3'
-        },
-        {
-            name: '最近一周',
-            value: '7'
-        },
-        {
-            name: '最近一個月',
-            value: '30'
-        },
-        {
-            name: '最近三個月',
-            value: '90'
-        },
-        {
-            name: '最近半年',
-            value: '180'
-        }
-    ];
+    const [currentTypeTab, setCurrentTypeTab] = useState<'tasks' | 'project_workflow'>('tasks');
     const statusDatas = [
         {
             name: '全部',
@@ -74,16 +55,15 @@ function ProjectView(props: ProjectViewProps) {
             value: 'finish'
         }
     ];
-    const [date, setDate] = useState(dates[0].name);
     const [status, setStatus] = useState(statusDatas[0].name);
     const onSwitchStatus = (status: any) => {
         setStatus(status.name);
         setCurrentStatus(status.value);
     };
-    const onSwitchDates = (status: any) => {
-        setDate(status.name);
-        // setCurrentTabStatus(status.value);
-    };
+
+    const [mode, setMode] = useState<'add' | 'edit' | ''>('');
+    const [currentTask, setCurrentTask] = useState<any>(null);
+    const [currectPosition, setCurrectPosition] = useState(-1);
 
     const [project, setProject] = useState({
         id: null,
@@ -92,15 +72,13 @@ function ProjectView(props: ProjectViewProps) {
         deadline_at: ''
     });
 
-    function init() {
-        // setDest(null);
-        setProject({
-            id: null,
-            name: '',
-            description: '',
-            deadline_at: ''
-        });
-    }
+    const handleClickAdd = () => {
+        if (currentTypeTab == 'tasks') {
+            setMode('add');
+        } else {
+            Router.push({ pathname: '/project/select' });
+        }
+    };
 
     useEffect(() => {
         if (dest?.id) {
@@ -111,97 +89,108 @@ function ProjectView(props: ProjectViewProps) {
 
     return (
         <>
+            <SingleActionModel
+                open={open}
+                setOpen={setOpen}
+                title={'進行中......'}
+                content={'正在加載數據...'}
+                icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
+            />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                            項目管理
+                            待辦事項與工作流
                         </h2>
                     </div>
                 </div>
-                <div className="mt-4 hidden">
-                    <div>
-                        <MyDateDropdown
-                            value={status}
-                            datas={statusDatas}
-                            onSwitch={onSwitchStatus}
-                        />
-                        <MyDateDropdown value={date} datas={dates} onSwitch={onSwitchDates} />
-                    </div>
-                    <div className="mt-2 rounded-lg shadow">
-                        <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
-                            <div>
-                                <h1>收件箱(10)</h1>
-                            </div>
-                            <button
-                                type="button"
-                                className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                <PlusIcon className="h-4" />
-                                <span>新增</span>
-                            </button>
-                        </div>
-                        <div className=" divide-y">
-                            {/* <ProjectRow
-                                project={null}
-                                setVisiable={setVisiable}
-                                updateProjectHandler={updateProjectHandler}
-                            /> */}
-                        </div>
-                    </div>
-                </div>
                 <div className="mt-4 pb-4">
-                    <div className="flex flex-row justify-between items-center border-b py-2">
-                        <h1>項目</h1>
+                    <div className="flex flex-row justify-between items-center  py-2">
+                        <ul className="flex flex-row -my-px">
+                            <li
+                                onClick={() => setCurrentTypeTab('tasks')}
+                                className={`p-4 cursor-pointer ${
+                                    currentTypeTab === 'tasks'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                } font-bold text-sm`}
+                            >
+                                待辦事項
+                            </li>
+                            <li
+                                onClick={() => setCurrentTypeTab('project_workflow')}
+                                className={`p-4 cursor-pointer ${
+                                    currentTypeTab === 'project_workflow'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                } font-bold text-sm`}
+                            >
+                                工作流
+                            </li>
+                        </ul>
+
                         <button
                             type="button"
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             onClick={() => {
-                                init();
-                                setVisiable(true);
+                                handleClickAdd();
                             }}
                         >
                             <PlusIcon className="h-4" />
                             <span>新增</span>
                         </button>
                     </div>
-                    <div className="my-2">
+                    <div className="my-2 hidden">
                         <MyDateDropdown
                             value={status}
                             datas={statusDatas}
                             onSwitch={onSwitchStatus}
                         />
                     </div>
-                    <div>
-                        <ProjectItem
-                            projects={projects}
-                            setVisiable={setVisiable}
-                            setProject={setProject}
-                        />
-                    </div>
+                    {currentTypeTab == 'tasks' && (
+                        <div className="mt-0 rounded-lg">
+                            {/* <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
+                                <div>
+                                    <h1>待辦事項</h1>
+                                </div>
+                            </div> */}
+                            <StepsListView
+                                tasks={tasks}
+                                setTasks={setTasks}
+                                showArrow={false}
+                                showProjectName={true}
+                            />
+                            <PaginationView meta={metaSteps} pathname={'/project'} params={null} />
+                        </div>
+                    )}
+                    {currentTypeTab == 'project_workflow' && (
+                        <div>
+                            <ProjectItem
+                                projects={projects}
+                                setVisiable={setVisiable}
+                                setProject={setProject}
+                            />
+                            <PaginationView meta={meta} pathname={'/project'} params={null} />
+                        </div>
+                    )}
                 </div>
-                <PaginationView meta={meta} pathname={'/project'} params={null} />
+                {/* <PaginationView meta={meta} pathname={'/project'} params={null} /> */}
             </div>
-            <EditProjectModal
-                visable={visiable}
-                setMode={setMode}
-                dest={dest}
-                project={project}
-                setProject={setProject}
+
+            <EditTaskModal
+                visable={mode != ''}
+                task={currentTask}
                 cancelClick={() => {
-                    setVisiable(false);
+                    setMode('');
+                    setCurrentTask(null);
                 }}
-                confirmClick={(data: any) => {
-                    // console.log(data);
-                    // console.log("dest: ", dest);
-                    setVisiable(false);
-                    data.folder_id = data?.folder?.id;
-                    data.parent_id = dest?.id;
-                    if (data?.id) updateProjectHandler(data);
-                    else addNewProjectHeadler(data);
-                    init();
+                confirmClick={(data: never) => {
+                    setMode('');
+                    setCurrentTask(null);
+                    addProjectStepHandler(data);
                 }}
             />
+
             <FolderTreeForSelect
                 {...{
                     mode,

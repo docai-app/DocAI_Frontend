@@ -299,7 +299,13 @@ export default function DriveContainer() {
         setPage((page) => page + 1);
     }, []);
 
-    const search = async (tag_id: string, content: string, startDate: string, endDate: string) => {
+    const search = async (
+        tag_name: string,
+        tag_id: string,
+        content: string,
+        startDate: string,
+        endDate: string
+    ) => {
         if (tag_id == '') {
             setAlert({ title: '請選擇類別', type: 'info' });
             return;
@@ -314,7 +320,8 @@ export default function DriveContainer() {
                 content: content,
                 tag_id: tag_id,
                 from: startDate,
-                to: endDate
+                to: endDate,
+                label: tag_name
             }
         });
     };

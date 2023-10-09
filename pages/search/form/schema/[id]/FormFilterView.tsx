@@ -243,7 +243,6 @@ function FormFilterView(props: FormFilterViewProps) {
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
                                                     {formDatum.map((datum, index) => {
-                                                        // console.log(datum);
                                                         return (
                                                             <FormFilterTableRow
                                                                 key={index}

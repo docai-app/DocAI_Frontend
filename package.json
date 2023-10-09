@@ -46,6 +46,7 @@
         "react-helmet": "^6.1.0",
         "react-infinite-scroll-component": "^6.1.0",
         "react-pdf": "^5.7.1",
+        "react-spring-bottom-sheet": "^3.4.1",
         "typescript-coverage-report": "^0.8.0",
         "yup": "^0.32.11"
     },

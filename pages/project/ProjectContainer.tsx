@@ -1,6 +1,4 @@
-import axios from 'axios';
 import useAxios from 'axios-hooks';
-import _ from 'lodash';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../apis';
@@ -17,62 +15,46 @@ export default function ProjectContainer() {
     const [id, setId] = useState<string | null>(null);
     const [name, setName] = useState<string | null>(null);
     const [projects, setProjects] = useState();
+    const [tasks, setTasks] = useState<any>([]);
     const [meta, setMeta] = useState();
     const [page, setPage] = useState(1);
+
+    const [metaSteps, setMetaSteps] = useState();
+
+    const [open, setOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState('');
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
     ] = useAxios({}, { manual: true });
 
-    const [
-        { data: showAllProjectsData, loading: showAllProjectsLoading, error: showAllProjectsError },
-        showAllProjects
-    ] = useAxios(apiSetting.Project.getAllProjects(page), { manual: false });
-
-    const [
-        { data: addNewProjectData, loading: addNewProjectLoading, error: addNewProjectError },
-        addNewProject
-    ] = useAxios(apiSetting.Project.addNewProject(), { manual: true });
-
-    const [
-        { data: updateProjectData, loading: updateProjectLoading, error: updateProjectError },
-        updateProject
-    ] = useAxios(apiSetting.Project.updateProjectById(''), { manual: true });
-
-    const addNewProjectHeadler = useCallback(
-        async (data) => {
-            const { name, description, deadline_at, parent_id } = data;
-            // console.log(parent_id);
-            addNewProject({
-                data: {
-                    name: name,
-                    description: description,
-                    deadline_at: deadline_at,
-                    parent_id: parent_id
-                }
-            });
-        },
-        [addNewProject]
+    const [{ data: getAllWorkflowData, loading }, getAllWorkflow] = useAxios(
+        apiSetting.ProjectWorkflow.getAllWorkflow(page),
+        { manual: true }
     );
 
-    const updateProjectHandler = useCallback(
-        async (data) => {
-            const { id, name, description, deadline_at, folder_id, parent_id } = data;
-            // console.log("parent_id", parent_id);
-            updateProject({
-                ...apiSetting.Project.updateProjectById(id),
-                data: {
-                    name: name,
-                    description: description,
-                    deadline_at: deadline_at
-                }
-            });
-            if (folder_id && parent_id)
-                axios.request(apiSetting.Folders.updateFolderById(folder_id, parent_id));
-        },
-        [updateProject]
-    );
+    const [
+        { data: getAllProjectWorkflowStepData, loading: getAllProjectWorkflowStepLoading },
+        getAllProjectWorkflowStep
+    ] = useAxios(apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(page), { manual: true });
+
+    const [
+        { data: addProjectWorkflowStepByIdData, loading: addProjectWorkflowStepByIdLoading },
+        addProjectWorkflowStepById
+    ] = useAxios(apiSetting.ProjectWorkflow.addProjectWorkflowStepById(), { manual: true });
+
+    useEffect(() => {
+        setOpen(loading);
+    }, [loading]);
+
+    useEffect(() => {
+        getAllWorkflow();
+        getAllProjectWorkflowStep({
+            params: {
+                status: 'pending'
+            }
+        });
+    }, [router]);
 
     useEffect(() => {
         if (router.asPath !== router.route) {
@@ -96,51 +78,47 @@ export default function ProjectContainer() {
     }, [showAllItemsLoading, showAllItemsData]);
 
     useEffect(() => {
-        if (!showAllProjectsLoading && showAllProjectsData) {
-            showAllProjectsData.projects.map((project: any) => {
-                const count = _.filter(project.project_tasks, function (p) {
-                    return p['is_completed'] === true;
-                }).length;
-                project.progress = Math.round(
-                    (count / (project.project_tasks.length || 1).toFixed(0)) * 100
-                );
-                return project;
-            });
-            setProjects(showAllProjectsData.projects);
-            setMeta(showAllProjectsData?.meta);
+        if (getAllWorkflowData && getAllWorkflowData.success) {
+            console.log('getAllWorkflowData', getAllWorkflowData);
+            setProjects(getAllWorkflowData.project_workflows);
+            setMeta(getAllWorkflowData.meta);
         }
-    }, [showAllProjectsLoading, showAllProjectsData]);
+    }, [getAllWorkflowData]);
 
     useEffect(() => {
-        if (addNewProjectData && addNewProjectData.success) {
-            router.reload();
+        if (getAllProjectWorkflowStepData && getAllProjectWorkflowStepData.success) {
+            console.log(getAllProjectWorkflowStepData);
+            setTasks(getAllProjectWorkflowStepData.project_workflow_steps);
+            setMetaSteps(getAllProjectWorkflowStepData.meta);
         }
-    }, [addNewProjectData]);
-
-    useEffect(() => {
-        if (updateProjectData && updateProjectData.success) {
-            router.reload();
-        } else if (updateProjectData && !updateProjectData.success) {
-            setAlert({ title: updateProjectData.error, type: 'error' });
-        }
-    }, [updateProjectData]);
-
-    useEffect(() => {
-        if (currentStatus && projects) {
-            const data: any = _.filter(showAllProjectsData?.projects, function (o: any) {
-                if (currentStatus == 'all') return o;
-                else if (currentStatus == 'finish') return o['progress'] == 100;
-                else if (currentStatus == 'unfinish') return o['progress'] != 100;
-            });
-            setProjects(data);
-        }
-    }, [currentStatus]);
+    }, [getAllProjectWorkflowStepData]);
 
     useEffect(() => {
         if (router.query.page) {
             setPage(parseInt(router.query.page + '') || 1);
         }
     }, [router.query.page]);
+
+    const addProjectStepHandler = useCallback(
+        async (data) => {
+            // console.log(data);
+            // console.log(project?.id);
+            const { name, description, deadline } = data;
+            addProjectWorkflowStepById({
+                data: {
+                    name: name,
+                    deadline: deadline,
+                    description: description
+                }
+            });
+        },
+        [addProjectWorkflowStepById]
+    );
+    useEffect(() => {
+        if (addProjectWorkflowStepByIdData && addProjectWorkflowStepByIdData.success) {
+            setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.doc]);
+        }
+    }, [addProjectWorkflowStepByIdData]);
 
     return (
         <ProjectView
@@ -150,10 +128,14 @@ export default function ProjectContainer() {
                 showAllItemsData,
                 projects,
                 meta,
+                metaSteps,
                 currentStatus,
                 setCurrentStatus,
-                addNewProjectHeadler,
-                updateProjectHandler
+                open,
+                setOpen,
+                tasks,
+                setTasks,
+                addProjectStepHandler
             }}
         />
     );

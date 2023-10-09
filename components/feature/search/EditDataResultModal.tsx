@@ -28,7 +28,6 @@ export default function EditDataResultModal(props: any) {
     };
 
     const getDatas = () => {
-        // console.log(selectData);
         props.selectData(selectData);
         props.cancelClick();
         setSelectData([]);

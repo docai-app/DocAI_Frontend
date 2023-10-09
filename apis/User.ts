@@ -30,4 +30,13 @@ export default class User {
         };
         return requestHeader;
     }
+
+    getAllUsers() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/users`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

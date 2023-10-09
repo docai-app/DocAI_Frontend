@@ -1,5 +1,6 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import ChainFeatureSelect from '../../../components/feature/chatbot/ChainFeatureSelect';
@@ -104,17 +105,17 @@ export default function LabelView(props: LabelProps) {
                         <div className="py-0">
                             {sortedLabels && (
                                 <>
-                                    <div className="flex justify-between border-b-2 pb-2">
-                                        <h2 className="text-2xl font-bold">標籤管理</h2>
-                                        {/* <button
-                                            className="px-4 py-2 bg-indigo-600  hover:bg-indigo-700 leading-none text-white rounded-md"
+                                    <div className="flex items-center  border-b  justify-between mb-4 border-gray-300  ">
+                                        <label
+                                            className=" px-4 py-2 rounded-md cursor-pointer"
                                             onClick={() => {
-                                                setOpen(true);
-                                                setTag('');
+                                                Router.back();
                                             }}
                                         >
-                                            +新增
-                                        </button> */}
+                                            {'<'} 返回
+                                        </label>
+                                        <label className="text-2xl font-bold">標籤管理</label>
+                                        <label className="text-xl font-bold">{''}</label>
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
                                         <table className="border-collapse ">
