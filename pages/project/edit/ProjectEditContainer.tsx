@@ -110,6 +110,8 @@ export default function ProjectEditContainer() {
             console.log(data, tasks);
             const { name, description, is_process_workflow, folder_id } = data;
             // console.log(parent_id);
+            if (!name) return setAlert({ title: '請輸入名稱', type: 'info' });
+            if (!folder_id) return setAlert({ title: '請選擇儲存路徑', type: 'info' });
             addNewProject({
                 data: {
                     name: name,
@@ -128,6 +130,8 @@ export default function ProjectEditContainer() {
         async (id, data) => {
             const { name, description, steps, is_process_workflow, folder_id } = data;
             console.log(data);
+            if (!name) return setAlert({ title: '請輸入名稱', type: 'info' });
+            if (!folder_id) return setAlert({ title: '請選擇儲存路徑', type: 'info' });
             updateProjectWorkflowById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowById(id),
                 data: {

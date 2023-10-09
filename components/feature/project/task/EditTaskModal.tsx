@@ -44,6 +44,8 @@ export default function EditTaskModal(props: any) {
 
     const validate = () => {
         if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
+        if (!data.deadline) return setAlert({ title: '請輸入截止時間', type: 'info' });
+        if (!data.assignee_id) return setAlert({ title: '請選擇負責人', type: 'info' });
         setData({
             ...data,
             id: null,
@@ -62,7 +64,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -173,7 +175,7 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                負責人:
+                                                <span className="text-red-500">*</span>負責人:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">
@@ -214,7 +216,7 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                截止日期:
+                                                <span className="text-red-500">*</span> 截止日期:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">
