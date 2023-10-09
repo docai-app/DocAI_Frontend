@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ShieldCheckIcon } from '@heroicons/react/20/solid';
+import { DocumentIcon, ShieldCheckIcon } from '@heroicons/react/20/solid';
 import { MagnifyingGlassIcon, Square2StackIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 import { Fragment } from 'react';
 
@@ -22,6 +22,7 @@ export default function LabelDropdowns(props: DropdownsProps) {
             <div>
                 <Menu.Button className=" cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                     <span className="sr-only">Open options</span>
+                    <DocumentIcon className="ml-auto h-4 text-white" />
                     <label className=" cursor-pointer text-xs sm:text-sm">
                         {label?.name}({label.taggings_count || 0})
                     </label>

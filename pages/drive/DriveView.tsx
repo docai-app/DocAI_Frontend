@@ -1,9 +1,7 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
     CheckCircleIcon,
-    ChevronDownIcon,
-    ClipboardIcon,
-    ClockIcon,
+    ChevronDownIcon, ClockIcon,
     CloudIcon,
     DocumentIcon,
     ExclamationTriangleIcon,
@@ -255,7 +253,7 @@ export default function DriveView(props: DriveViewProps) {
                 count={documents_items?.length + folders_items?.length}
             />
             <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8 flex-1 flex flex-col ">
-                <div className="max-w-4xl mx-auto my-6 h-auto flex justify-center items-center">
+                <div className="max-w-4xl mx-auto my-6 h-auto flex justify-center items-center hidden">
                     <div className="w-full mx-auto text-center">
                         <h2 className="text-6xl font-extrabold text-gray-900 sm:text-6xl mb-2">
                             DocAI
@@ -308,17 +306,17 @@ export default function DriveView(props: DriveViewProps) {
                         ))}
                     </div>
                 </div>
-                <div className="py-8 flex flex-col gap-4 max-h-80vh pb-[200px]">
+                <div className="py-4 flex flex-col gap-4 max-h-80vh pb-[200px]">
                     <div className="flex justify-between">
                         <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
-                        <button
-                            className="flex flex-row items-center bg-indigo-600 border px-4 py-2 text-white rounded-md"
+                        <a
+                            className="flex flex-row items-center  text-indigo-600 underline cursor-pointer rounded-md"
                             onClick={() => {
                                 Router.push('/classification/logs');
                             }}
                         >
-                            <ClipboardIcon className='w-4 mr-1' />智能文檔處理
-                        </button>
+                            智能文檔處理
+                        </a>
                     </div>
                     <div className="flex flex-row gap-2 justify-between">
                         {showAllItemsData == null ? (
