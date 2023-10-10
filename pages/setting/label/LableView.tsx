@@ -78,7 +78,7 @@ export default function LabelView(props: LabelProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => {}}
+                setOpen={() => { }}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
@@ -99,15 +99,15 @@ export default function LabelView(props: LabelProps) {
                 }}
             />
 
-            <div className="min-h-full bg-slate-50">
+            <div className="min-h-full  ">
                 <main>
                     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                         <div className="py-0">
                             {sortedLabels && (
                                 <>
-                                    <div className="flex items-center  border-b  justify-between mb-4 border-gray-300  ">
+                                    <div className="flex items-center justify-between mb-4  ">
                                         <label
-                                            className=" px-4 py-2 rounded-md cursor-pointer"
+                                            className=" px-4 py-2 rounded-md cursor-pointer text-indigo-500"
                                             onClick={() => {
                                                 Router.back();
                                             }}

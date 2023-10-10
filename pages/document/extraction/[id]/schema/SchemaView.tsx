@@ -1,4 +1,5 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import Router from 'next/router';
 import { useState } from 'react';
 import EditSchemaDataModal from '../../../../../components/common/Widget/EditSchemaDataModal';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
@@ -59,7 +60,25 @@ function SchemaView(props: SchemaViewProps) {
             />
             <div className="mx-auto max-w-7xl p-4">
                 <div className="mx-auto max-w-7xl pb-12">
-                    <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯Schema</h2>
+                    <div className="flex items-center  justify-between mb-4 border-gray-300  ">
+                        <label
+                            className=" px-4 py-2 rounded-md cursor-pointer text-indigo-500"
+                            onClick={() => {
+                                Router.back();
+                            }}
+                        >
+                            {'<'} 返回
+                        </label>
+                        <label className="text-2xl font-bold">編輯Schema</label>
+                        <button
+                            className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={() => {
+                                handleSave();
+                            }}
+                        >
+                            確認
+                        </button>
+                    </div>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">{extractSchema?.description}</p> */}
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-6">
@@ -104,20 +123,7 @@ function SchemaView(props: SchemaViewProps) {
                             </div>
                         </div>
                         <div className="col-span-full">
-                            {visableAdd && (
-                                <div className="flex justify-end">
-                                    <a
-                                        className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                        onClick={() => {
-                                            setCurrectPosition(-1);
-                                            setVisable(true);
-                                        }}
-                                    >
-                                        +
-                                    </a>
-                                </div>
-                            )}
-                            <div className="inline-block min-w-full py-0 align-middle sm:px-6 lg:px-8">
+                            <div className="inline-block min-w-full py-0 align-middle  ">
                                 <table className="min-w-full divide-y divide-gray-300">
                                     <thead>
                                         <tr>
@@ -145,7 +151,19 @@ function SchemaView(props: SchemaViewProps) {
                                                 scope="col"
                                                 className="relative py-3.5 pl-3 pr-4 sm:pr-0"
                                             >
-                                                <span className="sr-only">Edit</span>
+                                                {visableAdd && (
+                                                    <div className="flex justify-end">
+                                                        <a
+                                                            className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  "
+                                                            onClick={() => {
+                                                                setCurrectPosition(-1);
+                                                                setVisable(true);
+                                                            }}
+                                                        >
+                                                            + Column
+                                                        </a>
+                                                    </div>
+                                                )}
                                             </th>
                                         </tr>
                                     </thead>
@@ -169,7 +187,7 @@ function SchemaView(props: SchemaViewProps) {
                             </div>
                         </div>
 
-                        <div className="sm:col-span-6 flex justify-end">
+                        {/* <div className="sm:col-span-6 flex justify-end">
                             <button
                                 className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={() => {
@@ -178,7 +196,7 @@ function SchemaView(props: SchemaViewProps) {
                             >
                                 確認
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

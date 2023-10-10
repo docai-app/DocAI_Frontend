@@ -99,11 +99,10 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                             <ul className="flex flex-row -my-px">
                                 <li
                                     onClick={() => setCurrentTypeTab('extraction')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'extraction'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'extraction'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
                                     標籤填表與數據
                                 </li>
@@ -120,12 +119,11 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 </li> */}
                                 <li
                                     onClick={() => setCurrentTypeTab('chain_feature')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'chain_feature' ||
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'chain_feature' ||
                                         currentTypeTab === 'chain_feature'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
                                     推薦功能
                                 </li>
