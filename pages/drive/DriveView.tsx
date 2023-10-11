@@ -1,7 +1,8 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
     CheckCircleIcon,
-    ChevronDownIcon, ClockIcon,
+    ChevronDownIcon,
+    ClockIcon,
     CloudIcon,
     DocumentIcon,
     ExclamationTriangleIcon,
@@ -79,15 +80,15 @@ export default function DriveView(props: DriveViewProps) {
         showAllItemsData = null,
         showAllItemsLoading = null,
         mode = 'view',
-        setMode = () => { },
+        setMode = () => {},
         target = [],
-        setTarget = () => { },
+        setTarget = () => {},
         dest = null,
-        setDest = () => { },
+        setDest = () => {},
         shareWith = [],
-        setShareWith = () => { },
-        handleShare = async () => { },
-        handleNewFolder = async () => { },
+        setShareWith = () => {},
+        handleShare = async () => {},
+        handleNewFolder = async () => {},
         countDocumentsByDateData = null,
         current,
         setCurrent,
@@ -181,7 +182,7 @@ export default function DriveView(props: DriveViewProps) {
                     icon: ClockIcon,
                     amount:
                         countDocumentsByDateData?.documents_count -
-                        countDocumentsByDateData?.unconfirmed_count || 0
+                            countDocumentsByDateData?.unconfirmed_count || 0
                 },
                 {
                     name: '累計未分類的文檔',
@@ -208,7 +209,7 @@ export default function DriveView(props: DriveViewProps) {
                 allLabelsData={getAllLabelsData}
                 confirmDocumentFormik={confirmDocumentFormik}
                 isSubmit={true}
-                setTagName={(name: string) => { }}
+                setTagName={(name: string) => {}}
                 setOpenEditLabel={setOpenEditLabel}
             />
             <EditLabel
@@ -355,8 +356,9 @@ export default function DriveView(props: DriveViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         setMode('newFolder');
                                                     }}
@@ -389,7 +391,7 @@ export default function DriveView(props: DriveViewProps) {
                         </div>
                         <div className="w-full">
                             {(allItemsData || allFoldersItemsData) &&
-                                [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
+                            [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
                                 0 ? (
                                 <InfiniteScroll
                                     dataLength={allItemsData?.length} //This is important field to render the next data
@@ -447,8 +449,8 @@ export default function DriveView(props: DriveViewProps) {
                                     {showAllItemsData?.success
                                         ? '沒有檔案'
                                         : showAllItemsLoading
-                                            ? '載入中...'
-                                            : showAllItemsData?.error || 'Error'}
+                                        ? '載入中...'
+                                        : showAllItemsData?.error || 'Error'}
                                 </div>
                             )}
                         </div>
@@ -477,10 +479,10 @@ export default function DriveView(props: DriveViewProps) {
                             </thead>
                             <tbody className="divide-y w-full divide-gray-100">
                                 {showAllItemsData?.folders &&
-                                    showAllItemsData?.documents &&
-                                    showAllItemsData?.success &&
-                                    (showAllItemsData.folders.length > 0 ||
-                                        showAllItemsData.documents.length > 0) ? (
+                                showAllItemsData?.documents &&
+                                showAllItemsData?.success &&
+                                (showAllItemsData.folders.length > 0 ||
+                                    showAllItemsData.documents.length > 0) ? (
                                     <>
                                         {showAllItemsData.folders.map((doc: any) => {
                                             return (
@@ -520,8 +522,8 @@ export default function DriveView(props: DriveViewProps) {
                                             {showAllItemsData?.success
                                                 ? '沒有檔案'
                                                 : showAllItemsLoading
-                                                    ? '載入中...'
-                                                    : showAllItemsData?.error || 'Error'}
+                                                ? '載入中...'
+                                                : showAllItemsData?.error || 'Error'}
                                         </td>
                                     </tr>
                                 )}

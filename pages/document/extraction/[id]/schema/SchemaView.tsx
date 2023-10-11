@@ -1,4 +1,5 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import { DocumentIcon } from '@heroicons/react/24/solid';
 import Router from 'next/router';
 import { useState } from 'react';
 import EditSchemaDataModal from '../../../../../components/common/Widget/EditSchemaDataModal';
@@ -6,6 +7,7 @@ import SingleActionModel from '../../../../../components/common/Widget/SingleAct
 import ExtractSchemaRow from '../../../../../components/feature/document/extraction/ExtractSchemaRow';
 
 interface SchemaViewProps {
+    label: any;
     open: boolean;
     setOpen: any;
     extractSchema: {
@@ -23,6 +25,7 @@ interface SchemaViewProps {
 
 function SchemaView(props: SchemaViewProps) {
     const {
+        label,
         open,
         setOpen,
         extractSchema,
@@ -79,8 +82,36 @@ function SchemaView(props: SchemaViewProps) {
                             確認
                         </button>
                     </div>
+                    <div className='my-2 flex flex-row items-center'>
+                        <label className='text-md font-bold'>來源:</label>
+                        {label &&
+                            <button
+                                className="mx-2 flex flex-row items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={() => {
+                                    Router.push({
+                                        pathname: '/search',
+                                        query: {
+                                            content: '',
+                                            tag_id: label?.id,
+                                            from: '',
+                                            to: '',
+                                            label: label?.name
+                                        }
+                                    });
+                                }}
+                            >
+                                <DocumentIcon className="ml-auto h-4 text-white" />
+                                <label className=" cursor-pointer text-xs sm:text-sm">
+                                    {label?.name}({label?.taggings_count || 0})
+                                </label>
+                            </button>
+                        }
+                    </div>
+                    <div className='my-2'>
+                        <label className='text-md font-bold'>目的地:</label>
+                    </div>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">{extractSchema?.description}</p> */}
-                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div className="my-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-6">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
                                 名稱
@@ -125,7 +156,7 @@ function SchemaView(props: SchemaViewProps) {
                         <div className="col-span-full">
                             <div className="inline-block min-w-full py-0 align-middle  ">
                                 <table className="min-w-full divide-y divide-gray-300">
-                                    <thead>
+                                    <thead className=' border-b'>
                                         <tr>
                                             <th
                                                 scope="col"

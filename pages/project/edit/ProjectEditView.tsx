@@ -229,7 +229,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                         <TaskRow
                                             task={task}
                                             users={users}
-                                            completeTask={() => {}}
+                                            completeTask={() => { }}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
                                         />
@@ -247,6 +247,7 @@ function ProjectEditView(props: ProjectViewProps) {
                 </div>
             </div>
             <EditTaskModal
+                title={currentTask ? "編輯任務" : "新增任務"}
                 visable={mode != ''}
                 task={currentTask}
                 users={users}

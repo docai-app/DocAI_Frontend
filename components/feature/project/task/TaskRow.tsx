@@ -111,7 +111,7 @@ export default function TaskRow(props: TaskRowProps) {
                     <span className={`text-md ml-2  break-words break-all  text-black `}>
                         {task?.name}
                     </span>
-                    {showProjectName && (
+                    {showProjectName && task?.project_workflow?.name && (
                         <>
                             <br />
                             <span className="text-sm font-bold ml-2 ">

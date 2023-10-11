@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import PaginationView from '../../../common/Widget/PaginationView';
 import SchemaRow from './SchemaRow';
 
@@ -45,7 +46,15 @@ export default function SchemaList(props: Props) {
                                 scope="col"
                                 className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                             >
-                                <span>操作</span>
+                                <div className="flex justify-end">
+                                    <Link href={`/document/extraction/${label?.id}/schema`}>
+                                        <a
+                                            className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  "
+                                        >
+                                            + Schema
+                                        </a>
+                                    </Link>
+                                </div>
                             </th>
                         </tr>
                     </thead>

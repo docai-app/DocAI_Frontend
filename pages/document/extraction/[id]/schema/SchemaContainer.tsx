@@ -21,6 +21,14 @@ export default function SchemaContainer() {
         data_schema: {}
     });
     const [visableAdd, setVisableAdd] = useState(true);
+    const [label, setLabel] = useState()
+
+    const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
+        apiSetting.Tag.getTagById(''),
+        {
+            manual: true
+        }
+    );
 
     const [
         { data: getSmartExtractionSchemasByIdData, loading: getLoading },
@@ -42,8 +50,17 @@ export default function SchemaContainer() {
     });
 
     useEffect(() => {
+        if (getTagByIdData && getTagByIdData.success) {
+            setLabel(getTagByIdData.tag);
+        }
+    }, [getTagByIdData]);
+
+    useEffect(() => {
         setActionContent('正在加載數據');
         if (router && router.query.id) {
+            getTagById({
+                ...apiSetting.Tag.getTagById(router.query.id.toString())
+            })
             setExtractSchema({
                 ...extractSchema,
                 label_id: router.query.id.toString()
@@ -110,6 +127,10 @@ export default function SchemaContainer() {
             data_schema[s.key] = '';
         });
         extractSchema.data_schema = data_schema;
+        if (_.isEmpty(data_schema)) {
+            setAlert({ title: '請添加Column', type: 'warning' });
+            return
+        }
         setActionContent('正在保存數據,等待時間較長，請耐心等候...');
         if (router && router.query.schema_id) {
             const isSame = _.isEqual(
@@ -143,6 +164,7 @@ export default function SchemaContainer() {
     return (
         <SchemaView
             {...{
+                label,
                 open,
                 setOpen,
                 extractSchema,

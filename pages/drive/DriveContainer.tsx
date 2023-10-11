@@ -94,7 +94,7 @@ export default function DriveContainer() {
     );
 
     useEffect(() => {
-        getAllLabels()
+        getAllLabels();
     }, [router]);
 
     useEffect(() => {

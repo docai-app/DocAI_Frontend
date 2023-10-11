@@ -9,22 +9,22 @@ export default function SearchLabelDocumentForm(props: any) {
     const [content, setContent] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [tags, setTags] = useState([])
-    const [visible, setVisible] = useState(true)
+    const [tags, setTags] = useState([]);
+    const [visible, setVisible] = useState(true);
 
     useEffect(() => {
         if (visible && props?.getAllLabelsData?.tags?.length > 10) {
-            setTags(props?.getAllLabelsData?.tags.slice(0, 10))
+            setTags(props?.getAllLabelsData?.tags.slice(0, 10));
         } else {
-            setTags(props?.getAllLabelsData?.tags)
+            setTags(props?.getAllLabelsData?.tags);
         }
-    }, [props, visible])
+    }, [props, visible]);
     return (
         <>
             <div className="fixed bottom-0 w-11/12 sm:w-11/12 md:w-11/12 lg:w-10/12 xl:w-10/12 mx-auto max-w-7xl pr-0 sm:pr-2 md:pr-3 lg:pr-16 overflow-hidden">
                 <div className=" border rounded-lg px-4 py-2 bg-white w-full  mx-auto      ">
                     <div className="w-full flex flex-col ">
-                        <div className='flex flex-row justify-between  pr-10'>
+                        <div className="flex flex-row justify-between  pr-10">
                             <label className="text-md ">標籤:</label>
 
                             <Link href={'/setting/label'}>
@@ -74,15 +74,18 @@ export default function SearchLabelDocumentForm(props: any) {
                                     // >{tag.name}</button>
                                 );
                             })}
-                            {tags != null &&
-                                <div className=' cursor-pointer'
+                            {tags != null && (
+                                <div
+                                    className=" cursor-pointer"
                                     onClick={() => {
-                                        setVisible(!visible)
-                                    }}>
-                                    <a className="text-sm sm:text-md  underline text-blue-500">{visible ? '查看更多' : '隱藏'}</a>
+                                        setVisible(!visible);
+                                    }}
+                                >
+                                    <a className="text-sm sm:text-md  underline text-blue-500">
+                                        {visible ? '查看更多' : '隱藏'}
+                                    </a>
                                 </div>
-                            }
-
+                            )}
 
                             {tags == null ? (
                                 <div className="animate-pulse flex flex-row justify-center items-center gap-2">

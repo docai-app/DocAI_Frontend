@@ -20,7 +20,7 @@ export default function ProjectContainer() {
     const [page, setPage] = useState(1);
 
     const [metaSteps, setMetaSteps] = useState();
-
+    const [users, setUsers] = useState<any>([]);
     const [open, setOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState('');
     const [
@@ -43,6 +43,10 @@ export default function ProjectContainer() {
         addProjectWorkflowStepById
     ] = useAxios(apiSetting.ProjectWorkflow.addProjectWorkflowStepById(), { manual: true });
 
+    const [{ data: getAllUsersData }, getAllUsers] = useAxios(apiSetting.User.getAllUsers(), {
+        manual: true
+    });
+
     useEffect(() => {
         setOpen(loading);
     }, [loading]);
@@ -54,6 +58,7 @@ export default function ProjectContainer() {
                 status: 'pending'
             }
         });
+        getAllUsers()
     }, [router]);
 
     useEffect(() => {
@@ -99,24 +104,34 @@ export default function ProjectContainer() {
         }
     }, [router.query.page]);
 
+    useEffect(() => {
+        if (getAllUsersData && getAllUsersData.success) {
+            setUsers(getAllUsersData.users);
+        }
+    }, [getAllUsersData]);
+
     const addProjectStepHandler = useCallback(
         async (data) => {
-            // console.log(data);
+            console.log(data);
             // console.log(project?.id);
-            const { name, description, deadline } = data;
+            const { name, description, deadline, assignee_id } = data;
             addProjectWorkflowStepById({
                 data: {
                     name: name,
                     deadline: deadline,
-                    description: description
+                    description: description,
+                    assignee_id: assignee_id
                 }
             });
         },
         [addProjectWorkflowStepById]
     );
     useEffect(() => {
+        console.log(addProjectWorkflowStepByIdData);
         if (addProjectWorkflowStepByIdData && addProjectWorkflowStepByIdData.success) {
-            setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.doc]);
+
+
+            setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.project_workflow_step]);
         }
     }, [addProjectWorkflowStepByIdData]);
 
@@ -135,7 +150,8 @@ export default function ProjectContainer() {
                 setOpen,
                 tasks,
                 setTasks,
-                addProjectStepHandler
+                addProjectStepHandler,
+                users
             }}
         />
     );

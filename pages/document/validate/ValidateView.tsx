@@ -51,8 +51,8 @@ function ValidateView(props: ValidateViewProps) {
                             <div>載入中...</div>
                         ) : (
                             <div className="px-4 py-6 sm:px-0">
-                                <div className="flex justify-center items-center p-0 border-0 border-dashed border-gray-200 bg-white rounded-lg h-80vh flex-wrap">
-                                    <div className="h-full  flex-1 flex justify-left items-center object-contain object-center">
+                                <div className="flex flex-col sm:flex-row justify-center items-center p-0 border-0 border-dashed border-gray-200 bg-white rounded-lg h-80vh flex-wrap">
+                                    <div className="h-full w-full  flex-1 flex justify-left items-center object-contain object-center">
                                         <div className="w-full h-full border-4 border-dashed border-gray-200 bg-white rounded-lg object-cover">
                                             {formUrl.split('.').pop() === 'pdf' ? (
                                                 <object
@@ -78,35 +78,37 @@ function ValidateView(props: ValidateViewProps) {
                                             )}
                                         </div>
                                     </div>
-                                    <div className=" flex-1 justify-start flex flex-col h-5/6 py-2">
-                                        {formSchema?.map((filter: any, index: number) => {
-                                            return (
-                                                <div className="m-2 flex items-center" key={index}>
-                                                    <label className="w-1/4 text-right pr-2">
-                                                        {filter?.query}:
-                                                    </label>
-                                                    <textarea
-                                                        // type={filter?.data_type == 'date' ? 'date' : 'text'}
-                                                        // type={'text'}
-                                                        defaultValue={data?.[filter.key]}
-                                                        className="mt-1 border p-2 w-full rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300  "
-                                                        onChange={(e) => {
-                                                            setData({
-                                                                ...data,
-                                                                [filter.key]: e.target.value
-                                                            });
-                                                        }}
-                                                    />
-                                                </div>
-                                            );
-                                        })}
-                                        <div className="flex justify-center my-4">
-                                            <button
-                                                className="bg-blue-600 hover:bg-blue-700 text-white rounded px-6 py-2 self-end mt-auto"
-                                                onClick={handleConfirm}
-                                            >
-                                                確認
-                                            </button>
+                                    <div className="w-full flex-1 h-full px-4 py-2">
+                                        <div className="justify-start flex flex-col  ">
+                                            {formSchema?.map((filter: any, index: number) => {
+                                                return (
+                                                    <div className="m-2 flex flex-col items-center" key={index}>
+                                                        <label className="w-full font-bold">
+                                                            {filter?.query}:
+                                                        </label>
+                                                        <input
+                                                            // type={filter?.data_type == 'date' ? 'date' : 'text'}
+                                                            type={'text'}
+                                                            defaultValue={data?.[filter.key]}
+                                                            className="mt-1 border p-2 w-full rounded-md shadow-sm border-gray-200 focus:border-gray-400 focus:ring-2 focus:ring-slate-300  "
+                                                            onChange={(e) => {
+                                                                setData({
+                                                                    ...data,
+                                                                    [filter.key]: e.target.value
+                                                                });
+                                                            }}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
+                                            <div className="flex justify-center my-4">
+                                                <button
+                                                    className="bg-blue-600 hover:bg-blue-700 text-white rounded px-6 py-2 self-end mt-auto"
+                                                    onClick={handleConfirm}
+                                                >
+                                                    確認
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

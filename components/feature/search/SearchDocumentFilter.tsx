@@ -1,8 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import {
-    ArchiveBoxArrowDownIcon, PaperAirplaneIcon,
-    TagIcon
-} from '@heroicons/react/24/outline';
+import { ArchiveBoxArrowDownIcon, PaperAirplaneIcon, TagIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useCallback, useState } from 'react';
@@ -142,7 +139,8 @@ export default function SearchDocumentFilter(props: Props) {
                 <div className="flex flex-1 flex-row">
                     <div className="flex flex-row items-center my-1">
                         {/* <label>功能:</label> */}
-                        <img src={'./intelligent.png'} className="w-6" />{':'}
+                        <img src={'./intelligent.png'} className="w-6" />
+                        {':'}
                         {count > 0 ? (
                             <>
                                 {!visibleChainFeature ? (
@@ -249,14 +247,15 @@ export default function SearchDocumentFilter(props: Props) {
                 {visibleChainFeature && (
                     <div className="flex flex-1 flex-row items-center">
                         <label className="flex-0 flex flex-row items-center">
-                            <img src={'./intelligent.png'} className="w-6" />{':'}
+                            <img src={'./intelligent.png'} className="w-6" />
+                            {':'}
                         </label>
                         <div className="w-full flex-1 mx-2 my-1">
                             <textarea
                                 className="w-full rounded-md min-h-[150px]"
                                 defaultValue={content}
                                 onChange={(e) => {
-                                    setContent(e.target.value)
+                                    setContent(e.target.value);
                                 }}
                             ></textarea>
                         </div>

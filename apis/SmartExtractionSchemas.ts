@@ -49,6 +49,35 @@ export default class SmartExtractionSchemas {
         return requestHeader;
     }
 
+    //?has_label=false  
+    // true就喺顯示有label嘅所有schema，false就是數據總表那些
+    getSmartExtractionSchemas(has_label = true) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas?has_label=${has_label}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    createSchemasByDocuemnts() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/documents`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    updateSchemasByDocuemntsById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/documents/${id}`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
     searchSmartExtractionSchemasDataById(id: string, page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,

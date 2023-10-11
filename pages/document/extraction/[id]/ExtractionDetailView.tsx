@@ -1,6 +1,6 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import _ from 'lodash';
+import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import ChainFeatureSelect from '../../../../components/feature/chatbot/ChainFeatureSelect';
@@ -18,6 +18,9 @@ interface ExtractionDetailViewProps {
     chain_features: [];
     updateTagFeatureHandler?: any;
     updateTagNameHandler?: any;
+    updateTagFunctionsHandler?: any;
+    deleteTagFunctionsHandler?: any;
+    tagTypes: any;
 }
 
 function ExtractionDetailView(props: ExtractionDetailViewProps) {
@@ -31,7 +34,10 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
         meta,
         chain_features,
         updateTagFeatureHandler,
-        updateTagNameHandler
+        updateTagNameHandler,
+        updateTagFunctionsHandler,
+        deleteTagFunctionsHandler,
+        tagTypes
     } = props;
     const router = useRouter();
 
@@ -45,10 +51,20 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
 
     useEffect(() => {
         if (label) {
+            console.log(label);
+
             set_chain_feature_ids(label?.meta?.chain_features || []);
             setName(label.name);
         }
     }, [label]);
+
+    const isContain = (value: any) => {
+        const index = _.find(label?.functions, function (func: any) {
+            return func.id == value;
+        });
+        return index;
+    };
+
 
     return (
         <>
@@ -65,13 +81,26 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                        <div className="max-w-4xl mx-auto text-center">
-                            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                                編輯標籤
-                            </h2>
-                        </div>
+                    <div className="flex items-center justify-between mb-4  ">
+                        <label
+                            className=" px-4 py-2 rounded-md cursor-pointer text-indigo-500"
+                            onClick={() => {
+                                Router.back();
+                            }}
+                        >
+                            {'<'} 返回
+                        </label>
+                        <label className="text-2xl font-bold">編輯標籤</label>
+                        <button
+                            className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={(e) => {
+                                updateTagNameHandler(label.id, name);
+                            }}
+                        >
+                            保存
+                        </button>
                     </div>
+
                     <div className="my-2">
                         <div className="my-2 flex flex-row items-center">
                             <label className="flex-0">名稱:</label>
@@ -83,15 +112,42 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 }}
                             />
                         </div>
-                        <div className="flex justify-end">
-                            <button
-                                className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={(e) => {
-                                    updateTagNameHandler(label.id, name);
-                                }}
-                            >
-                                保存
-                            </button>
+                        <div className='my-2 flex flex-row items-start'>
+                            <label>功能:</label>
+                            <div className="mx-2 flex flex-col justify-start items-start ">
+                                {tagTypes?.functions?.map(
+                                    (item: any, index: number) => {
+                                        return (
+                                            <div key={index}>
+                                                <input
+                                                    type={'checkbox'}
+                                                    name={item.title}
+                                                    defaultChecked={
+                                                        isContain(item.id)
+                                                    }
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            updateTagFunctionsHandler(
+                                                                label.id,
+                                                                item.id
+                                                            );
+                                                        } else {
+                                                            deleteTagFunctionsHandler(
+                                                                label.id,
+                                                                item.id
+                                                            );
+                                                        }
+                                                    }}
+                                                />
+                                                <label className="ml-2">
+                                                    {' '}
+                                                    {item.title}
+                                                </label>
+                                            </div>
+                                        );
+                                    }
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="flex float-row flex-wrap">
@@ -132,13 +188,13 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                     </div>
                     {currentTypeTab === 'extraction' && (
                         <div className="my-2">
-                            <div className="flex justify-end">
+                            {/* <div className="flex justify-end">
                                 <Link href={`/document/extraction/${router.query.id}/schema`}>
                                     <a className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                         新增Schema
                                     </a>
                                 </Link>
-                            </div>
+                            </div> */}
                             <SchemaList
                                 label={label}
                                 smart_extraction_schemas={smart_extraction_schemas}
@@ -148,7 +204,7 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                     )}
                     {currentTypeTab === 'chain_feature' && (
                         <div className="my-2">
-                            <div className="flex justify-end">
+                            {/* <div className="flex justify-end">
                                 <button
                                     className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={() => {
@@ -157,7 +213,7 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 >
                                     新增Chain featrue
                                 </button>
-                            </div>
+                            </div> */}
                             <ChainFeatureList
                                 label={label}
                                 chain_features={chain_features}

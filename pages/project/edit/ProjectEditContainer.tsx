@@ -76,7 +76,14 @@ export default function ProjectEditContainer() {
         }
         if (router && router.query.template) {
             const template = JSON.parse(router.query.template as string);
-            setProject(template);
+            if (template?.tasks && template.tasks.length > 0)
+                setProject({
+                    ...template,
+                    steps: template.tasks
+                });
+            else {
+                setProject(template);
+            }
         }
         getAllUsers();
         // if (router && router.query.select_id) {
