@@ -146,28 +146,28 @@ export default function SearchDocumentFilter(props: Props) {
                                 {!visibleChainFeature ? (
                                     <>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={openItems}
                                         >
                                             <PaperAirplaneIcon className="w-4 m-1 " />
-                                            <label className="text-sm">打開</label>
+                                            <label className="text-sm cursor-pointer">打開</label>
                                         </div>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={updateTag}
                                         >
                                             <TagIcon className="w-4 m-1 " />
-                                            <label className="text-sm">更新標籤</label>
+                                            <label className="text-sm cursor-pointer">更新標籤</label>
                                         </div>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md cursor-pointer"
                                             onClick={() => {
                                                 setVisibleChainFeature(true);
                                                 getChainFeature();
                                             }}
                                         >
                                             <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
-                                            <label className="text-sm">AI推薦功能</label>
+                                            <label className="text-sm cursor-pointer">AI推薦功能</label>
                                         </div>
                                     </>
                                 ) : (

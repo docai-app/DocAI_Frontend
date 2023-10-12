@@ -149,14 +149,10 @@ function ProjectView(props: ProjectViewProps) {
                     </div>
                     {currentTypeTab == 'tasks' && (
                         <div className="mt-0 rounded-lg">
-                            {/* <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
-                                <div>
-                                    <h1>待辦事項</h1>
-                                </div>
-                            </div> */}
                             <StepsListView
                                 tasks={tasks}
                                 setTasks={setTasks}
+                                users={users}
                                 showArrow={false}
                                 showProjectName={true}
                             />
@@ -178,7 +174,7 @@ function ProjectView(props: ProjectViewProps) {
             </div>
 
             <EditTaskModal
-                title={'新增待辦事項'}
+                title={currentTask ? "編輯任務" : "新增任務"}
                 users={users}
                 visable={mode != ''}
                 task={currentTask}

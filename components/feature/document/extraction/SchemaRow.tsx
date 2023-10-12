@@ -1,3 +1,4 @@
+import { TableCellsIcon } from '@heroicons/react/24/outline';
 import moment from 'moment';
 import Link from 'next/link';
 
@@ -11,7 +12,8 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
     return (
         <>
             <tr>
-                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td className="flex flex-row whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <TableCellsIcon className="mr-1 w-5 h-5" />
                     <Link href={`/document/smart_extraction_schema/${schema?.id}`}>
                         <a className="text-indigo-500">{schema?.name}</a>
                     </Link>

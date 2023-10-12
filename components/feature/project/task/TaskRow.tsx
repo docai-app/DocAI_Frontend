@@ -73,30 +73,32 @@ export default function TaskRow(props: TaskRowProps) {
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
-                <div className=" flex-row items-center">
-                    {task?.status == 'completed' && (
-                        <input
-                            type={'checkbox'}
-                            className=" w-4 h-4  mt-1 cursor-pointer "
-                            defaultChecked={true}
-                            disabled={true}
-                        />
-                    )}
-                    {task?.status == 'pending' && (
-                        <input
-                            type={'radio'}
-                            className=" w-4 h-4  mt-1 cursor-pointer "
-                            onClick={completeTask}
-                        />
-                    )}
-                    {(task?.status == '' || task?.status == null) && (
-                        <input
-                            type={'radio'}
-                            className=" w-4 h-4  mt-1 cursor-pointer "
-                            disabled={true}
-                        />
-                    )}
-                </div>
+                {visiableMore &&
+                    <div className=" flex-row items-center">
+                        {task?.status == 'completed' && (
+                            <input
+                                type={'checkbox'}
+                                className=" w-4 h-4  mt-1 cursor-pointer "
+                                defaultChecked={true}
+                                disabled={true}
+                            />
+                        )}
+                        {task?.status == 'pending' && (
+                            <input
+                                type={'radio'}
+                                className=" w-4 h-4  mt-1 cursor-pointer "
+                                onClick={completeTask}
+                            />
+                        )}
+                        {(task?.status == '' || task?.status == null) && (
+                            <input
+                                type={'radio'}
+                                className=" w-4 h-4  mt-1 cursor-pointer "
+                                disabled={true}
+                            />
+                        )}
+                    </div>
+                }
                 <div
                     ref={content}
                     className={

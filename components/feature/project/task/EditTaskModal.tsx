@@ -45,7 +45,7 @@ export default function EditTaskModal(props: any) {
     const validate = () => {
         if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
         if (!data.deadline) return setAlert({ title: '請輸入截止時間', type: 'info' });
-        if (!data.assignee_id) return setAlert({ title: '請選擇負責人', type: 'info' });
+        // if (!data.assignee_id) return setAlert({ title: '請選擇負責人', type: 'info' });
         setData({
             ...data,
             id: null,
@@ -175,7 +175,7 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                <span className="text-red-500">*</span>負責人:
+                                                <span className="text-red-500 hidden">*</span>負責人:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">

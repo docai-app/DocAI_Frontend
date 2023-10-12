@@ -12,10 +12,11 @@ interface ProjectDetailViewProps {
     setTasks: any;
     open: boolean;
     setOpen: any;
+    users: any;
 }
 
 function ProjectDetailView(props: ProjectDetailViewProps) {
-    const { project = null, tasks, setTasks, open, setOpen } = props;
+    const { project = null, tasks, setTasks, open, setOpen, users } = props;
     const route = useRouter();
     const [progress, setProgress] = useState(0);
 
@@ -54,7 +55,11 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                     <Progress value={progress} />
                 </header>
                 <div className="my-2">
-                    <StepsListView tasks={tasks} setTasks={setTasks} />
+                    <StepsListView
+                        tasks={tasks}
+                        setTasks={setTasks}
+                        users={users}
+                    />
                 </div>
             </div>
         </>

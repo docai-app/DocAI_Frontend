@@ -30,7 +30,7 @@ export default function ExtractionDetailContainer() {
     );
 
     const [{ data: getAllSmartExtractionSchemasData, loading }, getAllSmartExtractionSchemas] =
-        useAxios(apiSetting.SmartExtractionSchemas.getAllSmartExtractionSchemas('', page), {
+        useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
             manual: true
         });
 
@@ -59,7 +59,7 @@ export default function ExtractionDetailContainer() {
     useEffect(() => {
         if (router && router.query.id) {
             getAllSmartExtractionSchemas({
-                ...apiSetting.SmartExtractionSchemas.getAllSmartExtractionSchemas(
+                ...apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
                     router.query.id as string,
                     page
                 )

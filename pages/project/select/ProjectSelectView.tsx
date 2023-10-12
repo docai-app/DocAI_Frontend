@@ -72,9 +72,9 @@ Please observe the user's objective({{Objectives}}) and start date({{Start Date}
 
     useEffect(() => {
         setOpen(getLLMDataLoading);
-        return () => {
-            setOpen(false);
-        };
+        // return () => {
+        //     setOpen(false);
+        // };
     }, [getLLMDataLoading]);
 
     const handleClickAdd = () => {
@@ -181,7 +181,7 @@ Please observe the user's objective({{Objectives}}) and start date({{Start Date}
                                 <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
                                     <label className="flex flex-1">{project?.name}</label>
                                     <a
-                                        href={`/project/${project?.id}`}
+                                        href={`/project/${project?.id}?from=template`}
                                         className="text-blue-500 underline"
                                     >
                                         查看

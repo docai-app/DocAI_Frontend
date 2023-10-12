@@ -28,13 +28,13 @@ export default function ProjectContainer() {
         showAllItems
     ] = useAxios({}, { manual: true });
 
-    const [{ data: getAllWorkflowData, loading }, getAllWorkflow] = useAxios(
+    const [{ data: getAllWorkflowData, loading: getAllWorkflowDataLoading }, getAllWorkflow] = useAxios(
         apiSetting.ProjectWorkflow.getAllWorkflow(page),
         { manual: true }
     );
 
     const [
-        { data: getAllProjectWorkflowStepData, loading: getAllProjectWorkflowStepLoading },
+        { data: getAllProjectWorkflowStepData, loading },
         getAllProjectWorkflowStep
     ] = useAxios(apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(page), { manual: true });
 
@@ -122,18 +122,24 @@ export default function ProjectContainer() {
                     description: description,
                     assignee_id: assignee_id
                 }
-            });
+            }).then((res: any) => {
+                if (res.data && res.data.success) {
+                    setTasks((arr: any) => [...arr, data]);
+                } else {
+                    console.log('error', res.data);
+                    setAlert({ 'title': '添加失敗', type: 'error' })
+
+                }
+            })
         },
         [addProjectWorkflowStepById]
     );
-    useEffect(() => {
-        console.log(addProjectWorkflowStepByIdData);
-        if (addProjectWorkflowStepByIdData && addProjectWorkflowStepByIdData.success) {
-
-
-            setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.project_workflow_step]);
-        }
-    }, [addProjectWorkflowStepByIdData]);
+    // useEffect(() => {
+    //     console.log(addProjectWorkflowStepByIdData);
+    //     if (addProjectWorkflowStepByIdData && addProjectWorkflowStepByIdData.success) {
+    //         setTasks((arr: any) => [...arr, addProjectWorkflowStepByIdData.project_workflow_step]);
+    //     }
+    // }, [addProjectWorkflowStepByIdData]);
 
     return (
         <ProjectView
