@@ -48,7 +48,7 @@ export default function ChainFeatureList(props: Props) {
                                     <a
                                         className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  "
                                         onClick={() => {
-                                            setChainFeatureIsOpen(true)
+                                            setChainFeatureIsOpen(true);
                                         }}
                                     >
                                         + Chain Feature

@@ -1,5 +1,11 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, CircleStackIcon, MagnifyingGlassIcon, PlusIcon, TableCellsIcon } from '@heroicons/react/24/outline';
+import {
+    ChevronDownIcon,
+    CircleStackIcon,
+    MagnifyingGlassIcon,
+    PlusIcon,
+    TableCellsIcon
+} from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -34,7 +40,7 @@ function SchemasView(props: SchemasViewProps) {
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
-    const [currectSchema, setCurrectShema] = useState(null)
+    const [currectSchema, setCurrectShema] = useState(null);
     return (
         <>
             <SingleActionModel
@@ -78,8 +84,9 @@ function SchemasView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
@@ -93,7 +100,6 @@ function SchemasView(props: SchemasViewProps) {
                                 </Menu.Items>
                             </Transition>
                         </Menu>
-
                     </div>
                     <div className="flex-1 bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5 relative">
                         <div className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full">
@@ -112,7 +118,6 @@ function SchemasView(props: SchemasViewProps) {
                             </div>
                         </div>
                         <div className="w-full">
-
                             <InfiniteScroll
                                 dataLength={allSchemas?.length} //This is important field to render the next data
                                 next={showAllSchemasHandler}
@@ -126,12 +131,9 @@ function SchemasView(props: SchemasViewProps) {
                                     </p>
                                 }
                                 endMessage={
-                                    <p className="p-4 text-gray-300 text-center">
-                                        沒有更多資料
-                                    </p>
+                                    <p className="p-4 text-gray-300 text-center">沒有更多資料</p>
                                 }
                             >
-
                                 {allSchemas?.map((schema: any, index: number) => {
                                     return (
                                         <SchemaTableRow
@@ -144,7 +146,6 @@ function SchemasView(props: SchemasViewProps) {
                                     );
                                 })}
                             </InfiniteScroll>
-
                         </div>
                     </div>
 

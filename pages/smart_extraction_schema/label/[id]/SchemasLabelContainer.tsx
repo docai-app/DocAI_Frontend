@@ -11,33 +11,34 @@ export default function SchemasLabelContainer() {
     const router = useRouter();
     const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
-    const [allSchemas, setAllSchemas] = useState<any>([])
+    const [allSchemas, setAllSchemas] = useState<any>([]);
     const [modalDescription, setModalDescription] = useState({});
-    const [meta, setMeta] = useState()
-    const [page, setPage] = useState(1)
+    const [meta, setMeta] = useState();
+    const [page, setPage] = useState(1);
     const [users, setUsers] = useState<any>([]);
 
-    const [{ data: getSmartExtractionSchemasByLabelData, loading }, getSmartExtractionSchemasByLabel] =
-        useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
-            manual: true
-        });
+    const [
+        { data: getSmartExtractionSchemasByLabelData, loading },
+        getSmartExtractionSchemasByLabel
+    ] = useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
+        manual: true
+    });
     const [{ data: getAllUsersData }, getAllUsers] = useAxios(apiSetting.User.getAllUsers(), {
         manual: true
     });
 
     useEffect(() => {
-        setOpen(loading)
+        setOpen(loading);
         if (loading)
             setModalDescription({
                 title: '進行中......',
                 content: '正在獲取資料'
             });
-    }, [loading])
-
+    }, [loading]);
 
     useEffect(() => {
         getAllUsers();
-    }, [router])
+    }, [router]);
 
     useEffect(() => {
         if (getAllUsersData && getAllUsersData.success) {
@@ -46,8 +47,13 @@ export default function SchemasLabelContainer() {
     }, [getAllUsersData]);
 
     useEffect(() => {
-        getSmartExtractionSchemasByLabel(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(router.query.id as string, page))
-    }, [router, page])
+        getSmartExtractionSchemasByLabel(
+            apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
+                router.query.id as string,
+                page
+            )
+        );
+    }, [router, page]);
 
     const showAllSchemasHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -55,14 +61,16 @@ export default function SchemasLabelContainer() {
 
     useEffect(() => {
         if (getSmartExtractionSchemasByLabelData && getSmartExtractionSchemasByLabelData.success) {
-            setMeta(getSmartExtractionSchemasByLabelData.meta)
+            setMeta(getSmartExtractionSchemasByLabelData.meta);
             if (page == 1) {
                 setAllSchemas(getSmartExtractionSchemasByLabelData.smart_extraction_schema);
             } else {
-                setAllSchemas(allSchemas.concat(getSmartExtractionSchemasByLabelData.smart_extraction_schema));
+                setAllSchemas(
+                    allSchemas.concat(getSmartExtractionSchemasByLabelData.smart_extraction_schema)
+                );
             }
         }
-    }, [getSmartExtractionSchemasByLabelData])
+    }, [getSmartExtractionSchemasByLabelData]);
 
     return (
         <SchemasLabelView

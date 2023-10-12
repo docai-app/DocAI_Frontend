@@ -82,9 +82,9 @@ function SchemaView(props: SchemaViewProps) {
                             確認
                         </button>
                     </div>
-                    <div className='my-2 flex flex-row items-center'>
-                        <label className='text-md font-bold'>來源:</label>
-                        {label &&
+                    <div className="my-2 flex flex-row items-center">
+                        <label className="text-md font-bold">來源:</label>
+                        {label && (
                             <button
                                 className="mx-2 flex flex-row items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 onClick={() => {
@@ -105,10 +105,10 @@ function SchemaView(props: SchemaViewProps) {
                                     {label?.name}({label?.taggings_count || 0})
                                 </label>
                             </button>
-                        }
+                        )}
                     </div>
-                    <div className='my-2'>
-                        <label className='text-md font-bold'>目的地:</label>
+                    <div className="my-2">
+                        <label className="text-md font-bold">目的地:</label>
                     </div>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">{extractSchema?.description}</p> */}
                     <div className="my-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -156,7 +156,7 @@ function SchemaView(props: SchemaViewProps) {
                         <div className="col-span-full">
                             <div className="inline-block min-w-full py-0 align-middle  ">
                                 <table className="min-w-full divide-y divide-gray-300">
-                                    <thead className=' border-b'>
+                                    <thead className=" border-b">
                                         <tr>
                                             <th
                                                 scope="col"

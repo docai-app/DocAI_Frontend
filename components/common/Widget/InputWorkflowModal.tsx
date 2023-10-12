@@ -51,9 +51,7 @@ export default function InputWorkflowModal(props: any) {
                             </div>
                             <div className="w-full mt-4">
                                 <div className="w-full">
-                                    <label className="text-sm text-left">
-                                        {'您的目標'}:
-                                    </label>
+                                    <label className="text-sm text-left">{'您的目標'}:</label>
                                     <input
                                         type={'text'}
                                         name="signature"
@@ -70,9 +68,7 @@ export default function InputWorkflowModal(props: any) {
                             </div>
                             <div className="w-full mt-4">
                                 <div className="w-full">
-                                    <label className="text-sm text-left">
-                                        {'開始日期'}:
-                                    </label>
+                                    <label className="text-sm text-left">{'開始日期'}:</label>
                                     <input
                                         type={'date'}
                                         className="w-3/4 ml-4 rounded-md"
@@ -110,7 +106,7 @@ export default function InputWorkflowModal(props: any) {
                         </div>
                     </Transition.Child>
                 </div>
-            </Dialog >
-        </Transition.Root >
+            </Dialog>
+        </Transition.Root>
     );
 }

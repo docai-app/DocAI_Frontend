@@ -1,8 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import {
-    EllipsisVerticalIcon, PencilSquareIcon,
-    TrashIcon
-} from '@heroicons/react/20/solid';
+import { EllipsisVerticalIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/20/solid';
 import { Fragment } from 'react';
 
 function classNames(...classes: any) {

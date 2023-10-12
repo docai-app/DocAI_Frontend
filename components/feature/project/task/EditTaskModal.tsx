@@ -64,7 +64,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -175,7 +175,8 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                <span className="text-red-500 hidden">*</span>負責人:
+                                                <span className="text-red-500 hidden">*</span>
+                                                負責人:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">

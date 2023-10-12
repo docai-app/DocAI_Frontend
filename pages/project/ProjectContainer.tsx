@@ -28,15 +28,13 @@ export default function ProjectContainer() {
         showAllItems
     ] = useAxios({}, { manual: true });
 
-    const [{ data: getAllWorkflowData, loading: getAllWorkflowDataLoading }, getAllWorkflow] = useAxios(
-        apiSetting.ProjectWorkflow.getAllWorkflow(page),
+    const [{ data: getAllWorkflowData, loading: getAllWorkflowDataLoading }, getAllWorkflow] =
+        useAxios(apiSetting.ProjectWorkflow.getAllWorkflow(page), { manual: true });
+
+    const [{ data: getAllProjectWorkflowStepData, loading }, getAllProjectWorkflowStep] = useAxios(
+        apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(page),
         { manual: true }
     );
-
-    const [
-        { data: getAllProjectWorkflowStepData, loading },
-        getAllProjectWorkflowStep
-    ] = useAxios(apiSetting.ProjectWorkflow.getAllProjectWorkflowStep(page), { manual: true });
 
     const [
         { data: addProjectWorkflowStepByIdData, loading: addProjectWorkflowStepByIdLoading },
@@ -58,7 +56,7 @@ export default function ProjectContainer() {
                 status: 'pending'
             }
         });
-        getAllUsers()
+        getAllUsers();
     }, [router]);
 
     useEffect(() => {
@@ -127,10 +125,9 @@ export default function ProjectContainer() {
                     setTasks((arr: any) => [...arr, data]);
                 } else {
                     console.log('error', res.data);
-                    setAlert({ 'title': '添加失敗', type: 'error' })
-
+                    setAlert({ title: '添加失敗', type: 'error' });
                 }
-            })
+            });
         },
         [addProjectWorkflowStepById]
     );

@@ -55,7 +55,6 @@ export default function ExtractionDetailContainer() {
     const [{ data: deleteTagFunctionsData, error: deleteTagFunctionsError }, deleteTagFunctions] =
         useAxios(apiSetting.Tag.deleteTagFunctions(), { manual: true });
 
-
     useEffect(() => {
         if (router && router.query.id) {
             getAllSmartExtractionSchemas({
@@ -67,11 +66,10 @@ export default function ExtractionDetailContainer() {
             getTagById({
                 ...apiSetting.Tag.getTagById(router.query.id as string)
             });
-            getAllTagFunctions()
+            getAllTagFunctions();
             getAllChainFeatureDatas().then((datas) => {
                 set_chain_features(datas);
             });
-
         }
     }, [router]);
 
@@ -93,7 +91,7 @@ export default function ExtractionDetailContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const updateTagFeatureHandler = useCallback(
         async (tag_id: string, chain_feature_ids: []) => {

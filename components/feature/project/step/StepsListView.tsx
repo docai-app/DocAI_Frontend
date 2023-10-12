@@ -89,7 +89,7 @@ export default function StepsListView(props: StepsListViewProps) {
     );
 
     const updateTask = (task: any, position: number) => {
-        setMode('edit')
+        setMode('edit');
         setCurrentTask(task);
         setCurrectPosition(position);
     };
@@ -111,15 +111,10 @@ export default function StepsListView(props: StepsListViewProps) {
     return (
         <>
             <div className="flex flex-row w-full">
-                <div
-                    className={` h-fit   rounded-md w-full`}
-                >
+                <div className={` h-fit   rounded-md w-full`}>
                     {tasks?.map((task: any, index: number) => {
                         return (
-                            <div
-                                key={index}
-                                className="flex flex-col justify-center items-center"
-                            >
+                            <div key={index} className="flex flex-col justify-center items-center">
                                 <TaskRow
                                     task={task}
                                     users={users}
@@ -129,7 +124,7 @@ export default function StepsListView(props: StepsListViewProps) {
                                         updateLocalData();
                                         updateProjectStepStatusHandler(task);
                                     }}
-                                    visiableMore={"template" != router.query.from}
+                                    visiableMore={'template' != router.query.from}
                                     showProjectName={showProjectName}
                                     updateTask={() => updateTask(task, index)}
                                     removeTask={() => removeTask(task, index)}
@@ -147,7 +142,7 @@ export default function StepsListView(props: StepsListViewProps) {
                     })}
                 </div>
                 <EditTaskModal
-                    title={currentTask ? "編輯任務" : "新增任務"}
+                    title={currentTask ? '編輯任務' : '新增任務'}
                     users={users}
                     visable={mode != ''}
                     task={currentTask}

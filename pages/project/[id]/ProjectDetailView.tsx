@@ -55,11 +55,7 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                     <Progress value={progress} />
                 </header>
                 <div className="my-2">
-                    <StepsListView
-                        tasks={tasks}
-                        setTasks={setTasks}
-                        users={users}
-                    />
+                    <StepsListView tasks={tasks} setTasks={setTasks} users={users} />
                 </div>
             </div>
         </>

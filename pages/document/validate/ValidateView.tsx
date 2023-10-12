@@ -82,7 +82,10 @@ function ValidateView(props: ValidateViewProps) {
                                         <div className="justify-start flex flex-col  ">
                                             {formSchema?.map((filter: any, index: number) => {
                                                 return (
-                                                    <div className="m-2 flex flex-col items-center" key={index}>
+                                                    <div
+                                                        className="m-2 flex flex-col items-center"
+                                                        key={index}
+                                                    >
                                                         <label className="w-full font-bold">
                                                             {filter?.query}:
                                                         </label>

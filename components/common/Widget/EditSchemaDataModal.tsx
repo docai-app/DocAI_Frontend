@@ -124,8 +124,9 @@ export default function EditSchemaDataModal(props: any) {
                                     <label className="text-sm w-1/4"> {''}</label>
                                     <div className="w-3/4 ml-4 ">
                                         <label
-                                            className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'
-                                                }`}
+                                            className={`flex justify-start text-sm ${
+                                                validate ? 'text-gray-400 ' : 'text-red-500'
+                                            }`}
                                         >
                                             *只可以輸入英文字母,不可以輸入中文,除了底線"_"外
                                         </label>

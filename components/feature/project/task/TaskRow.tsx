@@ -73,7 +73,7 @@ export default function TaskRow(props: TaskRowProps) {
     return (
         <>
             <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
-                {visiableMore &&
+                {visiableMore && (
                     <div className=" flex-row items-center">
                         {task?.status == 'completed' && (
                             <input
@@ -98,7 +98,7 @@ export default function TaskRow(props: TaskRowProps) {
                             />
                         )}
                     </div>
-                }
+                )}
                 <div
                     ref={content}
                     className={

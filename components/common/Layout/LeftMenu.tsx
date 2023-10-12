@@ -3,7 +3,17 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
     ArrowRightOnRectangleIcon,
-    Bars3Icon, ChartBarSquareIcon, ChatBubbleOvalLeftEllipsisIcon, ClipboardDocumentListIcon, CloudArrowUpIcon, CubeIcon, FolderIcon, MagnifyingGlassIcon, ShieldCheckIcon, TableCellsIcon, XMarkIcon
+    Bars3Icon,
+    ChartBarSquareIcon,
+    ChatBubbleOvalLeftEllipsisIcon,
+    ClipboardDocumentListIcon,
+    CloudArrowUpIcon,
+    CubeIcon,
+    FolderIcon,
+    MagnifyingGlassIcon,
+    ShieldCheckIcon,
+    TableCellsIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';

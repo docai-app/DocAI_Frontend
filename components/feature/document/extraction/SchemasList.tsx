@@ -48,9 +48,7 @@ export default function SchemaList(props: Props) {
                             >
                                 <div className="flex justify-end">
                                     <Link href={`/document/extraction/${label?.id}/schema`}>
-                                        <a
-                                            className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  "
-                                        >
+                                        <a className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  ">
                                             + Schema
                                         </a>
                                     </Link>

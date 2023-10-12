@@ -23,8 +23,8 @@ export default function ProjectSelectContainer() {
     useEffect(() => {
         setOpen(loading);
         return () => {
-            setOpen(false)
-        }
+            setOpen(false);
+        };
     }, [loading]);
 
     useEffect(() => {
@@ -39,9 +39,7 @@ export default function ProjectSelectContainer() {
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
             setProjects(getAllWorkflowData.project_workflows);
-
         } else if (getAllWorkflowData && getAllWorkflowData.success) {
-
         }
     }, [getAllWorkflowData]);
 

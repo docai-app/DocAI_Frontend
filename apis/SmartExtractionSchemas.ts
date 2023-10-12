@@ -49,7 +49,7 @@ export default class SmartExtractionSchemas {
         return requestHeader;
     }
 
-    //?has_label=false  
+    //?has_label=false
     // true就喺顯示有label嘅所有schema，false就是數據總表那些
     getSmartExtractionSchemas(has_label = '', page = 1) {
         const requestHeader: AxiosRequestConfig = {
