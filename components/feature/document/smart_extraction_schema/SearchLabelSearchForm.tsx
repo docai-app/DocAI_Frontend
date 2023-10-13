@@ -41,8 +41,8 @@ export default function SearchLabelSearchForm(props: Props) {
 
     useEffect(() => {
         const _tags = _.filter(props?.getAllLabelsData?.tags, function (tag: any) {
-            return tag.smart_extraction_schemas_count > 0
-        })
+            return tag.smart_extraction_schemas_count > 0;
+        });
         if (visible && _tags?.length > 10) {
             setTags(_tags.slice(0, 10));
         } else {
@@ -131,7 +131,7 @@ export default function SearchLabelSearchForm(props: Props) {
                         </div>
                     </div>
                 )}
-                {getAllLabelsData && !showHasLabelByFalse && (
+                {!label && !showHasLabelByFalse && (
                     <div className="w-full flex flex-col ">
                         <div className="flex flex-row justify-between  pr-10">
                             <label className="text-md ">標籤:</label>
@@ -140,55 +140,57 @@ export default function SearchLabelSearchForm(props: Props) {
                                 <a className="text-md  underline text-blue-500">標籤管理</a>
                             </Link>
                         </div>
-                        <div className="flex flex-1 flex-row flex-wrap items-center break-all">
-                            <button
-                                className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                                onClick={() => {
-                                    setShema(null)
-                                    setShowHasLabelByFalse(true);
-                                    showHasLabelSchemasHandler(false);
-                                }}
-                            >
-                                <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
-                                <label className=" cursor-pointer text-xs sm:text-sm">
-                                    數據總表
-                                </label>
-                            </button>
 
-                            {tags?.map((label: any, index: number) => {
-                                return (
-                                    <div key={index}>
-                                        <button
-                                            className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                                            onClick={() => search(label)}
-                                        >
-                                            <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
-                                            <label className=" cursor-pointer text-xs sm:text-sm">
-                                                {label?.name}({label.smart_extraction_schemas_count || 0})
-                                            </label>
-                                        </button>
-                                    </div>
-                                );
-                            })}
-                            {tags != null && tags.length > 10 && (
-                                <div
-                                    className=" cursor-pointer"
+                        {tags.length == 0 ? (
+                            <div className="animate-pulse flex flex-row  items-center gap-2">
+                                <div className="h-4 w-32 bg-gray-400 rounded"></div>
+                            </div>
+                        ) :
+                            <div className="flex flex-1 flex-row flex-wrap items-center break-all">
+                                <button
+                                    className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                                     onClick={() => {
-                                        setVisible(!visible);
+                                        setShema(null);
+                                        setShowHasLabelByFalse(true);
+                                        showHasLabelSchemasHandler(false);
                                     }}
                                 >
-                                    <a className="text-sm sm:text-md  underline text-blue-500">
-                                        {visible ? '查看更多' : '隱藏'}
-                                    </a>
-                                </div>
-                            )}
+                                    <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
+                                    <label className=" cursor-pointer text-xs sm:text-sm">
+                                        數據總表
+                                    </label>
+                                </button>
 
-                            {tags == null ? (
-                                <div className="animate-pulse flex flex-row justify-center items-center gap-2">
-                                    <div className="h-4 w-32 bg-gray-400 rounded"></div>
-                                </div>
-                            ) : null}
-                        </div>
+                                {tags?.map((label: any, index: number) => {
+                                    return (
+                                        <div key={index}>
+                                            <button
+                                                className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                                                onClick={() => search(label)}
+                                            >
+                                                <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
+                                                <label className=" cursor-pointer text-xs sm:text-sm">
+                                                    {label?.name}(
+                                                    {label.smart_extraction_schemas_count || 0})
+                                                </label>
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                                {tags != null && tags.length > 10 && (
+                                    <div
+                                        className=" cursor-pointer"
+                                        onClick={() => {
+                                            setVisible(!visible);
+                                        }}
+                                    >
+                                        <a className="text-sm sm:text-md  underline text-blue-500">
+                                            {visible ? '查看更多' : '隱藏'}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        }
                     </div>
                 )}
                 <div className="flex flex-1 flex-row">

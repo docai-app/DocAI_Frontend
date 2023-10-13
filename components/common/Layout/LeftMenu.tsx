@@ -7,7 +7,11 @@ import {
     ChartBarSquareIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     ClipboardDocumentListIcon,
-    CloudArrowUpIcon, CubeIcon, FolderIcon, ShieldCheckIcon, XMarkIcon
+    CloudArrowUpIcon,
+    CubeIcon,
+    FolderIcon,
+    ShieldCheckIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -52,7 +56,9 @@ export default function LeftMenu(props: any) {
             name: '數據分析',
             href: '/smart_extraction_schema',
             icon: ChartBarSquareIcon,
-            current: router.pathname.indexOf('/smart_extraction_schema') != -1 || router.pathname.indexOf('/search') != -1,
+            current:
+                router.pathname.indexOf('/smart_extraction_schema') != -1 ||
+                router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
         },

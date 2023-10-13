@@ -7,7 +7,7 @@ const apiSetting = new Api();
 
 export default function ShopContainer() {
     const router = useRouter();
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
     return (
         <ShopView
             {...{

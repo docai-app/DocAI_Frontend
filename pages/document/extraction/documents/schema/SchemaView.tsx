@@ -83,9 +83,7 @@ function SchemaView(props: SchemaViewProps) {
                         <label className="text-md font-bold">來源:</label>
                         <a
                             className="mx-2 underline cursor-pointer block rounded-md  text-center   font-semibold text-indigo-500  hover:text-indigo-700  "
-                            onClick={() => {
-
-                            }}
+                            onClick={() => {}}
                         >
                             + 新增
                         </a>

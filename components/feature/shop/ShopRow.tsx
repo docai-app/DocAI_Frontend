@@ -1,19 +1,15 @@
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import useAlert from "../../../hooks/useAlert";
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import useAlert from '../../../hooks/useAlert';
 
 interface Props {
     title: string;
     description: string;
-    price: string
+    price: string;
 }
 
 export default function ShopRow(props: Props) {
-    const {
-        title,
-        description,
-        price
-    } = props
-    const { setAlert } = useAlert()
+    const { title, description, price } = props;
+    const { setAlert } = useAlert();
     return (
         <>
             <div className="flex flex-col px-4 py-2 rounded-md shadow">
@@ -29,11 +25,11 @@ export default function ShopRow(props: Props) {
                             setAlert({
                                 title: '新功能開發中，敬請期待！',
                                 type: 'info'
-                            })
+                            });
                         }}
                     />
                 </div>
             </div>
         </>
-    )
+    );
 }

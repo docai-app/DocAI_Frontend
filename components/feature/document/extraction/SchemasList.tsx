@@ -48,7 +48,13 @@ export default function SchemaList(props: Props) {
                                 className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                             >
                                 <div className="flex justify-end">
-                                    <Link href={has_label ? `/document/extraction/${label?.id}/schema` : `/document/extraction/documents/schema`}>
+                                    <Link
+                                        href={
+                                            has_label
+                                                ? `/document/extraction/${label?.id}/schema`
+                                                : `/document/extraction/documents/schema`
+                                        }
+                                    >
                                         <a className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  ">
                                             + Schema
                                         </a>
@@ -59,19 +65,17 @@ export default function SchemaList(props: Props) {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {smart_extraction_schemas?.map((schema: any, index: number) => {
-                            return (
-                                <SchemaRow
-                                    key={index}
-                                    schema={schema}
-                                    has_label={has_label}
-                                />)
-                                ;
+                            return <SchemaRow key={index} schema={schema} has_label={has_label} />;
                         })}
                     </tbody>
                 </table>
                 <PaginationView
                     meta={meta}
-                    pathname={has_label ? `/document/extraction/${label?.id}` : `/document/extraction/documents`}
+                    pathname={
+                        has_label
+                            ? `/document/extraction/${label?.id}`
+                            : `/document/extraction/documents`
+                    }
                     params={null}
                 />
             </div>

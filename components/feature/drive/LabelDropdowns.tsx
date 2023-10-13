@@ -58,7 +58,7 @@ export default function LabelDropdowns(props: DropdownsProps) {
                                 </a>
                             )}
                         </Menu.Item>
-                        {visibleFromFilling &&
+                        {visibleFromFilling && (
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
@@ -76,7 +76,7 @@ export default function LabelDropdowns(props: DropdownsProps) {
                                     </a>
                                 )}
                             </Menu.Item>
-                        }
+                        )}
                         <Menu.Item>
                             {({ active }) => (
                                 <a

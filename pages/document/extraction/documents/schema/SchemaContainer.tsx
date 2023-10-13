@@ -29,10 +29,12 @@ export default function SchemaContainer() {
         manual: true
     });
 
-    const [{ data: createSchemasByDocuemntsData, loading }, createSchemasByDocuemnts] =
-        useAxios(apiSetting.SmartExtractionSchemas.createSchemasByDocuemnts(), {
+    const [{ data: createSchemasByDocuemntsData, loading }, createSchemasByDocuemnts] = useAxios(
+        apiSetting.SmartExtractionSchemas.createSchemasByDocuemnts(),
+        {
             manual: true
-        });
+        }
+    );
 
     const [
         { data: updateSchemasByDocuemntsByIdData, loading: updateLoading },
@@ -76,10 +78,7 @@ export default function SchemaContainer() {
     useEffect(() => {
         if (updateSchemasByDocuemntsByIdData && updateSchemasByDocuemntsByIdData.success) {
             setAlert({ title: '保存成功', type: 'success' });
-        } else if (
-            updateSchemasByDocuemntsByIdData &&
-            !updateSchemasByDocuemntsByIdData.success
-        ) {
+        } else if (updateSchemasByDocuemntsByIdData && !updateSchemasByDocuemntsByIdData.success) {
             setAlert({ title: updateSchemasByDocuemntsByIdData.message, type: 'error' });
             console.log(updateSchemasByDocuemntsByIdData);
         }

@@ -12,13 +12,7 @@ interface ViewProps {
 }
 
 function ExtractionDocuementsView(props: ViewProps) {
-    const {
-        open,
-        setOpen,
-        label,
-        smart_extraction_schemas,
-        meta,
-    } = props;
+    const { open, setOpen, label, smart_extraction_schemas, meta } = props;
     const router = useRouter();
     return (
         <>

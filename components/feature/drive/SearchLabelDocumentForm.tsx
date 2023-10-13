@@ -50,7 +50,9 @@ export default function SearchLabelDocumentForm(props: any) {
                                             }}
                                             visibleFromFilling={tag?.form_schema}
                                             from_filling={() => {
-                                                Router.push({ pathname: `/new/form/schema/${tag?.form_schema?.id}` })
+                                                Router.push({
+                                                    pathname: `/new/form/schema/${tag?.form_schema?.id}`
+                                                });
                                             }}
                                             approval={() => {
                                                 setAlert({
