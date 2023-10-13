@@ -145,7 +145,7 @@ export default function SearchLabelSearchForm(props: Props) {
                             <div className="animate-pulse flex flex-row  items-center gap-2">
                                 <div className="h-4 w-32 bg-gray-400 rounded"></div>
                             </div>
-                        ) :
+                        ) : (
                             <div className="flex flex-1 flex-row flex-wrap items-center break-all">
                                 <button
                                     className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
@@ -190,7 +190,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                     </div>
                                 )}
                             </div>
-                        }
+                        )}
                     </div>
                 )}
                 <div className="flex flex-1 flex-row">

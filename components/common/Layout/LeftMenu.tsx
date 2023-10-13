@@ -11,7 +11,10 @@ import {
     CubeIcon,
     FolderIcon,
     ShieldCheckIcon,
-    XMarkIcon
+    XMarkIcon,
+    TableCellsIcon,
+    MagnifyingGlassIcon,
+    ShoppingCartIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -53,6 +56,14 @@ export default function LeftMenu(props: any) {
         //     iconBackground: 'bg-violet-50'
         // },
         {
+            name: '文件審批',
+            href: '/form/approval',
+            icon: ShieldCheckIcon,
+            current: router.pathname.indexOf('/approval') != -1,
+            iconForeground: 'text-blue-700',
+            iconBackground: 'bg-blue-50'
+        },
+        {
             name: '數據分析',
             href: '/smart_extraction_schema',
             icon: ChartBarSquareIcon,
@@ -61,14 +72,6 @@ export default function LeftMenu(props: any) {
                 router.pathname.indexOf('/search') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
-        },
-        {
-            name: '文件審批',
-            href: '/form/approval',
-            icon: ShieldCheckIcon,
-            current: router.pathname.indexOf('/approval') != -1,
-            iconForeground: 'text-blue-700',
-            iconBackground: 'bg-blue-50'
         },
         // {
         //     name: '文檔數據提取',
@@ -86,34 +89,34 @@ export default function LeftMenu(props: any) {
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-indigo-50'
         },
-        // {
-        //     name: '數據搜尋',
-        //     href: '/search/form/schema',
-        //     icon: MagnifyingGlassIcon,
-        //     current: router.pathname.indexOf('/search') != -1,
-        //     iconForeground: 'text-purple-700',
-        //     iconBackground: 'bg-purple-50'
-        // },
-        // {
-        //     name: '填寫表格',
-        //     href: '/new/form/schema',
-        //     icon: TableCellsIcon,
-        //     current: router.pathname.indexOf('/new') != -1,
-        //     iconForeground: 'text-red-700',
-        //     iconBackground: 'bg-red-50'
-        // },
-        // {
-        //     name: '資源應用程序',
-        //     href: '/miniapp',
-        //     icon: CubeIcon,
-        //     current: router.pathname.indexOf('/miniapp') != -1,
-        //     iconForeground: 'text-indigo-700',
-        //     iconBackground: 'bg-red-50'
-        // },
+        {
+            name: '數據搜尋',
+            href: '/search/form/schema',
+            icon: MagnifyingGlassIcon,
+            current: router.pathname.indexOf('/search') != -1,
+            iconForeground: 'text-purple-700',
+            iconBackground: 'bg-purple-50'
+        },
+        {
+            name: '填寫表格',
+            href: '/new/form/schema',
+            icon: TableCellsIcon,
+            current: router.pathname.indexOf('/new') != -1,
+            iconForeground: 'text-red-700',
+            iconBackground: 'bg-red-50'
+        },
+        {
+            name: '資源應用程序',
+            href: '/miniapp',
+            icon: CubeIcon,
+            current: router.pathname.indexOf('/miniapp') != -1,
+            iconForeground: 'text-indigo-700',
+            iconBackground: 'bg-red-50'
+        },
         {
             name: '商城',
             href: '/shop',
-            icon: CubeIcon,
+            icon: ShoppingCartIcon,
             current: router.pathname.indexOf('/shop') != -1,
             iconForeground: 'text-indigo-700',
             iconBackground: 'bg-red-50'
