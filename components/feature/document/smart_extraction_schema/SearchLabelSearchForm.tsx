@@ -17,6 +17,7 @@ import SingleActionModel from '../../../common/Widget/SingleActionModel';
 interface Props {
     label?: any;
     schema?: any;
+    setShema?: any;
     getAllLabelsData?: any;
     search?: any;
     showHasLabelSchemasHandler?: any;
@@ -25,7 +26,7 @@ interface Props {
 const apiSetting = new Api();
 
 export default function SearchLabelSearchForm(props: Props) {
-    const { label, schema, getAllLabelsData, search, showHasLabelSchemasHandler } = props;
+    const { label, schema, setShema, getAllLabelsData, search, showHasLabelSchemasHandler } = props;
     const { setAlert } = useAlert();
     const [visible, setVisible] = useState(true);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
@@ -139,6 +140,7 @@ export default function SearchLabelSearchForm(props: Props) {
                             <button
                                 className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
                                 onClick={() => {
+                                    setShema(null)
                                     setShowHasLabelByFalse(true);
                                     showHasLabelSchemasHandler(false);
                                 }}

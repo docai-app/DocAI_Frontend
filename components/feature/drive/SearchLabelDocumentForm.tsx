@@ -1,5 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import Link from 'next/link';
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import useAlert from '../../../hooks/useAlert';
 import LabelDropdowns from './LabelDropdowns';
@@ -47,11 +48,9 @@ export default function SearchLabelDocumentForm(props: any) {
                                                     endDate
                                                 );
                                             }}
+                                            visibleFromFilling={tag?.form_schema}
                                             from_filling={() => {
-                                                setAlert({
-                                                    title: '新功能開發中，敬請期待！',
-                                                    type: 'info'
-                                                });
+                                                Router.push({ pathname: `/new/form/schema/${tag?.form_schema?.id}` })
                                             }}
                                             approval={() => {
                                                 setAlert({

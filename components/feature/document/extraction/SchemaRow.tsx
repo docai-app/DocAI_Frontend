@@ -4,10 +4,11 @@ import Link from 'next/link';
 
 interface ChatbotRowProps {
     schema: any;
+    has_label?: boolean;
 }
 
 export default function ExtractSchemaRow(props: ChatbotRowProps) {
-    const { schema } = props;
+    const { schema, has_label = true } = props;
 
     return (
         <>
@@ -29,7 +30,7 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
 
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                     <Link
-                        href={`/document/extraction/${schema?.label_id}/schema?schema_id=${schema?.id}`}
+                        href={has_label ? `/document/extraction/${schema?.label_id}/schema?schema_id=${schema?.id}` : `/document/extraction/documents/schema?schema_id=${schema?.id}`}
                     >
                         <a className="text-indigo-600 hover:text-indigo-900">編輯</a>
                     </Link>

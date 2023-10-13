@@ -1,5 +1,4 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
-import { DocumentIcon } from '@heroicons/react/24/solid';
 import Router from 'next/router';
 import { useState } from 'react';
 import EditSchemaDataModal from '../../../../../components/common/Widget/EditSchemaDataModal';
@@ -7,13 +6,12 @@ import SingleActionModel from '../../../../../components/common/Widget/SingleAct
 import ExtractSchemaRow from '../../../../../components/feature/document/extraction/ExtractSchemaRow';
 
 interface SchemaViewProps {
-    label: any;
     open: boolean;
     setOpen: any;
     extractSchema: {
         name: string;
         description: string;
-        label_id: string;
+        label_ids: any[];
         schema: any[];
         data_schema: any;
     };
@@ -25,7 +23,6 @@ interface SchemaViewProps {
 
 function SchemaView(props: SchemaViewProps) {
     const {
-        label,
         open,
         setOpen,
         extractSchema,
@@ -72,7 +69,7 @@ function SchemaView(props: SchemaViewProps) {
                         >
                             {'<'} 返回
                         </label>
-                        <label className="text-2xl font-bold">編輯Schema</label>
+                        <label className="text-2xl font-bold">創建數據總表</label>
                         <button
                             className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             onClick={() => {
@@ -84,28 +81,14 @@ function SchemaView(props: SchemaViewProps) {
                     </div>
                     <div className="my-2 flex flex-row items-center">
                         <label className="text-md font-bold">來源:</label>
-                        {label && (
-                            <button
-                                className="mx-2 flex flex-row items-center cursor-pointer rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={() => {
-                                    Router.push({
-                                        pathname: '/search',
-                                        query: {
-                                            content: '',
-                                            tag_id: label?.id,
-                                            from: '',
-                                            to: '',
-                                            label: label?.name
-                                        }
-                                    });
-                                }}
-                            >
-                                <DocumentIcon className="ml-auto h-4 text-white" />
-                                <label className=" cursor-pointer text-xs sm:text-sm">
-                                    {label?.name}({label?.taggings_count || 0})
-                                </label>
-                            </button>
-                        )}
+                        <a
+                            className="mx-2 underline cursor-pointer block rounded-md  text-center   font-semibold text-indigo-500  hover:text-indigo-700  "
+                            onClick={() => {
+
+                            }}
+                        >
+                            + 新增
+                        </a>
                     </div>
                     <div className="my-2">
                         <label className="text-md font-bold">目的地:</label>

@@ -6,7 +6,7 @@ import {
     PlusIcon,
     TableCellsIcon
 } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
@@ -61,7 +61,15 @@ function SchemasView(props: SchemasViewProps) {
                 <div className="py-2 flex flex-col gap-4 h-full pb-[0px]">
                     <div className="flex  flex-0 items-center justify-between">
                         <h2 className="text-lg font-medium leading-6 text-gray-900">數據源</h2>
-                        <Menu as="div" className="relative">
+                        <a
+                            className="flex flex-row items-center  text-indigo-600 underline cursor-pointer rounded-md"
+                            onClick={() => {
+                                Router.push('/search/form/schema');
+                            }}
+                        >
+                            數據搜尋
+                        </a>
+                        <Menu as="div" className="relative hidden">
                             <Menu.Button
                                 as="button"
                                 className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow flex flex-row items-center gap-2"
@@ -84,9 +92,8 @@ function SchemasView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
@@ -153,6 +160,7 @@ function SchemasView(props: SchemasViewProps) {
                         getAllLabelsData={getAllLabelsData}
                         search={search}
                         schema={currectSchema}
+                        setShema={setCurrectShema}
                         showHasLabelSchemasHandler={showHasLabelSchemasHandler}
                     />
                 </div>
