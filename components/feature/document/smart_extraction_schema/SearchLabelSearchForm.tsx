@@ -6,6 +6,7 @@ import {
     XMarkIcon
 } from '@heroicons/react/24/outline';
 import useAxios from 'axios-hooks';
+import _ from 'lodash';
 import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
@@ -36,13 +37,16 @@ export default function SearchLabelSearchForm(props: Props) {
     const [open, setOpen] = useState(false);
     const [modalDescription, setModalDescription] = useState<any>({});
 
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState<any>([]);
 
     useEffect(() => {
-        if (visible && props?.getAllLabelsData?.tags?.length > 10) {
-            setTags(props?.getAllLabelsData?.tags.slice(0, 10));
+        const _tags = _.filter(props?.getAllLabelsData?.tags, function (tag: any) {
+            return tag.smart_extraction_schemas_count > 0
+        })
+        if (visible && _tags?.length > 10) {
+            setTags(_tags.slice(0, 10));
         } else {
-            setTags(props?.getAllLabelsData?.tags);
+            setTags(_tags);
         }
     }, [props, visible]);
 
@@ -160,13 +164,13 @@ export default function SearchLabelSearchForm(props: Props) {
                                         >
                                             <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
                                             <label className=" cursor-pointer text-xs sm:text-sm">
-                                                {label?.name}({label.taggings_count || 0})
+                                                {label?.name}({label.smart_extraction_schemas_count || 0})
                                             </label>
                                         </button>
                                     </div>
                                 );
                             })}
-                            {tags != null && (
+                            {tags != null && tags.length > 10 && (
                                 <div
                                     className=" cursor-pointer"
                                     onClick={() => {

@@ -25,7 +25,17 @@ export default function LabelTag({
                 </td>
                 <td className="">
                     {_.join(_.map(label?.functions, 'title'), ', ')}
-                    、推薦功能({label?.meta?.chain_features?.length || 0})
+                    {label?.smart_extraction_schemas_count > 0 &&
+                        <>
+                            、數據提取({label?.smart_extraction_schemas_count || 0})
+                        </>
+                    }
+                    {label?.meta?.chain_features?.length > 0 &&
+                        <>
+
+                            、推薦功能({label?.meta?.chain_features?.length || 0})
+                        </>
+                    }
                 </td>
                 <td className="flex flex-row justify-center items-center">
                     <a
