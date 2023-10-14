@@ -3,7 +3,7 @@ import useAxios from 'axios-hooks';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import Api from '../../../apis';
-import InputNameModal from '../../../components/common/Widget/InputNameModal';
+import InputWorkflowModal from '../../../components/common/Widget/InputWorkflowModal';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import useAlert from '../../../hooks/useAlert';
 
@@ -22,7 +22,8 @@ function ProjectSelectView(props: ProjectViewProps) {
     const [isTemplate, setIsTemplate] = useState(false);
     const [template, setTemplate] = useState();
     const [current, setCurrent] = useState({
-        name: ''
+        name: '',
+        start_date: ''
     });
 
     const [{ data: getPromptByIdData, loading }, getPromptById] = useAxios(
@@ -34,13 +35,17 @@ function ProjectSelectView(props: ProjectViewProps) {
 System:
 you are a great project manager and a life coach and can help people to achieve their goals by creating a todo list for them
 Prompt:
-Please observe the user's {{Objectives}} and deduct all the steps necessary required and turn it into a todo list with tasks so that when the user finish all the tasks, it will finish the objectives.
-1.  There can be more than one task
-2. Please output it in the following JSON format.  The JSON includes the name and description of the todo list and the steps will store all the tasks name, description and deadline.
+Please observe the user's objective({{Objectives}}) and start date({{Start Date}}) of the project.
+
+1.  First you need to determine whether the nature of objective is to setup a work schedule or finish a project. 
+2.  If the nature of the objective is to setup a work schedule, then it is okay to create tasks that are recurring like studying for exam, workout plan and etc.
+3.   If the nature of the objective is to finish a project, then deduct all the steps necessary required and turn it into a todo list with tasks so that when the user finish all the tasks, it will finish the objectives.
+2. There can be more than one task
+3. Please output it in the following JSON format.  The JSON includes the name and description of the todo list and the tasks will store all the tasks' name, description and deadline.
 {
 "name":,
 "description":,
-"steps":["name":,"description":,""deadline:""]
+"tasks":["name":,"description":,""deadline:""]
 }
 3.Just do, no talk
 4. only output the JSON
@@ -55,7 +60,6 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
 
     useEffect(() => {
         if (getLLData && getLLData.success) {
-            // console.log('getLLData', getLLData.data.response);
             Router.push({
                 pathname: '/project/edit',
                 query: {
@@ -68,9 +72,9 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
 
     useEffect(() => {
         setOpen(getLLMDataLoading);
-        return () => {
-            setOpen(false);
-        };
+        // return () => {
+        //     setOpen(false);
+        // };
     }, [getLLMDataLoading]);
 
     const handleClickAdd = () => {
@@ -131,7 +135,10 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                             }}
                         />
                         <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
-                            <label className="flex flex-1">電腦根據目標創建工作流</label>
+                            <label className="flex flex-1 items-center">
+                                <img src={'../intelligent.png'} className="w-6 mr-2" />
+                                電腦根據目標創建工作流
+                            </label>
                         </div>
                     </div>
                     <div className="flex flex-row items-center my-2">
@@ -177,7 +184,7 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                                 <div className="flex flex-row items-center ml-2 py-2 px-2 border text-sm rounded-sm bg-white w-full">
                                     <label className="flex flex-1">{project?.name}</label>
                                     <a
-                                        href={`/project/${project?.id}`}
+                                        href={`/project/${project?.id}?from=template`}
                                         className="text-blue-500 underline"
                                     >
                                         查看
@@ -189,7 +196,7 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                 </div>
             </div>
 
-            <InputNameModal
+            <InputWorkflowModal
                 visable={visible}
                 setCurrent={setCurrent}
                 current={current}
@@ -206,7 +213,9 @@ Please observe the user's {{Objectives}} and deduct all the steps necessary requ
                     setVisible(false);
                     getLL({
                         ...apiSetting.Prompt.doc_ai_llm(
-                            prompt.replaceAll('{{Objectives}}', current.name),
+                            prompt
+                                .replaceAll('{{Objectives}}', current.name)
+                                .replaceAll('{{Start Date}}', current.start_date),
                             'gpt-3.5-turbo-16k'
                         )
                     });

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MyModal from '../../../common/Widget/MyModal';
+import ChainFeatureSelect from '../../chatbot/ChainFeatureSelect';
 import ChainFeatureRow from './ChainFeatureRow';
 
 interface Props {
@@ -14,6 +15,7 @@ export default function ChainFeatureList(props: Props) {
     const { label, chain_features, chain_feature_ids, set_chain_feature_ids, handleSave } = props;
     const [visableDelete, setVisableDelete] = useState(false);
     const [currentPosition, setCurrentPosition] = useState(0);
+    const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
     const removeChainFeature = () => {
         chain_feature_ids?.splice(currentPosition, 1);
         const newTasks = [...chain_feature_ids];
@@ -42,7 +44,16 @@ export default function ChainFeatureList(props: Props) {
                                 scope="col"
                                 className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                             >
-                                <span>操作</span>
+                                <div className="flex justify-end">
+                                    <a
+                                        className=" cursor-pointer block rounded-md  text-center text-sm font-semibold text-indigo-500  hover:text-indigo-700  "
+                                        onClick={() => {
+                                            setChainFeatureIsOpen(true);
+                                        }}
+                                    >
+                                        + Chain Feature
+                                    </a>
+                                </div>
                             </th>
                         </tr>
                     </thead>
@@ -73,6 +84,15 @@ export default function ChainFeatureList(props: Props) {
                     setVisableDelete(false);
                     removeChainFeature();
                 }}
+            />
+
+            <ChainFeatureSelect
+                chain_features={chain_features}
+                isOpen={chainFeatureIsOpen}
+                setIsOpen={setChainFeatureIsOpen}
+                chain_feature_ids={chain_feature_ids}
+                set_chain_feature_ids={set_chain_feature_ids}
+                handleSave={handleSave}
             />
         </>
     );

@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default class SmartExtractionSchemas {
-    getAllSmartExtractionSchemas(id: string, page = 1) {
+    getSmartExtractionSchemasByLabel(id: string, page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
             url: `/api/v1/smart_extraction_schemas/label/${id}?page=${page}`,
@@ -45,6 +45,35 @@ export default class SmartExtractionSchemas {
             baseURL: baseURL,
             url: `/api/v1/smart_extraction_schemas/${id}`,
             method: 'PUT'
+        };
+        return requestHeader;
+    }
+
+    //?has_label=false
+    // true就喺顯示有label嘅所有schema，false就是數據總表那些
+    getSmartExtractionSchemas(has_label = '', page = 1) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas?&has_label=${has_label}&page=${page}`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
+
+    createSchemasByDocuemnts() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/documents`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
+
+    updateSchemasByDocuemntsById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/documents/${id}`,
+            method: 'POST'
         };
         return requestHeader;
     }

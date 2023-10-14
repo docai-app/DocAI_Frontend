@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ShieldCheckIcon } from '@heroicons/react/20/solid';
+import { DocumentIcon, ShieldCheckIcon } from '@heroicons/react/20/solid';
 import { MagnifyingGlassIcon, Square2StackIcon, TableCellsIcon } from '@heroicons/react/24/solid';
 import { Fragment } from 'react';
 
@@ -10,19 +10,21 @@ function classNames(...classes: any) {
 interface DropdownsProps {
     label: any;
     search: any;
+    visibleFromFilling?: boolean;
     from_filling: any;
     approval: any;
     move_execl: any;
 }
 
 export default function LabelDropdowns(props: DropdownsProps) {
-    const { label, search, from_filling, approval, move_execl } = props;
+    const { label, search, visibleFromFilling, from_filling, approval, move_execl } = props;
     return (
         <Menu as="div" className="relative inline-block text-left ">
             <div>
-                <Menu.Button className=" cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-md text-white px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                <Menu.Button className=" cursor-pointer bg-blue-500 hover:bg-blue-600 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                     <span className="sr-only">Open options</span>
-                    <label className=" cursor-pointer">
+                    <DocumentIcon className="ml-auto h-4 text-white" />
+                    <label className=" cursor-pointer text-xs sm:text-sm">
                         {label?.name}({label.taggings_count || 0})
                     </label>
                 </Menu.Button>
@@ -56,23 +58,25 @@ export default function LabelDropdowns(props: DropdownsProps) {
                                 </a>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    onClick={from_filling}
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'group flex items-center px-4 py-2 text-sm cursor-pointer'
-                                    )}
-                                >
-                                    <TableCellsIcon
-                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        aria-hidden="true"
-                                    />
-                                    AI輔助填表
-                                </a>
-                            )}
-                        </Menu.Item>
+                        {visibleFromFilling && (
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <a
+                                        onClick={from_filling}
+                                        className={classNames(
+                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                            'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                                        )}
+                                    >
+                                        <TableCellsIcon
+                                            className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                        AI輔助填表
+                                    </a>
+                                )}
+                            </Menu.Item>
+                        )}
                         <Menu.Item>
                             {({ active }) => (
                                 <a

@@ -258,8 +258,8 @@ export default function DriveView(props: DriveViewProps) {
                 }}
                 count={documents_items?.length + folders_items?.length}
             />
-            <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8 flex-1 flex flex-col ">
-                <div className="max-w-4xl mx-auto my-6 h-auto flex justify-center items-center">
+            <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col ">
+                <div className="max-w-4xl mx-auto my-6 h-auto flex justify-center items-center hidden">
                     <div className="w-full mx-auto text-center">
                         <h2 className="text-6xl font-extrabold text-gray-900 sm:text-6xl mb-2">
                             DocAI
@@ -312,19 +312,19 @@ export default function DriveView(props: DriveViewProps) {
                         ))}
                     </div>
                 </div>
-                <div className="py-8 flex flex-col gap-4 max-h-80vh ">
-                    <div className="flex justify-between">
+                <div className="py-2 flex flex-col gap-4 h-full pb-[0px]">
+                    <div className="flex justify-between flex-0">
                         <h2 className="text-lg font-medium leading-6 text-gray-900">文件倉庫</h2>
-                        <button
-                            className=" bg-indigo-600 border px-4 py-2 text-white rounded-md"
+                        <a
+                            className="flex flex-row items-center  text-indigo-600 underline cursor-pointer rounded-md"
                             onClick={() => {
                                 Router.push('/classification/logs');
                             }}
                         >
                             智能文檔處理
-                        </button>
+                        </a>
                     </div>
-                    <div className="flex flex-row gap-2 justify-between">
+                    <div className="flex flex-0 flex-row gap-2 justify-between">
                         {showAllItemsData == null ? (
                             <div className="animate-pulse flex flex-row justify-center items-center gap-2">
                                 <div className="h-4 w-32 bg-gray-400 rounded"></div>
@@ -378,7 +378,7 @@ export default function DriveView(props: DriveViewProps) {
                             </Transition>
                         </Menu>
                     </div>
-                    <div className="bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5 relative">
+                    <div className="flex-1 bg-white shadow-md rounded-lg overflow-auto ring-1 ring-black ring-opacity-5 relative">
                         <div className="bg-gray-50 z-10 shadow-sm sticky top-0 border-b border-b-gray-200 w-full">
                             <div className="w-full flex ">
                                 <div className=" w-6 items-center flex justify-center"></div>
@@ -403,7 +403,8 @@ export default function DriveView(props: DriveViewProps) {
                                     next={showAllItemsHandler}
                                     hasMore={showAllItemsData?.meta?.next_page != null}
                                     height={'auto'}
-                                    style={{ maxHeight: '80vh' }}
+                                    // className="max-h-[45vh] sm:max-h-[50vh]"
+                                    // style={{ maxHeight: '50vh' }}
                                     loader={
                                         <p className="p-4 text-center">
                                             <b>載入中...</b>
@@ -534,12 +535,8 @@ export default function DriveView(props: DriveViewProps) {
                                 )}
                             </tbody>
                         </table>
-
-                        <SearchLabelDocumentForm
-                            getAllLabelsData={getAllLabelsData}
-                            search={search}
-                        />
                     </div>
+                    <SearchLabelDocumentForm getAllLabelsData={getAllLabelsData} search={search} />
                 </div>
             </div>
 

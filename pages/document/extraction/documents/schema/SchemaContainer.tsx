@@ -16,19 +16,11 @@ export default function SchemaContainer() {
     const [extractSchema, setExtractSchema] = useState({
         name: '',
         description: '',
-        label_id: '',
+        label_ids: [],
         schema: [],
         data_schema: {}
     });
     const [visableAdd, setVisableAdd] = useState(true);
-    const [label, setLabel] = useState();
-
-    const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
-        apiSetting.Tag.getTagById(''),
-        {
-            manual: true
-        }
-    );
 
     const [
         { data: getSmartExtractionSchemasByIdData, loading: getLoading },
@@ -37,35 +29,21 @@ export default function SchemaContainer() {
         manual: true
     });
 
-    const [{ data: createSmartExtractionSchemasData, loading }, createSmartExtractionSchemas] =
-        useAxios(apiSetting.SmartExtractionSchemas.createSmartExtractionSchemas(), {
+    const [{ data: createSchemasByDocuemntsData, loading }, createSchemasByDocuemnts] = useAxios(
+        apiSetting.SmartExtractionSchemas.createSchemasByDocuemnts(),
+        {
             manual: true
-        });
+        }
+    );
 
     const [
-        { data: updateSmartExtractionSchemasByIdData, loading: updateLoading },
-        updateSmartExtractionSchemasById
-    ] = useAxios(apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(''), {
+        { data: updateSchemasByDocuemntsByIdData, loading: updateLoading },
+        updateSchemasByDocuemntsById
+    ] = useAxios(apiSetting.SmartExtractionSchemas.updateSchemasByDocuemntsById(''), {
         manual: true
     });
-
-    useEffect(() => {
-        if (getTagByIdData && getTagByIdData.success) {
-            setLabel(getTagByIdData.tag);
-        }
-    }, [getTagByIdData]);
-
     useEffect(() => {
         setActionContent('正在加載數據');
-        if (router && router.query.id) {
-            getTagById({
-                ...apiSetting.Tag.getTagById(router.query.id.toString())
-            });
-            setExtractSchema({
-                ...extractSchema,
-                label_id: router.query.id.toString()
-            });
-        }
         if (router && router.query.schema_id) {
             // setVisableAdd(false);
             getSmartExtractionSchemasById({
@@ -89,32 +67,29 @@ export default function SchemaContainer() {
     }, [getLoading]);
 
     useEffect(() => {
-        if (createSmartExtractionSchemasData && createSmartExtractionSchemasData.success) {
+        if (createSchemasByDocuemntsData && createSchemasByDocuemntsData.success) {
             setAlert({ title: '創建成功', type: 'success' });
-        } else if (createSmartExtractionSchemasData && !createSmartExtractionSchemasData.success) {
+        } else if (createSchemasByDocuemntsData && !createSchemasByDocuemntsData.success) {
             setAlert({ title: '創建失敗', type: 'error' });
-            console.log(createSmartExtractionSchemasData);
+            console.log(createSchemasByDocuemntsData);
         }
-    }, [createSmartExtractionSchemasData]);
+    }, [createSchemasByDocuemntsData]);
 
     useEffect(() => {
-        if (updateSmartExtractionSchemasByIdData && updateSmartExtractionSchemasByIdData.success) {
+        if (updateSchemasByDocuemntsByIdData && updateSchemasByDocuemntsByIdData.success) {
             setAlert({ title: '保存成功', type: 'success' });
-        } else if (
-            updateSmartExtractionSchemasByIdData &&
-            !updateSmartExtractionSchemasByIdData.success
-        ) {
-            setAlert({ title: updateSmartExtractionSchemasByIdData.message, type: 'error' });
-            console.log(updateSmartExtractionSchemasByIdData);
+        } else if (updateSchemasByDocuemntsByIdData && !updateSchemasByDocuemntsByIdData.success) {
+            setAlert({ title: updateSchemasByDocuemntsByIdData.message, type: 'error' });
+            console.log(updateSchemasByDocuemntsByIdData);
         }
-    }, [updateSmartExtractionSchemasByIdData]);
+    }, [updateSchemasByDocuemntsByIdData]);
 
     useEffect(() => {
         if (getSmartExtractionSchemasByIdData && getSmartExtractionSchemasByIdData.success) {
             setExtractSchema({
                 name: getSmartExtractionSchemasByIdData.smart_extraction_schema?.name,
                 description: getSmartExtractionSchemasByIdData.smart_extraction_schema?.description,
-                label_id: getSmartExtractionSchemasByIdData.smart_extraction_schema?.label_id,
+                label_ids: getSmartExtractionSchemasByIdData.smart_extraction_schema?.label_ids,
                 schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.schema,
                 data_schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.data_schema
             });
@@ -140,14 +115,14 @@ export default function SchemaContainer() {
             if (isSame) {
                 const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
                 // console.log(_extractSchema);
-                updateSmartExtractionSchemasById({
+                updateSchemasByDocuemntsById({
                     ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
                         router.query.schema_id as string
                     ),
                     data: _extractSchema
                 });
             } else {
-                updateSmartExtractionSchemasById({
+                updateSchemasByDocuemntsById({
                     ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
                         router.query.schema_id as string
                     ),
@@ -155,7 +130,7 @@ export default function SchemaContainer() {
                 });
             }
         } else {
-            createSmartExtractionSchemas({
+            createSchemasByDocuemnts({
                 data: extractSchema
             });
         }
@@ -164,7 +139,6 @@ export default function SchemaContainer() {
     return (
         <SchemaView
             {...{
-                label,
                 open,
                 setOpen,
                 extractSchema,

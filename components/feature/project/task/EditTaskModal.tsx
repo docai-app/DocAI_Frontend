@@ -44,6 +44,8 @@ export default function EditTaskModal(props: any) {
 
     const validate = () => {
         if (!data.name) return setAlert({ title: '請輸入名稱', type: 'info' });
+        if (!data.deadline) return setAlert({ title: '請輸入截止時間', type: 'info' });
+        // if (!data.assignee_id) return setAlert({ title: '請選擇負責人', type: 'info' });
         setData({
             ...data,
             id: null,
@@ -99,7 +101,7 @@ export default function EditTaskModal(props: any) {
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick}
                                     />
-                                    <label>{props?.task == null ? '新增任務' : '編輯任務'}</label>
+                                    <label>{props?.title}</label>
                                     <button
                                         type="button"
                                         className="h-full float-right inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -173,6 +175,7 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
+                                                <span className="text-red-500 hidden">*</span>
                                                 負責人:
                                             </label>
                                         </div>
@@ -214,7 +217,7 @@ export default function EditTaskModal(props: any) {
                                                 htmlFor="new-type"
                                                 className="block text-sm font-medium text-gray-700"
                                             >
-                                                截止日期:
+                                                <span className="text-red-500">*</span> 截止日期:
                                             </label>
                                         </div>
                                         <div className="flex w-1/2">

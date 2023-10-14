@@ -15,13 +15,16 @@ export default function ProjectSelectContainer() {
     const [page, setPage] = useState(1);
     const [open, setOpen] = useState(false);
 
-    const [{ data: getAllWorkflowData, loading }, getAllWorkflow] = useAxios(
+    const [{ data: getAllWorkflowData, loading: loading }, getAllWorkflow] = useAxios(
         apiSetting.ProjectWorkflow.getAllWorkflow(page),
         { manual: true }
     );
 
     useEffect(() => {
         setOpen(loading);
+        return () => {
+            setOpen(false);
+        };
     }, [loading]);
 
     useEffect(() => {
@@ -31,11 +34,12 @@ export default function ProjectSelectContainer() {
                 is_template: true
             }
         });
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
             setProjects(getAllWorkflowData.project_workflows);
+        } else if (getAllWorkflowData && getAllWorkflowData.success) {
         }
     }, [getAllWorkflowData]);
 

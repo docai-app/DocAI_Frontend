@@ -7,11 +7,11 @@ import MyDateDropdown from './MyDateDropdown';
 export default function EditSchemaDataModal(props: any) {
     const cancelButtonRef = useRef(null);
     const [validate, setValidate] = useState(true);
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState('數值');
 
     const [data, setData] = useState({
         key: '',
-        data_type: '',
+        data_type: 'string',
         query: ''
     });
     const data_types = [
@@ -109,7 +109,7 @@ export default function EditSchemaDataModal(props: any) {
                                             name="signature"
                                             className="w-full rounded-md"
                                             placeholder="name"
-                                            defaultValue={data?.key}
+                                            value={data?.key}
                                             onChange={(e) => {
                                                 if (validateInput(e.target.value))
                                                     setData({
@@ -152,7 +152,7 @@ export default function EditSchemaDataModal(props: any) {
                                             name="signature"
                                             className="w-full rounded-md"
                                             placeholder="員工姓名"
-                                            defaultValue={data?.query}
+                                            value={data?.query}
                                             onChange={(e) => {
                                                 setData({
                                                     ...data,
@@ -171,8 +171,8 @@ export default function EditSchemaDataModal(props: any) {
                                     onClick={() => {
                                         props.confirmClick(data);
                                         setData({
+                                            ...data,
                                             key: '',
-                                            data_type: '',
                                             query: ''
                                         });
                                     }}

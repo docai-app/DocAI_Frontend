@@ -1,10 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import {
-    ArchiveBoxArrowDownIcon,
-    ChatBubbleBottomCenterTextIcon,
-    PaperAirplaneIcon,
-    TagIcon
-} from '@heroicons/react/24/outline';
+import { ArchiveBoxArrowDownIcon, PaperAirplaneIcon, TagIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useCallback, useState } from 'react';
@@ -143,34 +138,40 @@ export default function SearchDocumentFilter(props: Props) {
 
                 <div className="flex flex-1 flex-row">
                     <div className="flex flex-row items-center my-1">
-                        <label>功能:</label>
+                        {/* <label>功能:</label> */}
+                        <img src={'./intelligent.png'} className="w-6" />
+                        {':'}
                         {count > 0 ? (
                             <>
                                 {!visibleChainFeature ? (
                                     <>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={openItems}
                                         >
                                             <PaperAirplaneIcon className="w-4 m-1 " />
-                                            <label className="text-sm">打開</label>
+                                            <label className="text-sm cursor-pointer">打開</label>
                                         </div>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={updateTag}
                                         >
                                             <TagIcon className="w-4 m-1 " />
-                                            <label className="text-sm">更新標籤</label>
+                                            <label className="text-sm cursor-pointer">
+                                                更新標籤
+                                            </label>
                                         </div>
                                         <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md cursor-pointer"
                                             onClick={() => {
                                                 setVisibleChainFeature(true);
                                                 getChainFeature();
                                             }}
                                         >
                                             <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
-                                            <label className="text-sm">AI推薦功能</label>
+                                            <label className="text-sm cursor-pointer">
+                                                AI推薦功能
+                                            </label>
                                         </div>
                                     </>
                                 ) : (
@@ -248,15 +249,18 @@ export default function SearchDocumentFilter(props: Props) {
                     </div>
                 </div>
                 {visibleChainFeature && (
-                    <div className="flex flex-1 flex-row">
-                        <label className="flex-0">
-                            {' '}
-                            <ChatBubbleBottomCenterTextIcon className="w-6" />
+                    <div className="flex flex-1 flex-row items-center">
+                        <label className="flex-0 flex flex-row items-center">
+                            <img src={'./intelligent.png'} className="w-6" />
+                            {':'}
                         </label>
                         <div className="w-full flex-1 mx-2 my-1">
                             <textarea
                                 className="w-full rounded-md min-h-[150px]"
                                 defaultValue={content}
+                                onChange={(e) => {
+                                    setContent(e.target.value);
+                                }}
                             ></textarea>
                         </div>
                         <Dropdowns copyContent={content} />

@@ -30,7 +30,7 @@ export default function ExtractionDetailContainer() {
     );
 
     const [{ data: getAllSmartExtractionSchemasData, loading }, getAllSmartExtractionSchemas] =
-        useAxios(apiSetting.SmartExtractionSchemas.getAllSmartExtractionSchemas('', page), {
+        useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
             manual: true
         });
 
@@ -44,10 +44,21 @@ export default function ExtractionDetailContainer() {
         { manual: true }
     );
 
+    const [{ data: tagTypes, error: getAllTagFunctionsError }, getAllTagFunctions] = useAxios(
+        apiSetting.Tag.getTagFunctions(),
+        { manual: true }
+    );
+
+    const [{ data: updateTagFunctionsData, error: updateTagFunctionsError }, updateTagFunctions] =
+        useAxios(apiSetting.Tag.updateTagFunctions(), { manual: true });
+
+    const [{ data: deleteTagFunctionsData, error: deleteTagFunctionsError }, deleteTagFunctions] =
+        useAxios(apiSetting.Tag.deleteTagFunctions(), { manual: true });
+
     useEffect(() => {
         if (router && router.query.id) {
             getAllSmartExtractionSchemas({
-                ...apiSetting.SmartExtractionSchemas.getAllSmartExtractionSchemas(
+                ...apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
                     router.query.id as string,
                     page
                 )
@@ -55,6 +66,7 @@ export default function ExtractionDetailContainer() {
             getTagById({
                 ...apiSetting.Tag.getTagById(router.query.id as string)
             });
+            getAllTagFunctions();
             getAllChainFeatureDatas().then((datas) => {
                 set_chain_features(datas);
             });
@@ -113,6 +125,38 @@ export default function ExtractionDetailContainer() {
         [updateTagName]
     );
 
+    const updateTagFunctionsHandler = useCallback(
+        async (tag_id: string, function_id: string) => {
+            if (function_id)
+                updateTagFunctions({
+                    data: { tag_id: tag_id, function_id: function_id }
+                }).then((res) => {
+                    if (res.data.success) {
+                        setAlert({ title: '更新成功', type: 'success' });
+                    } else {
+                        setAlert({ title: '更新失敗', type: 'error' });
+                    }
+                });
+        },
+        [updateTagFunctions]
+    );
+
+    const deleteTagFunctionsHandler = useCallback(
+        async (tag_id: string, function_id: string) => {
+            if (function_id)
+                deleteTagFunctions({
+                    data: { tag_id: tag_id, function_id: function_id }
+                }).then((res) => {
+                    if (res.data.success) {
+                        setAlert({ title: '更新成功', type: 'success' });
+                    } else {
+                        setAlert({ title: '更新失敗', type: 'error' });
+                    }
+                });
+        },
+        [deleteTagFunctions]
+    );
+
     return (
         <ExtractionDetailView
             {...{
@@ -125,7 +169,10 @@ export default function ExtractionDetailContainer() {
                 meta,
                 chain_features,
                 updateTagFeatureHandler,
-                updateTagNameHandler
+                updateTagNameHandler,
+                updateTagFunctionsHandler,
+                deleteTagFunctionsHandler,
+                tagTypes
             }}
         />
     );

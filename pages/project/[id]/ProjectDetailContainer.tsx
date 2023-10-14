@@ -11,6 +11,7 @@ export default function ProjectDetailContainer() {
     const [project, setProject] = useState<any>();
     const [tasks, setTasks] = useState<any>([]);
     const [open, setOpen] = useState(false);
+    const [users, setUsers] = useState<any>([]);
 
     const [{ data: getProjectWorkflowByIdData, loading }, getProjectWorkflowById] = useAxios(
         apiSetting.ProjectWorkflow.getProjectWorkflowById(''),
@@ -30,8 +31,15 @@ export default function ProjectDetailContainer() {
             getProjectWorkflowById({
                 ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.id as string)
             });
+            getAllUsers();
         }
     }, [router]);
+
+    useEffect(() => {
+        if (getAllUsersData && getAllUsersData.success) {
+            setUsers(getAllUsersData.users);
+        }
+    }, [getAllUsersData]);
 
     useEffect(() => {
         if (getProjectWorkflowByIdData && getProjectWorkflowByIdData.success) {
@@ -48,7 +56,8 @@ export default function ProjectDetailContainer() {
                 tasks,
                 setTasks,
                 open,
-                setOpen
+                setOpen,
+                users
             }}
         />
     );

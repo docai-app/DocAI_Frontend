@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../../apis';
 import useAlert from '../../../../hooks/useAlert';
+import EditTaskModal from '../task/EditTaskModal';
 import TaskRow from '../task/TaskRow';
 
 interface StepsListViewProps {
@@ -20,6 +21,7 @@ export default function StepsListView(props: StepsListViewProps) {
     const { setAlert } = useAlert();
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
+    const [mode, setMode] = useState<'add' | 'edit' | ''>('');
 
     const [
         { data: updateProjectWorkflowStepByIdData, loading: updateProjectWorkflowStepByIdLoading },
@@ -33,16 +35,15 @@ export default function StepsListView(props: StepsListViewProps) {
 
     const updateProjectStepHandler = useCallback(
         async (data) => {
-            console.log(data);
-            const { id, name, meta, deadline, status } = data;
+            // console.log(data);
+            const { id, name, description, deadline, assignee_id } = data;
             updateProjectWorkflowStepById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
                 data: {
                     name: name,
-                    description: meta.description,
+                    description: description,
                     deadline: deadline,
-                    assignee_id: '',
-                    status: status
+                    assignee_id: assignee_id
                 }
             });
         },
@@ -65,7 +66,8 @@ export default function StepsListView(props: StepsListViewProps) {
 
     useEffect(() => {
         if (updateProjectWorkflowStepByIdData && updateProjectWorkflowStepByIdData.success) {
-            console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
+            setAlert({ title: '更新成功', type: 'success' });
+            // console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
         } else if (
             updateProjectWorkflowStepByIdData &&
             !updateProjectWorkflowStepByIdData.success
@@ -87,6 +89,7 @@ export default function StepsListView(props: StepsListViewProps) {
     );
 
     const updateTask = (task: any, position: number) => {
+        setMode('edit');
         setCurrentTask(task);
         setCurrectPosition(position);
     };
@@ -108,22 +111,10 @@ export default function StepsListView(props: StepsListViewProps) {
     return (
         <>
             <div className="flex flex-row w-full">
-                <div
-                    // className={` h-fit border rounded-md ${visibleEditStep && currentTask ? 'w-2/3' : 'w-full'
-                    //     }`}
-                    className={` h-fit   rounded-md w-full`}
-                >
+                <div className={` h-fit   rounded-md w-full`}>
                     {tasks?.map((task: any, index: number) => {
                         return (
-                            <div
-                                key={index}
-                                className="flex flex-col justify-center items-center"
-                                // onClick={() => {
-                                //     setCurrentTask(task);
-                                //     setCurrectPosition(index);
-                                //     setVisibleEditStep(true);
-                                // }}
-                            >
+                            <div key={index} className="flex flex-col justify-center items-center">
                                 <TaskRow
                                     task={task}
                                     users={users}
@@ -133,7 +124,7 @@ export default function StepsListView(props: StepsListViewProps) {
                                         updateLocalData();
                                         updateProjectStepStatusHandler(task);
                                     }}
-                                    visiableMore={false}
+                                    visiableMore={'template' != router.query.from}
                                     showProjectName={showProjectName}
                                     updateTask={() => updateTask(task, index)}
                                     removeTask={() => removeTask(task, index)}
@@ -146,34 +137,27 @@ export default function StepsListView(props: StepsListViewProps) {
                                     ) : (
                                         <div className="h-6 w-0.5"></div>
                                     ))}
-                                {/* <StepRow
-                                    task={task}
-                                    currentTask={currentTask}
-                                    completeTask={() => { }}
-                                    updateTask={(task: any) => {
-                                        tasks.splice(index, 1, task);
-                                        updateLocalData();
-                                        updateProjectStepHandler(task);
-                                    }}
-                                    removeTask={() => removeTask(task, index)}
-                                /> */}
                             </div>
                         );
                     })}
                 </div>
-                {/* {visibleEditStep && currentTask && (
-                    <EditStepView
-                        step={currentTask}
-                        setStep={setCurrentTask}
-                        setVisibleEditStep={setVisibleEditStep}
-                        updateTask={(data: never) => {
-                            tasks.splice(currectPosition, 1, data);
-                            updateLocalData();
-                            updateProjectStepHandler(data);
-                        }}
-                        removeTask={() => removeTask(currentTask, currectPosition)}
-                    />
-                )} */}
+                <EditTaskModal
+                    title={currentTask ? '編輯任務' : '新增任務'}
+                    users={users}
+                    visable={mode != ''}
+                    task={currentTask}
+                    cancelClick={() => {
+                        setMode('');
+                        setCurrentTask(null);
+                    }}
+                    confirmClick={(data: never) => {
+                        setMode('');
+                        setCurrentTask(null);
+                        tasks.splice(currectPosition, 1, data);
+                        updateLocalData();
+                        updateProjectStepHandler(data);
+                    }}
+                />
             </div>
         </>
     );
