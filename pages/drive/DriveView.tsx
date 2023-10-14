@@ -13,7 +13,15 @@ import {
 } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
-import { Dispatch, Fragment, SetStateAction, useEffect, useRef, useState } from 'react';
+import {
+    Dispatch,
+    Fragment,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForMoving from '../../components/common/Widget/FolderTreeForMoving';
@@ -27,6 +35,7 @@ import EditItems from '../../components/feature/drive/EditItems';
 import SearchLabelDocumentForm from '../../components/feature/drive/SearchLabelDocumentForm';
 import TableRow from '../../components/feature/drive/TableRow';
 import EditLabel from '../../components/feature/setting/label/EditLabel';
+import { Box, boxesIntersect, useSelectionContainer } from '@air/react-drag-to-select';
 
 interface DriveViewProps {
     id: string | string[] | null | undefined;
@@ -127,6 +136,67 @@ export default function DriveView(props: DriveViewProps) {
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [openDeepUnderstanding, setOpenDeepUnderstanding] = useState(false);
 
+    const selectableItems = useRef<
+        {
+            box: Box;
+            type: string;
+            id: string;
+        }[]
+    >([]);
+
+    const tableBodyRef = useRef<HTMLDivElement>(null);
+    const selectionBox = useRef<Box>();
+    const { DragSelection } = useSelectionContainer({
+        eventsElement: tableBodyRef.current,
+        onSelectionChange(box) {
+            if (!tableBodyRef.current?.parentElement) return;
+            const scrollAwareBox: Box = {
+                ...box,
+                top: box.top + tableBodyRef.current.parentElement.scrollTop,
+                left: box.left + tableBodyRef.current.parentElement.scrollLeft
+            };
+
+            selectionBox.current = scrollAwareBox;
+        },
+        onSelectionEnd() {
+            let selectedItems: { folders: string[]; documents: string[] } = {
+                folders: [],
+                documents: []
+            };
+            selectableItems.current.forEach((item, index) => {
+                if (!selectionBox.current) return;
+                if (boxesIntersect(item.box, selectionBox.current)) {
+                    selectedItems[item.type as 'folders' | 'documents'].push(item.id);
+                }
+            });
+            setFoldersItems(selectedItems.folders);
+            setDocumentsItems(selectedItems.documents);
+        },
+        selectionProps: {
+            style: {
+                border: '2px dashed purple',
+                borderRadius: 4,
+                backgroundColor: 'brown',
+                opacity: 0.5
+            }
+        }
+    });
+
+    useEffect(() => {
+        selectableItems.current = [];
+        if (!tableBodyRef.current?.children?.[1]?.children?.[0]?.children) return;
+        const tableRows = tableBodyRef.current.children[1].children[0].children;
+        for (let i = 0; i < tableRows.length; i++) {
+            const item = tableRows[i] as HTMLDivElement;
+            if (!item.dataset.id || !item.dataset.type) continue;
+            selectableItems.current.push({
+                id: item.dataset.id,
+                type: item.dataset.type,
+                box: item.getBoundingClientRect()
+            });
+        }
+    }, [allItemsData, allFoldersItemsData, tableBodyRef]);
+
     const [cards, setCards] = useState<any[]>([
         { name: '今天已上傳的文檔', href: '/classification/logs', icon: CloudIcon, amount: 0 },
         {
@@ -144,19 +214,22 @@ export default function DriveView(props: DriveViewProps) {
         }
     ]);
 
-    const setChecedkData = (type: string, checked: boolean, value: string) => {
-        if (type == 'folders') {
-            const newData = checked
-                ? [...folders_items, value]
-                : folders_items.filter((_value: string) => _value !== value);
-            setFoldersItems(newData);
-        } else {
-            const newData = checked
-                ? [...documents_items, value]
-                : documents_items.filter((_value: string) => _value !== value);
-            setDocumentsItems(newData);
-        }
-    };
+    const setCheckedData = useCallback(
+        (type: string, checked: boolean, value: string) => {
+            if (type == 'folders') {
+                const newData = checked
+                    ? [...folders_items, value]
+                    : folders_items.filter((_value: string) => _value !== value);
+                setFoldersItems(newData);
+            } else {
+                const newData = checked
+                    ? [...documents_items, value]
+                    : documents_items.filter((_value: string) => _value !== value);
+                setDocumentsItems(newData);
+            }
+        },
+        [folders_items, documents_items, setFoldersItems, setDocumentsItems]
+    );
 
     const clearCheckedData = () => {
         setFoldersItems([]);
@@ -394,7 +467,8 @@ export default function DriveView(props: DriveViewProps) {
                                 <div className="pr-6 py-3 w-2/12 text-right font-bold">擁有人</div>
                             </div>
                         </div>
-                        <div className="w-full">
+                        <div className="w-full relative" ref={tableBodyRef}>
+                            <DragSelection />
                             {(allItemsData || allFoldersItemsData) &&
                             [...(allItemsData || []), ...(allFoldersItemsData || [])].length !=
                                 0 ? (
@@ -427,7 +501,7 @@ export default function DriveView(props: DriveViewProps) {
                                                 setVisableRename={setVisableRename}
                                                 setVisableDelete={setVisableDelete}
                                                 setCurrent={setCurrent}
-                                                setChecedkData={setChecedkData}
+                                                setCheckedData={setCheckedData}
                                                 checked={_.includes(folders_items, doc.id)}
                                             />
                                         );
@@ -444,7 +518,7 @@ export default function DriveView(props: DriveViewProps) {
                                                 setVisableRename={setVisableRename}
                                                 setVisableDelete={setVisableDelete}
                                                 setCurrent={setCurrent}
-                                                setChecedkData={setChecedkData}
+                                                setCheckedData={setCheckedData}
                                                 checked={_.includes(documents_items, doc.id)}
                                             />
                                         );

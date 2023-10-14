@@ -11,7 +11,7 @@ interface TableRowProps {
     setVisableDelete?: any;
     setVisableRename: any;
     setCurrent?: any;
-    setChecedkData?: any;
+    setCheckedData?: any;
     checked?: boolean;
 }
 export default function TableRow(props: TableRowProps) {
@@ -23,7 +23,7 @@ export default function TableRow(props: TableRowProps) {
         setVisableDelete,
         setVisableRename,
         setCurrent,
-        setChecedkData,
+        setCheckedData,
         checked
     } = props;
     const [visable, setVisable] = useState(false);
@@ -70,7 +70,7 @@ export default function TableRow(props: TableRowProps) {
         setVisable(false);
     };
     const check = (e: any) => {
-        setChecedkData(type, e.target.checked, e.target.value);
+        setCheckedData(type, e.target.checked, e.target.value);
     };
 
     useEffect(() => {
@@ -89,9 +89,11 @@ export default function TableRow(props: TableRowProps) {
             onMouseLeave={() => {
                 onMouseLeave();
             }}
+            data-id={doc.id}
+            data-type={type}
         >
             <div className=" mx-2 w-10 items-center flex justify-center">
-                {visable && (
+                {(visable || checked) && (
                     <input
                         type={'checkbox'}
                         value={doc.id}
@@ -99,6 +101,7 @@ export default function TableRow(props: TableRowProps) {
                         onChange={(e) => {
                             check(e);
                         }}
+                        checked={checked}
                     />
                 )}
             </div>
