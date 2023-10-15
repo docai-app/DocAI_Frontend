@@ -159,7 +159,7 @@ export default function DriveView(props: DriveViewProps) {
             selectionBox.current = scrollAwareBox;
         },
         onSelectionEnd() {
-            let selectedItems: { folders: string[]; documents: string[] } = {
+            const selectedItems: { folders: string[]; documents: string[] } = {
                 folders: [],
                 documents: []
             };
