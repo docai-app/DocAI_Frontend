@@ -171,14 +171,6 @@ export default function DriveView(props: DriveViewProps) {
             });
             setFoldersItems(selectedItems.folders);
             setDocumentsItems(selectedItems.documents);
-        },
-        selectionProps: {
-            style: {
-                border: '2px dashed purple',
-                borderRadius: 4,
-                backgroundColor: 'brown',
-                opacity: 0.5
-            }
         }
     });
 
