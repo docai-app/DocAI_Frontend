@@ -126,7 +126,7 @@ export default function EditLabel(props: EditLabelProps) {
                                                 />
                                             </div>
                                         </div>
-                                        {tagTypes && tagTypes?.functions && (
+                                        {tag && tagTypes && tagTypes?.functions && (
                                             <div className="w-full flex flex-row mt-2">
                                                 <div className="w-1/4 flex justify-left items-center">
                                                     <label

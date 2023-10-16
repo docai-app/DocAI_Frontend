@@ -1,4 +1,4 @@
-import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import { PaperAirplaneIcon, PlusIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
@@ -78,7 +78,7 @@ export default function LabelView(props: LabelProps) {
         <>
             <SingleActionModel
                 open={loading}
-                setOpen={() => {}}
+                setOpen={() => { }}
                 title={'進行中......'}
                 content={'正在加载数据...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
@@ -115,7 +115,9 @@ export default function LabelView(props: LabelProps) {
                                             {'<'} 返回
                                         </label>
                                         <label className="text-2xl font-bold">標籤管理</label>
-                                        <label className="text-xl font-bold">{''}</label>
+                                        <button className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded shadow flex flex-row items-center gap-2" onClick={() => {
+                                            setOpen(true)
+                                        }}><PlusIcon className="h-4" />{'新增'}</button>
                                     </div>
                                     <div className="flex flex-col gap-2 mt-4">
                                         <table className="border-collapse ">

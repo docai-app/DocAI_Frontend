@@ -38,7 +38,7 @@ export default function LabelContainer() {
     ] = useAxios(apiSetting.Tag.updateTagNameById(''), { manual: true });
 
     const addNewLabelHandler = useCallback(async () => {
-        addNewLabel({ data: { name: newLabelName } });
+        addNewLabel({ data: { name: newLabelName, is_checked: true } });
     }, [addNewLabel, newLabelName]);
 
     const updateLabelNameByIdHandler = useCallback(
