@@ -24,6 +24,7 @@ interface ProjectViewProps {
     setTasks: any;
     addProjectStepHandler: any;
     users: [];
+    chain_features: [];
 }
 
 function ProjectView(props: ProjectViewProps) {
@@ -38,7 +39,8 @@ function ProjectView(props: ProjectViewProps) {
         tasks,
         setTasks,
         addProjectStepHandler,
-        users
+        users,
+        chain_features
     } = props;
     const [visiable, setVisiable] = useState(false);
     const [dest, setDest] = useState<Folder | null>(null);
@@ -111,21 +113,19 @@ function ProjectView(props: ProjectViewProps) {
                         <ul className="flex flex-row -my-px">
                             <li
                                 onClick={() => setCurrentTypeTab('tasks')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'tasks'
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
                                         ? 'text-indigo-700 border-b-2 border-indigo-700'
                                         : 'text-gray-400'
-                                } font-bold text-sm`}
+                                    } font-bold text-sm`}
                             >
                                 待辦事項
                             </li>
                             <li
                                 onClick={() => setCurrentTypeTab('project_workflow')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'project_workflow'
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'project_workflow'
                                         ? 'text-indigo-700 border-b-2 border-indigo-700'
                                         : 'text-gray-400'
-                                } font-bold text-sm`}
+                                    } font-bold text-sm`}
                             >
                                 工作流
                             </li>
@@ -178,6 +178,7 @@ function ProjectView(props: ProjectViewProps) {
             <EditTaskModal
                 title={currentTask ? '編輯任務' : '新增任務'}
                 users={users}
+                chain_features={chain_features}
                 visable={mode != ''}
                 task={currentTask}
                 cancelClick={() => {

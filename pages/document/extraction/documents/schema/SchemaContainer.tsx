@@ -21,6 +21,8 @@ export default function SchemaContainer() {
         data_schema: {}
     });
     const [visableAdd, setVisableAdd] = useState(true);
+    const [tag_ids, set_tag_ids] = useState<any>([]);
+    const [tags, setTags] = useState<any>([])
 
     const [
         { data: getSmartExtractionSchemasByIdData, loading: getLoading },
@@ -35,6 +37,9 @@ export default function SchemaContainer() {
             manual: true
         }
     );
+
+    const [{ data: getAllLabelsData, loading: getAllLabelsDataLoading }, getAllLabels] =
+        useAxios(apiSetting.Tag.getAllTags(), { manual: true });
 
     const [
         { data: updateSchemasByDocuemntsByIdData, loading: updateLoading },
@@ -67,6 +72,10 @@ export default function SchemaContainer() {
     }, [getLoading]);
 
     useEffect(() => {
+        getAllLabels();
+    }, [getAllLabels]);
+
+    useEffect(() => {
         if (createSchemasByDocuemntsData && createSchemasByDocuemntsData.success) {
             setAlert({ title: '創建成功', type: 'success' });
         } else if (createSchemasByDocuemntsData && !createSchemasByDocuemntsData.success) {
@@ -96,44 +105,53 @@ export default function SchemaContainer() {
         }
     }, [getSmartExtractionSchemasByIdData]);
 
+    useEffect(() => {
+        if (getAllLabelsData && getAllLabelsData.success) {
+            setTags(getAllLabelsData.tags)
+        }
+    }, [getAllLabelsData])
+
     const handleSave = useCallback(async () => {
         const data_schema: any = {};
         extractSchema.schema?.map((s: any) => {
             data_schema[s.key] = '';
         });
+        extractSchema.label_ids = tag_ids
         extractSchema.data_schema = data_schema;
         if (_.isEmpty(data_schema)) {
             setAlert({ title: '請添加Column', type: 'warning' });
             return;
         }
-        setActionContent('正在保存數據,等待時間較長，請耐心等候...');
-        if (router && router.query.schema_id) {
-            const isSame = _.isEqual(
-                getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
-                data_schema
-            );
-            if (isSame) {
-                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
-                // console.log(_extractSchema);
-                updateSchemasByDocuemntsById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: _extractSchema
-                });
-            } else {
-                updateSchemasByDocuemntsById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: extractSchema
-                });
-            }
-        } else {
-            createSchemasByDocuemnts({
-                data: extractSchema
-            });
-        }
+        console.log('extractSchema', extractSchema);
+
+        // setActionContent('正在保存數據,等待時間較長，請耐心等候...');
+        // if (router && router.query.schema_id) {
+        //     const isSame = _.isEqual(
+        //         getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
+        //         data_schema
+        //     );
+        //     if (isSame) {
+        //         const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
+        //         // console.log(_extractSchema);
+        //         updateSchemasByDocuemntsById({
+        //             ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+        //                 router.query.schema_id as string
+        //             ),
+        //             data: _extractSchema
+        //         });
+        //     } else {
+        //         updateSchemasByDocuemntsById({
+        //             ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+        //                 router.query.schema_id as string
+        //             ),
+        //             data: extractSchema
+        //         });
+        //     }
+        // } else {
+        //     createSchemasByDocuemnts({
+        //         data: extractSchema
+        //     });
+        // }
     }, [router, getSmartExtractionSchemasByIdData, extractSchema]);
 
     return (
@@ -145,7 +163,11 @@ export default function SchemaContainer() {
                 setExtractSchema,
                 handleSave,
                 actionContent,
-                visableAdd
+                visableAdd,
+                tags,
+                tag_ids,
+                set_tag_ids,
+                getAllLabelsDataLoading
             }}
         />
     );

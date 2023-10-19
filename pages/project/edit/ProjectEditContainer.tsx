@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis';
+import { getAllWorkflowChainFeatureDatas } from '../../../apis/AirtableChainFeature';
 import useAlert from '../../../hooks/useAlert';
 import ProjectEditView from './ProjectEditView';
 
@@ -13,6 +14,7 @@ export default function ProjectEditContainer() {
     const [meta, setMeta] = useState();
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState<any>([]);
+    const [chain_features, set_chain_features] = useState<any>([]);
     const [project, setProject] = useState({
         id: '',
         name: '',
@@ -91,6 +93,9 @@ export default function ProjectEditContainer() {
         //         ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.select_id as string)
         //     });
         // }
+        getAllWorkflowChainFeatureDatas().then((res) => {
+            set_chain_features(res);
+        });
     }, [router]);
 
     useEffect(() => {
@@ -241,6 +246,7 @@ export default function ProjectEditContainer() {
                 project,
                 setProject,
                 users,
+                chain_features,
                 addProjectStepHandler,
                 updateProjectStepHandler,
                 deleteProjectStepHandler,

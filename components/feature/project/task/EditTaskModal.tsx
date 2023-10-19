@@ -13,7 +13,8 @@ export default function EditTaskModal(props: any) {
         name: '',
         description: '',
         deadline: '',
-        assignee_id: ''
+        assignee_id: '',
+        dag_id: ''
     });
 
     useEffect(() => {
@@ -28,7 +29,8 @@ export default function EditTaskModal(props: any) {
                 name: props.task.name,
                 description: props.task.description,
                 deadline: props.task.deadline,
-                assignee_id: props.task.assignee_id
+                assignee_id: props.task.assignee_id,
+                dag_id: props.task.dag_id
             });
         } else {
             setData({
@@ -37,7 +39,8 @@ export default function EditTaskModal(props: any) {
                 name: '',
                 description: '',
                 deadline: '',
-                assignee_id: ''
+                assignee_id: '',
+                dag_id: ''
             });
         }
     }, [props]);
@@ -52,10 +55,31 @@ export default function EditTaskModal(props: any) {
             name: '',
             description: '',
             deadline: '',
-            assignee_id: ''
+            assignee_id: '',
+            dag_id: ''
         });
         props.confirmClick(data);
     };
+
+    const getChainFeatureBlocks = (chain_feature: any) => {
+        const inputs = JSON.parse(chain_feature['input'])
+        const loaders = JSON.parse(chain_feature['loader'])
+        // console.log(JSON.parse(chain_feature['input']));
+        // console.log(inputs);
+        // console.log(loaders);
+        const blocks: any = [];
+        inputs?.map((block: any) => {
+            block.datas?.map((data: any) => {
+                blocks.push(data);
+            })
+        });
+        loaders?.map((block: any) => {
+            block.datas?.map((data: any) => {
+                blocks.push(data);
+            })
+        });
+        console.log('blocks', blocks);
+    }
 
     return (
         <>
@@ -64,7 +88,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -96,7 +120,7 @@ export default function EditTaskModal(props: any) {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center   shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                                <div className="flex flex-row justify-between">
+                                <div className="flex flex-row justify-between items-center">
                                     <XMarkIcon
                                         className="w-6 cursor-pointer"
                                         onClick={props.cancelClick}
@@ -157,6 +181,18 @@ export default function EditTaskModal(props: any) {
                                                 name="type"
                                                 type="string"
                                                 placeholder="任務描述"
+                                                className="appearance-none hidden block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                defaultValue={data?.description}
+                                                onChange={async (e) => {
+                                                    setData({
+                                                        ...data,
+                                                        description: e.target.value
+                                                    });
+                                                }}
+                                            />
+                                            <textarea
+                                                id="type"
+                                                placeholder="任務描述"
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                                 defaultValue={data?.description}
                                                 onChange={async (e) => {
@@ -181,7 +217,7 @@ export default function EditTaskModal(props: any) {
                                         </div>
                                         <div className="flex w-1/2">
                                             <select
-                                                className="w-full border rounded-md  "
+                                                className="w-full border border-gray-300 rounded-md  "
                                                 defaultValue={data?.assignee_id}
                                                 onChange={(e) => {
                                                     setData({
@@ -204,6 +240,51 @@ export default function EditTaskModal(props: any) {
                                                             value={user.id}
                                                         >
                                                             {user.nickname}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="w-full flex flex-row m-2">
+                                        <div className="w-1/4 flex justify-left items-center ">
+                                            <label
+                                                htmlFor="new-type"
+                                                className="block text-sm font-medium text-gray-700"
+                                            >
+                                                <span className="text-red-500 hidden">*</span>
+                                                Chain feature:
+                                            </label>
+                                        </div>
+                                        <div className="flex w-1/2">
+                                            <select
+                                                className="w-full border border-gray-300 rounded-md  "
+                                                defaultValue={''}
+                                                onChange={(e) => {
+                                                    // console.log(JSON.parse(e.target.value));
+                                                    const chain_feature = JSON.parse(e.target.value)
+                                                    getChainFeatureBlocks(chain_feature)
+                                                    setData({
+                                                        ...data,
+                                                        dag_id: e.target.value
+                                                    });
+                                                }}
+                                            >
+                                                <option
+                                                    value={''}
+                                                    className="w-full border rounded-md text-gray-500 "
+                                                >
+                                                    請選擇Chain feature
+                                                </option>
+                                                {props?.chain_features?.map((item: any, index: number) => {
+                                                    return (
+                                                        <option
+                                                            key={index}
+                                                            className="w-full border rounded-md  "
+                                                            value={JSON.stringify(item.fields)}
+                                                        >
+                                                            {item.fields.name}
                                                         </option>
                                                     );
                                                 })}

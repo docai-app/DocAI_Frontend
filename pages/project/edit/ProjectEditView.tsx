@@ -14,6 +14,7 @@ interface ProjectViewProps {
     project: any;
     setProject: any;
     users: [];
+    chain_features: [];
     open: boolean;
     setOpen: any;
     addProjectStepHandler: any;
@@ -29,6 +30,7 @@ function ProjectEditView(props: ProjectViewProps) {
         project,
         setProject,
         users,
+        chain_features,
         addProjectStepHandler,
         updateProjectStepHandler,
         deleteProjectStepHandler,
@@ -229,7 +231,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                         <TaskRow
                                             task={task}
                                             users={users}
-                                            completeTask={() => {}}
+                                            completeTask={() => { }}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
                                         />
@@ -251,6 +253,7 @@ function ProjectEditView(props: ProjectViewProps) {
                 visable={mode != ''}
                 task={currentTask}
                 users={users}
+                chain_features={chain_features}
                 cancelClick={() => {
                     setMode('');
                     setCurrentTask(null);

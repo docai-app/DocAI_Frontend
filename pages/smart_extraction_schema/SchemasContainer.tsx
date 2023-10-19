@@ -47,8 +47,6 @@ export default function ScheamDataContainer() {
     }, [getAllUsersData]);
 
     useEffect(() => {
-        console.log('--');
-
         getSmartExtractionSchemas(
             apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page)
         );

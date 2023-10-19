@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Api from '../../apis';
+import { getAllWorkflowChainFeatureDatas } from '../../apis/AirtableChainFeature';
 import useAlert from '../../hooks/useAlert';
 import ProjectView from './ProjectView';
 
@@ -23,6 +24,8 @@ export default function ProjectContainer() {
     const [users, setUsers] = useState<any>([]);
     const [open, setOpen] = useState(false);
     const [currentStatus, setCurrentStatus] = useState('');
+    const [chain_features, set_chain_features] = useState<any>([]);
+
     const [
         { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
         showAllItems
@@ -57,6 +60,9 @@ export default function ProjectContainer() {
             }
         });
         getAllUsers();
+        getAllWorkflowChainFeatureDatas().then((res) => {
+            set_chain_features(res);
+        });
     }, [router]);
 
     useEffect(() => {
@@ -154,7 +160,8 @@ export default function ProjectContainer() {
                 tasks,
                 setTasks,
                 addProjectStepHandler,
-                users
+                users,
+                chain_features
             }}
         />
     );

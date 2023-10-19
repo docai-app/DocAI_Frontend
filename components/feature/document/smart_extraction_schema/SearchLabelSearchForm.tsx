@@ -133,7 +133,7 @@ export default function SearchLabelSearchForm(props: Props) {
                 )}
                 {!label && !showHasLabelByFalse && (
                     <div className="w-full flex flex-col ">
-                        <div className="flex flex-row justify-between  pr-10">
+                        <div className="flex flex-row justify-between  pr-2">
                             <label className="text-md ">標籤:</label>
 
                             <Link href={'/setting/label'}>
