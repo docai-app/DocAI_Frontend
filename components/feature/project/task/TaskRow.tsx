@@ -125,7 +125,8 @@ export default function TaskRow(props: TaskRowProps) {
                     <span
                         className="text-sm ml-2   "
                         dangerouslySetInnerHTML={{
-                            __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
+                            __html: task?.description
+                            // __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
                         }}
                     ></span>
                     {/* // className="text-sm ml-2  text-gray-400 ">{task?.description}</span> */}
