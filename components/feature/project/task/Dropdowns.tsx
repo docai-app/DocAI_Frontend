@@ -37,7 +37,7 @@ export default function Dropdowns(props: DropdownsProps) {
                 <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black  divide-y divide-gray-100 ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                         {!is_completed && (
-                            <Menu.Item>
+                            <Menu.Item disabled={is_completed}>
                                 {({ active }) => (
                                     <a
                                         onClick={rename}
@@ -79,12 +79,12 @@ export default function Dropdowns(props: DropdownsProps) {
                                 <a
                                     onClick={remove}
                                     className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        active ? 'bg-gray-100 text-red-500' : 'text-red-700',
                                         'group flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
                                     <TrashIcon
-                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        className="mr-3 h-5 w-5 text-red-500 group-hover:text-red-700"
                                         aria-hidden="true"
                                     />
                                     刪除

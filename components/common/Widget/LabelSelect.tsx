@@ -16,22 +16,14 @@ interface SelectProps {
 
 const apiSetting = new Api();
 export default function LabelSelect(props: SelectProps) {
-    const {
-        loading,
-        tags,
-        isOpen,
-        setIsOpen,
-        tagIds,
-        handleSave
-    } = props;
+    const { loading, tags, isOpen, setIsOpen, tagIds, handleSave } = props;
     const [_multipleDest, _setMultipleDest] = useState<any[]>([]);
     const [tag_ids, set_tag_ids] = useState<any[]>([]);
     const router = useRouter();
 
     useEffect(() => {
-        if (tagIds)
-            set_tag_ids(tagIds)
-    }, [tagIds])
+        if (tagIds) set_tag_ids(tagIds);
+    }, [tagIds]);
 
     const isSelected = useCallback(
         (id: string) => {
@@ -48,9 +40,7 @@ export default function LabelSelect(props: SelectProps) {
             if (isSelected(id)) {
                 set_tag_ids((prev: any) => [...prev, id]);
             } else {
-                set_tag_ids(
-                    tag_ids.filter((value: any) => value !== id)
-                );
+                set_tag_ids(tag_ids.filter((value: any) => value !== id));
             }
         },
         [tag_ids]
@@ -110,8 +100,9 @@ export default function LabelSelect(props: SelectProps) {
                                 return (
                                     <div
                                         key={index}
-                                        className={` border p-2 mt-1 cursor-pointer ${!isSelected(item?.id) ? ' bg-indigo-100' : ''
-                                            }`}
+                                        className={` border p-2 mt-1 cursor-pointer ${
+                                            !isSelected(item?.id) ? ' bg-indigo-100' : ''
+                                        }`}
                                         onClick={() => handleTagClick(item?.id)}
                                     >
                                         {item.name} ({item?.smart_extraction_schemas_count})

@@ -1,6 +1,7 @@
 import { ClockIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Router from 'next/router';
+import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import PaginationView from '../../../components/common/Widget/PaginationView';
 
 interface LatestPredictionDataProps {
@@ -19,28 +20,13 @@ function LogView(props: any) {
     return (
         <>
             <div className=" container mx-auto md:px-4 lg:px-6 pb-10">
-                <div className="flex items-center  border-b  justify-between mb-4 border-gray-300  ">
-                    <label
-                        className=" px-4 py-2 rounded-md cursor-pointer"
-                        onClick={() => {
-                            Router.back();
+                <div className=" border-b  justify-between border-gray-300  ">
+                    <HeaderBreadCrumb
+                        title={'智能文檔處理'}
+                        back={() => {
+                            Router.back()
                         }}
-                    >
-                        {'<'} 返回
-                    </label>
-                    <label className="text-2xl font-bold">智能文檔處理</label>
-                    <label className="text-xl font-bold">{''}</label>
-                    {/* <ul className="flex flex-row -my-px">
-                        <li
-                            onClick={() => setCurrentTabStatus('all')}
-                            className={`p-4 cursor-pointer ${currentTabStatus === 'all'
-                                ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                : 'text-gray-400'
-                                } font-bold text-sm`}
-                        >
-                            全部
-                        </li>
-                    </ul> */}
+                    />
                 </div>
                 {loading ? (
                     <div>載入中...</div>
@@ -76,22 +62,22 @@ function LogView(props: any) {
                                                     </label>
                                                     {item.uploaded_count !=
                                                         item.confirmed_count && (
-                                                        <Link
-                                                            href={`/classification/validate?date=${item.date}`}
-                                                        >
-                                                            <a className="p-2 text-sm underline text-indigo-500">
-                                                                繼續處理
-                                                            </a>
-                                                        </Link>
-                                                    )}
+                                                            <Link
+                                                                href={`/classification/validate?date=${item.date}`}
+                                                            >
+                                                                <a className="p-2 text-sm underline text-indigo-500">
+                                                                    繼續處理
+                                                                </a>
+                                                            </Link>
+                                                        )}
                                                     {item.uploaded_count ==
                                                         item.confirmed_count && (
-                                                        <Link href={'/classification/show'}>
-                                                            <a className="p-2 text-sm underline text-indigo-500">
-                                                                查看
-                                                            </a>
-                                                        </Link>
-                                                    )}
+                                                            <Link href={'/classification/show'}>
+                                                                <a className="p-2 text-sm underline text-indigo-500">
+                                                                    查看
+                                                                </a>
+                                                            </Link>
+                                                        )}
                                                 </div>
 
                                                 {item.estimated_time > 0 && (

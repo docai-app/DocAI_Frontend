@@ -66,7 +66,7 @@ export default function StepsListView(props: StepsListViewProps) {
 
     useEffect(() => {
         if (updateProjectWorkflowStepByIdData && updateProjectWorkflowStepByIdData.success) {
-            setAlert({ title: '更新成功', type: 'success' });
+            // setAlert({ title: '更新成功', type: 'success' });
             // console.log('updateProjectWorkflowStepByIdData', updateProjectWorkflowStepByIdData);
         } else if (
             updateProjectWorkflowStepByIdData &&
@@ -119,7 +119,11 @@ export default function StepsListView(props: StepsListViewProps) {
                                     task={task}
                                     users={users}
                                     completeTask={() => {
-                                        task.status = 'completed';
+                                        if ("completed" == task.status) {
+                                            task.status = "pending";
+                                        } else {
+                                            task.status = "completed";
+                                        }
                                         tasks.splice(index, 1, task);
                                         updateLocalData();
                                         updateProjectStepStatusHandler(task);

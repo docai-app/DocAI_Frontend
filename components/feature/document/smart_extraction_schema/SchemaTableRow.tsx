@@ -20,27 +20,33 @@ export default function SchemaTableRow(props: TableRowProps) {
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${updated_at.getHours() < 10
-                ? '0' + updated_at.getHours().toString()
-                : updated_at.getHours()
-                }:${updated_at.getMinutes() < 10
+            date = `${
+                updated_at.getHours() < 10
+                    ? '0' + updated_at.getHours().toString()
+                    : updated_at.getHours()
+            }:${
+                updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-                }`;
+            }`;
         else
-            date = `${updated_at.getMonth() < 9
-                ? '0' + (updated_at.getMonth() + 1).toString()
-                : updated_at.getMonth() + 1
-                }/${updated_at.getDate() < 10
+            date = `${
+                updated_at.getMonth() < 9
+                    ? '0' + (updated_at.getMonth() + 1).toString()
+                    : updated_at.getMonth() + 1
+            }/${
+                updated_at.getDate() < 10
                     ? '0' + updated_at.getDate().toString()
                     : updated_at.getDate()
-                }`;
-    } else {
-        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
-            ? '0' + (updated_at.getMonth() + 1).toString()
-            : updated_at.getMonth() + 1
-            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
             }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${
+            updated_at.getMonth() < 9
+                ? '0' + (updated_at.getMonth() + 1).toString()
+                : updated_at.getMonth() + 1
+        }/${
+            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+        }`;
     }
     const url = `/document/smart_extraction_schema/${schema.id}`;
     // const onMouseEnter = () => {
@@ -132,7 +138,7 @@ export default function SchemaTableRow(props: TableRowProps) {
                                 `/document/extraction/documents/schema?schema_id=${schema?.id}`
                             );
                     }}
-                    remove={() => { }}
+                    remove={() => {}}
                 />
             </div>
             <div className="pr-6 py-4 text-right w-2/12">{date}</div>

@@ -5,6 +5,7 @@ import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Api from '../../../apis';
 import DocumentPath from '../../../components/common/Widget/DocumentPath';
+import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import EditTaskModal from '../../../components/feature/project/task/EditTaskModal';
 import TaskRow from '../../../components/feature/project/task/TaskRow';
@@ -106,29 +107,16 @@ function ProjectEditView(props: ProjectViewProps) {
                 }}
             />
             <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
-                <div className="max-w-4xl mx-auto my-8 h-auto flex justify-center items-center">
-                    <div className="w-full mx-auto text-center">
-                        <h1 className="text-4xl  text-gray-900 sm:text-5xl mb-2">
-                            Workflow Builder
-                        </h1>
-                    </div>
-                </div>
-                <div className="my-2 flex justify-between">
-                    <button
-                        type="button"
-                        className="rounded-md bg-blue-500 text-white py-2 px-4 shadow text-sm"
-                        onClick={handleBack}
-                    >
-                        返回
-                    </button>
-                    <button
-                        type="button"
-                        className="rounded-md bg-blue-500 text-white py-2 px-4 shadow text-sm"
-                        onClick={() => handleSave(project, tasks)}
-                    >
-                        發佈
-                    </button>
-                </div>
+
+                <HeaderBreadCrumb
+                    title={'Workflow Builder'}
+                    back={() => {
+                        Router.back()
+                    }}
+                    save={() => {
+                        handleSave(project, tasks)
+                    }}
+                />
                 <div className="w-full items-center flex justify-center  mt-4">
                     <div className="w-full">
                         <div className="my-2">
@@ -170,15 +158,17 @@ function ProjectEditView(props: ProjectViewProps) {
                                 });
                             }}
                         />
-                        <div className="my-2">
+                        <div className="my-2 flex flex-row items-center">
                             <label>任務關係:</label>
-                            <div className=" mt-2 flex flex-row">
+                            <div className=" ml-2 flex flex-row">
                                 <div className="flex items-center">
                                     <input
                                         name="is_process_workflow"
                                         type="radio"
                                         defaultChecked={project?.is_process_workflow == false}
+                                        // checked
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                        disabled={router.query.id != null}
                                         onChange={(e) => {
                                             setProject({
                                                 ...project,
@@ -196,6 +186,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                         type="radio"
                                         defaultChecked={project?.is_process_workflow == true}
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                        disabled={router.query.id != null}
                                         onChange={(e) => {
                                             setProject({
                                                 ...project,
@@ -206,6 +197,25 @@ function ProjectEditView(props: ProjectViewProps) {
                                     <label className="ml-2 block text-sm font-medium text-gray-700">
                                         依賴
                                     </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="my-2 flex flex-row items-center">
+                            <label>設定為範本:</label>
+                            <div className=" ml-2 flex flex-row">
+                                <div className="flex items-center">
+                                    <input
+                                        name="is_process_workflow"
+                                        type={"checkbox"}
+                                        defaultChecked={project?.is_template}
+                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                        onChange={(e) => {
+                                            setProject({
+                                                ...project,
+                                                is_template: e.target.checked
+                                            });
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -231,6 +241,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                         <TaskRow
                                             task={task}
                                             users={users}
+                                            disabled={true}
                                             completeTask={() => { }}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}

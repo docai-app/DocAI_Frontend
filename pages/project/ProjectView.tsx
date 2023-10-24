@@ -1,9 +1,10 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { PlusIcon } from '@heroicons/react/24/outline';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
+import HeaderBreadCrumb from '../../components/common/Widget/HeaderBreadCrumb';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
@@ -42,6 +43,7 @@ function ProjectView(props: ProjectViewProps) {
         users,
         chain_features
     } = props;
+    const router = useRouter()
     const [visiable, setVisiable] = useState(false);
     const [dest, setDest] = useState<Folder | null>(null);
     const [currentTypeTab, setCurrentTypeTab] = useState<'tasks' | 'project_workflow'>('tasks');
@@ -68,6 +70,12 @@ function ProjectView(props: ProjectViewProps) {
     const [mode, setMode] = useState<'add' | 'edit' | ''>('');
     const [currentTask, setCurrentTask] = useState<any>(null);
     const [currectPosition, setCurrectPosition] = useState(-1);
+
+    useEffect(() => {
+        if (router && router.query.type == "project_workflow") {
+            setCurrentTypeTab("project_workflow")
+        }
+    }, [router])
 
     const [project, setProject] = useState({
         id: null,
@@ -101,21 +109,17 @@ function ProjectView(props: ProjectViewProps) {
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                            待辦事項與工作流
-                        </h2>
-                    </div>
-                </div>
+                <HeaderBreadCrumb
+                    title={'待辦事項與工作流'}
+                />
                 <div className="mt-4 pb-4">
                     <div className="flex flex-row justify-between items-center  py-2">
                         <ul className="flex flex-row -my-px">
                             <li
                                 onClick={() => setCurrentTypeTab('tasks')}
                                 className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
                                     } font-bold text-sm`}
                             >
                                 待辦事項
@@ -123,8 +127,8 @@ function ProjectView(props: ProjectViewProps) {
                             <li
                                 onClick={() => setCurrentTypeTab('project_workflow')}
                                 className={`p-4 cursor-pointer ${currentTypeTab === 'project_workflow'
-                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                        : 'text-gray-400'
+                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                    : 'text-gray-400'
                                     } font-bold text-sm`}
                             >
                                 工作流

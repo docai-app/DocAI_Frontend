@@ -21,7 +21,10 @@ export async function getAllChainFeatureDatas() {
 
 export async function getAllWorkflowChainFeatureDatas() {
     const records = await table
-        ._selectRecords({ filterByFormula: 'NOT(dag_id = 0)', sort: [{ field: 'updated_at', direction: 'desc' }] })
+        ._selectRecords({
+            filterByFormula: 'NOT(dag_id = 0)',
+            sort: [{ field: 'updated_at', direction: 'desc' }]
+        })
         .all();
     return records;
 }

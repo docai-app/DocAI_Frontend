@@ -3,6 +3,7 @@ import useAxios from 'axios-hooks';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 import Api from '../../../apis';
+import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import InputWorkflowModal from '../../../components/common/Widget/InputWorkflowModal';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import useAlert from '../../../hooks/useAlert';
@@ -101,26 +102,15 @@ Please observe the user's objective({{Objectives}}) and start date({{Start Date}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                            新增工作流
-                        </h2>
-                    </div>
-                </div>
-                <div className="mt-4 pb-4">
-                    <div className="flex justify-between items-center">
-                        <label className="text-xl">選擇新增工作流方式</label>
-                        <button
-                            type="button"
-                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            onClick={() => {
-                                handleClickAdd();
-                            }}
-                        >
-                            <span>下一步</span>
-                        </button>
-                    </div>
+                <HeaderBreadCrumb
+                    title={'新增工作流'}
+                    back={() => {
+                        Router.back()
+                    }}
+                    next={handleClickAdd}
+                />
+                <div className="my-2">
+                    <label className="text-xl ml-4">選擇新增工作流方式</label>
                 </div>
                 <div className="my-2">
                     <div className="flex flex-row items-center my-2">
@@ -155,7 +145,7 @@ Please observe the user's objective({{Objectives}}) and start date({{Start Date}
                             <label className="flex flex-1"> 空白工作流</label>
                         </div>
                     </div>
-                    <div className="flex flex-row items-center my-2">
+                    <div className="flex flex-row items-center my-2 hidden">
                         <input
                             type={'radio'}
                             value={0}

@@ -25,7 +25,7 @@ interface SchemaViewProps {
     tags: [];
     tag_ids: [];
     set_tag_ids: any;
-    getAllLabelsDataLoading: boolean
+    getAllLabelsDataLoading: boolean;
 }
 
 function SchemaView(props: SchemaViewProps) {
@@ -45,7 +45,7 @@ function SchemaView(props: SchemaViewProps) {
     const [visable, setVisable] = useState(false);
     const [currectExtraScheam, setCurrectExtraSchema] = useState();
     const [currectPosition, setCurrectPosition] = useState(-1);
-    const [tagIsOpen, setTagIsOpen] = useState(false)
+    const [tagIsOpen, setTagIsOpen] = useState(false);
 
     const editExtraSchema = (position: number) => {
         setVisable(true);
@@ -62,14 +62,14 @@ function SchemaView(props: SchemaViewProps) {
     };
 
     const handleConfirmTagIds = (tag_ids: any) => {
-        set_tag_ids(tag_ids)
-    }
+        set_tag_ids(tag_ids);
+    };
 
     const getTag = (tag_id: string) => {
         return _.find(tags, function (tag: any) {
-            return tag.id == tag_id
-        })
-    }
+            return tag.id == tag_id;
+        });
+    };
 
     return (
         <>
@@ -103,32 +103,30 @@ function SchemaView(props: SchemaViewProps) {
                     </div>
                     <div className="my-2 flex flex-row items-center flex-wrap">
                         <label className="text-md font-bold px-0 py-2">來源:</label>
-                        {
-                            tag_ids?.map((tag_id: string, index: number) => {
-                                const label = getTag(tag_id)
-                                return (
-                                    <button
-                                        key={index}
-                                        className="mx-2 my-1 flex flex-row items-center cursor-pointer rounded-md bg-green-700 hover:bg-green-800  px-3 py-2 text-center text-sm font-semibold text-white shadow-sm  "
-                                        onClick={() => {
-                                            Router.push({
-                                                pathname: `/smart_extraction_schema/label/${label?.id}`,
-                                                query: { label: label.name }
-                                            });
-                                        }}
-                                    >
-                                        <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
-                                        <label className=" cursor-pointer text-xs sm:text-sm">
-                                            {label?.name}({label?.smart_extraction_schemas_count})
-                                        </label>
-                                    </button>
-                                )
-                            })
-                        }
+                        {tag_ids?.map((tag_id: string, index: number) => {
+                            const label = getTag(tag_id);
+                            return (
+                                <button
+                                    key={index}
+                                    className="mx-2 my-1 flex flex-row items-center cursor-pointer rounded-md bg-green-700 hover:bg-green-800  px-3 py-2 text-center text-sm font-semibold text-white shadow-sm  "
+                                    onClick={() => {
+                                        Router.push({
+                                            pathname: `/smart_extraction_schema/label/${label?.id}`,
+                                            query: { label: label.name }
+                                        });
+                                    }}
+                                >
+                                    <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
+                                    <label className=" cursor-pointer text-xs sm:text-sm">
+                                        {label?.name}({label?.smart_extraction_schemas_count})
+                                    </label>
+                                </button>
+                            );
+                        })}
                         <a
                             className="mx-2 underline cursor-pointer block rounded-md  text-center   font-semibold text-indigo-500  hover:text-indigo-700  "
                             onClick={() => {
-                                setTagIsOpen(true)
+                                setTagIsOpen(true);
                             }}
                         >
                             + 新增

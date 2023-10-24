@@ -62,8 +62,8 @@ export default function EditTaskModal(props: any) {
     };
 
     const getChainFeatureBlocks = (chain_feature: any) => {
-        const inputs = JSON.parse(chain_feature['input'])
-        const loaders = JSON.parse(chain_feature['loader'])
+        const inputs = JSON.parse(chain_feature['input']);
+        const loaders = JSON.parse(chain_feature['loader']);
         // console.log(JSON.parse(chain_feature['input']));
         // console.log(inputs);
         // console.log(loaders);
@@ -71,15 +71,15 @@ export default function EditTaskModal(props: any) {
         inputs?.map((block: any) => {
             block.datas?.map((data: any) => {
                 blocks.push(data);
-            })
+            });
         });
         loaders?.map((block: any) => {
             block.datas?.map((data: any) => {
                 blocks.push(data);
-            })
+            });
         });
         console.log('blocks', blocks);
-    }
+    };
 
     return (
         <>
@@ -88,7 +88,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -263,8 +263,10 @@ export default function EditTaskModal(props: any) {
                                                 defaultValue={''}
                                                 onChange={(e) => {
                                                     // console.log(JSON.parse(e.target.value));
-                                                    const chain_feature = JSON.parse(e.target.value)
-                                                    getChainFeatureBlocks(chain_feature)
+                                                    const chain_feature = JSON.parse(
+                                                        e.target.value
+                                                    );
+                                                    getChainFeatureBlocks(chain_feature);
                                                     setData({
                                                         ...data,
                                                         dag_id: e.target.value
@@ -277,17 +279,19 @@ export default function EditTaskModal(props: any) {
                                                 >
                                                     請選擇Chain feature
                                                 </option>
-                                                {props?.chain_features?.map((item: any, index: number) => {
-                                                    return (
-                                                        <option
-                                                            key={index}
-                                                            className="w-full border rounded-md  "
-                                                            value={JSON.stringify(item.fields)}
-                                                        >
-                                                            {item.fields.name}
-                                                        </option>
-                                                    );
-                                                })}
+                                                {props?.chain_features?.map(
+                                                    (item: any, index: number) => {
+                                                        return (
+                                                            <option
+                                                                key={index}
+                                                                className="w-full border rounded-md  "
+                                                                value={JSON.stringify(item.fields)}
+                                                            >
+                                                                {item.fields.name}
+                                                            </option>
+                                                        );
+                                                    }
+                                                )}
                                             </select>
                                         </div>
                                     </div>
