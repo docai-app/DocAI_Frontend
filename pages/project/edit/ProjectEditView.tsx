@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Api from '../../../apis';
+import BButton from '../../../components/common/Widget/button/BButton';
 import DocumentPath from '../../../components/common/Widget/DocumentPath';
 import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
@@ -14,6 +15,7 @@ const apiSetting = new Api();
 interface ProjectViewProps {
     project: any;
     setProject: any;
+    modalDescription: any;
     users: [];
     chain_features: [];
     open: boolean;
@@ -28,6 +30,7 @@ function ProjectEditView(props: ProjectViewProps) {
     const {
         open,
         setOpen,
+        modalDescription,
         project,
         setProject,
         users,
@@ -48,7 +51,8 @@ function ProjectEditView(props: ProjectViewProps) {
         if (project && project.folder_id) {
             set_target_folder_id(project.folder_id);
         }
-        if (project && project.steps) {
+        if (project && project.steps && project.steps.length > 0) {
+            console.log('1', project.steps);
             setTasks(project.steps);
         }
         if (router && router.query.template) {
@@ -99,8 +103,8 @@ function ProjectEditView(props: ProjectViewProps) {
                 {...{
                     open,
                     setOpen,
-                    title: '進行中......',
-                    content: '正在保存數據',
+                    title: modalDescription?.title,
+                    content: modalDescription?.description,
                     icon: (
                         <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                     )
@@ -113,6 +117,7 @@ function ProjectEditView(props: ProjectViewProps) {
                     back={() => {
                         Router.back()
                     }}
+                    saveTitle={"部署"}
                     save={() => {
                         handleSave(project, tasks)
                     }}
@@ -160,45 +165,58 @@ function ProjectEditView(props: ProjectViewProps) {
                         />
                         <div className="my-2 flex flex-row items-center">
                             <label>任務關係:</label>
-                            <div className=" ml-2 flex flex-row">
-                                <div className="flex items-center">
-                                    <input
-                                        name="is_process_workflow"
-                                        type="radio"
-                                        defaultChecked={project?.is_process_workflow == false}
-                                        // checked
-                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                        disabled={router.query.id != null}
-                                        onChange={(e) => {
-                                            setProject({
-                                                ...project,
-                                                is_process_workflow: false
-                                            });
-                                        }}
-                                    />
-                                    <label className="ml-2 block text-sm font-medium text-gray-700">
-                                        不依賴
-                                    </label>
+                            {router.query.id == null &&
+                                <div className=" ml-2 flex flex-row">
+                                    <div className="flex items-center">
+                                        <input
+                                            name="is_process_workflow"
+                                            type="radio"
+                                            defaultChecked={project?.is_process_workflow == false}
+                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                            disabled={router.query.id != null}
+                                            onChange={(e) => {
+                                                setProject({
+                                                    ...project,
+                                                    is_process_workflow: false
+                                                });
+                                            }}
+                                        />
+                                        <label className="ml-2 block text-sm font-medium text-gray-700">
+                                            不依賴
+                                        </label>
+                                    </div>
+                                    <div className="flex items-center ml-5">
+                                        <input
+                                            name="is_process_workflow"
+                                            type="radio"
+                                            defaultChecked={project?.is_process_workflow == true}
+                                            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                            disabled={router.query.id != null}
+                                            onChange={(e) => {
+                                                setProject({
+                                                    ...project,
+                                                    is_process_workflow: true
+                                                });
+                                            }}
+                                        />
+                                        <label className="ml-2 block text-sm font-medium text-gray-700">
+                                            依賴
+                                        </label>
+                                    </div>
                                 </div>
-                                <div className="flex items-center ml-5 hidden">
-                                    <input
-                                        name="is_process_workflow"
-                                        type="radio"
-                                        defaultChecked={project?.is_process_workflow == true}
-                                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                                        disabled={router.query.id != null}
-                                        onChange={(e) => {
-                                            setProject({
-                                                ...project,
-                                                is_process_workflow: true
-                                            });
-                                        }}
-                                    />
-                                    <label className="ml-2 block text-sm font-medium text-gray-700">
-                                        依賴
-                                    </label>
-                                </div>
-                            </div>
+                            }
+                            {
+                                router.query.id != null && (
+                                    project?.is_process_workflow
+                                        ?
+                                        <label className="ml-2 block text-sm font-medium text-gray-500">
+                                            依賴
+                                        </label> :
+                                        <label className="ml-2 block text-sm font-medium text-gray-500">
+                                            不依賴
+                                        </label>
+                                )
+                            }
                         </div>
                         <div className="my-2 flex flex-row items-center">
                             <label>設定為範本:</label>
@@ -220,16 +238,13 @@ function ProjectEditView(props: ProjectViewProps) {
                             </div>
                         </div>
                         <div className="my-2 flex justify-end">
-                            <button
-                                type="button"
-                                className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            <BButton
+                                name='新增'
+                                icon={<PlusIcon className="h-4 mr-2" />}
                                 onClick={() => {
                                     setMode('add');
                                 }}
-                            >
-                                <PlusIcon className="h-4" />
-                                <span>新增</span>
-                            </button>
+                            />
                         </div>
                         <div className="my-2">
                             {tasks?.map((task: any, index: number) => {
@@ -272,7 +287,9 @@ function ProjectEditView(props: ProjectViewProps) {
                 confirmClick={(data: never) => {
                     setMode('');
                     setCurrentTask(null);
-                    if (mode == 'add') setTasks((arr: any) => [...arr, data]);
+                    if (mode == 'add') {
+                        setTasks((arr: any) => [...arr, data])
+                    }
                     else if (mode == 'edit') {
                         tasks.splice(currectPosition, 1, data);
                         updateLocalData();

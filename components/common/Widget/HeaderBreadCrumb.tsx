@@ -1,8 +1,10 @@
+import BButton from "./button/BButton";
 
 interface BreadCrumbProps {
     title: string;
     back?: any;
     next?: any;
+    saveTitle?: string;
     save?: any;
 }
 
@@ -11,6 +13,7 @@ export default function HeaderBreadCrumb(props: BreadCrumbProps) {
         title,
         back,
         next,
+        saveTitle,
         save
     } = props
     return (
@@ -35,13 +38,10 @@ export default function HeaderBreadCrumb(props: BreadCrumbProps) {
                         </label>
                     }
                     {save &&
-                        <button
-                            type="button"
-                            className="rounded-md bg-blue-500 text-white py-2 px-4 shadow text-sm"
+                        <BButton
+                            name={saveTitle || '確認'}
                             onClick={save}
-                        >
-                            確認
-                        </button>
+                        />
                     }
                 </div>
             </div>

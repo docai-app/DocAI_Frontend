@@ -1,39 +1,83 @@
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import Router from 'next/router';
+import PaginationView from '../../common/Widget/PaginationView';
 import ProjectRow from './ProjectRow';
 
 interface ProjectItemProps {
     projects: any;
     setVisiable: any;
     setProject: any;
+    meta: any;
 }
 
 export default function ProjectItem(props: ProjectItemProps) {
-    const { projects, setVisiable, setProject } = props;
+    const { projects, setVisiable, setProject, meta } = props;
     return (
         <>
-            <div className="mt-4 rounded-lg shadow">
-                <div className=" rounded-t-lg bg-gray-50 border-b px-4 py-2 flex justify-between items-center">
-                    <div>
-                        <h1>工作流名稱</h1>
-                    </div>
-                    <button
-                        type="button"
-                        className="hidden relative  items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        <ChevronDownIcon className="h-4 " />
-                    </button>
-                </div>
-                <div className=" divide-y">
-                    {projects?.map((project: any, index: number) => {
-                        return (
-                            <ProjectRow
-                                key={index}
-                                project={project}
-                                setVisiable={setVisiable}
-                                setProject={setProject}
-                            />
-                        );
-                    })}
+            <div className="mt-0 flow-root w-full">
+                <div className="inline-block  align-middle w-full ">
+                    <table className="min-w-full divide-y divide-gray-300">
+                        <thead>
+                            <tr>
+                                <th
+                                    scope="col"
+                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                >
+                                    名稱
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    運行次數
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    狀態
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    上一次運行
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    建立日期
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="px-0 py-3.5 text-left text-md font-semibold text-gray-900">
+                                    <div className="flex justify-end">
+                                        <a
+                                            className=" underline cursor-pointer block rounded-md  text-center text-md font-semibold text-indigo-500  hover:text-indigo-700  "
+                                            onClick={() => {
+                                                Router.push({ pathname: '/project/select' });
+                                            }}
+                                        >
+                                            + 新增
+                                        </a>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                            {projects?.map((project: any, index: number) => {
+                                return (
+                                    <ProjectRow
+                                        key={index}
+                                        project={project}
+                                        setVisiable={setVisiable}
+                                        setProject={setProject}
+                                    />
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                    <PaginationView meta={meta} pathname={'/project'} params={null} />
                 </div>
             </div>
         </>

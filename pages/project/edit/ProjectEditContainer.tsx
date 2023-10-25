@@ -15,6 +15,7 @@ export default function ProjectEditContainer() {
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState<any>([]);
     const [chain_features, set_chain_features] = useState<any>([]);
+    const [modalDescription, setModalDescription] = useState({});
     const [project, setProject] = useState({
         id: '',
         name: '',
@@ -60,14 +61,26 @@ export default function ProjectEditContainer() {
     });
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在加載數據'
+        })
         setOpen(loading);
     }, [loading]);
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在保存數據'
+        })
         setOpen(addProjectLoading);
     }, [addProjectLoading]);
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在保存數據'
+        })
         setOpen(updateProjectLoading);
     }, [updateProjectLoading]);
 
@@ -246,6 +259,7 @@ export default function ProjectEditContainer() {
             {...{
                 open,
                 setOpen,
+                modalDescription,
                 project,
                 setProject,
                 users,
