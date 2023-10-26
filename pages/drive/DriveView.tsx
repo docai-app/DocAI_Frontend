@@ -171,6 +171,16 @@ export default function DriveView(props: DriveViewProps) {
             });
             setFoldersItems(selectedItems.folders);
             setDocumentsItems(selectedItems.documents);
+        },
+        shouldStartSelecting(target) {
+            if (target instanceof HTMLElement) {
+                let el = target;
+                while (el.parentElement && !el.dataset.disableselect) {
+                    el = el.parentElement;
+                }
+                return el.dataset.disableselect !== 'true';
+            }
+            return false;
         }
     });
 
@@ -223,10 +233,10 @@ export default function DriveView(props: DriveViewProps) {
         [folders_items, documents_items, setFoldersItems, setDocumentsItems]
     );
 
-    const clearCheckedData = () => {
+    const clearCheckedData = useCallback(() => {
         setFoldersItems([]);
         setDocumentsItems([]);
-    };
+    }, [setFoldersItems, setDocumentsItems]);
 
     useEffect(() => {
         if (countDocumentsByDateData) {

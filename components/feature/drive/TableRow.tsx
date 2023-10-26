@@ -92,7 +92,7 @@ export default function TableRow(props: TableRowProps) {
             data-id={doc.id}
             data-type={type}
         >
-            <div className=" mx-2 w-10 items-center flex justify-center">
+            <div className="mx-2 w-10 items-center flex justify-center" data-disableselect="true">
                 {(visable || checked) && (
                     <input
                         type={'checkbox'}
