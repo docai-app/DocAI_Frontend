@@ -39,4 +39,13 @@ export default class User {
         };
         return requestHeader;
     }
+
+    googleSignInCallback() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/users/auth/google_oauth2/callback`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }
