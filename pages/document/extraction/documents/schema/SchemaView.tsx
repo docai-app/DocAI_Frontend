@@ -1,7 +1,10 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import { TableCellsIcon } from '@heroicons/react/24/outline';
+import _ from 'lodash';
 import Router from 'next/router';
 import { useState } from 'react';
 import EditSchemaDataModal from '../../../../../components/common/Widget/EditSchemaDataModal';
+import LabelSelect from '../../../../../components/common/Widget/LabelSelect';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
 import ExtractSchemaRow from '../../../../../components/feature/document/extraction/ExtractSchemaRow';
 
@@ -19,6 +22,10 @@ interface SchemaViewProps {
     handleSave: any;
     actionContent: string;
     visableAdd?: boolean;
+    tags: [];
+    tag_ids: [];
+    set_tag_ids: any;
+    getAllLabelsDataLoading: boolean;
 }
 
 function SchemaView(props: SchemaViewProps) {
@@ -29,11 +36,16 @@ function SchemaView(props: SchemaViewProps) {
         setExtractSchema,
         handleSave,
         actionContent,
-        visableAdd = true
+        visableAdd = true,
+        tags,
+        tag_ids,
+        set_tag_ids,
+        getAllLabelsDataLoading
     } = props;
     const [visable, setVisable] = useState(false);
     const [currectExtraScheam, setCurrectExtraSchema] = useState();
     const [currectPosition, setCurrectPosition] = useState(-1);
+    const [tagIsOpen, setTagIsOpen] = useState(false);
 
     const editExtraSchema = (position: number) => {
         setVisable(true);
@@ -46,6 +58,16 @@ function SchemaView(props: SchemaViewProps) {
         setExtractSchema({
             ...extractSchema,
             schema: extractSchema?.schema
+        });
+    };
+
+    const handleConfirmTagIds = (tag_ids: any) => {
+        set_tag_ids(tag_ids);
+    };
+
+    const getTag = (tag_id: string) => {
+        return _.find(tags, function (tag: any) {
+            return tag.id == tag_id;
         });
     };
 
@@ -79,11 +101,33 @@ function SchemaView(props: SchemaViewProps) {
                             確認
                         </button>
                     </div>
-                    <div className="my-2 flex flex-row items-center">
-                        <label className="text-md font-bold">來源:</label>
+                    <div className="my-2 flex flex-row items-center flex-wrap">
+                        <label className="text-md font-bold px-0 py-2">來源:</label>
+                        {tag_ids?.map((tag_id: string, index: number) => {
+                            const label = getTag(tag_id);
+                            return (
+                                <button
+                                    key={index}
+                                    className="mx-2 my-1 flex flex-row items-center cursor-pointer rounded-md bg-green-700 hover:bg-green-800  px-3 py-2 text-center text-sm font-semibold text-white shadow-sm  "
+                                    onClick={() => {
+                                        Router.push({
+                                            pathname: `/smart_extraction_schema/label/${label?.id}`,
+                                            query: { label: label.name }
+                                        });
+                                    }}
+                                >
+                                    <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
+                                    <label className=" cursor-pointer text-xs sm:text-sm">
+                                        {label?.name}({label?.smart_extraction_schemas_count})
+                                    </label>
+                                </button>
+                            );
+                        })}
                         <a
                             className="mx-2 underline cursor-pointer block rounded-md  text-center   font-semibold text-indigo-500  hover:text-indigo-700  "
-                            onClick={() => {}}
+                            onClick={() => {
+                                setTagIsOpen(true);
+                            }}
                         >
                             + 新增
                         </a>
@@ -218,6 +262,17 @@ function SchemaView(props: SchemaViewProps) {
                         ...extractSchema,
                         schema: extractSchema?.schema
                     });
+                }}
+            />
+            <LabelSelect
+                {...{
+                    loading: getAllLabelsDataLoading,
+                    tags: tags,
+                    isOpen: tagIsOpen,
+                    setIsOpen: setTagIsOpen,
+                    tag_ids,
+                    set_tag_ids,
+                    handleSave: handleConfirmTagIds
                 }}
             />
         </>

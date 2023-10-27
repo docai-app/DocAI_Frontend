@@ -13,6 +13,7 @@ interface TaskRowProps {
     removeTask: any;
     visiableMore?: boolean;
     showProjectName?: boolean;
+    disabled?: boolean;
 }
 
 export default function TaskRow(props: TaskRowProps) {
@@ -23,7 +24,8 @@ export default function TaskRow(props: TaskRowProps) {
         updateTask,
         removeTask,
         visiableMore = true,
-        showProjectName = false
+        showProjectName = false,
+        disabled = false
     } = props;
     const [visiable, setVisiable] = useState(false);
     const [overflow, setOverflow] = useState(false);
@@ -67,12 +69,12 @@ export default function TaskRow(props: TaskRowProps) {
         const assignee = _.find(users, function (user: any) {
             return user.id == task?.assignee_id;
         });
-        return assignee?.nickname;
+        return assignee?.nickname || localStorage.getItem("email");
     };
 
     return (
         <>
-            <div className="flex flex-row px-4 py-2 items-start cursor-pointer  border rounded-md my-2  w-full ">
+            <div className="flex flex-row px-4 py-2 items-start  border rounded-md my-2  w-full ">
                 {visiableMore && (
                     <div className=" flex-row items-center">
                         {task?.status == 'completed' && (
@@ -80,7 +82,8 @@ export default function TaskRow(props: TaskRowProps) {
                                 type={'checkbox'}
                                 className=" w-4 h-4  mt-1 cursor-pointer "
                                 defaultChecked={true}
-                                disabled={true}
+                                onClick={completeTask}
+                                disabled={disabled}
                             />
                         )}
                         {task?.status == 'pending' && (
@@ -88,6 +91,7 @@ export default function TaskRow(props: TaskRowProps) {
                                 type={'radio'}
                                 className=" w-4 h-4  mt-1 cursor-pointer "
                                 onClick={completeTask}
+                                disabled={disabled}
                             />
                         )}
                         {(task?.status == '' || task?.status == null) && (
@@ -110,19 +114,24 @@ export default function TaskRow(props: TaskRowProps) {
                         setVisiable(!visiable);
                     }}
                 >
-                    <span className={`text-md ml-2  break-words break-all  text-black `}>
+                    <p className={`text-md ml-2  break-words break-all  text-black ${task?.status == 'completed' ? 'line-through' : ''}`}>
                         {task?.name}
-                    </span>
+                    </p>
                     {showProjectName && task?.project_workflow?.name && (
                         <>
-                            <br />
                             <span className="text-sm font-bold ml-2 ">
                                 ({task?.project_workflow?.name})
                             </span>
                         </>
                     )}
-                    <br />
-                    <span className="text-sm ml-2  text-gray-400 ">{task?.description}</span>
+                    <span
+                        className="text-sm ml-2  text-gray-400  "
+                        dangerouslySetInnerHTML={{
+                            __html: task?.description
+                            // __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
+                        }}
+                    ></span>
+                    {/* // className="text-sm ml-2  text-gray-400 ">{task?.description}</span> */}
                     <div className="flex flex-row ml-2 items-center">
                         <label className=" text-blue-500">@{getAssigneeName()}</label>
                         {task?.deadline && (
@@ -154,7 +163,7 @@ export default function TaskRow(props: TaskRowProps) {
                     {visiableMore && (
                         <Dropdowns
                             type={'type'}
-                            is_completed={task?.is_completed}
+                            is_completed={task?.status == "completed"}
                             rename={updateTask}
                             remove={removeTask}
                             move={() => {

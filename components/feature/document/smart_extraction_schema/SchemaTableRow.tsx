@@ -129,9 +129,14 @@ export default function SchemaTableRow(props: TableRowProps) {
             <div className="px-2 py-4 flex justify-end gap-2 w-2/12">
                 <Dropdowns
                     edit={() => {
-                        Router.push(
-                            `/document/extraction/${schema?.label_id}/schema?schema_id=${schema?.id}`
-                        );
+                        if (schema?.has_label)
+                            Router.push(
+                                `/document/extraction/${schema?.label_id}/schema?schema_id=${schema?.id}`
+                            );
+                        else
+                            Router.push(
+                                `/document/extraction/documents/schema?schema_id=${schema?.id}`
+                            );
                     }}
                     remove={() => {}}
                 />

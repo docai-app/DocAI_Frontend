@@ -19,6 +19,16 @@ export async function getAllChainFeatureDatas() {
     return records;
 }
 
+export async function getAllWorkflowChainFeatureDatas() {
+    const records = await table
+        ._selectRecords({
+            filterByFormula: 'NOT(dag_id = 0)',
+            sort: [{ field: 'updated_at', direction: 'desc' }]
+        })
+        .all();
+    return records;
+}
+
 export async function getAllChainFeatureByIdsDatas(ids?: any[]) {
     let fiters = '';
     ids?.forEach((id, index) => {

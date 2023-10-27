@@ -54,7 +54,7 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                 }}
             >
                 <td>
-                    <div className=" mx-2 w-10 items-center flex justify-center">
+                    <div className=" mx-2 w-10 items-center flex justify-center hidden">
                         {visable && (
                             <input
                                 type={'checkbox'}

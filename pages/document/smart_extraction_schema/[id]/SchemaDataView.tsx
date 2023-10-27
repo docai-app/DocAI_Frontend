@@ -206,7 +206,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                         <tr className="divide-x divide-gray-200">
                                             <th
                                                 scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                className="hidden py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                             ></th>
                                             <th
                                                 scope="col"
@@ -221,7 +221,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                                         scope="col"
                                                         className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                     >
-                                                        {result?.key}
+                                                        {result?.query}
                                                     </th>
                                                 );
                                             })}

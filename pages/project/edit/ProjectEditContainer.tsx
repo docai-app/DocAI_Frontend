@@ -2,6 +2,7 @@ import useAxios from 'axios-hooks';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import Api from '../../../apis';
+import { getAllWorkflowChainFeatureDatas } from '../../../apis/AirtableChainFeature';
 import useAlert from '../../../hooks/useAlert';
 import ProjectEditView from './ProjectEditView';
 
@@ -13,6 +14,8 @@ export default function ProjectEditContainer() {
     const [meta, setMeta] = useState();
     const [open, setOpen] = useState(false);
     const [users, setUsers] = useState<any>([]);
+    const [chain_features, set_chain_features] = useState<any>([]);
+    const [modalDescription, setModalDescription] = useState({});
     const [project, setProject] = useState({
         id: '',
         name: '',
@@ -21,7 +24,8 @@ export default function ProjectEditContainer() {
         steps: [],
         status: 'draft',
         is_process_workflow: false,
-        folder_id: ''
+        folder_id: '',
+        is_template: false
     });
 
     const [
@@ -57,14 +61,26 @@ export default function ProjectEditContainer() {
     });
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在加載數據'
+        })
         setOpen(loading);
     }, [loading]);
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在保存數據'
+        })
         setOpen(addProjectLoading);
     }, [addProjectLoading]);
 
     useEffect(() => {
+        setModalDescription({
+            title: '進行中......',
+            description: '正在保存數據'
+        })
         setOpen(updateProjectLoading);
     }, [updateProjectLoading]);
 
@@ -91,6 +107,9 @@ export default function ProjectEditContainer() {
         //         ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.select_id as string)
         //     });
         // }
+        getAllWorkflowChainFeatureDatas().then((res) => {
+            set_chain_features(res);
+        });
     }, [router]);
 
     useEffect(() => {
@@ -115,7 +134,7 @@ export default function ProjectEditContainer() {
     const addProjectHeadler = useCallback(
         async (data, tasks) => {
             console.log(data, tasks);
-            const { name, description, is_process_workflow, folder_id } = data;
+            const { name, description, is_process_workflow, folder_id, is_template } = data;
             // console.log(parent_id);
             if (!name) return setAlert({ title: '請輸入名稱', type: 'info' });
             if (!folder_id) return setAlert({ title: '請選擇儲存路徑', type: 'info' });
@@ -126,7 +145,7 @@ export default function ProjectEditContainer() {
                     steps: tasks,
                     is_process_workflow: is_process_workflow,
                     folder_id: folder_id,
-                    is_template: router.query.is_template || false
+                    is_template: is_template || false
                 }
             });
         },
@@ -135,7 +154,7 @@ export default function ProjectEditContainer() {
 
     const updateProjectHandler = useCallback(
         async (id, data) => {
-            const { name, description, steps, is_process_workflow, folder_id } = data;
+            const { name, description, steps, is_process_workflow, folder_id, is_template } = data;
             console.log(data);
             if (!name) return setAlert({ title: '請輸入名稱', type: 'info' });
             if (!folder_id) return setAlert({ title: '請選擇儲存路徑', type: 'info' });
@@ -145,7 +164,8 @@ export default function ProjectEditContainer() {
                     name: name,
                     description: description,
                     is_process_workflow: is_process_workflow,
-                    folder_id: folder_id
+                    folder_id: folder_id,
+                    is_template: is_template || false
                 }
             });
         },
@@ -213,7 +233,7 @@ export default function ProjectEditContainer() {
         if (addNewProjectData && addNewProjectData.success) {
             // console.log('addNewProjectData', addNewProjectData);
             setAlert({ title: '保存成功', type: 'success' });
-            router.back();
+            router.push('/project?type=project_workflow');
         } else if (addNewProjectData && !addNewProjectData.success) {
             setAlert({ title: '保存失败， 請重試', type: 'success' });
         }
@@ -222,6 +242,7 @@ export default function ProjectEditContainer() {
     useEffect(() => {
         if (updateProjectData && updateProjectData.success) {
             setAlert({ title: '修改成功', type: 'success' });
+            router.push('/project?type=project_workflow');
         } else if (updateProjectData && !updateProjectData.success) {
             setAlert({ title: '修改失敗， 請重試', type: 'success' });
         }
@@ -238,9 +259,11 @@ export default function ProjectEditContainer() {
             {...{
                 open,
                 setOpen,
+                modalDescription,
                 project,
                 setProject,
                 users,
+                chain_features,
                 addProjectStepHandler,
                 updateProjectStepHandler,
                 deleteProjectStepHandler,
