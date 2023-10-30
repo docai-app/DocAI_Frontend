@@ -8,12 +8,13 @@ import { useEffect, useLayoutEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import AlertModel from '../components/common/Widget/AlertModel';
 import { AlertProvider } from '../context/AlertContext';
+import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';
 
 const canUseDOM = typeof window !== 'undefined';
 const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     const router = useRouter();
     useIsomorphicLayoutEffect(() => {
         axios.defaults.headers.common['authorization'] =
@@ -32,16 +33,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         );
     }, [router]);
     return (
-        <AlertProvider>
-            <script src="https://accounts.google.com/gsi/client" async defer></script>
-            <Helmet>
-                {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-                <script src="https://code.highcharts.com/highcharts.js"></script>
+        <SessionProvider session={session}>
+            <AlertProvider>
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
-            </Helmet>
-            <Component {...pageProps} />
-            <AlertModel />
-        </AlertProvider>
+                <Helmet>
+                    {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                    <script src="https://code.highcharts.com/highcharts.js"></script>
+                    <script src="https://accounts.google.com/gsi/client" async defer></script>
+                </Helmet>
+                <Component {...pageProps} />
+                <AlertModel />
+            </AlertProvider>
+        </SessionProvider>
     );
 }
 

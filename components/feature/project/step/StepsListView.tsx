@@ -119,10 +119,10 @@ export default function StepsListView(props: StepsListViewProps) {
                                     task={task}
                                     users={users}
                                     completeTask={() => {
-                                        if ("completed" == task.status) {
-                                            task.status = "pending";
+                                        if ('completed' == task.status) {
+                                            task.status = 'pending';
                                         } else {
-                                            task.status = "completed";
+                                            task.status = 'completed';
                                         }
                                         tasks.splice(index, 1, task);
                                         updateLocalData();
