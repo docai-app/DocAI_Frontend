@@ -14,7 +14,7 @@ interface SchemaViewProps {
     extractSchema: {
         name: string;
         description: string;
-        label_ids: any[];
+        // label_ids: any[];
         schema: any[];
         data_schema: any;
     };
@@ -101,7 +101,7 @@ function SchemaView(props: SchemaViewProps) {
                             確認
                         </button>
                     </div>
-                    <div className="my-2 flex flex-row items-center flex-wrap">
+                    <div className="my-2 flex flex-row items-center flex-wrap hidden">
                         <label className="text-md font-bold px-0 py-2">來源:</label>
                         {tag_ids?.map((tag_id: string, index: number) => {
                             const label = getTag(tag_id);
@@ -132,7 +132,7 @@ function SchemaView(props: SchemaViewProps) {
                             + 新增
                         </a>
                     </div>
-                    <div className="my-2">
+                    <div className="my-2 hidden">
                         <label className="text-md font-bold">目的地:</label>
                     </div>
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">{extractSchema?.description}</p> */}

@@ -97,7 +97,7 @@ export default function TaskRow(props: TaskRowProps) {
                         {(task?.status == '' || task?.status == null) && (
                             <input
                                 type={'radio'}
-                                className=" w-4 h-4  mt-1 cursor-pointer "
+                                className=" w-4 h-4  mt-1 cursor-pointer"
                                 disabled={true}
                             />
                         )}
@@ -131,7 +131,12 @@ export default function TaskRow(props: TaskRowProps) {
                             // __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
                         }}
                     ></span>
-                    {/* // className="text-sm ml-2  text-gray-400 ">{task?.description}</span> */}
+                    {
+                        task?.dag_meta?.dag_id &&
+                        <div className='text-gray-400 ml-2'>
+                            <label>Chain feature: {task?.dag_meta?.dag_name}</label>
+                        </div>
+                    }
                     <div className="flex flex-row ml-2 items-center">
                         <label className=" text-blue-500">@{getAssigneeName()}</label>
                         {task?.deadline && (

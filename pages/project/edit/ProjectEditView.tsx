@@ -52,7 +52,7 @@ function ProjectEditView(props: ProjectViewProps) {
             set_target_folder_id(project.folder_id);
         }
         if (project && project.steps && project.steps.length > 0) {
-            console.log('1', project.steps);
+            // console.log('1', project.steps);
             setTasks(project.steps);
         }
         if (router && router.query.template) {
@@ -76,7 +76,7 @@ function ProjectEditView(props: ProjectViewProps) {
     const removeTask = (task: any, position: number) => {
         tasks.splice(position, 1);
         updateLocalData();
-        console.log(task);
+        // console.log(task);
         if (task.id) {
             deleteProjectStepHandler(task);
         }
@@ -247,7 +247,7 @@ function ProjectEditView(props: ProjectViewProps) {
                             />
                         </div>
                         <div className="my-2">
-                            {tasks?.map((task: any, index: number) => {
+                            {tasks?.sort((a: any, b: any) => (a.status > b.status ? -1 : 1))?.map((task: any, index: number) => {
                                 return (
                                     <div
                                         key={index}

@@ -20,37 +20,43 @@ export default function ProjectItem(props: ProjectItemProps) {
                             <tr>
                                 <th
                                     scope="col"
-                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    className="w-4/12 py-3.5  text-left text-sm font-semibold text-gray-900 sm:pl-0"
                                 >
                                     名稱
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                >
+                                    任務關係
+                                </th>
+                                <th
+                                    scope="col"
+                                    className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 >
                                     運行次數
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 >
                                     狀態
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 >
                                     上一次運行
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                    className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                 >
                                     建立日期
                                 </th>
                                 <th
                                     scope="col"
-                                    className="px-0 py-3.5 text-left text-md font-semibold text-gray-900">
+                                    className="w-2/12 text-left text-md font-semibold text-gray-900">
                                     <div className="flex justify-end">
                                         <a
                                             className=" underline cursor-pointer block rounded-md  text-center text-md font-semibold text-indigo-500  hover:text-indigo-700  "

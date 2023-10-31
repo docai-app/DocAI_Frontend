@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
+import _ from 'lodash';
 import moment from 'moment';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import useAlert from '../../../../hooks/useAlert';
@@ -14,7 +15,10 @@ export default function EditTaskModal(props: any) {
         description: '',
         deadline: '',
         assignee_id: '',
-        dag_id: ''
+        dag_meta: {
+            dag_id: '',
+            dag_name: ''
+        }
     });
 
     useEffect(() => {
@@ -30,7 +34,7 @@ export default function EditTaskModal(props: any) {
                 description: props.task.description,
                 deadline: props.task.deadline,
                 assignee_id: props.task.assignee_id,
-                dag_id: props.task.dag_id
+                dag_meta: props.task.dag_meta
             });
         } else {
             setData({
@@ -40,7 +44,10 @@ export default function EditTaskModal(props: any) {
                 description: '',
                 deadline: '',
                 assignee_id: '',
-                dag_id: ''
+                dag_meta: {
+                    dag_id: '',
+                    dag_name: ''
+                }
             });
         }
     }, [props]);
@@ -56,7 +63,10 @@ export default function EditTaskModal(props: any) {
             description: '',
             deadline: '',
             assignee_id: '',
-            dag_id: ''
+            dag_meta: {
+                dag_id: '',
+                dag_name: ''
+            }
         });
         props.confirmClick(data);
     };
@@ -81,6 +91,14 @@ export default function EditTaskModal(props: any) {
         console.log('blocks', blocks);
     };
 
+    const getChainFeatureName = (dag_id: string) => {
+        if (!dag_id) return
+        const chain_feature = _.find(props.chain_features, function (cf: any) {
+            return cf.fields.dag_id == dag_id
+        })
+        return chain_feature?.fields?.name
+    }
+
     return (
         <>
             <Transition.Root show={props.visable || false} as={Fragment}>
@@ -88,7 +106,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => {}}
+                    onClose={() => { }}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -260,16 +278,19 @@ export default function EditTaskModal(props: any) {
                                         <div className="flex w-1/2">
                                             <select
                                                 className="w-full border border-gray-300 rounded-md  "
-                                                defaultValue={''}
+                                                defaultValue={data?.dag_meta?.dag_id}
                                                 onChange={(e) => {
                                                     // console.log(JSON.parse(e.target.value));
-                                                    const chain_feature = JSON.parse(
-                                                        e.target.value
-                                                    );
-                                                    getChainFeatureBlocks(chain_feature);
+                                                    // const chain_feature = JSON.parse(
+                                                    //     e.target.value
+                                                    // );
+                                                    // getChainFeatureBlocks(chain_feature);
                                                     setData({
                                                         ...data,
-                                                        dag_id: e.target.value
+                                                        dag_meta: {
+                                                            dag_id: e.target.value,
+                                                            dag_name: getChainFeatureName(e.target.value)
+                                                        }
                                                     });
                                                 }}
                                             >
@@ -285,7 +306,7 @@ export default function EditTaskModal(props: any) {
                                                             <option
                                                                 key={index}
                                                                 className="w-full border rounded-md  "
-                                                                value={JSON.stringify(item.fields)}
+                                                                value={item.fields.dag_id}
                                                             >
                                                                 {item.fields.name}
                                                             </option>

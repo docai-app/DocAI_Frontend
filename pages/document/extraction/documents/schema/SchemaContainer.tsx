@@ -16,7 +16,7 @@ export default function SchemaContainer() {
     const [extractSchema, setExtractSchema] = useState({
         name: '',
         description: '',
-        label_ids: [],
+        // label_ids: [],
         schema: [],
         data_schema: {}
     });
@@ -100,7 +100,7 @@ export default function SchemaContainer() {
             setExtractSchema({
                 name: getSmartExtractionSchemasByIdData.smart_extraction_schema?.name,
                 description: getSmartExtractionSchemasByIdData.smart_extraction_schema?.description,
-                label_ids: getSmartExtractionSchemasByIdData.smart_extraction_schema?.label_ids,
+                // label_ids: getSmartExtractionSchemasByIdData.smart_extraction_schema?.label_ids,
                 schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.schema,
                 data_schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.data_schema
             });
@@ -118,7 +118,7 @@ export default function SchemaContainer() {
         extractSchema.schema?.map((s: any) => {
             data_schema[s.key] = '';
         });
-        extractSchema.label_ids = tag_ids;
+        // extractSchema.label_ids = tag_ids;
         extractSchema.data_schema = data_schema;
         if (_.isEmpty(data_schema)) {
             setAlert({ title: '請添加Column', type: 'warning' });
@@ -126,34 +126,34 @@ export default function SchemaContainer() {
         }
         console.log('extractSchema', extractSchema);
 
-        // setActionContent('正在保存數據,等待時間較長，請耐心等候...');
-        // if (router && router.query.schema_id) {
-        //     const isSame = _.isEqual(
-        //         getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
-        //         data_schema
-        //     );
-        //     if (isSame) {
-        //         const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
-        //         // console.log(_extractSchema);
-        //         updateSchemasByDocuemntsById({
-        //             ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-        //                 router.query.schema_id as string
-        //             ),
-        //             data: _extractSchema
-        //         });
-        //     } else {
-        //         updateSchemasByDocuemntsById({
-        //             ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-        //                 router.query.schema_id as string
-        //             ),
-        //             data: extractSchema
-        //         });
-        //     }
-        // } else {
-        //     createSchemasByDocuemnts({
-        //         data: extractSchema
-        //     });
-        // }
+        setActionContent('正在保存數據,等待時間較長，請耐心等候...');
+        if (router && router.query.schema_id) {
+            const isSame = _.isEqual(
+                getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
+                data_schema
+            );
+            if (isSame) {
+                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
+                // console.log(_extractSchema);
+                updateSchemasByDocuemntsById({
+                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+                        router.query.schema_id as string
+                    ),
+                    data: _extractSchema
+                });
+            } else {
+                updateSchemasByDocuemntsById({
+                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+                        router.query.schema_id as string
+                    ),
+                    data: extractSchema
+                });
+            }
+        } else {
+            createSchemasByDocuemnts({
+                data: extractSchema
+            });
+        }
     }, [router, getSmartExtractionSchemasByIdData, extractSchema]);
 
     return (
