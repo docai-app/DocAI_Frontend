@@ -34,7 +34,7 @@ interface SearchViewProps {
 export default function SearchView(props: SearchViewProps) {
     const {
         label,
-        searchDocumentFormik = { handleChange: () => { } },
+        searchDocumentFormik = { handleChange: () => {} },
         documents = [],
         meta,
         open,
@@ -100,7 +100,7 @@ export default function SearchView(props: SearchViewProps) {
                 allLabelsData={getAllLabelsData}
                 confirmDocumentFormik={confirmDocumentFormik}
                 isSubmit={true}
-                setTagName={(name: string) => { }}
+                setTagName={(name: string) => {}}
                 setOpenEditLabel={setOpenEditLabel}
             />
             <EditLabel
@@ -156,8 +156,9 @@ export default function SearchView(props: SearchViewProps) {
                 <div>
                     <p className=" text-black text-xl font-bold">
                         與 "
-                        {searchDocumentFormik?.values?.content || searchDocumentFormik?.values?.date}"
-                        相關的文檔共有 {meta?.total_count} 份
+                        {searchDocumentFormik?.values?.content ||
+                            searchDocumentFormik?.values?.date}
+                        " 相關的文檔共有 {meta?.total_count} 份
                     </p>
                 </div>
                 <div className="flex flex-1 flex-col overflow-y-auto ">
@@ -181,13 +182,13 @@ export default function SearchView(props: SearchViewProps) {
                             searchDocumentFormik?.values?.date
                                 ? { date: searchDocumentFormik?.values?.date }
                                 : searchDocumentFormik?.values?.tag_id
-                                    ? {
-                                        content: searchDocumentFormik?.values?.content,
-                                        tag_id: searchDocumentFormik?.values?.tag_id,
-                                        from: searchDocumentFormik?.values?.from,
-                                        to: searchDocumentFormik?.values?.to
-                                    }
-                                    : { content: searchDocumentFormik?.values?.content }
+                                ? {
+                                      content: searchDocumentFormik?.values?.content,
+                                      tag_id: searchDocumentFormik?.values?.tag_id,
+                                      from: searchDocumentFormik?.values?.from,
+                                      to: searchDocumentFormik?.values?.to
+                                  }
+                                : { content: searchDocumentFormik?.values?.content }
                         }
                     />
                 </div>

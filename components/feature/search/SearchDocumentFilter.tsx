@@ -1,5 +1,10 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { ArchiveBoxArrowDownIcon, PaperAirplaneIcon, Square2StackIcon, TagIcon } from '@heroicons/react/24/outline';
+import {
+    ArchiveBoxArrowDownIcon,
+    PaperAirplaneIcon,
+    Square2StackIcon,
+    TagIcon
+} from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useCallback, useState } from 'react';
@@ -157,11 +162,13 @@ export default function SearchDocumentFilter(props: Props) {
                                         <div
                                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={() => {
-                                                setOpenSelectShema(true)
+                                                setOpenSelectShema(true);
                                             }}
                                         >
                                             <Square2StackIcon className="w-4 m-1 " />
-                                            <label className="text-sm cursor-pointer">搬資料到Execl</label>
+                                            <label className="text-sm cursor-pointer">
+                                                搬資料到Execl
+                                            </label>
                                         </div>
                                         <div
                                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"

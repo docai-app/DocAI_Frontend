@@ -53,7 +53,7 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                     onMouseLeave();
                 }}
             >
-                <td className='hidden'>
+                <td className="hidden">
                     <div className=" mx-2 w-10 items-center flex justify-center">
                         {visable && (
                             <input

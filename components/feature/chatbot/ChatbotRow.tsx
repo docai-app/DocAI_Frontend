@@ -29,9 +29,7 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                         <a className="text-indigo-500">{chatbot?.name}</a>
                     </Link>
                 </td>
-                <td className="w-2/12py-4 text-sm text-gray-500">
-                    {chatbot?.description}
-                </td>
+                <td className="w-2/12py-4 text-sm text-gray-500">{chatbot?.description}</td>
                 <td className="w-2/12 py-4 text-sm text-gray-500">
                     {folders?.map((folder) => (
                         <div className="flex gap-2 items-center" key={folder.id}>

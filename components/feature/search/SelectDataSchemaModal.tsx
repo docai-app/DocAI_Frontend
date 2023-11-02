@@ -13,64 +13,61 @@ interface Props {
 }
 const apiSetting = new Api();
 export default function SelectDataSchemaModal(props: Props) {
-    const {
-        open,
-        setOpen,
-        document_id
-    } = props;
+    const { open, setOpen, document_id } = props;
     const cancelButtonRef = useRef(null);
-    const router = useRouter()
+    const router = useRouter();
     const { setAlert } = useAlert();
-    const [smart_extraction_schemas, set_smart_extraction_schemas] = useState([])
-    const [select_schema_id, set_select_schema_id] = useState('')
+    const [smart_extraction_schemas, set_smart_extraction_schemas] = useState([]);
+    const [select_schema_id, set_select_schema_id] = useState('');
 
     const [{ data: getSmartExtractionSchemasData, loading: loading }, getSmartExtractionSchemas] =
         useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas('false', 1), {
             manual: true
         });
 
-    const [{ data: updateSchemasByDocuemntsByIdData, loading: updateSchemasByDocuemntsByIdLoading }, updateSchemasByDocuemntsById] =
-        useAxios(apiSetting.SmartExtractionSchemas.updateSchemasByDocuemntsById(''), {
-            manual: true
-        });
+    const [
+        { data: updateSchemasByDocuemntsByIdData, loading: updateSchemasByDocuemntsByIdLoading },
+        updateSchemasByDocuemntsById
+    ] = useAxios(apiSetting.SmartExtractionSchemas.updateSchemasByDocuemntsById(''), {
+        manual: true
+    });
 
     useEffect(() => {
-        getSmartExtractionSchemas()
-    }, [router])
-
+        getSmartExtractionSchemas();
+    }, [router]);
 
     useEffect(() => {
         if (getSmartExtractionSchemasData && getSmartExtractionSchemasData.success) {
-            set_smart_extraction_schemas(getSmartExtractionSchemasData.smart_extraction_schemas)
+            set_smart_extraction_schemas(getSmartExtractionSchemasData.smart_extraction_schemas);
         }
     }, [getSmartExtractionSchemasData]);
 
     useEffect(() => {
         if (updateSchemasByDocuemntsByIdData && updateSchemasByDocuemntsByIdData.success) {
-            setAlert({ title: '添加成功', type: 'success' })
+            setAlert({ title: '添加成功', type: 'success' });
             console.log('getSmartExtractionSchemasData', updateSchemasByDocuemntsByIdData);
         } else if (updateSchemasByDocuemntsByIdData && !updateSchemasByDocuemntsByIdData.success) {
-            setAlert({ title: '添加失敗', type: 'error' })
+            setAlert({ title: '添加失敗', type: 'error' });
             console.log('getSmartExtractionSchemasData', updateSchemasByDocuemntsByIdData);
         }
     }, [updateSchemasByDocuemntsByIdData]);
 
     const addDocumentToSchema = () => {
-        if (!select_schema_id) return
+        if (!select_schema_id) return;
         // console.log(select_schema_id);
         // console.log(document_id);
-        setOpen(false)
+        setOpen(false);
         updateSchemasByDocuemntsById({
             ...apiSetting.SmartExtractionSchemas.updateSchemasByDocuemntsById(select_schema_id),
             data: {
                 document_ids: [document_id]
             }
-        })
-    }
+        });
+    };
 
     const add = () => {
-        Router.push({ pathname: '/document/extraction/documents/schema' })
-    }
+        Router.push({ pathname: '/document/extraction/documents/schema' });
+    };
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -122,7 +119,13 @@ export default function SelectDataSchemaModal(props: Props) {
                                         as="h3"
                                         className="text-lg leading-6 font-medium text-gray-900"
                                     >
-                                        選擇數據總表 {loading && <label className='text-blue-500 text-sm'> 正在加載中...</label>}
+                                        選擇數據總表{' '}
+                                        {loading && (
+                                            <label className="text-blue-500 text-sm">
+                                                {' '}
+                                                正在加載中...
+                                            </label>
+                                        )}
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <div className="w-full">
@@ -139,7 +142,7 @@ export default function SelectDataSchemaModal(props: Props) {
                                                     defaultValue={''}
                                                     className="mt-1 w-full block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                                                     onChange={(e) => {
-                                                        set_select_schema_id(e.target.value)
+                                                        set_select_schema_id(e.target.value);
                                                     }}
                                                 >
                                                     <option value="" disabled hidden>
@@ -150,7 +153,7 @@ export default function SelectDataSchemaModal(props: Props) {
                                                             <option key={item.id} value={item.id}>
                                                                 {item.name}
                                                             </option>
-                                                        )
+                                                        );
                                                     })}
                                                 </select>
                                             </div>

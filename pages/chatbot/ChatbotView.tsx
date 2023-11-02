@@ -45,7 +45,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                         title={'智能助手'}
                         saveTitle={'新增智能助手'}
                         save={() => {
-                            Router.push('/chatbot/create')
+                            Router.push('/chatbot/create');
                         }}
                     />
                     <div className="mt-8 flow-root">

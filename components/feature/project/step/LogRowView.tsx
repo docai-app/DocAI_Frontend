@@ -1,4 +1,3 @@
-
 interface RowProps {
     title: string;
     logs?: any;
@@ -9,7 +8,7 @@ export default function LogRowView(props: RowProps) {
 
     return (
         <>
-            <div >
+            <div>
                 <p className="text-xl font-bold my-2">{title}</p>
                 <p className="text-sm px-2">{title}</p>
                 <p className="text-sm px-2">{title}</p>

@@ -64,7 +64,7 @@ export default function ProjectEditContainer() {
         setModalDescription({
             title: '進行中......',
             description: '正在加載數據'
-        })
+        });
         setOpen(loading);
     }, [loading]);
 
@@ -72,7 +72,7 @@ export default function ProjectEditContainer() {
         setModalDescription({
             title: '進行中......',
             description: '正在保存數據'
-        })
+        });
         setOpen(addProjectLoading);
     }, [addProjectLoading]);
 
@@ -80,7 +80,7 @@ export default function ProjectEditContainer() {
         setModalDescription({
             title: '進行中......',
             description: '正在保存數據'
-        })
+        });
         setOpen(updateProjectLoading);
     }, [updateProjectLoading]);
 

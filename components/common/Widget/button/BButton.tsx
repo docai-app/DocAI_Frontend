@@ -1,18 +1,11 @@
-
-
-
 interface ButtonProps {
-    name: string
+    name: string;
     onClick: any;
     icon?: any;
 }
 
 export default function BButton(props: ButtonProps) {
-    const {
-        name,
-        icon,
-        onClick
-    } = props
+    const { name, icon, onClick } = props;
     return (
         <>
             <button
@@ -24,5 +17,5 @@ export default function BButton(props: ButtonProps) {
                 {name || '確認'}
             </button>
         </>
-    )
+    );
 }

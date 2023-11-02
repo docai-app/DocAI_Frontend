@@ -56,7 +56,8 @@ export default function ProjectItem(props: ProjectItemProps) {
                                 </th>
                                 <th
                                     scope="col"
-                                    className="w-2/12 text-left text-md font-semibold text-gray-900">
+                                    className="w-2/12 text-left text-md font-semibold text-gray-900"
+                                >
                                     <div className="flex justify-end">
                                         <a
                                             className=" underline cursor-pointer block rounded-md  text-center text-md font-semibold text-indigo-500  hover:text-indigo-700  "

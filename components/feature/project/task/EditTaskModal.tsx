@@ -92,12 +92,12 @@ export default function EditTaskModal(props: any) {
     };
 
     const getChainFeatureName = (dag_id: string) => {
-        if (!dag_id) return
+        if (!dag_id) return;
         const chain_feature = _.find(props.chain_features, function (cf: any) {
-            return cf.fields.dag_id == dag_id
-        })
-        return chain_feature?.fields?.name
-    }
+            return cf.fields.dag_id == dag_id;
+        });
+        return chain_feature?.fields?.name;
+    };
 
     return (
         <>
@@ -106,7 +106,7 @@ export default function EditTaskModal(props: any) {
                     as="div"
                     className="fixed z-10 inset-0 overflow-y-auto"
                     initialFocus={cancelButtonRef}
-                    onClose={() => { }}
+                    onClose={() => {}}
                 >
                     <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
@@ -289,7 +289,9 @@ export default function EditTaskModal(props: any) {
                                                         ...data,
                                                         dag_meta: {
                                                             dag_id: e.target.value,
-                                                            dag_name: getChainFeatureName(e.target.value)
+                                                            dag_name: getChainFeatureName(
+                                                                e.target.value
+                                                            )
                                                         }
                                                     });
                                                 }}
