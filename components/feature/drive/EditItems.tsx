@@ -12,6 +12,7 @@ interface EditItemsProps {
     deleteItems?: any;
     clearItems?: any;
     searchItems?: any;
+    downloadItems?: any;
     visibleSearchItems?: boolean;
     updateTag?: any;
     visibleUpdateTag?: boolean;
@@ -29,6 +30,7 @@ export default function EditItems(props: EditItemsProps) {
         deleteItems,
         clearItems,
         searchItems,
+        downloadItems,
         visibleSearchItems,
         updateTag,
         visibleUpdateTag,
@@ -58,6 +60,15 @@ export default function EditItems(props: EditItemsProps) {
                             >
                                 <ArrowRightCircleIcon className="w-4 m-1 " />
                                 <label className="text-sm">移動至</label>
+                            </div>
+                        )}
+                        {visibleMoveItem && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={downloadItems}
+                            >
+                                <ArrowRightCircleIcon className="w-4 m-1 " />
+                                <label className="text-sm">下載</label>
                             </div>
                         )}
                         {visibleUpdateTag && (
