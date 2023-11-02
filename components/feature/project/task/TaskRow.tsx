@@ -69,7 +69,7 @@ export default function TaskRow(props: TaskRowProps) {
         const assignee = _.find(users, function (user: any) {
             return user.id == task?.assignee_id;
         });
-        return assignee?.nickname || localStorage.getItem("email");
+        return assignee?.nickname || localStorage.getItem('email');
     };
 
     return (
@@ -114,7 +114,11 @@ export default function TaskRow(props: TaskRowProps) {
                         setVisiable(!visiable);
                     }}
                 >
-                    <p className={`text-md ml-2  break-words break-all  text-black ${task?.status == 'completed' ? 'line-through' : ''}`}>
+                    <p
+                        className={`text-md ml-2  break-words break-all  text-black ${
+                            task?.status == 'completed' ? 'line-through' : ''
+                        }`}
+                    >
                         {task?.name}
                     </p>
                     {showProjectName && task?.project_workflow?.name && (
@@ -163,7 +167,7 @@ export default function TaskRow(props: TaskRowProps) {
                     {visiableMore && (
                         <Dropdowns
                             type={'type'}
-                            is_completed={task?.status == "completed"}
+                            is_completed={task?.status == 'completed'}
                             rename={updateTask}
                             remove={removeTask}
                             move={() => {

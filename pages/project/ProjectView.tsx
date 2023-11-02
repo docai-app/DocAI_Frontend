@@ -43,7 +43,7 @@ function ProjectView(props: ProjectViewProps) {
         users,
         chain_features
     } = props;
-    const router = useRouter()
+    const router = useRouter();
     const [visiable, setVisiable] = useState(false);
     const [dest, setDest] = useState<Folder | null>(null);
     const [currentTypeTab, setCurrentTypeTab] = useState<'tasks' | 'project_workflow'>('tasks');
@@ -72,10 +72,10 @@ function ProjectView(props: ProjectViewProps) {
     const [currectPosition, setCurrectPosition] = useState(-1);
 
     useEffect(() => {
-        if (router && router.query.type == "project_workflow") {
-            setCurrentTypeTab("project_workflow")
+        if (router && router.query.type == 'project_workflow') {
+            setCurrentTypeTab('project_workflow');
         }
-    }, [router])
+    }, [router]);
 
     const [project, setProject] = useState({
         id: null,
@@ -109,32 +109,32 @@ function ProjectView(props: ProjectViewProps) {
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 py-4 sm:px-6 lg:px-8">
-                <HeaderBreadCrumb
-                    title={'待辦事項與工作流'}
-                />
+                <HeaderBreadCrumb title={'待辦事項與工作流'} />
                 <div className="mt-4 pb-4">
                     <div className="flex flex-row justify-between items-center  py-2">
                         <ul className="flex flex-row -my-px">
                             <li
                                 onClick={() => setCurrentTypeTab('tasks')}
-                                className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
-                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                    : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                className={`p-4 cursor-pointer ${
+                                    currentTypeTab === 'tasks'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                } font-bold text-sm`}
                             >
                                 待辦事項
                             </li>
                             <li
                                 onClick={() => setCurrentTypeTab('project_workflow')}
-                                className={`p-4 cursor-pointer ${currentTypeTab === 'project_workflow'
-                                    ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                    : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                className={`p-4 cursor-pointer ${
+                                    currentTypeTab === 'project_workflow'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                } font-bold text-sm`}
                             >
                                 工作流
                             </li>
                         </ul>
-                        {currentTypeTab == 'tasks' &&
+                        {currentTypeTab == 'tasks' && (
                             <button
                                 type="button"
                                 className="relative inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -145,7 +145,7 @@ function ProjectView(props: ProjectViewProps) {
                                 <PlusIcon className="h-4" />
                                 <span>新增</span>
                             </button>
-                        }
+                        )}
                     </div>
                     <div className="my-2 hidden">
                         <MyDateDropdown

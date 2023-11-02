@@ -24,7 +24,7 @@ function LogView(props: any) {
                     <HeaderBreadCrumb
                         title={'智能文檔處理'}
                         back={() => {
-                            Router.back()
+                            Router.back();
                         }}
                     />
                 </div>
@@ -62,22 +62,22 @@ function LogView(props: any) {
                                                     </label>
                                                     {item.uploaded_count !=
                                                         item.confirmed_count && (
-                                                            <Link
-                                                                href={`/classification/validate?date=${item.date}`}
-                                                            >
-                                                                <a className="p-2 text-sm underline text-indigo-500">
-                                                                    繼續處理
-                                                                </a>
-                                                            </Link>
-                                                        )}
+                                                        <Link
+                                                            href={`/classification/validate?date=${item.date}`}
+                                                        >
+                                                            <a className="p-2 text-sm underline text-indigo-500">
+                                                                繼續處理
+                                                            </a>
+                                                        </Link>
+                                                    )}
                                                     {item.uploaded_count ==
                                                         item.confirmed_count && (
-                                                            <Link href={'/classification/show'}>
-                                                                <a className="p-2 text-sm underline text-indigo-500">
-                                                                    查看
-                                                                </a>
-                                                            </Link>
-                                                        )}
+                                                        <Link href={'/classification/show'}>
+                                                            <a className="p-2 text-sm underline text-indigo-500">
+                                                                查看
+                                                            </a>
+                                                        </Link>
+                                                    )}
                                                 </div>
 
                                                 {item.estimated_time > 0 && (

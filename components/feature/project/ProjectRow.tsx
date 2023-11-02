@@ -31,12 +31,8 @@ export default function ProjectRow(props: ProjectRowProps) {
                         <a className="text-indigo-500">{project?.name}</a>
                     </Link>
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    0
-                </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    進行中
-                </td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">0</td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">進行中</td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                     {moment(project?.updated_at).format('YYYY-MM-DD HH:ss')}
                 </td>
@@ -45,9 +41,7 @@ export default function ProjectRow(props: ProjectRowProps) {
                 </td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                     <Link href={`/project/edit?id=${project?.id}`}>
-                        <a className="text-indigo-600 hover:text-indigo-900">
-                            編輯
-                        </a>
+                        <a className="text-indigo-600 hover:text-indigo-900">編輯</a>
                     </Link>
                 </td>
             </tr>

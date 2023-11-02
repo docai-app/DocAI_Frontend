@@ -111,15 +111,14 @@ function ProjectEditView(props: ProjectViewProps) {
                 }}
             />
             <div className="max-w-7xl mx-auto h-50vh px-4 sm:px-6 lg:px-8">
-
                 <HeaderBreadCrumb
                     title={'Workflow Builder'}
                     back={() => {
-                        Router.back()
+                        Router.back();
                     }}
-                    saveTitle={"部署"}
+                    saveTitle={'部署'}
                     save={() => {
-                        handleSave(project, tasks)
+                        handleSave(project, tasks);
                     }}
                 />
                 <div className="w-full items-center flex justify-center  mt-4">
@@ -165,7 +164,7 @@ function ProjectEditView(props: ProjectViewProps) {
                         />
                         <div className="my-2 flex flex-row items-center">
                             <label>任務關係:</label>
-                            {router.query.id == null &&
+                            {router.query.id == null && (
                                 <div className=" ml-2 flex flex-row">
                                     <div className="flex items-center">
                                         <input
@@ -204,19 +203,17 @@ function ProjectEditView(props: ProjectViewProps) {
                                         </label>
                                     </div>
                                 </div>
-                            }
-                            {
-                                router.query.id != null && (
-                                    project?.is_process_workflow
-                                        ?
-                                        <label className="ml-2 block text-sm font-medium text-gray-500">
-                                            依賴
-                                        </label> :
-                                        <label className="ml-2 block text-sm font-medium text-gray-500">
-                                            不依賴
-                                        </label>
-                                )
-                            }
+                            )}
+                            {router.query.id != null &&
+                                (project?.is_process_workflow ? (
+                                    <label className="ml-2 block text-sm font-medium text-gray-500">
+                                        依賴
+                                    </label>
+                                ) : (
+                                    <label className="ml-2 block text-sm font-medium text-gray-500">
+                                        不依賴
+                                    </label>
+                                ))}
                         </div>
                         <div className="my-2 flex flex-row items-center">
                             <label>設定為範本:</label>
@@ -224,7 +221,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                 <div className="flex items-center">
                                     <input
                                         name="is_process_workflow"
-                                        type={"checkbox"}
+                                        type={'checkbox'}
                                         defaultChecked={project?.is_template}
                                         className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                                         onChange={(e) => {
@@ -239,7 +236,7 @@ function ProjectEditView(props: ProjectViewProps) {
                         </div>
                         <div className="my-2 flex justify-end">
                             <BButton
-                                name='新增'
+                                name="新增"
                                 icon={<PlusIcon className="h-4 mr-2" />}
                                 onClick={() => {
                                     setMode('add');
@@ -257,7 +254,7 @@ function ProjectEditView(props: ProjectViewProps) {
                                             task={task}
                                             users={users}
                                             disabled={true}
-                                            completeTask={() => { }}
+                                            completeTask={() => {}}
                                             updateTask={() => updateTask(task, index)}
                                             removeTask={() => removeTask(task, index)}
                                         />
@@ -288,9 +285,8 @@ function ProjectEditView(props: ProjectViewProps) {
                     setMode('');
                     setCurrentTask(null);
                     if (mode == 'add') {
-                        setTasks((arr: any) => [...arr, data])
-                    }
-                    else if (mode == 'edit') {
+                        setTasks((arr: any) => [...arr, data]);
+                    } else if (mode == 'edit') {
                         tasks.splice(currectPosition, 1, data);
                         updateLocalData();
                     }

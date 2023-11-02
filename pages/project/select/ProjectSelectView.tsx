@@ -105,7 +105,7 @@ Please observe the user's objective({{Objectives}}) and start date({{Start Date}
                 <HeaderBreadCrumb
                     title={'新增工作流'}
                     back={() => {
-                        Router.back()
+                        Router.back();
                     }}
                     next={handleClickAdd}
                 />
