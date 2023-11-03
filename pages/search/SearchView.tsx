@@ -151,14 +151,16 @@ export default function SearchView(props: SearchViewProps) {
                     )
                 }}
             />
-            <div>
-                <p className=" text-black text-xl font-bold">
-                    與 "
-                    {searchDocumentFormik?.values?.content || searchDocumentFormik?.values?.date}"
-                    相關的文檔共有 {meta?.total_count} 份
-                </p>
-            </div>
-            <div className="px-16 flex flex-col h-full">
+
+            <div className="px-16 py-2 flex flex-col h-full">
+                <div>
+                    <p className=" text-black text-xl font-bold">
+                        與 "
+                        {searchDocumentFormik?.values?.content ||
+                            searchDocumentFormik?.values?.date}
+                        " 相關的文檔共有 {meta?.total_count} 份
+                    </p>
+                </div>
                 <div className="flex flex-1 flex-col overflow-y-auto ">
                     <div className="mt-8 mb-8  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                         {documents.map((document: any) => {

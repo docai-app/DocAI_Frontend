@@ -52,7 +52,7 @@ function ProjectEditView(props: ProjectViewProps) {
             set_target_folder_id(project.folder_id);
         }
         if (project && project.steps && project.steps.length > 0) {
-            console.log('1', project.steps);
+            // console.log('1', project.steps);
             setTasks(project.steps);
         }
         if (router && router.query.template) {
@@ -76,7 +76,7 @@ function ProjectEditView(props: ProjectViewProps) {
     const removeTask = (task: any, position: number) => {
         tasks.splice(position, 1);
         updateLocalData();
-        console.log(task);
+        // console.log(task);
         if (task.id) {
             deleteProjectStepHandler(task);
         }
@@ -244,29 +244,31 @@ function ProjectEditView(props: ProjectViewProps) {
                             />
                         </div>
                         <div className="my-2">
-                            {tasks?.map((task: any, index: number) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className="flex flex-col justify-center items-center"
-                                    >
-                                        <TaskRow
-                                            task={task}
-                                            users={users}
-                                            disabled={true}
-                                            completeTask={() => {}}
-                                            updateTask={() => updateTask(task, index)}
-                                            removeTask={() => removeTask(task, index)}
-                                        />
-                                        {index != tasks.length - 1 &&
-                                            (project?.is_process_workflow ? (
-                                                <ArrowLongDownIcon className="  h-6 text-gray-500  " />
-                                            ) : (
-                                                <div className="h-6 w-0.5"></div>
-                                            ))}
-                                    </div>
-                                );
-                            })}
+                            {tasks
+                                ?.sort((a: any, b: any) => (a.status > b.status ? -1 : 1))
+                                ?.map((task: any, index: number) => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="flex flex-col justify-center items-center"
+                                        >
+                                            <TaskRow
+                                                task={task}
+                                                users={users}
+                                                disabled={true}
+                                                completeTask={() => {}}
+                                                updateTask={() => updateTask(task, index)}
+                                                removeTask={() => removeTask(task, index)}
+                                            />
+                                            {index != tasks.length - 1 &&
+                                                (project?.is_process_workflow ? (
+                                                    <ArrowLongDownIcon className="  h-6 text-gray-500  " />
+                                                ) : (
+                                                    <div className="h-6 w-0.5"></div>
+                                                ))}
+                                        </div>
+                                    );
+                                })}
                         </div>
                     </div>
                 </div>

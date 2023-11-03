@@ -24,15 +24,13 @@ export default function ChatbotRow(props: ChatbotRowProps) {
     return (
         <>
             <tr>
-                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td className="w-3/12 py-4  text-sm font-medium text-gray-900 sm:pl-0">
                     <Link href={`/chatbot/${chatbot?.id}`}>
                         <a className="text-indigo-500">{chatbot?.name}</a>
                     </Link>
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {chatbot?.description}
-                </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className="w-2/12py-4 text-sm text-gray-500">{chatbot?.description}</td>
+                <td className="w-2/12 py-4 text-sm text-gray-500">
                     {folders?.map((folder) => (
                         <div className="flex gap-2 items-center" key={folder.id}>
                             <FolderIcon className="h-5 text-blue-200" />
@@ -40,16 +38,16 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                         </div>
                     ))}
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.is_public ? '公開' : ''}
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className="w-2/12 py-4 text-sm text-gray-500">
                     {moment(chatbot?.created_at).format('YYYY-MM-DD HH:ss')}
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.expired_at && moment(chatbot?.expired_at).format('YYYY-MM-DD')}
                 </td>
-                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                <td className="w-2/12 py-4 text-right text-sm font-medium sm:pr-0">
                     <label
                         className=" cursor-pointer text-indigo-600 hover:text-indigo-900"
                         onClick={() => {

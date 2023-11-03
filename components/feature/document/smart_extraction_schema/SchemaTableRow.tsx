@@ -70,10 +70,11 @@ export default function SchemaTableRow(props: TableRowProps) {
         if (schema?.has_label == false) {
             return '數據總表';
         }
-        const tag = _.find(getAllLabelsData?.tags, function (tag) {
-            return tag.id == label_id;
-        });
-        return tag?.name || router.query.label;
+        return schema?.label?.name;
+        // const tag = _.find(getAllLabelsData?.tags, function (tag) {
+        //     return tag.id == label_id;
+        // });
+        // return tag?.name || router.query.label;
     };
 
     const getUserName = (user_id: string) => {
@@ -142,7 +143,7 @@ export default function SchemaTableRow(props: TableRowProps) {
                 />
             </div>
             <div className="pr-6 py-4 text-right w-2/12">{date}</div>
-            <div className="pr-6 py-4 text-right w-2/12">{getUserName(schema?.user_id)}</div>
+            <div className="pr-6 py-4 text-right w-2/12">{schema?.user?.nickname}</div>
         </div>
     );
 }

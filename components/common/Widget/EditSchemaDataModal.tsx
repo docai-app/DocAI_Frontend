@@ -49,7 +49,7 @@ export default function EditSchemaDataModal(props: any) {
     };
 
     const validateInput = (input: string) => {
-        const pattern = /^[A-Za-z_]+$/;
+        const pattern = /^[a-z_]+$/;
         const validate = pattern.test(input);
         setValidate(validate);
         return validate;
@@ -128,7 +128,7 @@ export default function EditSchemaDataModal(props: any) {
                                                 validate ? 'text-gray-400 ' : 'text-red-500'
                                             }`}
                                         >
-                                            *只可以輸入英文字母,不可以輸入中文,除了底線"_"外
+                                            *只可以輸入小寫英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
                                     </div>
                                 </div>

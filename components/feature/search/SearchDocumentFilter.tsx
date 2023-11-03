@@ -1,11 +1,17 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { ArchiveBoxArrowDownIcon, PaperAirplaneIcon, TagIcon } from '@heroicons/react/24/outline';
+import {
+    ArchiveBoxArrowDownIcon,
+    PaperAirplaneIcon,
+    Square2StackIcon,
+    TagIcon
+} from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router from 'next/router';
 import { useCallback, useState } from 'react';
 import { getAllChainFeatureByIdsDatas } from '../../../apis/AirtableChainFeature';
 import ChainFeatureDetail from './ChainFeatureDetail';
 import Dropdowns from './Dropdowns';
+import SelectDataSchemaModal from './SelectDataSchemaModal';
 
 interface Props {
     label: any;
@@ -23,6 +29,7 @@ export default function SearchDocumentFilter(props: Props) {
     const [visibleChainFeature, setVisibleChainFeature] = useState(false);
     const [loading, setLoading] = useState(false);
     const [openIframe, setOpenIframe] = useState(false);
+    const [openSelectShema, setOpenSelectShema] = useState(false);
     const [chain_features, set_chain_features] = useState<any>([]);
     const [chain_feature, set_chain_feature] = useState<any>();
     const [content, setContent] = useState('');
@@ -48,12 +55,12 @@ export default function SearchDocumentFilter(props: Props) {
 
     return (
         <>
-            <div className="flex-0 bg-white rounded-lg border px-4 py-2 flex flex-col">
+            <div className="flex-0 bg-gray-100 rounded-lg border px-4 py-2 flex flex-col">
                 <div className="flex flex-row items-center flex-wrap">
                     <div className="flex flex-row items-center my-1">
                         <label>標籤:</label>
                         <button
-                            className="border rounded-md pr-4 pl-2 py-1 mx-2 flex flex-row items-center"
+                            className="border bg-white rounded-md pr-4 pl-2 py-1 mx-2 flex flex-row items-center"
                             onClick={() => {
                                 Router.push('/');
                             }}
@@ -64,7 +71,7 @@ export default function SearchDocumentFilter(props: Props) {
                     </div>
                     <div className="flex flex-0 flex-row items-center my-1 mx-2">
                         <label className="flex-0">日期:</label>
-                        <div className="flex flex-1 flex-row items-center rounded-lg  border mx-2">
+                        <div className="flex flex-1 bg-white flex-row items-center rounded-lg  border mx-2">
                             <XMarkIcon
                                 className="w-4 mx-2 cursor-pointer"
                                 onClick={() => {
@@ -138,9 +145,9 @@ export default function SearchDocumentFilter(props: Props) {
 
                 <div className="flex flex-1 flex-row">
                     <div className="flex flex-row items-center my-1">
-                        {/* <label>功能:</label> */}
-                        <img src={'./intelligent.png'} className="w-6" />
-                        {':'}
+                        <label>功能:</label>
+                        {/* <img src={'./intelligent.png'} className="w-6" />
+                        {':'} */}
                         {count > 0 ? (
                             <>
                                 {!visibleChainFeature ? (
@@ -151,6 +158,17 @@ export default function SearchDocumentFilter(props: Props) {
                                         >
                                             <PaperAirplaneIcon className="w-4 m-1 " />
                                             <label className="text-sm cursor-pointer">打開</label>
+                                        </div>
+                                        <div
+                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
+                                            onClick={() => {
+                                                setOpenSelectShema(true);
+                                            }}
+                                        >
+                                            <Square2StackIcon className="w-4 m-1 " />
+                                            <label className="text-sm cursor-pointer">
+                                                搬資料到Execl
+                                            </label>
                                         </div>
                                         <div
                                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
@@ -243,7 +261,7 @@ export default function SearchDocumentFilter(props: Props) {
                             </>
                         ) : (
                             <>
-                                <label className="mx-2 text-sm">請選擇文檔</label>
+                                <label className="mx-2 text-sm p-1">請選擇文檔</label>
                             </>
                         )}
                     </div>
@@ -273,6 +291,11 @@ export default function SearchDocumentFilter(props: Props) {
                 chain_feature_id={chain_feature?.id}
                 setContent={setContent}
                 selectDocument={_.pick(document, ['name', 'content'])}
+            />
+            <SelectDataSchemaModal
+                open={openSelectShema}
+                setOpen={setOpenSelectShema}
+                document_id={document?.id}
             />
         </>
     );

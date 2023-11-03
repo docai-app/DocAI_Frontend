@@ -24,7 +24,7 @@ export default function SearchLabelDocumentForm(props: any) {
         <>
             {/* <div className="fixed bottom-0 w-11/12 sm:w-11/12 md:w-11/12 lg:w-10/12 xl:w-10/12 mx-auto max-w-7xl pr-0 sm:pr-2 md:pr-3 lg:pr-16 overflow-hidden"> */}
             <div className="w-full">
-                <div className=" border rounded-lg px-4 py-2 bg-white w-full  mx-auto      ">
+                <div className=" border rounded-lg px-4 py-2   w-full  mx-auto   bg-gray-100   ">
                     <div className="w-full flex flex-col ">
                         <div className="flex flex-row justify-between  pr-2">
                             <label className="text-md ">標籤:</label>

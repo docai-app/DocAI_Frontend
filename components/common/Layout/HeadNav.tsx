@@ -5,7 +5,6 @@ import {
     Cog6ToothIcon,
     XMarkIcon
 } from '@heroicons/react/24/outline';
-import useAxios from 'axios-hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback, useEffect, useState } from 'react';
@@ -45,9 +44,9 @@ function HeadNav(props: any) {
         router.push('/login');
     }, [router]);
 
-    const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getAllTags(), {
-        manual: false
-    });
+    // const [{ data: getTagByTaggingData }] = useAxios(apiSetting.Tag.getAllTags(), {
+    //     manual: false
+    // });
 
     const onSwitch = (tag: any) => {
         router.push({ pathname: '/classification/' + tag.id, query: { name: tag.name } });

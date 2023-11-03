@@ -102,11 +102,6 @@ export default function ProjectEditContainer() {
             }
         }
         getAllUsers();
-        // if (router && router.query.select_id) {
-        //     getProjectWorkflowById({
-        //         ...apiSetting.ProjectWorkflow.getProjectWorkflowById(router.query.select_id as string)
-        //     });
-        // }
         getAllWorkflowChainFeatureDatas().then((res) => {
             set_chain_features(res);
         });
@@ -187,14 +182,15 @@ export default function ProjectEditContainer() {
         async (data) => {
             // console.log(data);
             // console.log(project?.id);
-            const { name, description, deadline, assignee_id } = data;
+            const { name, description, deadline, assignee_id, dag_meta } = data;
             addProjectWorkflowStepById({
                 data: {
                     project_workflow_id: project?.id,
                     name: name,
                     deadline: deadline,
                     description: description,
-                    assignee_id: assignee_id
+                    assignee_id: assignee_id,
+                    dag_id: dag_meta?.dag_id
                 }
             });
         },
@@ -204,14 +200,15 @@ export default function ProjectEditContainer() {
     const updateProjectStepHandler = useCallback(
         async (data) => {
             // console.log(data);
-            const { id, name, description, deadline, assignee_id } = data;
+            const { id, name, description, deadline, assignee_id, dag_meta } = data;
             updateProjectWorkflowStepById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
                 data: {
                     name: name,
                     description: description,
                     deadline: deadline,
-                    assignee_id: assignee_id
+                    assignee_id: assignee_id,
+                    dag_id: dag_meta?.dag_id
                 }
             });
         },

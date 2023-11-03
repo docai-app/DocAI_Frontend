@@ -97,7 +97,7 @@ export default function SearchLabelSearchForm(props: Props) {
                     )
                 }}
             />
-            <div className="w-full  bg-white rounded-lg border px-4 py-2 flex flex-col">
+            <div className="w-full  bg-gray-100 rounded-lg border px-4 py-2 flex flex-col">
                 {label && (
                     <div className="flex flex-row items-center flex-wrap">
                         <div className="flex flex-row items-center my-1">

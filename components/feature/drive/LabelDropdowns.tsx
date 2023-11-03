@@ -100,7 +100,7 @@ export default function LabelDropdowns(props: DropdownsProps) {
                                     onClick={move_execl}
                                     className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                                        'group hidden flex items-center px-4 py-2 text-sm cursor-pointer'
                                     )}
                                 >
                                     <Square2StackIcon
