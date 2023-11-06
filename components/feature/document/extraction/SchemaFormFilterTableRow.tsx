@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 
 interface TableRowProps {
@@ -84,10 +85,20 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                 {/* Add the storage_url to the data and open it in a new tab */}
                 <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">
                     <a
-                        href={datum.document?.storage_url || '#'}
+                        // href={datum.document?.storage_url || '#'}
                         className="text-blue-500 hover:text-blue-700 underline"
                         target="_blank"
                         rel="noreferrer"
+                        onClick={() => {
+                            Router.push({
+                                pathname: `/document/smart_extraction_schema/${datum.id}/show`,
+                                query: {
+                                    form_url: datum.document?.storage_url,
+                                    data: JSON.stringify(datum.data),
+                                    selectedResult: JSON.stringify(selectedResult)
+                                }
+                            })
+                        }}
                     >
                         點擊開啟
                     </a>
