@@ -9,11 +9,11 @@ import useAlert from '../../../hooks/useAlert';
 interface Props {
     open: boolean;
     setOpen: any;
-    document_id: string;
+    document_ids: any[];
 }
 const apiSetting = new Api();
 export default function SelectDataSchemaModal(props: Props) {
-    const { open, setOpen, document_id } = props;
+    const { open, setOpen, document_ids } = props;
     const cancelButtonRef = useRef(null);
     const router = useRouter();
     const { setAlert } = useAlert();
@@ -60,7 +60,7 @@ export default function SelectDataSchemaModal(props: Props) {
         updateSchemasByDocuemntsById({
             ...apiSetting.SmartExtractionSchemas.updateSchemasByDocuemntsById(select_schema_id),
             data: {
-                document_ids: [document_id]
+                document_ids: document_ids
             }
         });
     };

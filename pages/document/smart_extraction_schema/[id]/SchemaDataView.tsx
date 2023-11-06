@@ -150,7 +150,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                         {selectedFilter?.map((filter: any, index: number) => {
                             return (
                                 <div className="m-2 flex items-center" key={index}>
-                                    <label className="mr-2">{filter?.query}:</label>
+                                    <label className="mr-2">{filter?.key}:</label>
                                     <input
                                         // type={filter?.data_type == 'date' ? 'date' : 'text'}
                                         type={'text'}
@@ -221,7 +221,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                                         scope="col"
                                                         className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                     >
-                                                        {result?.query}
+                                                        {result?.key}
                                                     </th>
                                                 );
                                             })}

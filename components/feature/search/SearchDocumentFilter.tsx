@@ -295,7 +295,7 @@ export default function SearchDocumentFilter(props: Props) {
             <SelectDataSchemaModal
                 open={openSelectShema}
                 setOpen={setOpenSelectShema}
-                document_id={document?.id}
+                document_ids={[document?.id]}
             />
         </>
     );

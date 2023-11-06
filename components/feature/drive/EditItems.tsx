@@ -4,6 +4,7 @@ import {
     ArrowRightCircleIcon,
     ChartBarIcon,
     MagnifyingGlassIcon,
+    Square2StackIcon,
     TagIcon
 } from '@heroicons/react/24/outline';
 
@@ -22,6 +23,8 @@ interface EditItemsProps {
     deepUnderstanding?: any;
     visibleGenerateChart?: boolean;
     generateChart?: any;
+    visibleToExecl?: boolean;
+    toExecl?: any;
 }
 
 export default function EditItems(props: EditItemsProps) {
@@ -39,7 +42,9 @@ export default function EditItems(props: EditItemsProps) {
         visibleDeepUnderstanding,
         deepUnderstanding,
         visibleGenerateChart,
-        generateChart
+        generateChart,
+        visibleToExecl,
+        toExecl
     } = props;
     return (
         <>
@@ -78,6 +83,15 @@ export default function EditItems(props: EditItemsProps) {
                             >
                                 <TagIcon className="w-4 m-1 " />
                                 <label className="text-sm">更新標籤</label>
+                            </div>
+                        )}
+                        {visibleToExecl && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={toExecl}
+                            >
+                                <Square2StackIcon className="w-4 m-1 " />
+                                <label className="text-sm">搬資料到Execl</label>
                             </div>
                         )}
                         {visibleSearchItems && (
