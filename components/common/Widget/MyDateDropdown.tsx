@@ -22,7 +22,7 @@ export default function MyDateDropdown(props: any) {
             )}
         >
             <div className="z-10">
-                <Menu.Button className="inline-flex text-sm items-center justify-center w-full rounded-md border border-gray-600 shadow-sm px-4 py-2 bg-white text-black font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500">
+                <Menu.Button className="inline-flex text-sm items-center justify-between w-full rounded-md border border-gray-400 shadow-sm px-4 py-2 bg-white text-black font-medium  focus:outline-none focus:ring-0 focus:ring-offset-2 focus:ring-offset-gray-500 focus:ring-gray-500">
                     {props.value}
                     <ChevronDownIcon className="h-5 w-5 ml-0 text-gray-500" aria-hidden="true" />
                 </Menu.Button>

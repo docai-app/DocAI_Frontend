@@ -65,11 +65,11 @@ export default function TaskRow(props: TaskRowProps) {
     }, [size]);
 
     const getAssigneeName = () => {
-        if (task?.assignee?.nickname) return task?.assignee?.nickname;
+        if (task?.assignee?.email) return task?.assignee?.email;
         const assignee = _.find(users, function (user: any) {
             return user.id == task?.assignee_id;
         });
-        return assignee?.nickname || localStorage.getItem('email');
+        return assignee?.email || localStorage.getItem('email');
     };
 
     return (
@@ -115,9 +115,8 @@ export default function TaskRow(props: TaskRowProps) {
                     }}
                 >
                     <p
-                        className={`text-md ml-2  break-words break-all  text-black ${
-                            task?.status == 'completed' ? 'line-through' : ''
-                        }`}
+                        className={`text-md ml-2  break-words break-all  text-black ${task?.status == 'completed' ? 'line-through' : ''
+                            }`}
                     >
                         {task?.name}
                     </p>
@@ -128,13 +127,15 @@ export default function TaskRow(props: TaskRowProps) {
                             </span>
                         </>
                     )}
-                    <span
-                        className="text-sm ml-2  text-gray-400  "
-                        dangerouslySetInnerHTML={{
-                            __html: task?.description
-                            // __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
-                        }}
-                    ></span>
+                    <div>
+                        <span
+                            className="text-sm ml-2  text-gray-400  "
+                            dangerouslySetInnerHTML={{
+                                __html: task?.description
+                                // __html: `<a href="http://localhost:8080/form/approval/7f72b9cc-720d-47a8-968b-346c58180d3a?form_schema_id=162e2131-ce6e-48d9-9e07-bbb1efe29651" style="text-decoration: underline">审核</a>`
+                            }}
+                        ></span>
+                    </div>
                     {task?.dag_meta?.dag_id && (
                         <div className="text-gray-400 ml-2">
                             <label>Chain feature: {task?.dag_meta?.dag_name}</label>

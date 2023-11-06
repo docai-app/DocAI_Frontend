@@ -1,7 +1,8 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { DocumentIcon } from '@heroicons/react/24/solid';
+import _ from 'lodash';
 import Router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EditSchemaDataModal from '../../../../../components/common/Widget/EditSchemaDataModal';
 import SingleActionModel from '../../../../../components/common/Widget/SingleActionModel';
 import ExtractSchemaRow from '../../../../../components/feature/document/extraction/ExtractSchemaRow';
@@ -37,6 +38,13 @@ function SchemaView(props: SchemaViewProps) {
     const [visable, setVisable] = useState(false);
     const [currectExtraScheam, setCurrectExtraSchema] = useState();
     const [currectPosition, setCurrectPosition] = useState(-1);
+    const [accurateMode, setAccurateMode] = useState(false);
+
+    useEffect(() => {
+        if (extractSchema && extractSchema?.schema && extractSchema?.schema[0]) {
+            setAccurateMode(_.isArray(extractSchema?.schema[0].query))
+        }
+    }, [extractSchema])
 
     const editExtraSchema = (position: number) => {
         setVisable(true);
@@ -153,6 +161,20 @@ function SchemaView(props: SchemaViewProps) {
                                 ></textarea>
                             </div>
                         </div>
+                        <div className="col-span-full flex flex-row items-center">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                精準模式:
+                            </label>
+                            <input
+                                type={'checkbox'}
+                                className={`mx-2 ${extractSchema?.schema?.length > 0 ? "text-gray-500" : ""}`}
+                                checked={accurateMode}
+                                disabled={extractSchema?.schema?.length > 0}
+                                onChange={() => {
+                                    setAccurateMode(!accurateMode)
+                                }}
+                            />
+                        </div>
                         <div className="col-span-full">
                             <div className="inline-block min-w-full py-0 align-middle  ">
                                 <table className="min-w-full divide-y divide-gray-300">
@@ -223,6 +245,7 @@ function SchemaView(props: SchemaViewProps) {
             <EditSchemaDataModal
                 visable={visable}
                 extractSchema={currectExtraScheam}
+                accurateMode={accurateMode}
                 cancelClick={() => {
                     setVisable(false);
                 }}

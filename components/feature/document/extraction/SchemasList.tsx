@@ -20,32 +20,32 @@ export default function SchemaList(props: Props) {
                         <tr>
                             <th
                                 scope="col"
-                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                className="w-3/12 py-3.5   text-left text-sm font-semibold text-gray-900 sm:pl-0"
                             >
                                 名稱
                             </th>
                             <th
                                 scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                className="w-3/12  py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
                                 描述
                             </th>
                             <th
                                 scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
                                 功能
                             </th>
                             <th
                                 scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
                                 創建時間
                             </th>
 
                             <th
                                 scope="col"
-                                className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
+                                className="relative w-2/12 py-4   text-right text-sm font-medium sm:pr-0"
                             >
                                 <div className="flex justify-end">
                                     <Link

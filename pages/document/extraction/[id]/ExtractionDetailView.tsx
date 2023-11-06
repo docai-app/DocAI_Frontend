@@ -2,6 +2,7 @@ import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import HeaderBreadCrumb from '../../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import ChainFeatureSelect from '../../../../components/feature/chatbot/ChainFeatureSelect';
 import ChainFeatureList from '../../../../components/feature/document/extraction/ChainFeatureList';
@@ -80,25 +81,16 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between mb-4  ">
-                        <label
-                            className=" px-4 py-2 rounded-md cursor-pointer text-indigo-500"
-                            onClick={() => {
-                                Router.back();
-                            }}
-                        >
-                            {'<'} 返回
-                        </label>
-                        <label className="text-2xl font-bold">編輯標籤</label>
-                        <button
-                            className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            onClick={(e) => {
-                                updateTagNameHandler(label.id, name);
-                            }}
-                        >
-                            保存
-                        </button>
-                    </div>
+                    <HeaderBreadCrumb
+                        title={'編輯標籤'}
+                        back={() => {
+                            Router.back()
+                        }}
+                        saveTitle={'保存'}
+                        save={() => {
+                            updateTagNameHandler(label.id, name);
+                        }}
+                    />
 
                     <div className="my-2">
                         <div className="my-2 flex flex-row items-center">
@@ -147,11 +139,10 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                             <ul className="flex flex-row -my-px">
                                 <li
                                     onClick={() => setCurrentTypeTab('extraction')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'extraction'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'extraction'
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
                                     標籤填表與數據
                                 </li>
@@ -168,12 +159,11 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                                 </li> */}
                                 <li
                                     onClick={() => setCurrentTypeTab('chain_feature')}
-                                    className={`p-4 cursor-pointer ${
-                                        currentTypeTab === 'chain_feature' ||
+                                    className={`p-4 cursor-pointer ${currentTypeTab === 'chain_feature' ||
                                         currentTypeTab === 'chain_feature'
-                                            ? 'text-indigo-700 border-b-2 border-indigo-700'
-                                            : 'text-gray-400'
-                                    } font-bold text-sm`}
+                                        ? 'text-indigo-700 border-b-2 border-indigo-700'
+                                        : 'text-gray-400'
+                                        } font-bold text-sm`}
                                 >
                                     推薦功能
                                 </li>
@@ -182,13 +172,6 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                     </div>
                     {currentTypeTab === 'extraction' && (
                         <div className="my-2">
-                            {/* <div className="flex justify-end">
-                                <Link href={`/document/extraction/${router.query.id}/schema`}>
-                                    <a className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                        新增Schema
-                                    </a>
-                                </Link>
-                            </div> */}
                             <SchemaList
                                 label={label}
                                 smart_extraction_schemas={smart_extraction_schemas}
@@ -198,16 +181,6 @@ function ExtractionDetailView(props: ExtractionDetailViewProps) {
                     )}
                     {currentTypeTab === 'chain_feature' && (
                         <div className="my-2">
-                            {/* <div className="flex justify-end">
-                                <button
-                                    className=" cursor-pointer block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={() => {
-                                        setChainFeatureIsOpen(true);
-                                    }}
-                                >
-                                    新增Chain featrue
-                                </button>
-                            </div> */}
                             <ChainFeatureList
                                 label={label}
                                 chain_features={chain_features}

@@ -1,9 +1,10 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import _ from 'lodash';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import GenerateChartModal from '../../../../components/common/Widget/GenerateChartModal';
+import HeaderBreadCrumb from '../../../../components/common/Widget/HeaderBreadCrumb';
 import HtmlCodeModal from '../../../../components/common/Widget/HtmlCodeModal';
 import MyModal from '../../../../components/common/Widget/MyModal';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
@@ -121,13 +122,12 @@ function SchemaDataView(props: SchemaDataViewProps) {
             />
             <div className="max-w-7xl mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                        <div className="max-w-4xl mx-auto text-center">
-                            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-                                數據搜尋
-                            </h2>
-                        </div>
-                    </div>
+                    <HeaderBreadCrumb
+                        title={'數據搜尋'}
+                        back={() => {
+                            Router.back()
+                        }}
+                    />
                     <header className="shadow bg-white flex justify-between items-center">
                         <div className="   py-6 px-4 sm:px-6 lg:px-8   ">
                             <h1 className="text-2xl font-bold text-gray-900">{formSchema?.name}</h1>

@@ -9,11 +9,16 @@ export default function EditSchemaDataModal(props: any) {
     const [validate, setValidate] = useState(true);
     const [title, setTitle] = useState('數值');
 
-    const [data, setData] = useState({
-        key: '',
-        data_type: 'string',
-        query: ''
-    });
+    const [data, setData] = useState<any>();
+
+    useEffect(() => {
+        setData({
+            key: '',
+            data_type: 'string',
+            query: props?.accurateMode ? ["", ""] : ''
+        })
+    }, [props])
+
     const data_types = [
         {
             name: '數值',
@@ -107,7 +112,7 @@ export default function EditSchemaDataModal(props: any) {
                                         <input
                                             type={'text'}
                                             name="signature"
-                                            className="w-full rounded-md"
+                                            className="w-full rounded-md border-gray-400 "
                                             placeholder="name"
                                             value={data?.key}
                                             onChange={(e) => {
@@ -124,9 +129,8 @@ export default function EditSchemaDataModal(props: any) {
                                     <label className="text-sm w-1/4"> {''}</label>
                                     <div className="w-3/4 ml-4 ">
                                         <label
-                                            className={`flex justify-start text-sm ${
-                                                validate ? 'text-gray-400 ' : 'text-red-500'
-                                            }`}
+                                            className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'
+                                                }`}
                                         >
                                             *只可以輸入小寫英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
@@ -144,25 +148,68 @@ export default function EditSchemaDataModal(props: any) {
                                         <label className="flex justify-start text-sm"></label>
                                     </div>
                                 </div>
-                                <div className="flex items-center mt-2">
-                                    <label className="text-sm w-1/4"> Prompt:</label>
-                                    <div className="w-3/4 ml-4 ">
-                                        <input
-                                            type={'text'}
-                                            name="signature"
-                                            className="w-full rounded-md"
-                                            placeholder="員工姓名"
-                                            value={data?.query}
-                                            onChange={(e) => {
-                                                setData({
-                                                    ...data,
-                                                    query: e.target.value
-                                                });
-                                            }}
-                                        ></input>
-                                        <label className="flex justify-start text-sm"></label>
+                                {props?.accurateMode ?
+                                    <>
+                                        <div className="flex items-center mt-2">
+                                            <label className="text-sm w-1/4"> 主力Prompt:</label>
+                                            <div className="w-3/4 ml-4 ">
+                                                <input
+                                                    type={'text'}
+                                                    name="signature"
+                                                    className="w-full rounded-md border-gray-400 "
+                                                    placeholder="員工姓名"
+                                                    defaultValue={data?.query[0]}
+                                                    onChange={(e) => {
+                                                        setData({
+                                                            ...data,
+                                                            query: [e.target.value, data?.query[1]]
+                                                        });
+                                                    }}
+                                                ></input>
+                                                <label className="flex justify-start text-sm"></label>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center mt-2">
+                                            <label className="text-sm w-1/4"> 辅助Prompt:</label>
+                                            <div className="w-3/4 ml-4 ">
+                                                <input
+                                                    type={'text'}
+                                                    name="signature"
+                                                    className="w-full rounded-md border-gray-400 "
+                                                    placeholder="員工姓名"
+                                                    defaultValue={data?.query[1]}
+                                                    onChange={(e) => {
+                                                        setData({
+                                                            ...data,
+                                                            query: [data?.query[0], e.target.value]
+                                                        });
+                                                    }}
+                                                ></input>
+                                                <label className="flex justify-start text-sm"></label>
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <div className="flex items-center mt-2">
+                                        <label className="text-sm w-1/4"> Prompt:</label>
+                                        <div className="w-3/4 ml-4 ">
+                                            <input
+                                                type={'text'}
+                                                name="signature"
+                                                className="w-full rounded-md border-gray-400 "
+                                                placeholder="員工姓名"
+                                                defaultValue={data?.query}
+                                                onChange={(e) => {
+                                                    setData({
+                                                        ...data,
+                                                        query: e.target.value
+                                                    });
+                                                }}
+                                            ></input>
+                                            <label className="flex justify-start text-sm"></label>
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
@@ -173,7 +220,7 @@ export default function EditSchemaDataModal(props: any) {
                                         setData({
                                             ...data,
                                             key: '',
-                                            query: ''
+                                            query: props?.accurateMode ? ["", ""] : ''
                                         });
                                     }}
                                 >

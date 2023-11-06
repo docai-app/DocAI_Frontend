@@ -13,10 +13,11 @@ interface StepsListViewProps {
     showArrow?: boolean;
     showProjectName?: boolean;
     users?: [];
+    chain_features: []
 }
 const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
-    const { tasks, setTasks, showArrow = true, showProjectName = false, users } = props;
+    const { tasks, setTasks, showArrow = true, showProjectName = false, users, chain_features } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
     const [currentTask, setCurrentTask] = useState<any>(null);
@@ -36,14 +37,15 @@ export default function StepsListView(props: StepsListViewProps) {
     const updateProjectStepHandler = useCallback(
         async (data) => {
             // console.log(data);
-            const { id, name, description, deadline, assignee_id } = data;
+            const { id, name, description, deadline, assignee_id, dag_meta } = data;
             updateProjectWorkflowStepById({
                 ...apiSetting.ProjectWorkflow.updateProjectWorkflowStepById(id),
                 data: {
                     name: name,
                     description: description,
                     deadline: deadline,
-                    assignee_id: assignee_id
+                    assignee_id: assignee_id,
+                    dag_id: dag_meta?.dag_id
                 }
             });
         },
@@ -150,6 +152,7 @@ export default function StepsListView(props: StepsListViewProps) {
                     users={users}
                     visable={mode != ''}
                     task={currentTask}
+                    chain_features={chain_features}
                     cancelClick={() => {
                         setMode('');
                         setCurrentTask(null);

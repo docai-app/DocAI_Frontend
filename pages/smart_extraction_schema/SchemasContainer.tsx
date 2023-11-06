@@ -36,8 +36,7 @@ export default function ScheamDataContainer() {
     }, [loading]);
 
     useEffect(() => {
-        // getAllLabels();
-        // getAllUsers();
+        getAllLabels();
     }, [router]);
 
     useEffect(() => {
