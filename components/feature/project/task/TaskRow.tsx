@@ -115,8 +115,9 @@ export default function TaskRow(props: TaskRowProps) {
                     }}
                 >
                     <p
-                        className={`text-md ml-2  break-words break-all  text-black ${task?.status == 'completed' ? 'line-through' : ''
-                            }`}
+                        className={`text-md ml-2  break-words break-all  text-black ${
+                            task?.status == 'completed' ? 'line-through' : ''
+                        }`}
                     >
                         {task?.name}
                     </p>

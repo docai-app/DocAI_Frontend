@@ -15,9 +15,9 @@ export default function EditSchemaDataModal(props: any) {
         setData({
             key: '',
             data_type: 'string',
-            query: props?.accurateMode ? ["", ""] : ''
-        })
-    }, [props])
+            query: props?.accurateMode ? ['', ''] : ''
+        });
+    }, [props]);
 
     const data_types = [
         {
@@ -129,8 +129,9 @@ export default function EditSchemaDataModal(props: any) {
                                     <label className="text-sm w-1/4"> {''}</label>
                                     <div className="w-3/4 ml-4 ">
                                         <label
-                                            className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'
-                                                }`}
+                                            className={`flex justify-start text-sm ${
+                                                validate ? 'text-gray-400 ' : 'text-red-500'
+                                            }`}
                                         >
                                             *只可以輸入小寫英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
@@ -148,7 +149,7 @@ export default function EditSchemaDataModal(props: any) {
                                         <label className="flex justify-start text-sm"></label>
                                     </div>
                                 </div>
-                                {props?.accurateMode ?
+                                {props?.accurateMode ? (
                                     <>
                                         <div className="flex items-center mt-2">
                                             <label className="text-sm w-1/4"> 主力Prompt:</label>
@@ -189,7 +190,7 @@ export default function EditSchemaDataModal(props: any) {
                                             </div>
                                         </div>
                                     </>
-                                    :
+                                ) : (
                                     <div className="flex items-center mt-2">
                                         <label className="text-sm w-1/4"> Prompt:</label>
                                         <div className="w-3/4 ml-4 ">
@@ -209,7 +210,7 @@ export default function EditSchemaDataModal(props: any) {
                                             <label className="flex justify-start text-sm"></label>
                                         </div>
                                     </div>
-                                }
+                                )}
                             </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
@@ -220,7 +221,7 @@ export default function EditSchemaDataModal(props: any) {
                                         setData({
                                             ...data,
                                             key: '',
-                                            query: props?.accurateMode ? ["", ""] : ''
+                                            query: props?.accurateMode ? ['', ''] : ''
                                         });
                                     }}
                                 >

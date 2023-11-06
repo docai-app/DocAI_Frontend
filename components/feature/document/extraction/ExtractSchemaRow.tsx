@@ -39,19 +39,15 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                 </td>
 
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    {_.isArray(schema?.query) ?
+                    {_.isArray(schema?.query) ? (
                         <>
                             {schema?.query?.map((q: string, index: number) => {
-                                return (
-                                    <p key={index}>
-                                        {q}
-                                    </p>
-                                )
+                                return <p key={index}>{q}</p>;
                             })}
                         </>
-                        :
+                    ) : (
                         <>{schema?.query}</>
-                    }
+                    )}
                 </td>
 
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">

@@ -12,18 +12,16 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
 
     return (
         <>
-            <tr className=' '>
+            <tr className=" ">
                 <td className=" flex-row w-34/12 py-4   text-sm font-medium text-gray-900 sm:pl-0">
                     <Link href={`/document/smart_extraction_schema/${schema?.id}`}>
-                        <div className='flex flex-row cursor-pointer'>
+                        <div className="flex flex-row cursor-pointer">
                             <TableCellsIcon className="mr-1 w-5 h-5" />
                             <a className="text-indigo-500">{schema?.name}</a>
                         </div>
                     </Link>
                 </td>
-                <td className="w-3/12  py-4 px-1 text-sm text-gray-500">
-                    {schema?.description}
-                </td>
+                <td className="w-3/12  py-4 px-1 text-sm text-gray-500">{schema?.description}</td>
                 <td className="w-2/12  py-4 text-sm text-gray-500">數據提取</td>
 
                 <td className="w-2/12  py-4 text-sm text-gray-500">

@@ -13,11 +13,18 @@ interface StepsListViewProps {
     showArrow?: boolean;
     showProjectName?: boolean;
     users?: [];
-    chain_features: []
+    chain_features: [];
 }
 const apiSetting = new Api();
 export default function StepsListView(props: StepsListViewProps) {
-    const { tasks, setTasks, showArrow = true, showProjectName = false, users, chain_features } = props;
+    const {
+        tasks,
+        setTasks,
+        showArrow = true,
+        showProjectName = false,
+        users,
+        chain_features
+    } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
     const [currentTask, setCurrentTask] = useState<any>(null);

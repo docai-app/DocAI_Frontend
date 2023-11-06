@@ -91,7 +91,7 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                             <BButton
                                 name="開始"
                                 icon={<PlayIcon className="w-4 mr-2" />}
-                                onClick={() => { }}
+                                onClick={() => {}}
                             />
                             {/* <BButton
                                 name='暫停'
@@ -126,17 +126,19 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                                         onChange={() => {
                                             setHideCompleted(!hideCompletedTask);
                                         }}
-                                        className={`${hideCompletedTask ? 'bg-indigo-600' : 'bg-gray-200'
-                                            }
+                                        className={`${
+                                            hideCompletedTask ? 'bg-indigo-600' : 'bg-gray-200'
+                                        }
                                 'relative inline-flex flex-shrink-0 h-5 w-10 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                             `}
                                     >
                                         <span
                                             aria-hidden="true"
-                                            className={`${hideCompletedTask
+                                            className={`${
+                                                hideCompletedTask
                                                     ? 'translate-x-5'
                                                     : 'translate-x-0'
-                                                }
+                                            }
                                     'pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                                 `}
                                         />
@@ -155,19 +157,21 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                     <ul className="flex flex-row -my-px">
                         <li
                             onClick={() => setCurrentTypeTab('tasks')}
-                            className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTab === 'tasks'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                                } font-bold text-sm`}
+                            } font-bold text-sm`}
                         >
                             任務
                         </li>
                         <li
                             onClick={() => setCurrentTypeTab('logs')}
-                            className={`p-4 cursor-pointer ${currentTypeTab === 'logs'
+                            className={`p-4 cursor-pointer ${
+                                currentTypeTab === 'logs'
                                     ? 'text-indigo-700 border-b-2 border-indigo-700'
                                     : 'text-gray-400'
-                                } font-bold text-sm`}
+                            } font-bold text-sm`}
                         >
                             操作日誌
                         </li>
@@ -176,11 +180,13 @@ function ProjectDetailView(props: ProjectDetailViewProps) {
                 {currentTypeTab === 'tasks' && (
                     <div className="my-2">
                         <StepsListView
-                            tasks={tmpTasks?.sort((a: any, b: any) => a.status > b.status ? -1 : 1
+                            tasks={tmpTasks?.sort((a: any, b: any) =>
+                                a.status > b.status ? -1 : 1
                             )}
                             setTasks={setTmpTasks}
                             users={users}
-                            chain_features={[]} />
+                            chain_features={[]}
+                        />
                     </div>
                 )}
                 {currentTypeTab === 'logs' && (

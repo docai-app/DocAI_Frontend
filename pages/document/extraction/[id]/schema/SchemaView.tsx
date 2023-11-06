@@ -42,9 +42,9 @@ function SchemaView(props: SchemaViewProps) {
 
     useEffect(() => {
         if (extractSchema && extractSchema?.schema && extractSchema?.schema[0]) {
-            setAccurateMode(_.isArray(extractSchema?.schema[0].query))
+            setAccurateMode(_.isArray(extractSchema?.schema[0].query));
         }
-    }, [extractSchema])
+    }, [extractSchema]);
 
     const editExtraSchema = (position: number) => {
         setVisable(true);
@@ -167,11 +167,13 @@ function SchemaView(props: SchemaViewProps) {
                             </label>
                             <input
                                 type={'checkbox'}
-                                className={`mx-2 ${extractSchema?.schema?.length > 0 ? "text-gray-500" : ""}`}
+                                className={`mx-2 ${
+                                    extractSchema?.schema?.length > 0 ? 'text-gray-500' : ''
+                                }`}
                                 checked={accurateMode}
                                 disabled={extractSchema?.schema?.length > 0}
                                 onChange={() => {
-                                    setAccurateMode(!accurateMode)
+                                    setAccurateMode(!accurateMode);
                                 }}
                             />
                         </div>

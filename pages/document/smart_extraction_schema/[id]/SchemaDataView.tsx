@@ -125,7 +125,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                     <HeaderBreadCrumb
                         title={'數據搜尋'}
                         back={() => {
-                            Router.back()
+                            Router.back();
                         }}
                     />
                     <header className="shadow bg-white flex justify-between items-center">
