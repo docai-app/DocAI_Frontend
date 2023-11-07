@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Api from '../../../../../apis';
-import useAlert from '../../../../../hooks/useAlert';
+import Api from '../../../apis';
+import useAlert from '../../../hooks/useAlert';
 import SchemaShowView from './SchemaShowView';
 
 const apiSetting = new Api();

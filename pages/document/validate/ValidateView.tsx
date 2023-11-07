@@ -1,6 +1,8 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import { Theme as Bootstrap4Theme } from '@rjsf/bootstrap-4';
 import { withTheme } from '@rjsf/core';
+import Router from 'next/router';
+import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 
 const Form = withTheme(Bootstrap4Theme);
@@ -38,12 +40,13 @@ function ValidateView(props: ValidateViewProps) {
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
 
-            <div className="min-h-full bg-slate-50">
-                <header className="shadow bg-white">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold text-gray-900">資料編輯</h1>
-                    </div>
-                </header>
+            <div className="min-h-full ">
+                <HeaderBreadCrumb
+                    title={'資料編輯'}
+                    back={() => {
+                        Router.back()
+                    }}
+                />
 
                 <main>
                     <div className="max-w-7xl mx-auto py-0 sm:px-6 lg:px-8">
@@ -87,7 +90,7 @@ function ValidateView(props: ValidateViewProps) {
                                                         key={index}
                                                     >
                                                         <label className="w-full font-bold">
-                                                            {filter?.query}:
+                                                            {filter?.key}:
                                                         </label>
                                                         <input
                                                             // type={filter?.data_type == 'date' ? 'date' : 'text'}

@@ -91,7 +91,7 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                         rel="noreferrer"
                         onClick={() => {
                             Router.push({
-                                pathname: `/document/smart_extraction_schema/${datum.id}/show`,
+                                pathname: `/document/show`,
                                 query: {
                                     form_url: datum.document?.storage_url,
                                     data: JSON.stringify(datum.data),
