@@ -92,9 +92,8 @@ function SchemasView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
@@ -132,7 +131,7 @@ function SchemasView(props: SchemasViewProps) {
                                 hasMore={meta?.next_page != null}
                                 height={'auto'}
                                 // className="max-h-[50vh] sm:max-h-[60vh]"
-                                // style={{ maxHeight: '50vh' }}
+                                style={{ maxHeight: '80vh' }}
                                 loader={
                                     <p className="p-4 text-center">
                                         <b>載入中...</b>

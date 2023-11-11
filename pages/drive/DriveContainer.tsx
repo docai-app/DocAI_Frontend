@@ -1,3 +1,4 @@
+import axios from 'axios';
 import useAxios from 'axios-hooks';
 import { useFormik } from 'formik';
 import Router, { useRouter } from 'next/router';
@@ -6,7 +7,6 @@ import Api from '../../apis';
 import { Folder } from '../../components/common/Widget/FolderTree';
 import useAlert from '../../hooks/useAlert';
 import DriveView from './DriveView';
-import axios from 'axios';
 
 const apiSetting = new Api();
 
@@ -207,7 +207,7 @@ export default function DriveContainer() {
             a.href = dataURL;
             a.download = 'documents.zip';
             a.click();
-        } catch {}
+        } catch { }
     }, [folders_items, documents_items]);
 
     const confirmDocumentFormik = useFormik({

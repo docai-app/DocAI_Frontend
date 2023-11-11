@@ -1,11 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
 import {
-    ArrowRightCircleIcon,
-    EllipsisVerticalIcon,
-    ArrowDownTrayIcon,
-    PencilSquareIcon,
+    ArrowDownTrayIcon, ArrowRightCircleIcon,
+    EllipsisVerticalIcon, PencilSquareIcon,
     TrashIcon
 } from '@heroicons/react/20/solid';
+import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import { Fragment } from 'react';
 
 function classNames(...classes: any) {
@@ -20,10 +19,11 @@ interface DropdownsProps {
     download?: any;
     rename?: any;
     remove?: any;
+    openItems?: any;
 }
 
 export default function Dropdowns(props: DropdownsProps) {
-    const { type, move, download, rename, remove, url, name } = props;
+    const { type, move, download, rename, remove, url, name, openItems } = props;
     return (
         <Menu as="div" className="relative inline-block text-left ">
             <div>
@@ -44,6 +44,25 @@ export default function Dropdowns(props: DropdownsProps) {
             >
                 <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black  divide-y divide-gray-100 ring-opacity-5 focus:outline-none">
                     <div className="py-1">
+                        {type !== 'folders' && (
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <a
+                                        onClick={openItems}
+                                        className={classNames(
+                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                            'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                                        )}
+                                    >
+                                        <PaperAirplaneIcon
+                                            className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                        打開
+                                    </a>
+                                )}
+                            </Menu.Item>
+                        )}
                         {type !== 'folders' && (
                             <Menu.Item>
                                 {({ active }) => (

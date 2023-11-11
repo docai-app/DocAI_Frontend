@@ -1,30 +1,23 @@
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import {
-    ArchiveBoxArrowDownIcon,
-    PaperAirplaneIcon,
-    Square2StackIcon,
+    ArchiveBoxArrowDownIcon, Square2StackIcon,
     TagIcon
 } from '@heroicons/react/24/outline';
 import _ from 'lodash';
-import Router from 'next/router';
 import { useCallback, useState } from 'react';
-import { getAllChainFeatureByIdsDatas } from '../../../apis/AirtableChainFeature';
-import ChainFeatureDetail from './ChainFeatureDetail';
-import Dropdowns from './Dropdowns';
-import SelectDataSchemaModal from './SelectDataSchemaModal';
+import { getAllChainFeatureByIdsDatas } from '../../../../apis/AirtableChainFeature';
+import ChainFeatureDetail from '../../search/ChainFeatureDetail';
+import Dropdowns from '../../search/Dropdowns';
+import SelectDataSchemaModal from '../../search/SelectDataSchemaModal';
 
 interface Props {
     label: any;
     document: any;
-    searchParam: any;
-    setSearchParam: any;
-    openItems: any;
     updateTag: any;
-    count: any;
 }
 
-export default function SearchDocumentFilter(props: Props) {
-    const { label, document, searchParam, setSearchParam, openItems, updateTag, count } = props;
+export default function DocumentFunction(props: Props) {
+    const { label, document, updateTag } = props;
 
     const [visibleChainFeature, setVisibleChainFeature] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -33,11 +26,11 @@ export default function SearchDocumentFilter(props: Props) {
     const [chain_features, set_chain_features] = useState<any>([]);
     const [chain_feature, set_chain_feature] = useState<any>();
     const [content, setContent] = useState('');
-    const handleSearch = () => {
-        Router.push({ pathname: '/search', query: searchParam });
-    };
+
 
     const getChainFeature = useCallback(() => {
+        console.log(label);
+
         if (!_.isEmpty(chain_features)) return;
         // console.log(label.meta.chain_features);
         if (label?.meta?.chain_features) {
@@ -59,106 +52,28 @@ export default function SearchDocumentFilter(props: Props) {
                 <div className="flex flex-row items-center flex-wrap">
                     <div className="flex flex-row items-center my-1">
                         <label>標籤:</label>
-                        <button
-                            className="border bg-white rounded-md pr-4 pl-2 py-1 mx-2 flex flex-row items-center"
-                            onClick={() => {
-                                Router.push('/');
-                            }}
-                        >
-                            <XMarkIcon className="w-4 mr-2" />
-                            {searchParam?.label}
-                        </button>
+                        {document?.label_list?.map((label: string, index: number) => {
+                            return (
+                                <button
+                                    key={index}
+                                    className="border bg-white rounded-md px-4   py-1 mx-2 flex flex-row items-center"
+
+                                >
+                                    {label}
+                                </button>
+                            )
+                        })}
                     </div>
-                    <div className="flex flex-0 flex-row items-center my-1 mx-2">
-                        <label className="flex-0">日期:</label>
-                        <div className="flex flex-1 bg-white flex-row items-center rounded-lg  border mx-2">
-                            <XMarkIcon
-                                className="w-4 mx-2 cursor-pointer"
-                                onClick={() => {
-                                    setSearchParam({
-                                        ...searchParam,
-                                        from: '',
-                                        to: ''
-                                    });
-                                }}
-                            />
-                            <input
-                                type="date"
-                                name="from_date"
-                                id="from_date"
-                                className=" border-0"
-                                placeholder="請選擇起始日期"
-                                value={searchParam?.from}
-                                onChange={(e) => {
-                                    setSearchParam({
-                                        ...searchParam,
-                                        from: e.target.value
-                                    });
-                                }}
-                            />
-                            <label className="mx-1">{'-'}</label>
-                            <input
-                                type="date"
-                                name="to_date"
-                                id="to_date"
-                                className=" border-0 border-none focus:border-none "
-                                placeholder="請選擇結束日期"
-                                value={searchParam?.to}
-                                onChange={(e) => {
-                                    // setEndDate(e.target.value);
-                                    setSearchParam({
-                                        ...searchParam,
-                                        to: e.target.value
-                                    });
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-1 flex-row items-center my-1">
-                        <label className="flex-0">關鍵字:</label>
-                        <input
-                            type="search"
-                            name="content"
-                            id="content"
-                            className="block flex-1 mx-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder="輸入文件的關鍵字或文件的相關內容"
-                            defaultValue={searchParam?.content}
-                            onChange={(e) => {
-                                setSearchParam({
-                                    ...searchParam,
-                                    content: e.target.value
-                                });
-                            }}
-                        />
-                    </div>
-                    <div className="flex flex-0 items-center my-1">
-                        <button
-                            className="border rounded-md px-4 py-1 mx-2 flex flex-row text-white items-center bg-blue-500 hover:bg-blue-600"
-                            onClick={() => {
-                                handleSearch();
-                            }}
-                        >
-                            搜尋
-                        </button>
-                    </div>
+
                 </div>
 
                 <div className="flex flex-1 flex-row">
                     <div className="flex flex-row items-center my-1">
                         <label>功能:</label>
-                        {/* <img src={'./intelligent.png'} className="w-6" />
-                        {':'} */}
-                        {count > 0 ? (
+                        {document ? (
                             <>
                                 {!visibleChainFeature ? (
                                     <>
-                                        <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
-                                            onClick={openItems}
-                                        >
-                                            <PaperAirplaneIcon className="w-4 m-1 " />
-                                            <label className="text-sm cursor-pointer">打開</label>
-                                        </div>
                                         <div
                                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
                                             onClick={() => {
@@ -179,18 +94,20 @@ export default function SearchDocumentFilter(props: Props) {
                                                 更新標籤
                                             </label>
                                         </div>
-                                        <div
-                                            className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md cursor-pointer"
-                                            onClick={() => {
-                                                setVisibleChainFeature(true);
-                                                getChainFeature();
-                                            }}
-                                        >
-                                            <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
-                                            <label className="text-sm cursor-pointer">
-                                                AI推薦功能
-                                            </label>
-                                        </div>
+                                        {label?.meta?.chain_features &&
+                                            <div
+                                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md cursor-pointer"
+                                                onClick={() => {
+                                                    setVisibleChainFeature(true);
+                                                    getChainFeature();
+                                                }}
+                                            >
+                                                <ArchiveBoxArrowDownIcon className="w-4 m-1 " />
+                                                <label className="text-sm cursor-pointer">
+                                                    AI推薦功能
+                                                </label>
+                                            </div>
+                                        }
                                     </>
                                 ) : (
                                     <div className="flex flex-row items-center flex-wrap">
@@ -269,7 +186,7 @@ export default function SearchDocumentFilter(props: Props) {
                 {visibleChainFeature && (
                     <div className="flex flex-1 flex-row items-center">
                         <label className="flex-0 flex flex-row items-center">
-                            <img src={'./intelligent.png'} className="w-6" />
+                            <img src={'../intelligent.png'} className="w-6" />
                             {':'}
                         </label>
                         <div className="w-full flex-1 mx-2 my-1">
@@ -284,6 +201,19 @@ export default function SearchDocumentFilter(props: Props) {
                         <Dropdowns copyContent={content} />
                     </div>
                 )}
+                <div className="flex flex-1 flex-row">
+                    <div className="flex flex-row items-center my-1 flex-wrap">
+                        <label className='flex-0'>總結:</label>
+                        <label className='flex-1 mx-2 text-gray-800 text-sm'></label>
+                    </div>
+                </div>
+
+                <div className="flex flex-1 flex-row">
+                    <div className="flex flex-row items-center my-1 flex-wrap">
+                        <label className='flex-0'>關鍵詞:</label>
+                        <label className='flex-1 mx-2 text-gray-800 text-sm'></label>
+                    </div>
+                </div>
             </div>
             <ChainFeatureDetail
                 open={openIframe}

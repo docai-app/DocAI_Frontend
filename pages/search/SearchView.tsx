@@ -34,7 +34,7 @@ interface SearchViewProps {
 export default function SearchView(props: SearchViewProps) {
     const {
         label,
-        searchDocumentFormik = { handleChange: () => {} },
+        searchDocumentFormik = { handleChange: () => { } },
         documents = [],
         meta,
         open,
@@ -100,7 +100,7 @@ export default function SearchView(props: SearchViewProps) {
                 allLabelsData={getAllLabelsData}
                 confirmDocumentFormik={confirmDocumentFormik}
                 isSubmit={true}
-                setTagName={(name: string) => {}}
+                setTagName={(name: string) => { }}
                 setOpenEditLabel={setOpenEditLabel}
             />
             <EditLabel
@@ -182,13 +182,13 @@ export default function SearchView(props: SearchViewProps) {
                             searchDocumentFormik?.values?.date
                                 ? { date: searchDocumentFormik?.values?.date }
                                 : searchDocumentFormik?.values?.tag_id
-                                ? {
-                                      content: searchDocumentFormik?.values?.content,
-                                      tag_id: searchDocumentFormik?.values?.tag_id,
-                                      from: searchDocumentFormik?.values?.from,
-                                      to: searchDocumentFormik?.values?.to
-                                  }
-                                : { content: searchDocumentFormik?.values?.content }
+                                    ? {
+                                        content: searchDocumentFormik?.values?.content,
+                                        tag_id: searchDocumentFormik?.values?.tag_id,
+                                        from: searchDocumentFormik?.values?.from,
+                                        to: searchDocumentFormik?.values?.to
+                                    }
+                                    : { content: searchDocumentFormik?.values?.content }
                         }
                     />
                 </div>
@@ -210,7 +210,10 @@ export default function SearchView(props: SearchViewProps) {
                     searchParam={searchParam}
                     setSearchParam={setSearchParam}
                     openItems={() => {
-                        if (document) window.open(document?.storage_url, '_blank', 'noreferrer');
+                        if (document) {
+                            router.push({ pathname: '/document/chat', query: { document_id: document.id, tag_id: router.query.tag_id } })
+                        }
+                        // if (document) window.open(document?.storage_url, '_blank', 'noreferrer');
                     }}
                     updateTag={() => {
                         setOpenAmendLabel(true);
