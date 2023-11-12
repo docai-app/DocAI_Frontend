@@ -39,7 +39,7 @@ function DocumentChatView(props: SchemaDataViewProps) {
     const { setAlert } = useAlert();
     const [openEditLabel, setOpenEditLabel] = useState(false);
     const [openAmendLabel, setOpenAmendLabel] = useState(false);
-    const [document_chat_url, set_document_chat_url] = useState('')
+    const [document_chat_url, set_document_chat_url] = useState('');
     useEffect(() => {
         // console.log(
         //     process.env.NEXT_PUBLIC_CHATBOT_URL +
@@ -48,9 +48,13 @@ function DocumentChatView(props: SchemaDataViewProps) {
 
         set_document_chat_url(
             process.env.NEXT_PUBLIC_CHATBOT_URL +
-            `/document_chat?document_id=${document?.id}&document_name=${document?.name}&token=${encrypt(window.localStorage?.getItem('authorization') || '')}&chain_feature_ids=${label?.meta?.chain_features?.join(",") || ''}`
-        )
-    }, [document, label])
+                `/document_chat?document_id=${document?.id}&document_name=${
+                    document?.name
+                }&token=${encrypt(
+                    window.localStorage?.getItem('authorization') || ''
+                )}&chain_feature_ids=${label?.meta?.chain_features?.join(',') || ''}`
+        );
+    }, [document, label]);
 
     return (
         <>
@@ -70,10 +74,7 @@ function DocumentChatView(props: SchemaDataViewProps) {
                 />
                 <div className="px-4 pb-8 flex-1 flex flex-row h-full flex-wrap">
                     <div className=" justify-center w-full sm:w-[40%] min-w-[200px]  flex overflow-auto h-full px-4 ">
-                        <iframe
-                            src={document_chat_url}
-                            className="h-full w-full"
-                        />
+                        <iframe src={document_chat_url} className="h-full w-full" />
                     </div>
                     <div className="flex flex-col w-full sm:w-[60%] h-full">
                         <div className="w-full flex-1 h-full overflow-y-auto border-2 border-dashed border-gray-200 bg-white rounded-lg object-cover">
@@ -117,7 +118,7 @@ function DocumentChatView(props: SchemaDataViewProps) {
                 allLabelsData={getAllLabelsData}
                 confirmDocumentFormik={confirmDocumentFormik}
                 isSubmit={true}
-                setTagName={(name: string) => { }}
+                setTagName={(name: string) => {}}
                 setOpenEditLabel={setOpenEditLabel}
             />
             <EditLabel

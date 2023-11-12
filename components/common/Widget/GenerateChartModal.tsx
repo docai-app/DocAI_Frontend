@@ -48,11 +48,14 @@ export default function GenerateChartModal(props: any) {
                             <div className="sm:flex sm:items-center justify-left">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
-                                        <h1 className="text-lg text-black">{props?.title || '智能圖表生成'}</h1>
+                                        <h1 className="text-lg text-black">
+                                            {props?.title || '智能圖表生成'}
+                                        </h1>
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            {props?.description || '基於你所選取的文件進行智能分析預計圖表生成'}
+                                            {props?.description ||
+                                                '基於你所選取的文件進行智能分析預計圖表生成'}
                                         </p>
                                     </div>
                                 </div>

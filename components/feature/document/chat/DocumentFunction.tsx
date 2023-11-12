@@ -49,7 +49,7 @@ export default function DocumentFunction(props: Props) {
                 <div className="flex flex-row items-center flex-wrap">
                     <div className="flex flex-row items-center my-1">
                         <label>文件名稱:</label>
-                        <label className='mx-2'>{document?.name}</label>
+                        <label className="mx-2">{document?.name}</label>
                     </div>
                 </div>
                 <div className="flex flex-row items-center flex-wrap">
@@ -65,14 +65,11 @@ export default function DocumentFunction(props: Props) {
                                 </button>
                             );
                         })}
-                        {document?.label_list && document?.label_list.length == 0 &&
-                            <button
-                                className="border bg-white rounded-md px-4   py-1 mx-2 flex flex-row items-center"
-                            >
+                        {document?.label_list && document?.label_list.length == 0 && (
+                            <button className="border bg-white rounded-md px-4   py-1 mx-2 flex flex-row items-center">
                                 未分類
                             </button>
-
-                        }
+                        )}
                     </div>
                 </div>
 
@@ -210,38 +207,47 @@ export default function DocumentFunction(props: Props) {
                         <Dropdowns copyContent={content} />
                     </div>
                 )}
-                {pdf_page_details && pdf_page_details.length > 0 &&
-                    <div className=' max-h-[200px] overflow-y-auto'>
+                {pdf_page_details && pdf_page_details.length > 0 && (
+                    <div className=" max-h-[200px] overflow-y-auto">
                         {pdf_page_details?.sort().map((page: any, index) => {
                             return (
                                 <div key={index}>
                                     <div className="relative">
-                                        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                                        <div
+                                            className="absolute inset-0 flex items-center"
+                                            aria-hidden="true"
+                                        >
                                             <div className="w-full border-t border-gray-300" />
                                         </div>
                                         <div className="relative flex justify-center">
-                                            <span className="px-3  text-sm text-gray-900">Page: {page?.page_number + 1}</span>
+                                            <span className="px-3  text-sm text-gray-900">
+                                                Page: {page?.page_number + 1}
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="flex flex-1 flex-row">
                                         <div className="flex flex-row items-start my-1 flex-wrap">
                                             <label className="flex-0 w-14 ">總結:</label>
-                                            <label className="flex-1 mx-2 text-gray-800 text-sm">{page?.summary}</label>
+                                            <label className="flex-1 mx-2 text-gray-800 text-sm">
+                                                {page?.summary}
+                                            </label>
                                         </div>
                                     </div>
 
                                     <div className="flex flex-1 flex-row">
                                         <div className="flex flex-row items-start my-1 flex-wrap ">
                                             <label className="flex-0 w-14 ">關鍵詞:</label>
-                                            <label className="flex-1 mx-2 text-gray-800 text-sm"> {page?.keywords}</label>
+                                            <label className="flex-1 mx-2 text-gray-800 text-sm">
+                                                {' '}
+                                                {page?.keywords}
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            );
                         })}
-
                     </div>
-                }
+                )}
             </div>
             <ChainFeatureDetail
                 open={openIframe}
@@ -250,13 +256,13 @@ export default function DocumentFunction(props: Props) {
                 setContent={setContent}
                 selectDocument={_.pick(document, ['name', 'content'])}
             />
-            {document &&
+            {document && (
                 <SelectDataSchemaModal
                     open={openSelectShema}
                     setOpen={setOpenSelectShema}
                     document_ids={[document?.id]}
                 />
-            }
+            )}
         </>
     );
 }

@@ -17,7 +17,7 @@ export default function DocumentChatContainer() {
     const [document, setDocument] = useState<any>();
     const [label, setLabel] = useState<any>();
     const [updateTag, setUpdateTag] = useState(false);
-    const [pdf_page_details, set_pdf_page_details] = useState<any>([])
+    const [pdf_page_details, set_pdf_page_details] = useState<any>([]);
 
     const [{ data: getDocumentByIdData }, getDocumentById] = useAxios(
         apiSetting.Document.getDocumentById(''),
@@ -48,12 +48,12 @@ export default function DocumentChatContainer() {
             getDocumentById({
                 ...apiSetting.Document.getDocumentById(router.query.document_id as string)
             });
-            getAllLabels()
+            getAllLabels();
             page_details({
                 params: {
                     id: router.query.document_id as string
                 }
-            })
+            });
         }
     }, [router]);
 
@@ -65,7 +65,6 @@ export default function DocumentChatContainer() {
                     ...apiSetting.Tag.getTagById(document.labels[0].id)
                 });
             }
-
         }
     }, [document]);
 
@@ -86,11 +85,13 @@ export default function DocumentChatContainer() {
     useEffect(() => {
         if (page_detailsData && page_detailsData.success) {
             console.log(page_detailsData);
-            set_pdf_page_details(page_detailsData.document?.pdf_page_details?.sort((a: any, b: any) =>
-                a.page_number > b.page_number ? 1 : -1
-            ))
+            set_pdf_page_details(
+                page_detailsData.document?.pdf_page_details?.sort((a: any, b: any) =>
+                    a.page_number > b.page_number ? 1 : -1
+                )
+            );
         }
-    }, [page_detailsData])
+    }, [page_detailsData]);
 
     const confirmDocumentFormik = useFormik({
         initialValues: {

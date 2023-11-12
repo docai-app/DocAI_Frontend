@@ -59,10 +59,10 @@ export default function ScheamDataContainer() {
         { manual: true }
     );
 
-    const [{ data: generateStatisticsData, loading: generateStatisticsLoading }, generateStatistics] = useAxios(
-        apiSetting.SmartExtractionSchemas.generateStatistics('', ''),
-        { manual: true }
-    );
+    const [
+        { data: generateStatisticsData, loading: generateStatisticsLoading },
+        generateStatistics
+    ] = useAxios(apiSetting.SmartExtractionSchemas.generateStatistics('', ''), { manual: true });
 
     const [{ data: deleteFormByIdData, loading: deleteFormByIdLoading }, deleteFormById] = useAxios(
         apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(''),
@@ -143,7 +143,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -250,7 +250,10 @@ export default function ScheamDataContainer() {
                 content: '正在生成報告,請耐心等候...'
             });
             const res = await generateChart(
-                apiSetting.SmartExtractionSchemas.generateStatistics(smart_extraction_schema_id, query)
+                apiSetting.SmartExtractionSchemas.generateStatistics(
+                    smart_extraction_schema_id,
+                    query
+                )
             );
             if (res.data.success) {
                 console.log(res.data.report);
@@ -259,8 +262,8 @@ export default function ScheamDataContainer() {
             } else {
                 console.log(res.data);
                 setAlert({
-                    title: res.data.report
-                    , type: 'error'
+                    title: res.data.report,
+                    type: 'error'
                 });
             }
             setOpen(false);

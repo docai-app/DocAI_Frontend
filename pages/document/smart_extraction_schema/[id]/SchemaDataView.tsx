@@ -140,19 +140,19 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 {formSchema?.description}
                             </h5>
                         </div>
-                        <div className='flex flex-row items-center'>
+                        <div className="flex flex-row items-center">
                             {formDatum && formDatum.length > 0 && (
                                 <BButton
-                                    name='智能生成圖表'
+                                    name="智能生成圖表"
                                     onClick={() => setVisibleGenerateChart(true)}
-                                    icon={<ChartBarSquareIcon className='w-5 mr-2' />}
+                                    icon={<ChartBarSquareIcon className="w-5 mr-2" />}
                                 />
                             )}
                             {formDatum && formDatum.length > 0 && (
                                 <BButton
-                                    name='智能生成報告'
+                                    name="智能生成報告"
                                     onClick={() => setVisibleGenerateStatistics(true)}
-                                    icon={<NewspaperIcon className='w-5 mr-2' />}
+                                    icon={<NewspaperIcon className="w-5 mr-2" />}
                                 />
                             )}
                         </div>
@@ -296,8 +296,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
             />
             <GenerateChartModal
-                title={"智能報告生成"}
-                description={"基於你所選取的文件進行智能分析預計報告生成"}
+                title={'智能報告生成'}
+                description={'基於你所選取的文件進行智能分析預計報告生成'}
                 visable={visableGenerateStatistics}
                 confirmClick={(query: string) => {
                     setVisibleGenerateStatistics(false);
