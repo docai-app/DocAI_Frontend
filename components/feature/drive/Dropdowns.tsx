@@ -1,7 +1,9 @@
 import { Menu, Transition } from '@headlessui/react';
 import {
-    ArrowDownTrayIcon, ArrowRightCircleIcon,
-    EllipsisVerticalIcon, PencilSquareIcon,
+    ArrowDownTrayIcon,
+    ArrowRightCircleIcon,
+    EllipsisVerticalIcon,
+    PencilSquareIcon,
     TrashIcon
 } from '@heroicons/react/20/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';

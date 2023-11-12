@@ -33,7 +33,7 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                 <td className="w-2/12 py-4 text-sm text-gray-500">
                     {folders?.map((folder) => (
                         <div className="flex gap-2 items-center" key={folder.id}>
-                            <FolderIcon className="h-5 text-blue-200" />
+                            <div><FolderIcon className="h-5 text-blue-200" /></div>
                             <span>{folder.name}</span>
                         </div>
                     ))}

@@ -1,8 +1,10 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { ChartBarSquareIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import BButton from '../../../../components/common/Widget/button/BButton';
 import GenerateChartModal from '../../../../components/common/Widget/GenerateChartModal';
 import HeaderBreadCrumb from '../../../../components/common/Widget/HeaderBreadCrumb';
 import HtmlCodeModal from '../../../../components/common/Widget/HtmlCodeModal';
@@ -29,6 +31,7 @@ interface SchemaDataViewProps {
     handleDownload: any;
     handlerDeleteDocument: any;
     handlerGenerateChart: any;
+    handlerGenerateStatistics: any;
     visableHtmlCode: boolean;
     setVisibleHtmlCode: any;
     chart: any;
@@ -53,6 +56,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
         handleDownload,
         handlerDeleteDocument,
         handlerGenerateChart,
+        handlerGenerateStatistics,
         visableHtmlCode,
         setVisibleHtmlCode,
         chart,
@@ -62,6 +66,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
     const { setAlert } = useAlert();
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
+    const [visableGenerateStatistics, setVisibleGenerateStatistics] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);
     const [datumId, setDatumId] = useState('');
 
@@ -135,14 +140,20 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 {formSchema?.description}
                             </h5>
                         </div>
-                        <div>
+                        <div className='flex flex-row items-center'>
                             {formDatum && formDatum.length > 0 && (
-                                <button
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded-md m-2"
+                                <BButton
+                                    name='智能生成圖表'
                                     onClick={() => setVisibleGenerateChart(true)}
-                                >
-                                    智能生成圖表
-                                </button>
+                                    icon={<ChartBarSquareIcon className='w-5 mr-2' />}
+                                />
+                            )}
+                            {formDatum && formDatum.length > 0 && (
+                                <BButton
+                                    name='智能生成報告'
+                                    onClick={() => setVisibleGenerateStatistics(true)}
+                                    icon={<NewspaperIcon className='w-5 mr-2' />}
+                                />
                             )}
                         </div>
                     </header>
@@ -282,6 +293,19 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
                 cancelClick={() => {
                     setVisibleGenerateChart(false);
+                }}
+            />
+            <GenerateChartModal
+                title={"智能報告生成"}
+                description={"基於你所選取的文件進行智能分析預計報告生成"}
+                visable={visableGenerateStatistics}
+                confirmClick={(query: string) => {
+                    setVisibleGenerateStatistics(false);
+                    console.log(query);
+                    handlerGenerateStatistics(query, form_data_ids);
+                }}
+                cancelClick={() => {
+                    setVisibleGenerateStatistics(false);
                 }}
             />
             <HtmlCodeModal

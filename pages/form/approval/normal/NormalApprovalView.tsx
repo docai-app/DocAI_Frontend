@@ -47,9 +47,9 @@ function ValidateView(props: ValidateViewProps) {
         <>
             <div className="min-h-full">
                 <HeaderBreadCrumb
-                    title='文件審批'
+                    title="文件審批"
                     back={() => {
-                        Router.back()
+                        Router.back();
                     }}
                 />
                 <main>

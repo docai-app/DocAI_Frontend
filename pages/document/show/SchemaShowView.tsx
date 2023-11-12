@@ -9,17 +9,12 @@ interface SchemaDataViewProps {
 }
 
 function SchemaShowView(props: SchemaDataViewProps) {
-    const {
-        formUrl,
-        data,
-        selectedResult
-    } = props;
+    const { formUrl, data, selectedResult } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
 
     return (
         <>
-
             <div className="max-w-7xl mx-auto min-h-full px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <HeaderBreadCrumb
@@ -57,14 +52,17 @@ function SchemaShowView(props: SchemaDataViewProps) {
                                 </div>
                             </div>
                             <div className="right-side flex-1 justify-center flex overflow-auto h-full px-4">
-                                <div className='flex flex-col px-2 w-full'>
+                                <div className="flex flex-col px-2 w-full">
                                     {selectedResult?.map((result: any, index: number) => {
                                         return (
-                                            <div key={index} className="my-2 border rounded-md p-2 w-full">
-                                                <p className=' font-bold text-xl mr-2'>{result.key}:</p>
-                                                <label
-                                                    className=" text-gray-900  break-words whitespace-break-spaces"
-                                                >
+                                            <div
+                                                key={index}
+                                                className="my-2 border rounded-md p-2 w-full"
+                                            >
+                                                <p className=" font-bold text-xl mr-2">
+                                                    {result.key}:
+                                                </p>
+                                                <label className=" text-gray-900  break-words whitespace-break-spaces">
                                                     {data && data[result.key]}
                                                 </label>
                                             </div>

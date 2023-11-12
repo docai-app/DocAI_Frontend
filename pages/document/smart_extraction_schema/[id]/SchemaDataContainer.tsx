@@ -59,6 +59,11 @@ export default function ScheamDataContainer() {
         { manual: true }
     );
 
+    const [{ data: generateStatisticsData, loading: generateStatisticsLoading }, generateStatistics] = useAxios(
+        apiSetting.SmartExtractionSchemas.generateStatistics('', ''),
+        { manual: true }
+    );
+
     const [{ data: deleteFormByIdData, loading: deleteFormByIdLoading }, deleteFormById] = useAxios(
         apiSetting.SmartExtractionSchemas.deleteSmartExtractionSchemasFormDataById(''),
         {
@@ -138,7 +143,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -234,6 +239,34 @@ export default function ScheamDataContainer() {
         }
     };
 
+    const handlerGenerateStatistics = async (query: string, form_data_ids: []) => {
+        console.log('query', query);
+        console.log('form_data_ids', form_data_ids);
+        const smart_extraction_schema_id = router.query.id?.toString() || '';
+        if (query) {
+            setOpen(true);
+            setModalDescription({
+                title: '進行中......',
+                content: '正在生成報告,請耐心等候...'
+            });
+            const res = await generateChart(
+                apiSetting.SmartExtractionSchemas.generateStatistics(smart_extraction_schema_id, query)
+            );
+            if (res.data.success) {
+                console.log(res.data.report);
+
+                // setChart(res.data.report);
+            } else {
+                console.log(res.data);
+                setAlert({
+                    title: res.data.report
+                    , type: 'error'
+                });
+            }
+            setOpen(false);
+        }
+    };
+
     return (
         <SchemaDataView
             {...{
@@ -253,6 +286,7 @@ export default function ScheamDataContainer() {
                 selectedFilter,
                 handlerDeleteDocument,
                 handlerGenerateChart,
+                handlerGenerateStatistics,
                 visableHtmlCode,
                 setVisibleHtmlCode,
                 chart,

@@ -108,4 +108,13 @@ export default class Absence {
         };
         return requestHeader;
     }
+
+    page_details() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/pdf/page_details`,
+            method: 'GET'
+        };
+        return requestHeader;
+    }
 }

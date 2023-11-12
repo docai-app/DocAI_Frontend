@@ -44,7 +44,7 @@ function ValidateView(props: ValidateViewProps) {
                 <HeaderBreadCrumb
                     title={'資料編輯'}
                     back={() => {
-                        Router.back()
+                        Router.back();
                     }}
                 />
 

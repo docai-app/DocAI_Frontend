@@ -211,7 +211,10 @@ export default function SearchView(props: SearchViewProps) {
                     setSearchParam={setSearchParam}
                     openItems={() => {
                         if (document) {
-                            router.push({ pathname: '/document/chat', query: { document_id: document.id, tag_id: router.query.tag_id } })
+                            router.push({
+                                pathname: '/document/chat',
+                                query: { document_id: document.id }
+                            });
                         }
                         // if (document) window.open(document?.storage_url, '_blank', 'noreferrer');
                     }}

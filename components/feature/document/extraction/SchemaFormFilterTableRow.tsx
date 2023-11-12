@@ -97,7 +97,7 @@ export default function SchemaFormFilterTableRow(props: TableRowProps) {
                                     data: JSON.stringify(datum.data),
                                     selectedResult: JSON.stringify(selectedResult)
                                 }
-                            })
+                            });
                         }}
                     >
                         點擊開啟

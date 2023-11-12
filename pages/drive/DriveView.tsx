@@ -485,7 +485,7 @@ export default function DriveView(props: DriveViewProps) {
                                     hasMore={showAllItemsData?.meta?.next_page != null}
                                     height={'auto'}
                                     // className="max-h-[45vh] sm:max-h-[50vh]"
-                                    style={{ maxHeight: '80vh' }}
+                                    style={{ maxHeight: '80vh', minHeight: '50vh' }}
                                     loader={
                                         <p className="p-4 text-center">
                                             <b>載入中...</b>

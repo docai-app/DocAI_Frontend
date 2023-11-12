@@ -34,24 +34,24 @@ export default function TableRow(props: TableRowProps) {
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
             date = `${updated_at.getHours() < 10
-                ? '0' + updated_at.getHours().toString()
-                : updated_at.getHours()
+                    ? '0' + updated_at.getHours().toString()
+                    : updated_at.getHours()
                 }:${updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
                 }`;
         else
             date = `${updated_at.getMonth() < 9
-                ? '0' + (updated_at.getMonth() + 1).toString()
-                : updated_at.getMonth() + 1
+                    ? '0' + (updated_at.getMonth() + 1).toString()
+                    : updated_at.getMonth() + 1
                 }/${updated_at.getDate() < 10
                     ? '0' + updated_at.getDate().toString()
                     : updated_at.getDate()
                 }`;
     } else {
         date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
-            ? '0' + (updated_at.getMonth() + 1).toString()
-            : updated_at.getMonth() + 1
+                ? '0' + (updated_at.getMonth() + 1).toString()
+                : updated_at.getMonth() + 1
             }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
             }`;
     }
@@ -178,7 +178,10 @@ export default function TableRow(props: TableRowProps) {
                         });
                     }}
                     openItems={() => {
-                        Router.push({ pathname: '/document/chat', query: { document_id: doc.id, tag_id: doc?.labels[0]?.id } })
+                        Router.push({
+                            pathname: '/document/chat',
+                            query: { document_id: doc.id }
+                        });
                     }}
                 />
                 {/* <DocumentSquare2StackIcon
