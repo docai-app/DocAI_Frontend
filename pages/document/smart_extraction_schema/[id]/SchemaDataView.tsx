@@ -7,6 +7,7 @@ import BButton from '../../../../components/common/Widget/button/BButton';
 import GenerateChartModal from '../../../../components/common/Widget/GenerateChartModal';
 import HeaderBreadCrumb from '../../../../components/common/Widget/HeaderBreadCrumb';
 import HtmlCodeModal from '../../../../components/common/Widget/HtmlCodeModal';
+import HtmlToPdfModal from '../../../../components/common/Widget/HtmlToPdfModal';
 import MyModal from '../../../../components/common/Widget/MyModal';
 import PaginationView from '../../../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
@@ -37,6 +38,9 @@ interface SchemaDataViewProps {
     chart: any;
     hasMore: boolean;
     meta: any;
+    report?: string;
+    visableHtmlToPdf?: boolean;
+    setVisibleHtmlToPdf?: any;
 }
 
 function SchemaDataView(props: SchemaDataViewProps) {
@@ -62,7 +66,10 @@ function SchemaDataView(props: SchemaDataViewProps) {
         setVisibleHtmlCode,
         chart,
         hasMore,
-        meta
+        meta,
+        report,
+        visableHtmlToPdf,
+        setVisibleHtmlToPdf
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
@@ -301,10 +308,11 @@ function SchemaDataView(props: SchemaDataViewProps) {
             <GenerateChartModal
                 title={'智能報告生成'}
                 description={'基於你所選取的文件進行智能分析預計報告生成'}
+                placeholder={`幫我總結一下各個部門的會議紀錄情況？`}
                 visable={visableGenerateStatistics}
                 confirmClick={(query: string) => {
                     setVisibleGenerateStatistics(false);
-                    console.log(query);
+                    // console.log(query);
                     handlerGenerateStatistics(query, form_data_ids);
                 }}
                 cancelClick={() => {
@@ -318,6 +326,14 @@ function SchemaDataView(props: SchemaDataViewProps) {
                     setVisibleHtmlCode(false);
                 }}
                 chart={chart}
+            />
+            <HtmlToPdfModal
+                visable={visableHtmlToPdf}
+                title={"報告"}
+                description={report}
+                cancelClick={() => {
+                    setVisibleHtmlToPdf(false);
+                }}
             />
         </>
     );
