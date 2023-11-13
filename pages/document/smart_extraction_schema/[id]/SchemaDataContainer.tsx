@@ -26,6 +26,7 @@ export default function ScheamDataContainer() {
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
+    const [meta, setMeta] = useState()
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -97,7 +98,7 @@ export default function ScheamDataContainer() {
                 )
             });
         }
-    }, [router]);
+    }, [router.query.id]);
 
     useEffect(() => {
         if (router && router.query.id) {
@@ -108,7 +109,13 @@ export default function ScheamDataContainer() {
                 )
             });
         }
-    }, [router, page]);
+    }, [router.query.id, page]);
+
+    useEffect(() => {
+        if (router.query.page) {
+            setPage(parseInt(router.query.page.toString()) || 1);
+        }
+    }, [router.query.page]);
 
     useEffect(() => {
         if (getSmartExtractionSchemasByIdData && getSmartExtractionSchemasByIdData.success) {
@@ -122,18 +129,22 @@ export default function ScheamDataContainer() {
     useEffect(() => {
         if (resultFormsData && resultFormsData.success) {
             // console.log('getSmartExtractionSchemasDataByIdData', resultFormsData);
-            if (page == 1) setFormDatum(resultFormsData.document_smart_extraction_datum);
-            else setFormDatum(formDatum.concat(resultFormsData.document_smart_extraction_datum));
-            setHasMore(resultFormsData?.meta?.next_page != null);
+            // if (page == 1) setFormDatum(resultFormsData.document_smart_extraction_datum);
+            // else setFormDatum(formDatum.concat(resultFormsData.document_smart_extraction_datum));
+            // setHasMore(resultFormsData?.meta?.next_page != null);
+            setFormDatum(resultFormsData.document_smart_extraction_datum);
+            setMeta(resultFormsData?.meta)
         }
     }, [resultFormsData]);
 
     useEffect(() => {
         if (searchData && searchData.success) {
             // console.log('searchData', searchData.document_smart_extraction_datum);
-            if (page == 1) setFormDatum(searchData.document_smart_extraction_datum);
-            else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
-            setHasMore(false);
+            // if (page == 1) setFormDatum(searchData.document_smart_extraction_datum);
+            // else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
+            // setHasMore(false);
+            setFormDatum(resultFormsData.document_smart_extraction_datum);
+            setMeta(resultFormsData?.meta)
         }
     }, [searchData]);
 
@@ -143,7 +154,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -293,7 +304,8 @@ export default function ScheamDataContainer() {
                 visableHtmlCode,
                 setVisibleHtmlCode,
                 chart,
-                hasMore
+                hasMore,
+                meta
             }}
         />
     );

@@ -3,12 +3,12 @@ import { ChartBarSquareIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import BButton from '../../../../components/common/Widget/button/BButton';
 import GenerateChartModal from '../../../../components/common/Widget/GenerateChartModal';
 import HeaderBreadCrumb from '../../../../components/common/Widget/HeaderBreadCrumb';
 import HtmlCodeModal from '../../../../components/common/Widget/HtmlCodeModal';
 import MyModal from '../../../../components/common/Widget/MyModal';
+import PaginationView from '../../../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import SchemaFormFilterTableRow from '../../../../components/feature/document/extraction/SchemaFormFilterTableRow';
 import EditItems from '../../../../components/feature/drive/EditItems';
@@ -36,6 +36,7 @@ interface SchemaDataViewProps {
     setVisibleHtmlCode: any;
     chart: any;
     hasMore: boolean;
+    meta: any;
 }
 
 function SchemaDataView(props: SchemaDataViewProps) {
@@ -60,7 +61,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
         visableHtmlCode,
         setVisibleHtmlCode,
         chart,
-        hasMore
+        hasMore,
+        meta
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
@@ -197,7 +199,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                     </div>
                     <div className="flex w-full items-center justify-center text-center py-2">
                         <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
-                            <InfiniteScroll
+                            {/* <InfiniteScroll
                                 dataLength={formDatum?.length} //This is important field to render the next data
                                 next={showAllItemsHandler}
                                 hasMore={hasMore}
@@ -211,64 +213,65 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 endMessage={
                                     <p className="p-4 text-gray-300 text-center">沒有更多資料</p>
                                 }
-                            >
-                                <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
-                                    <thead className="bg-gray-50 overflow-scroll">
-                                        <tr className="divide-x divide-gray-200">
-                                            <th
-                                                scope="col"
-                                                className="hidden py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                            ></th>
-                                            <th
-                                                scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                            >
-                                                編號
-                                            </th>
-                                            {selectedResult?.map((result: any, index: number) => {
-                                                return (
-                                                    <th
-                                                        key={index}
-                                                        scope="col"
-                                                        className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                    >
-                                                        {result?.key}
-                                                    </th>
-                                                );
-                                            })}
-                                            <th
-                                                scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                            >
-                                                文檔連結
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                            >
-                                                操作
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
-                                        {formDatum?.map((datum: any, index: number) => {
+                            > */}
+                            <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
+                                <thead className="bg-gray-50 overflow-scroll">
+                                    <tr className="divide-x divide-gray-200">
+                                        <th
+                                            scope="col"
+                                            className="hidden py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        ></th>
+                                        <th
+                                            scope="col"
+                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        >
+                                            編號
+                                        </th>
+                                        {selectedResult?.map((result: any, index: number) => {
                                             return (
-                                                <SchemaFormFilterTableRow
+                                                <th
                                                     key={index}
-                                                    index={index}
-                                                    datum={datum}
-                                                    selectedResult={selectedResult}
-                                                    editFormDocument={editFormDocument}
-                                                    setDatumId={setDatumId}
-                                                    setVisibleDelete={setVisibleDelete}
-                                                    setChecedkData={setChecedkData}
-                                                    checked={_.includes(form_data_ids, datum.id)}
-                                                />
+                                                    scope="col"
+                                                    className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                >
+                                                    {result?.key}
+                                                </th>
                                             );
                                         })}
-                                    </tbody>
-                                </table>
-                            </InfiniteScroll>
+                                        <th
+                                            scope="col"
+                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        >
+                                            文檔連結
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                        >
+                                            操作
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
+                                    {formDatum?.map((datum: any, index: number) => {
+                                        return (
+                                            <SchemaFormFilterTableRow
+                                                key={index}
+                                                index={index}
+                                                datum={datum}
+                                                selectedResult={selectedResult}
+                                                editFormDocument={editFormDocument}
+                                                setDatumId={setDatumId}
+                                                setVisibleDelete={setVisibleDelete}
+                                                setChecedkData={setChecedkData}
+                                                checked={_.includes(form_data_ids, datum.id)}
+                                            />
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                            <PaginationView meta={meta} pathname={`/document/smart_extraction_schema/${formSchema?.id}`} params={null} />
+                            {/* </InfiniteScroll> */}
                         </div>
                     </div>
                 </div>
