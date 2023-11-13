@@ -277,7 +277,11 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                     })}
                                 </tbody>
                             </table>
-                            <PaginationView meta={meta} pathname={`/document/smart_extraction_schema/${formSchema?.id}`} params={null} />
+                            <PaginationView
+                                meta={meta}
+                                pathname={`/document/smart_extraction_schema/${formSchema?.id}`}
+                                params={null}
+                            />
                             {/* </InfiniteScroll> */}
                         </div>
                     </div>

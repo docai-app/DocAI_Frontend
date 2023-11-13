@@ -28,7 +28,7 @@ export default function ScheamDataContainer() {
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
-    const [meta, setMeta] = useState()
+    const [meta, setMeta] = useState();
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -135,7 +135,7 @@ export default function ScheamDataContainer() {
             // else setFormDatum(formDatum.concat(resultFormsData.document_smart_extraction_datum));
             // setHasMore(resultFormsData?.meta?.next_page != null);
             setFormDatum(resultFormsData.document_smart_extraction_datum);
-            setMeta(resultFormsData?.meta)
+            setMeta(resultFormsData?.meta);
         }
     }, [resultFormsData]);
 
@@ -146,7 +146,7 @@ export default function ScheamDataContainer() {
             // else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
             // setHasMore(false);
             setFormDatum(resultFormsData.document_smart_extraction_datum);
-            setMeta(resultFormsData?.meta)
+            setMeta(resultFormsData?.meta);
         }
     }, [searchData]);
 
@@ -156,7 +156,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
