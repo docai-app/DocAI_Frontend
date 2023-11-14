@@ -23,6 +23,8 @@ export default function ScheamDataContainer() {
     const [page, setPage] = useState(1);
     const [modalDescription, setModalDescription] = useState({});
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
+    const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
+    const [report, setReport] = useState('');
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
@@ -227,8 +229,8 @@ export default function ScheamDataContainer() {
     };
 
     const handlerGenerateChart = async (query: string, form_data_ids: []) => {
-        console.log('query', query);
-        console.log('form_data_ids', form_data_ids);
+        // console.log('query', query);
+        // console.log('form_data_ids', form_data_ids);
         const smart_extraction_schema_id = router.query.id?.toString() || '';
         if (query) {
             setOpen(true);
@@ -251,8 +253,8 @@ export default function ScheamDataContainer() {
     };
 
     const handlerGenerateStatistics = async (query: string, form_data_ids: []) => {
-        console.log('query', query);
-        console.log('form_data_ids', form_data_ids);
+        // console.log('query', query);
+        // console.log('form_data_ids', form_data_ids);
         const smart_extraction_schema_id = router.query.id?.toString() || '';
         if (query) {
             setOpen(true);
@@ -267,9 +269,10 @@ export default function ScheamDataContainer() {
                 )
             );
             if (res.data.success) {
-                console.log(res.data.report);
-
+                // console.log(res.data.report);
                 // setChart(res.data.report);
+                setVisibleHtmlToPdf(true);
+                setReport(res.data.report);
             } else {
                 console.log(res.data);
                 setAlert({
@@ -305,7 +308,10 @@ export default function ScheamDataContainer() {
                 setVisibleHtmlCode,
                 chart,
                 hasMore,
-                meta
+                meta,
+                report,
+                visableHtmlToPdf,
+                setVisibleHtmlToPdf
             }}
         />
     );

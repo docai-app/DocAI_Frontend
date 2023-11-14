@@ -1,8 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useEffect, useRef } from 'react';
-import { toPng } from 'html-to-image';
 import parse from 'html-react-parser';
+import { toPng } from 'html-to-image';
+import { Fragment, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 
 export default function HtmlCodeModal(props: any) {
@@ -19,7 +19,7 @@ export default function HtmlCodeModal(props: any) {
     };
 
     useEffect(() => {
-        console.log('htmlText: ', props.chart);
+        // console.log('htmlText: ', props.chart);
         if (props.chart) {
             const domParser = new DOMParser();
             const doc = domParser.parseFromString(props.chart, 'text/html');
