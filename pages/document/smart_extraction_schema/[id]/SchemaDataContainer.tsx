@@ -24,7 +24,7 @@ export default function ScheamDataContainer() {
     const [modalDescription, setModalDescription] = useState({});
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
-    const [report, setReport] = useState('')
+    const [report, setReport] = useState('');
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
@@ -271,8 +271,8 @@ export default function ScheamDataContainer() {
             if (res.data.success) {
                 // console.log(res.data.report);
                 // setChart(res.data.report);
-                setVisibleHtmlToPdf(true)
-                setReport(res.data.report)
+                setVisibleHtmlToPdf(true);
+                setReport(res.data.report);
             } else {
                 console.log(res.data);
                 setAlert({

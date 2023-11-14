@@ -49,26 +49,26 @@ export default function HtmlToPdfModal(props: any) {
                     >
                         <div className="h-80vh relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-center  transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full  ">
                             <div className="w-full  h-full  flex flex-col">
-                                <div className='flex-0 my-2 text-xl'>
-                                    {props.title}
+                                <div className="flex-0 my-2 text-xl">{props.title}</div>
+                                <div className="w-full flex-1 overflow-y-auto  break-words text-left p-2">
+                                    {props?.description
+                                        ?.split('\n')
+                                        .map((item: string, index: number) => (
+                                            <p key={index}>{item}</p>
+                                        ))}
                                 </div>
-                                <div className="w-full flex-1 overflow-y-auto  break-words text-left p-2" >
-                                    {props?.description?.split('\n').map((item: string, index: number) => (
-                                        <p key={index}>{item}</p>
-                                    ))}
-                                </div>
-                                <div className='flex-0 w-full justify-center flex flex-row'>
+                                <div className="flex-0 w-full justify-center flex flex-row">
                                     <BButton
-                                        name='關閉'
-                                        bgColor={"bg-red-500 hover:bg-red-700 "}
+                                        name="關閉"
+                                        bgColor={'bg-red-500 hover:bg-red-700 '}
                                         onClick={props.cancelClick}
                                     />
 
                                     <BButton
-                                        name='Copy'
-                                        icon={<ClipboardDocumentIcon
-                                            className="h-5 w-5 text-white mr-2"
-                                        />}
+                                        name="Copy"
+                                        icon={
+                                            <ClipboardDocumentIcon className="h-5 w-5 text-white mr-2" />
+                                        }
                                         onClick={() => {
                                             copy(props.description);
                                             setAlert({

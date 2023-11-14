@@ -333,7 +333,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={"報告"}
+                title={'報告'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
