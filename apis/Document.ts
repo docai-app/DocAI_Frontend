@@ -117,4 +117,12 @@ export default class Absence {
         };
         return requestHeader;
     }
+    pdf_search() {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/documents/pdf/search/keyword`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }

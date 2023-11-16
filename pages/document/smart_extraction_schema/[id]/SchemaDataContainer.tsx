@@ -262,7 +262,7 @@ export default function ScheamDataContainer() {
                 title: '進行中......',
                 content: '正在生成報告,請耐心等候...'
             });
-            const res = await generateChart(
+            const res = await generateStatistics(
                 apiSetting.SmartExtractionSchemas.generateStatistics(
                     smart_extraction_schema_id,
                     query
