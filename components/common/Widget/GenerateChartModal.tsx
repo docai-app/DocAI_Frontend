@@ -49,7 +49,7 @@ export default function GenerateChartModal(props: any) {
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
                                         <h1 className="text-lg text-black">
-                                            {props?.title || '智能圖表生成'}
+                                            {props?.title || '生成圖表'}
                                         </h1>
                                     </div>
                                     <div className="mt-2">
@@ -66,7 +66,10 @@ export default function GenerateChartModal(props: any) {
                                         type={'text'}
                                         name="signature"
                                         className="w-full ml-4 rounded-md"
-                                        placeholder={props?.placeholder || "例如：幫我用pie chart統計總結出各個部門的請假情況？"}
+                                        placeholder={
+                                            props?.placeholder ||
+                                            '例如：幫我用pie chart統計總結出各個部門的請假情況？'
+                                        }
                                         onChange={(e) => {
                                             setQuery(e.target.value);
                                         }}

@@ -149,20 +149,24 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 {formSchema?.description}
                             </h5>
                         </div>
-                        <div className="flex flex-row items-center">
+                        <div className="flex flex-row items-center justify-end flex-wrap">
                             {formDatum && formDatum.length > 0 && (
-                                <BButton
-                                    name="智能生成圖表"
-                                    onClick={() => setVisibleGenerateChart(true)}
-                                    icon={<ChartBarSquareIcon className="w-5 mr-2" />}
-                                />
+                                <div className='my-1'>
+                                    <BButton
+                                        name="生成圖表"
+                                        onClick={() => setVisibleGenerateChart(true)}
+                                        icon={<ChartBarSquareIcon className="w-5 mr-2" />}
+                                    />
+                                </div>
                             )}
                             {formDatum && formDatum.length > 0 && (
-                                <BButton
-                                    name="智能生成報告"
-                                    onClick={() => setVisibleGenerateStatistics(true)}
-                                    icon={<NewspaperIcon className="w-5 mr-2" />}
-                                />
+                                <div className='my-1'>
+                                    <BButton
+                                        name="生成報告"
+                                        onClick={() => setVisibleGenerateStatistics(true)}
+                                        icon={<NewspaperIcon className="w-5 mr-2" />}
+                                    />
+                                </div>
                             )}
                         </div>
                     </header>
@@ -277,7 +281,11 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                     })}
                                 </tbody>
                             </table>
-                            <PaginationView meta={meta} pathname={`/document/smart_extraction_schema/${formSchema?.id}`} params={null} />
+                            <PaginationView
+                                meta={meta}
+                                pathname={`/document/smart_extraction_schema/${formSchema?.id}`}
+                                params={null}
+                            />
                             {/* </InfiniteScroll> */}
                         </div>
                     </div>
@@ -306,7 +314,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
             />
             <GenerateChartModal
-                title={'智能報告生成'}
+                title={'生成報告'}
                 description={'基於你所選取的文件進行智能分析預計報告生成'}
                 placeholder={`幫我總結一下各個部門的會議紀錄情況？`}
                 visable={visableGenerateStatistics}
@@ -321,7 +329,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
             />
             <HtmlCodeModal
                 visable={visableHtmlCode}
-                description={'智能圖表'}
+                description={'圖表'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
                 }}
@@ -329,7 +337,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={"報告"}
+                title={'報告'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);

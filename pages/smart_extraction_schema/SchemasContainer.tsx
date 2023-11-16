@@ -61,7 +61,7 @@ export default function ScheamDataContainer() {
                     allSchemas.concat(getSmartExtractionSchemasData.smart_extraction_schemas)
                 );
             }
-            console.log('getSmartExtractionSchemasData', getSmartExtractionSchemasData);
+            // console.log('getSmartExtractionSchemasData', getSmartExtractionSchemasData);
         }
     }, [getSmartExtractionSchemasData]);
 

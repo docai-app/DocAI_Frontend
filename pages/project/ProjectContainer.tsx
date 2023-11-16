@@ -88,7 +88,7 @@ export default function ProjectContainer() {
 
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
-            console.log('getAllWorkflowData', getAllWorkflowData);
+            // console.log('getAllWorkflowData', getAllWorkflowData);
             setProjects(getAllWorkflowData.project_workflows);
             setMeta(getAllWorkflowData.meta);
         }
@@ -96,7 +96,7 @@ export default function ProjectContainer() {
 
     useEffect(() => {
         if (getAllProjectWorkflowStepData && getAllProjectWorkflowStepData.success) {
-            console.log(getAllProjectWorkflowStepData);
+            // console.log(getAllProjectWorkflowStepData);
             setTasks(getAllProjectWorkflowStepData.project_workflow_steps);
             setMetaSteps(getAllProjectWorkflowStepData.meta);
         }
