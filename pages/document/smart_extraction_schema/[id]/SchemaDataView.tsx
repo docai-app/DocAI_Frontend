@@ -151,7 +151,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                         </div>
                         <div className="flex flex-row items-center justify-end flex-wrap">
                             {formDatum && formDatum.length > 0 && (
-                                <div className='my-1'>
+                                <div className="my-1">
                                     <BButton
                                         name="生成圖表"
                                         onClick={() => setVisibleGenerateChart(true)}
@@ -160,7 +160,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 </div>
                             )}
                             {formDatum && formDatum.length > 0 && (
-                                <div className='my-1'>
+                                <div className="my-1">
                                     <BButton
                                         name="生成報告"
                                         onClick={() => setVisibleGenerateStatistics(true)}

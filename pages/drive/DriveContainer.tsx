@@ -114,7 +114,7 @@ export default function DriveContainer() {
     }, [addNewLabelData]);
 
     useEffect(() => {
-        countDocumentsByDate();
+        // countDocumentsByDate();
     }, [countDocumentsByDate]);
 
     const handleShare = useCallback(
@@ -207,7 +207,7 @@ export default function DriveContainer() {
             a.href = dataURL;
             a.download = 'documents.zip';
             a.click();
-        } catch {}
+        } catch { }
     }, [folders_items, documents_items]);
 
     const confirmDocumentFormik = useFormik({

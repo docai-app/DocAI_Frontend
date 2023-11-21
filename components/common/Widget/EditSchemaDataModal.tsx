@@ -9,7 +9,7 @@ export default function EditSchemaDataModal(props: any) {
     const cancelButtonRef = useRef(null);
     const [validate, setValidate] = useState(true);
     const [title, setTitle] = useState('數值');
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
 
     const [data, setData] = useState<any>();
 
@@ -64,12 +64,12 @@ export default function EditSchemaDataModal(props: any) {
 
     const validateForm = () => {
         if (!data?.key) {
-            setAlert({ 'title': '請填寫 Column Name !', type: 'info' })
-            return
+            setAlert({ title: '請填寫 Column Name !', type: 'info' });
+            return;
         }
         if (!data?.query) {
-            setAlert({ 'title': '請填寫 Prompt !', type: 'info' })
-            return
+            setAlert({ title: '請填寫 Prompt !', type: 'info' });
+            return;
         }
         props.confirmClick(data);
         setData({
@@ -77,7 +77,7 @@ export default function EditSchemaDataModal(props: any) {
             key: '',
             query: props?.accurateMode ? ['', ''] : ''
         });
-    }
+    };
 
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
@@ -148,8 +148,9 @@ export default function EditSchemaDataModal(props: any) {
                                     <label className="text-sm w-1/4"> {''}</label>
                                     <div className="w-3/4 ml-4 ">
                                         <label
-                                            className={`flex justify-start text-sm ${validate ? 'text-gray-400 ' : 'text-red-500'
-                                                }`}
+                                            className={`flex justify-start text-sm ${
+                                                validate ? 'text-gray-400 ' : 'text-red-500'
+                                            }`}
                                         >
                                             *只可以輸入小寫英文字母,不可以輸入中文,除了底線"_"外
                                         </label>
@@ -235,7 +236,7 @@ export default function EditSchemaDataModal(props: any) {
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     onClick={() => {
-                                        validateForm()
+                                        validateForm();
                                     }}
                                 >
                                     {props.confirmText || '確認'}
