@@ -92,7 +92,7 @@ export default function UploadFile(props: UploadFileProps) {
                         />
                     </label>
                 </div>
-                <span className="mt-2 block text-sm font-medium">支持10MB大小的文件</span>
+                <span className="mt-2 block text-sm font-medium">支持20MB大小的文件</span>
             </div>
         </main>
     );
