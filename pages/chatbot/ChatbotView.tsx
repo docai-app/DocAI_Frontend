@@ -1,8 +1,10 @@
 // File Path: pages/chatbot/ChatbotView.tsx
 
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
+import useAxios from 'axios-hooks';
 import Router from 'next/router';
 import { useState } from 'react';
+import Api from '../../apis';
 import HeaderBreadCrumb from '../../components/common/Widget/HeaderBreadCrumb';
 import MiniappShareQRcodeModal from '../../components/common/Widget/MiniappShareQRcodeModal';
 import PaginationView from '../../components/common/Widget/PaginationView';
@@ -11,19 +13,38 @@ import ChatbotRow from '../../components/feature/chatbot/ChatbotRow';
 import { encrypt } from '../../utils/util_crypto';
 import { Chatbot } from './ChatbotContainer';
 
+const apiSetting = new Api();
+
 function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; setOpen: any }) {
     const { chatbots, meta, open, setOpen } = props;
     const [miniappItem, setMiniappItem] = useState<any>();
     const [visable, setVisible] = useState(false);
-    const share = (item: any) => {
-        const encryptedText = encrypt(window.localStorage?.getItem('authorization') || '');
-        const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `/${item.id}?token=${encryptedText}`;
+    const [openShareLoad, setOpenShareLoad] = useState(false)
 
-        setMiniappItem({
-            ...item,
-            link: link
-        });
-        setVisible(true);
+    const [
+        { data: getShareSignatureData, loading: getShareSignatureLoading },
+        getShareSignature
+    ] = useAxios({}, { manual: true });
+
+    const share = (item: any) => {
+        setOpenShareLoad(true)
+        getShareSignature({
+            ...apiSetting.Chatbot.getShareSignature(item.id)
+        }).then((res) => {
+            if (res.data.success) {
+                const decodedKey = atob(res.data.signature)
+                // console.log(decodedKey)
+                const encryptedText = encrypt(decodedKey);
+                const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `${item.id}?token=${encryptedText}`;
+                // console.log(encryptedText)
+                setMiniappItem({
+                    ...item,
+                    link: link
+                });
+                setVisible(true);
+            }
+            setOpenShareLoad(false)
+        })
     };
     return (
         <>
@@ -33,6 +54,18 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                     setOpen,
                     title: '正在進行中...',
                     content: '正在加載數據',
+                    icon: (
+                        <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    )
+                }}
+            />
+
+            <SingleActionModel
+                {...{
+                    open: openShareLoad,
+                    setOpen: setOpenShareLoad,
+                    title: '正在進行中...',
+                    content: '正在獲取分享連結',
                     icon: (
                         <PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                     )
