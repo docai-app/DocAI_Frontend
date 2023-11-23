@@ -4,6 +4,7 @@ import {
     ArrowRightCircleIcon,
     ChartBarIcon,
     MagnifyingGlassIcon,
+    PaperAirplaneIcon,
     Square2StackIcon,
     TagIcon
 } from '@heroicons/react/24/outline';
@@ -25,6 +26,8 @@ interface EditItemsProps {
     generateChart?: any;
     visibleToExecl?: boolean;
     toExecl?: any;
+    visibleOpen?: boolean
+    openItems?: any;
 }
 
 export default function EditItems(props: EditItemsProps) {
@@ -44,7 +47,9 @@ export default function EditItems(props: EditItemsProps) {
         visibleGenerateChart,
         generateChart,
         visibleToExecl,
-        toExecl
+        toExecl,
+        visibleOpen,
+        openItems
     } = props;
     return (
         <>
@@ -58,6 +63,15 @@ export default function EditItems(props: EditItemsProps) {
                             <TrashIcon className="w-4 m-1" />
                             <label className="text-sm">刪除</label>
                         </div>
+                        {visibleOpen && (
+                            <div
+                                className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"
+                                onClick={openItems}
+                            >
+                                <PaperAirplaneIcon className="w-4 m-1 " />
+                                <label className="text-sm">打開</label>
+                            </div>
+                        )}
                         {visibleMoveItem && (
                             <div
                                 className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md"

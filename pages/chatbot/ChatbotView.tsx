@@ -34,7 +34,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                 // console.log(decodedKey)
                 const encryptedText = encrypt(decodedKey);
                 const link =
-                    process.env.NEXT_PUBLIC_CHATBOT_URL + `${item.id}?token=${encryptedText}`;
+                    process.env.NEXT_PUBLIC_CHATBOT_URL + `${item.id}?token_key=${encryptedText}`;
                 // console.log(encryptedText)
                 setMiniappItem({
                     ...item,
