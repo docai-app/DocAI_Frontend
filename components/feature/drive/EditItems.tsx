@@ -26,7 +26,7 @@ interface EditItemsProps {
     generateChart?: any;
     visibleToExecl?: boolean;
     toExecl?: any;
-    visibleOpen?: boolean
+    visibleOpen?: boolean;
     openItems?: any;
 }
 
