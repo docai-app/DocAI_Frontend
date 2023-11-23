@@ -26,10 +26,6 @@ export default function ProjectContainer() {
     const [currentStatus, setCurrentStatus] = useState('');
     const [chain_features, set_chain_features] = useState<any>([]);
 
-    const [
-        { data: showAllItemsData, loading: showAllItemsLoading, error: showAllItemsError },
-        showAllItems
-    ] = useAxios({}, { manual: true });
 
     const [{ data: getAllWorkflowData, loading: getAllWorkflowDataLoading }, getAllWorkflow] =
         useAxios(apiSetting.ProjectWorkflow.getAllWorkflow(page), { manual: true });
@@ -65,30 +61,10 @@ export default function ProjectContainer() {
         });
     }, [router]);
 
-    useEffect(() => {
-        if (router.asPath !== router.route) {
-            queryId.current = router.query.id;
-            queryName.current = router.query.name;
-            if (queryId.current) {
-                showAllItems(apiSetting.Drive.showAllFolderItems(queryId.current.toString()));
-            } else {
-                showAllItems(apiSetting.Drive.showAllRootItems());
-            }
-        } else {
-            showAllItems(apiSetting.Drive.showAllRootItems());
-        }
-    }, [router, showAllItems]);
-
-    useEffect(() => {
-        if (!showAllItemsLoading && showAllItemsData) {
-            setId(queryId.current?.toString() || null);
-            setName(queryName.current?.toString() || null);
-        }
-    }, [showAllItemsLoading, showAllItemsData]);
 
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
-            console.log('getAllWorkflowData', getAllWorkflowData);
+            // console.log('getAllWorkflowData', getAllWorkflowData);
             setProjects(getAllWorkflowData.project_workflows);
             setMeta(getAllWorkflowData.meta);
         }
@@ -96,7 +72,7 @@ export default function ProjectContainer() {
 
     useEffect(() => {
         if (getAllProjectWorkflowStepData && getAllProjectWorkflowStepData.success) {
-            console.log(getAllProjectWorkflowStepData);
+            // console.log(getAllProjectWorkflowStepData);
             setTasks(getAllProjectWorkflowStepData.project_workflow_steps);
             setMetaSteps(getAllProjectWorkflowStepData.meta);
         }
@@ -149,7 +125,6 @@ export default function ProjectContainer() {
             {...{
                 id,
                 name,
-                showAllItemsData,
                 projects,
                 meta,
                 metaSteps,

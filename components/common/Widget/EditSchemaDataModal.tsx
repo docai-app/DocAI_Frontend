@@ -2,12 +2,14 @@
 import { Dialog, Transition } from '@headlessui/react';
 import _ from 'lodash';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import useAlert from '../../../hooks/useAlert';
 import MyDateDropdown from './MyDateDropdown';
 
 export default function EditSchemaDataModal(props: any) {
     const cancelButtonRef = useRef(null);
     const [validate, setValidate] = useState(true);
     const [title, setTitle] = useState('數值');
+    const { setAlert } = useAlert();
 
     const [data, setData] = useState<any>();
 
@@ -58,6 +60,23 @@ export default function EditSchemaDataModal(props: any) {
         const validate = pattern.test(input);
         setValidate(validate);
         return validate;
+    };
+
+    const validateForm = () => {
+        if (!data?.key) {
+            setAlert({ title: '請填寫 Column Name !', type: 'info' });
+            return;
+        }
+        if (!data?.query) {
+            setAlert({ title: '請填寫 Prompt !', type: 'info' });
+            return;
+        }
+        props.confirmClick(data);
+        setData({
+            ...data,
+            key: '',
+            query: props?.accurateMode ? ['', ''] : ''
+        });
     };
 
     return (
@@ -114,7 +133,7 @@ export default function EditSchemaDataModal(props: any) {
                                             name="signature"
                                             className="w-full rounded-md border-gray-400 "
                                             placeholder="name"
-                                            value={data?.key}
+                                            defaultValue={data?.key}
                                             onChange={(e) => {
                                                 if (validateInput(e.target.value))
                                                     setData({
@@ -217,12 +236,7 @@ export default function EditSchemaDataModal(props: any) {
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     onClick={() => {
-                                        props.confirmClick(data);
-                                        setData({
-                                            ...data,
-                                            key: '',
-                                            query: props?.accurateMode ? ['', ''] : ''
-                                        });
+                                        validateForm();
                                     }}
                                 >
                                     {props.confirmText || '確認'}

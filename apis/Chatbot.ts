@@ -68,4 +68,13 @@ export default class Chatbot {
         };
         return requestHeader;
     }
+
+    getShareSignature(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/chatbots/${id}/share`,
+            method: 'POST'
+        };
+        return requestHeader;
+    }
 }

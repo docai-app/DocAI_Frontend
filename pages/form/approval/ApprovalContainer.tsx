@@ -1,12 +1,11 @@
-import useAxios from 'axios-hooks';
-import Api from '../../../apis';
-import ApprovalView from './ApprovalView';
-import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import useAxios from 'axios-hooks';
 import _ from 'lodash';
-import _get from 'lodash/get';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import Api from '../../../apis';
 import useAlert from '../../../hooks/useAlert';
+import ApprovalView from './ApprovalView';
 
 const apiSetting = new Api();
 
@@ -110,17 +109,17 @@ function ApprovalContainer() {
             currentTabStatus: currentTabStatus,
             setCurrentTabStatus: setCurrentTabStatus
         }));
-        console.log('currentTypeTabStatus', currentTypeTabStatus);
+        // console.log('currentTypeTabStatus', currentTypeTabStatus);
 
         currentTypeTabStatus != 'normal'
             ? getAbsenceFormByApprovalStatus({
-                  url: `/api/v1/approval/form/documents?status=${currentTabStatus}&days=${days}&page=${page}&form_schema_id=${currentTypeTabStatus}`
-              })
+                url: `/api/v1/approval/form/documents?status=${currentTabStatus}&days=${days}&page=${page}&form_schema_id=${currentTypeTabStatus}`
+            })
             : currentTypeTabStatus == 'normal'
-            ? getAbsenceFormByApprovalStatus({
-                  url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
-              })
-            : null;
+                ? getAbsenceFormByApprovalStatus({
+                    url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
+                })
+                : null;
     }, [currentTypeTabStatus, currentTabStatus, days, page, getAbsenceFormByApprovalStatus]);
 
     useEffect(() => {

@@ -3,7 +3,6 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import Router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Folder } from '../../components/common/Widget/FolderTree';
-import FolderTreeForSelect from '../../components/common/Widget/FolderTreeForSelect';
 import HeaderBreadCrumb from '../../components/common/Widget/HeaderBreadCrumb';
 import MyDateDropdown from '../../components/common/Widget/MyDateDropdown';
 import PaginationView from '../../components/common/Widget/PaginationView';
@@ -115,21 +114,19 @@ function ProjectView(props: ProjectViewProps) {
                         <ul className="flex flex-row -my-px">
                             <li
                                 onClick={() => setCurrentTypeTab('tasks')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'tasks'
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'tasks'
                                         ? 'text-indigo-700 border-b-2 border-indigo-700'
                                         : 'text-gray-400'
-                                } font-bold text-sm`}
+                                    } font-bold text-sm`}
                             >
                                 待辦事項
                             </li>
                             <li
                                 onClick={() => setCurrentTypeTab('project_workflow')}
-                                className={`p-4 cursor-pointer ${
-                                    currentTypeTab === 'project_workflow'
+                                className={`p-4 cursor-pointer ${currentTypeTab === 'project_workflow'
                                         ? 'text-indigo-700 border-b-2 border-indigo-700'
                                         : 'text-gray-400'
-                                } font-bold text-sm`}
+                                    } font-bold text-sm`}
                             >
                                 工作流
                             </li>
@@ -197,7 +194,7 @@ function ProjectView(props: ProjectViewProps) {
                 }}
             />
 
-            <FolderTreeForSelect
+            {/* <FolderTreeForSelect
                 {...{
                     mode,
                     setMode,
@@ -205,7 +202,7 @@ function ProjectView(props: ProjectViewProps) {
                     setDest,
                     targetId: ''
                 }}
-            />
+            /> */}
         </>
     );
 }
