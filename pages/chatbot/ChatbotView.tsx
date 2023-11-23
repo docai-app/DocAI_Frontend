@@ -19,23 +19,22 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
     const { chatbots, meta, open, setOpen } = props;
     const [miniappItem, setMiniappItem] = useState<any>();
     const [visable, setVisible] = useState(false);
-    const [openShareLoad, setOpenShareLoad] = useState(false)
+    const [openShareLoad, setOpenShareLoad] = useState(false);
 
-    const [
-        { data: getShareSignatureData, loading: getShareSignatureLoading },
-        getShareSignature
-    ] = useAxios({}, { manual: true });
+    const [{ data: getShareSignatureData, loading: getShareSignatureLoading }, getShareSignature] =
+        useAxios({}, { manual: true });
 
     const share = (item: any) => {
-        setOpenShareLoad(true)
+        setOpenShareLoad(true);
         getShareSignature({
             ...apiSetting.Chatbot.getShareSignature(item.id)
         }).then((res) => {
             if (res.data.success) {
-                const decodedKey = atob(res.data.signature)
+                const decodedKey = atob(res.data.signature);
                 // console.log(decodedKey)
                 const encryptedText = encrypt(decodedKey);
-                const link = process.env.NEXT_PUBLIC_CHATBOT_URL + `${item.id}?token=${encryptedText}`;
+                const link =
+                    process.env.NEXT_PUBLIC_CHATBOT_URL + `${item.id}?token=${encryptedText}`;
                 // console.log(encryptedText)
                 setMiniappItem({
                     ...item,
@@ -43,8 +42,8 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                 });
                 setVisible(true);
             }
-            setOpenShareLoad(false)
-        })
+            setOpenShareLoad(false);
+        });
     };
     return (
         <>

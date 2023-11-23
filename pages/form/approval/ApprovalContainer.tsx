@@ -113,13 +113,13 @@ function ApprovalContainer() {
 
         currentTypeTabStatus != 'normal'
             ? getAbsenceFormByApprovalStatus({
-                url: `/api/v1/approval/form/documents?status=${currentTabStatus}&days=${days}&page=${page}&form_schema_id=${currentTypeTabStatus}`
-            })
+                  url: `/api/v1/approval/form/documents?status=${currentTabStatus}&days=${days}&page=${page}&form_schema_id=${currentTypeTabStatus}`
+              })
             : currentTypeTabStatus == 'normal'
-                ? getAbsenceFormByApprovalStatus({
-                    url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
-                })
-                : null;
+            ? getAbsenceFormByApprovalStatus({
+                  url: `/api/v1/approval/normal/documents?status=${currentTabStatus}&days=${days}&page=${page}`
+              })
+            : null;
     }, [currentTypeTabStatus, currentTabStatus, days, page, getAbsenceFormByApprovalStatus]);
 
     useEffect(() => {

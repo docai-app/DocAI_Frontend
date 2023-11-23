@@ -26,7 +26,6 @@ export default function ProjectContainer() {
     const [currentStatus, setCurrentStatus] = useState('');
     const [chain_features, set_chain_features] = useState<any>([]);
 
-
     const [{ data: getAllWorkflowData, loading: getAllWorkflowDataLoading }, getAllWorkflow] =
         useAxios(apiSetting.ProjectWorkflow.getAllWorkflow(page), { manual: true });
 
@@ -60,7 +59,6 @@ export default function ProjectContainer() {
             set_chain_features(res);
         });
     }, [router]);
-
 
     useEffect(() => {
         if (getAllWorkflowData && getAllWorkflowData.success) {
