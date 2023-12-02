@@ -145,8 +145,8 @@ export default function ScheamDataContainer() {
             // if (page == 1) setFormDatum(searchData.document_smart_extraction_datum);
             // else setFormDatum(formDatum.concat(searchData.document_smart_extraction_datum));
             // setHasMore(false);
-            setFormDatum(resultFormsData.document_smart_extraction_datum);
-            setMeta(resultFormsData?.meta);
+            setFormDatum(searchData?.document_smart_extraction_datum);
+            setMeta(searchData?.meta);
         }
     }, [searchData]);
 
@@ -156,7 +156,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
