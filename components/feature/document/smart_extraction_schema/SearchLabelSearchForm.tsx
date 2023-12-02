@@ -61,10 +61,10 @@ export default function SearchLabelSearchForm(props: Props) {
         { manual: true }
     );
 
-    const [{ data: generateStatisticsData, loading: generateStatisticsLoading }, generateStatistics] = useAxios(
-        '',
-        { manual: true }
-    );
+    const [
+        { data: generateStatisticsData, loading: generateStatisticsLoading },
+        generateStatistics
+    ] = useAxios('', { manual: true });
 
     const handlerGenerateChart = async (smart_extraction_schema_id: string, query: string) => {
         console.log('query', query);
@@ -90,7 +90,6 @@ export default function SearchLabelSearchForm(props: Props) {
         }
     };
 
-
     const handlerGenerateStatistics = async (smart_extraction_schema_id: string, query: string) => {
         console.log('query', query);
         console.log('smart_extraction_schema_id', smart_extraction_schema_id);
@@ -102,7 +101,10 @@ export default function SearchLabelSearchForm(props: Props) {
                 content: '正在生成統計報告,請耐心等候...'
             });
             const res = await generateStatistics(
-                apiSetting.SmartExtractionSchemas.generateStatistics(smart_extraction_schema_id, query)
+                apiSetting.SmartExtractionSchemas.generateStatistics(
+                    smart_extraction_schema_id,
+                    query
+                )
             );
             if (res.data.success) {
                 setVisibleHtmlToPdf(true);
@@ -114,7 +116,6 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(false);
         }
     };
-
 
     return (
         <>
@@ -272,7 +273,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                     </>
                                 ) : (
                                     <>
-                                        {visableGenerateChart &&
+                                        {visableGenerateChart && (
                                             <div
                                                 className="flex flex-row items-center p-1 border ml-4 mx-2 pr-4 hover:bg-gray-300 rounded-md"
                                                 onClick={() => {
@@ -285,8 +286,8 @@ export default function SearchLabelSearchForm(props: Props) {
                                                     生成圖表
                                                 </label>
                                             </div>
-                                        }
-                                        {visableGenerateStatistics &&
+                                        )}
+                                        {visableGenerateStatistics && (
                                             <div
                                                 className="flex flex-row items-center p-1 border ml-4 mx-2 pr-4 hover:bg-gray-300 rounded-md"
                                                 onClick={() => {
@@ -299,7 +300,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                     生成統計報告
                                                 </label>
                                             </div>
-                                        }
+                                        )}
                                     </>
                                 )}
                             </>
