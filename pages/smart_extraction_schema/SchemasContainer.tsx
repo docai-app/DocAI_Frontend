@@ -21,6 +21,10 @@ export default function ScheamDataContainer() {
         useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page), {
             manual: true
         });
+    const [{ data: deleteSchemasData }, deleteSchemaById] =
+        useAxios(apiSetting.SmartExtractionSchemas.deleteSchemasByDocuemntsById(''), {
+            manual: true
+        });
 
     const [{ data: getAllLabelsData, error: getAllLabelsError }, getAllLabels] = useAxios(
         apiSetting.Tag.getAllTags(),
@@ -82,6 +86,25 @@ export default function ScheamDataContainer() {
         });
     };
 
+    const handleDeleteSchema = (schema_id: string) => {
+        // console.log('schema_id', schema_id);
+        setOpen(true)
+        deleteSchemaById({
+            ...apiSetting.SmartExtractionSchemas.deleteSchemasByDocuemntsById(schema_id)
+        })
+    }
+
+    useEffect(() => {
+        if (deleteSchemasData && deleteSchemasData.success) {
+            setOpen(false)
+            setAlert({ title: "删除成功!", type: 'success' });
+            router.reload()
+        } else if (deleteSchemasData && !deleteSchemasData.success) {
+            setOpen(false)
+            setAlert({ title: deleteSchemasData.error, type: 'error' });
+        }
+    }, [deleteSchemasData])
+
     return (
         <SchemasView
             {...{
@@ -93,7 +116,8 @@ export default function ScheamDataContainer() {
                 showAllSchemasHandler,
                 showHasLabelSchemasHandler,
                 getAllLabelsData,
-                users
+                users,
+                handleDeleteSchema
             }}
         />
     );

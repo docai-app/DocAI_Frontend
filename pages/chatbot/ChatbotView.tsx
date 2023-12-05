@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Api from '../../apis';
 import HeaderBreadCrumb from '../../components/common/Widget/HeaderBreadCrumb';
 import MiniappShareQRcodeModal from '../../components/common/Widget/MiniappShareQRcodeModal';
+import MyModal from '../../components/common/Widget/MyModal';
 import PaginationView from '../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../components/common/Widget/SingleActionModel';
 import ChatbotRow from '../../components/feature/chatbot/ChatbotRow';
@@ -15,12 +16,25 @@ import { Chatbot } from './ChatbotContainer';
 
 const apiSetting = new Api();
 
-function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; setOpen: any }) {
-    const { chatbots, meta, open, setOpen } = props;
+function ChatbotView(props: {
+    chatbots: Chatbot[];
+    meta: any;
+    open: boolean;
+    setOpen: any;
+    handleDeleteChatbot: any;
+}) {
+    const {
+        chatbots,
+        meta,
+        open,
+        setOpen,
+        handleDeleteChatbot
+    } = props;
     const [miniappItem, setMiniappItem] = useState<any>();
     const [visable, setVisible] = useState(false);
     const [openShareLoad, setOpenShareLoad] = useState(false);
-
+    const [visableDelete, setVisableDelete] = useState(false);
+    const [currectChabot, setCurrectChatbot] = useState<any>();
     const [{ data: getShareSignatureData, loading: getShareSignatureLoading }, getShareSignature] =
         useAxios({}, { manual: true });
 
@@ -112,7 +126,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
                                                 建立日期
                                             </th>
@@ -124,7 +138,7 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="relative py-3.5 w-2/12 sm:pr-0"
+                                                className="relative py-3.5 w-3/12 sm:pr-0"
                                             >
                                                 <span className="sr-only">Edit</span>
                                             </th>
@@ -133,7 +147,15 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                                     <tbody className="divide-y divide-gray-200">
                                         {chatbots?.map((item: any, index: number) => {
                                             return (
-                                                <ChatbotRow key={index} item={item} share={share} />
+                                                <ChatbotRow
+                                                    key={index}
+                                                    item={item}
+                                                    share={share}
+                                                    remove={(item: any) => {
+                                                        setCurrectChatbot(item)
+                                                        setVisableDelete(true)
+                                                    }}
+                                                />
                                             );
                                         })}
                                     </tbody>
@@ -150,6 +172,17 @@ function ChatbotView(props: { chatbots: Chatbot[]; meta: any; open: boolean; set
                     link={miniappItem?.link}
                     cancelClick={() => {
                         setVisible(false);
+                    }}
+                />
+                <MyModal
+                    visable={visableDelete}
+                    description={`是否刪除 ?`}
+                    cancelClick={() => {
+                        setVisableDelete(false);
+                    }}
+                    confirmClick={() => {
+                        setVisableDelete(false);
+                        handleDeleteChatbot(currectChabot?.id)
                     }}
                 />
             </div>

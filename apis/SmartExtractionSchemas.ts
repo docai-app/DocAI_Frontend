@@ -77,6 +77,14 @@ export default class SmartExtractionSchemas {
         };
         return requestHeader;
     }
+    deleteSchemasByDocuemntsById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL: baseURL,
+            url: `/api/v1/smart_extraction_schemas/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
 
     searchSmartExtractionSchemasDataById(id: string, page = 1) {
         const requestHeader: AxiosRequestConfig = {

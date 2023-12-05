@@ -10,10 +10,11 @@ interface ChatbotRowProps {
         folders: any[];
     };
     share?: any;
+    remove?: any;
 }
 
 export default function ChatbotRow(props: ChatbotRowProps) {
-    const { item, share } = props;
+    const { item, share, remove } = props;
     const { chatbot, folders } = item;
 
     const copyLink = () => {
@@ -43,13 +44,13 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                 <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.is_public ? '公開' : ''}
                 </td>
-                <td className="w-2/12 py-4 text-sm text-gray-500">
+                <td className="w-1/12 py-4 text-sm text-gray-500">
                     {moment(chatbot?.created_at).format('YYYY-MM-DD HH:ss')}
                 </td>
                 <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.expired_at && moment(chatbot?.expired_at).format('YYYY-MM-DD')}
                 </td>
-                <td className="w-2/12 py-4 text-right text-sm font-medium sm:pr-0">
+                <td className="w-3/12 py-4 text-right text-sm font-medium sm:pr-0">
                     <label
                         className=" cursor-pointer text-indigo-600 hover:text-indigo-900"
                         onClick={() => {
@@ -61,16 +62,16 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     {'  | '}
                     <Link href={`/chatbot/create?id=${chatbot?.id}`}>
                         <a className="text-indigo-600 hover:text-indigo-900">
-                            編輯<span className="sr-only">, Lindsay Walton</span>
+                            編輯
                         </a>
                     </Link>
-                    {/* {' | '}
-                    <a
-                        className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
-                        onClick={copyLink}
-                    >
-                        複製連結
-                    </a> */}
+                    {'  | '}
+                    <a className="text-red-600 hover:text-red-900 cursor-pointer"
+                        onClick={() => {
+                            remove(chatbot);
+                        }}>
+                        删除
+                    </a>
                 </td>
             </tr>
         </>

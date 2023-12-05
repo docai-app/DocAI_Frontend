@@ -27,6 +27,11 @@ export default function SchemasLabelContainer() {
         manual: true
     });
 
+    const [{ data: deleteSchemasData }, deleteSchemaById] =
+        useAxios(apiSetting.SmartExtractionSchemas.deleteSchemasByDocuemntsById(''), {
+            manual: true
+        });
+
     useEffect(() => {
         setOpen(loading);
         if (loading)
@@ -37,7 +42,7 @@ export default function SchemasLabelContainer() {
     }, [loading]);
 
     useEffect(() => {
-        getAllUsers();
+        // getAllUsers();
     }, [router]);
 
     useEffect(() => {
@@ -47,12 +52,13 @@ export default function SchemasLabelContainer() {
     }, [getAllUsersData]);
 
     useEffect(() => {
-        getSmartExtractionSchemasByLabel(
-            apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
-                router.query.id as string,
-                page
-            )
-        );
+        if (router.query.id)
+            getSmartExtractionSchemasByLabel(
+                apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
+                    router.query.id as string,
+                    page
+                )
+            );
     }, [router, page]);
 
     const showAllSchemasHandler = useCallback(async () => {
@@ -72,6 +78,26 @@ export default function SchemasLabelContainer() {
         }
     }, [getSmartExtractionSchemasByLabelData]);
 
+
+    const handleDeleteSchema = (schema_id: string) => {
+        // console.log('schema_id', schema_id);
+        setOpen(true)
+        deleteSchemaById({
+            ...apiSetting.SmartExtractionSchemas.deleteSchemasByDocuemntsById(schema_id)
+        })
+    }
+
+    useEffect(() => {
+        if (deleteSchemasData && deleteSchemasData.success) {
+            setOpen(false)
+            setAlert({ title: "删除成功!", type: 'success' });
+            router.reload()
+        } else if (deleteSchemasData && !deleteSchemasData.success) {
+            setOpen(false)
+            setAlert({ title: deleteSchemasData.error, type: 'error' });
+        }
+    }, [deleteSchemasData])
+
     return (
         <SchemasLabelView
             {...{
@@ -81,7 +107,8 @@ export default function SchemasLabelContainer() {
                 allSchemas,
                 meta,
                 showAllSchemasHandler,
-                users
+                users,
+                handleDeleteSchema
             }}
         />
     );

@@ -51,7 +51,7 @@ export default function Dropdowns(props: DropdownsProps) {
                             )}
                         </Menu.Item>
                     </div>
-                    <div className="py-1 hidden">
+                    <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
                                 <a

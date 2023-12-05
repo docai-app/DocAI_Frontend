@@ -24,6 +24,7 @@ interface SchemasViewProps {
     showHasLabelSchemasHandler: any;
     getAllLabelsData: any;
     users?: any;
+    handleDeleteSchema: any;
 }
 
 function SchemasView(props: SchemasViewProps) {
@@ -36,7 +37,8 @@ function SchemasView(props: SchemasViewProps) {
         showAllSchemasHandler,
         showHasLabelSchemasHandler,
         getAllLabelsData,
-        users
+        users,
+        handleDeleteSchema
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
@@ -92,9 +94,8 @@ function SchemasView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${
-                                                        active ? 'bg-gray-100' : ''
-                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${active ? 'bg-gray-100' : ''
+                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
@@ -150,6 +151,7 @@ function SchemasView(props: SchemasViewProps) {
                                             setCurrectShema={setCurrectShema}
                                             getAllLabelsData={getAllLabelsData}
                                             users={users}
+                                            handleDeleteSchema={handleDeleteSchema}
                                         />
                                     );
                                 })}

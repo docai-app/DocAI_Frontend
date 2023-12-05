@@ -213,7 +213,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                         </div>
                                     );
                                 })}
-                                {tags != null && tags.length > 10 && (
+                                {tags != null && tags.length >= 10 && (
                                     <div
                                         className=" cursor-pointer"
                                         onClick={() => {

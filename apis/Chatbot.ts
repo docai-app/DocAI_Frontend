@@ -77,4 +77,13 @@ export default class Chatbot {
         };
         return requestHeader;
     }
+
+    deleteChatbotById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/chatbots/${id}`,
+            method: 'DELETE'
+        };
+        return requestHeader;
+    }
 }
