@@ -61,15 +61,15 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     </label>
                     {'  | '}
                     <Link href={`/chatbot/create?id=${chatbot?.id}`}>
-                        <a className="text-indigo-600 hover:text-indigo-900">
-                            編輯
-                        </a>
+                        <a className="text-indigo-600 hover:text-indigo-900">編輯</a>
                     </Link>
                     {'  | '}
-                    <a className="text-red-600 hover:text-red-900 cursor-pointer"
+                    <a
+                        className="text-red-600 hover:text-red-900 cursor-pointer"
                         onClick={() => {
                             remove(chatbot);
-                        }}>
+                        }}
+                    >
                         删除
                     </a>
                 </td>

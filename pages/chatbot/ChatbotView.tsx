@@ -23,13 +23,7 @@ function ChatbotView(props: {
     setOpen: any;
     handleDeleteChatbot: any;
 }) {
-    const {
-        chatbots,
-        meta,
-        open,
-        setOpen,
-        handleDeleteChatbot
-    } = props;
+    const { chatbots, meta, open, setOpen, handleDeleteChatbot } = props;
     const [miniappItem, setMiniappItem] = useState<any>();
     const [visable, setVisible] = useState(false);
     const [openShareLoad, setOpenShareLoad] = useState(false);
@@ -152,8 +146,8 @@ function ChatbotView(props: {
                                                     item={item}
                                                     share={share}
                                                     remove={(item: any) => {
-                                                        setCurrectChatbot(item)
-                                                        setVisableDelete(true)
+                                                        setCurrectChatbot(item);
+                                                        setVisableDelete(true);
                                                     }}
                                                 />
                                             );
@@ -182,7 +176,7 @@ function ChatbotView(props: {
                     }}
                     confirmClick={() => {
                         setVisableDelete(false);
-                        handleDeleteChatbot(currectChabot?.id)
+                        handleDeleteChatbot(currectChabot?.id);
                     }}
                 />
             </div>

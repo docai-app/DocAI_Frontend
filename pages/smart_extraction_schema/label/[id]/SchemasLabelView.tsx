@@ -26,8 +26,16 @@ interface SchemasViewProps {
 }
 
 function SchemasLabelView(props: SchemasViewProps) {
-    const { open, setOpen, modalDescription, allSchemas, meta, showAllSchemasHandler, users, handleDeleteSchema } =
-        props;
+    const {
+        open,
+        setOpen,
+        modalDescription,
+        allSchemas,
+        meta,
+        showAllSchemasHandler,
+        users,
+        handleDeleteSchema
+    } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
     const [currectSchema, setCurrectShema] = useState(null);
@@ -82,8 +90,9 @@ function SchemasLabelView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
