@@ -18,26 +18,33 @@ interface ViewProps {
     handleCreateStoryboard: any;
 }
 export default function StoryboardView(props: ViewProps) {
-    const { open, setOpen, items, meta, handleUpdateStoryboardItem, handleDeleteStoryboard, handleCreateStoryboard } = props;
+    const {
+        open,
+        setOpen,
+        items,
+        meta,
+        handleUpdateStoryboardItem,
+        handleDeleteStoryboard,
+        handleCreateStoryboard
+    } = props;
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
     const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
     const [visableCreateStoryboard, setVisableCreateStoryboard] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
-    const [data, setData] = useState<any>()
-    const [currectItem, setCurrectItemItem] = useState<any>()
+    const [data, setData] = useState<any>();
+    const [currectItem, setCurrectItemItem] = useState<any>();
 
     const edit = (item: any) => {
-        Router.push(`/storyboard/edit?id=${item?.id}`)
-    }
+        Router.push(`/storyboard/edit?id=${item?.id}`);
+    };
     const remove = (item: any) => {
-        setVisableDelete(true)
-        setCurrectItemItem(item)
-    }
+        setVisableDelete(true);
+        setCurrectItemItem(item);
+    };
     const preview = (item: any) => {
-        Router.push(`/storyboard/${item?.id}`)
-
-    }
+        Router.push(`/storyboard/${item?.id}`);
+    };
 
     return (
         <>
@@ -50,17 +57,14 @@ export default function StoryboardView(props: ViewProps) {
             />
             <div className="  mx-auto h-[calc(100vh-18.5rem)] px-4 sm:px-6 lg:px-8">
                 <div className="  mx-auto px-4 sm:px-6 lg:px-8">
-                    <HeaderBreadCrumb
-                        title={'故事板'}
-
-                    />
+                    <HeaderBreadCrumb title={'故事板'} />
                     <header className="shadow bg-white flex justify-between items-center   py-4 px-6">
                         <div className="  ">
                             <label>故事板列表</label>
                         </div>
                         <div className="flex flex-row items-center justify-end flex-wrap">
                             <BButton
-                                name='新建'
+                                name="新建"
                                 onClick={() => {
                                     Router.push('/storyboard/create');
                                 }}
@@ -69,7 +73,6 @@ export default function StoryboardView(props: ViewProps) {
                     </header>
                     <div className="flex w-full items-center justify-center text-center py-2">
                         <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
-
                             <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
                                 <thead className="bg-gray-50 overflow-scroll">
                                     <tr className="divide-x divide-gray-200">
@@ -120,11 +123,7 @@ export default function StoryboardView(props: ViewProps) {
                                     })}
                                 </tbody>
                             </table>
-                            <PaginationView
-                                meta={meta}
-                                pathname={`/storyboard`}
-                                params={null}
-                            />
+                            <PaginationView meta={meta} pathname={`/storyboard`} params={null} />
                         </div>
                     </div>
                 </div>
@@ -137,9 +136,9 @@ export default function StoryboardView(props: ViewProps) {
                 }}
                 confirmClick={() => {
                     setVisableDelete(false);
-                    handleDeleteStoryboard(currectItem?.id)
+                    handleDeleteStoryboard(currectItem?.id);
                 }}
             />
         </>
-    )
+    );
 }

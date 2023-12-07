@@ -35,10 +35,10 @@ function ChatbotContainer() {
         getAllChatbots
     ] = useAxios({}, { manual: true });
 
-    const [
-        { data: deleteChatbotByIdData },
-        deleteChatbotById
-    ] = useAxios(apiSetting.Chatbot.deleteChatbotById(''), { manual: true });
+    const [{ data: deleteChatbotByIdData }, deleteChatbotById] = useAxios(
+        apiSetting.Chatbot.deleteChatbotById(''),
+        { manual: true }
+    );
 
     useEffect(() => {
         setOpen(true);
@@ -64,22 +64,22 @@ function ChatbotContainer() {
 
     useEffect(() => {
         if (deleteChatbotByIdData && deleteChatbotByIdData.success) {
-            setAlert({ title: "删除成功!", type: 'success' });
-            setOpen(false)
-            router.reload()
+            setAlert({ title: '删除成功!', type: 'success' });
+            setOpen(false);
+            router.reload();
         } else if (deleteChatbotByIdData && !deleteChatbotByIdData.success) {
-            setOpen(false)
+            setOpen(false);
             setAlert({ title: deleteChatbotByIdData.error, type: 'error' });
         }
-    }, [deleteChatbotByIdData])
+    }, [deleteChatbotByIdData]);
 
     const handleDeleteChatbot = (chatbot_id: string) => {
         // console.log('chatbot_id', chatbot_id);
-        setOpen(true)
+        setOpen(true);
         deleteChatbotById({
             ...apiSetting.Chatbot.deleteChatbotById(chatbot_id)
-        })
-    }
+        });
+    };
 
     return (
         <ChatbotView
@@ -89,8 +89,9 @@ function ChatbotContainer() {
                 open,
                 setOpen,
                 handleDeleteChatbot
-            }} />
-    )
+            }}
+        />
+    );
 }
 
 export default ChatbotContainer;

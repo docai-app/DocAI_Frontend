@@ -10,7 +10,12 @@ import {
     ClipboardDocumentListIcon,
     CloudArrowUpIcon,
     CubeIcon,
-    FolderIcon, MagnifyingGlassIcon, ShieldCheckIcon, ShoppingCartIcon, TableCellsIcon, XMarkIcon
+    FolderIcon,
+    MagnifyingGlassIcon,
+    ShieldCheckIcon,
+    ShoppingCartIcon,
+    TableCellsIcon,
+    XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';

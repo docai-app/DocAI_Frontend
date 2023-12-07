@@ -49,7 +49,6 @@ export default class Storyboard {
         return requestHeader;
     }
 
-
     getAllStoryboardItems(page = 1) {
         const requestHeader: AxiosRequestConfig = {
             baseURL: baseURL,
@@ -79,6 +78,4 @@ export default class Storyboard {
         };
         return requestHeader;
     }
-
-
 }

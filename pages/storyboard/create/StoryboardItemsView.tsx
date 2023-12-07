@@ -22,15 +22,23 @@ interface ViewProps {
     handleCreateStoryboard: any;
 }
 export default function StoryboardItemsView(props: ViewProps) {
-    const { open, setOpen, items, meta, handleUpdateStoryboardItem, handleDeleteStoryboardItem, handleCreateStoryboard } = props;
+    const {
+        open,
+        setOpen,
+        items,
+        meta,
+        handleUpdateStoryboardItem,
+        handleDeleteStoryboardItem,
+        handleCreateStoryboard
+    } = props;
     const [item_ids, set_item_ids] = useState<any>([]);
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
     const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
     const [visableCreateStoryboard, setVisableCreateStoryboard] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
-    const [data, setData] = useState<any>()
-    const [currectItem, setCurrectItemItem] = useState<any>()
+    const [data, setData] = useState<any>();
+    const [currectItem, setCurrectItemItem] = useState<any>();
     const setChecedkData = (checked: boolean, value: string) => {
         const newData = checked
             ? [...item_ids, value]
@@ -39,22 +47,21 @@ export default function StoryboardItemsView(props: ViewProps) {
     };
 
     const edit = (item: any) => {
-        setVisableInputStoryboard(true)
-        setCurrectItemItem(item)
-    }
+        setVisableInputStoryboard(true);
+        setCurrectItemItem(item);
+    };
     const remove = (item: any) => {
-        setVisableDelete(true)
-        setCurrectItemItem(item)
-    }
+        setVisableDelete(true);
+        setCurrectItemItem(item);
+    };
     const preview = (item: any) => {
-
-        if ("chart" == item?.item_type) {
-            setVisibleHtmlCode(true)
+        if ('chart' == item?.item_type) {
+            setVisibleHtmlCode(true);
         } else {
-            setVisibleHtmlToPdf(true)
+            setVisibleHtmlToPdf(true);
         }
-        setData(item?.data)
-    }
+        setData(item?.data);
+    };
 
     return (
         <>
@@ -78,20 +85,17 @@ export default function StoryboardItemsView(props: ViewProps) {
                             <label>選擇記錄生成故事板</label>
                         </div>
                         <div className="flex flex-row items-center justify-end flex-wrap">
-
-                            < BButton
-                                name='生成故事板'
+                            <BButton
+                                name="生成故事板"
                                 disable={!item_ids || item_ids.length == 0}
                                 onClick={() => {
-                                    setVisableCreateStoryboard(true)
+                                    setVisableCreateStoryboard(true);
                                 }}
                             />
-
                         </div>
                     </header>
                     <div className="flex w-full items-center justify-center text-center py-2">
                         <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
-
                             <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
                                 <thead className="bg-gray-50 overflow-scroll">
                                     <tr className="divide-x divide-gray-200">
@@ -153,33 +157,29 @@ export default function StoryboardItemsView(props: ViewProps) {
                                     })}
                                 </tbody>
                             </table>
-                            <PaginationView
-                                meta={meta}
-                                pathname={`/storyboard`}
-                                params={null}
-                            />
+                            <PaginationView meta={meta} pathname={`/storyboard`} params={null} />
                         </div>
                     </div>
                 </div>
             </div>
-            {data &&
+            {data && (
                 <HtmlCodeModal
                     visable={visableHtmlCode}
                     description={'圖表'}
                     cancelClick={() => {
                         setVisibleHtmlCode(false);
-                        setData('')
+                        setData('');
                     }}
                     chart={data}
                 />
-            }
+            )}
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
                 title={'統計報告'}
                 description={data}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
-                    setData('')
+                    setData('');
                 }}
             />
             <InputStoryboardModal
@@ -189,13 +189,15 @@ export default function StoryboardItemsView(props: ViewProps) {
                     name: currectItem?.name,
                     description: currectItem?.description
                 }}
-                report={"chart" == currectItem?.item_type ? '' : (currectItem?.data || currectItem?.name)}
+                report={
+                    'chart' == currectItem?.item_type ? '' : currectItem?.data || currectItem?.name
+                }
                 cancelClick={() => {
                     setVisableInputStoryboard(false);
                 }}
                 confirmClick={(data: any) => {
                     setVisableInputStoryboard(false);
-                    handleUpdateStoryboardItem(currectItem?.id, data)
+                    handleUpdateStoryboardItem(currectItem?.id, data);
                 }}
             />
             <InputStoryboardModal
@@ -210,7 +212,7 @@ export default function StoryboardItemsView(props: ViewProps) {
                         title: data?.name,
                         description: data?.description,
                         item_ids: item_ids
-                    })
+                    });
                 }}
             />
             <MyModal
@@ -221,9 +223,9 @@ export default function StoryboardItemsView(props: ViewProps) {
                 }}
                 confirmClick={() => {
                     setVisableDelete(false);
-                    handleDeleteStoryboardItem(currectItem?.id)
+                    handleDeleteStoryboardItem(currectItem?.id);
                 }}
             />
         </>
-    )
+    );
 }

@@ -9,14 +9,7 @@ interface TableRowProps {
     remove: any;
 }
 export default function StoryboardItemTableRow(props: TableRowProps) {
-    const {
-        item,
-        setChecedkData,
-        checked,
-        preview,
-        edit,
-        remove
-    } = props;
+    const { item, setChecedkData, checked, preview, edit, remove } = props;
 
     const [visable, setVisable] = useState(false);
 
@@ -24,7 +17,7 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
         if (!checked) {
             setVisable(false);
         } else {
-            setVisable(true)
+            setVisable(true);
         }
     }, [checked]);
 
@@ -69,7 +62,9 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
                 <td className="w-2/12 px-1 py-4 text-sm ">{item?.name}</td>
                 <td className="w-2/12  px-1  py-4 text-sm  ">{item?.description}</td>
                 <td className="w-2/12  px-1  py-4 text-sm  ">{item?.query}</td>
-                <td className="w-1/12  px-1  py-4 text-sm  ">{"chart" == item?.item_type ? "圖表" : "統計報告"}</td>
+                <td className="w-1/12  px-1  py-4 text-sm  ">
+                    {'chart' == item?.item_type ? '圖表' : '統計報告'}
+                </td>
                 {/* Add the storage_url to the data and open it in a new tab */}
                 <td className=" py-4 px-1 text-center w-1/12 text-sm font-medium text-gray-900 ">
                     <a
@@ -78,7 +73,7 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            preview()
+                            preview();
                         }}
                     >
                         點擊查看
@@ -90,7 +85,7 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            edit()
+                            edit();
                         }}
                     >
                         修改
@@ -101,7 +96,7 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            remove()
+                            remove();
                         }}
                     >
                         刪除

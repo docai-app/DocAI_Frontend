@@ -17,7 +17,9 @@ export default function BButton(props: ButtonProps) {
             <button
                 type="button"
                 className={classNames(
-                    bgColor ? bgColor : ` ${disable ? ' bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`,
+                    bgColor
+                        ? bgColor
+                        : ` ${disable ? ' bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'}`,
                     `flex mx-1 flex-row items-center rounded-md  text-white py-2 px-4 shadow text-sm `
                 )}
                 onClick={onClick}

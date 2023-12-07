@@ -31,24 +31,24 @@ export default function StoryboardEditView(props: ViewProps) {
         handleUpdateStoryboardItem,
         handleDeleteStoryboardItem
     } = props;
-    const router = useRouter()
+    const router = useRouter();
     const [item_ids, set_item_ids] = useState<any>([]);
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
     const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
     const [visableCreateStoryboard, setVisableCreateStoryboard] = useState(false);
     const [visableDelete, setVisableDelete] = useState(false);
-    const [data, setData] = useState<any>()
-    const [currectItem, setCurrectItemItem] = useState<any>()
+    const [data, setData] = useState<any>();
+    const [currectItem, setCurrectItemItem] = useState<any>();
 
     useEffect(() => {
         if (items && items.length > 0) {
-            set_item_ids([])
+            set_item_ids([]);
             _.map(items, function (item: any) {
-                set_item_ids((arr: any) => [...arr, item?.id])
-            })
+                set_item_ids((arr: any) => [...arr, item?.id]);
+            });
         }
-    }, [router, items])
+    }, [router, items]);
 
     const setChecedkData = (checked: boolean, value: string) => {
         const newData = checked
@@ -58,22 +58,21 @@ export default function StoryboardEditView(props: ViewProps) {
     };
 
     const edit = (item: any) => {
-        setVisableInputStoryboard(true)
-        setCurrectItemItem(item)
-    }
+        setVisableInputStoryboard(true);
+        setCurrectItemItem(item);
+    };
     const remove = (item: any) => {
-        setVisableDelete(true)
-        setCurrectItemItem(item)
-    }
+        setVisableDelete(true);
+        setCurrectItemItem(item);
+    };
     const preview = (item: any) => {
-
-        if ("chart" == item?.item_type) {
-            setVisibleHtmlCode(true)
+        if ('chart' == item?.item_type) {
+            setVisibleHtmlCode(true);
         } else {
-            setVisibleHtmlToPdf(true)
+            setVisibleHtmlToPdf(true);
         }
-        setData(item?.data)
-    }
+        setData(item?.data);
+    };
 
     return (
         <>
@@ -92,7 +91,7 @@ export default function StoryboardEditView(props: ViewProps) {
                             Router.back();
                         }}
                         save={() => {
-                            handleUpdateStoryboard(item_ids)
+                            handleUpdateStoryboard(item_ids);
                         }}
                     />
                     <div className="w-full my-2">
@@ -106,7 +105,7 @@ export default function StoryboardEditView(props: ViewProps) {
                                 setStoryboard({
                                     ...storyboard,
                                     title: e.target.value
-                                })
+                                });
                             }}
                         />
                     </div>
@@ -121,13 +120,12 @@ export default function StoryboardEditView(props: ViewProps) {
                                 setStoryboard({
                                     ...storyboard,
                                     description: e.target.value
-                                })
+                                });
                             }}
                         />
                     </div>
                     <div className="flex w-full items-center justify-center text-center py-2">
                         <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
-
                             <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
                                 <thead className="bg-gray-50 overflow-scroll">
                                     <tr className="divide-x divide-gray-200">
@@ -193,24 +191,24 @@ export default function StoryboardEditView(props: ViewProps) {
                     </div>
                 </div>
             </div>
-            {data &&
+            {data && (
                 <HtmlCodeModal
                     visable={visableHtmlCode}
                     description={'圖表'}
                     cancelClick={() => {
                         setVisibleHtmlCode(false);
-                        setData('')
+                        setData('');
                     }}
                     chart={data}
                 />
-            }
+            )}
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
                 title={'統計報告'}
                 description={data}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
-                    setData('')
+                    setData('');
                 }}
             />
             <InputStoryboardModal
@@ -220,13 +218,15 @@ export default function StoryboardEditView(props: ViewProps) {
                     name: currectItem?.name,
                     description: currectItem?.description
                 }}
-                report={"chart" == currectItem?.item_type ? '' : (currectItem?.data || currectItem?.name)}
+                report={
+                    'chart' == currectItem?.item_type ? '' : currectItem?.data || currectItem?.name
+                }
                 cancelClick={() => {
                     setVisableInputStoryboard(false);
                 }}
                 confirmClick={(data: any) => {
                     setVisableInputStoryboard(false);
-                    handleUpdateStoryboardItem(currectItem?.id, data)
+                    handleUpdateStoryboardItem(currectItem?.id, data);
                 }}
             />
             <MyModal
@@ -237,9 +237,9 @@ export default function StoryboardEditView(props: ViewProps) {
                 }}
                 confirmClick={() => {
                     setVisableDelete(false);
-                    handleDeleteStoryboardItem(currectItem?.id)
+                    handleDeleteStoryboardItem(currectItem?.id);
                 }}
             />
         </>
-    )
+    );
 }

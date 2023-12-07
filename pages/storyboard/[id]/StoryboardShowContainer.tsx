@@ -9,35 +9,35 @@ const apiSetting = new Api();
 
 export default function ShopContainer() {
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState<any>([])
-    const [storyboard, setStoryboard] = useState<any>()
+    const [items, setItems] = useState<any>([]);
+    const [storyboard, setStoryboard] = useState<any>();
 
-    const [{ data: getStoryboardByIdData, loading: getStoryboardByIdLoading }, getStoryboardById] = useAxios(
-        apiSetting.Storyboard.getStoryboardById(router.query.id as string),
-        { manual: true }
-    );
+    const [{ data: getStoryboardByIdData, loading: getStoryboardByIdLoading }, getStoryboardById] =
+        useAxios(apiSetting.Storyboard.getStoryboardById(router.query.id as string), {
+            manual: true
+        });
 
     useEffect(() => {
-        setOpen(getStoryboardByIdLoading)
+        setOpen(getStoryboardByIdLoading);
     }, [getStoryboardByIdLoading]);
 
     useEffect(() => {
         if (router.query.id) {
-            getStoryboardById()
+            getStoryboardById();
         }
     }, [router.query.id]);
 
     useEffect(() => {
         if (getStoryboardByIdData && getStoryboardByIdData.success) {
             // console.log(getStoryboardByIdData);
-            setStoryboard(getStoryboardByIdData.storyboard)
-            setItems(getStoryboardByIdData.storyboard?.items)
+            setStoryboard(getStoryboardByIdData.storyboard);
+            setItems(getStoryboardByIdData.storyboard?.items);
         } else if (getStoryboardByIdData && !getStoryboardByIdData.success) {
-            setAlert({ title: getStoryboardByIdData.error, type: 'error' })
+            setAlert({ title: getStoryboardByIdData.error, type: 'error' });
         }
-    }, [getStoryboardByIdData])
+    }, [getStoryboardByIdData]);
 
     return (
         <StoryboardShowView

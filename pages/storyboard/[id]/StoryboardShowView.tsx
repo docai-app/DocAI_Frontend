@@ -11,15 +11,10 @@ interface ViewProps {
     open: boolean;
     setOpen: any;
     storyboard: any;
-    items: any
+    items: any;
 }
 export default function StoryboardShowView(props: ViewProps) {
-    const {
-        open,
-        setOpen,
-        storyboard,
-        items
-    } = props;
+    const { open, setOpen, storyboard, items } = props;
 
     const downloadChart = async () => {
         const qrcode = document.getElementById('chart');
@@ -31,7 +26,6 @@ export default function StoryboardShowView(props: ViewProps) {
             link.click();
         }
     };
-
 
     return (
         <>
@@ -45,47 +39,43 @@ export default function StoryboardShowView(props: ViewProps) {
             <HeaderBreadCrumb
                 title={''}
                 back={() => {
-                    Router.back()
+                    Router.back();
                 }}
                 saveTitle={'下載故事板'}
                 save={() => {
                     downloadChart();
                 }}
             />
-            <div id="chart" className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col  ">
+            <div
+                id="chart"
+                className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col  "
+            >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">{storyboard?.title}</h2>
+                        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                            {storyboard?.title}
+                        </h2>
                     </div>
                 </div>
-                <p className='text-xl  text-gray-500'>{storyboard?.description}</p>
+                <p className="text-xl  text-gray-500">{storyboard?.description}</p>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-2">
-                    {
-                        items?.map((item: any, index: number) => {
-                            return (
-                                <>
-                                    {"chart" == item?.item_type ?
-                                        <StoryboardChartItemView
-                                            key={index}
-                                            item={item}
-                                            chart={getTransitionChartContent(
-                                                item?.data,
-                                                index
-                                            )}
-                                        />
-                                        :
-                                        <StoryboardStatisticItemView
-                                            key={index}
-                                            item={item}
-                                        />
-                                    }
-                                </>
-                            )
-                        })
-                    }
+                    {items?.map((item: any, index: number) => {
+                        return (
+                            <>
+                                {'chart' == item?.item_type ? (
+                                    <StoryboardChartItemView
+                                        key={index}
+                                        item={item}
+                                        chart={getTransitionChartContent(item?.data, index)}
+                                    />
+                                ) : (
+                                    <StoryboardStatisticItemView key={index} item={item} />
+                                )}
+                            </>
+                        );
+                    })}
                 </div>
             </div>
-
         </>
     );
 }

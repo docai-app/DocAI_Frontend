@@ -29,7 +29,7 @@ export default function ScheamDataContainer() {
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
     const [meta, setMeta] = useState();
-    const [currentStoryboardItemId, setCurrentStoryboardItemId] = useState('')
+    const [currentStoryboardItemId, setCurrentStoryboardItemId] = useState('');
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -75,12 +75,12 @@ export default function ScheamDataContainer() {
         }
     );
 
-    const [{ data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading }, updateStoryboardItemById] = useAxios(
-        apiSetting.Storyboard.updateStoryboardItemById(''),
-        {
-            manual: true
-        }
-    );
+    const [
+        { data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading },
+        updateStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardItemById(''), {
+        manual: true
+    });
 
     useEffect(() => {
         setOpen(loading);
@@ -173,7 +173,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -261,7 +261,7 @@ export default function ScheamDataContainer() {
             if (res.data.success) {
                 setVisibleHtmlCode(true);
                 setChart(res.data.chart);
-                setCurrentStoryboardItemId(res.data.item_id)
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.chart, type: 'error' });
@@ -291,7 +291,7 @@ export default function ScheamDataContainer() {
                 // setChart(res.data.report);
                 setVisibleHtmlToPdf(true);
                 setReport(res.data.report);
-                setCurrentStoryboardItemId(res.data.item_id)
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({
@@ -304,7 +304,7 @@ export default function ScheamDataContainer() {
     };
 
     const handleUpdateStoryboardItem = (data: any) => {
-        if (!currentStoryboardItemId) return
+        if (!currentStoryboardItemId) return;
         // console.log(data);
         // console.log(currentStoryboardItemId);
         setOpen(true);
@@ -323,14 +323,12 @@ export default function ScheamDataContainer() {
             // console.log(res.data);
             setOpen(false);
             if (res.data.success) {
-                setAlert({ title: '儲存成功!', type: 'success' })
+                setAlert({ title: '儲存成功!', type: 'success' });
             } else {
-                setAlert({ title: res.data.error, type: 'error' })
+                setAlert({ title: res.data.error, type: 'error' });
             }
-
-        })
-
-    }
+        });
+    };
 
     return (
         <SchemaDataView

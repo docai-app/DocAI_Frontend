@@ -5,48 +5,48 @@ import useAlert from '../../../../hooks/useAlert';
 
 export default function InputStoryboardModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [data, setData] = useState({
         name: '',
         description: '',
         data: ''
-    })
+    });
     useEffect(() => {
         setData({
             name: '',
             description: '',
             data: ''
-        })
-    }, [])
+        });
+    }, []);
 
     useEffect(() => {
         if (props?.data) {
             setData({
                 ...props?.data
-            })
+            });
         }
-    }, [props?.data])
+    }, [props?.data]);
 
     useEffect(() => {
         if (props?.report) {
             setData({
                 ...props?.data,
                 data: props?.report
-            })
+            });
         }
-    }, [props?.report])
+    }, [props?.report]);
 
     const validate = () => {
         if (!data?.name) {
-            setAlert({ title: '請填寫名稱', type: 'warning' })
-            return
+            setAlert({ title: '請填寫名稱', type: 'warning' });
+            return;
         }
         if (!data?.description) {
-            setAlert({ title: '請填寫描述', type: 'warning' })
-            return
+            setAlert({ title: '請填寫描述', type: 'warning' });
+            return;
         }
         props.confirmClick(data);
-    }
+    };
     return (
         <Transition.Root show={props.visable || false} as={Fragment}>
             <Dialog
@@ -93,9 +93,7 @@ export default function InputStoryboardModal(props: any) {
                                 </div>
                             </div>
                             <div className="w-full my-2 flex flex-row items-center flex-wrap">
-                                <label className="text-sm text-left flex-0">
-                                    {'名稱'}:
-                                </label>
+                                <label className="text-sm text-left flex-0">{'名稱'}:</label>
                                 <input
                                     type={'text'}
                                     name="signature"
@@ -110,9 +108,7 @@ export default function InputStoryboardModal(props: any) {
                                 ></input>
                             </div>
                             <div className="w-full my-2 flex flex-row items-center flex-wrap">
-                                <label className="text-sm text-left">
-                                    {'描述'}:
-                                </label>
+                                <label className="text-sm text-left">{'描述'}:</label>
                                 <input
                                     type={'text'}
                                     name="signature"
@@ -126,7 +122,7 @@ export default function InputStoryboardModal(props: any) {
                                     }}
                                 ></input>
                             </div>
-                            {props?.report &&
+                            {props?.report && (
                                 <div className="w-full my-2 flex flex-row items-start flex-wrap">
                                     <label className="text-sm text-start  items-start">
                                         {'報告'}:
@@ -143,13 +139,13 @@ export default function InputStoryboardModal(props: any) {
                                         }}
                                     ></textarea>
                                 </div>
-                            }
+                            )}
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
                                     onClick={() => {
-                                        validate()
+                                        validate();
                                     }}
                                 >
                                     {props.confirmText || '確認'}

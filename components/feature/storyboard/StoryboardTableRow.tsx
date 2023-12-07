@@ -8,13 +8,7 @@ interface TableRowProps {
     remove: any;
 }
 export default function StoryboardTableRow(props: TableRowProps) {
-    const {
-        index,
-        item,
-        preview,
-        edit,
-        remove
-    } = props;
+    const { index, item, preview, edit, remove } = props;
 
     const [visable, setVisable] = useState(false);
 
@@ -43,7 +37,7 @@ export default function StoryboardTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            preview()
+                            preview();
                         }}
                     >
                         點擊查看
@@ -55,7 +49,7 @@ export default function StoryboardTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            edit()
+                            edit();
                         }}
                     >
                         修改

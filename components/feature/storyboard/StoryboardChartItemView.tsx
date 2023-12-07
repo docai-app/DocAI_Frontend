@@ -7,11 +7,7 @@ interface Props {
     chart: any;
 }
 export default function StoryboardChartItemView(props: Props) {
-    const {
-        item,
-        chart
-    } = props;
-
+    const { item, chart } = props;
 
     useEffect(() => {
         console.log('htmlText: ', chart);
@@ -49,5 +45,5 @@ export default function StoryboardChartItemView(props: Props) {
                 </div>
             </div>
         </>
-    )
+    );
 }

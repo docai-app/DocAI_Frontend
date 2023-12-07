@@ -9,53 +9,49 @@ const apiSetting = new Api();
 
 export default function StoryboardItemsContainer() {
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState(1)
-    const [items, setItems] = useState<any>([])
-    const [meta, setMeta] = useState()
+    const [page, setPage] = useState(1);
+    const [items, setItems] = useState<any>([]);
+    const [meta, setMeta] = useState();
 
+    const [
+        { data: getAllStoryboardItemsData, loading: getAllStoryboardItemsLoading },
+        getAllStoryboardItems
+    ] = useAxios(apiSetting.Storyboard.getAllStoryboardItems(page), { manual: true });
 
-    const [{ data: getAllStoryboardItemsData, loading: getAllStoryboardItemsLoading }, getAllStoryboardItems] = useAxios(
-        apiSetting.Storyboard.getAllStoryboardItems(page),
-        { manual: true }
-    );
+    const [
+        { data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading },
+        updateStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardItemById(''), {
+        manual: true
+    });
 
+    const [
+        { data: deleteStoryboardItemByIdData, loading: deleteStoryboardItemByIdLoading },
+        deleteStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.deleteStoryboardItemById(''), {
+        manual: true
+    });
 
-    const [{ data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading }, updateStoryboardItemById] = useAxios(
-        apiSetting.Storyboard.updateStoryboardItemById(''),
-        {
+    const [{ data: createStoryboardData, loading: createStoryboardLoading }, createStoryboard] =
+        useAxios(apiSetting.Storyboard.createStoryboard(), {
             manual: true
-        }
-    );
-
-    const [{ data: deleteStoryboardItemByIdData, loading: deleteStoryboardItemByIdLoading }, deleteStoryboardItemById] = useAxios(
-        apiSetting.Storyboard.deleteStoryboardItemById(''),
-        {
-            manual: true
-        }
-    );
-
-    const [{ data: createStoryboardData, loading: createStoryboardLoading }, createStoryboard] = useAxios(
-        apiSetting.Storyboard.createStoryboard(),
-        {
-            manual: true
-        }
-    );
+        });
 
     useEffect(() => {
-        setOpen(getAllStoryboardItemsLoading)
-    }, [getAllStoryboardItemsLoading])
+        setOpen(getAllStoryboardItemsLoading);
+    }, [getAllStoryboardItemsLoading]);
 
     useEffect(() => {
-        setOpen(updateStoryboardItemByIdLoading)
-    }, [updateStoryboardItemByIdLoading])
+        setOpen(updateStoryboardItemByIdLoading);
+    }, [updateStoryboardItemByIdLoading]);
 
     useEffect(() => {
         getAllStoryboardItems({
             ...apiSetting.Storyboard.getAllStoryboardItems(page)
-        })
-    }, [page])
+        });
+    }, [page]);
 
     useEffect(() => {
         if (router.query.page) {
@@ -65,22 +61,21 @@ export default function StoryboardItemsContainer() {
 
     useEffect(() => {
         if (getAllStoryboardItemsData && getAllStoryboardItemsData.success) {
-            setItems(getAllStoryboardItemsData.storyboard_items)
-            setMeta(getAllStoryboardItemsData?.meta)
+            setItems(getAllStoryboardItemsData.storyboard_items);
+            setMeta(getAllStoryboardItemsData?.meta);
         } else if (getAllStoryboardItemsData && !getAllStoryboardItemsData.success) {
-            setAlert({ title: getAllStoryboardItemsData.error, type: 'error' })
+            setAlert({ title: getAllStoryboardItemsData.error, type: 'error' });
         }
-    }, [getAllStoryboardItemsData])
-
+    }, [getAllStoryboardItemsData]);
 
     useEffect(() => {
         if (updateStoryboardItemByIdData && updateStoryboardItemByIdData.success) {
-            setAlert({ title: "修改成功", type: 'success' })
-            router.reload()
+            setAlert({ title: '修改成功', type: 'success' });
+            router.reload();
         } else if (updateStoryboardItemByIdData && !updateStoryboardItemByIdData.success) {
-            setAlert({ title: updateStoryboardItemByIdData.error, type: 'error' })
+            setAlert({ title: updateStoryboardItemByIdData.error, type: 'error' });
         }
-    }, [updateStoryboardItemByIdData])
+    }, [updateStoryboardItemByIdData]);
 
     const handleUpdateStoryboardItem = (item_id: string, data: any) => {
         updateStoryboardItemById({
@@ -90,40 +85,39 @@ export default function StoryboardItemsContainer() {
                 is_ready: true,
                 status: 1
             }
-        })
-    }
+        });
+    };
 
     useEffect(() => {
         if (deleteStoryboardItemByIdData && deleteStoryboardItemByIdData.success) {
-            setAlert({ title: "刪除成功", type: 'success' })
-            router.reload()
+            setAlert({ title: '刪除成功', type: 'success' });
+            router.reload();
         } else if (deleteStoryboardItemByIdData && !deleteStoryboardItemByIdData.success) {
-            setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' })
+            setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' });
         }
-    }, [deleteStoryboardItemByIdData])
+    }, [deleteStoryboardItemByIdData]);
 
     const handleDeleteStoryboardItem = (item_id: string) => {
         deleteStoryboardItemById({
             ...apiSetting.Storyboard.deleteStoryboardItemById(item_id)
-        })
-    }
-
+        });
+    };
 
     useEffect(() => {
         if (createStoryboardData && createStoryboardData.success) {
             console.log(createStoryboardData);
-            setAlert({ title: "成功创建", type: 'success' })
-            router.push(`/storyboard/${createStoryboardData.storyboard.id}`)
+            setAlert({ title: '成功创建', type: 'success' });
+            router.push(`/storyboard/${createStoryboardData.storyboard.id}`);
         } else if (createStoryboardData && !createStoryboardData.success) {
-            setAlert({ title: createStoryboardData.error, type: 'error' })
+            setAlert({ title: createStoryboardData.error, type: 'error' });
         }
-    }, [createStoryboardData])
+    }, [createStoryboardData]);
     const handleCreateStoryboard = (data: any) => {
         createStoryboard({
             ...apiSetting.Storyboard.createStoryboard(),
             data: data
-        })
-    }
+        });
+    };
     return (
         <StoryboardItemsView
             {...{

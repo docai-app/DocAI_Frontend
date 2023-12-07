@@ -9,78 +9,77 @@ const apiSetting = new Api();
 
 export default function StoryboardEditContainer() {
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState<any>([])
-    const [storyboard, setStoryboard] = useState<any>()
+    const [items, setItems] = useState<any>([]);
+    const [storyboard, setStoryboard] = useState<any>();
 
-    const [{ data: getStoryboardByIdData, loading: getStoryboardByIdLoading }, getStoryboardById] = useAxios(
-        apiSetting.Storyboard.getStoryboardById(router.query.id as string),
-        { manual: true }
-    );
-
-    const [{ data: updateStoryboardByIdData, loading: updateStoryboardByIdLoading }, updateStoryboardById] = useAxios(
-        apiSetting.Storyboard.updateStoryboardById(router.query.id as string),
-        {
+    const [{ data: getStoryboardByIdData, loading: getStoryboardByIdLoading }, getStoryboardById] =
+        useAxios(apiSetting.Storyboard.getStoryboardById(router.query.id as string), {
             manual: true
-        }
-    );
+        });
 
-    const [{ data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading }, updateStoryboardItemById] = useAxios(
-        apiSetting.Storyboard.updateStoryboardItemById(''),
-        {
-            manual: true
-        }
-    );
+    const [
+        { data: updateStoryboardByIdData, loading: updateStoryboardByIdLoading },
+        updateStoryboardById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardById(router.query.id as string), {
+        manual: true
+    });
 
-    const [{ data: deleteStoryboardItemByIdData, loading: deleteStoryboardItemByIdLoading }, deleteStoryboardItemById] = useAxios(
-        apiSetting.Storyboard.deleteStoryboardItemById(''),
-        {
-            manual: true
-        }
-    );
+    const [
+        { data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading },
+        updateStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardItemById(''), {
+        manual: true
+    });
+
+    const [
+        { data: deleteStoryboardItemByIdData, loading: deleteStoryboardItemByIdLoading },
+        deleteStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.deleteStoryboardItemById(''), {
+        manual: true
+    });
 
     useEffect(() => {
-        setOpen(getStoryboardByIdLoading)
+        setOpen(getStoryboardByIdLoading);
     }, [getStoryboardByIdLoading]);
 
     useEffect(() => {
-        setOpen(updateStoryboardByIdLoading)
+        setOpen(updateStoryboardByIdLoading);
     }, [updateStoryboardByIdLoading]);
 
     useEffect(() => {
-        setOpen(updateStoryboardItemByIdLoading)
+        setOpen(updateStoryboardItemByIdLoading);
     }, [updateStoryboardItemByIdLoading]);
 
     useEffect(() => {
-        setOpen(deleteStoryboardItemByIdLoading)
+        setOpen(deleteStoryboardItemByIdLoading);
     }, [deleteStoryboardItemByIdLoading]);
 
     useEffect(() => {
         if (router.query.id) {
-            getStoryboardById()
+            getStoryboardById();
         }
     }, [router.query.id]);
 
     useEffect(() => {
         if (getStoryboardByIdData && getStoryboardByIdData.success) {
             // console.log(getStoryboardByIdData);
-            setStoryboard(getStoryboardByIdData.storyboard)
-            setItems(getStoryboardByIdData.storyboard?.items)
+            setStoryboard(getStoryboardByIdData.storyboard);
+            setItems(getStoryboardByIdData.storyboard?.items);
         } else if (getStoryboardByIdData && !getStoryboardByIdData.success) {
-            setAlert({ title: getStoryboardByIdData.error, type: 'error' })
+            setAlert({ title: getStoryboardByIdData.error, type: 'error' });
         }
-    }, [getStoryboardByIdData])
-
+    }, [getStoryboardByIdData]);
 
     useEffect(() => {
         if (updateStoryboardByIdData && updateStoryboardByIdData.success) {
-            setAlert({ title: "修改成功", type: 'success' })
-            router.back()
+            setAlert({ title: '修改成功', type: 'success' });
+            router.back();
         } else if (updateStoryboardByIdData && !updateStoryboardByIdData.success) {
-            setAlert({ title: updateStoryboardByIdData.error, type: 'error' })
+            setAlert({ title: updateStoryboardByIdData.error, type: 'error' });
         }
-    }, [updateStoryboardByIdData])
+    }, [updateStoryboardByIdData]);
 
     const handleUpdateStoryboard = (item_ids: any) => {
         updateStoryboardById({
@@ -89,17 +88,17 @@ export default function StoryboardEditContainer() {
                 description: storyboard?.description,
                 item_ids: item_ids
             }
-        })
-    }
+        });
+    };
 
     useEffect(() => {
         if (updateStoryboardItemByIdData && updateStoryboardItemByIdData.success) {
-            setAlert({ title: "修改成功", type: 'success' })
-            router.reload()
+            setAlert({ title: '修改成功', type: 'success' });
+            router.reload();
         } else if (updateStoryboardItemByIdData && !updateStoryboardItemByIdData.success) {
-            setAlert({ title: updateStoryboardItemByIdData.error, type: 'error' })
+            setAlert({ title: updateStoryboardItemByIdData.error, type: 'error' });
         }
-    }, [updateStoryboardItemByIdData])
+    }, [updateStoryboardItemByIdData]);
 
     const handleUpdateStoryboardItem = (item_id: string, data: any) => {
         updateStoryboardItemById({
@@ -109,23 +108,23 @@ export default function StoryboardEditContainer() {
                 is_ready: true,
                 status: 1
             }
-        })
-    }
+        });
+    };
 
     useEffect(() => {
         if (deleteStoryboardItemByIdData && deleteStoryboardItemByIdData.success) {
-            setAlert({ title: "刪除成功", type: 'success' })
-            router.reload()
+            setAlert({ title: '刪除成功', type: 'success' });
+            router.reload();
         } else if (deleteStoryboardItemByIdData && !deleteStoryboardItemByIdData.success) {
-            setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' })
+            setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' });
         }
-    }, [deleteStoryboardItemByIdData])
+    }, [deleteStoryboardItemByIdData]);
 
     const handleDeleteStoryboardItem = (item_id: string) => {
         deleteStoryboardItemById({
             ...apiSetting.Storyboard.deleteStoryboardItemById(item_id)
-        })
-    }
+        });
+    };
 
     return (
         <StoryboardEditView

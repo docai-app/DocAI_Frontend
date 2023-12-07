@@ -15,7 +15,15 @@ interface TableRowProps {
     handleDeleteSchema: any;
 }
 export default function SchemaTableRow(props: TableRowProps) {
-    const { schema, checked, setCurrectShema, visable = true, getAllLabelsData, users, handleDeleteSchema } = props;
+    const {
+        schema,
+        checked,
+        setCurrectShema,
+        visable = true,
+        getAllLabelsData,
+        users,
+        handleDeleteSchema
+    } = props;
     const router = useRouter();
     const [visableDelete, setVisableDelete] = useState(false);
     // const [visable, setVisable] = useState(false);
@@ -24,27 +32,33 @@ export default function SchemaTableRow(props: TableRowProps) {
     let date = '';
     if (updated_at.getFullYear() === now.getFullYear()) {
         if (updated_at.getMonth() === now.getMonth() && updated_at.getDate() === now.getDate())
-            date = `${updated_at.getHours() < 10
-                ? '0' + updated_at.getHours().toString()
-                : updated_at.getHours()
-                }:${updated_at.getMinutes() < 10
+            date = `${
+                updated_at.getHours() < 10
+                    ? '0' + updated_at.getHours().toString()
+                    : updated_at.getHours()
+            }:${
+                updated_at.getMinutes() < 10
                     ? '0' + updated_at.getMinutes().toString()
                     : updated_at.getMinutes()
-                }`;
+            }`;
         else
-            date = `${updated_at.getMonth() < 9
-                ? '0' + (updated_at.getMonth() + 1).toString()
-                : updated_at.getMonth() + 1
-                }/${updated_at.getDate() < 10
+            date = `${
+                updated_at.getMonth() < 9
+                    ? '0' + (updated_at.getMonth() + 1).toString()
+                    : updated_at.getMonth() + 1
+            }/${
+                updated_at.getDate() < 10
                     ? '0' + updated_at.getDate().toString()
                     : updated_at.getDate()
-                }`;
-    } else {
-        date = `${updated_at.getFullYear()}/${updated_at.getMonth() < 9
-            ? '0' + (updated_at.getMonth() + 1).toString()
-            : updated_at.getMonth() + 1
-            }/${updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
             }`;
+    } else {
+        date = `${updated_at.getFullYear()}/${
+            updated_at.getMonth() < 9
+                ? '0' + (updated_at.getMonth() + 1).toString()
+                : updated_at.getMonth() + 1
+        }/${
+            updated_at.getDate() < 10 ? '0' + updated_at.getDate().toString() : updated_at.getDate()
+        }`;
     }
     const url = `/document/smart_extraction_schema/${schema.id}`;
     // const onMouseEnter = () => {
@@ -83,7 +97,6 @@ export default function SchemaTableRow(props: TableRowProps) {
     };
     return (
         <>
-
             <div
                 key={schema.id}
                 className={`flex hover:bg-gray-100`}
@@ -140,7 +153,7 @@ export default function SchemaTableRow(props: TableRowProps) {
                                 );
                         }}
                         remove={() => {
-                            setVisableDelete(true)
+                            setVisableDelete(true);
                         }}
                     />
                 </div>
@@ -155,7 +168,7 @@ export default function SchemaTableRow(props: TableRowProps) {
                 }}
                 confirmClick={() => {
                     setVisableDelete(false);
-                    handleDeleteSchema(schema?.id)
+                    handleDeleteSchema(schema?.id);
                 }}
             />
         </>

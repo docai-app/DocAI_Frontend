@@ -162,8 +162,8 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                     <BButton
                                         name="生成圖表"
                                         onClick={() => {
-                                            setReport('')
-                                            setVisibleGenerateChart(true)
+                                            setReport('');
+                                            setVisibleGenerateChart(true);
                                         }}
                                         icon={<ChartBarSquareIcon className="w-5 mr-2" />}
                                     />
@@ -174,7 +174,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                     <BButton
                                         name="生成統計報告"
                                         onClick={() => {
-                                            setVisibleGenerateStatistics(true)
+                                            setVisibleGenerateStatistics(true);
                                         }}
                                         icon={<NewspaperIcon className="w-5 mr-2" />}
                                     />
@@ -348,7 +348,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 chart={chart}
                 save={() => {
                     setVisibleHtmlCode(false);
-                    setVisableInputStoryboard(true)
+                    setVisableInputStoryboard(true);
                 }}
             />
 
@@ -361,7 +361,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
                 save={() => {
                     setVisibleHtmlToPdf(false);
-                    setVisableInputStoryboard(true)
+                    setVisableInputStoryboard(true);
                 }}
             />
             <InputStoryboardModal
@@ -373,7 +373,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
                 confirmClick={(data: any) => {
                     setVisableInputStoryboard(false);
-                    handleUpdateStoryboardItem(data)
+                    handleUpdateStoryboardItem(data);
                 }}
             />
         </>
