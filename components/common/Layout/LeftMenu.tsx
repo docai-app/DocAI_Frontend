@@ -4,17 +4,13 @@ import { Cog6ToothIcon } from '@heroicons/react/20/solid';
 import {
     ArrowRightOnRectangleIcon,
     Bars3Icon,
+    BookOpenIcon,
     ChartBarSquareIcon,
     ChatBubbleOvalLeftEllipsisIcon,
     ClipboardDocumentListIcon,
     CloudArrowUpIcon,
     CubeIcon,
-    FolderIcon,
-    ShieldCheckIcon,
-    XMarkIcon,
-    TableCellsIcon,
-    MagnifyingGlassIcon,
-    ShoppingCartIcon
+    FolderIcon, MagnifyingGlassIcon, ShieldCheckIcon, ShoppingCartIcon, TableCellsIcon, XMarkIcon
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback } from 'react';
@@ -102,6 +98,14 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/new') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
+        },
+        {
+            name: '故事版',
+            href: '/storyboard',
+            icon: BookOpenIcon,
+            current: router.pathname.indexOf('/storyboard') != -1,
+            iconForeground: 'text-teal-700',
+            iconBackground: 'bg-teal-50'
         },
         {
             name: '資源應用程序',

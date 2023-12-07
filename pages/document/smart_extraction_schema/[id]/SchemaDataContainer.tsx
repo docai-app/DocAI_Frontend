@@ -25,10 +25,11 @@ export default function ScheamDataContainer() {
     const [visableHtmlCode, setVisibleHtmlCode] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
     const [report, setReport] = useState('');
-    const [chart, setChart] = useState({});
+    const [chart, setChart] = useState();
     const [open, setOpen] = useState(false);
     const [hasMore, setHasMore] = useState(false);
     const [meta, setMeta] = useState();
+    const [currentStoryboardItemId, setCurrentStoryboardItemId] = useState('')
 
     const [{ data: getTagByIdData, loading: getTagByIdLoading }, getTagById] = useAxios(
         apiSetting.Tag.getTagById(''),
@@ -74,6 +75,13 @@ export default function ScheamDataContainer() {
         }
     );
 
+    const [{ data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading }, updateStoryboardItemById] = useAxios(
+        apiSetting.Storyboard.updateStoryboardItemById(''),
+        {
+            manual: true
+        }
+    );
+
     useEffect(() => {
         setOpen(loading);
         if (loading)
@@ -82,6 +90,15 @@ export default function ScheamDataContainer() {
                 content: '正在獲取資料'
             });
     }, [loading]);
+
+    useEffect(() => {
+        setOpen(searching);
+        if (searching)
+            setModalDescription({
+                title: '進行中......',
+                content: '正在獲取資料'
+            });
+    }, [searching]);
 
     useEffect(() => {
         setOpen(searching);
@@ -156,7 +173,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -244,6 +261,7 @@ export default function ScheamDataContainer() {
             if (res.data.success) {
                 setVisibleHtmlCode(true);
                 setChart(res.data.chart);
+                setCurrentStoryboardItemId(res.data.item_id)
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.chart, type: 'error' });
@@ -273,6 +291,7 @@ export default function ScheamDataContainer() {
                 // setChart(res.data.report);
                 setVisibleHtmlToPdf(true);
                 setReport(res.data.report);
+                setCurrentStoryboardItemId(res.data.item_id)
             } else {
                 console.log(res.data);
                 setAlert({
@@ -283,6 +302,35 @@ export default function ScheamDataContainer() {
             setOpen(false);
         }
     };
+
+    const handleUpdateStoryboardItem = (data: any) => {
+        if (!currentStoryboardItemId) return
+        // console.log(data);
+        // console.log(currentStoryboardItemId);
+        setOpen(true);
+        setModalDescription({
+            title: '進行中......',
+            content: '正在儲存結果,請耐心等候...'
+        });
+        updateStoryboardItemById({
+            ...apiSetting.Storyboard.updateStoryboardItemById(currentStoryboardItemId),
+            data: {
+                ...data,
+                is_ready: true,
+                status: 1
+            }
+        }).then((res: any) => {
+            // console.log(res.data);
+            setOpen(false);
+            if (res.data.success) {
+                setAlert({ title: '儲存成功!', type: 'success' })
+            } else {
+                setAlert({ title: res.data.error, type: 'error' })
+            }
+
+        })
+
+    }
 
     return (
         <SchemaDataView
@@ -307,11 +355,14 @@ export default function ScheamDataContainer() {
                 visableHtmlCode,
                 setVisibleHtmlCode,
                 chart,
+                setChart,
                 hasMore,
                 meta,
                 report,
+                setReport,
                 visableHtmlToPdf,
-                setVisibleHtmlToPdf
+                setVisibleHtmlToPdf,
+                handleUpdateStoryboardItem
             }}
         />
     );

@@ -19,6 +19,7 @@ import Search from './Search';
 import SmartExtractionSchemas from './SmartExtractionSchemas';
 import Statistics from './Statistics';
 import Storage from './Storage';
+import Storyboard from './Storyboard';
 import Tag from './Tag';
 import User from './User';
 
@@ -45,6 +46,7 @@ export default class Api {
     Chatbot: Chatbot;
     SmartExtractionSchemas: SmartExtractionSchemas;
     Prompt: Prompt;
+    Storyboard: Storyboard;
 
     constructor() {
         this.Storage = new Storage();
@@ -69,5 +71,6 @@ export default class Api {
         this.Chatbot = new Chatbot();
         this.SmartExtractionSchemas = new SmartExtractionSchemas();
         this.Prompt = new Prompt();
+        this.Storyboard = new Storyboard();
     }
 }
