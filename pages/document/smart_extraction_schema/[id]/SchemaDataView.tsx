@@ -12,6 +12,7 @@ import MyModal from '../../../../components/common/Widget/MyModal';
 import PaginationView from '../../../../components/common/Widget/PaginationView';
 import SingleActionModel from '../../../../components/common/Widget/SingleActionModel';
 import SchemaFormFilterTableRow from '../../../../components/feature/document/extraction/SchemaFormFilterTableRow';
+import InputStoryboardModal from '../../../../components/feature/document/smart_extraction_schema/InputStoryboardModal';
 import EditItems from '../../../../components/feature/drive/EditItems';
 import useAlert from '../../../../hooks/useAlert';
 
@@ -36,11 +37,14 @@ interface SchemaDataViewProps {
     visableHtmlCode: boolean;
     setVisibleHtmlCode: any;
     chart: any;
+    setChart: any;
     hasMore: boolean;
     meta: any;
     report?: string;
+    setReport?: any;
     visableHtmlToPdf?: boolean;
     setVisibleHtmlToPdf?: any;
+    handleUpdateStoryboardItem?: any;
 }
 
 function SchemaDataView(props: SchemaDataViewProps) {
@@ -65,24 +69,27 @@ function SchemaDataView(props: SchemaDataViewProps) {
         visableHtmlCode,
         setVisibleHtmlCode,
         chart,
+        setChart,
         hasMore,
         meta,
         report,
+        setReport,
         visableHtmlToPdf,
-        setVisibleHtmlToPdf
+        setVisibleHtmlToPdf,
+        handleUpdateStoryboardItem
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
     const [visableDelete, setVisibleDelete] = useState(false);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
     const [visableGenerateStatistics, setVisibleGenerateStatistics] = useState(false);
+    const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);
     const [datumId, setDatumId] = useState('');
 
     const editFormDocument = (datum: any) => {
         if (!datum) return;
         console.log(datum);
-        // setAlert({ title: '新功能開發中，敬請期待！', type: 'info' })
         router.push({
             pathname: '/document/validate',
             query: {
@@ -154,7 +161,10 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 <div className="my-1">
                                     <BButton
                                         name="生成圖表"
-                                        onClick={() => setVisibleGenerateChart(true)}
+                                        onClick={() => {
+                                            setReport('');
+                                            setVisibleGenerateChart(true);
+                                        }}
                                         icon={<ChartBarSquareIcon className="w-5 mr-2" />}
                                     />
                                 </div>
@@ -163,7 +173,9 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                 <div className="my-1">
                                     <BButton
                                         name="生成統計報告"
-                                        onClick={() => setVisibleGenerateStatistics(true)}
+                                        onClick={() => {
+                                            setVisibleGenerateStatistics(true);
+                                        }}
                                         icon={<NewspaperIcon className="w-5 mr-2" />}
                                     />
                                 </div>
@@ -334,13 +346,34 @@ function SchemaDataView(props: SchemaDataViewProps) {
                     setVisibleHtmlCode(false);
                 }}
                 chart={chart}
+                save={() => {
+                    setVisibleHtmlCode(false);
+                    setVisableInputStoryboard(true);
+                }}
             />
+
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
                 title={'統計報告'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
+                }}
+                save={() => {
+                    setVisibleHtmlToPdf(false);
+                    setVisableInputStoryboard(true);
+                }}
+            />
+            <InputStoryboardModal
+                visable={visableInputStoryboard}
+                description={'編輯儲存資料'}
+                report={report}
+                cancelClick={() => {
+                    setVisableInputStoryboard(false);
+                }}
+                confirmClick={(data: any) => {
+                    setVisableInputStoryboard(false);
+                    handleUpdateStoryboardItem(data);
                 }}
             />
         </>
