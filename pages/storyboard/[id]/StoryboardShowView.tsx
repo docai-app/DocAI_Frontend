@@ -1,6 +1,6 @@
 import { PaperAirplaneIcon } from '@heroicons/react/20/solid';
 import Router from 'next/router';
-import { Margin, usePDF } from "react-to-pdf";
+import { Margin, usePDF } from 'react-to-pdf';
 import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import StoryboardChartItemView from '../../../components/feature/storyboard/StoryboardChartItemView';
@@ -16,9 +16,10 @@ interface ViewProps {
 export default function StoryboardShowView(props: ViewProps) {
     const { open, setOpen, storyboard, items } = props;
     const { toPDF, targetRef } = usePDF({
-        filename: "report.pdf",
+        filename: 'report.pdf',
         page: { margin: Margin.MEDIUM }
     });
+    
 
     return (
         <>
@@ -53,7 +54,7 @@ export default function StoryboardShowView(props: ViewProps) {
                     <div>
                         <p className="text-xl py-2 text-gray-500">{storyboard?.description}</p>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-2 pb-6"  >
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-2 pb-6">
                         {items?.map((item: any, index: number) => {
                             return (
                                 <div key={index}>
