@@ -105,7 +105,7 @@ export default function LeftMenu(props: any) {
             iconBackground: 'bg-red-50'
         },
         {
-            name: '故事版',
+            name: '故事板',
             href: '/storyboard',
             icon: BookOpenIcon,
             current: router.pathname.indexOf('/storyboard') != -1,
