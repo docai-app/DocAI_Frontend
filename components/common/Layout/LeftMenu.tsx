@@ -72,6 +72,14 @@ export default function LeftMenu(props: any) {
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
         },
+        {
+            name: '故事板',
+            href: '/storyboard',
+            icon: BookOpenIcon,
+            current: router.pathname.indexOf('/storyboard') != -1,
+            iconForeground: 'text-teal-700',
+            iconBackground: 'bg-teal-50'
+        },
         // {
         //     name: '文檔數據提取',
         //     href: '/document/extraction',
@@ -103,14 +111,6 @@ export default function LeftMenu(props: any) {
             current: router.pathname.indexOf('/new') != -1,
             iconForeground: 'text-red-700',
             iconBackground: 'bg-red-50'
-        },
-        {
-            name: '故事板',
-            href: '/storyboard',
-            icon: BookOpenIcon,
-            current: router.pathname.indexOf('/storyboard') != -1,
-            iconForeground: 'text-teal-700',
-            iconBackground: 'bg-teal-50'
         },
         {
             name: '資源應用程序',
