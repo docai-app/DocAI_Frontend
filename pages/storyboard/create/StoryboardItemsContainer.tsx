@@ -44,6 +44,11 @@ export default function StoryboardItemsContainer() {
     }, [getAllStoryboardItemsLoading]);
 
     useEffect(() => {
+        setOpen(createStoryboardLoading);
+    }, [createStoryboardLoading]);
+
+
+    useEffect(() => {
         setOpen(updateStoryboardItemByIdLoading);
     }, [updateStoryboardItemByIdLoading]);
 

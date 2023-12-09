@@ -54,7 +54,7 @@ export default function StoryboardTableRow(props: TableRowProps) {
                     >
                         修改
                     </a>
-                    {/* {' | '}
+                    {' | '}
                     <a
                         className="cursor-pointer text-red-500 hover:text-red-700 underline"
                         target="_blank"
@@ -64,7 +64,7 @@ export default function StoryboardTableRow(props: TableRowProps) {
                         }}
                     >
                         刪除
-                    </a> */}
+                    </a>
                 </td>
             </tr>
         </>
