@@ -60,7 +60,7 @@ export default function StoryboardTableRow(props: TableRowProps) {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => {
-                            remove()
+                            remove();
                         }}
                     >
                         刪除

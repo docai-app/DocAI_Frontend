@@ -19,7 +19,6 @@ export default function StoryboardShowView(props: ViewProps) {
         filename: 'report.pdf',
         page: { margin: Margin.MEDIUM }
     });
-    
 
     return (
         <>
@@ -30,9 +29,7 @@ export default function StoryboardShowView(props: ViewProps) {
                 content={'正在加載數據...'}
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
-            <div
-                className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col bg-white  "
-            >
+            <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex-1 flex flex-col bg-white  ">
                 <HeaderBreadCrumb
                     title={''}
                     back={() => {
