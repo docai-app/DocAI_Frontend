@@ -16,6 +16,7 @@ import useAlert from '../../../../hooks/useAlert';
 import HtmlCodeModal from '../../../common/Widget/HtmlCodeModal';
 import HtmlToPdfModal from '../../../common/Widget/HtmlToPdfModal';
 import SingleActionModel from '../../../common/Widget/SingleActionModel';
+import InputStoryboardModal from './InputStoryboardModal';
 
 interface Props {
     label?: any;
@@ -39,7 +40,8 @@ export default function SearchLabelSearchForm(props: Props) {
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [modalDescription, setModalDescription] = useState<any>({});
-
+    const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
+    const [currentStoryboardItemId, setCurrentStoryboardItemId] = useState('');
     const [tags, setTags] = useState<any>([]);
     const [showHasLabelByFalse, setShowHasLabelByFalse] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
@@ -66,6 +68,13 @@ export default function SearchLabelSearchForm(props: Props) {
         generateStatistics
     ] = useAxios('', { manual: true });
 
+    const [
+        { data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading },
+        updateStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardItemById(''), {
+        manual: true
+    });
+
     const handlerGenerateChart = async (smart_extraction_schema_id: string, query: string) => {
         console.log('query', query);
         console.log('smart_extraction_schema_id', smart_extraction_schema_id);
@@ -82,6 +91,7 @@ export default function SearchLabelSearchForm(props: Props) {
             if (res.data.success) {
                 setVisibleHtmlCode(true);
                 setChart(res.data.chart);
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.chart, type: 'error' });
@@ -109,12 +119,40 @@ export default function SearchLabelSearchForm(props: Props) {
             if (res.data.success) {
                 setVisibleHtmlToPdf(true);
                 setReport(res.data.report);
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.report, type: 'error' });
             }
             setOpen(false);
         }
+    };
+
+    const handleUpdateStoryboardItem = (data: any) => {
+        if (!currentStoryboardItemId) return;
+        // console.log(data);
+        // console.log(currentStoryboardItemId);
+        setOpen(true);
+        setModalDescription({
+            title: '進行中......',
+            content: '正在儲存結果,請耐心等候...'
+        });
+        updateStoryboardItemById({
+            ...apiSetting.Storyboard.updateStoryboardItemById(currentStoryboardItemId),
+            data: {
+                ...data,
+                is_ready: true,
+                status: 1
+            }
+        }).then((res: any) => {
+            // console.log(res.data);
+            setOpen(false);
+            if (res.data.success) {
+                setAlert({ title: '儲存成功!', type: 'success' });
+            } else {
+                setAlert({ title: res.data.error, type: 'error' });
+            }
+        });
     };
 
     return (
@@ -374,11 +412,16 @@ export default function SearchLabelSearchForm(props: Props) {
             </div>
             <HtmlCodeModal
                 visable={visableHtmlCode}
-                description={'智能圖表'}
+                description={'圖表'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
+                    setVisableInputStoryboard(true);
                 }}
                 chart={chart}
+                save={() => {
+                    setVisibleHtmlCode(false);
+                    setVisableInputStoryboard(true);
+                }}
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
@@ -386,6 +429,23 @@ export default function SearchLabelSearchForm(props: Props) {
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
+                    setVisableInputStoryboard(true);
+                }}
+                save={() => {
+                    setVisibleHtmlToPdf(false);
+                    setVisableInputStoryboard(true);
+                }}
+            />
+            <InputStoryboardModal
+                visable={visableInputStoryboard}
+                description={'編輯儲存資料'}
+                report={report}
+                cancelClick={() => {
+                    setVisableInputStoryboard(false);
+                }}
+                confirmClick={(data: any) => {
+                    setVisableInputStoryboard(false);
+                    handleUpdateStoryboardItem(data);
                 }}
             />
         </>
