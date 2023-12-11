@@ -204,7 +204,7 @@ export default function StoryboardEditView(props: ViewProps) {
             )}
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計報告'}
+                title={'統計數據'}
                 description={data}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);

@@ -98,7 +98,7 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成統計報告,請耐心等候...'
+                content: '正在生成統計數據,請耐心等候...'
             });
             const res = await generateStatistics(
                 apiSetting.SmartExtractionSchemas.generateStatistics(
@@ -267,7 +267,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                         >
                                             <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                             <label className="text-sm cursor-pointer">
-                                                生成統計報告
+                                                生成統計數據
                                             </label>
                                         </div>
                                     </>
@@ -297,7 +297,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    生成統計報告
+                                                    生成統計數據
                                                 </label>
                                             </div>
                                         )}
@@ -382,7 +382,7 @@ export default function SearchLabelSearchForm(props: Props) {
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計報告'}
+                title={'統計數據'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
