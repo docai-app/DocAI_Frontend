@@ -83,7 +83,7 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成圖表,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateChart(
                 apiSetting.SmartExtractionSchemas.generateChart(smart_extraction_schema_id, query)
@@ -108,7 +108,7 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成統計報告,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateStatistics(
                 apiSetting.SmartExtractionSchemas.generateStatistics(
@@ -294,7 +294,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                         >
                                             <ChartBarSquareIcon className="w-5 m-1 cursor-pointer" />
                                             <label className="text-sm cursor-pointer">
-                                                生成圖表
+                                                圖表
                                             </label>
                                         </div>
                                         <div
@@ -305,7 +305,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                         >
                                             <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                             <label className="text-sm cursor-pointer">
-                                                生成統計報告
+                                                統計問題
                                             </label>
                                         </div>
                                     </>
@@ -321,7 +321,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <ChartBarSquareIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    生成圖表
+                                                    圖表
                                                 </label>
                                             </div>
                                         )}
@@ -335,7 +335,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    生成統計報告
+                                                    統計問題
                                                 </label>
                                             </div>
                                         )}
@@ -358,7 +358,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                 type={'search'}
                                 name="signature"
                                 className="flex-1 mx-4 rounded-md"
-                                placeholder="例如：幫我用pie chart統計總結出各個部門的請假情況？"
+                                placeholder="輸入你的問題..."
                                 onChange={(e) => {
                                     setQuery(e.target.value);
                                 }}
@@ -388,7 +388,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                 type={'search'}
                                 name="signature"
                                 className="flex-1 mx-4 rounded-md"
-                                placeholder="幫我總結一下各個部門的會議紀錄情況？"
+                                placeholder="輸入你的問題..."
                                 onChange={(e) => {
                                     setQuery(e.target.value);
                                 }}
@@ -412,7 +412,7 @@ export default function SearchLabelSearchForm(props: Props) {
             </div>
             <HtmlCodeModal
                 visable={visableHtmlCode}
-                description={'圖表'}
+                description={'結果'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
                     setVisableInputStoryboard(true);
@@ -425,7 +425,7 @@ export default function SearchLabelSearchForm(props: Props) {
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計報告'}
+                title={'結果'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
