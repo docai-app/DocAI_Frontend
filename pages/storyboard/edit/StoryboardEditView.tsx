@@ -124,7 +124,7 @@ export default function StoryboardEditView(props: ViewProps) {
                                 />
                             </div>
                         </div>
-                        <div className='hidden'>
+                        <div className="hidden">
                             <p className="text-xl py-2 text-gray-500">
                                 <input
                                     type={'text'}

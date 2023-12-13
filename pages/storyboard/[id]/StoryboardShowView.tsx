@@ -64,7 +64,7 @@ export default function StoryboardShowView(props: ViewProps) {
                                 </h2>
                             </div>
                         </div>
-                        <div className='hidden'>
+                        <div className="hidden">
                             <p className="text-xl py-2 text-white">{storyboard?.description}</p>
                         </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-6 pb-6">
