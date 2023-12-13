@@ -1,13 +1,17 @@
 import parse from 'html-react-parser';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import Dropdowns from './Dropdowns';
 
 interface Props {
     item: any;
     chart: any;
+    isEdit?: boolean;
+    edit: any;
+    remove: any;
 }
 export default function StoryboardChartItemView(props: Props) {
-    const { item, chart } = props;
+    const { item, isEdit = false, chart, edit, remove } = props;
 
     useEffect(() => {
         // console.log('htmlText: ', chart);
@@ -32,7 +36,7 @@ export default function StoryboardChartItemView(props: Props) {
     return (
         <>
             <div
-                className="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm flex items-center space-x-3  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                className=" relative rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm flex items-center space-x-3  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
             >
                 <div className="flex-1 min-w-0 min-h-[100px]">
                     <p className="text-md font-medium text-gray-900 my-2">{item.query}</p>
@@ -42,6 +46,14 @@ export default function StoryboardChartItemView(props: Props) {
                     </Helmet>
                     {parse(parsedContent)}
                 </div>
+                {isEdit &&
+                    <div className=' absolute top-2 right-2'>
+                        <Dropdowns
+                            edit={edit}
+                            remove={remove}
+                        />
+                    </div>
+                }
             </div>
         </>
     );

@@ -173,7 +173,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);
@@ -253,7 +253,7 @@ export default function ScheamDataContainer() {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成圖表,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateChart(
                 apiSetting.SmartExtractionSchemas.generateChart(smart_extraction_schema_id, query)
@@ -278,7 +278,7 @@ export default function ScheamDataContainer() {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成報告,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateStatistics(
                 apiSetting.SmartExtractionSchemas.generateStatistics(

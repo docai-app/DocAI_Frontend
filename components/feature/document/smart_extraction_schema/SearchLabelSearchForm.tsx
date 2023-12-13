@@ -25,12 +25,14 @@ interface Props {
     getAllLabelsData?: any;
     search?: any;
     showHasLabelSchemasHandler?: any;
+    setCurrectLabel?: any;
+    setAllSchemas?: any;
 }
 
 const apiSetting = new Api();
 
 export default function SearchLabelSearchForm(props: Props) {
-    const { label, schema, setShema, getAllLabelsData, search, showHasLabelSchemasHandler } = props;
+    const { label, schema, setShema, getAllLabelsData, search, showHasLabelSchemasHandler, setCurrectLabel, setAllSchemas } = props;
     const { setAlert } = useAlert();
     const [visible, setVisible] = useState(true);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
@@ -179,7 +181,9 @@ export default function SearchLabelSearchForm(props: Props) {
                             <button
                                 className="border rounded-md pr-4 pl-2 py-1 mx-2 flex flex-row items-center"
                                 onClick={() => {
-                                    Router.push('/smart_extraction_schema');
+                                    // Router.push('/smart_extraction_schema');
+                                    setCurrectLabel('')
+                                    setAllSchemas([])
                                 }}
                             >
                                 <XMarkIcon className="w-4 mr-2" />
@@ -197,6 +201,9 @@ export default function SearchLabelSearchForm(props: Props) {
                                 onClick={() => {
                                     setShowHasLabelByFalse(false);
                                     showHasLabelSchemasHandler('');
+                                    setCurrectLabel('')
+                                    setAllSchemas([])
+                                    setShema(null);
                                 }}
                             >
                                 <XMarkIcon className="w-4 mr-2" />
@@ -227,6 +234,8 @@ export default function SearchLabelSearchForm(props: Props) {
                                         setShema(null);
                                         setShowHasLabelByFalse(true);
                                         showHasLabelSchemasHandler(false);
+                                        setCurrectLabel('')
+                                        setAllSchemas([])
                                     }}
                                 >
                                     <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
@@ -240,7 +249,10 @@ export default function SearchLabelSearchForm(props: Props) {
                                         <div key={index}>
                                             <button
                                                 className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                                                onClick={() => search(label)}
+                                                onClick={() => {
+                                                    setShema(null);
+                                                    search(label)
+                                                }}
                                             >
                                                 <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
                                                 <label className=" cursor-pointer text-xs sm:text-sm">
@@ -305,7 +317,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                         >
                                             <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                             <label className="text-sm cursor-pointer">
-                                                統計問題
+                                                統計
                                             </label>
                                         </div>
                                     </>
@@ -335,7 +347,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    統計問題
+                                                    統計
                                                 </label>
                                             </div>
                                         )}

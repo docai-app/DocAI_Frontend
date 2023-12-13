@@ -63,7 +63,7 @@ export default function StoryboardItemTableRow(props: TableRowProps) {
                 <td className="w-2/12  px-1  py-4 text-sm  ">{item?.description}</td>
                 <td className="w-2/12  px-1  py-4 text-sm  ">{item?.query}</td>
                 <td className="w-1/12  px-1  py-4 text-sm  ">
-                    {'chart' == item?.item_type ? '圖表' : '統計報告'}
+                    {'chart' == item?.item_type ? '圖表' : '統計'}
                 </td>
                 {/* Add the storage_url to the data and open it in a new tab */}
                 <td className=" py-4 px-1 text-center w-1/12 text-sm font-medium text-gray-900 ">

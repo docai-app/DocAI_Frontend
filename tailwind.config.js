@@ -128,6 +128,7 @@ module.exports = {
         backgroundColor: ({ theme }) => theme('colors'),
         backgroundImage: {
             none: 'none',
+            'report-t': "url('https://img.tukuppt.com/bg_grid/18/36/13/pceXS2trc8.jpg!/fh/350')",
             'gradient-to-t': 'linear-gradient(to top, var(--tw-gradient-stops))',
             'gradient-to-tr': 'linear-gradient(to top right, var(--tw-gradient-stops))',
             'gradient-to-r': 'linear-gradient(to right, var(--tw-gradient-stops))',

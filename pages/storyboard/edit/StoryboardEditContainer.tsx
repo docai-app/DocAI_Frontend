@@ -13,6 +13,12 @@ export default function StoryboardEditContainer() {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<any>([]);
     const [storyboard, setStoryboard] = useState<any>();
+    const [currectPosition, setCurrectPosition] = useState(0)
+
+    const [{ data: createStoryboardData, loading: createStoryboardLoading }, createStoryboard] =
+        useAxios(apiSetting.Storyboard.createStoryboard(), {
+            manual: true
+        });
 
     const [{ data: getStoryboardByIdData, loading: getStoryboardByIdLoading }, getStoryboardById] =
         useAxios(apiSetting.Storyboard.getStoryboardById(router.query.id as string), {
@@ -53,8 +59,8 @@ export default function StoryboardEditContainer() {
     }, [updateStoryboardItemByIdLoading]);
 
     useEffect(() => {
-        setOpen(deleteStoryboardItemByIdLoading);
-    }, [deleteStoryboardItemByIdLoading]);
+        setOpen(createStoryboardLoading);
+    }, [createStoryboardLoading]);
 
     useEffect(() => {
         if (router.query.id) {
@@ -74,7 +80,7 @@ export default function StoryboardEditContainer() {
 
     useEffect(() => {
         if (updateStoryboardByIdData && updateStoryboardByIdData.success) {
-            setAlert({ title: '修改成功', type: 'success' });
+            setAlert({ title: '保存成功', type: 'success' });
             router.back();
         } else if (updateStoryboardByIdData && !updateStoryboardByIdData.success) {
             setAlert({ title: updateStoryboardByIdData.error, type: 'error' });
@@ -82,19 +88,53 @@ export default function StoryboardEditContainer() {
     }, [updateStoryboardByIdData]);
 
     const handleUpdateStoryboard = (item_ids: any) => {
-        updateStoryboardById({
-            data: {
-                title: storyboard?.title,
-                description: storyboard?.description,
-                item_ids: item_ids
-            }
-        });
+        if (router.query.id) {
+            updateStoryboardById({
+                data: {
+                    title: storyboard?.title,
+                    description: storyboard?.description,
+                    item_ids: item_ids
+                }
+            });
+        } else {
+            createStoryboard({
+                data: {
+                    title: storyboard?.title,
+                    description: storyboard?.description,
+                    item_ids: item_ids
+                }
+            });
+        }
     };
 
     useEffect(() => {
+        if (createStoryboardData && createStoryboardData.success) {
+            console.log(createStoryboardData);
+            setAlert({ title: '成功创建', type: 'success' });
+            router.push(`/storyboard/${createStoryboardData.storyboard.id}`);
+        } else if (createStoryboardData && !createStoryboardData.success) {
+            setAlert({ title: createStoryboardData.error, type: 'error' });
+        }
+    }, [createStoryboardData]);
+
+    const handleCreateStoryboard = (data: any) => {
+        createStoryboard({
+            ...apiSetting.Storyboard.createStoryboard(),
+            data: data
+        });
+    };
+
+
+    useEffect(() => {
         if (updateStoryboardItemByIdData && updateStoryboardItemByIdData.success) {
-            setAlert({ title: '修改成功', type: 'success' });
-            router.reload();
+            if (currectPosition == -1) {
+                items.push(updateStoryboardItemByIdData.storyboard_item)
+                setAlert({ title: '添加成功', type: 'success' });
+            } else {
+                items.splice(currectPosition, 1, updateStoryboardItemByIdData.storyboard_item);
+                setAlert({ title: '修改成功', type: 'success' });
+            }
+            updateLocalData();
         } else if (updateStoryboardItemByIdData && !updateStoryboardItemByIdData.success) {
             setAlert({ title: updateStoryboardItemByIdData.error, type: 'error' });
         }
@@ -113,17 +153,24 @@ export default function StoryboardEditContainer() {
 
     useEffect(() => {
         if (deleteStoryboardItemByIdData && deleteStoryboardItemByIdData.success) {
-            setAlert({ title: '刪除成功', type: 'success' });
-            router.reload();
+            // setAlert({ title: '刪除成功', type: 'success' });
+            // router.reload(); 
         } else if (deleteStoryboardItemByIdData && !deleteStoryboardItemByIdData.success) {
             setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' });
         }
     }, [deleteStoryboardItemByIdData]);
 
     const handleDeleteStoryboardItem = (item_id: string) => {
+        items.splice(currectPosition, 1);
+        updateLocalData();
         deleteStoryboardItemById({
             ...apiSetting.Storyboard.deleteStoryboardItemById(item_id)
         });
+    };
+
+    const updateLocalData = () => {
+        const newDatas = [...items];
+        setItems(newDatas);
     };
 
     return (
@@ -132,11 +179,14 @@ export default function StoryboardEditContainer() {
                 open,
                 setOpen,
                 items,
+                setItems,
                 storyboard,
                 setStoryboard,
                 handleUpdateStoryboard,
                 handleUpdateStoryboardItem,
-                handleDeleteStoryboardItem
+                handleDeleteStoryboardItem,
+                updateLocalData,
+                setCurrectPosition
             }}
         />
     );

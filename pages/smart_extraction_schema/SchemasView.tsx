@@ -18,6 +18,7 @@ interface SchemasViewProps {
     open: boolean;
     setOpen: any;
     allSchemas: [];
+    setAllSchemas: any;
     meta: any;
     search: any;
     showAllSchemasHandler: any;
@@ -25,6 +26,8 @@ interface SchemasViewProps {
     getAllLabelsData: any;
     users?: any;
     handleDeleteSchema: any;
+    currectLabel: any;
+    setCurrectLabel: any;
 }
 
 function SchemasView(props: SchemasViewProps) {
@@ -32,13 +35,16 @@ function SchemasView(props: SchemasViewProps) {
         open,
         setOpen,
         allSchemas,
+        setAllSchemas,
         meta,
         search,
         showAllSchemasHandler,
         showHasLabelSchemasHandler,
         getAllLabelsData,
         users,
-        handleDeleteSchema
+        handleDeleteSchema,
+        currectLabel,
+        setCurrectLabel
     } = props;
     const router = useRouter();
     const { setAlert } = useAlert();
@@ -46,7 +52,7 @@ function SchemasView(props: SchemasViewProps) {
     return (
         <>
             <SingleActionModel
-                open={open}
+                open={false}
                 setOpen={setOpen}
                 {...{
                     title: '正在進行中',
@@ -127,35 +133,48 @@ function SchemasView(props: SchemasViewProps) {
                             </div>
                         </div>
                         <div className="w-full">
-                            <InfiniteScroll
-                                dataLength={allSchemas?.length} //This is important field to render the next data
-                                next={showAllSchemasHandler}
-                                hasMore={meta?.next_page != null}
-                                height={'auto'}
-                                // className="max-h-[50vh] sm:max-h-[60vh]"
-                                style={{ maxHeight: '80vh' }}
-                                loader={
-                                    <p className="p-4 text-center">
-                                        <b>載入中...</b>
-                                    </p>
-                                }
-                                endMessage={
-                                    <p className="p-4 text-gray-300 text-center">沒有更多資料</p>
-                                }
-                            >
-                                {allSchemas?.map((schema: any, index: number) => {
-                                    return (
-                                        <SchemaTableRow
-                                            key={index}
-                                            schema={schema}
-                                            setCurrectShema={setCurrectShema}
-                                            getAllLabelsData={getAllLabelsData}
-                                            users={users}
-                                            handleDeleteSchema={handleDeleteSchema}
-                                        />
-                                    );
-                                })}
-                            </InfiniteScroll>
+                            {allSchemas?.length != 0 ? (
+                                <InfiniteScroll
+                                    dataLength={allSchemas?.length} //This is important field to render the next data
+                                    next={showAllSchemasHandler}
+                                    hasMore={meta?.next_page != null}
+                                    height={'auto'}
+                                    // className="max-h-[50vh] sm:max-h-[60vh]"
+                                    style={{ maxHeight: '80vh', minHeight: '50vh' }}
+                                    loader={
+                                        <p className="p-4 text-center">
+                                            <b>載入中...</b>
+                                        </p>
+                                    }
+                                    endMessage={
+                                        <p className="p-4 text-gray-300 text-center">沒有更多資料</p>
+                                    }
+                                >
+                                    {allSchemas?.map((schema: any, index: number) => {
+                                        return (
+                                            <SchemaTableRow
+                                                key={index}
+                                                schema={schema}
+                                                setCurrectShema={setCurrectShema}
+                                                getAllLabelsData={getAllLabelsData}
+                                                users={users}
+                                                handleDeleteSchema={handleDeleteSchema}
+                                            />
+                                        );
+                                    })}
+                                </InfiniteScroll>
+                            ) : (
+                                <div className="py-4 items-center justify-center flex">
+                                    {
+                                        open
+                                            ? '載入中...'
+                                            :
+                                            allSchemas.length == 0
+                                                ? '沒有檔案'
+
+                                                : 'Error'}
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -165,6 +184,9 @@ function SchemasView(props: SchemasViewProps) {
                         schema={currectSchema}
                         setShema={setCurrectShema}
                         showHasLabelSchemasHandler={showHasLabelSchemasHandler}
+                        label={currectLabel?.name}
+                        setCurrectLabel={setCurrectLabel}
+                        setAllSchemas={setAllSchemas}
                     />
                 </div>
             </div>

@@ -171,7 +171,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                             {formDatum && formDatum.length > 0 && (
                                 <div className="my-1">
                                     <BButton
-                                        name="統計問題"
+                                        name="統計"
                                         onClick={() => {
                                             setVisibleGenerateStatistics(true);
                                         }}
@@ -328,7 +328,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
             />
             <GenerateChartModal
-                title={'統計問題'}
+                title={'統計'}
                 // description={'基於你所選取的文件進行智能分析預計報告生成'}
                 // placeholder={`幫我總結一下各個部門的會議紀錄情況？`}
                 description={'基於你輸入的問題進行分析並得出統計結果'}
