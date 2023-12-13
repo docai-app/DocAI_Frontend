@@ -70,12 +70,12 @@ export default function StoryboardEditView(props: ViewProps) {
     const edit = (item: any, position: number) => {
         setVisableInputStoryboard(true);
         setCurrectItemItem(item);
-        setCurrectPosition(position)
+        setCurrectPosition(position);
     };
     const remove = (item: any, position: number) => {
         setVisableDelete(true);
         setCurrectItemItem(item);
-        setCurrectPosition(position)
+        setCurrectPosition(position);
     };
     const preview = (item: any) => {
         if ('chart' == item?.item_type) {
@@ -107,13 +107,12 @@ export default function StoryboardEditView(props: ViewProps) {
                         }}
                     />
 
-                    <div className=' bg-report-t  bg-cover  px-4 sm:px-6 lg:px-8 py-6 min-h-screen'>
+                    <div className=" bg-report-t  bg-cover  px-4 sm:px-6 lg:px-8 py-6 min-h-screen">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="min-w-4xl mx-auto text-center">
                                 <input
                                     type={'text'}
                                     className=" text-3xl text-center font-extrabold rounded-md border-0 py-2 pl-4   text-white bg-transparent  placeholder:text-gray-400 "
-
                                     placeholder="輸入名稱..."
                                     defaultValue={storyboard?.title}
                                     onChange={(e) => {
@@ -123,10 +122,9 @@ export default function StoryboardEditView(props: ViewProps) {
                                         });
                                     }}
                                 />
-
                             </div>
                         </div>
-                        <div>
+                        <div className='hidden'>
                             <p className="text-xl py-2 text-gray-500">
                                 <input
                                     type={'text'}
@@ -142,7 +140,7 @@ export default function StoryboardEditView(props: ViewProps) {
                                 />
                             </p>
                         </div>
-                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 mt-2 pb-6"  >
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 mt-2 pb-6">
                             {items?.map((item: any, index: number) => {
                                 return (
                                     <div key={index}>
@@ -165,14 +163,17 @@ export default function StoryboardEditView(props: ViewProps) {
                                     </div>
                                 );
                             })}
-                            <StoryboardStatisticItemView item={null} edit={null} remove={null}
+                            <StoryboardStatisticItemView
+                                item={null}
+                                edit={null}
+                                remove={null}
                                 add={() => {
-                                    setCurrectPosition(-1)
-                                    setVisableCreateStoryboard(true)
-                                }} />
+                                    setCurrectPosition(-1);
+                                    setVisableCreateStoryboard(true);
+                                }}
+                            />
                         </div>
                     </div>
-
 
                     <div className="w-full my-2 hidden">
                         <label>名稱:</label>
@@ -301,7 +302,7 @@ export default function StoryboardEditView(props: ViewProps) {
                     }}
                 />
             )}
-            {visableInputStoryboard &&
+            {visableInputStoryboard && (
                 <InputStoryboardModal
                     visable={visableInputStoryboard}
                     description={'編輯儲存資料'}
@@ -310,7 +311,9 @@ export default function StoryboardEditView(props: ViewProps) {
                         description: currectItem?.description
                     }}
                     report={
-                        'chart' == currectItem?.item_type ? '' : (currectItem?.data || currectItem?.name)
+                        'chart' == currectItem?.item_type
+                            ? ''
+                            : currectItem?.data || currectItem?.name
                     }
                     cancelClick={() => {
                         setVisableInputStoryboard(false);
@@ -322,7 +325,7 @@ export default function StoryboardEditView(props: ViewProps) {
                         handleUpdateStoryboardItem(currectItem?.id, data);
                     }}
                 />
-            }
+            )}
             <MyModal
                 visable={visableDelete}
                 description={`是否刪除?`}

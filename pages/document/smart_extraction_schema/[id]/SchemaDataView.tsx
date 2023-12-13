@@ -164,7 +164,12 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                             setReport('');
                                             setVisibleGenerateChart(true);
                                         }}
-                                        icon={<img src={'../../intelligent_white.png'} className="w-6 mr-2" />}
+                                        icon={
+                                            <img
+                                                src={'../../intelligent_white.png'}
+                                                className="w-6 mr-2"
+                                            />
+                                        }
                                     />
                                 </div>
                             )}
@@ -175,7 +180,12 @@ function SchemaDataView(props: SchemaDataViewProps) {
                                         onClick={() => {
                                             setVisibleGenerateStatistics(true);
                                         }}
-                                        icon={<img src={'../../intelligent_white.png'} className="w-6 mr-2" />}
+                                        icon={
+                                            <img
+                                                src={'../../intelligent_white.png'}
+                                                className="w-6 mr-2"
+                                            />
+                                        }
                                     />
                                 </div>
                             )}

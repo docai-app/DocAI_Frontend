@@ -1,4 +1,4 @@
-import Dropdowns from "./Dropdowns";
+import Dropdowns from './Dropdowns';
 
 interface Props {
     item: any;
@@ -12,7 +12,7 @@ export default function StoryboardStatisticItemView(props: Props) {
     return (
         <>
             <div className=" relative h-full rounded-md border border-gray-300 bg-white px-4 py-2 shadow-sm flex items-start space-x-3  focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                {item != null ?
+                {item != null ? (
                     <>
                         <div className=" min-h-[300px]">
                             <p className="text-md font-medium text-gray-900">{item?.query}</p>
@@ -22,21 +22,20 @@ export default function StoryboardStatisticItemView(props: Props) {
                                 ))}
                             </div>
                         </div>
-                        {isEdit &&
-                            <div className=' absolute top-2 right-2'>
-                                <Dropdowns
-                                    edit={edit}
-                                    remove={remove}
-                                />
+                        {isEdit && (
+                            <div className=" absolute top-2 right-2">
+                                <Dropdowns edit={edit} remove={remove} />
                             </div>
-                        }
+                        )}
                     </>
-                    :
-                    <div className="w-full min-h-[300px] flex justify-center items-center cursor-pointer" onClick={add}>
+                ) : (
+                    <div
+                        className="w-full min-h-[300px] flex justify-center items-center cursor-pointer"
+                        onClick={add}
+                    >
                         <p className="text-4xl   text-gray-400 ">+</p>
                     </div>
-                }
-
+                )}
             </div>
         </>
     );

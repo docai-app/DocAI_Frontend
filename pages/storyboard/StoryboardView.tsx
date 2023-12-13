@@ -90,9 +90,21 @@ export default function StoryboardView(props: ViewProps) {
                                         </th>
                                         <th
                                             scope="col"
-                                            className="py-3.5  px-2 w-3/12 text-left text-sm font-semibold text-gray-900 "
+                                            className="py-3.5  px-2 w-3/12 text-left text-sm font-semibold text-gray-900 hidden"
                                         >
                                             描述
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="py-3.5  px-2 w-2/12 text-left text-sm font-semibold text-gray-900"
+                                        >
+                                            創建時間
+                                        </th>
+                                        <th
+                                            scope="col"
+                                            className="py-3.5  px-2 w-2/12 text-left text-sm font-semibold text-gray-900"
+                                        >
+                                            更新時間
                                         </th>
                                         <th
                                             scope="col"

@@ -9,20 +9,21 @@ import Api from '../../../apis';
 import useAlert from '../../../hooks/useAlert';
 import SingleActionModel from '../../common/Widget/SingleActionModel';
 
-
 const apiSetting = new Api();
 
 export default function SelectSchemaAndInputModal(props: any) {
     const cancelButtonRef = useRef(null);
-    const [smart_extraction_schema_id, set_smart_extraction_schema_id] = useState('')
-    const [open, setOpen] = useState(false)
+    const [smart_extraction_schema_id, set_smart_extraction_schema_id] = useState('');
+    const [open, setOpen] = useState(false);
     const { setAlert } = useAlert();
-    const [query, setQuery] = useState('')
-    const [item_type, setItemType] = useState('statistics')
+    const [query, setQuery] = useState('');
+    const [item_type, setItemType] = useState('statistics');
     const [page, setPage] = useState(1);
     const [allSchemas, setAllSchemas] = useState<any>([]);
     const [meta, setMeta] = useState();
-    const [options, setOptions] = useState<any>([])
+    const [options, setOptions] = useState<any>([]);
+    const [error, setError] = useState('')
+    const [value, setValue] = useState<any>()
 
     const [{ data: generateChartData, loading: generateChartLoading }, generateChart] = useAxios(
         '',
@@ -33,7 +34,6 @@ export default function SelectSchemaAndInputModal(props: any) {
         { data: generateStatisticsData, loading: generateStatisticsLoading },
         generateStatistics
     ] = useAxios(apiSetting.SmartExtractionSchemas.generateStatistics('', ''), { manual: true });
-
 
     const [{ data: getSmartExtractionSchemasData, loading: loading }, getSmartExtractionSchemas] =
         useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas('', page), {
@@ -51,19 +51,18 @@ export default function SelectSchemaAndInputModal(props: any) {
         }
     ];
 
-
     useEffect(() => {
         getSmartExtractionSchemas(
             apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas('', page)
         ).then((res) => {
             const options = res.data.smart_extraction_schemas?.map((schema: any) => {
-                return ({
+                return {
                     value: schema.id,
                     label: schema.name
-                })
-            })
-            setOptions(options)
-        })
+                };
+            });
+            setOptions(options);
+        });
     }, []);
 
     // useEffect(() => {
@@ -75,7 +74,7 @@ export default function SelectSchemaAndInputModal(props: any) {
     //             setAllSchemas(
     //                 allSchemas.concat(getSmartExtractionSchemasData.smart_extraction_schemas)
     //             );
-    //         } 
+    //         }
     //     }
     // }, [getSmartExtractionSchemasData]);
 
@@ -83,10 +82,9 @@ export default function SelectSchemaAndInputModal(props: any) {
         setPage((page) => page + 1);
     }, []);
 
-
     const handlerGenerateChart = async (query: string) => {
         // console.log('query', query);
-        // console.log('form_data_ids', form_data_ids); 
+        // console.log('form_data_ids', form_data_ids);
         if (query) {
             setOpen(true);
 
@@ -96,12 +94,12 @@ export default function SelectSchemaAndInputModal(props: any) {
             if (res.data.success) {
                 props?.setVisibleHtmlCode(true);
                 props?.setData(res.data.chart);
-                props.cancelClick()
+                props.cancelClick();
                 props?.setCurrectItemItem({
                     item_type: item_type,
                     data: res.data.chart,
                     id: res.data.item_id
-                })
+                });
                 // setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
@@ -113,7 +111,7 @@ export default function SelectSchemaAndInputModal(props: any) {
 
     const handlerGenerateStatistics = async (query: string) => {
         // console.log('query', query);
-        // console.log('form_data_ids', form_data_ids); 
+        // console.log('form_data_ids', form_data_ids);
         if (query) {
             setOpen(true);
             const res = await generateStatistics(
@@ -126,12 +124,12 @@ export default function SelectSchemaAndInputModal(props: any) {
                 // console.log(res.data.report);
                 props?.setVisibleHtmlToPdf(true);
                 props?.setData(res.data.report);
-                props.cancelClick()
+                props.cancelClick();
                 props?.setCurrectItemItem({
                     item_type: item_type,
                     data: res.data.report,
                     id: res.data.item_id
-                })
+                });
                 // setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
@@ -145,34 +143,44 @@ export default function SelectSchemaAndInputModal(props: any) {
     };
 
     const confirmClick = () => {
-        if (item_type == 'chart') {
-            handlerGenerateChart(query)
-        } else if (item_type == 'statistics') {
-            handlerGenerateStatistics(query)
+        if (!smart_extraction_schema_id) {
+            setError('請選擇Schema')
+            return
         }
-    }
+        if (!query) {
+            setError('請輸入問題')
+            return
+        }
+        setError('')
+        if (item_type == 'chart') {
+            handlerGenerateChart(query);
+        } else if (item_type == 'statistics') {
+            handlerGenerateStatistics(query);
+        }
+    };
 
     async function loadOptions(search: any, loadOptions: any, { page }: any) {
         const res = await getSmartExtractionSchemas(
-            apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas('', loadOptions && loadOptions.length == 0 ? 1 : page)
-        )
+            apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(
+                '',
+                loadOptions && loadOptions.length == 0 ? 1 : page
+            )
+        );
         const _options = res.data.smart_extraction_schemas?.map((schema: any) => {
-            return ({
+            return {
                 value: schema.id,
                 label: schema.name
-            })
-        })
-        setPage((page) => page + 1)
-        if (_options && _options.length > 0)
-            setOptions(_.concat(loadOptions, _options))
+            };
+        });
+        setPage((page) => page + 1);
+        if (_options && _options.length > 0) setOptions(_.concat(loadOptions, _options));
         return {
             options: _options,
             hasMore: res.data.meta?.next_page != null,
             additional: {
-                page: page + 1,
-            },
+                page: page + 1
+            }
         };
-
     }
 
     return (
@@ -224,7 +232,7 @@ export default function SelectSchemaAndInputModal(props: any) {
                                 <div className="sm:flex sm:items-center justify-center">
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <div className="mt-2">
-                                            <p className="text-2xl text-black">{"添加數據"}</p>
+                                            <p className="text-2xl text-black">{'添加數據'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -238,11 +246,13 @@ export default function SelectSchemaAndInputModal(props: any) {
                                         loadOptions={loadOptions}
                                         defaultOptions={options}
                                         options={options}
+                                        value={value}
                                         onChange={(option: any) => {
-                                            set_smart_extraction_schema_id(option?.value)
+                                            setValue(option)
+                                            set_smart_extraction_schema_id(option?.value);
                                         }}
                                         additional={{
-                                            page: page + 1,
+                                            page: page + 1
                                         }}
                                         shouldLoadMore={(scrollHeight, clientHeight, scrollTop) => {
                                             return scrollHeight - scrollTop < 1000;
@@ -253,7 +263,7 @@ export default function SelectSchemaAndInputModal(props: any) {
                                         className="flex-1 ml-4 border border-gray-300 rounded-md hidden"
                                         defaultValue={allSchemas[0]?.id}
                                         onChange={(e) => {
-                                            set_smart_extraction_schema_id(e.target.value)
+                                            set_smart_extraction_schema_id(e.target.value);
                                         }}
                                     >
                                         <option
@@ -276,14 +286,12 @@ export default function SelectSchemaAndInputModal(props: any) {
                                     </select>
                                 </div>
                                 <div className="w-full mt-4 flex flex-row items-center">
-                                    <label className="text-sm text-right w-[50px]">
-                                        {'类型'}:
-                                    </label>
+                                    <label className="text-sm text-right w-[50px]">{'类型'}:</label>
                                     <select
                                         className="flex-1 ml-4 border border-gray-300 rounded-md  "
                                         defaultValue={'statistics'}
                                         onChange={(e) => {
-                                            setItemType(e.target.value)
+                                            setItemType(e.target.value);
                                         }}
                                     >
                                         {data_types?.map((item: any, index: number) => {
@@ -307,12 +315,15 @@ export default function SelectSchemaAndInputModal(props: any) {
                                         type={'text'}
                                         name="signature"
                                         className="flex-1 ml-4 rounded-md mr-0  border border-gray-300"
-                                        placeholder='輸入你的問題...'
+                                        placeholder="輸入你的問題..."
                                         defaultValue={''}
                                         onChange={(e) => {
-                                            setQuery(e.target.value)
+                                            setQuery(e.target.value);
                                         }}
                                     ></input>
+                                </div>
+                                <div className="w-full my-2 flex flex-row items-center flex-wrap justify-center">
+                                    <label className="text-sm text-red-500 text-center">{error}</label>
                                 </div>
                                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                     <button
@@ -340,7 +351,7 @@ export default function SelectSchemaAndInputModal(props: any) {
                         </Transition.Child>
                     </div>
                 </Dialog>
-            </Transition.Root >
+            </Transition.Root>
         </>
     );
 }

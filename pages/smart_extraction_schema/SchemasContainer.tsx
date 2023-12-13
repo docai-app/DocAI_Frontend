@@ -16,7 +16,7 @@ export default function ScheamDataContainer() {
     const [page, setPage] = useState(1);
     const [users, setUsers] = useState<any>([]);
     const [has_label, set_has_label] = useState('');
-    const [currectLabel, setCurrectLabel] = useState<any>()
+    const [currectLabel, setCurrectLabel] = useState<any>();
 
     const [{ data: getSmartExtractionSchemasData, loading: loading }, getSmartExtractionSchemas] =
         useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page), {
@@ -39,7 +39,10 @@ export default function ScheamDataContainer() {
     });
 
     const [
-        { data: getSmartExtractionSchemasByLabelData, loading: getSmartExtractionSchemasByLabelLoading },
+        {
+            data: getSmartExtractionSchemasByLabelData,
+            loading: getSmartExtractionSchemasByLabelLoading
+        },
         getSmartExtractionSchemasByLabel
     ] = useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
         manual: true
@@ -84,7 +87,6 @@ export default function ScheamDataContainer() {
         }
     }, [router, page, has_label, currectLabel]);
 
-
     useEffect(() => {
         if (getSmartExtractionSchemasData && getSmartExtractionSchemasData.success) {
             setMeta(getSmartExtractionSchemasData.meta);
@@ -110,8 +112,8 @@ export default function ScheamDataContainer() {
     }, []);
 
     const search = (label: any) => {
-        setCurrectLabel(label)
-        setAllSchemas([])
+        setCurrectLabel(label);
+        setAllSchemas([]);
         // router.push({
         //     pathname: `/smart_extraction_schema/label/${label?.id}`,
         //     query: { label: label.name }

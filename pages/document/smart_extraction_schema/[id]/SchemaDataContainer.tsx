@@ -173,7 +173,7 @@ export default function ScheamDataContainer() {
         }
     }, [getTagByIdData]);
 
-    useEffect(() => { }, []);
+    useEffect(() => {}, []);
 
     const showAllItemsHandler = useCallback(async () => {
         setPage((page) => page + 1);

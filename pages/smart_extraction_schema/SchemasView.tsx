@@ -100,8 +100,9 @@ function SchemasView(props: SchemasViewProps) {
                                         <Menu.Item>
                                             {({ active }) => (
                                                 <button
-                                                    className={`${active ? 'bg-gray-100' : ''
-                                                        } p-2 rounded-md w-full text-left flex flex-row items-center`}
+                                                    className={`${
+                                                        active ? 'bg-gray-100' : ''
+                                                    } p-2 rounded-md w-full text-left flex flex-row items-center`}
                                                     onClick={() => {
                                                         // setMode('newFolder');
                                                     }}
@@ -147,7 +148,9 @@ function SchemasView(props: SchemasViewProps) {
                                         </p>
                                     }
                                     endMessage={
-                                        <p className="p-4 text-gray-300 text-center">沒有更多資料</p>
+                                        <p className="p-4 text-gray-300 text-center">
+                                            沒有更多資料
+                                        </p>
                                     }
                                 >
                                     {allSchemas?.map((schema: any, index: number) => {
@@ -165,14 +168,11 @@ function SchemasView(props: SchemasViewProps) {
                                 </InfiniteScroll>
                             ) : (
                                 <div className="py-4 items-center justify-center flex">
-                                    {
-                                        open
-                                            ? '載入中...'
-                                            :
-                                            allSchemas.length == 0
-                                                ? '沒有檔案'
-
-                                                : 'Error'}
+                                    {open
+                                        ? '載入中...'
+                                        : allSchemas.length == 0
+                                        ? '沒有檔案'
+                                        : 'Error'}
                                 </div>
                             )}
                         </div>

@@ -101,7 +101,7 @@ export default function StoryboardItemsView(props: ViewProps) {
                                         query: {
                                             item_ids: item_ids
                                         }
-                                    })
+                                    });
                                 }}
                             />
                         </div>

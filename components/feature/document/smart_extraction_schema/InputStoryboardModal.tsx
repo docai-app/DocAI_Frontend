@@ -11,7 +11,7 @@ export default function InputStoryboardModal(props: any) {
         description: '',
         data: ''
     });
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
     useEffect(() => {
         setData({
             name: '',
@@ -42,11 +42,11 @@ export default function InputStoryboardModal(props: any) {
             setError('請填寫名稱');
             return;
         }
-        if (!data?.description) {
-            setError('請填寫描述');
-            return;
-        }
-        setError('')
+        // if (!data?.description) {
+        //     setError('請填寫描述');
+        //     return;
+        // }
+        setError('');
         props.confirmClick(data);
     };
     return (
@@ -109,7 +109,7 @@ export default function InputStoryboardModal(props: any) {
                                     }}
                                 ></input>
                             </div>
-                            <div className="w-full my-2 flex flex-row items-center flex-wrap">
+                            <div className="w-full my-2 flex flex-row items-center flex-wrap hidden">
                                 <label className="text-sm text-left">{'描述'}:</label>
                                 <input
                                     type={'text'}

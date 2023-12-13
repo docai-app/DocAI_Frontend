@@ -13,7 +13,7 @@ export default function StoryboardEditContainer() {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<any>([]);
     const [storyboard, setStoryboard] = useState<any>();
-    const [currectPosition, setCurrectPosition] = useState(0)
+    const [currectPosition, setCurrectPosition] = useState(0);
 
     const [{ data: createStoryboardData, loading: createStoryboardLoading }, createStoryboard] =
         useAxios(apiSetting.Storyboard.createStoryboard(), {
@@ -124,11 +124,10 @@ export default function StoryboardEditContainer() {
         });
     };
 
-
     useEffect(() => {
         if (updateStoryboardItemByIdData && updateStoryboardItemByIdData.success) {
             if (currectPosition == -1) {
-                items.push(updateStoryboardItemByIdData.storyboard_item)
+                items.push(updateStoryboardItemByIdData.storyboard_item);
                 setAlert({ title: '添加成功', type: 'success' });
             } else {
                 items.splice(currectPosition, 1, updateStoryboardItemByIdData.storyboard_item);
@@ -154,7 +153,7 @@ export default function StoryboardEditContainer() {
     useEffect(() => {
         if (deleteStoryboardItemByIdData && deleteStoryboardItemByIdData.success) {
             // setAlert({ title: '刪除成功', type: 'success' });
-            // router.reload(); 
+            // router.reload();
         } else if (deleteStoryboardItemByIdData && !deleteStoryboardItemByIdData.success) {
             setAlert({ title: deleteStoryboardItemByIdData.error, type: 'error' });
         }
