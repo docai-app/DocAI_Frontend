@@ -16,6 +16,7 @@ import useAlert from '../../../../hooks/useAlert';
 import HtmlCodeModal from '../../../common/Widget/HtmlCodeModal';
 import HtmlToPdfModal from '../../../common/Widget/HtmlToPdfModal';
 import SingleActionModel from '../../../common/Widget/SingleActionModel';
+import InputStoryboardModal from './InputStoryboardModal';
 
 interface Props {
     label?: any;
@@ -24,12 +25,23 @@ interface Props {
     getAllLabelsData?: any;
     search?: any;
     showHasLabelSchemasHandler?: any;
+    setCurrectLabel?: any;
+    setAllSchemas?: any;
 }
 
 const apiSetting = new Api();
 
 export default function SearchLabelSearchForm(props: Props) {
-    const { label, schema, setShema, getAllLabelsData, search, showHasLabelSchemasHandler } = props;
+    const {
+        label,
+        schema,
+        setShema,
+        getAllLabelsData,
+        search,
+        showHasLabelSchemasHandler,
+        setCurrectLabel,
+        setAllSchemas
+    } = props;
     const { setAlert } = useAlert();
     const [visible, setVisible] = useState(true);
     const [visableGenerateChart, setVisibleGenerateChart] = useState(false);
@@ -39,7 +51,8 @@ export default function SearchLabelSearchForm(props: Props) {
     const [chart, setChart] = useState({});
     const [open, setOpen] = useState(false);
     const [modalDescription, setModalDescription] = useState<any>({});
-
+    const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
+    const [currentStoryboardItemId, setCurrentStoryboardItemId] = useState('');
     const [tags, setTags] = useState<any>([]);
     const [showHasLabelByFalse, setShowHasLabelByFalse] = useState(false);
     const [visableHtmlToPdf, setVisibleHtmlToPdf] = useState(false);
@@ -66,6 +79,13 @@ export default function SearchLabelSearchForm(props: Props) {
         generateStatistics
     ] = useAxios('', { manual: true });
 
+    const [
+        { data: updateStoryboardItemByIdData, loading: updateStoryboardItemByIdLoading },
+        updateStoryboardItemById
+    ] = useAxios(apiSetting.Storyboard.updateStoryboardItemById(''), {
+        manual: true
+    });
+
     const handlerGenerateChart = async (smart_extraction_schema_id: string, query: string) => {
         console.log('query', query);
         console.log('smart_extraction_schema_id', smart_extraction_schema_id);
@@ -74,7 +94,7 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成圖表,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateChart(
                 apiSetting.SmartExtractionSchemas.generateChart(smart_extraction_schema_id, query)
@@ -82,6 +102,7 @@ export default function SearchLabelSearchForm(props: Props) {
             if (res.data.success) {
                 setVisibleHtmlCode(true);
                 setChart(res.data.chart);
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.chart, type: 'error' });
@@ -98,7 +119,7 @@ export default function SearchLabelSearchForm(props: Props) {
             setOpen(true);
             setModalDescription({
                 title: '進行中......',
-                content: '正在生成統計數據,請耐心等候...'
+                content: '請耐心等候...'
             });
             const res = await generateStatistics(
                 apiSetting.SmartExtractionSchemas.generateStatistics(
@@ -109,12 +130,40 @@ export default function SearchLabelSearchForm(props: Props) {
             if (res.data.success) {
                 setVisibleHtmlToPdf(true);
                 setReport(res.data.report);
+                setCurrentStoryboardItemId(res.data.item_id);
             } else {
                 console.log(res.data);
                 setAlert({ title: res.data.report, type: 'error' });
             }
             setOpen(false);
         }
+    };
+
+    const handleUpdateStoryboardItem = (data: any) => {
+        if (!currentStoryboardItemId) return;
+        // console.log(data);
+        // console.log(currentStoryboardItemId);
+        setOpen(true);
+        setModalDescription({
+            title: '進行中......',
+            content: '正在儲存結果,請耐心等候...'
+        });
+        updateStoryboardItemById({
+            ...apiSetting.Storyboard.updateStoryboardItemById(currentStoryboardItemId),
+            data: {
+                ...data,
+                is_ready: true,
+                status: 1
+            }
+        }).then((res: any) => {
+            // console.log(res.data);
+            setOpen(false);
+            if (res.data.success) {
+                setAlert({ title: '儲存成功!', type: 'success' });
+            } else {
+                setAlert({ title: res.data.error, type: 'error' });
+            }
+        });
     };
 
     return (
@@ -141,7 +190,9 @@ export default function SearchLabelSearchForm(props: Props) {
                             <button
                                 className="border rounded-md pr-4 pl-2 py-1 mx-2 flex flex-row items-center"
                                 onClick={() => {
-                                    Router.push('/smart_extraction_schema');
+                                    // Router.push('/smart_extraction_schema');
+                                    setCurrectLabel('');
+                                    setAllSchemas([]);
                                 }}
                             >
                                 <XMarkIcon className="w-4 mr-2" />
@@ -159,6 +210,9 @@ export default function SearchLabelSearchForm(props: Props) {
                                 onClick={() => {
                                     setShowHasLabelByFalse(false);
                                     showHasLabelSchemasHandler('');
+                                    setCurrectLabel('');
+                                    setAllSchemas([]);
+                                    setShema(null);
                                 }}
                             >
                                 <XMarkIcon className="w-4 mr-2" />
@@ -189,6 +243,8 @@ export default function SearchLabelSearchForm(props: Props) {
                                         setShema(null);
                                         setShowHasLabelByFalse(true);
                                         showHasLabelSchemasHandler(false);
+                                        setCurrectLabel('');
+                                        setAllSchemas([]);
                                     }}
                                 >
                                     <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
@@ -202,7 +258,10 @@ export default function SearchLabelSearchForm(props: Props) {
                                         <div key={index}>
                                             <button
                                                 className=" cursor-pointer bg-green-700 hover:bg-green-800 rounded-md text-white px-2 sm:px-4 py-1 mx-2 my-1  flex items-center   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
-                                                onClick={() => search(label)}
+                                                onClick={() => {
+                                                    setShema(null);
+                                                    search(label);
+                                                }}
                                             >
                                                 <TableCellsIcon className="mr-1 w-5 h-5 text-white" />
                                                 <label className=" cursor-pointer text-xs sm:text-sm">
@@ -255,9 +314,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                             }}
                                         >
                                             <ChartBarSquareIcon className="w-5 m-1 cursor-pointer" />
-                                            <label className="text-sm cursor-pointer">
-                                                生成圖表
-                                            </label>
+                                            <label className="text-sm cursor-pointer">圖表</label>
                                         </div>
                                         <div
                                             className="flex flex-row items-center p-1 hover:bg-gray-300 rounded-md mx-2 my-1 cursor-pointer"
@@ -266,9 +323,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                             }}
                                         >
                                             <NewspaperIcon className="w-5 m-1 cursor-pointer" />
-                                            <label className="text-sm cursor-pointer">
-                                                生成統計數據
-                                            </label>
+                                            <label className="text-sm cursor-pointer">統計</label>
                                         </div>
                                     </>
                                 ) : (
@@ -283,7 +338,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <ChartBarSquareIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    生成圖表
+                                                    圖表
                                                 </label>
                                             </div>
                                         )}
@@ -297,7 +352,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                                 <XMarkIcon className="w-4 mx-2 cursor-pointer" />
                                                 <NewspaperIcon className="w-5 m-1 cursor-pointer" />
                                                 <label className="text-sm cursor-pointer">
-                                                    生成統計數據
+                                                    統計
                                                 </label>
                                             </div>
                                         )}
@@ -320,7 +375,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                 type={'search'}
                                 name="signature"
                                 className="flex-1 mx-4 rounded-md"
-                                placeholder="例如：幫我用pie chart統計總結出各個部門的請假情況？"
+                                placeholder="輸入你的問題..."
                                 onChange={(e) => {
                                     setQuery(e.target.value);
                                 }}
@@ -350,7 +405,7 @@ export default function SearchLabelSearchForm(props: Props) {
                                 type={'search'}
                                 name="signature"
                                 className="flex-1 mx-4 rounded-md"
-                                placeholder="幫我總結一下各個部門的會議紀錄情況？"
+                                placeholder="輸入你的問題..."
                                 onChange={(e) => {
                                     setQuery(e.target.value);
                                 }}
@@ -374,18 +429,40 @@ export default function SearchLabelSearchForm(props: Props) {
             </div>
             <HtmlCodeModal
                 visable={visableHtmlCode}
-                description={'智能圖表'}
+                description={'結果'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
+                    setVisableInputStoryboard(true);
                 }}
                 chart={chart}
+                save={() => {
+                    setVisibleHtmlCode(false);
+                    setVisableInputStoryboard(true);
+                }}
             />
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計數據'}
+                title={'結果'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
+                    setVisableInputStoryboard(true);
+                }}
+                save={() => {
+                    setVisibleHtmlToPdf(false);
+                    setVisableInputStoryboard(true);
+                }}
+            />
+            <InputStoryboardModal
+                visable={visableInputStoryboard}
+                description={'編輯儲存資料'}
+                report={report}
+                cancelClick={() => {
+                    setVisableInputStoryboard(false);
+                }}
+                confirmClick={(data: any) => {
+                    setVisableInputStoryboard(false);
+                    handleUpdateStoryboardItem(data);
                 }}
             />
         </>

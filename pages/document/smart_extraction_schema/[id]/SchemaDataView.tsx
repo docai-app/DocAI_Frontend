@@ -1,5 +1,4 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { ChartBarSquareIcon, NewspaperIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -160,23 +159,33 @@ function SchemaDataView(props: SchemaDataViewProps) {
                             {formDatum && formDatum.length > 0 && (
                                 <div className="my-1">
                                     <BButton
-                                        name="生成圖表"
+                                        name="圖表"
                                         onClick={() => {
                                             setReport('');
                                             setVisibleGenerateChart(true);
                                         }}
-                                        icon={<ChartBarSquareIcon className="w-5 mr-2" />}
+                                        icon={
+                                            <img
+                                                src={'../../intelligent_white.png'}
+                                                className="w-6 mr-2"
+                                            />
+                                        }
                                     />
                                 </div>
                             )}
                             {formDatum && formDatum.length > 0 && (
                                 <div className="my-1">
                                     <BButton
-                                        name="生成統計數據"
+                                        name="統計"
                                         onClick={() => {
                                             setVisibleGenerateStatistics(true);
                                         }}
-                                        icon={<NewspaperIcon className="w-5 mr-2" />}
+                                        icon={
+                                            <img
+                                                src={'../../intelligent_white.png'}
+                                                className="w-6 mr-2"
+                                            />
+                                        }
                                     />
                                 </div>
                             )}
@@ -315,10 +324,13 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
             />
             <GenerateChartModal
+                title={'圖表'}
+                description={'基於你輸入的問題進行分析並生成圖表'}
+                placeholder={`輸入你的問題...`}
+                confirmText={'確認'}
                 visable={visableGenerateChart}
                 confirmClick={(query: string) => {
                     setVisibleGenerateChart(false);
-                    console.log(query);
                     handlerGenerateChart(query, form_data_ids);
                 }}
                 cancelClick={() => {
@@ -326,9 +338,12 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
             />
             <GenerateChartModal
-                title={'生成統計數據'}
-                description={'基於你所選取的文件進行智能分析預計報告生成'}
-                placeholder={`幫我總結一下各個部門的會議紀錄情況？`}
+                title={'統計'}
+                // description={'基於你所選取的文件進行智能分析預計報告生成'}
+                // placeholder={`幫我總結一下各個部門的會議紀錄情況？`}
+                description={'基於你輸入的問題進行分析並得出統計結果'}
+                placeholder={`輸入你的問題...`}
+                confirmText={'確認'}
                 visable={visableGenerateStatistics}
                 confirmClick={(query: string) => {
                     setVisibleGenerateStatistics(false);
@@ -341,7 +356,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
             />
             <HtmlCodeModal
                 visable={visableHtmlCode}
-                description={'圖表'}
+                description={'結果'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
                 }}
@@ -354,7 +369,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
 
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計數據'}
+                title={'結果'}
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);

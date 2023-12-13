@@ -82,14 +82,26 @@ export default function StoryboardItemsView(props: ViewProps) {
                     />
                     <header className="shadow bg-white flex justify-between items-center px-6 py-4">
                         <div className="  ">
-                            <label>選擇記錄生成故事板</label>
+                            <label>可選擇記錄創建故事板 或 新建空白故事板</label>
                         </div>
                         <div className="flex flex-row items-center justify-end flex-wrap">
                             <BButton
-                                name="生成故事板"
+                                name="確認創建"
                                 disable={!item_ids || item_ids.length == 0}
                                 onClick={() => {
                                     setVisableCreateStoryboard(true);
+                                }}
+                            />
+
+                            <BButton
+                                name="新建空白故事板"
+                                onClick={() => {
+                                    Router.push({
+                                        pathname: '/storyboard/edit',
+                                        query: {
+                                            item_ids: item_ids
+                                        }
+                                    });
                                 }}
                             />
                         </div>
@@ -175,7 +187,7 @@ export default function StoryboardItemsView(props: ViewProps) {
             )}
             <HtmlToPdfModal
                 visable={visableHtmlToPdf}
-                title={'統計數據'}
+                title={'統計'}
                 description={data}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
@@ -202,7 +214,8 @@ export default function StoryboardItemsView(props: ViewProps) {
             />
             <InputStoryboardModal
                 visable={visableCreateStoryboard}
-                description={'生成故事板'}
+                description={'創建故事板'}
+                confirmText={'確認'}
                 cancelClick={() => {
                     setVisableCreateStoryboard(false);
                 }}

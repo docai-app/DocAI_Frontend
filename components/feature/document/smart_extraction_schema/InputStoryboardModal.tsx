@@ -11,13 +11,14 @@ export default function InputStoryboardModal(props: any) {
         description: '',
         data: ''
     });
+    const [error, setError] = useState('');
     useEffect(() => {
         setData({
             name: '',
             description: '',
             data: ''
         });
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         if (props?.data) {
@@ -38,13 +39,14 @@ export default function InputStoryboardModal(props: any) {
 
     const validate = () => {
         if (!data?.name) {
-            setAlert({ title: '請填寫名稱', type: 'warning' });
+            setError('請填寫名稱');
             return;
         }
-        if (!data?.description) {
-            setAlert({ title: '請填寫描述', type: 'warning' });
-            return;
-        }
+        // if (!data?.description) {
+        //     setError('請填寫描述');
+        //     return;
+        // }
+        setError('');
         props.confirmClick(data);
     };
     return (
@@ -107,7 +109,7 @@ export default function InputStoryboardModal(props: any) {
                                     }}
                                 ></input>
                             </div>
-                            <div className="w-full my-2 flex flex-row items-center flex-wrap">
+                            <div className="w-full my-2 flex flex-row items-center flex-wrap hidden">
                                 <label className="text-sm text-left">{'描述'}:</label>
                                 <input
                                     type={'text'}
@@ -140,6 +142,9 @@ export default function InputStoryboardModal(props: any) {
                                     ></textarea>
                                 </div>
                             )}
+                            <div className="w-full my-2 flex flex-row items-center flex-wrap justify-center">
+                                <label className="text-sm text-red-500 text-center">{error}</label>
+                            </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
                                     type="button"

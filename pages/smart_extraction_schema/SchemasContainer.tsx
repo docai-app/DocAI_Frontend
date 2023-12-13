@@ -16,6 +16,7 @@ export default function ScheamDataContainer() {
     const [page, setPage] = useState(1);
     const [users, setUsers] = useState<any>([]);
     const [has_label, set_has_label] = useState('');
+    const [currectLabel, setCurrectLabel] = useState<any>();
 
     const [{ data: getSmartExtractionSchemasData, loading: loading }, getSmartExtractionSchemas] =
         useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page), {
@@ -37,9 +38,23 @@ export default function ScheamDataContainer() {
         manual: true
     });
 
+    const [
+        {
+            data: getSmartExtractionSchemasByLabelData,
+            loading: getSmartExtractionSchemasByLabelLoading
+        },
+        getSmartExtractionSchemasByLabel
+    ] = useAxios(apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel('', page), {
+        manual: true
+    });
+
     useEffect(() => {
         setOpen(loading);
     }, [loading]);
+
+    useEffect(() => {
+        setOpen(getSmartExtractionSchemasByLabelLoading);
+    }, [getSmartExtractionSchemasByLabelLoading]);
 
     useEffect(() => {
         getAllLabels();
@@ -51,11 +66,26 @@ export default function ScheamDataContainer() {
         }
     }, [getAllUsersData]);
 
+    // useEffect(() => {
+    //     getSmartExtractionSchemas(
+    //         apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page)
+    //     );
+    // }, [router, page, has_label]);
+
     useEffect(() => {
-        getSmartExtractionSchemas(
-            apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page)
-        );
-    }, [router, page, has_label]);
+        if (currectLabel) {
+            getSmartExtractionSchemasByLabel(
+                apiSetting.SmartExtractionSchemas.getSmartExtractionSchemasByLabel(
+                    currectLabel?.id,
+                    page
+                )
+            );
+        } else {
+            getSmartExtractionSchemas(
+                apiSetting.SmartExtractionSchemas.getSmartExtractionSchemas(has_label, page)
+            );
+        }
+    }, [router, page, has_label, currectLabel]);
 
     useEffect(() => {
         if (getSmartExtractionSchemasData && getSmartExtractionSchemasData.success) {
@@ -82,10 +112,12 @@ export default function ScheamDataContainer() {
     }, []);
 
     const search = (label: any) => {
-        router.push({
-            pathname: `/smart_extraction_schema/label/${label?.id}`,
-            query: { label: label.name }
-        });
+        setCurrectLabel(label);
+        setAllSchemas([]);
+        // router.push({
+        //     pathname: `/smart_extraction_schema/label/${label?.id}`,
+        //     query: { label: label.name }
+        // });
     };
 
     const handleDeleteSchema = (schema_id: string) => {
@@ -107,19 +139,35 @@ export default function ScheamDataContainer() {
         }
     }, [deleteSchemasData]);
 
+    useEffect(() => {
+        if (getSmartExtractionSchemasByLabelData && getSmartExtractionSchemasByLabelData.success) {
+            setMeta(getSmartExtractionSchemasByLabelData.meta);
+            if (page == 1) {
+                setAllSchemas(getSmartExtractionSchemasByLabelData.smart_extraction_schema);
+            } else {
+                setAllSchemas(
+                    allSchemas.concat(getSmartExtractionSchemasByLabelData.smart_extraction_schema)
+                );
+            }
+        }
+    }, [getSmartExtractionSchemasByLabelData]);
+
     return (
         <SchemasView
             {...{
                 open,
                 setOpen,
                 allSchemas,
+                setAllSchemas,
                 meta,
                 search,
                 showAllSchemasHandler,
                 showHasLabelSchemasHandler,
                 getAllLabelsData,
                 users,
-                handleDeleteSchema
+                handleDeleteSchema,
+                currectLabel,
+                setCurrectLabel
             }}
         />
     );
