@@ -112,7 +112,7 @@ export default function HtmlCodeModal(props: any) {
                                                 props?.save();
                                             }}
                                         >
-                                            {'儲存結果'}
+                                            {props?.confirmText || '儲存結果'}
                                         </button>
                                     )}
                                 </div>

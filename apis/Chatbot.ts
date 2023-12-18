@@ -13,26 +13,11 @@ export default class Chatbot {
         };
         return requestHeader;
     }
-    createChatbot(
-        name: string,
-        description: string,
-        is_public: boolean,
-        expired_at: string,
-        source: { folder_id: string[] },
-        chain_features: []
-    ) {
+    createChatbot() {
         const requestHeader: AxiosRequestConfig = {
             baseURL,
             url: '/api/v1/chatbots',
-            method: 'POST',
-            data: {
-                name,
-                description,
-                is_public,
-                expired_at,
-                source,
-                chain_features
-            }
+            method: 'POST'
         };
         return requestHeader;
     }
@@ -44,27 +29,11 @@ export default class Chatbot {
         };
         return requestHeader;
     }
-    updateChatbotById(
-        id: string,
-        name: string,
-        description: string,
-        is_public: boolean,
-        expired_at: string,
-        source: { folder_id: string[] },
-        chain_features: []
-    ) {
+    updateChatbotById(id: string) {
         const requestHeader: AxiosRequestConfig = {
             baseURL,
             url: `/api/v1/chatbots/${id}`,
-            method: 'PUT',
-            data: {
-                name,
-                description,
-                is_public,
-                expired_at,
-                source,
-                chain_features
-            }
+            method: 'PUT'
         };
         return requestHeader;
     }

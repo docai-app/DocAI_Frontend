@@ -128,7 +128,7 @@ export default function StoryboardEditContainer() {
         if (updateStoryboardItemByIdData && updateStoryboardItemByIdData.success) {
             if (currectPosition == -1) {
                 items.push(updateStoryboardItemByIdData.storyboard_item);
-                setAlert({ title: '添加成功', type: 'success' });
+                // setAlert({ title: '添加成功', type: 'success' });
             } else {
                 items.splice(currectPosition, 1, updateStoryboardItemByIdData.storyboard_item);
                 setAlert({ title: '修改成功', type: 'success' });
@@ -140,6 +140,7 @@ export default function StoryboardEditContainer() {
     }, [updateStoryboardItemByIdData]);
 
     const handleUpdateStoryboardItem = (item_id: string, data: any) => {
+        console.log(data);
         updateStoryboardItemById({
             ...apiSetting.Storyboard.updateStoryboardItemById(item_id),
             data: {

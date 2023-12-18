@@ -432,12 +432,16 @@ export default function SearchLabelSearchForm(props: Props) {
                 description={'結果'}
                 cancelClick={() => {
                     setVisibleHtmlCode(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
                 }}
                 chart={chart}
                 save={() => {
                     setVisibleHtmlCode(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
+                    handleUpdateStoryboardItem({
+                        name: query,
+                        description: ''
+                    });
                 }}
             />
             <HtmlToPdfModal
@@ -446,11 +450,16 @@ export default function SearchLabelSearchForm(props: Props) {
                 description={report}
                 cancelClick={() => {
                     setVisibleHtmlToPdf(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
                 }}
                 save={() => {
                     setVisibleHtmlToPdf(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
+                    handleUpdateStoryboardItem({
+                        name: query,
+                        description: '',
+                        data: report
+                    });
                 }}
             />
             <InputStoryboardModal
