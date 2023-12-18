@@ -1,6 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
 
-
 interface Props {
     defaultValue: any;
     onChange: any;
@@ -8,11 +7,7 @@ interface Props {
 }
 
 export default function SelectDropdown(props: Props) {
-    const {
-        defaultValue = "",
-        onChange,
-        options
-    } = props
+    const { defaultValue = '', onChange, options } = props;
     return (
         <select
             key={Date.now()}
@@ -24,11 +19,7 @@ export default function SelectDropdown(props: Props) {
         >
             {options?.map((item: any, index: number) => {
                 return (
-                    <option
-                        key={index}
-                        className="w-full border rounded-md  "
-                        value={item.value}
-                    >
+                    <option key={index} className="w-full border rounded-md  " value={item.value}>
                         {item.name}
                     </option>
                 );

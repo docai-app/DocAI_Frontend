@@ -12,7 +12,10 @@ function CreateContainer() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [multipleDest, setMultipleDest] = useState<Folder[]>([]);
-    const [{ data, loading: submitting, error }, createChatbot] = useAxios(apiSetting.Chatbot.createChatbot(), { manual: true });
+    const [{ data, loading: submitting, error }, createChatbot] = useAxios(
+        apiSetting.Chatbot.createChatbot(),
+        { manual: true }
+    );
     const [{ data: updateChatboxData, loading: updateing }, updateChatbot] = useAxios(
         {},
         { manual: true }
@@ -71,7 +74,7 @@ function CreateContainer() {
                     language: chatbot?.meta?.language,
                     tone: chatbot?.meta?.tone
                 }
-            })
+            });
             if (res.data?.success) router.push('/chatbot');
         }
     }, [router, chatbot, chain_feature_ids, multipleDest]);

@@ -162,7 +162,7 @@ function CreateView(props: CreateViewProps) {
                             </label>
                             <div className="mt-2 w-full">
                                 <SelectDropdown
-                                    defaultValue={chatbot?.meta?.language || "繁體中文"}
+                                    defaultValue={chatbot?.meta?.language || '繁體中文'}
                                     onChange={(value: any) => {
                                         setChatbot({
                                             ...chatbot,
@@ -170,16 +170,16 @@ function CreateView(props: CreateViewProps) {
                                                 ...chatbot?.meta,
                                                 language: value
                                             }
-                                        })
+                                        });
                                     }}
                                     options={[
                                         {
-                                            name: "繁體中文",
-                                            value: "繁體中文",
+                                            name: '繁體中文',
+                                            value: '繁體中文'
                                         },
                                         {
-                                            name: "英文",
-                                            value: "英文",
+                                            name: '英文',
+                                            value: '英文'
                                         }
                                     ]}
                                 />
@@ -191,7 +191,7 @@ function CreateView(props: CreateViewProps) {
                             </label>
                             <div className="mt-2 w-full">
                                 <SelectDropdown
-                                    defaultValue={chatbot?.meta?.tone || "正常"}
+                                    defaultValue={chatbot?.meta?.tone || '正常'}
                                     onChange={(value: any) => {
                                         setChatbot({
                                             ...chatbot,
@@ -199,20 +199,20 @@ function CreateView(props: CreateViewProps) {
                                                 ...chatbot?.meta,
                                                 tone: value
                                             }
-                                        })
+                                        });
                                     }}
                                     options={[
                                         {
-                                            name: "正常",
-                                            value: "正常",
+                                            name: '正常',
+                                            value: '正常'
                                         },
                                         {
-                                            name: "輕鬆",
-                                            value: "輕鬆",
+                                            name: '輕鬆',
+                                            value: '輕鬆'
                                         },
                                         {
-                                            name: "專業",
-                                            value: "專業",
+                                            name: '專業',
+                                            value: '專業'
                                         }
                                     ]}
                                 />

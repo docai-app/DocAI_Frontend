@@ -22,8 +22,8 @@ export default function SelectSchemaAndInputModal(props: any) {
     const [allSchemas, setAllSchemas] = useState<any>([]);
     const [meta, setMeta] = useState();
     const [options, setOptions] = useState<any>([]);
-    const [error, setError] = useState('')
-    const [value, setValue] = useState<any>()
+    const [error, setError] = useState('');
+    const [value, setValue] = useState<any>();
 
     const [{ data: generateChartData, loading: generateChartLoading }, generateChart] = useAxios(
         '',
@@ -146,14 +146,14 @@ export default function SelectSchemaAndInputModal(props: any) {
 
     const confirmClick = () => {
         if (!smart_extraction_schema_id) {
-            setError('請選擇Schema')
-            return
+            setError('請選擇Schema');
+            return;
         }
         if (!query) {
-            setError('請輸入問題')
-            return
+            setError('請輸入問題');
+            return;
         }
-        setError('')
+        setError('');
         if (item_type == 'chart') {
             handlerGenerateChart(query);
         } else if (item_type == 'statistics') {
@@ -250,7 +250,7 @@ export default function SelectSchemaAndInputModal(props: any) {
                                         options={options}
                                         value={value}
                                         onChange={(option: any) => {
-                                            setValue(option)
+                                            setValue(option);
                                             set_smart_extraction_schema_id(option?.value);
                                         }}
                                         additional={{
@@ -325,7 +325,9 @@ export default function SelectSchemaAndInputModal(props: any) {
                                     ></input>
                                 </div>
                                 <div className="w-full my-2 flex flex-row items-center flex-wrap justify-center">
-                                    <label className="text-sm text-red-500 text-center">{error}</label>
+                                    <label className="text-sm text-red-500 text-center">
+                                        {error}
+                                    </label>
                                 </div>
                                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                     <button

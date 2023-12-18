@@ -123,7 +123,7 @@ export default function StoryboardEditView(props: ViewProps) {
                                 />
                             </div>
                         </div>
-                        <div className='hidden'>
+                        <div className="hidden">
                             <p className="text-xl py-2 text-gray-500">
                                 <input
                                     type={'text'}
@@ -210,7 +210,7 @@ export default function StoryboardEditView(props: ViewProps) {
                 <HtmlCodeModal
                     visable={visableHtmlCode}
                     description={'圖表'}
-                    confirmText={"保存"}
+                    confirmText={'保存'}
                     cancelClick={() => {
                         setVisibleHtmlCode(false);
                         setData('');
@@ -230,7 +230,7 @@ export default function StoryboardEditView(props: ViewProps) {
                 <HtmlToPdfModal
                     visable={visableHtmlToPdf}
                     title={'統計'}
-                    confirmText={"保存"}
+                    confirmText={'保存'}
                     description={data}
                     cancelClick={() => {
                         setVisibleHtmlToPdf(false);

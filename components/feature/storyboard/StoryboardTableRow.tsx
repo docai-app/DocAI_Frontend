@@ -31,8 +31,12 @@ export default function StoryboardTableRow(props: TableRowProps) {
                 </td>
                 <td className="w-4/12 px-1 py-4 text-sm ">{item?.title}</td>
                 <td className="w-4/12  px-1  py-4 text-sm hidden ">{item?.description}</td>
-                <td className="w-2/12  px-1  py-4 text-sm ">{moment(item?.created_at).format('YYYY-MM-DD HH:mm')}</td>
-                <td className="w-2/12  px-1  py-4 text-sm ">{moment(item?.updated_at).format('YYYY-MM-DD HH:mm')}</td>
+                <td className="w-2/12  px-1  py-4 text-sm ">
+                    {moment(item?.created_at).format('YYYY-MM-DD HH:mm')}
+                </td>
+                <td className="w-2/12  px-1  py-4 text-sm ">
+                    {moment(item?.updated_at).format('YYYY-MM-DD HH:mm')}
+                </td>
                 {/* Add the storage_url to the data and open it in a new tab */}
                 <td className=" py-4 px-1 text-center w-2/12 text-sm font-medium text-gray-900 ">
                     <a
