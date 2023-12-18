@@ -79,7 +79,7 @@ export default function HtmlToPdfModal(props: any) {
                                     />
                                     {props?.save && (
                                         <BButton
-                                            name="儲存結果"
+                                            name={props?.confirmText || "儲存結果"}
                                             icon={
                                                 <ClipboardDocumentIcon className="h-5 w-5 text-white mr-2" />
                                             }

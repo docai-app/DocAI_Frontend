@@ -5,6 +5,7 @@ import moment from 'moment';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMultipleSelect from '../../../components/common/Widget/FolderTreeForMultipleSelect';
+import SelectDropdown from '../../../components/common/Widget/SelectDropdown';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
 import ChainFeatureSelect from '../../../components/feature/chatbot/ChainFeatureSelect';
 
@@ -154,6 +155,68 @@ function CreateView(props: CreateViewProps) {
                                 target_folder_id={target_folder_id}
                                 set_target_folder_id={set_target_folder_id}
                             /> */}
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                語言
+                            </label>
+                            <div className="mt-2 w-full">
+                                <SelectDropdown
+                                    defaultValue={chatbot?.meta?.language || "繁體中文"}
+                                    onChange={(value: any) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            meta: {
+                                                ...chatbot?.meta,
+                                                language: value
+                                            }
+                                        })
+                                    }}
+                                    options={[
+                                        {
+                                            name: "繁體中文",
+                                            value: "繁體中文",
+                                        },
+                                        {
+                                            name: "英文",
+                                            value: "英文",
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                語氣
+                            </label>
+                            <div className="mt-2 w-full">
+                                <SelectDropdown
+                                    defaultValue={chatbot?.meta?.tone || "正常"}
+                                    onChange={(value: any) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            meta: {
+                                                ...chatbot?.meta,
+                                                tone: value
+                                            }
+                                        })
+                                    }}
+                                    options={[
+                                        {
+                                            name: "正常",
+                                            value: "正常",
+                                        },
+                                        {
+                                            name: "輕鬆",
+                                            value: "輕鬆",
+                                        },
+                                        {
+                                            name: "專業",
+                                            value: "專業",
+                                        }
+                                    ]}
+                                />
+                            </div>
                         </div>
                         <div className="col-span-full">
                             <label className="block text-sm font-medium leading-6 text-gray-900">

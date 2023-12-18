@@ -215,6 +215,7 @@ export default function StoryboardItemsView(props: ViewProps) {
             <InputStoryboardModal
                 visable={visableCreateStoryboard}
                 description={'創建故事板'}
+                hiddenDescription={true}
                 confirmText={'確認'}
                 cancelClick={() => {
                     setVisableCreateStoryboard(false);

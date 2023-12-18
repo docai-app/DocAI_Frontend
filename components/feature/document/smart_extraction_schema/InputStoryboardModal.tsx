@@ -109,7 +109,7 @@ export default function InputStoryboardModal(props: any) {
                                     }}
                                 ></input>
                             </div>
-                            <div className="w-full my-2 flex flex-row items-center flex-wrap hidden">
+                            <div className={`w-full my-2 flex flex-row items-center flex-wrap ${props?.hiddenDescription ? "hidden" : ""} `}>
                                 <label className="text-sm text-left">{'描述'}:</label>
                                 <input
                                     type={'text'}

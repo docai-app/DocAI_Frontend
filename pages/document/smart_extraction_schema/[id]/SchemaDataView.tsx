@@ -85,6 +85,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
     const [visableInputStoryboard, setVisableInputStoryboard] = useState(false);
     const [form_data_ids, set_form_data_ids] = useState<any>([]);
     const [datumId, setDatumId] = useState('');
+    const [query, setQuery] = useState('')
 
     const editFormDocument = (datum: any) => {
         if (!datum) return;
@@ -330,6 +331,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 confirmText={'確認'}
                 visable={visableGenerateChart}
                 confirmClick={(query: string) => {
+                    setQuery(query)
                     setVisibleGenerateChart(false);
                     handlerGenerateChart(query, form_data_ids);
                 }}
@@ -346,6 +348,7 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 confirmText={'確認'}
                 visable={visableGenerateStatistics}
                 confirmClick={(query: string) => {
+                    setQuery(query)
                     setVisibleGenerateStatistics(false);
                     // console.log(query);
                     handlerGenerateStatistics(query, form_data_ids);
@@ -363,7 +366,11 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 chart={chart}
                 save={() => {
                     setVisibleHtmlCode(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
+                    handleUpdateStoryboardItem({
+                        name: query,
+                        description: ''
+                    });
                 }}
             />
 
@@ -376,7 +383,12 @@ function SchemaDataView(props: SchemaDataViewProps) {
                 }}
                 save={() => {
                     setVisibleHtmlToPdf(false);
-                    setVisableInputStoryboard(true);
+                    // setVisableInputStoryboard(true);
+                    handleUpdateStoryboardItem({
+                        name: query,
+                        description: '',
+                        data: report
+                    });
                 }}
             />
             <InputStoryboardModal

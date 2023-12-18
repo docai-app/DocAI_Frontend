@@ -98,7 +98,8 @@ export default function SelectSchemaAndInputModal(props: any) {
                 props?.setCurrectItemItem({
                     item_type: item_type,
                     data: res.data.chart,
-                    id: res.data.item_id
+                    id: res.data.item_id,
+                    query: query
                 });
                 // setCurrentStoryboardItemId(res.data.item_id);
             } else {
@@ -128,7 +129,8 @@ export default function SelectSchemaAndInputModal(props: any) {
                 props?.setCurrectItemItem({
                     item_type: item_type,
                     data: res.data.report,
-                    id: res.data.item_id
+                    id: res.data.item_id,
+                    query: query
                 });
                 // setCurrentStoryboardItemId(res.data.item_id);
             } else {

@@ -12,7 +12,7 @@ function CreateContainer() {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [multipleDest, setMultipleDest] = useState<Folder[]>([]);
-    const [{ data, loading: submitting, error }, createChatbot] = useAxios({}, { manual: true });
+    const [{ data, loading: submitting, error }, createChatbot] = useAxios(apiSetting.Chatbot.createChatbot(), { manual: true });
     const [{ data: updateChatboxData, loading: updateing }, updateChatbot] = useAxios(
         {},
         { manual: true }
@@ -58,18 +58,20 @@ function CreateContainer() {
             handleUpdate();
         } else {
             setActionContent('正在保存數據');
-            const res = await createChatbot(
-                apiSetting.Chatbot.createChatbot(
-                    chatbot?.name,
-                    chatbot?.description,
-                    chatbot?.is_public,
-                    chatbot?.expired_at,
-                    {
+            const res = await createChatbot({
+                data: {
+                    name: chatbot?.name,
+                    description: chatbot?.description,
+                    is_public: chatbot?.is_public,
+                    expired_at: chatbot?.expired_at,
+                    source: {
                         folder_id: multipleDest.map((f) => f.id)
                     },
-                    chain_feature_ids
-                )
-            );
+                    chain_features: chain_feature_ids,
+                    language: chatbot?.meta?.language,
+                    tone: chatbot?.meta?.tone
+                }
+            })
             if (res.data?.success) router.push('/chatbot');
         }
     }, [router, chatbot, chain_feature_ids, multipleDest]);
@@ -77,20 +79,22 @@ function CreateContainer() {
     const handleUpdate = useCallback(async () => {
         if (router.query.id) {
             setActionContent('正在保存數據');
-            const res = await updateChatbot(
-                apiSetting.Chatbot.updateChatbotById(
-                    router.query.id?.toString(),
-                    chatbot?.name,
-                    chatbot?.description,
-                    chatbot?.is_public,
-                    chatbot?.expired_at,
-                    {
+            const res = await updateChatbot({
+                ...apiSetting.Chatbot.updateChatbotById(router.query.id?.toString()),
+                data: {
+                    name: chatbot?.name,
+                    description: chatbot?.description,
+                    is_public: chatbot?.is_public,
+                    expired_at: chatbot?.expired_at,
+                    source: {
                         folder_id: multipleDest.map((f) => f.id)
                     },
-                    chain_feature_ids
-                )
-            );
-            if (res.data?.success) router.push('/chatbot');
+                    chain_features: chain_feature_ids,
+                    language: chatbot?.meta?.language,
+                    tone: chatbot?.meta?.tone
+                }
+            });
+            // if (res.data?.success) router.push('/chatbot');
         }
     }, [router, chatbot, chain_feature_ids, multipleDest]);
 

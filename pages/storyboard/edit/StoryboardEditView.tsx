@@ -10,7 +10,6 @@ import SingleActionModel from '../../../components/common/Widget/SingleActionMod
 import InputStoryboardModal from '../../../components/feature/document/smart_extraction_schema/InputStoryboardModal';
 import SelectSchemaAndInputModal from '../../../components/feature/storyboard/SelectSchemaAndInputModal';
 import StoryboardChartItemView from '../../../components/feature/storyboard/StoryboardChartItemView';
-import StoryboardItemTableRow from '../../../components/feature/storyboard/StoryboardItemTableRow';
 import StoryboardStatisticItemView from '../../../components/feature/storyboard/StoryboardStatisticItemView';
 import { getTransitionChartContent } from '../../../utils/stringUtil';
 
@@ -205,77 +204,13 @@ export default function StoryboardEditView(props: ViewProps) {
                             }}
                         />
                     </div>
-                    <div className="flex w-full items-center justify-center text-center py-2 hidden">
-                        <div className="w-full text-center items-center justify-center shadow ring-1 ring-black ring-opacity-5 md:rounded-lg overflow-scroll">
-                            <table className="w-full table-auto text-left divide-y divide-gray-300 overflow-scroll">
-                                <thead className="bg-gray-50 overflow-scroll">
-                                    <tr className="divide-x divide-gray-200">
-                                        <th
-                                            scope="col"
-                                            className="py-3.5   text-center text-sm font-semibold text-gray-900 "
-                                        ></th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 px-2 w-3/12 text-left text-sm font-semibold text-gray-900 "
-                                        >
-                                            名稱
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5  px-2 w-3/12 text-left text-sm font-semibold text-gray-900 "
-                                        >
-                                            描述
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5  px-2 w-3/12 text-left text-sm font-semibold text-gray-900 "
-                                        >
-                                            問題
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5  px-2 w-1/12 text-left text-sm font-semibold text-gray-900 "
-                                        >
-                                            類型
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 w-1/12 text-center text-sm font-semibold text-gray-900 "
-                                        >
-                                            查看
-                                        </th>
-                                        <th
-                                            scope="col"
-                                            className="py-3.5 w-1/12 text-center text-sm font-semibold text-gray-900 "
-                                        >
-                                            操作
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 bg-white overflow-scroll">
-                                    {items?.map((item: any, index: number) => {
-                                        return (
-                                            <StoryboardItemTableRow
-                                                key={index}
-                                                item={item}
-                                                setChecedkData={setChecedkData}
-                                                checked={_.includes(item_ids, item.id)}
-                                                preview={() => preview(item)}
-                                                edit={() => edit(item, index)}
-                                                remove={() => remove(item, index)}
-                                            />
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
             </div>
             {data && (
                 <HtmlCodeModal
                     visable={visableHtmlCode}
                     description={'圖表'}
+                    confirmText={"保存"}
                     cancelClick={() => {
                         setVisibleHtmlCode(false);
                         setData('');
@@ -283,7 +218,11 @@ export default function StoryboardEditView(props: ViewProps) {
                     chart={data}
                     save={() => {
                         setVisibleHtmlCode(false);
-                        setVisableInputStoryboard(true);
+                        // setVisableInputStoryboard(true);
+                        handleUpdateStoryboardItem(currectItem?.id, {
+                            name: currectItem?.query,
+                            description: ''
+                        });
                     }}
                 />
             )}
@@ -291,6 +230,7 @@ export default function StoryboardEditView(props: ViewProps) {
                 <HtmlToPdfModal
                     visable={visableHtmlToPdf}
                     title={'統計'}
+                    confirmText={"保存"}
                     description={data}
                     cancelClick={() => {
                         setVisibleHtmlToPdf(false);
@@ -298,7 +238,12 @@ export default function StoryboardEditView(props: ViewProps) {
                     }}
                     save={() => {
                         setVisibleHtmlToPdf(false);
-                        setVisableInputStoryboard(true);
+                        // setVisableInputStoryboard(true);
+                        handleUpdateStoryboardItem(currectItem?.id, {
+                            name: currectItem?.query,
+                            description: '',
+                            data: currectItem?.data
+                        });
                     }}
                 />
             )}
