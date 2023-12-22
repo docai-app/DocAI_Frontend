@@ -116,6 +116,12 @@ function ChatbotView(props: {
                                                 scope="col"
                                                 className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
+                                                類型
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="w-1/12 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                            >
                                                 是否公開
                                             </th>
                                             <th
@@ -132,9 +138,9 @@ function ChatbotView(props: {
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="relative py-3.5 w-3/12 sm:pr-0"
+                                                className="w-1/12 py-3.5 text-right text-sm font-semibold text-gray-900"
                                             >
-                                                <span className="sr-only">Edit</span>
+                                                操作
                                             </th>
                                         </tr>
                                     </thead>

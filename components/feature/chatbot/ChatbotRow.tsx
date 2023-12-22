@@ -2,7 +2,9 @@ import { FolderIcon } from '@heroicons/react/20/solid';
 import copy from 'copy-to-clipboard';
 import moment from 'moment';
 import Link from 'next/link';
+import Router from 'next/router';
 import { encrypt } from '../../../utils/util_crypto';
+import Dropdowns from './Dropdowns';
 
 interface ChatbotRowProps {
     item: {
@@ -42,6 +44,15 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     ))}
                 </td>
                 <td className="w-1/12 py-4 text-sm text-gray-500">
+                    {
+                        chatbot?.category == "chart_generation"
+                            ? "圖表"
+                            : chatbot?.category == "statistical_generation"
+                                ? "統計"
+                                : "問答"
+                    }
+                </td>
+                <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.is_public ? '公開' : ''}
                 </td>
                 <td className="w-1/12 py-4 text-sm text-gray-500">
@@ -51,7 +62,18 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     {chatbot?.expired_at && moment(chatbot?.expired_at).format('YYYY-MM-DD')}
                 </td>
                 <td className="w-3/12 py-4 text-right text-sm font-medium sm:pr-0">
-                    <label
+                    <Dropdowns
+                        share={() => {
+                            share(chatbot);
+                        }}
+                        edit={() => {
+                            Router.push(`/chatbot/create?id=${chatbot?.id}`)
+                        }}
+                        remove={() => {
+                            remove(chatbot);
+                        }}
+                    />
+                    {/* <label
                         className=" cursor-pointer text-indigo-600 hover:text-indigo-900"
                         onClick={() => {
                             share(chatbot);
@@ -71,7 +93,7 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                         }}
                     >
                         删除
-                    </a>
+                    </a> */}
                 </td>
             </tr>
         </>

@@ -72,7 +72,8 @@ function CreateContainer() {
                     },
                     chain_features: chain_feature_ids,
                     language: chatbot?.meta?.language,
-                    tone: chatbot?.meta?.tone
+                    tone: chatbot?.meta?.tone,
+                    category: chatbot?.category
                 }
             });
             if (res.data?.success) router.push('/chatbot');
@@ -94,7 +95,8 @@ function CreateContainer() {
                     },
                     chain_features: chain_feature_ids,
                     language: chatbot?.meta?.language,
-                    tone: chatbot?.meta?.tone
+                    tone: chatbot?.meta?.tone,
+                    category: chatbot?.category
                 }
             });
             // if (res.data?.success) router.push('/chatbot');
