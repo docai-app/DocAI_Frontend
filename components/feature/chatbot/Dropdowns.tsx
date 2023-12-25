@@ -1,5 +1,10 @@
 import { Menu, Transition } from '@headlessui/react';
-import { EllipsisVerticalIcon, PencilSquareIcon, ShareIcon, TrashIcon } from '@heroicons/react/20/solid';
+import {
+    EllipsisVerticalIcon,
+    PencilSquareIcon,
+    ShareIcon,
+    TrashIcon
+} from '@heroicons/react/20/solid';
 
 import { Fragment } from 'react';
 
