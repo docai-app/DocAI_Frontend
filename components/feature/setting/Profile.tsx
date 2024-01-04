@@ -35,7 +35,7 @@ function Profile({ currentUserData, currentUserLoading }: ProfileProps) {
     return (
         <div className="flex flex-col rounded-2xl bg-gray-100 px-12 py-6 border">
             <div className="flex flex-col">
-                <h2 className="text-slate-900 font-bold text-xl ml-6 mb-6">帳戶</h2>
+                <h2 className="text-slate-900 font-bold text-xl mb-6">帳戶</h2>
                 {currentUserLoading ? (
                     <div className="col-span-2 rounded-lg bg-white p-6 shadow flex flex-col gap-6">
                         載入中...

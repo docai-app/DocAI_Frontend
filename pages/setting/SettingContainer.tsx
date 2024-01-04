@@ -76,7 +76,17 @@ export default function SettingContainer() {
                 {/* eslint-disable-next-line @next/next/no-sync-scripts */}
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
             </Helmet>
-            <div id="signInDiv" />
+            <div className="flex flex-col rounded-2xl bg-gray-100 px-12 py-6 border mb-4">
+                <div className="flex flex-col">
+                    <h2 className="text-slate-900 font-bold text-xl mb-6">連結第三方</h2>
+                    <div className="col-span-2 rounded-lg bg-white p-6 shadow flex flex-col gap-6">
+                        <label className="flex flex-col gap-2">
+                            <div>Gmail 連結</div>
+                            <div id="signInDiv" />
+                        </label>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

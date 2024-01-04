@@ -50,7 +50,7 @@ function ChangePassword() {
     return (
         <div className="flex flex-col rounded-2xl bg-gray-100 px-12 py-6 border">
             <div className="flex flex-col">
-                <h2 className="text-slate-900 font-bold text-xl ml-6 mb-6">更改密碼</h2>
+                <h2 className="text-slate-900 font-bold text-xl mb-6">更改密碼</h2>
                 <form ref={formRef} onSubmit={changePasswordFormik.handleSubmit}>
                     <div className="col-span-2 rounded-t-lg bg-white p-6 shadow flex flex-col gap-4">
                         {!putData?.success && putData?.errors && (
