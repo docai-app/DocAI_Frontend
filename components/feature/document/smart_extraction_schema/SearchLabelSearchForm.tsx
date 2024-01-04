@@ -87,9 +87,6 @@ export default function SearchLabelSearchForm(props: Props) {
     });
 
     const handlerGenerateChart = async (smart_extraction_schema_id: string, query: string) => {
-        console.log('query', query);
-        console.log('smart_extraction_schema_id', smart_extraction_schema_id);
-
         if (query) {
             setOpen(true);
             setModalDescription({
@@ -141,8 +138,6 @@ export default function SearchLabelSearchForm(props: Props) {
 
     const handleUpdateStoryboardItem = (data: any) => {
         if (!currentStoryboardItemId) return;
-        // console.log(data);
-        // console.log(currentStoryboardItemId);
         setOpen(true);
         setModalDescription({
             title: '進行中......',
@@ -156,7 +151,6 @@ export default function SearchLabelSearchForm(props: Props) {
                 status: 1
             }
         }).then((res: any) => {
-            // console.log(res.data);
             setOpen(false);
             if (res.data.success) {
                 setAlert({ title: '儲存成功!', type: 'success' });

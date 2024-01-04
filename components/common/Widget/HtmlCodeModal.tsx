@@ -19,7 +19,6 @@ export default function HtmlCodeModal(props: any) {
     };
 
     useEffect(() => {
-        // console.log('htmlText: ', props.chart);
         if (props.chart) {
             const domParser = new DOMParser();
             const doc = domParser.parseFromString(props.chart, 'text/html');

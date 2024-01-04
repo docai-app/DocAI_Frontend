@@ -26,15 +26,11 @@ export default function DocumentFunction(props: Props) {
     const [content, setContent] = useState('');
 
     const getChainFeature = useCallback(() => {
-        console.log(label);
-
         if (!_.isEmpty(chain_features)) return;
-        // console.log(label.meta.chain_features);
         if (label?.meta?.chain_features) {
             setLoading(true);
             getAllChainFeatureByIdsDatas(label?.meta?.chain_features)
                 .then((res) => {
-                    console.log(res);
                     set_chain_features(res);
                 })
                 .finally(() => {

@@ -39,8 +39,6 @@ export default function ChainFeatureSelect(props: ChainFeatureSelectProps) {
 
     const handleChainFeatureClick = useCallback(
         (chain_feature_id: any) => {
-            // console.log(chain_feature_ids);
-
             if (isSelected(chain_feature_id)) {
                 set_chain_feature_ids((prev: any) => [...prev, chain_feature_id]);
             } else {
