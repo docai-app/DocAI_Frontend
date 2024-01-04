@@ -10,7 +10,7 @@ export default class FormSchema {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: `/users/sign_in`,
+            url: `/users/sign_in.json`,
             method: 'POST',
             data: {
                 user: {
