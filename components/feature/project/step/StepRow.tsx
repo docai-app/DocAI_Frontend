@@ -46,7 +46,6 @@ export default function StepRow(props: TaskRowProps) {
     };
 
     const handleStepStatus = () => {
-        // console.log(task);
         if (task.status == 'completed') {
             task.status = 'pending';
         } else if (task.status == 'pending') {
