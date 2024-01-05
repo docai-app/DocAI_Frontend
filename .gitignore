@@ -44,3 +44,7 @@ yarn-error.log*
 
 # nyc
 .nyc_output
+
+# node
+node_modules/
+nvm/
