@@ -98,6 +98,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
                 }
             })
         ],
+        secret: process.env.NEXT_PUBLIC_SECRET,
         session: {
             strategy: 'jwt'
         },
