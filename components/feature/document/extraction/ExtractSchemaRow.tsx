@@ -31,14 +31,14 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
     return (
         <>
             <tr>
-                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td className="  py-4 w-2/12 text-sm font-medium text-gray-900 sm:pl-0">
                     {schema?.key}
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className=" w-2/12 py-4 text-sm text-gray-500">
                     {findNameByValue(schema?.data_type)}
                 </td>
 
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                <td className=" w-6/12 py-4 text-sm text-gray-500">
                     {_.isArray(schema?.query) ? (
                         <>
                             {schema?.query?.map((q: string, index: number) => {
@@ -50,7 +50,7 @@ export default function ExtractSchemaRow(props: ChatbotRowProps) {
                     )}
                 </td>
 
-                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                <td className="  py-4  w-2/12 text-right text-sm font-medium sm:pr-0">
                     {visableAdd && (
                         <>
                             <a

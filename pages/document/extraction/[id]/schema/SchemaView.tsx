@@ -167,9 +167,8 @@ function SchemaView(props: SchemaViewProps) {
                             </label>
                             <input
                                 type={'checkbox'}
-                                className={`mx-2 ${
-                                    extractSchema?.schema?.length > 0 ? 'text-gray-500' : ''
-                                }`}
+                                className={`mx-2 ${extractSchema?.schema?.length > 0 ? 'text-gray-500' : ''
+                                    }`}
                                 checked={accurateMode}
                                 disabled={extractSchema?.schema?.length > 0}
                                 onChange={() => {
@@ -249,10 +248,16 @@ function SchemaView(props: SchemaViewProps) {
                 extractSchema={currectExtraScheam}
                 accurateMode={accurateMode}
                 cancelClick={() => {
+                    console.log('---');
+
                     setVisable(false);
                 }}
                 confirmClick={(data: any) => {
+                    console.log('data', data);
+
                     if (currectPosition > -1) {
+                        console.log(data);
+
                         extractSchema?.schema.splice(currectPosition, 1, data);
                         setVisable(false);
                     } else {

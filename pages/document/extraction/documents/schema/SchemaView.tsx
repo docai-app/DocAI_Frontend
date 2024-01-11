@@ -185,27 +185,27 @@ function SchemaView(props: SchemaViewProps) {
                                         <tr>
                                             <th
                                                 scope="col"
-                                                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                                className="py-3.5 w-2/12 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                                             >
                                                 Column Name
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                className=" w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
                                                 Data Type
                                             </th>
 
                                             <th
                                                 scope="col"
-                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                className="w-6/12 py-3.5 text-left text-sm font-semibold text-gray-900"
                                             >
                                                 Prompt
                                             </th>
 
                                             <th
                                                 scope="col"
-                                                className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                                                className="relative py-3.5  w-2/12"
                                             >
                                                 {visableAdd && (
                                                     <div className="flex justify-end">
