@@ -103,7 +103,8 @@ export default function SchemaContainer() {
                 name: getSmartExtractionSchemasByIdData.smart_extraction_schema?.name,
                 description: getSmartExtractionSchemasByIdData.smart_extraction_schema?.description,
                 // label_ids: getSmartExtractionSchemasByIdData.smart_extraction_schema?.label_ids,
-                document_ids: getSmartExtractionSchemasByIdData.smart_extraction_schema?.document_ids,
+                document_ids:
+                    getSmartExtractionSchemasByIdData.smart_extraction_schema?.document_ids,
                 schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.schema,
                 data_schema: getSmartExtractionSchemasByIdData.smart_extraction_schema?.data_schema
             });
@@ -122,7 +123,8 @@ export default function SchemaContainer() {
             data_schema[s.key] = '';
         });
         // extractSchema.label_ids = tag_ids;
-        extractSchema.document_ids = (router.query.document_ids?.toString().split(',') as any) || [];
+        extractSchema.document_ids =
+            (router.query.document_ids?.toString().split(',') as any) || [];
         extractSchema.data_schema = data_schema;
         if (_.isEmpty(data_schema)) {
             setAlert({ title: '請添加Column', type: 'warning' });

@@ -67,7 +67,8 @@ export default function SelectDataSchemaModal(props: Props) {
 
     const add = () => {
         Router.push({
-            pathname: '/document/extraction/documents/schema', query: {
+            pathname: '/document/extraction/documents/schema',
+            query: {
                 document_ids: document_ids?.join(',')
             }
         });
