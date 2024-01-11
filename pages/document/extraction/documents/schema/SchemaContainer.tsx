@@ -134,27 +134,27 @@ export default function SchemaContainer() {
 
         setActionContent('正在保存數據,等待時間較長，請耐心等候...');
         if (router && router.query.schema_id) {
-            const isSame = _.isEqual(
-                getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
-                data_schema
-            );
-            if (isSame) {
-                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
-                // console.log(_extractSchema);
-                updateSchemasByDocuemntsById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: _extractSchema
-                });
-            } else {
-                updateSchemasByDocuemntsById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: extractSchema
-                });
-            }
+            // const isSame = _.isEqual(
+            //     getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
+            //     data_schema
+            // );
+            // if (isSame) {
+            //     const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
+            //     // console.log(_extractSchema);
+            //     updateSchemasByDocuemntsById({
+            //         ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+            //             router.query.schema_id as string
+            //         ),
+            //         data: _extractSchema
+            //     });
+            // } else {
+            updateSchemasByDocuemntsById({
+                ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+                    router.query.schema_id as string
+                ),
+                data: extractSchema
+            });
+            // }
         } else {
             createSchemasByDocuemnts({
                 data: extractSchema

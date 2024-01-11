@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Api from '../../../../../apis';
 import useAlert from '../../../../../hooks/useAlert';
 import SchemaView from './SchemaView';
@@ -121,7 +121,7 @@ export default function SchemaContainer() {
         }
     }, [getSmartExtractionSchemasByIdData]);
 
-    const handleSave = useCallback(async () => {
+    const handleSave = () => {
         const data_schema: any = {};
         extractSchema.schema?.map((s: any) => {
             data_schema[s.key] = '';
@@ -133,33 +133,33 @@ export default function SchemaContainer() {
         }
         setActionContent('正在保存數據,等待時間較長，請耐心等候...');
         if (router && router.query.schema_id) {
-            const isSame = _.isEqual(
-                getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
-                data_schema
-            );
-            if (isSame) {
-                const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
-                // console.log(_extractSchema);
-                updateSmartExtractionSchemasById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: _extractSchema
-                });
-            } else {
-                updateSmartExtractionSchemasById({
-                    ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
-                        router.query.schema_id as string
-                    ),
-                    data: extractSchema
-                });
-            }
+            // const isSame = _.isEqual(
+            //     getSmartExtractionSchemasByIdData.smart_extraction_schema.data_schema,
+            //     data_schema
+            // );
+            // if (isSame) {
+            //     const _extractSchema = _.omit(extractSchema, 'schema', 'data_schema');
+            //     // console.log(_extractSchema);
+            //     updateSmartExtractionSchemasById({
+            //         ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+            //             router.query.schema_id as string
+            //         ),
+            //         data: _extractSchema
+            //     });
+            // } else {
+            updateSmartExtractionSchemasById({
+                ...apiSetting.SmartExtractionSchemas.updateSmartExtractionSchemasById(
+                    router.query.schema_id as string
+                ),
+                data: extractSchema
+            });
+            // }
         } else {
             createSmartExtractionSchemas({
                 data: extractSchema
             });
         }
-    }, [router, getSmartExtractionSchemasByIdData, extractSchema]);
+    }
 
     return (
         <SchemaView
