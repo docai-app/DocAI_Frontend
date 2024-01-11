@@ -203,10 +203,7 @@ function SchemaView(props: SchemaViewProps) {
                                                 Prompt
                                             </th>
 
-                                            <th
-                                                scope="col"
-                                                className="relative py-3.5  w-2/12"
-                                            >
+                                            <th scope="col" className="relative py-3.5  w-2/12">
                                                 {visableAdd && (
                                                     <div className="flex justify-end">
                                                         <a

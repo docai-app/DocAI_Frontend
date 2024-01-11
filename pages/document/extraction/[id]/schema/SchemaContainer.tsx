@@ -159,7 +159,7 @@ export default function SchemaContainer() {
                 data: extractSchema
             });
         }
-    }
+    };
 
     return (
         <SchemaView
