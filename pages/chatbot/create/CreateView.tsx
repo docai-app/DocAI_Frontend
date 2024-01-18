@@ -2,7 +2,7 @@ import { FolderIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import moment from 'moment';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMultipleSelect from '../../../components/common/Widget/FolderTreeForMultipleSelect';
 import SelectDropdown from '../../../components/common/Widget/SelectDropdown';
@@ -21,6 +21,9 @@ interface CreateViewProps {
     setOpen: any;
     actionContent: string;
     chain_features: [];
+    assistant_agents_data: any;
+    expert_ids: any[];
+    setExpert_ids: any;
 }
 
 function CreateView(props: CreateViewProps) {
@@ -35,11 +38,28 @@ function CreateView(props: CreateViewProps) {
         open,
         setOpen,
         actionContent,
-        chain_features
+        chain_features,
+        assistant_agents_data,
+        expert_ids,
+        setExpert_ids
     } = props;
     const [folderTreeIsOpen, setFolderTreeIsOpen] = useState(false);
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
+    const [assistants, setAssistants] = useState<any>([])
+    const [experts, setExperts] = useState<any>([])
 
+    useEffect(() => {
+        if (assistant_agents_data) {
+            setAssistants(
+                _.filter(assistant_agents_data?.assistant_agents, function (o) {
+                    return o.category == 'assistant'
+                }))
+            setExperts(
+                _.filter(assistant_agents_data?.assistant_agents, function (o) {
+                    return o.category == 'expert'
+                }))
+        }
+    }, [assistant_agents_data, expert_ids])
     return (
         <>
             <SingleActionModel
@@ -52,8 +72,8 @@ function CreateView(props: CreateViewProps) {
             <div className="mx-auto max-w-7xl">
                 <div className="mx-auto max-w-7xl pb-12">
                     <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯智能助手</h2>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">未有描述</p>
-                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    {/* <p className="mt-1 text-sm leading-6 text-gray-600">未有描述</p> */}
+                    <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-6">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
                                 名稱
@@ -155,6 +175,56 @@ function CreateView(props: CreateViewProps) {
                                 target_folder_id={target_folder_id}
                                 set_target_folder_id={set_target_folder_id}
                             /> */}
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                助手
+                            </label>
+                            <div className="mt-2 w-full">
+                                {assistants?.map((item: any, index: number) => {
+                                    return (
+                                        <div key={index}>
+                                            <input type={'radio'} name="assistant" className='mr-2' value={item.id}
+                                                checked={item.id == chatbot?.meta?.assistant}
+                                                onChange={(e) => {
+                                                    setChatbot({
+                                                        ...chatbot,
+                                                        meta: {
+                                                            ...chatbot?.meta,
+                                                            assistant: item.id
+                                                        }
+                                                    });
+                                                }} />{item.name}<span className='text-xs text-gray-500'>({item.description})</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                專家
+                            </label>
+                            <div className="mt-2 w-full">
+                                {experts?.map((item: any, index: number) => {
+                                    return (
+                                        <div key={index}>
+                                            <input type={'checkbox'} name="expert" className='mr-2' value={item.id}
+                                                checked={expert_ids?.indexOf(item.id) != -1}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        setExpert_ids((arr: any) => [...arr, item.id])
+                                                    } else {
+                                                        const ids = _.remove(expert_ids, function (x) {
+                                                            return x !== item.id
+                                                        })
+                                                        setExpert_ids(ids)
+                                                    }
+                                                }}
+                                            />{item.name}<span className='text-xs text-gray-500'>({item.description})</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
                         <div className="col-span-full">
                             <label className="block text-sm font-medium leading-6 text-gray-900">

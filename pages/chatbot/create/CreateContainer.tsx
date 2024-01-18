@@ -20,10 +20,15 @@ function CreateContainer() {
         {},
         { manual: true }
     );
+    const [{ data: assistant_agents_data }, assistant_agents] = useAxios(
+        apiSetting.Assistant.assistant_agents(),
+        { manual: false }
+    );
     const [chain_feature_ids, set_chain_feature_ids] = useState<any>([]);
     const [chatbot, setChatbot] = useState<any>({});
     const [actionContent, setActionContent] = useState('');
     const [chain_features, set_chain_features] = useState<any>([]);
+    const [expert_ids, setExpert_ids] = useState<any>([])
 
     const [{ data: getChatbotData, loading: loading }, getChatbot] = useAxios(
         apiSetting.Chatbot.getChatbotById(router.query.id?.toString() || ''),
@@ -73,12 +78,14 @@ function CreateContainer() {
                     chain_features: chain_feature_ids,
                     language: chatbot?.meta?.language,
                     tone: chatbot?.meta?.tone,
-                    category: chatbot?.category
+                    category: chatbot?.category,
+                    assistant: chatbot?.meta?.assistant,
+                    experts: expert_ids
                 }
             });
             if (res.data?.success) router.push('/chatbot');
         }
-    }, [router, chatbot, chain_feature_ids, multipleDest]);
+    }, [router, chatbot, chain_feature_ids, expert_ids, multipleDest]);
 
     const handleUpdate = useCallback(async () => {
         if (router.query.id) {
@@ -96,12 +103,14 @@ function CreateContainer() {
                     chain_features: chain_feature_ids,
                     language: chatbot?.meta?.language,
                     tone: chatbot?.meta?.tone,
-                    category: chatbot?.category
+                    category: chatbot?.category,
+                    assistant: chatbot?.meta?.assistant,
+                    experts: expert_ids
                 }
             });
             // if (res.data?.success) router.push('/chatbot');
         }
-    }, [router, chatbot, chain_feature_ids, multipleDest]);
+    }, [router, chatbot, chain_feature_ids, expert_ids, multipleDest]);
 
     useEffect(() => {
         if (getChatbotData && getChatbotData.success) {
@@ -109,6 +118,7 @@ function CreateContainer() {
             setChatbot(getChatbotData?.chatbot);
             setMultipleDest(getChatbotData?.folders || []);
             set_chain_feature_ids(getChatbotData.chatbot?.meta?.chain_features || []);
+            setExpert_ids(getChatbotData.chatbot?.meta?.experts)
         }
     }, [router, getChatbotData]);
 
@@ -132,7 +142,10 @@ function CreateContainer() {
                 open,
                 setOpen,
                 actionContent,
-                chain_features
+                chain_features,
+                assistant_agents_data,
+                expert_ids,
+                setExpert_ids
             }}
         />
     );

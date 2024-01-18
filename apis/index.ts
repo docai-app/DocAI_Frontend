@@ -1,5 +1,6 @@
 // index.js
 import Absence from './Absence';
+import Assistant from './Assistant';
 import Authorization from './Authorization';
 import Chatbot from './Chatbot';
 import Classification from './Classification';
@@ -47,6 +48,7 @@ export default class Api {
     SmartExtractionSchemas: SmartExtractionSchemas;
     Prompt: Prompt;
     Storyboard: Storyboard;
+    Assistant: Assistant;
 
     constructor() {
         this.Storage = new Storage();
@@ -72,5 +74,6 @@ export default class Api {
         this.SmartExtractionSchemas = new SmartExtractionSchemas();
         this.Prompt = new Prompt();
         this.Storyboard = new Storyboard();
+        this.Assistant = new Assistant();
     }
 }
