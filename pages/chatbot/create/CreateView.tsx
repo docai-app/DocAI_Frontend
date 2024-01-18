@@ -45,21 +45,37 @@ function CreateView(props: CreateViewProps) {
     } = props;
     const [folderTreeIsOpen, setFolderTreeIsOpen] = useState(false);
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
-    const [assistants, setAssistants] = useState<any>([])
-    const [experts, setExperts] = useState<any>([])
+    const [assistants, setAssistants] = useState<any>([]);
+    const [experts, setExperts] = useState<any>([]);
 
     useEffect(() => {
         if (assistant_agents_data) {
             setAssistants(
                 _.filter(assistant_agents_data?.assistant_agents, function (o) {
-                    return o.category == 'assistant'
-                }))
+                    return o.category == 'assistant';
+                })
+            );
             setExperts(
                 _.filter(assistant_agents_data?.assistant_agents, function (o) {
-                    return o.category == 'expert'
-                }))
+                    return o.category == 'expert';
+                })
+            );
         }
-    }, [assistant_agents_data, expert_ids])
+    }, [assistant_agents_data, expert_ids]);
+
+    useEffect(() => {
+        if (chatbot && assistants && assistants.length > 0) {
+            if (!chatbot?.meta?.assistant) {
+                setChatbot({
+                    ...chatbot,
+                    meta: {
+                        ...chatbot?.meta,
+                        assistant: assistants[0].id
+                    }
+                });
+            }
+        }
+    }, [assistants, chatbot])
     return (
         <>
             <SingleActionModel
@@ -184,7 +200,11 @@ function CreateView(props: CreateViewProps) {
                                 {assistants?.map((item: any, index: number) => {
                                     return (
                                         <div key={index}>
-                                            <input type={'radio'} name="assistant" className='mr-2' value={item.id}
+                                            <input
+                                                type={'radio'}
+                                                name="assistant"
+                                                className="mr-2"
+                                                value={item.id}
                                                 checked={item.id == chatbot?.meta?.assistant}
                                                 onChange={(e) => {
                                                     setChatbot({
@@ -194,9 +214,14 @@ function CreateView(props: CreateViewProps) {
                                                             assistant: item.id
                                                         }
                                                     });
-                                                }} />{item.name}<span className='text-xs text-gray-500'>({item.description})</span>
+                                                }}
+                                            />
+                                            {item.name}
+                                            <span className="text-xs text-gray-500">
+                                                ({item.description})
+                                            </span>
                                         </div>
-                                    )
+                                    );
                                 })}
                             </div>
                         </div>
@@ -208,21 +233,35 @@ function CreateView(props: CreateViewProps) {
                                 {experts?.map((item: any, index: number) => {
                                     return (
                                         <div key={index}>
-                                            <input type={'checkbox'} name="expert" className='mr-2' value={item.id}
-                                                checked={expert_ids?.indexOf(item.id) != -1}
+                                            <input
+                                                type={'checkbox'}
+                                                name="expert"
+                                                className="mr-2"
+                                                value={item.id}
+                                                checked={expert_ids && expert_ids?.indexOf(item.id) != -1}
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
-                                                        setExpert_ids((arr: any) => [...arr, item.id])
+                                                        setExpert_ids((arr: any) => [
+                                                            ...arr,
+                                                            item.id
+                                                        ]);
                                                     } else {
-                                                        const ids = _.remove(expert_ids, function (x) {
-                                                            return x !== item.id
-                                                        })
-                                                        setExpert_ids(ids)
+                                                        const ids = _.remove(
+                                                            expert_ids,
+                                                            function (x) {
+                                                                return x !== item.id;
+                                                            }
+                                                        );
+                                                        setExpert_ids(ids);
                                                     }
                                                 }}
-                                            />{item.name}<span className='text-xs text-gray-500'>({item.description})</span>
+                                            />
+                                            {item.name}
+                                            <span className="text-xs text-gray-500">
+                                                ({item.description})
+                                            </span>
                                         </div>
-                                    )
+                                    );
                                 })}
                             </div>
                         </div>

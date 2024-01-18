@@ -28,7 +28,7 @@ function CreateContainer() {
     const [chatbot, setChatbot] = useState<any>({});
     const [actionContent, setActionContent] = useState('');
     const [chain_features, set_chain_features] = useState<any>([]);
-    const [expert_ids, setExpert_ids] = useState<any>([])
+    const [expert_ids, setExpert_ids] = useState<any>([]);
 
     const [{ data: getChatbotData, loading: loading }, getChatbot] = useAxios(
         apiSetting.Chatbot.getChatbotById(router.query.id?.toString() || ''),
@@ -118,7 +118,7 @@ function CreateContainer() {
             setChatbot(getChatbotData?.chatbot);
             setMultipleDest(getChatbotData?.folders || []);
             set_chain_feature_ids(getChatbotData.chatbot?.meta?.chain_features || []);
-            setExpert_ids(getChatbotData.chatbot?.meta?.experts)
+            setExpert_ids(getChatbotData.chatbot?.meta?.experts || []);
         }
     }, [router, getChatbotData]);
 
