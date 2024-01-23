@@ -80,6 +80,7 @@ function CreateContainer() {
                     tone: chatbot?.meta?.tone,
                     category: chatbot?.category,
                     assistant: chatbot?.meta?.assistant,
+                    length: chatbot?.meta?.length,
                     experts: expert_ids
                 }
             });
@@ -105,6 +106,7 @@ function CreateContainer() {
                     tone: chatbot?.meta?.tone,
                     category: chatbot?.category,
                     assistant: chatbot?.meta?.assistant,
+                    length: chatbot?.meta?.length,
                     experts: expert_ids
                 }
             });

@@ -359,6 +359,39 @@ function CreateView(props: CreateViewProps) {
                         </div>
                         <div className="col-span-full">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
+                                回答長度
+                            </label>
+                            <div className="mt-2 w-full">
+                                <SelectDropdown
+                                    defaultValue={chatbot?.meta?.length || '正常'}
+                                    onChange={(value: any) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            meta: {
+                                                ...chatbot?.meta,
+                                                length: value
+                                            }
+                                        });
+                                    }}
+                                    options={[
+                                        {
+                                            name: '正常',
+                                            value: 'normal'
+                                        },
+                                        {
+                                            name: '簡短的',
+                                            value: 'brief'
+                                        },
+                                        {
+                                            name: '詳細的',
+                                            value: 'detailed'
+                                        }
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-span-full">
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
                                 是否公開使用
                             </label>
                             <div className="mt-2">
