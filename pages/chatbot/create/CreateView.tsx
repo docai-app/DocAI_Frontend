@@ -75,7 +75,7 @@ function CreateView(props: CreateViewProps) {
                 });
             }
         }
-    }, [assistants, chatbot])
+    }, [assistants, chatbot]);
     return (
         <>
             <SingleActionModel
@@ -238,7 +238,9 @@ function CreateView(props: CreateViewProps) {
                                                 name="expert"
                                                 className="mr-2"
                                                 value={item.id}
-                                                checked={expert_ids && expert_ids?.indexOf(item.id) != -1}
+                                                checked={
+                                                    expert_ids && expert_ids?.indexOf(item.id) != -1
+                                                }
                                                 onChange={(e) => {
                                                     if (e.target.checked) {
                                                         setExpert_ids((arr: any) => [
