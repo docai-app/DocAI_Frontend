@@ -15,11 +15,12 @@ function classNames(...classes: any) {
 interface DropdownsProps {
     share?: any;
     edit?: any;
+    editQuesion?: any;
     remove?: any;
 }
 
 export default function Dropdowns(props: DropdownsProps) {
-    const { share, edit, remove } = props;
+    const { share, edit, editQuesion, remove } = props;
     return (
         <Menu as="div" className="relative inline-block text-left ">
             <div>
@@ -72,7 +73,26 @@ export default function Dropdowns(props: DropdownsProps) {
                                         className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                         aria-hidden="true"
                                     />
-                                    編輯
+                                    編輯資料
+                                </a>
+                            )}
+                        </Menu.Item>
+                    </div>
+                    <div className="py-1">
+                        <Menu.Item>
+                            {({ active }) => (
+                                <a
+                                    onClick={editQuesion}
+                                    className={classNames(
+                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        'group flex items-center px-4 py-2 text-sm cursor-pointer'
+                                    )}
+                                >
+                                    <PencilSquareIcon
+                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true"
+                                    />
+                                    編輯輔助問題
                                 </a>
                             )}
                         </Menu.Item>
