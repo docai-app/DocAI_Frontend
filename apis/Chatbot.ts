@@ -55,4 +55,13 @@ export default class Chatbot {
         };
         return requestHeader;
     }
+
+    updateChatbotAssistiveQuestionsById(id: string) {
+        const requestHeader: AxiosRequestConfig = {
+            baseURL,
+            url: `/api/v1/chatbots/${id}/assistive_questions`,
+            method: 'PUT'
+        };
+        return requestHeader;
+    }
 }

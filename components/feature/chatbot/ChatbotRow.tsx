@@ -47,8 +47,8 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                     {chatbot?.category == 'chart_generation'
                         ? '圖表'
                         : chatbot?.category == 'statistical_generation'
-                        ? '統計'
-                        : '問答'}
+                            ? '統計'
+                            : '問答'}
                 </td>
                 <td className="w-1/12 py-4 text-sm text-gray-500">
                     {chatbot?.is_public ? '公開' : ''}
@@ -66,6 +66,9 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                         }}
                         edit={() => {
                             Router.push(`/chatbot/create?id=${chatbot?.id}`);
+                        }}
+                        editQuesion={() => {
+                            Router.push(`/chatbot/${chatbot?.id}/assistive_question`);
                         }}
                         remove={() => {
                             remove(chatbot);

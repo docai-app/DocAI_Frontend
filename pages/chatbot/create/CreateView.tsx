@@ -319,6 +319,10 @@ function CreateView(props: CreateViewProps) {
                                             value: '繁體中文'
                                         },
                                         {
+                                            name: '简体中文',
+                                            value: '简体中文'
+                                        },
+                                        {
                                             name: '英文',
                                             value: '英文'
                                         }
