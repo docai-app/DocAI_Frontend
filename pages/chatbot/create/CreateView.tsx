@@ -1,13 +1,17 @@
-import { FolderIcon, XMarkIcon } from '@heroicons/react/20/solid';
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline';
 import _ from 'lodash';
 import moment from 'moment';
+import Router from 'next/router';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Folder } from '../../../components/common/Widget/FolderTree';
 import FolderTreeForMultipleSelect from '../../../components/common/Widget/FolderTreeForMultipleSelect';
-import SelectDropdown from '../../../components/common/Widget/SelectDropdown';
+import HeaderBreadCrumb from '../../../components/common/Widget/HeaderBreadCrumb';
 import SingleActionModel from '../../../components/common/Widget/SingleActionModel';
-import ChainFeatureSelect from '../../../components/feature/chatbot/ChainFeatureSelect';
+import AI2AnswerView from '../../../components/feature/chatbot/AI2AnswerView';
+import AIAnswerView from '../../../components/feature/chatbot/AIAnswerView';
+import AIDataView from '../../../components/feature/chatbot/AIDataView';
+import ChainFeatureView from '../../../components/feature/chatbot/ChainFeatureView';
+import SetFolderView from '../../../components/feature/chatbot/SetFolderView';
 
 interface CreateViewProps {
     chatbot: any;
@@ -44,7 +48,6 @@ function CreateView(props: CreateViewProps) {
         setExpert_ids
     } = props;
     const [folderTreeIsOpen, setFolderTreeIsOpen] = useState(false);
-    const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
     const [assistants, setAssistants] = useState<any>([]);
     const [experts, setExperts] = useState<any>([]);
 
@@ -86,8 +89,9 @@ function CreateView(props: CreateViewProps) {
                 icon={<PaperAirplaneIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
             />
             <div className="mx-auto max-w-7xl">
-                <div className="mx-auto max-w-7xl pb-12">
-                    <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯智能助手</h2>
+                <div className="mx-auto max-w-7xl pb-12 pt-2 px-4">
+                    {/* <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯智能助手</h2> */}
+                    <HeaderBreadCrumb title={'編輯智能助手'} back={() => { Router.back() }} />
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">未有描述</p> */}
                     <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-6">
@@ -131,271 +135,23 @@ function CreateView(props: CreateViewProps) {
                                 ></textarea>
                             </div>
                         </div>
-                        <div className="col-span-full">
+                        <SetFolderView multipleDest={multipleDest} setMultipleDest={setMultipleDest} />
+                        {/* <SetCategoryView chatbot={chatbot} setChatbot={setChatbot} /> */}
+
+                        <div className="col-span-full w-full">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
-                                Chain Feature
+                                功能(必須選一個)
                             </label>
-                            <div className="flex justify-between p-3 mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6">
-                                <div className="flex flex-wrap gap-2 ">
-                                    <label>
-                                        已選擇 {chain_feature_ids?.length} 個Chain Feature
-                                    </label>
-                                </div>
-                                <button
-                                    onClick={() => setChainFeatureIsOpen(!chainFeatureIsOpen)}
-                                    className="text-sm hover:underline text-indigo-600 whitespace-nowrap"
-                                >
-                                    選擇Chain Feature
-                                </button>
-                            </div>
+                            <AIAnswerView chatbot={chatbot} setChatbot={setChatbot} />
+                            <AIDataView chatbot={chatbot} setChatbot={setChatbot} />
+                            <ChainFeatureView  {...{
+                                chain_features,
+                                chain_feature_ids,
+                                set_chain_feature_ids
+                            }} />
+                            <AI2AnswerView chatbot={chatbot} setChatbot={setChatbot} assistants={assistants} expert_ids={expert_ids} experts={experts} setExpert_ids={setExpert_ids} />
                         </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                來源文件夾
-                            </label>
-                            <div className="flex justify-between p-3 mt-2 w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6">
-                                <div className="flex flex-wrap gap-2 ">
-                                    {multipleDest.length > 0 ? (
-                                        multipleDest.map((dest) => (
-                                            <div
-                                                key={dest.id}
-                                                className="p-2 pl-3 rounded-md flex items-center gap-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 relative"
-                                            >
-                                                <FolderIcon className="h-5 text-gray-400" />
-                                                <span>{dest.name}</span>
-                                                <button
-                                                    className="cursor-pointer text-red-300 hover:text-red-600"
-                                                    onClick={() =>
-                                                        setMultipleDest((prev) =>
-                                                            _.filter(prev, (d) => d.id !== dest.id)
-                                                        )
-                                                    }
-                                                >
-                                                    <XMarkIcon className="h-5" />
-                                                </button>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <div className="text-gray-400">未選取任何文件夾</div>
-                                    )}
-                                </div>
-                                <button
-                                    onClick={() => setFolderTreeIsOpen(!folderTreeIsOpen)}
-                                    className="text-sm hover:underline text-indigo-600 whitespace-nowrap"
-                                >
-                                    選擇多個文件夾
-                                </button>
-                            </div>
-                            {/* <DocumentPath
-                                modeType={'move'}
-                                target_folder_id={target_folder_id}
-                                set_target_folder_id={set_target_folder_id}
-                            /> */}
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                助手
-                            </label>
-                            <div className="mt-2 w-full">
-                                {assistants?.map((item: any, index: number) => {
-                                    return (
-                                        <div key={index}>
-                                            <input
-                                                type={'radio'}
-                                                name="assistant"
-                                                className="mr-2"
-                                                value={item.id}
-                                                checked={item.id == chatbot?.meta?.assistant}
-                                                onChange={(e) => {
-                                                    setChatbot({
-                                                        ...chatbot,
-                                                        meta: {
-                                                            ...chatbot?.meta,
-                                                            assistant: item.id
-                                                        }
-                                                    });
-                                                }}
-                                            />
-                                            {item.name}
-                                            <span className="text-xs text-gray-500">
-                                                ({item.description})
-                                            </span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                專家
-                            </label>
-                            <div className="mt-2 w-full">
-                                {experts?.map((item: any, index: number) => {
-                                    return (
-                                        <div key={index}>
-                                            <input
-                                                type={'checkbox'}
-                                                name="expert"
-                                                className="mr-2"
-                                                value={item.id}
-                                                checked={
-                                                    expert_ids && expert_ids?.indexOf(item.id) != -1
-                                                }
-                                                onChange={(e) => {
-                                                    if (e.target.checked) {
-                                                        setExpert_ids((arr: any) => [
-                                                            ...arr,
-                                                            item.id
-                                                        ]);
-                                                    } else {
-                                                        const ids = _.remove(
-                                                            expert_ids,
-                                                            function (x) {
-                                                                return x !== item.id;
-                                                            }
-                                                        );
-                                                        setExpert_ids(ids);
-                                                    }
-                                                }}
-                                            />
-                                            {item.name}
-                                            <span className="text-xs text-gray-500">
-                                                ({item.description})
-                                            </span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                類型
-                            </label>
-                            <div className="mt-2 w-full">
-                                <SelectDropdown
-                                    defaultValue={chatbot?.category || 'qa'}
-                                    onChange={(value: any) => {
-                                        setChatbot({
-                                            ...chatbot,
-                                            category: value
-                                        });
-                                    }}
-                                    options={[
-                                        {
-                                            name: '問答',
-                                            value: 'qa'
-                                        },
-                                        {
-                                            name: '圖表',
-                                            value: 'chart_generation'
-                                        },
-                                        {
-                                            name: '統計',
-                                            value: 'statistical_generation'
-                                        }
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                語言
-                            </label>
-                            <div className="mt-2 w-full">
-                                <SelectDropdown
-                                    defaultValue={chatbot?.meta?.language || '繁體中文'}
-                                    onChange={(value: any) => {
-                                        setChatbot({
-                                            ...chatbot,
-                                            meta: {
-                                                ...chatbot?.meta,
-                                                language: value
-                                            }
-                                        });
-                                    }}
-                                    options={[
-                                        {
-                                            name: '繁體中文',
-                                            value: '繁體中文'
-                                        },
-                                        {
-                                            name: '简体中文',
-                                            value: '简体中文'
-                                        },
-                                        {
-                                            name: '英文',
-                                            value: '英文'
-                                        }
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                語氣
-                            </label>
-                            <div className="mt-2 w-full">
-                                <SelectDropdown
-                                    defaultValue={chatbot?.meta?.tone || '正常'}
-                                    onChange={(value: any) => {
-                                        setChatbot({
-                                            ...chatbot,
-                                            meta: {
-                                                ...chatbot?.meta,
-                                                tone: value
-                                            }
-                                        });
-                                    }}
-                                    options={[
-                                        {
-                                            name: '正常',
-                                            value: '正常'
-                                        },
-                                        {
-                                            name: '輕鬆',
-                                            value: '輕鬆'
-                                        },
-                                        {
-                                            name: '專業',
-                                            value: '專業'
-                                        }
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-span-full">
-                            <label className="block text-sm font-medium leading-6 text-gray-900">
-                                回答長度
-                            </label>
-                            <div className="mt-2 w-full">
-                                <SelectDropdown
-                                    defaultValue={chatbot?.meta?.length || '正常'}
-                                    onChange={(value: any) => {
-                                        setChatbot({
-                                            ...chatbot,
-                                            meta: {
-                                                ...chatbot?.meta,
-                                                length: value
-                                            }
-                                        });
-                                    }}
-                                    options={[
-                                        {
-                                            name: '正常',
-                                            value: 'normal'
-                                        },
-                                        {
-                                            name: '簡短的',
-                                            value: 'brief'
-                                        },
-                                        {
-                                            name: '詳細的',
-                                            value: 'detailed'
-                                        }
-                                    ]}
-                                />
-                            </div>
-                        </div>
+
                         <div className="col-span-full">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
                                 是否公開使用
@@ -451,15 +207,6 @@ function CreateView(props: CreateViewProps) {
                     setIsOpen: setFolderTreeIsOpen,
                     multipleDest,
                     setMultipleDest
-                }}
-            />
-            <ChainFeatureSelect
-                {...{
-                    chain_features: chain_features,
-                    isOpen: chainFeatureIsOpen,
-                    setIsOpen: setChainFeatureIsOpen,
-                    chain_feature_ids,
-                    set_chain_feature_ids
                 }}
             />
         </>
