@@ -3,9 +3,6 @@ import { Dialog, Transition } from '@headlessui/react';
 import _ from 'lodash';
 import { Fragment, useRef } from 'react';
 import InputTextView from '../../../common/Widget/InputTextView';
-import SetLanguageView from '../SetLanguageView';
-import SetLengthView from '../SetLengthView';
-import SetToneView from '../SetToneView';
 interface ViewProps {
     visable: boolean;
     chatbot: any;
@@ -13,9 +10,11 @@ interface ViewProps {
     cancelClick: any;
     confirmClick: any;
     feature_name: string
+    setIsOpen: any;
+    chain_feature_labels: any;
 }
-export default function AIAnswerModal(props: ViewProps) {
-    const { visable, chatbot, setChatbot, cancelClick, confirmClick, feature_name } = props;
+export default function AIChainFeatureModel(props: ViewProps) {
+    const { visable, chatbot, setChatbot, cancelClick, confirmClick, feature_name, setIsOpen, chain_feature_labels } = props;
 
     const cancelButtonRef = useRef(null);
     return (
@@ -59,30 +58,48 @@ export default function AIAnswerModal(props: ViewProps) {
                             <div className="sm:flex sm:items-center justify-center">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
-                                        <p className="text-xl">{'智能回答'}</p>
+                                        <p className="text-xl">{'智能任务'}</p>
                                     </div>
                                 </div>
                             </div>
-                            <InputTextView
-                                title={'標題'}
-                                placeholder={'請輸入標題'}
-                                defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
-                                onChange={(value: string) => {
-                                    setChatbot({
-                                        ...chatbot,
-                                        meta: {
-                                            ...chatbot.meta,
-                                            selected_features_titles: {
-                                                ...chatbot.meta.selected_features_titles,
-                                                [feature_name]: value
+                            <div className="flex flex-col max-h-[80vh] overflow-y-auto p-4">
+                                <InputTextView
+                                    title={'標題'}
+                                    placeholder={'請輸入標題'}
+                                    defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                                    onChange={(value: string) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            meta: {
+                                                ...chatbot.meta,
+                                                selected_features_titles: {
+                                                    ...chatbot.meta.selected_features_titles,
+                                                    [feature_name]: value
+                                                }
                                             }
-                                        }
-                                    })
-                                }}
-                            />
-                            <SetLanguageView chatbot={chatbot} setChatbot={setChatbot} />
-                            <SetToneView chatbot={chatbot} setChatbot={setChatbot} />
-                            <SetLengthView chatbot={chatbot} setChatbot={setChatbot} />
+                                        })
+                                    }}
+                                />
+                                <div className="col-span-full my-2">
+                                    <div className='flex justify-between items-center'>
+                                        <label className="text-sm font-medium leading-6 text-gray-900 flex justify-start">
+                                            Chain Feature:
+                                        </label>
+                                        <a
+                                            className="text-blue-500 underline cursor-pointer text-sm"
+                                            onClick={() => {
+                                                setIsOpen(true);
+                                                cancelClick()
+                                            }}
+                                        >
+                                            編輯
+                                        </a>
+                                    </div>
+                                    <div className="mt-2 w-full flex flex-col justify-start items-start">
+                                        <span className="text-sm text-gray-500 text-left">{chain_feature_labels}</span>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
                                     type="button"

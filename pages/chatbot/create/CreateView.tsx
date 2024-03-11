@@ -91,7 +91,12 @@ function CreateView(props: CreateViewProps) {
             <div className="mx-auto max-w-7xl">
                 <div className="mx-auto max-w-7xl pb-12 pt-2 px-4">
                     {/* <h2 className="text-2xl font-semibold leading-7 text-gray-900">編輯智能助手</h2> */}
-                    <HeaderBreadCrumb title={'編輯智能助手'} back={() => { Router.back() }} />
+                    <HeaderBreadCrumb
+                        title={'編輯智能助手'}
+                        back={() => {
+                            Router.back();
+                        }}
+                    />
                     {/* <p className="mt-1 text-sm leading-6 text-gray-600">未有描述</p> */}
                     <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                         <div className="sm:col-span-6">
@@ -135,7 +140,10 @@ function CreateView(props: CreateViewProps) {
                                 ></textarea>
                             </div>
                         </div>
-                        <SetFolderView multipleDest={multipleDest} setMultipleDest={setMultipleDest} />
+                        <SetFolderView
+                            multipleDest={multipleDest}
+                            setMultipleDest={setMultipleDest}
+                        />
                         {/* <SetCategoryView chatbot={chatbot} setChatbot={setChatbot} /> */}
 
                         <div className="col-span-full w-full">
@@ -144,12 +152,23 @@ function CreateView(props: CreateViewProps) {
                             </label>
                             <AIAnswerView chatbot={chatbot} setChatbot={setChatbot} />
                             <AIDataView chatbot={chatbot} setChatbot={setChatbot} />
-                            <ChainFeatureView  {...{
-                                chain_features,
-                                chain_feature_ids,
-                                set_chain_feature_ids
-                            }} />
-                            <AI2AnswerView chatbot={chatbot} setChatbot={setChatbot} assistants={assistants} expert_ids={expert_ids} experts={experts} setExpert_ids={setExpert_ids} />
+                            <ChainFeatureView
+                                {...{
+                                    chatbot,
+                                    setChatbot,
+                                    chain_features,
+                                    chain_feature_ids,
+                                    set_chain_feature_ids
+                                }}
+                            />
+                            <AI2AnswerView
+                                chatbot={chatbot}
+                                setChatbot={setChatbot}
+                                assistants={assistants}
+                                expert_ids={expert_ids}
+                                experts={experts}
+                                setExpert_ids={setExpert_ids}
+                            />
                         </div>
 
                         <div className="col-span-full">

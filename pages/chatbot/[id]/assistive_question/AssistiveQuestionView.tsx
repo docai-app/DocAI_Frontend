@@ -26,21 +26,21 @@ export default function AssistiveQuestionView(props: ViewProps) {
     const router = useRouter();
 
     const addAssistiveQuestions = () => {
-        const newData = [...assistive_questions, ""]
-        set_assistive_questions(newData)
-    }
+        const newData = [...assistive_questions, ''];
+        set_assistive_questions(newData);
+    };
 
     const updateAssistiveQuestions = (index: number, value: string) => {
-        assistive_questions[index] = value
-        const newData = [...assistive_questions]
-        set_assistive_questions(newData)
-    }
+        assistive_questions[index] = value;
+        const newData = [...assistive_questions];
+        set_assistive_questions(newData);
+    };
 
     const removeAssistiveQuestions = (index: number) => {
-        assistive_questions.splice(index, 1)
-        const newData = [...assistive_questions]
-        set_assistive_questions(newData)
-    }
+        assistive_questions.splice(index, 1);
+        const newData = [...assistive_questions];
+        set_assistive_questions(newData);
+    };
     return (
         <>
             <SingleActionModel
@@ -55,21 +55,25 @@ export default function AssistiveQuestionView(props: ViewProps) {
                     <HeaderBreadCrumb
                         title={'編輯輔助問題'}
                         back={() => {
-                            router.back()
+                            router.back();
                         }}
                         save={() => {
-                            handleUpdate()
+                            handleUpdate();
                         }}
                     />
-                    <h2 className="text-2xl font-semibold leading-7 text-gray-900">{chatbot?.name}</h2>
+                    <h2 className="text-2xl font-semibold leading-7 text-gray-900">
+                        {chatbot?.name}
+                    </h2>
 
                     <div className="col-span-full">
-                        <div className='flex flex-row justify-between items-center'>
+                        <div className="flex flex-row justify-between items-center">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
                                 輔助問題
                             </label>
-                            <a className="block cursor-pointer p-2 text-xl font-medium leading-6  text-indigo-600"
-                                onClick={addAssistiveQuestions}>
+                            <a
+                                className="block cursor-pointer p-2 text-xl font-medium leading-6  text-indigo-600"
+                                onClick={addAssistiveQuestions}
+                            >
                                 +
                             </a>
                         </div>
@@ -83,16 +87,19 @@ export default function AssistiveQuestionView(props: ViewProps) {
                                         value={question}
                                         placeholder="輔助問題"
                                         onChange={(e) => {
-                                            updateAssistiveQuestions(index, e.target.value)
+                                            updateAssistiveQuestions(index, e.target.value);
                                         }}
                                     />
-                                    <div className='flex-0 p-2 cursor-pointer '
-                                        onClick={() => { removeAssistiveQuestions(index) }}>
-                                        <XCircleIcon className='w-5 hover:text-red-500 ' />
+                                    <div
+                                        className="flex-0 p-2 cursor-pointer "
+                                        onClick={() => {
+                                            removeAssistiveQuestions(index);
+                                        }}
+                                    >
+                                        <XCircleIcon className="w-5 hover:text-red-500 " />
                                     </div>
                                 </div>
-                            )
-                            )}
+                            ))}
                         </div>
                     </div>
                 </div>

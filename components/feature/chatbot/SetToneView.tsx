@@ -1,4 +1,4 @@
-import SelectDropdown from "../../common/Widget/SelectDropdown";
+import SelectDropdown from '../../common/Widget/SelectDropdown';
 
 interface ViewProps {
     chatbot: any;
@@ -6,10 +6,7 @@ interface ViewProps {
 }
 
 export default function SetToneView(props: ViewProps) {
-    const {
-        chatbot,
-        setChatbot
-    } = props
+    const { chatbot, setChatbot } = props;
     return (
         <>
             <div className="col-span-full my-4">
@@ -46,5 +43,5 @@ export default function SetToneView(props: ViewProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }

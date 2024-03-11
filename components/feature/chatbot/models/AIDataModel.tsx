@@ -3,9 +3,6 @@ import { Dialog, Transition } from '@headlessui/react';
 import _ from 'lodash';
 import { Fragment, useRef } from 'react';
 import InputTextView from '../../../common/Widget/InputTextView';
-import SetLanguageView from '../SetLanguageView';
-import SetLengthView from '../SetLengthView';
-import SetToneView from '../SetToneView';
 interface ViewProps {
     visable: boolean;
     chatbot: any;
@@ -14,7 +11,7 @@ interface ViewProps {
     confirmClick: any;
     feature_name: string
 }
-export default function AIAnswerModal(props: ViewProps) {
+export default function AIDataModal(props: ViewProps) {
     const { visable, chatbot, setChatbot, cancelClick, confirmClick, feature_name } = props;
 
     const cancelButtonRef = useRef(null);
@@ -59,7 +56,7 @@ export default function AIAnswerModal(props: ViewProps) {
                             <div className="sm:flex sm:items-center justify-center">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <div className="mt-2">
-                                        <p className="text-xl">{'智能回答'}</p>
+                                        <p className="text-xl">{'智能數據'}</p>
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +77,6 @@ export default function AIAnswerModal(props: ViewProps) {
                                     })
                                 }}
                             />
-                            <SetLanguageView chatbot={chatbot} setChatbot={setChatbot} />
-                            <SetToneView chatbot={chatbot} setChatbot={setChatbot} />
-                            <SetLengthView chatbot={chatbot} setChatbot={setChatbot} />
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                 <button
                                     type="button"

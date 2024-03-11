@@ -1,8 +1,8 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { FolderIcon } from "@heroicons/react/24/solid";
-import _ from "lodash";
-import { useState } from "react";
-import FolderTreeForMultipleSelect from "../../common/Widget/FolderTreeForMultipleSelect";
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { FolderIcon } from '@heroicons/react/24/solid';
+import _ from 'lodash';
+import { useState } from 'react';
+import FolderTreeForMultipleSelect from '../../common/Widget/FolderTreeForMultipleSelect';
 
 interface ViewProps {
     multipleDest: any;
@@ -10,10 +10,7 @@ interface ViewProps {
 }
 
 export default function SetFolderView(props: ViewProps) {
-    const {
-        multipleDest,
-        setMultipleDest
-    } = props
+    const { multipleDest, setMultipleDest } = props;
 
     const [folderTreeIsOpen, setFolderTreeIsOpen] = useState(false);
 
@@ -71,5 +68,5 @@ export default function SetFolderView(props: ViewProps) {
                 }}
             />
         </>
-    )
+    );
 }

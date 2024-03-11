@@ -1,4 +1,3 @@
-
 interface ViewProps {
     assistants: any;
     chatbot: any;
@@ -6,11 +5,7 @@ interface ViewProps {
 }
 
 export default function SetAssistantView(props: ViewProps) {
-    const {
-        assistants,
-        chatbot,
-        setChatbot
-    } = props
+    const { assistants, chatbot, setChatbot } = props;
     return (
         <>
             <div className="col-span-full my-0">
@@ -50,5 +45,5 @@ export default function SetAssistantView(props: ViewProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 
 interface ViewProps {
     expert_ids: any;
@@ -7,11 +7,7 @@ interface ViewProps {
 }
 
 export default function SetExpertView(props: ViewProps) {
-    const {
-        expert_ids,
-        experts,
-        setExpert_ids
-    } = props
+    const { expert_ids, experts, setExpert_ids } = props;
     return (
         <>
             <div className="col-span-full my-2">
@@ -27,22 +23,14 @@ export default function SetExpertView(props: ViewProps) {
                                         type={'checkbox'}
                                         name="expert"
                                         value={item.id}
-                                        checked={
-                                            expert_ids && expert_ids?.indexOf(item.id) != -1
-                                        }
+                                        checked={expert_ids && expert_ids?.indexOf(item.id) != -1}
                                         onChange={(e) => {
                                             if (e.target.checked) {
-                                                setExpert_ids((arr: any) => [
-                                                    ...arr,
-                                                    item.id
-                                                ]);
+                                                setExpert_ids((arr: any) => [...arr, item.id]);
                                             } else {
-                                                const ids = _.remove(
-                                                    expert_ids,
-                                                    function (x) {
-                                                        return x !== item.id;
-                                                    }
-                                                );
+                                                const ids = _.remove(expert_ids, function (x) {
+                                                    return x !== item.id;
+                                                });
                                                 setExpert_ids(ids);
                                             }
                                         }}
@@ -60,5 +48,5 @@ export default function SetExpertView(props: ViewProps) {
                 </div>
             </div>
         </>
-    )
+    );
 }

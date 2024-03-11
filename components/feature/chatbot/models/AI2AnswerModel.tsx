@@ -1,6 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dialog, Transition } from '@headlessui/react';
+import _ from 'lodash';
 import { Fragment, useRef } from 'react';
+import InputTextView from '../../../common/Widget/InputTextView';
 import SetAssistantView from '../SetAssistantView';
 import SetExpertView from '../SetExpertView';
 interface ViewProps {
@@ -13,6 +15,7 @@ interface ViewProps {
     setExpert_ids: any;
     cancelClick: any;
     confirmClick: any;
+    feature_name: string;
 }
 export default function AI2AnswerModal(props: ViewProps) {
     const {
@@ -24,8 +27,9 @@ export default function AI2AnswerModal(props: ViewProps) {
         experts,
         setExpert_ids,
         cancelClick,
-        confirmClick
-    } = props
+        confirmClick,
+        feature_name
+    } = props;
 
     const cancelButtonRef = useRef(null);
     return (
@@ -71,9 +75,34 @@ export default function AI2AnswerModal(props: ViewProps) {
                                     <p className="text-xl">{'超智能回答'}</p>
                                 </div>
                             </div>
-                            <div className='flex flex-col max-h-[80vh] overflow-y-auto p-4'>
-                                <SetAssistantView assistants={assistants} chatbot={chatbot} setChatbot={setChatbot} />
-                                <SetExpertView expert_ids={expert_ids} experts={experts} setExpert_ids={setExpert_ids} />
+                            <div className="flex flex-col max-h-[80vh] overflow-y-auto p-4">
+                                <InputTextView
+                                    title={'標題'}
+                                    placeholder={'請輸入標題'}
+                                    defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                                    onChange={(value: string) => {
+                                        setChatbot({
+                                            ...chatbot,
+                                            meta: {
+                                                ...chatbot.meta,
+                                                selected_features_titles: {
+                                                    ...chatbot.meta.selected_features_titles,
+                                                    [feature_name]: value
+                                                }
+                                            }
+                                        })
+                                    }}
+                                />
+                                <SetAssistantView
+                                    assistants={assistants}
+                                    chatbot={chatbot}
+                                    setChatbot={setChatbot}
+                                />
+                                <SetExpertView
+                                    expert_ids={expert_ids}
+                                    experts={experts}
+                                    setExpert_ids={setExpert_ids}
+                                />
                                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">
                                     <button
                                         type="button"
