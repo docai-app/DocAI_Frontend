@@ -9,7 +9,7 @@ interface ViewProps {
     setChatbot: any;
     cancelClick: any;
     confirmClick: any;
-    feature_name: string
+    feature_name: string;
 }
 export default function AIDataModal(props: ViewProps) {
     const { visable, chatbot, setChatbot, cancelClick, confirmClick, feature_name } = props;
@@ -63,7 +63,10 @@ export default function AIDataModal(props: ViewProps) {
                             <InputTextView
                                 title={'標題'}
                                 placeholder={'請輸入標題'}
-                                defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                                defaultValue={_.get(
+                                    chatbot?.meta?.selected_features_titles,
+                                    feature_name
+                                )}
                                 onChange={(value: string) => {
                                     setChatbot({
                                         ...chatbot,
@@ -74,7 +77,7 @@ export default function AIDataModal(props: ViewProps) {
                                                 [feature_name]: value
                                             }
                                         }
-                                    })
+                                    });
                                 }}
                             />
                             <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse justify-center">

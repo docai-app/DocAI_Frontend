@@ -16,10 +16,9 @@ export default function ChainFeatureView(props: ViewProps) {
     const [chainFeatureIsOpen, setChainFeatureIsOpen] = useState(false);
     const [chain_feature_labels, set_chain_feature_labels] = useState('');
 
-    const feature_name = "intelligent_mission"
-    const [checked, setChecked] = useState(false)
+    const feature_name = 'intelligent_mission';
+    const [checked, setChecked] = useState(false);
     const [visible, setVisible] = useState(false);
-
 
     useEffect(() => {
         if (chain_feature_ids?.length == 0) {
@@ -37,18 +36,17 @@ export default function ChainFeatureView(props: ViewProps) {
 
     useEffect(() => {
         if (chatbot) {
-            setChecked(_.includes(chatbot?.meta?.selected_features, feature_name))
+            setChecked(_.includes(chatbot?.meta?.selected_features, feature_name));
         }
-    }, [chatbot])
+    }, [chatbot]);
 
     const updateFeature = () => {
-        return checked ?
-            _.remove(chatbot?.meta?.selected_features, function (feature) {
-                return feature != feature_name
-            })
-            :
-            _.concat(chatbot?.meta?.selected_features, feature_name)
-    }
+        return checked
+            ? _.remove(chatbot?.meta?.selected_features, function (feature) {
+                  return feature != feature_name;
+              })
+            : _.concat(chatbot?.meta?.selected_features, feature_name);
+    };
 
     return (
         <>
@@ -64,9 +62,9 @@ export default function ChainFeatureView(props: ViewProps) {
                                     ...chatbot?.meta,
                                     selected_features: updateFeature()
                                 }
-                            })
-
-                        }} />
+                            });
+                        }}
+                    />
                 </div>
                 <div className="flex flex-col w-full">
                     <div className="flex flex-row justify-between">
@@ -75,7 +73,7 @@ export default function ChainFeatureView(props: ViewProps) {
                             className="text-blue-500 underline cursor-pointer  text-sm"
                             onClick={() => {
                                 // setChainFeatureIsOpen(!chainFeatureIsOpen);
-                                setVisible(true)
+                                setVisible(true);
                             }}
                         >
                             編輯
@@ -83,7 +81,11 @@ export default function ChainFeatureView(props: ViewProps) {
                     </div>
                     <div className="mt-2">
                         <label className="text-gray-500 text-sm">
-                            顯示標題:<span className="ml-2">{chatbot && _.get(chatbot?.meta?.selected_features_titles, feature_name)}</span>{' '}
+                            顯示標題:
+                            <span className="ml-2">
+                                {chatbot &&
+                                    _.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                            </span>{' '}
                         </label>
                     </div>
                     <div>

@@ -12,7 +12,7 @@ const apiSetting = new Api();
 
 function CreateContainer() {
     const router = useRouter();
-    const { setAlert } = useAlert()
+    const { setAlert } = useAlert();
     const [open, setOpen] = useState(false);
     const [multipleDest, setMultipleDest] = useState<Folder[]>([]);
     const [{ data, loading: submitting, error }, createChatbot] = useAxios(
@@ -69,8 +69,8 @@ function CreateContainer() {
             handleUpdate();
         } else {
             if (_.isEmpty(chatbot?.meta?.selected_features)) {
-                setAlert({ title: '必須選擇一項功能', type: 'warning' })
-                return
+                setAlert({ title: '必須選擇一項功能', type: 'warning' });
+                return;
             }
             setActionContent('正在保存數據');
             const res = await createChatbot({
@@ -99,8 +99,8 @@ function CreateContainer() {
 
     const handleUpdate = useCallback(async () => {
         if (_.isEmpty(chatbot?.meta?.selected_features)) {
-            setAlert({ title: '必須選擇一項功能', type: 'warning' })
-            return
+            setAlert({ title: '必須選擇一項功能', type: 'warning' });
+            return;
         }
 
         if (router.query.id) {

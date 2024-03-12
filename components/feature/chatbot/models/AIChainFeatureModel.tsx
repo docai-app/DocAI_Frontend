@@ -9,12 +9,21 @@ interface ViewProps {
     setChatbot: any;
     cancelClick: any;
     confirmClick: any;
-    feature_name: string
+    feature_name: string;
     setIsOpen: any;
     chain_feature_labels: any;
 }
 export default function AIChainFeatureModel(props: ViewProps) {
-    const { visable, chatbot, setChatbot, cancelClick, confirmClick, feature_name, setIsOpen, chain_feature_labels } = props;
+    const {
+        visable,
+        chatbot,
+        setChatbot,
+        cancelClick,
+        confirmClick,
+        feature_name,
+        setIsOpen,
+        chain_feature_labels
+    } = props;
 
     const cancelButtonRef = useRef(null);
     return (
@@ -66,7 +75,10 @@ export default function AIChainFeatureModel(props: ViewProps) {
                                 <InputTextView
                                     title={'標題'}
                                     placeholder={'請輸入標題'}
-                                    defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                                    defaultValue={_.get(
+                                        chatbot?.meta?.selected_features_titles,
+                                        feature_name
+                                    )}
                                     onChange={(value: string) => {
                                         setChatbot({
                                             ...chatbot,
@@ -77,11 +89,11 @@ export default function AIChainFeatureModel(props: ViewProps) {
                                                     [feature_name]: value
                                                 }
                                             }
-                                        })
+                                        });
                                     }}
                                 />
                                 <div className="col-span-full my-2">
-                                    <div className='flex justify-between items-center'>
+                                    <div className="flex justify-between items-center">
                                         <label className="text-sm font-medium leading-6 text-gray-900 flex justify-start">
                                             Chain Feature:
                                         </label>
@@ -89,14 +101,16 @@ export default function AIChainFeatureModel(props: ViewProps) {
                                             className="text-blue-500 underline cursor-pointer text-sm"
                                             onClick={() => {
                                                 setIsOpen(true);
-                                                cancelClick()
+                                                cancelClick();
                                             }}
                                         >
                                             編輯
                                         </a>
                                     </div>
                                     <div className="mt-2 w-full flex flex-col justify-start items-start">
-                                        <span className="text-sm text-gray-500 text-left">{chain_feature_labels}</span>
+                                        <span className="text-sm text-gray-500 text-left">
+                                            {chain_feature_labels}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

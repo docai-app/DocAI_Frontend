@@ -108,7 +108,7 @@ function ChatbotView(props: {
                                             </th>
                                             <th
                                                 scope="col"
-                                                className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                className="w-2/12 py-3.5 text-left text-sm font-semibold text-gray-900 hidden"
                                             >
                                                 來源文件夾
                                             </th>

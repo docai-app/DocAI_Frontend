@@ -79,7 +79,10 @@ export default function AI2AnswerModal(props: ViewProps) {
                                 <InputTextView
                                     title={'標題'}
                                     placeholder={'請輸入標題'}
-                                    defaultValue={_.get(chatbot?.meta?.selected_features_titles, feature_name)}
+                                    defaultValue={_.get(
+                                        chatbot?.meta?.selected_features_titles,
+                                        feature_name
+                                    )}
                                     onChange={(value: string) => {
                                         setChatbot({
                                             ...chatbot,
@@ -90,7 +93,7 @@ export default function AI2AnswerModal(props: ViewProps) {
                                                     [feature_name]: value
                                                 }
                                             }
-                                        })
+                                        });
                                     }}
                                 />
                                 <SetAssistantView
