@@ -43,7 +43,7 @@ export default function ChatbotRow(props: ChatbotRowProps) {
                         </div>
                     ))}
                 </td>
-                <td className="w-1/12 py-4 text-sm text-gray-500">
+                <td className="w-1/12 py-4 text-sm text-gray-500 hidden">
                     {chatbot?.category == 'chart_generation'
                         ? '圖表'
                         : chatbot?.category == 'statistical_generation'
