@@ -11,6 +11,7 @@ import AI2AnswerView from '../../../components/feature/chatbot/AI2AnswerView';
 import AIAnswerView from '../../../components/feature/chatbot/AIAnswerView';
 import AIDataView from '../../../components/feature/chatbot/AIDataView';
 import ChainFeatureView from '../../../components/feature/chatbot/ChainFeatureView';
+import ReadingView from '../../../components/feature/chatbot/ReadingView';
 import SetFolderView from '../../../components/feature/chatbot/SetFolderView';
 
 interface CreateViewProps {
@@ -168,6 +169,12 @@ function CreateView(props: CreateViewProps) {
                                 expert_ids={expert_ids}
                                 experts={experts}
                                 setExpert_ids={setExpert_ids}
+                            />
+                            <ReadingView
+                                {...{
+                                    chatbot,
+                                    setChatbot
+                                }}
                             />
                         </div>
 
